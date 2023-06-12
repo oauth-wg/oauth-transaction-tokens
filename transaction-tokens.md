@@ -83,7 +83,7 @@ informative:
 
 --- abstract
 
-Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that identity and authorization context of an external invocation of an endpoint in the trusted domain is preserved throughout any subsequent workloads that are invoked as a result of such external invocation. TraTs also enable workloads within the trusted domain to optinally assert their processing of the request to downstream workloads.
+Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that identity and authorization context of an external invocation is preserved throughout any subsequent workloads that are invoked as a result of such external invocation. TraTs also enable workloads within the trusted domain to optinally assert their processing of the request to downstream workloads.
 
 --- middle
 
