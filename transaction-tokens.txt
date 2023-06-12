@@ -92,7 +92,7 @@ Table of Contents
      7.1.  Mutual Authentication of the TraT Request . . . . . . . .   9
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  10
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  11
    Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  11
    Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . .  11
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
@@ -273,7 +273,7 @@ Internet-Draft                    trat                         June 2023
        "kid": "identifier-to-key"
    }
 
-
+                       Figure 1: Example: TraT Header
 
 
 
@@ -356,6 +356,8 @@ Internet-Draft                    trat                         June 2023
        }
    }
 
+                     Figure 2: Example: Leaf TraT Body
+
 3.2.3.  Nested TraT Claim
 
    If the TraT contains a nested TraT, then it MUST have only one claim
@@ -371,6 +373,8 @@ Internet-Draft                    trat                         June 2023
        "trat": "eyJ0eXAiOiJ0cmF0Iiwi...thwd8"
    }
 
+                    Figure 3: Example: Nested TraT Body
+
 4.  Requesting TraTs
 
    A workload may request a TraT from a TraT Service using the OAuth 2.0
@@ -382,10 +386,6 @@ Internet-Draft                    trat                         June 2023
    as described in Section 5 of [RFC6749], where the token_type in the
    response has the value trat.
 
-   The TraT Service acts as an OAuth 2.0 [RFC6749] Authorization Server.
-   The requesting workload acts as the OAuth 2.0 Client.  It
-   authenticates itself to the TraT Service through mechanisms defined
-   in OAuth 2.0.
 
 
 
@@ -393,6 +393,11 @@ Tulshibagwale & FletcherExpires 13 December 2023                [Page 7]
 
 Internet-Draft                    trat                         June 2023
 
+
+   The TraT Service acts as an OAuth 2.0 [RFC6749] Authorization Server.
+   The requesting workload acts as the OAuth 2.0 Client.  It
+   authenticates itself to the TraT Service through mechanisms defined
+   in OAuth 2.0.
 
 4.1.  TraT Request
 
@@ -428,19 +433,14 @@ Internet-Draft                    trat                         June 2023
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
    &azc=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
 
+                      Figure 4: Example: TraT Request
+
 4.2.  TraT Response
 
    A success response to a TraT Request by a TraT Service is called a
    TraT Response.  If the TraT Service responds with an error, the error
    response is as described in Section 5.2 of [RFC6749].  The following
    is true of a TraT Response:
-
-   *  The token_type value MUST be set to trat
-
-   *  The access_token value MUST be the TraT
-
-   *  The response MUST NOT include the values expires_in, refresh_token
-      and scope
 
 
 
@@ -449,6 +449,13 @@ Tulshibagwale & FletcherExpires 13 December 2023                [Page 8]
 
 Internet-Draft                    trat                         June 2023
 
+
+   *  The token_type value MUST be set to trat
+
+   *  The access_token value MUST be the TraT
+
+   *  The response MUST NOT include the values expires_in, refresh_token
+      and scope
 
    The following is a non-normative example of a TraT Response
 
@@ -460,6 +467,8 @@ Internet-Draft                    trat                         June 2023
      "issued_token_type": "urn:ietf:params:oauth:token-type:trat",
      "access_token": "eyJCI6IjllciJ9...Qedw6rx"
    }
+
+                      Figure 5: Example: TraT Response
 
 5.  Creating Nested TraTs
 
@@ -488,6 +497,15 @@ Internet-Draft                    trat                         June 2023
    *  It MUST individually authenticate the requester as being one of
       the name requesters
 
+
+
+
+
+Tulshibagwale & FletcherExpires 13 December 2023                [Page 9]
+
+Internet-Draft                    trat                         June 2023
+
+
    *  It SHOULD rely on mechanisms such as [Spiffe] to securely
       authenticate the requester
 
@@ -497,14 +515,6 @@ Internet-Draft                    trat                         June 2023
    The requesting workload MUST have a pre-configured location for the
    TraT Service.  It SHOULD rely on mechanisms such as [Spiffe] to
    securely authenticate the TraT Service before making a TraT Request.
-
-
-
-
-Tulshibagwale & FletcherExpires 13 December 2023                [Page 9]
-
-Internet-Draft                    trat                         June 2023
-
 
 8.  References
 
@@ -542,6 +552,16 @@ Internet-Draft                    trat                         June 2023
               errata set 1", November 2014,
               <https://openid.net/specs/openid-connect-core-1_0.html>.
 
+
+
+
+
+
+Tulshibagwale & FletcherExpires 13 December 2023               [Page 10]
+
+Internet-Draft                    trat                         June 2023
+
+
    [SubjectIdentifiers]
               Backman, A., Scurtescu, M., and P. Jain, "Subject
               Identifiers for Security Event Tokens", n.d.,
@@ -553,14 +573,6 @@ Internet-Draft                    trat                         June 2023
    [Spiffe]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
-
-
-
-
-Tulshibagwale & FletcherExpires 13 December 2023               [Page 10]
-
-Internet-Draft                    trat                         June 2023
-
 
 Acknowledgements
 
@@ -586,18 +598,6 @@ Authors' Addresses
    George Fletcher
    Capital One
    Email: george.fletcher@capitalone.com
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -173,6 +173,7 @@ Below is a non-normative example of the JWT Header of a TraT
     "kid": "identifier-to-key"
 }
 ~~~
+{: #figtratheader title="Example: TraT Header"}
 
 ## JWT Body {#trat-body}
 
@@ -211,6 +212,8 @@ Below is a non-normative example of the JWT Body of a Leaf TraT
     }
 }
 ~~~
+{: #figleaftratbody title="Example: Leaf TraT Body"}
+
 
 ### Nested TraT Claim
 If the TraT contains a nested TraT, then it MUST have only one claim named `trat`. The value of this claim is an encoded JWT representing a TraT.
@@ -225,6 +228,8 @@ Below is a non-normative example the JWT Body of a nested TraT
     "trat": "eyJ0eXAiOiJ0cmF0Iiwi...thwd8"
 }
 ~~~
+{: #fignestedtratbody title="Example: Nested TraT Body"}
+
 
 # Requesting TraTs
 A workload may request a TraT from a TraT Service using the OAuth 2.0 Token Exchange {{RFC8693}}. The request to obtain a TraT using this method is called a TraT Request, and the response is called a TraT Response. A TraT Request is a Token Exchange Request as described in {{Section 2.1 of RFC8693}} with additional parameters. A TraT Response is a successful Token Response is a OAuth 2.0 token endpoint response as described in {{Section 5 of RFC6749}}, where the `token_type` in the response has the value `trat`.
@@ -256,6 +261,8 @@ requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atrat
 &azc=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
 
 ~~~
+{: #figtratrequest title="Example: TraT Request"}
+
 
 ## TraT Response
 A success response to a TraT Request by a TraT Service is called a TraT Response. If the TraT Service responds with an error, the error response is as described in {{Section 5.2 of RFC6749}}. The following is true of a TraT Response:
@@ -276,6 +283,8 @@ Cache-Control: non-cache, no-store
   "access_token": "eyJCI6IjllciJ9...Qedw6rx"
 }
 ~~~
+{: #figtratresponse title="Example: TraT Response"}
+
 
 # Creating Nested TraTs
 A workload within a call chain MAY create a nested TraT. It does so by creating a new JWT that has all the header fields as described in {{trat-header}} and only a JWT Body that includes the `trat` claim as described in {{trat-body}}.
