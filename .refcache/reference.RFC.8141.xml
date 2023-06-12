@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<reference  anchor='RFC8141' target='https://www.rfc-editor.org/info/rfc8141'>
+<front>
+<title>Uniform Resource Names (URNs)</title>
+<author initials='P.' surname='Saint-Andre' fullname='P. Saint-Andre'><organization /></author>
+<author initials='J.' surname='Klensin' fullname='J. Klensin'><organization /></author>
+<date year='2017' month='April' />
+<abstract><t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) that is assigned under the &quot;urn&quot; URI scheme and a particular URN namespace, with the intent that the URN will be a persistent, location-independent resource identifier.  With regard to URN syntax, this document defines the canonical syntax for URNs (in a way that is consistent with URI syntax), specifies methods for determining URN-equivalence, and discusses URI conformance.  With regard to URN namespaces, this document specifies a method for defining a URN namespace and associating it with a namespace identifier, and it describes procedures for registering namespace identifiers with the Internet Assigned Numbers Authority (IANA).  This document obsoletes both RFCs 2141 and 3406.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='8141'/>
+<seriesInfo name='DOI' value='10.17487/RFC8141'/>
+</reference>
