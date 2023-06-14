@@ -28,12 +28,12 @@ author:
   org: Capital One
   email: george.fletcher@capitalone.com
   
-contributor:
 - ins: P. Kasselman
   name: Pieter Kasselman
   org: Microsoft
   email: pieter.kasselman@microsoft.com
   
+contributor:
 - ins: E. Gilman
   name: Evan Gilman
   org: SPIRL

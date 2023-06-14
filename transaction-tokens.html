@@ -7,8 +7,9 @@
 <title>Transaction Tokens</title>
 <meta content="Atul Tulshibagwale" name="author">
 <meta content="George Fletcher" name="author">
+<meta content="Pieter Kasselman" name="author">
 <meta content="
-       Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved throughout any subsequent workloads that are invoked in order to process such a request. TraTs also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request. 
+       Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved and available to all workloads that are invoked as part of processing such a request. TraTs also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request. 
     " name="description">
 <meta content="xml2rfc 3.15.3" name="generator">
 <meta content="Microservices" name="keyword">
@@ -1211,8 +1212,8 @@ li > p:last-of-type:only-child {
 <td class="right">June 2023</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Tulshibagwale &amp; Fletcher</td>
-<td class="center">Expires 14 December 2023</td>
+<td class="left">Tulshibagwale, et al.</td>
+<td class="center">Expires 16 December 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1225,12 +1226,12 @@ li > p:last-of-type:only-child {
 <dd class="internet-draft">draft-transaction-tokens-00</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-06-12" class="published">12 June 2023</time>
+<time datetime="2023-06-14" class="published">14 June 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-12-14">14 December 2023</time></dd>
+<dd class="expires"><time datetime="2023-12-16">16 December 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1241,13 +1242,17 @@ li > p:last-of-type:only-child {
       <div class="author-name">G. Fletcher</div>
 <div class="org">Capital One</div>
 </div>
+<div class="author">
+      <div class="author-name">P. Kasselman</div>
+<div class="org">Microsoft</div>
+</div>
 </dd>
 </dl>
 </div>
 <h1 id="title">Transaction Tokens</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved throughout any subsequent workloads that are invoked in order to process such a request. TraTs also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved and available to all workloads that are invoked as part of processing such a request. TraTs also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1268,7 +1273,7 @@ li > p:last-of-type:only-child {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 December 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 December 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1298,107 +1303,116 @@ li > p:last-of-type:only-child {
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-what-are-transaction-tokens" class="internal xref">What are Transaction Tokens</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1.2.1">
-                    <p id="section-toc.1-1.1.2.1.2.1.1" class="keepWithNext"><a href="#section-1.1.1" class="auto internal xref">1.1.1</a>.  <a href="#name-nesting" class="internal xref">Nesting</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-creating-trats" class="internal xref">Creating TraTs</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.1">
-                    <p id="section-toc.1-1.1.2.2.2.1.1" class="keepWithNext"><a href="#section-1.2.1" class="auto internal xref">1.2.1</a>.  <a href="#name-leaf-trats" class="internal xref">Leaf TraTs</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2.2.2">
-                    <p id="section-toc.1-1.1.2.2.2.2.1"><a href="#section-1.2.2" class="auto internal xref">1.2.2</a>.  <a href="#name-nested-trats" class="internal xref">Nested TraTs</a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
-                <p id="section-toc.1-1.1.2.3.1"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-trat-lifetime" class="internal xref">TraT Lifetime</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.4">
-                <p id="section-toc.1-1.1.2.4.1"><a href="#section-1.4" class="auto internal xref">1.4</a>.  <a href="#name-benefits-of-trats" class="internal xref">Benefits of TraTs</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-notational-conventions" class="internal xref">Notational Conventions</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-trat-format" class="internal xref">TraT Format</a></p>
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-overview" class="internal xref">Overview</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-jwt-header" class="internal xref">JWT Header</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-jwt-body" class="internal xref">JWT Body</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-what-are-transaction-tokens" class="internal xref">What are Transaction Tokens</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
-                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-common-claims" class="internal xref">Common Claims</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
-                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-leaf-trat-claims" class="internal xref">Leaf TraT Claims</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.3">
-                    <p id="section-toc.1-1.4.2.2.2.3.1"><a href="#section-4.2.3" class="auto internal xref">4.2.3</a>.  <a href="#name-nested-trat-claim" class="internal xref">Nested TraT Claim</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-nesting" class="internal xref">Nesting</a></p>
 </li>
                 </ul>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-creating-trats" class="internal xref">Creating TraTs</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2.2.1">
+                    <p id="section-toc.1-1.2.2.2.2.1.1"><a href="#section-2.2.1" class="auto internal xref">2.2.1</a>.  <a href="#name-leaf-trats" class="internal xref">Leaf TraTs</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2.2.2">
+                    <p id="section-toc.1-1.2.2.2.2.2.1"><a href="#section-2.2.2" class="auto internal xref">2.2.2</a>.  <a href="#name-nested-trats" class="internal xref">Nested TraTs</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-trat-lifetime" class="internal xref">TraT Lifetime</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.4">
+                <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="auto internal xref">2.4</a>.  <a href="#name-benefits-of-trats" class="internal xref">Benefits of TraTs</a></p>
+</li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-notational-conventions" class="internal xref">Notational Conventions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-terminology" class="internal xref">Terminology</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-requesting-trats" class="internal xref">Requesting TraTs</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-trat-format" class="internal xref">TraT Format</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-trat-request" class="internal xref">TraT Request</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-jwt-header" class="internal xref">JWT Header</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
-                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-trat-response" class="internal xref">TraT Response</a></p>
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-jwt-body" class="internal xref">JWT Body</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-common-claims" class="internal xref">Common Claims</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
+                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-leaf-trat-claims" class="internal xref">Leaf TraT Claims</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-nested-trat-claim" class="internal xref">Nested TraT Claim</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-creating-nested-trats" class="internal xref">Creating Nested TraTs</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-requesting-trats" class="internal xref">Requesting TraTs</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-mutual-authentication-of-th" class="internal xref">Mutual Authentication of the TraT Request</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-trat-request" class="internal xref">TraT Request</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-trat-response" class="internal xref">TraT Response</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-creating-nested-trats" class="internal xref">Creating Nested TraTs</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-mutual-authentication-of-th" class="internal xref">Mutual Authentication of the TraT Request</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-sender-constrained-tokens" class="internal xref">Sender Constrained Tokens</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-access-tokens" class="internal xref">Access Tokens</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1409,7 +1423,7 @@ li > p:last-of-type:only-child {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:<a href="#section-1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-2.1">Invocations of workloads in the network without any external invocation being present<a href="#section-1-2.1" class="pilcrow">¶</a>
 </li>
@@ -1418,171 +1432,233 @@ li > p:last-of-type:only-child {
         <li class="normal" id="section-1-2.3">Parameter modification or augmentation<a href="#section-1-2.3" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-1-3">Transaction Tokens are a means to mitigate damage from such attacks or spurious invocations. Their live (unexpired) presence indicates a valid external invocation; 
-They ensure that the identity of the user or robotic principal that made the external request is preserved throughout subsequent workload invocations; And they preserve any context such as:<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">The results of these actions are unauthorised access to resources.<a href="#section-1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="overview">
+<section id="section-2">
+      <h2 id="name-overview">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
+      </h2>
+<p id="section-2-1">Transaction Tokens are a means to mitigate damage from such attacks or spurious invocations. A valid TraT indicates a valid external invocation; 
+They ensure that the identity of the user or robotic principal (e.g. workload) that made the external request is preserved throughout subsequent workload invocations; And they preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1-4.1">Parameters of the original call<a href="#section-1-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-2-2.1">Parameters of the original call<a href="#section-2-2.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-1-4.2">Environmental factors such as IP address of the original caller<a href="#section-1-4.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-2.2">Environmental factors such as IP address of the original caller<a href="#section-2-2.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="section-1-4.3">Any computed context that needs to be preserved in the call chain<a href="#section-1-4.3" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-2.3">Any computed context that needs to be preserved in the call chain<a href="#section-2-2.3" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-1-5">All this ensures that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-2-3">All this ensures that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.<a href="#section-2-3" class="pilcrow">¶</a></p>
 <div id="what-are-transaction-tokens">
-<section id="section-1.1">
+<section id="section-2.1">
         <h3 id="name-what-are-transaction-tokens">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-what-are-transaction-tokens" class="section-name selfRef">What are Transaction Tokens</a>
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-what-are-transaction-tokens" class="section-name selfRef">What are Transaction Tokens</a>
         </h3>
-<p id="section-1.1-1">Transaction Tokens (TraTs) are short-lived, signed JWTs <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that assert the identity of a user or robotic principal and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-1">Transaction Tokens (TraTs) are short-lived, signed JWTs <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that assert the identity of a user or robotic principal (e.g. workload) and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 <div id="nesting">
-<section id="section-1.1.1">
+<section id="section-2.1.1">
           <h4 id="name-nesting">
-<a href="#section-1.1.1" class="section-number selfRef">1.1.1. </a><a href="#name-nesting" class="section-name selfRef">Nesting</a>
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-nesting" class="section-name selfRef">Nesting</a>
           </h4>
-<p id="section-1.1.1-1">Alternatively, a TraT MAY be a signed JWT that has a nested TraT in its body. This nesting enables workloads in a call chain to assert their invocation during the call chain to downstream workloads.<a href="#section-1.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-1">Alternatively, a TraT MAY be a signed JWT that has a nested TraT in its body. This nesting enables workloads in a call chain to assert their invocation during the call chain to downstream workloads.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="creating-trats">
-<section id="section-1.2">
+<section id="section-2.2">
         <h3 id="name-creating-trats">
-<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-creating-trats" class="section-name selfRef">Creating TraTs</a>
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-creating-trats" class="section-name selfRef">Creating TraTs</a>
         </h3>
 <div id="leaf-trats">
-<section id="section-1.2.1">
+<section id="section-2.2.1">
           <h4 id="name-leaf-trats">
-<a href="#section-1.2.1" class="section-number selfRef">1.2.1. </a><a href="#name-leaf-trats" class="section-name selfRef">Leaf TraTs</a>
+<a href="#section-2.2.1" class="section-number selfRef">2.2.1. </a><a href="#name-leaf-trats" class="section-name selfRef">Leaf TraTs</a>
           </h4>
-<p id="section-1.2.1-1">Leaf TraTs are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> token or an OpenID Connect <span>[<a href="#OpenIdConnect" class="cite xref">OpenIdConnect</a>]</span> token. This workload then performs an OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> to obtain a TraT. To do this, it invokes a special Token Service (the TraT Service) and provides context that is sufficient for it to generate a TraT. This context MAY include:<a href="#section-1.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-1">Leaf TraTs are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> token or an OpenID Connect <span>[<a href="#OpenIdConnect" class="cite xref">OpenIdConnect</a>]</span> token. This workload then performs an OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> to obtain a TraT. To do this, it invokes a special Token Service (the TraT Service) and provides context that is sufficient for it to generate a TraT. This context MAY include:<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-1.2.1-2.1">The external authorization token (e.g. the OAuth token)<a href="#section-1.2.1-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-2.2.1-2.1">The external authorization token (e.g. the OAuth token)<a href="#section-2.2.1-2.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.2.1-2.2">Parameters that are required to be bound for the duration of this call<a href="#section-1.2.1-2.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-2.2.1-2.2">Parameters that are required to be bound for the duration of this call<a href="#section-2.2.1-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-1.2.1-2.3">Additional context such as incoming IP Address, User Agent, or other information that can help the TraT Service to issue the TraT<a href="#section-1.2.1-2.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-2.2.1-2.3">Additional context such as incoming IP Address, User Agent, or other information that can help the TraT Service to issue the TraT<a href="#section-2.2.1-2.3" class="pilcrow">¶</a>
 </li>
           </ul>
-<p id="section-1.2.1-3">The TraT Service responds to a successful invocation by generating a TraT. The calling workload then uses the TraT to authorize its calls to subsequent workloads.<a href="#section-1.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-3">The TraT Service responds to a successful invocation by generating a TraT. The calling workload then uses the TraT to authorize its calls to subsequent workloads. Subsequent workloads may obtain TraTs of their own<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-4">Figure 1 below shows how TraTs are used in an a multi-workload environment.<a href="#section-2.2.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-ascii-art art-text artwork" id="section-2.2.1-5">
+<pre>
+
+             +--------------+   (B) TraT Request    +---------------+
+(A)User  +---|  Resource    |----------------------&gt;|               |
+   Start |   |   Server    |   (C) TraT Response   |  Transaction  |
+   Flow  +--&gt;| (Workload 1) |&lt;----------------------|     Token     |
+             +--------------+                       |    Server     |
+                    |                               |               |
+                    | (D) Send Request              |               |
+                    |       with                    |               |
+                    |   Workload 1 TraT             |               |
+                    v                               |               |
+             +--------------+   (E) TraT Request    |               |
+             |  Workload 2  |----------------------&gt;|               |
+             |              |   (F) TraT Response   |               |
+             |              |&lt;----------------------|               |
+             +--------------+                       |               |
+                    |  (G) Send Request             |               |
+                    |         with                  |               |
+                    |      Workload 2 TraT          |               |
+                    :                               |               |
+                    :                               |               |
+                    :                               |               |
+                    |  (H) Send Request             |               |
+                    |         with                  |               |
+                    |   Workload N-1 TraT           |               |
+                    v                               |               |
+             +--------------+    (I) TraT Request   |               |
+             |  Workload n  |----------------------&gt;|               |
+             |              |   (J) TraT Response   |               |
+             |              |&lt;----------------------|               |
+             +--------------+                       +---------------+
+
+</pre><a href="#section-2.2.1-5" class="pilcrow">¶</a>
+</div>
+<p id="section-2.2.1-6">Figure: Use of TraTs in multi-workload environments<a href="#section-2.2.1-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2.2.1-7.1">(A) The user accesses a resource server and present an Access Token obtained from an Authorization Server using an OAuth 2.0 or OpenID Connect flow.<a href="#section-2.2.1-7.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.2.1-7.2">(B) The resource server is implemented as a workload (Workload 1) and requests a Transaction Token (TraT) from the Transaction Token Server using the Token Exchange protocol <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>.<a href="#section-2.2.1-7.2" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.2.1-7.3">(C) The Transaction Token Service (TraT Service) returns a Transaction Token containing the requested claims that establish the identity of the original caller, and additional claims that can be used to make authroization decisions and establish the call chain.<a href="#section-2.2.1-7.3" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.2.1-7.4">(D) The Resource Server (Workload 1) calls Workload 2 and passes the TraT along with other parameters. Workload 2 validates the TraT and makes an authroization decision by combining contextual information at its disposal with information in the TraT to make an Authroization Decision to accept or reject the call.<a href="#section-2.2.1-7.4" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.2.1-7.5">(E) Workload 2 requests a Transaction Token (TraT) from the Transaction Token Server using the Token Exchange protocol <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>.<a href="#section-2.2.1-7.5" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.2.1-7.6">(F) The Transaction Token Service (TraT Service) returns a Transaction Token containing the requested claims that establish the identity of the original caller, workload 1 and the call chain and additional claims that can be made to make authroization decisions.<a href="#section-2.2.1-7.6" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2.2.1-7.7">(G-J) The pattern of sending a TraT to the next workload where it is used as part of an Authroization Decision before obtaining a new Trat for use with the next call repeats until the call chain completes.<a href="#section-2.2.1-7.7" class="pilcrow">¶</a>
+</li>
+          </ul>
 </section>
 </div>
 <div id="nested-trats">
-<section id="section-1.2.2">
+<section id="section-2.2.2">
           <h4 id="name-nested-trats">
-<a href="#section-1.2.2" class="section-number selfRef">1.2.2. </a><a href="#name-nested-trats" class="section-name selfRef">Nested TraTs</a>
+<a href="#section-2.2.2" class="section-number selfRef">2.2.2. </a><a href="#name-nested-trats" class="section-name selfRef">Nested TraTs</a>
           </h4>
-<p id="section-1.2.2-1">A workload within the call chain of such an external call MAY generate a new Nested TraT. To generate the Nested Trat, it creates a new JWT that includes the received TraT in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.<a href="#section-1.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.2-1">A workload within the call chain of such an external call MAY generate a new Nested TraT. To generate the Nested Trat, it creates a new JWT that includes the received TraT in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.<a href="#section-2.2.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="trat-lifetime">
-<section id="section-1.3">
+<section id="section-2.3">
         <h3 id="name-trat-lifetime">
-<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-trat-lifetime" class="section-name selfRef">TraT Lifetime</a>
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-trat-lifetime" class="section-name selfRef">TraT Lifetime</a>
         </h3>
-<p id="section-1.3-1">TraTs are expected to be short-lived (order of minutes, e.g. 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting TraT SHALL still be short-lived.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">TraTs are expected to be short-lived (order of minutes, e.g. 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting TraT SHALL still be short-lived.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="benefits-of-trats">
-<section id="section-1.4">
+<section id="section-2.4">
         <h3 id="name-benefits-of-trats">
-<a href="#section-1.4" class="section-number selfRef">1.4. </a><a href="#name-benefits-of-trats" class="section-name selfRef">Benefits of TraTs</a>
+<a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-benefits-of-trats" class="section-name selfRef">Benefits of TraTs</a>
         </h3>
-<p id="section-1.4-1">TraTs help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or robotic principal on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the TraT, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.<a href="#section-1.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-1">TraTs help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or robotic principal on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the TraT, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="notational-conventions">
-<section id="section-2">
+<section id="section-3">
       <h2 id="name-notational-conventions">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-notational-conventions" class="section-name selfRef">Notational Conventions</a>
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-notational-conventions" class="section-name selfRef">Notational Conventions</a>
       </h2>
-<p id="section-2-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+<p id="section-3-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
 "MAY", and "OPTIONAL" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when,
-they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="terminology">
-<section id="section-3">
+<section id="section-4">
       <h2 id="name-terminology">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
       </h2>
-<span class="break"></span><dl class="dlParallel" id="section-3-1">
-        <dt id="section-3-1.1">Workload:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.2">
-          <p id="section-3-1.2.1">An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.<a href="#section-3-1.2.1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-4-1">
+        <dt id="section-4-1.1">Workload:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.2">
+          <p id="section-4-1.2.1">An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.<a href="#section-4-1.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.3">Trust Domain:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.4">
-          <p id="section-3-1.4.1">A virtually or physically separated network which contains two or more workloads. The workloads within an Trust Domain MAY be invoked only through published interfaces. A Trust Domain MUST have a name that is used as the <code>aud</code> (audience) value in TraTs<a href="#section-3-1.4.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.3">Trust Domain:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.4">
+          <p id="section-4-1.4.1">A virtually or physically separated network which contains two or more workloads. The workloads within an Trust Domain MAY be invoked only through published interfaces. A Trust Domain MUST have a name that is used as the <code>aud</code> (audience) value in TraTs<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.5">External Endpoint:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.6">
-          <p id="section-3-1.6.1">A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain<a href="#section-3-1.6.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.5">External Endpoint:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.6">
+          <p id="section-4-1.6.1">A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain<a href="#section-4-1.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.7">Call Chain:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.8">
-          <p id="section-3-1.8.1">A sequence of invocations that results from the invocation of an external endpoint.<a href="#section-3-1.8.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.7">Call Chain:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.8">
+          <p id="section-4-1.8.1">A sequence of invocations that results from the invocation of an external endpoint.<a href="#section-4-1.8.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.9">Transaction Token (TraT):</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.10">
-          <p id="section-3-1.10.1">A signed JWT that has a short lifetime, which provides immutable information about the user or robotic principal, certain parameters of the call and certain contextual attributes of the call. A TraT MAY contain a nested TraT<a href="#section-3-1.10.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.9">Transaction Token (TraT):</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.10">
+          <p id="section-4-1.10.1">A signed JWT that has a short lifetime, which provides immutable information about the user or robotic principal, certain parameters of the call and certain contextual attributes of the call. A TraT MAY contain a nested TraT<a href="#section-4-1.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.11">Leaf TraT:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.12">
-          <p id="section-3-1.12.1">A TraT that does not contain a <code>trat</code> claim in its JWT body<a href="#section-3-1.12.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.11">Leaf TraT:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.12">
+          <p id="section-4-1.12.1">A TraT that does not contain a <code>trat</code> claim in its JWT body<a href="#section-4-1.12.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.13">Nested TraT:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.14">
-          <p id="section-3-1.14.1">A TraT that contains a nested TraT in its JWT body as the value of the <code>trat</code> claim<a href="#section-3-1.14.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.13">Nested TraT:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.14">
+          <p id="section-4-1.14.1">A TraT that contains a nested TraT in its JWT body as the value of the <code>trat</code> claim<a href="#section-4-1.14.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.15">Authorization Context:</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.16">
-          <p id="section-3-1.16.1">A JSON object containing a set of claims that represent the immutable context of a call chain<a href="#section-3-1.16.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.15">Authorization Context:</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.16">
+          <p id="section-4-1.16.1">A JSON object containing a set of claims that represent the immutable context of a call chain<a href="#section-4-1.16.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-3-1.17">Transaction Token Service (TraT Service):</dt>
-        <dd style="margin-left: 1.5em" id="section-3-1.18">
-          <p id="section-3-1.18.1">A special service within the Trust Domain which issues Transaction Tokens to requesting workloads<a href="#section-3-1.18.1" class="pilcrow">¶</a></p>
+<dt id="section-4-1.17">Transaction Token Service (TraT Service):</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.18">
+          <p id="section-4-1.18.1">A special service within the Trust Domain which issues Transaction Tokens to requesting workloads<a href="#section-4-1.18.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
 </section>
 </div>
 <div id="trat-format">
-<section id="section-4">
+<section id="section-5">
       <h2 id="name-trat-format">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-trat-format" class="section-name selfRef">TraT Format</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-trat-format" class="section-name selfRef">TraT Format</a>
       </h2>
-<p id="section-4-1">A TraT is a JSON Web Token <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that has a JSON Web Signature <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>. The following is true in a TraT:<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">A TraT is a JSON Web Token <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that has a JSON Web Signature <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>. The following is true in a TraT:<a href="#section-5-1" class="pilcrow">¶</a></p>
 <div id="trat-header">
-<section id="section-4.1">
+<section id="section-5.1">
         <h3 id="name-jwt-header">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-jwt-header" class="section-name selfRef">JWT Header</a>
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-jwt-header" class="section-name selfRef">JWT Header</a>
         </h3>
-<p id="section-4.1-1">In the JWT Header:<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">In the JWT Header:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.1-2.1">The <code>typ</code> claim MUST be present and MUST have the value <code>trat</code><a href="#section-4.1-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.1-2.1">The <code>typ</code> claim MUST be present and MUST have the value <code>trat</code><a href="#section-5.1-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-4.1-2.2">Key rotation of the signing key SHOULD be supported through the use of a <code>kid</code> claim<a href="#section-4.1-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-5.1-2.2">Key rotation of the signing key SHOULD be supported through the use of a <code>kid</code> claim<a href="#section-5.1-2.2" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-4.1-3">Below is a non-normative example of the JWT Header of a TraT<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">Below is a non-normative example of the JWT Header of a TraT<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <span id="name-example-trat-header"></span><div id="figtratheader">
 <figure id="figure-1">
-          <div class="lang-json sourcecode" id="section-4.1-4.1">
+          <div class="lang-json sourcecode" id="section-5.1-4.1">
 <pre>
 {
     "typ": "trat",
@@ -1598,44 +1674,44 @@ they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow
 </section>
 </div>
 <div id="trat-body">
-<section id="section-4.2">
+<section id="section-5.2">
         <h3 id="name-jwt-body">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-jwt-body" class="section-name selfRef">JWT Body</a>
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-jwt-body" class="section-name selfRef">JWT Body</a>
         </h3>
 <div id="common-claims">
-<section id="section-4.2.1">
+<section id="section-5.2.1">
           <h4 id="name-common-claims">
-<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-common-claims" class="section-name selfRef">Common Claims</a>
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-common-claims" class="section-name selfRef">Common Claims</a>
           </h4>
-<p id="section-4.2.1-1">The JWT Body MUST have the following claims regardless of whether the TraT is a Leaf Trat or a Nested TraT:<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-1">The JWT Body MUST have the following claims regardless of whether the TraT is a Leaf Trat or a Nested TraT:<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.2.1-2.1">An <code>iss</code> claim, whose value is a URN <span>[<a href="#RFC8141" class="cite xref">RFC8141</a>]</span> that uniquely identifies the workload or the TraT Service that created the TraT<a href="#section-4.2.1-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.2.1-2.1">An <code>iss</code> claim, whose value is a URN <span>[<a href="#RFC8141" class="cite xref">RFC8141</a>]</span> that uniquely identifies the workload or the TraT Service that created the TraT<a href="#section-5.2.1-2.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-4.2.1-2.2">An <code>iat</code> claim, whose value is the time at which the TraT was created<a href="#section-4.2.1-2.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.2.1-2.2">An <code>iat</code> claim, whose value is the time at which the TraT was created<a href="#section-5.2.1-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-4.2.1-2.3">An <code>exp</code> claim, whose value is the time at which the TraT expires. Note that if this claim is in a Nested TraT, then this <code>exp</code> value MUST NOT exceed the <code>exp</code> value of the TraT included in the JWT Body<a href="#section-4.2.1-2.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.2.1-2.3">An <code>exp</code> claim, whose value is the time at which the TraT expires. Note that if this claim is in a Nested TraT, then this <code>exp</code> value MUST NOT exceed the <code>exp</code> value of the TraT included in the JWT Body<a href="#section-5.2.1-2.3" class="pilcrow">¶</a>
 </li>
           </ul>
 </section>
 </div>
 <div id="leaf-trat-claims">
-<section id="section-4.2.2">
+<section id="section-5.2.2">
           <h4 id="name-leaf-trat-claims">
-<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-leaf-trat-claims" class="section-name selfRef">Leaf TraT Claims</a>
+<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-leaf-trat-claims" class="section-name selfRef">Leaf TraT Claims</a>
           </h4>
-<p id="section-4.2.2-1">The following claims MUST be present in the JWT Body of a Leaf TraT<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-1">The following claims MUST be present in the JWT Body of a Leaf TraT<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.2.2-2.1">A <code>tid</code> claim, whose value is the unique identifier of entire call chain<a href="#section-4.2.2-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.2.2-2.1">A <code>tid</code> claim, whose value is the unique identifier of entire call chain<a href="#section-5.2.2-2.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-4.2.2-2.2">A <code>sub_id</code> claim, whose value is the unique identifier of the user or robotic principal on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in <span>[<a href="#SubjectIdentifiers" class="cite xref">SubjectIdentifiers</a>]</span><a href="#section-4.2.2-2.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.2.2-2.2">A <code>sub_id</code> claim, whose value is the unique identifier of the user or robotic principal on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in <span>[<a href="#SubjectIdentifiers" class="cite xref">SubjectIdentifiers</a>]</span><a href="#section-5.2.2-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-4.2.2-2.3">An <code>azc</code> claim, whose value is a JSON object that contains values that remain constant in the call chain<a href="#section-4.2.2-2.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.2.2-2.3">An <code>azc</code> claim, whose value is a JSON object that contains values that remain constant in the call chain<a href="#section-5.2.2-2.3" class="pilcrow">¶</a>
 </li>
           </ul>
-<p id="section-4.2.2-3">Below is a non-normative example of the JWT Body of a Leaf TraT<a href="#section-4.2.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-3">Below is a non-normative example of the JWT Body of a Leaf TraT<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
 <span id="name-example-leaf-trat-body"></span><div id="figleaftratbody">
 <figure id="figure-2">
-            <div class="lang-json sourcecode" id="section-4.2.2-4.1">
+            <div class="lang-json sourcecode" id="section-5.2.2-4.1">
 <pre>
 {
     "iss": "https://trust-domain.com/trat-service",
@@ -1663,19 +1739,19 @@ they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow
 </section>
 </div>
 <div id="nested-trat-claim">
-<section id="section-4.2.3">
+<section id="section-5.2.3">
           <h4 id="name-nested-trat-claim">
-<a href="#section-4.2.3" class="section-number selfRef">4.2.3. </a><a href="#name-nested-trat-claim" class="section-name selfRef">Nested TraT Claim</a>
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-nested-trat-claim" class="section-name selfRef">Nested TraT Claim</a>
           </h4>
-<p id="section-4.2.3-1">The following claim MUST be present in a Nested TraT:<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-1">The following claim MUST be present in a Nested TraT:<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-4.2.3-2.1">A <code>trat</code> claim, whose value is an encoded JWT representation of a TraT.<a href="#section-4.2.3-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.2.3-2.1">A <code>trat</code> claim, whose value is an encoded JWT representation of a TraT.<a href="#section-5.2.3-2.1" class="pilcrow">¶</a>
 </li>
           </ul>
-<p id="section-4.2.3-3">Below is a non-normative example the JWT Body of a nested TraT<a href="#section-4.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">Below is a non-normative example the JWT Body of a nested TraT<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
 <span id="name-example-nested-trat-body"></span><div id="fignestedtratbody">
 <figure id="figure-3">
-            <div class="lang-json sourcecode" id="section-4.2.3-4.1">
+            <div class="lang-json sourcecode" id="section-5.2.3-4.1">
 <pre>
 {
     "iss": "https://trust-domain.com/fraud-detection",
@@ -1696,37 +1772,37 @@ they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow
 </section>
 </div>
 <div id="requesting-trats">
-<section id="section-5">
+<section id="section-6">
       <h2 id="name-requesting-trats">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-requesting-trats" class="section-name selfRef">Requesting TraTs</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-requesting-trats" class="section-name selfRef">Requesting TraTs</a>
       </h2>
-<p id="section-5-1">A workload requests a TraT from a TraT Service using OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>. The request to obtain a TraT using this method is called a TraT Request, and a success response is called a TraT Response. A TraT Request is a Token Exchange Request as described in <span><a href="https://rfc-editor.org/rfc/rfc8693#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> with additional parameters. A TraT Response is a successful Token Response is a OAuth 2.0 token endpoint response as described in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-5" class="relref">Section 5</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>, where the <code>token_type</code> in the response has the value <code>trat</code>.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">The TraT Service acts as an OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> Authorization Server. The requesting workload acts as the OAuth 2.0 Client. It authenticates itself to the TraT Service through mechanisms defined in OAuth 2.0.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-6-1">A workload requests a TraT from a TraT Service using OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>. The request to obtain a TraT using this method is called a TraT Request, and a success response is called a TraT Response. A TraT Request is a Token Exchange Request as described in <span><a href="https://rfc-editor.org/rfc/rfc8693#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> with additional parameters. A TraT Response is a successful Token Response is a OAuth 2.0 token endpoint response as described in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-5" class="relref">Section 5</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>, where the <code>token_type</code> in the response has the value <code>trat</code>.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">The TraT Service acts as an OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> Authorization Server. The requesting workload acts as the OAuth 2.0 Client. It authenticates itself to the TraT Service through mechanisms defined in OAuth 2.0.<a href="#section-6-2" class="pilcrow">¶</a></p>
 <div id="trat-request">
-<section id="section-5.1">
+<section id="section-6.1">
         <h3 id="name-trat-request">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-trat-request" class="section-name selfRef">TraT Request</a>
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-trat-request" class="section-name selfRef">TraT Request</a>
         </h3>
-<p id="section-5.1-1">A TraT Request is an OAuth 2.0 Token Exchange Request as described in <span><a href="https://rfc-editor.org/rfc/rfc8693#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>, with an additional parameter in the request. The following is true of the TraT Request:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">A TraT Request is an OAuth 2.0 Token Exchange Request as described in <span><a href="https://rfc-editor.org/rfc/rfc8693#section-2.1" class="relref">Section 2.1</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>, with an additional parameter in the request. The following is true of the TraT Request:<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.1-2.1">The <code>audience</code> value MUST be set to the Trust Domain name.<a href="#section-5.1-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.1-2.1">The <code>audience</code> value MUST be set to the Trust Domain name.<a href="#section-6.1-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.1-2.2">The <code>requested_token_type</code> value MUST be <code>urn:ietf:params:oauth:token-type:trat</code><a href="#section-5.1-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.1-2.2">The <code>requested_token_type</code> value MUST be <code>urn:ietf:params:oauth:token-type:trat</code><a href="#section-6.1-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.1-2.3">The <code>subject_token</code> value MUST be the external token received by the workload that authorized the call<a href="#section-5.1-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.1-2.3">The <code>subject_token</code> value MUST be the external token received by the workload that authorized the call<a href="#section-6.1-2.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.1-2.4">The <code>subject_token_type</code> value MUST be present and indicate the type of the authorization token present in the <code>subject_token</code> parameter<a href="#section-5.1-2.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.1-2.4">The <code>subject_token_type</code> value MUST be present and indicate the type of the authorization token present in the <code>subject_token</code> parameter<a href="#section-6.1-2.4" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-5.1-3">The following additional parameters MUST be present in a TraT Request:<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">The following additional parameters MUST be present in a TraT Request:<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.1-4.1">A parameter named <code>azc</code> , whose value is a JSON object. This object contains any information the TraT Service needs to understand the context of the incoming request.<a href="#section-5.1-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.1-4.1">A parameter named <code>azc</code> , whose value is a JSON object. This object contains any information the TraT Service needs to understand the context of the incoming request.<a href="#section-6.1-4.1" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-5.1-5">The following is a non-normative example of a TraT Request:<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">The following is a non-normative example of a TraT Request:<a href="#section-6.1-5" class="pilcrow">¶</a></p>
 <span id="name-example-trat-request"></span><div id="figtratrequest">
 <figure id="figure-4">
-          <div class="lang-http sourcecode" id="section-5.1-6.1">
+          <div class="lang-http sourcecode" id="section-6.1-6.1">
 <pre>
 POST /trat-service/token_endpoint HTTP 1.1
 Host: trat-service.trust-domain.com
@@ -1747,23 +1823,23 @@ requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atrat
 </section>
 </div>
 <div id="trat-response">
-<section id="section-5.2">
+<section id="section-6.2">
         <h3 id="name-trat-response">
-<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-trat-response" class="section-name selfRef">TraT Response</a>
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-trat-response" class="section-name selfRef">TraT Response</a>
         </h3>
-<p id="section-5.2-1">A success response to a TraT Request by a TraT Service is called a TraT Response. If the TraT Service responds with an error, the error response is as described in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-5.2" class="relref">Section 5.2</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. The following is true of a TraT Response:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">A success response to a TraT Request by a TraT Service is called a TraT Response. If the TraT Service responds with an error, the error response is as described in <span><a href="https://rfc-editor.org/rfc/rfc6749#section-5.2" class="relref">Section 5.2</a> of [<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. The following is true of a TraT Response:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.2-2.1">The <code>token_type</code> value MUST be set to <code>trat</code><a href="#section-5.2-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-6.2-2.1">The <code>token_type</code> value MUST be set to <code>trat</code><a href="#section-6.2-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.2-2.2">The <code>access_token</code> value MUST be the TraT<a href="#section-5.2-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.2-2.2">The <code>access_token</code> value MUST be the TraT<a href="#section-6.2-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.2-2.3">The response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-5.2-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-6.2-2.3">The response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-6.2-2.3" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-5.2-3">The following is a non-normative example of a TraT Response<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">The following is a non-normative example of a TraT Response<a href="#section-6.2-3" class="pilcrow">¶</a></p>
 <span id="name-example-trat-response"></span><div id="figtratresponse">
 <figure id="figure-5">
-          <div class="lang-http sourcecode" id="section-5.2-4.1">
+          <div class="lang-http sourcecode" id="section-6.2-4.1">
 <pre>
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -1784,55 +1860,71 @@ Cache-Control: non-cache, no-store
 </section>
 </div>
 <div id="creating-nested-trats">
-<section id="section-6">
+<section id="section-7">
       <h2 id="name-creating-nested-trats">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-creating-nested-trats" class="section-name selfRef">Creating Nested TraTs</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-creating-nested-trats" class="section-name selfRef">Creating Nested TraTs</a>
       </h2>
-<p id="section-6-1">A workload within a call chain MAY create a Nested TraT. It does so by creating a new JWT that has all the header fields as described in <a href="#trat-header" class="auto internal xref">Section 4.1</a> and only a JWT Body that includes the <code>trat</code> claim as described in <a href="#trat-body" class="auto internal xref">Section 4.2</a>.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">The expiration time of a enclosing TraT MAY NOT exceed the expiration time of an embedded TraT.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-7-1">A workload within a call chain MAY create a Nested TraT. It does so by creating a new JWT that has all the header fields as described in <a href="#trat-header" class="auto internal xref">Section 5.1</a> and only a JWT Body that includes the <code>trat</code> claim as described in <a href="#trat-body" class="auto internal xref">Section 5.2</a>.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">The expiration time of a enclosing TraT MAY NOT exceed the expiration time of an embedded TraT.<a href="#section-7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="IANA">
-<section id="section-7">
+<section id="section-8">
       <h2 id="name-iana-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-7-1">This memo includes no request to IANA.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">This memo includes no request to IANA.<a href="#section-8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="Security">
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-security-considerations">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <div id="mutual-authentication-of-the-trat-request">
-<section id="section-8.1">
+<section id="section-9.1">
         <h3 id="name-mutual-authentication-of-th">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-mutual-authentication-of-th" class="section-name selfRef">Mutual Authentication of the TraT Request</a>
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-mutual-authentication-of-th" class="section-name selfRef">Mutual Authentication of the TraT Request</a>
         </h3>
-<p id="section-8.1-1">A TraT Service MUST ensure that it authenticates any workloads requesting TraTs. In order to do so:<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">A TraT Service MUST ensure that it authenticates any workloads requesting TraTs. In order to do so:<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8.1-2.1">It MUST name a limited, pre-configured set of workloads that MAY request TraTs<a href="#section-8.1-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-9.1-2.1">It MUST name a limited, pre-configured set of workloads that MAY request TraTs<a href="#section-9.1-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-2.2">It MUST individually authenticate the requester as being one of the name requesters<a href="#section-8.1-2.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-9.1-2.2">It MUST individually authenticate the requester as being one of the name requesters<a href="#section-9.1-2.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-2.3">It SHOULD rely on mechanisms such as <span>[<a href="#Spiffe" class="cite xref">Spiffe</a>]</span> to securely authenticate the requester<a href="#section-8.1-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-9.1-2.3">It SHOULD rely on mechanisms such as <span>[<a href="#Spiffe" class="cite xref">Spiffe</a>]</span> to securely authenticate the requester<a href="#section-9.1-2.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-8.1-2.4">It SHOULD NOT rely on insecure mechanisms such as long-lived shared secrets to authenticate the requesters<a href="#section-8.1-2.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-9.1-2.4">It SHOULD NOT rely on insecure mechanisms such as long-lived shared secrets to authenticate the requesters<a href="#section-9.1-2.4" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-8.1-3">The requesting workload MUST have a pre-configured location for the TraT Service. It SHOULD rely on mechanisms such as <span>[<a href="#Spiffe" class="cite xref">Spiffe</a>]</span> to securely authenticate the TraT Service before making a TraT Request.<a href="#section-8.1-3" class="pilcrow">¶</a></p>
+<p id="section-9.1-3">The requesting workload MUST have a pre-configured location for the TraT Service. It SHOULD rely on mechanisms such as <span>[<a href="#Spiffe" class="cite xref">Spiffe</a>]</span> to securely authenticate the TraT Service before making a TraT Request.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sender-constrained-tokens">
+<section id="section-9.2">
+        <h3 id="name-sender-constrained-tokens">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-sender-constrained-tokens" class="section-name selfRef">Sender Constrained Tokens</a>
+        </h3>
+<p id="section-9.2-1">Although TraTs are short-lived, they may be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="access-tokens">
+<section id="section-9.3">
+        <h3 id="name-access-tokens">
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-access-tokens" class="section-name selfRef">Access Tokens</a>
+        </h3>
+<p id="section-9.3-1">When using nested TraTs, the nested TraT MUST NOT contain the Access Token presented to the resource server. If an Access Token is included in a TraT, an attacker may obtain a TraT, extract the Access Token, and replay it to the Resource Server. TraT expiry does not protect against this attack since the Access Token may remain valid even after the TraT has expired.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
-<section id="section-9">
+<section id="section-10">
       <h2 id="name-references">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
-<section id="section-9.1">
+<section id="section-10.1">
         <h3 id="name-normative-references">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -1873,9 +1965,9 @@ Cache-Control: non-cache, no-store
 <dd class="break"></dd>
 </dl>
 </section>
-<section id="section-9.2">
+<section id="section-10.2">
         <h3 id="name-informative-references">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="Spiffe">[Spiffe]</dt>
@@ -1897,14 +1989,6 @@ Cache-Control: non-cache, no-store
       <h2 id="name-contributors">
 <a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
-<address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Pieter Kasselman</span></div>
-<div dir="auto" class="left"><span class="org">Microsoft</span></div>
-<div class="email">
-<span>Email:</span>
-<a href="mailto:pieter.kasselman@microsoft.com" class="email">pieter.kasselman@microsoft.com</a>
-</div>
-</address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Evan Gilman</span></div>
 <div dir="auto" class="left"><span class="org">SPIRL</span></div>
@@ -1934,6 +2018,14 @@ Cache-Control: non-cache, no-store
 <div class="email">
 <span>Email:</span>
 <a href="mailto:george.fletcher@capitalone.com" class="email">george.fletcher@capitalone.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Pieter Kasselman</span></div>
+<div dir="auto" class="left"><span class="org">Microsoft</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:pieter.kasselman@microsoft.com" class="email">pieter.kasselman@microsoft.com</a>
 </div>
 </address>
 </section>
