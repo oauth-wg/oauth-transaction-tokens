@@ -372,6 +372,12 @@ A TraT Service MUST ensure that it authenticates any workloads requesting TraTs.
 
 The requesting workload MUST have a pre-configured location for the TraT Service. It SHOULD rely on mechanisms such as {{Spiffe}} to securely authenticate the TraT Service before making a TraT Request.
 
+## Sender Constrained Tokens
+Although TraTs are short-lived, they may be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor. 
+
+## Access Tokens
+When using nested TraTs, the nested TraT MUST NOT contain the Access Token presented to the resource server. If an Access Token is included in a TraT, an attacker may obtain a TraT, extract the Access Token, and replay it to the Resource Server. TraT expiry does not protect against this attack since the Access Token may remain valid even after the TraT has expired.
+
 --- back
 
 # Acknowledgements {#Acknowledgements}
