@@ -84,20 +84,22 @@ informative:
 
 --- abstract
 
-Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved throughout any subsequent workloads that are invoked in order to process such a request. TraTs also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request.
+Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved and available to all workloads that are invoked as part of processing such a request. TraTs also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request.
 
 --- middle
 
 # Introduction
 
-Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
+Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
 
 * Invocations of workloads in the network without any external invocation being present
 * Arbitrary user impersonation 
 * Parameter modification or augmentation
 
-Transaction Tokens are a means to mitigate damage from such attacks or spurious invocations. Their live (unexpired) presence indicates a valid external invocation; 
-They ensure that the identity of the user or robotic principal that made the external request is preserved throughout subsequent workload invocations; And they preserve any context such as:
+The results of these actions are unauthorised access to resources. 
+
+Transaction Tokens are a means to mitigate damage from such attacks or spurious invocations. A valid TraT indicates a valid external invocation; 
+They ensure that the identity of the user or robotic principal (e.g. workload) that made the external request is preserved throughout subsequent workload invocations; And they preserve any context such as:
 
 * Parameters of the original call
 * Environmental factors such as IP address of the original caller
@@ -106,7 +108,7 @@ They ensure that the identity of the user or robotic principal that made the ext
 All this ensures that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.
 
 ## What are Transaction Tokens
-Transaction Tokens (TraTs) are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or robotic principal and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.
+Transaction Tokens (TraTs) are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or robotic principal (e.g. workload) and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.
 
 ### Nesting
 Alternatively, a TraT MAY be a signed JWT that has a nested TraT in its body. This nesting enables workloads in a call chain to assert their invocation during the call chain to downstream workloads.
@@ -120,7 +122,43 @@ Leaf TraTs are typically created when a workload is invoked using an endpoint th
 * Parameters that are required to be bound for the duration of this call
 * Additional context such as incoming IP Address, User Agent, or other information that can help the TraT Service to issue the TraT
 
-The TraT Service responds to a successful invocation by generating a TraT. The calling workload then uses the TraT to authorize its calls to subsequent workloads.
+The TraT Service responds to a successful invocation by generating a TraT. The calling workload then uses the TraT to authorize its calls to subsequent workloads. Subsequent workloads may obtain TraTs of their own
+
+Figure 1 below shows how TraTs are used in an environment consisting of multiple workloads.
+
+~~~ ascii-art
+                              (B) Exchange Access Token
+             +--------------+     for TraT          +---------------+
+(A)User  +---|     API      |<--------------------->|               |
+   Start |   |   Gateway    |(C) Return TraT        | Authorization |
+   Flow  +-->|              |<--------------------->|     Server    |
+             +--------------+                       |               |
+                    |                               |               |
+                    | (D) Send Request              |               |
+                    |       with                    |               |
+                    |       TraT                    |               |
+                    v                               |               |
+             +--------------+                       |               |
+             |  Workload 1  |                       |               |
+             |              |<--------------------->|               |
+             |              |(E) Obtain new TraT    |               |
+             |              |    for workload 1     |               |
+             +--------------+                       |               |
+                    |                               |               |
+                    | (F) Send Request              |               |
+                    |         with                  |               |
+                    |   workload 1 TraT             |               |
+                    v                               |               |
+             +--------------+                       |               |
+             |  Workload 2  |                       |               |
+             |              |<--------------------->|               |
+             |              |(G) Obtain new TraT    |               |
+             |              | for workload 2        |               |
+             +--------------+                       +---------------+
+
+~~~
+Figure: Use of TraTs in multi-workload environments
+
 
 ### Nested TraTs
 A workload within the call chain of such an external call MAY generate a new Nested TraT. To generate the Nested Trat, it creates a new JWT that includes the received TraT in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.
