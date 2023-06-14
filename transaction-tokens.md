@@ -98,6 +98,7 @@ Modern computing architectures often use multiple independently running componen
 
 The results of these actions are unauthorised access to resources. 
 
+# Overview
 Transaction Tokens are a means to mitigate damage from such attacks or spurious invocations. A valid TraT indicates a valid external invocation; 
 They ensure that the identity of the user or robotic principal (e.g. workload) that made the external request is preserved throughout subsequent workload invocations; And they preserve any context such as:
 
@@ -124,41 +125,51 @@ Leaf TraTs are typically created when a workload is invoked using an endpoint th
 
 The TraT Service responds to a successful invocation by generating a TraT. The calling workload then uses the TraT to authorize its calls to subsequent workloads. Subsequent workloads may obtain TraTs of their own
 
-Figure 1 below shows how TraTs are used in an environment consisting of multiple workloads.
+Figure 1 below shows how TraTs are used in an a multi-workload environment.
 
 ~~~ ascii-art
-                              (B) Exchange Access Token
-             +--------------+     for TraT          +---------------+
-(A)User  +---|     API      |<--------------------->|               |
-   Start |   |   Gateway    |(C) Return TraT        | Authorization |
-   Flow  +-->|              |<--------------------->|     Server    |
-             +--------------+                       |               |
+                              
+             +--------------+   (B) TraT Request    +---------------+
+(A)User  +---|  Resource    |---------------------->|               |
+   Start |   |   Server    |   (C) TraT Response   |  Transaction  |
+   Flow  +-->| (Workload 1) |<----------------------|     Token     |
+             +--------------+                       |    Server     |
                     |                               |               |
                     | (D) Send Request              |               |
                     |       with                    |               |
-                    |       TraT                    |               |
+                    |   Workload 1 TraT             |               |
                     v                               |               |
+             +--------------+   (E) TraT Request    |               |
+             |  Workload 2  |---------------------->|               |
+             |              |   (F) TraT Response   |               |
+             |              |<----------------------|               |
              +--------------+                       |               |
-             |  Workload 1  |                       |               |
-             |              |<--------------------->|               |
-             |              |(E) Obtain new TraT    |               |
-             |              |    for workload 1     |               |
-             +--------------+                       |               |
-                    |                               |               |
-                    | (F) Send Request              |               |
+                    |  (G) Send Request             |               |
                     |         with                  |               |
-                    |   workload 1 TraT             |               |
+                    |      Workload 2 TraT          |               |
+                    :                               |               |
+                    :                               |               |
+                    :                               |               |
+                    |  (H) Send Request             |               |
+                    |         with                  |               |
+                    |   Workload N-1 TraT           |               |
                     v                               |               |
-             +--------------+                       |               |
-             |  Workload 2  |                       |               |
-             |              |<--------------------->|               |
-             |              |(G) Obtain new TraT    |               |
-             |              | for workload 2        |               |
+             +--------------+    (I) TraT Request   |               |
+             |  Workload n  |---------------------->|               |
+             |              |   (J) TraT Response   |               |
+             |              |<----------------------|               |
              +--------------+                       +---------------+
 
 ~~~
 Figure: Use of TraTs in multi-workload environments
 
+- (A) The user accesses a resource server and present an Access Token obtained from an Authorization Server using an OAuth 2.0 or OpenID Connect flow.
+- (B) The resource server is implemented as a workload (Workload 1) and requests a Transaction Token (TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
+- (C) The Transaction Token Service (TraT Service) returns a Transaction Token containing the requested claims that establish the identity of the original caller, and additional claims that can be used to make authroization decisions and establish the call chain.
+- (D) The Resource Server (Workload 1) calls Workload 2 and passes the TraT along with other parameters. Workload 2 validates the TraT and makes an authroization decision by combining contextual information at its disposal with information in the TraT to make an Authroization Decision to accept or reject the call.
+- (E) Workload 2 requests a Transaction Token (TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
+- (F) The Transaction Token Service (TraT Service) returns a Transaction Token containing the requested claims that establish the identity of the original caller, workload 1 and the call chain and additional claims that can be made to make authroization decisions.
+- (G-J) The pattern of sending a TraT to the next workload where it is used as part of an Authroization Decision before obtaining a new Trat for use with the next call repeats until the call chain completes.
 
 ### Nested TraTs
 A workload within the call chain of such an external call MAY generate a new Nested TraT. To generate the Nested Trat, it creates a new JWT that includes the received TraT in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.
