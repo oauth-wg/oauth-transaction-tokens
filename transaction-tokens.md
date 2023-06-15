@@ -131,38 +131,56 @@ Figure 1 below shows how TraTs are used in an a multi-workload environment.
                               
              +--------------+   (B) TraT Request    +---------------+
 (A)User  +---|  Resource    |---------------------->|               |
-   Start |   |   Server    |   (C) TraT Response   |  Transaction  |
+   Start |   |   Server     |   (C) TraT Response   |  Transaction  |
    Flow  +-->| (Workload 1) |<----------------------|     Token     |
              +--------------+                       |    Server     |
                     |                               |               |
                     | (D) Send Request              |               |
-                    |       with                    |               |
-                    |   Workload 1 TraT             |               |
+                    |     with Leaf TraT            |               |
+                    |     for Workload 1            |               |
                     v                               |               |
-             +--------------+   (E) TraT Request    |               |
-             |  Workload 2  |---------------------->|               |
-             |              |   (F) TraT Response   |               |
-             |              |<----------------------|               |
              +--------------+                       |               |
-                    |  (G) Send Request             |               |
-                    |         with                  |               |
-                    |      Workload 2 TraT          |               |
-                    :                               |               |
-                    :                               |               |
-                    :                               |               |
-                    |  (H) Send Request             |               |
-                    |         with                  |               |
-                    |   Workload N-1 TraT           |               |
+             |  Workload 2  |                       |               |
+             |              |                       |               |
+             |              |                       |               |
+             +--------------+                       |               |
+                    |  (E) Use unmodified           |               |
+                    |      Leaf TraT                |               |
+                    |      for Workload 1           |               |
                     v                               |               |
-             +--------------+    (I) TraT Request   |               |
-             |  Workload n  |---------------------->|               |
-             |              |   (J) TraT Response   |               |
-             |              |<----------------------|               |
+             +--------------+                       |               |
+             |  Workload 3  |---+ (F) Create        |               |
+             |              |   |     Nested Trat   |               |
+             |              |<--+                   |               |
+             +--------------+                       |               |
+                    |  (G) Send request with        |               |
+                    |      Nested TraT for          |               |
+                    |      Workload 3               |               |
+                    v                               |               |
+             +--------------+   (H) TraT Request    |               |
+             |  Workload 4  |---------------------->|               |
+             |              |   (I) TraT Response   |  Transaction  |
+             |              |<----------------------|     Token     |
+             +--------------+                       |    Server     |
+                    |  (J) Send request with        |               |
+                    |      Leaf TraT for            |               |
+                    |      Workload 4               |               | 
+                    :                               |               |
+                    :                               |               |
+                    |                               |               |
+                    |                               |               |
+                    |                               |               |
+                    v                               |               |
+             +--------------+                       |               |
+             |  Workload n  |                       |               |
+             |              |                       |               |
+             |              |                       |               |
              +--------------+                       +---------------+
 
 ~~~
 Figure: Use of TraTs in multi-workload environments
 
+<ToDo - Update Description to match new figure - Pieter>
 - (A) The user accesses a resource server and present an Access Token obtained from an Authorization Server using an OAuth 2.0 or OpenID Connect flow.
 - (B) The resource server is implemented as a workload (Workload 1) and requests a Transaction Token (TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
 - (C) The Transaction Token Service (TraT Service) returns a Transaction Token containing the requested claims that establish the identity of the original caller, and additional claims that can be used to make authroization decisions and establish the call chain.
