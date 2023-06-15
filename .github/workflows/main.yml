@@ -25,18 +25,18 @@ jobs:
       - name: Install xml2rfc
         run: pip install xml2rfc
       - name: Convert to rfc xml
-        run: kramdown-rfc2629 identity-chaining-draft.md > identity-chaining-draft.xml
+        run: kramdown-rfc2629 transaction-tokens.md > transaction-tokens.xml
       - name: Render HTML
-        run: xml2rfc identity-chaining-draft.xml --html -o index.html
+        run: xml2rfc transaction-tokens.xml --html -o index.html
       - name: Render Text
-        run: xml2rfc identity-chaining-draft.xml --text
+        run: xml2rfc transaction-tokens.xml --text
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: output
           path: |
             index.html
-            identity-chaining-draft.xml
+            transaction-tokens.xml
   publish-to-pages:
     if: github.ref == 'refs/heads/main'
     needs: [build-rfc]
