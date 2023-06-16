@@ -125,7 +125,17 @@ Leaf TraTs are typically created when a workload is invoked using an endpoint th
 
 The TraT Service responds to a successful invocation by generating a TraT. The calling workload then uses the TraT to authorize its calls to subsequent workloads. Subsequent workloads may obtain TraTs of their own
 
-Figure 1 below shows how TraTs are used in an a multi-workload environment.
+### Nested TraTs
+A workload within the call chain of such an external call MAY generate a new Nested TraT. To generate the Nested Trat, it creates a new JWT that includes the received TraT in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.
+
+## TraT Lifetime
+TraTs are expected to be short-lived (order of minutes, e.g. 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting TraT SHALL still be short-lived.
+
+## Benefits of TraTs
+TraTs help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or robotic principal on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the TraT, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.
+
+## TraT Issuance and Usage Flows
+The figure below shows how TraTs are used in an a multi-workload environment.
 
 ~~~ ascii-art
                               
@@ -164,7 +174,7 @@ Figure 1 below shows how TraTs are used in an a multi-workload environment.
              +--------------+                       |    Server     |
                     |  (J) Send request with        |               |
                     |      Leaf TraT for            |               |
-                    |      Workload 4               |               | 
+                    |      Workload 5               |               | 
                     :                               |               |
                     :                               |               |
                     |                               |               |
@@ -172,31 +182,25 @@ Figure 1 below shows how TraTs are used in an a multi-workload environment.
                     |                               |               |
                     v                               |               |
              +--------------+                       |               |
-             |  Workload n  |                       |               |
-             |              |                       |               |
-             |              |                       |               |
+             |  Workload n  | (K) TraT verified by  |               |
+             |              |     last workload in  |               |
+             |              |     callchain         |               |
              +--------------+                       +---------------+
 
 ~~~
 Figure: Use of TraTs in multi-workload environments
 
-<ToDo - Update Description to match new figure - Pieter>
 - (A) The user accesses a resource server and present an Access Token obtained from an Authorization Server using an OAuth 2.0 or OpenID Connect flow.
-- (B) The resource server is implemented as a workload (Workload 1) and requests a Transaction Token (TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
-- (C) The Transaction Token Service (TraT Service) returns a Transaction Token containing the requested claims that establish the identity of the original caller, and additional claims that can be used to make authroization decisions and establish the call chain.
-- (D) The Resource Server (Workload 1) calls Workload 2 and passes the TraT along with other parameters. Workload 2 validates the TraT and makes an authroization decision by combining contextual information at its disposal with information in the TraT to make an Authroization Decision to accept or reject the call.
-- (E) Workload 2 requests a Transaction Token (TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
-- (F) The Transaction Token Service (TraT Service) returns a Transaction Token containing the requested claims that establish the identity of the original caller, workload 1 and the call chain and additional claims that can be made to make authroization decisions.
-- (G-J) The pattern of sending a TraT to the next workload where it is used as part of an Authroization Decision before obtaining a new Trat for use with the next call repeats until the call chain completes.
-
-### Nested TraTs
-A workload within the call chain of such an external call MAY generate a new Nested TraT. To generate the Nested Trat, it creates a new JWT that includes the received TraT in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.
-
-## TraT Lifetime
-TraTs are expected to be short-lived (order of minutes, e.g. 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting TraT SHALL still be short-lived.
-
-## Benefits of TraTs
-TraTs help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or robotic principal on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the TraT, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.
+- (B) The resource server is implemented as a workload (Workload 1) and requests a Leaf Transaction Token (Leaf TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
+- (C) The Transaction Token Service (TraT Service) returns a Leaf Transaction Token (Leaf TraT) containing the requested claims that establish the identity of the original caller as well as additional claims that can be used to make authroization decisions and establish the call chain.
+- (D) The Resource Server (Workload 1) calls Workload 2 and passes the Leaf TraT for Workload 1. Workload 2 validates the TraT and makes an authorization decision by combining contextual information at its disposal with information in the TraT to make an Authorization Decision to accept or reject the call.
+- (E) Workload 2 is not required to add aditional information to the TraT and passes the unmodified TraT for Workload 1 to Workload 3. Workload 3 validates the TraT and makes an authorization decision by combining contextual information at its disposal with information in the TraT to make an Authorization Decision to accept or reject the call.
+- (F) Workload 3 generates a Nested TraT that includes additional call chain information.
+- (G) Workload 3 sends the Nested TraT to Workload 4. Workload 4 validates the Nested TraT and makes an authorization decision by combining contextual information at its disposal with information in the Nested TraT to make an Authorization Decision to accept or reject the call.
+- (H) Workload 4 needs a TraT containing information from the Authroization Server and requests a new Leaf Transaction Token (Leaf TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
+- (I) The Transaction Token Service (TraT Service) returns a Leaf Transaction Token (Leaf TraT) containing the requested claims that include the call chain information included in the TraT as well as additional claims needed.
+- (J) Workload 4 sends the TraT to the Workload 5, who verifies it and extracts claims and combine it with contextual information for use in authroization decisions. Other workloads continue to pass TraTs, generate Nested TraTs or request Nested Trats.
+- (K) Workload n is the final workload in the call chain. It verifies the received TraT, extracts claims and combine it with contextual information for use in authroization decisions. 
 
 # Notational Conventions
 
