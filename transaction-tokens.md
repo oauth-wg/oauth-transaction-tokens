@@ -9,7 +9,7 @@ wg: oauth
 docname: draft-transaction-tokens-00
 
 title: Transaction Tokens
-abbrev: trat
+abbrev: tx-tokens
 lang: en
 kw:
   - Microservices
@@ -84,7 +84,7 @@ informative:
 
 --- abstract
 
-Transaction Tokens (TraTs) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved and available to all workloads that are invoked as part of processing such a request. TraTs also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request.
+Transaction Tokens (Tx-Tokens) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, is preserved and available to all workloads that are invoked as part of processing such a request. Tx-Tokens also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request.
 
 --- middle
 
@@ -99,7 +99,7 @@ Modern computing architectures often use multiple independently running componen
 The results of these actions are unauthorised access to resources. 
 
 # Overview
-Transaction Tokens are a means to mitigate damage from such attacks or spurious invocations. A valid TraT indicates a valid external invocation; 
+Transaction Tokens are a means to mitigate damage from such attacks or spurious invocations. A valid Tx-Token indicates a valid external invocation; 
 They ensure that the identity of the user or robotic principal (e.g. workload) that made the external request is preserved throughout subsequent workload invocations; And they preserve any context such as:
 
 * Parameters of the original call
@@ -109,33 +109,33 @@ They ensure that the identity of the user or robotic principal (e.g. workload) t
 All this ensures that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.
 
 ## What are Transaction Tokens
-Transaction Tokens (TraTs) are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or robotic principal (e.g. workload) and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.
+Transaction Tokens (Tx-Tokens) are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or robotic principal (e.g. workload) and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.
 
 ### Nesting
-Alternatively, a TraT MAY be a signed JWT that has a nested TraT in its body. This nesting enables workloads in a call chain to assert their invocation during the call chain to downstream workloads.
+Alternatively, a Tx-Token MAY be a signed JWT that has a nested Tx-Token in its body. This nesting enables workloads in a call chain to assert their invocation during the call chain to downstream workloads.
 
-## Creating TraTs
+## Creating Tx-Tokens
 
-### Leaf TraTs
-Leaf TraTs are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} token or an OpenID Connect {{OpenIdConnect}} token. This workload then performs an OAuth 2.0 Token Exchange {{RFC8693}} to obtain a TraT. To do this, it invokes a special Token Service (the TraT Service) and provides context that is sufficient for it to generate a TraT. This context MAY include:
+### Leaf Tx-Tokens
+Leaf Tx-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} token or an OpenID Connect {{OpenIdConnect}} token. This workload then performs an OAuth 2.0 Token Exchange {{RFC8693}} to obtain a Tx-Token. To do this, it invokes a special Token Service (the Tx-Token Service) and provides context that is sufficient for it to generate a Tx-Token. This context MAY include:
 
 * The external authorization token (e.g. the OAuth token)
 * Parameters that are required to be bound for the duration of this call
-* Additional context such as incoming IP Address, User Agent, or other information that can help the TraT Service to issue the TraT
+* Additional context such as incoming IP Address, User Agent, or other information that can help the Tx-Token Service to issue the Tx-Token
 
-The TraT Service responds to a successful invocation by generating a TraT. The calling workload then uses the TraT to authorize its calls to subsequent workloads. Subsequent workloads may obtain TraTs of their own
+The Tx-Token Service responds to a successful invocation by generating a Tx-Token. The calling workload then uses the Tx-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Tx-Tokens of their own
 
-### Nested TraTs
-A workload within the call chain of such an external call MAY generate a new Nested TraT. To generate the Nested Trat, it creates a new JWT that includes the received TraT in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.
+### Nested Tx-Tokens
+A workload within the call chain of such an external call MAY generate a new Nested Tx-Token. To generate the Nested Tx-Token, it creates a new JWT that includes the received Tx-Token in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.
 
-## TraT Lifetime
-TraTs are expected to be short-lived (order of minutes, e.g. 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting TraT SHALL still be short-lived.
+## Tx-Token Lifetime
+Tx-Tokens are expected to be short-lived (order of minutes, e.g. 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Tx-Token SHALL still be short-lived.
 
-## Benefits of TraTs
-TraTs help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or robotic principal on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the TraT, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.
+## Benefits of Tx-Tokens
+Tx-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or robotic principal on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the Tx-Token, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.
 
-## TraT Issuance and Usage Flows
-The figure below shows how TraTs are used in an a multi-workload environment.
+## Tx-Token Issuance and Usage Flows
+The figure below shows how Tx-Tokens are used in an a multi-workload environment.
 
 ~~~ ascii-art
                               
@@ -188,19 +188,19 @@ The figure below shows how TraTs are used in an a multi-workload environment.
              +--------------+                       +---------------+
 
 ~~~
-Figure: Use of TraTs in multi-workload environments
+Figure: Use of Tx-Tokens in multi-workload environments
 
 - (A) The user accesses a resource server and present an Access Token obtained from an Authorization Server using an OAuth 2.0 or OpenID Connect flow.
-- (B) The resource server is implemented as a workload (Workload 1) and requests a Leaf Transaction Token (Leaf TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
-- (C) The Transaction Token Service (TraT Service) returns a Leaf Transaction Token (Leaf TraT) containing the requested claims that establish the identity of the original caller as well as additional claims that can be used to make authroization decisions and establish the call chain.
-- (D) The Resource Server (Workload 1) calls Workload 2 and passes the Leaf TraT for Workload 1. Workload 2 validates the TraT and makes an authorization decision by combining contextual information at its disposal with information in the TraT to make an Authorization Decision to accept or reject the call.
-- (E) Workload 2 is not required to add aditional information to the TraT and passes the unmodified TraT for Workload 1 to Workload 3. Workload 3 validates the TraT and makes an authorization decision by combining contextual information at its disposal with information in the TraT to make an Authorization Decision to accept or reject the call.
-- (F) Workload 3 generates a Nested TraT that includes additional call chain information.
-- (G) Workload 3 sends the Nested TraT to Workload 4. Workload 4 validates the Nested TraT and makes an authorization decision by combining contextual information at its disposal with information in the Nested TraT to make an Authorization Decision to accept or reject the call.
-- (H) Workload 4 needs a TraT containing information from the Authroization Server and requests a new Leaf Transaction Token (Leaf TraT) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
-- (I) The Transaction Token Service (TraT Service) returns a Leaf Transaction Token (Leaf TraT) containing the requested claims that include the call chain information included in the TraT as well as additional claims needed.
-- (J) Workload 4 sends the TraT to the Workload 5, who verifies it and extracts claims and combine it with contextual information for use in authroization decisions. Other workloads continue to pass TraTs, generate Nested TraTs or request Nested Trats.
-- (K) Workload n is the final workload in the call chain. It verifies the received TraT, extracts claims and combine it with contextual information for use in authroization decisions. 
+- (B) The resource server is implemented as a workload (Workload 1) and requests a Leaf Transaction Token (Leaf Tx-Token) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
+- (C) The Transaction Token Service (Tx-Token Service) returns a Leaf Transaction Token (Leaf Tx-Token) containing the requested claims that establish the identity of the original caller as well as additional claims that can be used to make authroization decisions and establish the call chain.
+- (D) The Resource Server (Workload 1) calls Workload 2 and passes the Leaf Tx-Token for Workload 1. Workload 2 validates the Tx-Token and makes an authorization decision by combining contextual information at its disposal with information in the Tx-Token to make an Authorization Decision to accept or reject the call.
+- (E) Workload 2 is not required to add aditional information to the Tx-Token and passes the unmodified Tx-Token for Workload 1 to Workload 3. Workload 3 validates the Tx-Token and makes an authorization decision by combining contextual information at its disposal with information in the Tx-Token to make an Authorization Decision to accept or reject the call.
+- (F) Workload 3 generates a Nested Tx-Token that includes additional call chain information.
+- (G) Workload 3 sends the Nested Tx-Token to Workload 4. Workload 4 validates the Nested Tx-Token and makes an authorization decision by combining contextual information at its disposal with information in the Nested Tx-Token to make an Authorization Decision to accept or reject the call.
+- (H) Workload 4 needs a Tx-Token containing information from the Authroization Server and requests a new Leaf Transaction Token (Leaf Tx-Token) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
+- (I) The Transaction Token Service (Tx-Token Service) returns a Leaf Transaction Token (Leaf Tx-Token) containing the requested claims that include the call chain information included in the Tx-Token as well as additional claims needed.
+- (J) Workload 4 sends the Tx-Token to the Workload 5, who verifies it and extracts claims and combine it with contextual information for use in authroization decisions. Other workloads continue to pass Tx-Tokens, generate Nested Tx-Tokens or request Nested Tx-Tokens.
+- (K) Workload n is the final workload in the call chain. It verifies the received Tx-Token, extracts claims and combine it with contextual information for use in authroization decisions. 
 
 # Notational Conventions
 
@@ -216,7 +216,7 @@ Workload:
 : An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
 
 Trust Domain:
-: A virtually or physically separated network which contains two or more workloads. The workloads within an Trust Domain MAY be invoked only through published interfaces. A Trust Domain MUST have a name that is used as the `aud` (audience) value in TraTs
+: A virtually or physically separated network which contains two or more workloads. The workloads within an Trust Domain MAY be invoked only through published interfaces. A Trust Domain MUST have a name that is used as the `aud` (audience) value in Tx-Tokens
 
 External Endpoint:
 : A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain
@@ -224,62 +224,62 @@ External Endpoint:
 Call Chain:
 : A sequence of invocations that results from the invocation of an external endpoint.
 
-Transaction Token (TraT):
-: A signed JWT that has a short lifetime, which provides immutable information about the user or robotic principal, certain parameters of the call and certain contextual attributes of the call. A TraT MAY contain a nested TraT
+Transaction Token (Tx-Token):
+: A signed JWT that has a short lifetime, which provides immutable information about the user or robotic principal, certain parameters of the call and certain contextual attributes of the call. A Tx-Token MAY contain a nested Tx-Token
 
-Leaf TraT:
-: A TraT that does not contain a `trat` claim in its JWT body
+Leaf Tx-Token:
+: A Tx-Token that does not contain a `tx_token` claim in its JWT body
 
-Nested TraT:
-: A TraT that contains a nested TraT in its JWT body as the value of the `trat` claim
+Nested Tx-Token:
+: A Tx-Token that contains a nested Tx-Token in its JWT body as the value of the `tx_token` claim
 
 Authorization Context:
 : A JSON object containing a set of claims that represent the immutable context of a call chain
 
-Transaction Token Service (TraT Service):
+Transaction Token Service (Tx-Token Service):
 : A special service within the Trust Domain which issues Transaction Tokens to requesting workloads
 
-# TraT Format
-A TraT is a JSON Web Token {{RFC7519}} that has a JSON Web Signature {{RFC7515}}. The following is true in a TraT:
+# Tx-Token Format
+A Tx-Token is a JSON Web Token {{RFC7519}} that has a JSON Web Signature {{RFC7515}}. The following is true in a Tx-Token:
 
-## JWT Header {#trat-header}
+## JWT Header {#tx-token-header}
 In the JWT Header:
 
-* The `typ` claim MUST be present and MUST have the value `trat`
+* The `typ` claim MUST be present and MUST have the value `tx_token`
 * Key rotation of the signing key SHOULD be supported through the use of a `kid` claim
 
-Below is a non-normative example of the JWT Header of a TraT
+Below is a non-normative example of the JWT Header of a Tx-Token
 
 ~~~ json
 {
-    "typ": "trat",
+    "typ": "tx_token",
     "alg": "RS256",
     "kid": "identifier-to-key"
 }
 ~~~
-{: #figtratheader title="Example: TraT Header"}
+{: #figtxtokenheader title="Example: Tx-Token Header"}
 
-## JWT Body {#trat-body}
+## JWT Body {#tx-token-body}
 
 ### Common Claims
-The JWT Body MUST have the following claims regardless of whether the TraT is a Leaf Trat or a Nested TraT:
+The JWT Body MUST have the following claims regardless of whether the Tx-Token is a Leaf Tx-Token or a Nested Tx-Token:
 
-* An `iss` claim, whose value is a URN {{RFC8141}} that uniquely identifies the workload or the TraT Service that created the TraT
-* An `iat` claim, whose value is the time at which the TraT was created
-* An `exp` claim, whose value is the time at which the TraT expires. Note that if this claim is in a Nested TraT, then this `exp` value MUST NOT exceed the `exp` value of the TraT included in the JWT Body
+* An `iss` claim, whose value is a URN {{RFC8141}} that uniquely identifies the workload or the Tx-Token Service that created the Tx-Token
+* An `iat` claim, whose value is the time at which the Tx-Token was created
+* An `exp` claim, whose value is the time at which the Tx-Token expires. Note that if this claim is in a Nested Tx-Token, then this `exp` value MUST NOT exceed the `exp` value of the Tx-Token included in the JWT Body
 
-### Leaf TraT Claims
-The following claims MUST be present in the JWT Body of a Leaf TraT
+### Leaf Tx-Token Claims
+The following claims MUST be present in the JWT Body of a Leaf Tx-Token
 
 * A `tid` claim, whose value is the unique identifier of entire call chain
 * A `sub_id` claim, whose value is the unique identifier of the user or robotic principal on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in {{SubjectIdentifiers}}
 * An `azc` claim, whose value is a JSON object that contains values that remain constant in the call chain
 
-Below is a non-normative example of the JWT Body of a Leaf TraT
+Below is a non-normative example of the JWT Body of a Leaf Tx-Token
 
 ~~~ json
 {
-    "iss": "https://trust-domain.com/trat-service",
+    "iss": "https://trust-domain.com/tx-token-service",
     "iat": "1686536226000",
     "exp": "1686536526000",
     "tid": "97053963-771d-49cc-a4e3-20aad399c312",
@@ -296,69 +296,69 @@ Below is a non-normative example of the JWT Body of a Leaf TraT
     }
 }
 ~~~
-{: #figleaftratbody title="Example: Leaf TraT Body"}
+{: #figleaftxtokenbody title="Example: Leaf Tx-Token Body"}
 
 
-### Nested TraT Claim
-The following claim MUST be present in a Nested TraT:
+### Nested Tx-Token Claim
+The following claim MUST be present in a Nested Tx-Token:
 
-* A `trat` claim, whose value is an encoded JWT representation of a TraT.
+* A `tx_token` claim, whose value is an encoded JWT representation of a Tx-Token.
 
-Below is a non-normative example the JWT Body of a nested TraT
+Below is a non-normative example the JWT Body of a nested Tx-Token
 
 ~~~ json
 {
     "iss": "https://trust-domain.com/fraud-detection",
     "iat": "1686536236000",
     "exp": "1686536526000",
-    "trat": "eyJ0eXAiOiJ0cmF0Iiwi...thwd8"
+    "tx_token": "eyJ0eXAiOiJ0cmF0Iiwi...thwd8"
 }
 ~~~
-{: #fignestedtratbody title="Example: Nested TraT Body"}
+{: #fignestedtxtokenbody title="Example: Nested Tx-Token Body"}
 
 
-# Requesting TraTs
-A workload requests a TraT from a TraT Service using OAuth 2.0 Token Exchange {{RFC8693}}. The request to obtain a TraT using this method is called a TraT Request, and a success response is called a TraT Response. A TraT Request is a Token Exchange Request as described in {{Section 2.1 of RFC8693}} with additional parameters. A TraT Response is a successful Token Response is a OAuth 2.0 token endpoint response as described in {{Section 5 of RFC6749}}, where the `token_type` in the response has the value `trat`.
+# Requesting Tx-Tokens
+A workload requests a Tx-Token from a Tx-Token Service using OAuth 2.0 Token Exchange {{RFC8693}}. The request to obtain a Tx-Token using this method is called a Tx-Token Request, and a success response is called a Tx-Token Response. A Tx-Token Request is a Token Exchange Request as described in {{Section 2.1 of RFC8693}} with additional parameters. A Tx-Token Response is a successful Token Response is a OAuth 2.0 token endpoint response as described in {{Section 5 of RFC6749}}, where the `token_type` in the response has the value `tx_token`.
 
-The TraT Service acts as an OAuth 2.0 {{RFC6749}} Authorization Server. The requesting workload acts as the OAuth 2.0 Client. It authenticates itself to the TraT Service through mechanisms defined in OAuth 2.0.
+The Tx-Token Service acts as an OAuth 2.0 {{RFC6749}} Authorization Server. The requesting workload acts as the OAuth 2.0 Client. It authenticates itself to the Tx-Token Service through mechanisms defined in OAuth 2.0.
 
-## TraT Request
-A TraT Request is an OAuth 2.0 Token Exchange Request as described in {{Section 2.1 of RFC8693}}, with an additional parameter in the request. The following is true of the TraT Request:
+## Tx-Token Request
+A Tx-Token Request is an OAuth 2.0 Token Exchange Request as described in {{Section 2.1 of RFC8693}}, with an additional parameter in the request. The following is true of the Tx-Token Request:
 
 * The `audience` value MUST be set to the Trust Domain name.
-* The `requested_token_type` value MUST be `urn:ietf:params:oauth:token-type:trat`
+* The `requested_token_type` value MUST be `urn:ietf:params:oauth:token-type:tx_token`
 * The `subject_token` value MUST be the external token received by the workload that authorized the call
 * The `subject_token_type` value MUST be present and indicate the type of the authorization token present in the `subject_token` parameter
 
-The following additional parameters MUST be present in a TraT Request:
+The following additional parameters MUST be present in a Tx-Token Request:
 
-* A parameter named `azc` , whose value is a JSON object. This object contains any information the TraT Service needs to understand the context of the incoming request.
+* A parameter named `azc` , whose value is a JSON object. This object contains any information the Tx-Token Service needs to understand the context of the incoming request.
 
-The following is a non-normative example of a TraT Request:
+The following is a non-normative example of a Tx-Token Request:
 
 ~~~ http
-POST /trat-service/token_endpoint HTTP 1.1
-Host: trat-service.trust-domain.com
+POST /tx-token-service/token_endpoint HTTP 1.1
+Host: tx-token-service.trust-domain.com
 Content-Type: application/x-www-form-urlencoded
 
-requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atrat
+requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atx_token
 &audience=http%3A%2F%2Ftrust-domain.com
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
 &azc=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
 
 ~~~
-{: #figtratrequest title="Example: TraT Request"}
+{: #figtxtokenrequest title="Example: Tx-Token Request"}
 
 
-## TraT Response
-A success response to a TraT Request by a TraT Service is called a TraT Response. If the TraT Service responds with an error, the error response is as described in {{Section 5.2 of RFC6749}}. The following is true of a TraT Response:
+## Tx-Token Response
+A success response to a Tx-Token Request by a Tx-Token Service is called a Tx-Token Response. If the Tx-Token Service responds with an error, the error response is as described in {{Section 5.2 of RFC6749}}. The following is true of a Tx-Token Response:
 
-* The `token_type` value MUST be set to `trat`
-* The `access_token` value MUST be the TraT
+* The `token_type` value MUST be set to `tx_token`
+* The `access_token` value MUST be the Tx-Token
 * The response MUST NOT include the values `expires_in`, `refresh_token` and `scope`
 
-The following is a non-normative example of a TraT Response
+The following is a non-normative example of a Tx-Token Response
 
 ~~~ http
 HTTP/1.1 200 OK
@@ -366,17 +366,17 @@ Content-Type: application/json
 Cache-Control: non-cache, no-store
 
 {
-  "issued_token_type": "urn:ietf:params:oauth:token-type:trat",
+  "issued_token_type": "urn:ietf:params:oauth:token-type:tx_token",
   "access_token": "eyJCI6IjllciJ9...Qedw6rx"
 }
 ~~~
-{: #figtratresponse title="Example: TraT Response"}
+{: #figtxtokenresponse title="Example: Tx-Token Response"}
 
 
-# Creating Nested TraTs
-A workload within a call chain MAY create a Nested TraT. It does so by creating a new JWT that has all the header fields as described in {{trat-header}} and only a JWT Body that includes the `trat` claim as described in {{trat-body}}.
+# Creating Nested Tx-Tokens
+A workload within a call chain MAY create a Nested Tx-Token. It does so by creating a new JWT that has all the header fields as described in {{tx-token-header}} and only a JWT Body that includes the `tx_token` claim as described in {{tx-token-body}}.
 
-The expiration time of a enclosing TraT MAY NOT exceed the expiration time of an embedded TraT.
+The expiration time of a enclosing Tx-Token MAY NOT exceed the expiration time of an embedded Tx-Token.
 
 # IANA Considerations {#IANA}
 
@@ -384,25 +384,26 @@ This memo includes no request to IANA.
 
 # Security Considerations {#Security}
 
-## Mutual Authentication of the TraT Request
-A TraT Service MUST ensure that it authenticates any workloads requesting TraTs. In order to do so:
+## Mutual Authentication of the Tx-Token Request
+A Tx-Token Service MUST ensure that it authenticates any workloads requesting Tx-Tokens. In order to do so:
 
-* It MUST name a limited, pre-configured set of workloads that MAY request TraTs
+* It MUST name a limited, pre-configured set of workloads that MAY request Tx-Tokens
 * It MUST individually authenticate the requester as being one of the name requesters
 * It SHOULD rely on mechanisms such as {{Spiffe}} to securely authenticate the requester
 * It SHOULD NOT rely on insecure mechanisms such as long-lived shared secrets to authenticate the requesters
 
-The requesting workload MUST have a pre-configured location for the TraT Service. It SHOULD rely on mechanisms such as {{Spiffe}} to securely authenticate the TraT Service before making a TraT Request.
+The requesting workload MUST have a pre-configured location for the Tx-Token Service. It SHOULD rely on mechanisms such as {{Spiffe}} to securely authenticate the Tx-Token Service before making a Tx-Token Request.
 
 ## Sender Constrained Tokens
-Although TraTs are short-lived, they may be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor. 
+Although Tx-Tokens are short-lived, they may be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor. 
 
 ## Access Tokens
-When using nested TraTs, the nested TraT MUST NOT contain the Access Token presented to the resource server. If an Access Token is included in a TraT, an attacker may obtain a TraT, extract the Access Token, and replay it to the Resource Server. TraT expiry does not protect against this attack since the Access Token may remain valid even after the TraT has expired.
+When using nested Tx-Tokens, the nested Tx-Token MUST NOT contain the Access Token presented to the resource server. If an Access Token is included in a Tx-Token, an attacker may obtain a Tx-Token, extract the Access Token, and replay it to the Resource Server. Tx-Token expiry does not protect against this attack since the Access Token may remain valid even after the Tx-Token has expired.
 
 --- back
 
 # Acknowledgements {#Acknowledgements}
 {: numbered="false"}
+
 
 
