@@ -1,0 +1,784 @@
+
+
+
+
+oauth                                                   A. Tulshibagwale
+Internet-Draft                                                      SGNL
+Intended status: Informational                               G. Fletcher
+Expires: 16 December 2023                                    Capital One
+                                                            P. Kasselman
+                                                               Microsoft
+                                                            14 June 2023
+
+
+                           Transaction Tokens
+                      draft-transaction-tokens-00
+
+Abstract
+
+   Transaction Tokens (TraTs) enable workloads in a trusted domain to
+   ensure that user identity and authorization context of an external
+   programmatic request, such as an API invocation, is preserved and
+   available to all workloads that are invoked as part of processing
+   such a request.  TraTs also enable workloads within the trusted
+   domain to optionally immutably assert to downstream workloads that
+   they were invoked in the call chain of the request.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 16 December 2023.
+
+Copyright Notice
+
+   Copyright (c) 2023 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 1]
+
+Internet-Draft                    trat                         June 2023
+
+
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Overview  . . . . . . . . . . . . . . . . . . . . . . . . . .   3
+     2.1.  What are Transaction Tokens . . . . . . . . . . . . . . .   3
+       2.1.1.  Nesting . . . . . . . . . . . . . . . . . . . . . . .   3
+     2.2.  Creating TraTs  . . . . . . . . . . . . . . . . . . . . .   4
+       2.2.1.  Leaf TraTs  . . . . . . . . . . . . . . . . . . . . .   4
+       2.2.2.  Nested TraTs  . . . . . . . . . . . . . . . . . . . .   6
+     2.3.  TraT Lifetime . . . . . . . . . . . . . . . . . . . . . .   6
+     2.4.  Benefits of TraTs . . . . . . . . . . . . . . . . . . . .   6
+   3.  Notational Conventions  . . . . . . . . . . . . . . . . . . .   7
+   4.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   7
+   5.  TraT Format . . . . . . . . . . . . . . . . . . . . . . . . .   8
+     5.1.  JWT Header  . . . . . . . . . . . . . . . . . . . . . . .   8
+     5.2.  JWT Body  . . . . . . . . . . . . . . . . . . . . . . . .   8
+       5.2.1.  Common Claims . . . . . . . . . . . . . . . . . . . .   8
+       5.2.2.  Leaf TraT Claims  . . . . . . . . . . . . . . . . . .   8
+       5.2.3.  Nested TraT Claim . . . . . . . . . . . . . . . . . .   9
+   6.  Requesting TraTs  . . . . . . . . . . . . . . . . . . . . . .  10
+     6.1.  TraT Request  . . . . . . . . . . . . . . . . . . . . . .  10
+     6.2.  TraT Response . . . . . . . . . . . . . . . . . . . . . .  11
+   7.  Creating Nested TraTs . . . . . . . . . . . . . . . . . . . .  11
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
+     9.1.  Mutual Authentication of the TraT Request . . . . . . . .  12
+     9.2.  Sender Constrained Tokens . . . . . . . . . . . . . . . .  12
+     9.3.  Access Tokens . . . . . . . . . . . . . . . . . . . . . .  12
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  12
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  13
+   Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . .  14
+   Contributors  . . . . . . . . . . . . . . . . . . . . . . . . . .  14
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+
+1.  Introduction
+
+   Modern computing architectures often use multiple independently
+   running components called workloads.  In many cases, external
+   invocations through externally visible interfaces such as APIs result
+   in a number of internal workloads being invoked in order to process
+   the external invocation.  These workloads often run in virtually or
+   physically isolated networks.  These networks and the workloads
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 2]
+
+Internet-Draft                    trat                         June 2023
+
+
+   running within their perimeter may be compromised by attackers
+   through software supply chain, privileged user compromise or other
+   attacks.  Workloads compromised through external attacks, malicious
+   insiders or software errors can cause any or all of the following
+   unauthorized actions:
+
+   *  Invocations of workloads in the network without any external
+      invocation being present
+
+   *  Arbitrary user impersonation
+
+   *  Parameter modification or augmentation
+
+   The results of these actions are unauthorised access to resources.
+
+2.  Overview
+
+   Transaction Tokens are a means to mitigate damage from such attacks
+   or spurious invocations.  A valid TraT indicates a valid external
+   invocation; They ensure that the identity of the user or robotic
+   principal (e.g. workload) that made the external request is preserved
+   throughout subsequent workload invocations; And they preserve any
+   context such as:
+
+   *  Parameters of the original call
+
+   *  Environmental factors such as IP address of the original caller
+
+   *  Any computed context that needs to be preserved in the call chain
+
+   All this ensures that downstream workloads cannot make unauthorized
+   modifications to such information, and cannot make spurious calls
+   without the presence of an external trigger.
+
+2.1.  What are Transaction Tokens
+
+   Transaction Tokens (TraTs) are short-lived, signed JWTs [RFC7519]
+   that assert the identity of a user or robotic principal (e.g.
+   workload) and assert an authorization context.  The authorization
+   context provides information expected to remain constant during the
+   execution of a call as it passes through multiple workloads.
+
+2.1.1.  Nesting
+
+   Alternatively, a TraT MAY be a signed JWT that has a nested TraT in
+   its body.  This nesting enables workloads in a call chain to assert
+   their invocation during the call chain to downstream workloads.
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 3]
+
+Internet-Draft                    trat                         June 2023
+
+
+2.2.  Creating TraTs
+
+2.2.1.  Leaf TraTs
+
+   Leaf TraTs are typically created when a workload is invoked using an
+   endpoint that is externally visible, and is authorized using a
+   separate mechanism, such as an OAuth [RFC6749] token or an OpenID
+   Connect [OpenIdConnect] token.  This workload then performs an OAuth
+   2.0 Token Exchange [RFC8693] to obtain a TraT.  To do this, it
+   invokes a special Token Service (the TraT Service) and provides
+   context that is sufficient for it to generate a TraT.  This context
+   MAY include:
+
+   *  The external authorization token (e.g. the OAuth token)
+
+   *  Parameters that are required to be bound for the duration of this
+      call
+
+   *  Additional context such as incoming IP Address, User Agent, or
+      other information that can help the TraT Service to issue the TraT
+
+   The TraT Service responds to a successful invocation by generating a
+   TraT.  The calling workload then uses the TraT to authorize its calls
+   to subsequent workloads.  Subsequent workloads may obtain TraTs of
+   their own
+
+   Figure 1 below shows how TraTs are used in an a multi-workload
+   environment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 4]
+
+Internet-Draft                    trat                         June 2023
+
+
+                +--------------+   (B) TraT Request    +---------------+
+   (A)User  +---|  Resource    |---------------------->|               |
+      Start |   |   Server    |   (C) TraT Response   |  Transaction  |
+      Flow  +-->| (Workload 1) |<----------------------|     Token     |
+                +--------------+                       |    Server     |
+                       |                               |               |
+                       | (D) Send Request              |               |
+                       |       with                    |               |
+                       |   Workload 1 TraT             |               |
+                       v                               |               |
+                +--------------+   (E) TraT Request    |               |
+                |  Workload 2  |---------------------->|               |
+                |              |   (F) TraT Response   |               |
+                |              |<----------------------|               |
+                +--------------+                       |               |
+                       |  (G) Send Request             |               |
+                       |         with                  |               |
+                       |      Workload 2 TraT          |               |
+                       :                               |               |
+                       :                               |               |
+                       :                               |               |
+                       |  (H) Send Request             |               |
+                       |         with                  |               |
+                       |   Workload N-1 TraT           |               |
+                       v                               |               |
+                +--------------+    (I) TraT Request   |               |
+                |  Workload n  |---------------------->|               |
+                |              |   (J) TraT Response   |               |
+                |              |<----------------------|               |
+                +--------------+                       +---------------+
+
+   Figure: Use of TraTs in multi-workload environments
+
+   *  (A) The user accesses a resource server and present an Access
+      Token obtained from an Authorization Server using an OAuth 2.0 or
+      OpenID Connect flow.
+
+   *  (B) The resource server is implemented as a workload (Workload 1)
+      and requests a Transaction Token (TraT) from the Transaction Token
+      Server using the Token Exchange protocol [RFC8693].
+
+   *  (C) The Transaction Token Service (TraT Service) returns a
+      Transaction Token containing the requested claims that establish
+      the identity of the original caller, and additional claims that
+      can be used to make authroization decisions and establish the call
+      chain.
+
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 5]
+
+Internet-Draft                    trat                         June 2023
+
+
+   *  (D) The Resource Server (Workload 1) calls Workload 2 and passes
+      the TraT along with other parameters.  Workload 2 validates the
+      TraT and makes an authroization decision by combining contextual
+      information at its disposal with information in the TraT to make
+      an Authroization Decision to accept or reject the call.
+
+   *  (E) Workload 2 requests a Transaction Token (TraT) from the
+      Transaction Token Server using the Token Exchange protocol
+      [RFC8693].
+
+   *  (F) The Transaction Token Service (TraT Service) returns a
+      Transaction Token containing the requested claims that establish
+      the identity of the original caller, workload 1 and the call chain
+      and additional claims that can be made to make authroization
+      decisions.
+
+   *  (G-J) The pattern of sending a TraT to the next workload where it
+      is used as part of an Authroization Decision before obtaining a
+      new Trat for use with the next call repeats until the call chain
+      completes.
+
+2.2.2.  Nested TraTs
+
+   A workload within the call chain of such an external call MAY
+   generate a new Nested TraT.  To generate the Nested Trat, it creates
+   a new JWT that includes the received TraT in the body and signs the
+   JWT itself so that subsequent workloads know that the signing
+   workload was in the path of the call chain.
+
+2.3.  TraT Lifetime
+
+   TraTs are expected to be short-lived (order of minutes, e.g. 5
+   minutes), and as a result MAY be used only for the expected duration
+   of an external invocation.  If a long-running process such as an
+   batch or offline task is involved, it can use a separate mechanism to
+   perform the external invocation, but the resulting TraT SHALL still
+   be short-lived.
+
+2.4.  Benefits of TraTs
+
+   TraTs help prevent spurious invocations by ensuring that a workload
+   receiving an invocation can independently verify the user or robotic
+   principal on whose behalf an external call was made and any context
+   relevant to the processing of the call.  Through the presence of
+   additional signatures on the TraT, a workload receiving an invocation
+   can also independently verify that specific workloads were within the
+   path of the call before it was invoked.
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 6]
+
+Internet-Draft                    trat                         June 2023
+
+
+3.  Notational Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in BCP
+   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+4.  Terminology
+
+   Workload:  An independent computational unit that can autonomously
+      receive and process invocations, and can generate invocations of
+      other workloads.  Examples of workloads include containerized
+      microservices, monolithic services and infrastructure services
+      such as managed databases.
+
+   Trust Domain:  A virtually or physically separated network which
+      contains two or more workloads.  The workloads within an Trust
+      Domain MAY be invoked only through published interfaces.  A Trust
+      Domain MUST have a name that is used as the aud (audience) value
+      in TraTs
+
+   External Endpoint:  A published interface to an Trust Domain that
+      results in the invocation of a workload within the Trust Domain
+
+   Call Chain:  A sequence of invocations that results from the
+      invocation of an external endpoint.
+
+   Transaction Token (TraT):  A signed JWT that has a short lifetime,
+      which provides immutable information about the user or robotic
+      principal, certain parameters of the call and certain contextual
+      attributes of the call.  A TraT MAY contain a nested TraT
+
+   Leaf TraT:  A TraT that does not contain a trat claim in its JWT body
+
+   Nested TraT:  A TraT that contains a nested TraT in its JWT body as
+      the value of the trat claim
+
+   Authorization Context:  A JSON object containing a set of claims that
+      represent the immutable context of a call chain
+
+   Transaction Token Service (TraT Service):  A special service within
+      the Trust Domain which issues Transaction Tokens to requesting
+      workloads
+
+
+
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 7]
+
+Internet-Draft                    trat                         June 2023
+
+
+5.  TraT Format
+
+   A TraT is a JSON Web Token [RFC7519] that has a JSON Web Signature
+   [RFC7515].  The following is true in a TraT:
+
+5.1.  JWT Header
+
+   In the JWT Header:
+
+   *  The typ claim MUST be present and MUST have the value trat
+
+   *  Key rotation of the signing key SHOULD be supported through the
+      use of a kid claim
+
+   Below is a non-normative example of the JWT Header of a TraT
+
+   {
+       "typ": "trat",
+       "alg": "RS256",
+       "kid": "identifier-to-key"
+   }
+
+                       Figure 1: Example: TraT Header
+
+5.2.  JWT Body
+
+5.2.1.  Common Claims
+
+   The JWT Body MUST have the following claims regardless of whether the
+   TraT is a Leaf Trat or a Nested TraT:
+
+   *  An iss claim, whose value is a URN [RFC8141] that uniquely
+      identifies the workload or the TraT Service that created the TraT
+
+   *  An iat claim, whose value is the time at which the TraT was
+      created
+
+   *  An exp claim, whose value is the time at which the TraT expires.
+      Note that if this claim is in a Nested TraT, then this exp value
+      MUST NOT exceed the exp value of the TraT included in the JWT Body
+
+5.2.2.  Leaf TraT Claims
+
+   The following claims MUST be present in the JWT Body of a Leaf TraT
+
+   *  A tid claim, whose value is the unique identifier of entire call
+      chain
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 8]
+
+Internet-Draft                    trat                         June 2023
+
+
+   *  A sub_id claim, whose value is the unique identifier of the user
+      or robotic principal on whose behalf the call chain is being
+      executed.  The format of this claim MAY be a Subject Identifier as
+      specified in [SubjectIdentifiers]
+
+   *  An azc claim, whose value is a JSON object that contains values
+      that remain constant in the call chain
+
+   Below is a non-normative example of the JWT Body of a Leaf TraT
+
+   {
+       "iss": "https://trust-domain.com/trat-service",
+       "iat": "1686536226000",
+       "exp": "1686536526000",
+       "tid": "97053963-771d-49cc-a4e3-20aad399c312",
+       "sub_id": {
+           "format": "email",
+           "email": "user@trust-domain.com"
+       },
+       "azc": {
+           "action": "BUY", // parameter of external call
+           "ticker": "MSFT", // parameter of external call
+           "quantity": "100", // parameter of external call
+           "user_ip": "69.151.72.123", // env context of external call
+           "user_level": "vip" // computed value not present in external call
+       }
+   }
+
+                     Figure 2: Example: Leaf TraT Body
+
+5.2.3.  Nested TraT Claim
+
+   The following claim MUST be present in a Nested TraT:
+
+   *  A trat claim, whose value is an encoded JWT representation of a
+      TraT.
+
+   Below is a non-normative example the JWT Body of a nested TraT
+
+   {
+       "iss": "https://trust-domain.com/fraud-detection",
+       "iat": "1686536236000",
+       "exp": "1686536526000",
+       "trat": "eyJ0eXAiOiJ0cmF0Iiwi...thwd8"
+   }
+
+                    Figure 3: Example: Nested TraT Body
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023                [Page 9]
+
+Internet-Draft                    trat                         June 2023
+
+
+6.  Requesting TraTs
+
+   A workload requests a TraT from a TraT Service using OAuth 2.0 Token
+   Exchange [RFC8693].  The request to obtain a TraT using this method
+   is called a TraT Request, and a success response is called a TraT
+   Response.  A TraT Request is a Token Exchange Request as described in
+   Section 2.1 of [RFC8693] with additional parameters.  A TraT Response
+   is a successful Token Response is a OAuth 2.0 token endpoint response
+   as described in Section 5 of [RFC6749], where the token_type in the
+   response has the value trat.
+
+   The TraT Service acts as an OAuth 2.0 [RFC6749] Authorization Server.
+   The requesting workload acts as the OAuth 2.0 Client.  It
+   authenticates itself to the TraT Service through mechanisms defined
+   in OAuth 2.0.
+
+6.1.  TraT Request
+
+   A TraT Request is an OAuth 2.0 Token Exchange Request as described in
+   Section 2.1 of [RFC8693], with an additional parameter in the
+   request.  The following is true of the TraT Request:
+
+   *  The audience value MUST be set to the Trust Domain name.
+
+   *  The requested_token_type value MUST be
+      urn:ietf:params:oauth:token-type:trat
+
+   *  The subject_token value MUST be the external token received by the
+      workload that authorized the call
+
+   *  The subject_token_type value MUST be present and indicate the type
+      of the authorization token present in the subject_token parameter
+
+   The following additional parameters MUST be present in a TraT
+   Request:
+
+   *  A parameter named azc , whose value is a JSON object.  This object
+      contains any information the TraT Service needs to understand the
+      context of the incoming request.
+
+   The following is a non-normative example of a TraT Request:
+
+
+
+
+
+
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023               [Page 10]
+
+Internet-Draft                    trat                         June 2023
+
+
+   POST /trat-service/token_endpoint HTTP 1.1
+   Host: trat-service.trust-domain.com
+   Content-Type: application/x-www-form-urlencoded
+
+   requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atrat
+   &audience=http%3A%2F%2Ftrust-domain.com
+   &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
+   &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
+   &azc=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
+
+                      Figure 4: Example: TraT Request
+
+6.2.  TraT Response
+
+   A success response to a TraT Request by a TraT Service is called a
+   TraT Response.  If the TraT Service responds with an error, the error
+   response is as described in Section 5.2 of [RFC6749].  The following
+   is true of a TraT Response:
+
+   *  The token_type value MUST be set to trat
+
+   *  The access_token value MUST be the TraT
+
+   *  The response MUST NOT include the values expires_in, refresh_token
+      and scope
+
+   The following is a non-normative example of a TraT Response
+
+   HTTP/1.1 200 OK
+   Content-Type: application/json
+   Cache-Control: non-cache, no-store
+
+   {
+     "issued_token_type": "urn:ietf:params:oauth:token-type:trat",
+     "access_token": "eyJCI6IjllciJ9...Qedw6rx"
+   }
+
+                      Figure 5: Example: TraT Response
+
+7.  Creating Nested TraTs
+
+   A workload within a call chain MAY create a Nested TraT.  It does so
+   by creating a new JWT that has all the header fields as described in
+   Section 5.1 and only a JWT Body that includes the trat claim as
+   described in Section 5.2.
+
+   The expiration time of a enclosing TraT MAY NOT exceed the expiration
+   time of an embedded TraT.
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023               [Page 11]
+
+Internet-Draft                    trat                         June 2023
+
+
+8.  IANA Considerations
+
+   This memo includes no request to IANA.
+
+9.  Security Considerations
+
+9.1.  Mutual Authentication of the TraT Request
+
+   A TraT Service MUST ensure that it authenticates any workloads
+   requesting TraTs.  In order to do so:
+
+   *  It MUST name a limited, pre-configured set of workloads that MAY
+      request TraTs
+
+   *  It MUST individually authenticate the requester as being one of
+      the name requesters
+
+   *  It SHOULD rely on mechanisms such as [Spiffe] to securely
+      authenticate the requester
+
+   *  It SHOULD NOT rely on insecure mechanisms such as long-lived
+      shared secrets to authenticate the requesters
+
+   The requesting workload MUST have a pre-configured location for the
+   TraT Service.  It SHOULD rely on mechanisms such as [Spiffe] to
+   securely authenticate the TraT Service before making a TraT Request.
+
+9.2.  Sender Constrained Tokens
+
+   Although TraTs are short-lived, they may be sender constrained as an
+   additional layer of defence to prevent them from being re-used by a
+   compromised or malicious workload under the control of a hostile
+   actor.
+
+9.3.  Access Tokens
+
+   When using nested TraTs, the nested TraT MUST NOT contain the Access
+   Token presented to the resource server.  If an Access Token is
+   included in a TraT, an attacker may obtain a TraT, extract the Access
+   Token, and replay it to the Resource Server.  TraT expiry does not
+   protect against this attack since the Access Token may remain valid
+   even after the TraT has expired.
+
+10.  References
+
+10.1.  Normative References
+
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023               [Page 12]
+
+Internet-Draft                    trat                         June 2023
+
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
+              RFC 6749, DOI 10.17487/RFC6749, October 2012,
+              <https://www.rfc-editor.org/info/rfc6749>.
+
+   [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
+              (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
+              <https://www.rfc-editor.org/info/rfc7519>.
+
+   [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
+              Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
+              2015, <https://www.rfc-editor.org/info/rfc7515>.
+
+   [RFC8141]  Saint-Andre, P. and J. Klensin, "Uniform Resource Names
+              (URNs)", RFC 8141, DOI 10.17487/RFC8141, April 2017,
+              <https://www.rfc-editor.org/info/rfc8141>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+   [RFC8693]  Jones, M., Nadalin, A., Campbell, B., Ed., Bradley, J.,
+              and C. Mortimore, "OAuth 2.0 Token Exchange", RFC 8693,
+              DOI 10.17487/RFC8693, January 2020,
+              <https://www.rfc-editor.org/info/rfc8693>.
+
+   [OpenIdConnect]
+              Sakimura, N., Bradley, J., Jones, M., Medeiros, B. de.,
+              and C. Mortimore, "OpenID Connect Core 1.0 incorporating
+              errata set 1", November 2014,
+              <https://openid.net/specs/openid-connect-core-1_0.html>.
+
+   [SubjectIdentifiers]
+              Backman, A., Scurtescu, M., and P. Jain, "Subject
+              Identifiers for Security Event Tokens", n.d.,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-
+              secevent-subject-identifiers>.
+
+10.2.  Informative References
+
+   [Spiffe]   Cloud Native Computing Foundation, "Secure Production
+              Identity Framework for Everyone", n.d.,
+              <https://spiffe.io/docs/latest/spiffe-about/overview/>.
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023               [Page 13]
+
+Internet-Draft                    trat                         June 2023
+
+
+Acknowledgements
+
+Contributors
+
+   Evan Gilman
+   SPIRL
+   Email: evan@spirl.com
+
+
+Authors' Addresses
+
+   Atul Tulshibagwale
+   SGNL
+   Email: atul@sgnl.ai
+
+
+   George Fletcher
+   Capital One
+   Email: george.fletcher@capitalone.com
+
+
+   Pieter Kasselman
+   Microsoft
+   Email: pieter.kasselman@microsoft.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tulshibagwale, et al.   Expires 16 December 2023               [Page 14]
