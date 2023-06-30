@@ -74,6 +74,17 @@ normative:
       org: Coinbase
     - name: Prachi Jain
       org: Fastly
+      
+  JWTEmbeddedTokens:
+    title: JSON Web Token (JWT) Embedded Tokens
+    target: https://www.ietf.org/archive/id/draft-yusef-oauth-nested-jwt-06.html
+    author:
+    - name: Rifaat Shekh-Yusef
+      org: E&Y
+    - name: Dick Hardt
+      org: Hellō
+    - name: Giuseppe De Marco
+      org: Dipartimento per la trasformazione digitale della Presidenza del Consiglio dei Ministri Italy
   
 informative:
   Spiffe:
@@ -112,7 +123,7 @@ All this ensures that downstream workloads cannot make unauthorized modification
 Transaction Tokens (Tx-Tokens) are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or robotic principal (e.g. workload) and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.
 
 ### Nesting
-Alternatively, a Tx-Token MAY be a signed JWT that has a nested Tx-Token in its body. This nesting enables workloads in a call chain to assert their invocation during the call chain to downstream workloads.
+Alternatively, a Tx-Token MAY be a JWT Embedded Token {{JWTEmbeddedTokens}}, which embeds a Tx-Token by value as described in {{Section 3.2.1 of JWTEmbeddedTokens}}. This nesting enables workloads in a call chain to assert their invocation during the call chain to downstream workloads.
 
 ## Creating Tx-Tokens
 
@@ -126,7 +137,7 @@ Leaf Tx-Tokens are typically created when a workload is invoked using an endpoin
 The Tx-Token Service responds to a successful invocation by generating a Tx-Token. The calling workload then uses the Tx-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Tx-Tokens of their own
 
 ### Nested Tx-Tokens
-A workload within the call chain of such an external call MAY generate a new Nested Tx-Token. To generate the Nested Tx-Token, it creates a new JWT that includes the received Tx-Token in the body and signs the JWT itself so that subsequent workloads know that the signing workload was in the path of the call chain.
+A workload within the call chain of such an external call MAY generate a new Nested Tx-Token. To generate the Nested Tx-Token, it creates a self-signed JWT Embedded Token {{JWTEmbeddedTokens}} that includes the received Tx-Token by value. Subsequent workloads can therefore know that the signing workload was in the path of the call chain.
 
 ## Tx-Token Lifetime
 Tx-Tokens are expected to be short-lived (order of minutes, e.g. 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Tx-Token SHALL still be short-lived.
@@ -199,7 +210,7 @@ Figure: Use of Tx-Tokens in multi-workload environments
 - (G) Workload 3 sends the Nested Tx-Token to Workload 4. Workload 4 validates the Nested Tx-Token and makes an authorization decision by combining contextual information at its disposal with information in the Nested Tx-Token to make an Authorization Decision to accept or reject the call.
 - (H) Workload 4 needs a Tx-Token containing information from the Authroization Server and requests a new Leaf Transaction Token (Leaf Tx-Token) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
 - (I) The Transaction Token Service (Tx-Token Service) returns a Leaf Transaction Token (Leaf Tx-Token) containing the requested claims that include the call chain information included in the Tx-Token as well as additional claims needed.
-- (J) Workload 4 sends the Tx-Token to the Workload 5, who verifies it and extracts claims and combine it with contextual information for use in authroization decisions. Other workloads continue to pass Tx-Tokens, generate Nested Tx-Tokens or request Nested Tx-Tokens.
+- (J) Workload 4 sends the Tx-Token to the Workload 5, who verifies it and extracts claims and combine it with contextual information for use in authroization decisions. Other workloads continue to pass Tx-Tokens, generate Nested Tx-Tokens or request new Tx-Tokens.
 - (K) Workload n is the final workload in the call chain. It verifies the received Tx-Token, extracts claims and combine it with contextual information for use in authroization decisions. 
 
 # Notational Conventions
@@ -231,7 +242,7 @@ Leaf Tx-Token:
 : A Tx-Token that does not contain a `tx_token` claim in its JWT body
 
 Nested Tx-Token:
-: A Tx-Token that contains a nested Tx-Token in its JWT body as the value of the `tx_token` claim
+: A JWT Embedded Token that embeds a Tx-Token by value {{Section 3.2.1 of JWTEmbeddedTokens}} .
 
 Authorization Context:
 : A JSON object containing a set of claims that represent the immutable context of a call chain
@@ -300,9 +311,10 @@ Below is a non-normative example of the JWT Body of a Leaf Tx-Token
 
 
 ### Nested Tx-Token Claim
-The following claim MUST be present in a Nested Tx-Token:
+A Nested Tx-Token is a JWT Embedded Token {{JWTEmbeddedTokens}}, which embeds a Tx-Token by value. The following claim MUST be present in a Nested Tx-Token:
 
-* A `tx_token` claim, whose value is an encoded JWT representation of a Tx-Token.
+* A `type` claim, whose value is `urn:ietf:params:oauth:token-type:tx_token`
+* A `token` claim, whose value is an encoded JWT representation of a Tx-Token.
 
 Below is a non-normative example the JWT Body of a nested Tx-Token
 
@@ -311,13 +323,14 @@ Below is a non-normative example the JWT Body of a nested Tx-Token
     "iss": "https://trust-domain.com/fraud-detection",
     "iat": "1686536236000",
     "exp": "1686536526000",
-    "tx_token": "eyJ0eXAiOiJ0cmF0Iiwi...thwd8"
+    "type": "urn:ietf:params:oauth:token-type:tx_token",
+    "token": "eyJ0eXAiOiJ0cmF0Iiwi...thwd8"
 }
 ~~~
 {: #fignestedtxtokenbody title="Example: Nested Tx-Token Body"}
 
 
-# Requesting Tx-Tokens
+# Requesting Leaf Tx-Tokens
 A workload requests a Tx-Token from a Tx-Token Service using OAuth 2.0 Token Exchange {{RFC8693}}. The request to obtain a Tx-Token using this method is called a Tx-Token Request, and a success response is called a Tx-Token Response. A Tx-Token Request is a Token Exchange Request as described in {{Section 2.1 of RFC8693}} with additional parameters. A Tx-Token Response is a successful Token Response is a OAuth 2.0 token endpoint response as described in {{Section 5 of RFC6749}}, where the `token_type` in the response has the value `tx_token`.
 
 The Tx-Token Service acts as an OAuth 2.0 {{RFC6749}} Authorization Server. The requesting workload acts as the OAuth 2.0 Client. It authenticates itself to the Tx-Token Service through mechanisms defined in OAuth 2.0.
@@ -374,7 +387,7 @@ Cache-Control: non-cache, no-store
 
 
 # Creating Nested Tx-Tokens
-A workload within a call chain MAY create a Nested Tx-Token. It does so by creating a new JWT that has all the header fields as described in {{tx-token-header}} and only a JWT Body that includes the `tx_token` claim as described in {{tx-token-body}}.
+A workload within a call chain MAY create a Nested Tx-Token. It does so by embedding the Tx-Token it receives by value in a JWT Embedded Token {{JWTEmbeddedTokens}}. Nested Tx-Tokens are self-signed and not requested from a separate service. 
 
 The expiration time of a enclosing Tx-Token MAY NOT exceed the expiration time of an embedded Tx-Token.
 
@@ -398,7 +411,7 @@ The requesting workload MUST have a pre-configured location for the Tx-Token Ser
 Although Tx-Tokens are short-lived, they may be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor. 
 
 ## Access Tokens
-When using nested Tx-Tokens, the nested Tx-Token MUST NOT contain the Access Token presented to the resource server. If an Access Token is included in a Tx-Token, an attacker may obtain a Tx-Token, extract the Access Token, and replay it to the Resource Server. Tx-Token expiry does not protect against this attack since the Access Token may remain valid even after the Tx-Token has expired.
+When creating Tx-Tokens, the Tx-Token MUST NOT contain the Access Token presented to the resource server. If an Access Token is included in a Tx-Token, an attacker may obtain a Tx-Token, extract the Access Token, and replay it to the Resource Server. Tx-Token expiry does not protect against this attack since the Access Token may remain valid even after the Tx-Token has expired.
 
 --- back
 
