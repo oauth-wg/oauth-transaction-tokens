@@ -150,14 +150,14 @@ The figure below shows how Tx-Tokens are used in an a multi-workload environment
 
 ~~~ ascii-art
                               
-             +--------------+   (B) TraT Request    +---------------+
+             +--------------+ (B) Tx-Token Request  +---------------+
 (A)User  +---|  Resource    |---------------------->|               |
-   Start |   |   Server     |   (C) TraT Response   |  Transaction  |
+   Start |   |   Server     | (C) Tx-Token Response |  Transaction  |
    Flow  +-->| (Workload 1) |<----------------------|     Token     |
              +--------------+                       |    Server     |
                     |                               |               |
                     | (D) Send Request              |               |
-                    |     with Leaf TraT            |               |
+                    |     with Leaf Tx-Token        |               |
                     |     for Workload 1            |               |
                     v                               |               |
              +--------------+                       |               |
@@ -166,25 +166,25 @@ The figure below shows how Tx-Tokens are used in an a multi-workload environment
              |              |                       |               |
              +--------------+                       |               |
                     |  (E) Use unmodified           |               |
-                    |      Leaf TraT                |               |
+                    |      Leaf Tx-Token            |               |
                     |      for Workload 1           |               |
                     v                               |               |
              +--------------+                       |               |
              |  Workload 3  |---+ (F) Create        |               |
-             |              |   |     Nested Trat   |               |
-             |              |<--+                   |               |
+             |              |   |     Nested        |               |
+             |              |<--+     Tx-Token      |               |
              +--------------+                       |               |
                     |  (G) Send request with        |               |
-                    |      Nested TraT for          |               |
+                    |      Nested Tx-Token for      |               |
                     |      Workload 3               |               |
                     v                               |               |
-             +--------------+   (H) TraT Request    |               |
+             +--------------+ (H) Tx-Token Request  |               |
              |  Workload 4  |---------------------->|               |
-             |              |   (I) TraT Response   |  Transaction  |
+             |              | (I) Tx-Token Response |  Transaction  |
              |              |<----------------------|     Token     |
              +--------------+                       |    Server     |
                     |  (J) Send request with        |               |
-                    |      Leaf TraT for            |               |
+                    |      Leaf Tx-Token for        |               |
                     |      Workload 5               |               | 
                     :                               |               |
                     :                               |               |
@@ -193,9 +193,9 @@ The figure below shows how Tx-Tokens are used in an a multi-workload environment
                     |                               |               |
                     v                               |               |
              +--------------+                       |               |
-             |  Workload n  | (K) TraT verified by  |               |
-             |              |     last workload in  |               |
-             |              |     callchain         |               |
+             |  Workload n  | (K) Tx-Token verified |               |
+             |              |     by last workload  |               |
+             |              |     in callchain      |               |
              +--------------+                       +---------------+
 
 ~~~
