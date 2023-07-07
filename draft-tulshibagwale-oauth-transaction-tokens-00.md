@@ -39,6 +39,11 @@ contributor:
   org: SPIRL
   email: evan@spirl.com
 
+- ins: H. Tschofenig
+  name: Hannes Tschofenig
+  org: Arm Ltd.
+  email: Hannes.Tschofenig@arm.com
+
 normative:
   RFC2119: # Keywords
   RFC6749: #OAuth
@@ -292,13 +297,13 @@ The following claims MUST be present in the JWT body of a Leaf Tx-Token:
 
 ~~~ json
 {
-    "iss": "https://trust-domain.com/tx-token-service",
+    "iss": "https://trust-domain.example/tx-token-service",
     "iat": "1686536226000",
     "exp": "1686536526000",
     "tid": "97053963-771d-49cc-a4e3-20aad399c312",
     "sub_id": {
         "format": "email",
-        "email": "user@trust-domain.com"
+        "email": "user@trust-domain.example"
     },
     "azc": {
         "action": "BUY", // parameter of external call
@@ -322,7 +327,7 @@ A Nested Tx-Token is a JWT Embedded Token {{JWTEmbeddedTokens}}, which embeds a 
 
 ~~~ json
 {
-    "iss": "https://trust-domain.com/fraud-detection",
+    "iss": "https://trust-domain.example/fraud-detection",
     "iat": "1686536236000",
     "exp": "1686536526000",
     "type": "urn:ietf:params:oauth:token-type:tx_token",
@@ -353,11 +358,11 @@ The following additional parameter MUST be present in a Tx-Token Request:
 
 ~~~ http
 POST /tx-token-service/token_endpoint HTTP 1.1
-Host: tx-token-service.trust-domain.com
+Host: tx-token-service.trust-domain.example
 Content-Type: application/x-www-form-urlencoded
 
 requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atx_token
-&audience=http%3A%2F%2Ftrust-domain.com
+&audience=http%3A%2F%2Ftrust-domain.example
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
 &azc=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
@@ -390,7 +395,7 @@ Cache-Control: non-cache, no-store
 # Creating Nested Tx-Tokens
 A workload within a call chain MAY create a Nested Tx-Token. It does so by embedding the Tx-Token it receives by value in a JWT Embedded Token {{JWTEmbeddedTokens}}. Nested Tx-Tokens are self-signed and not requested from a separate service. 
 
-The expiration time of a enclosing Tx-Token MAY NOT exceed the expiration time of an embedded Tx-Token.
+The expiration time of a enclosing Tx-Token MUST NOT exceed the expiration time of an embedded Tx-Token.
 
 # IANA Considerations {#IANA}
 
