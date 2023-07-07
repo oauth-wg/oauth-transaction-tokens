@@ -174,23 +174,25 @@ Tx-Tokens help prevent spurious invocations by ensuring that a workload receivin
                     v                               |               |
              +--------------+                       |               |
              |  Workload 3  |---+ (F) Create        |               |
-             |              |   |  Nested Tx-Token  |               |
-             |              |<--+                   |               |
+             |              |   |     Nested        |               |
+             |              |<--+     Tx-Token      |               |
              +--------------+                       |               |
                     |  (G) Send request with        |               |
                     |      Nested Tx-Token for      |               |
                     |      Workload 3               |               |
                     v                               |               |
-             +--------------+  (H) Tx-Token Request |               |
+             +--------------+ (H) Tx-Token Request  |               |
              |  Workload 4  |---------------------->|               |
-             |              |  (I) Tx-Token         |  Transaction  |
+             |              | (I) Tx-Token Response |  Transaction  |
              |              |<----------------------|     Token     |
              +--------------+                       |    Server     |
                     |  (J) Send request with        |               |
                     |      Leaf Tx-Token for        |               |
-                    :      Workload 5               |               | 
+                    |      Workload 5               |               |
                     :                               |               |
                     :                               |               |
+                    |                               |               |
+                    |                               |               |
                     |                               |               |
                     v                               |               |
              +--------------+                       |               |
