@@ -25,7 +25,7 @@ jobs:
       - name: Install xml2rfc
         run: pip install xml2rfc
       - name: Convert to rfc xml
-        run: kramdown-rfc2629 transaction-tokens.md > transaction-tokens.xml
+        run: kramdown-rfc2629 draft-tulshibagwale-transaction-tokens-00.md > transaction-tokens.xml
       - name: Render HTML
         run: xml2rfc transaction-tokens.xml --html -o index.html
       - name: Render Text
@@ -36,7 +36,7 @@ jobs:
           name: output
           path: |
             index.html
-            transaction-tokens.xml
+            transaction-tokens.txt
   publish-to-pages:
     if: github.ref == 'refs/heads/main'
     needs: [build-rfc]
