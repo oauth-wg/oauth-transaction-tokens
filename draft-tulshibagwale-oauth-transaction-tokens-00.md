@@ -390,7 +390,7 @@ Cache-Control: non-cache, no-store
 # Creating Nested Tx-Tokens
 A workload within a call chain MAY create a Nested Tx-Token. It does so by embedding the Tx-Token it receives by value in a JWT Embedded Token {{JWTEmbeddedTokens}}. Nested Tx-Tokens are self-signed and not requested from a separate service. 
 
-The expiration time of a enclosing Tx-Token MAY NOT exceed the expiration time of an embedded Tx-Token.
+The expiration time of a enclosing Tx-Token MUST NOT exceed the expiration time of an embedded Tx-Token.
 
 # IANA Considerations {#IANA}
 
