@@ -116,7 +116,7 @@ They preserve any context such as:
 
 * Parameters of the original call
 * Environmental factors, such as IP address of the original caller
-* Any context that needs to be preserved in the call chain
+* Any computed context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.
 
 Cryptographically protected Tx-Token ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.
 
