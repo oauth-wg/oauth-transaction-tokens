@@ -1,5 +1,5 @@
 .refcache
 .DS_store
-draft-tulshibagwale-oauth-transaction-tokens-00.xml
-draft-tulshibagwale-oauth-transaction-tokens-00.html
-draft-tulshibagwale-oauth-transaction-tokens-00.txt
+*.xml
+*.html
+*.txt
