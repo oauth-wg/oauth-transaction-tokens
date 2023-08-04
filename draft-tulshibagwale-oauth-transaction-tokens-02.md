@@ -6,7 +6,7 @@ submissiontype: IETF
 area: sec
 wg: oauth
 
-docname: draft-tulshibagwale-oauth-transaction-tokens-01
+docname: draft-tulshibagwale-oauth-transaction-tokens-02
 
 title: Transaction Tokens
 abbrev: Txn-Tokens
