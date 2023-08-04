@@ -153,73 +153,163 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 
 ## Txn-Token Issuance and Usage Flows
 
-{{fig-arch}} shows how Txn-Tokens are used in an a multi-workload environment.
+### Basic Flow {#basic-flow}
+{{fig-arch-basic}} shows the basic flow of how Txn-Tokens are used in an a multi-workload environment.
 
 ~~~ ascii-art
-                    | (A) Access Token
-                    | via external API
-                    v
-             +--------------+ (B) Txn-Token Request +---------------+
-             |  Resource    |---------------------->|               |
-             |   Server     | (C) Leaf Txn-Token    |  Transaction  |
-             | (Workload 1) |<----------------------|     Token     |
-             +--------------+                       |    Server     |
-                    |                               |               |
-                    | (D) Send Request              |               |
-                    |     with Leaf Txn-Token       |               |
-                    |     for Workload 1            |               |
-                    v                               |               |
-             +--------------+                       |               |
-             |  Workload 2  |                       |               |
-             |              |                       |               |
-             |              |                       |               |
-             +--------------+                       |               |
-                    |  (E) Use unmodified           |               |
-                    |      Leaf Txn-Token           |               |
-                    |      for Workload 1           |               |
-                    v                               |               |
-             +--------------+                       |               |
-             |  Workload 3  |---+ (F) Create        |               |
-             |              |   |     Nested        |               |
-             |              |<--+     Txn-Token     |               |
-             +--------------+                       |               |
-                    |  (G) Send request with        |               |
-                    |      Nested Txn-Token for     |               |
-                    |      Workload 3               |               |
-                    v                               |               |
-             +--------------+ (H) Txn-Token Request |               |
-             |  Workload 4  |---------------------->|               |
-             |              | (I) Txn-Token Response|  Transaction  |
-             |              |<----------------------|     Token     |
-             +--------------+                       |    Server     |
-                    |  (J) Send request with        |               |
-                    |      Leaf Txn-Token for       |               |
-                    |      Workload 5               |               |
-                    :                               |               |
-                    :                               |               |
-                    |                               |               |
-                    |                               |               |
-                    |                               |               |
-                    v                               |               |
-             +--------------+                       |               |
-             |  Workload n  | (K) Txn-Token verified|               |
-             |              |     by any workload   |               |
-             |              |     in call chain     |               |
-             +--------------+                       +---------------+
+                                                     
+     1    ┌──────────────┐    2      ┌──────────────┐
+─────────▶│              ├───────────▶              │
+          │   External   │           │  Txn-Token   │
+     7    │   Endpoint   │    3      │   Service    │
+◀─────────┤              ◀───────────│              │
+          └────┬───▲─────┘           └──────────────┘
+               │   │                                 
+             4 │   │ 6                               
+          ┌────▼───┴─────┐                           
+          │              │                           
+          │   Internal   │                           
+          │   µservice   │                           
+          │              │                           
+          └────┬───▲─────┘                           
+               │   │                                 
+               ▼   │                                 
+                 o                                   
+             5   o    6                              
+                 o                                   
+               │   ▲                                 
+               │   │                                 
+          ┌────▼───┴─────┐                           
+          │              │                           
+          │   Internal   │                           
+          │   µservice   │                           
+          │              │                           
+          └──────────────┘                           
 ~~~
-{: #fig-arch title="Use of Txn-Tokens in Multi-Workload Environments"}
+{: #fig-arch-basic title="Basic Transaction Tokens Architecture"}
 
-- (A) The user accesses a resource server and present an Access Token obtained from an Authorization Server using an OAuth 2.0 or an OpenID Connect flow.
-- (B) The resource server is implemented as a workload (Workload 1) and requests a Leaf Txn-Token from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
-- (C) The Transaction Token Service returns a Leaf Txn-Token containing the requested claims that establish the identity of the original caller as well as additional claims that can be used to make authorization decisions and establish the call chain.
-- (D) The Resource Server (Workload 1) calls Workload 2 and passes the Leaf Txn-Token for Workload 1. Workload 2 validates the Txn-Token and makes an authorization decision by combining contextual information at its disposal with information in the Txn-Token to make an authorization decision to accept or reject the call.
-- (E) Workload 2 is not required to add aditional information to the Txn-Token and passes the unmodified Txn-Token for Workload 1 to Workload 3. Workload 3 validates the Txn-Token and makes an authorization decision by combining contextual information at its disposal with information in the Txn-Token to make an authorization decision to accept or reject the call.
-- (F) Workload 3 generates a Nested Txn-Token that includes additional call chain information.
-- (G) Workload 3 sends the Nested Txn-Token to Workload 4. Workload 4 validates the Nested Txn-Token and makes an authorization decision by combining contextual information at its disposal with information in the Nested Txn-Token to make an authorization decision to accept or reject the call.
-- (H) Workload 4 needs a Txn-Token containing information from the Authroization Server and requests a new Leaf Transaction Token (Leaf Txn-Token) from the Transaction Token Server using the Token Exchange protocol {{RFC8693}}.
-- (I) The Transaction Token Service returns a Leaf Transaction Token (Leaf Txn-Token) containing the requested claims that include the call chain information included in the Txn-Token as well as additional claims needed.
-- (J) Workload 4 sends the Txn-Token to the Workload 5, who verifies it and extracts claims and combine it with contextual information for use in authroization decisions. Other workloads continue to pass Txn-Tokens, generate Nested Txn-Tokens or request new Txn-Tokens.
-- (K) Workload n is the final workload in the call chain. It verifies the received Txn-Token, extracts claims and combine it with contextual information for use in authroization decisions. 
+1. External endpoint is invoked using conventional authorization scheme such as access token
+2. External endpoint provides context and incoming authorization (e.g. access token) to the Txn-Token Service
+3. Txn-Token Service mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
+4. The external endpoint initiates a call to an internal microservice and provides the Txn-Token as authorization
+5. Subsequent calls to other internal microservices use the same Txn-Token to authorize calls
+6. Responses are provided to callers based on successful authorization by the invoked microservices.
+7. External client is provided a response to the external invocation
+
+### Nested Txn-Token Flow
+
+{{fig-arch-nested}} shows an internal microservice generating a Nested Txn-Token in the flow
+
+~~~ ascii-art
+                                                     
+     1    ┌──────────────┐    2      ┌──────────────┐
+─────────▶│              ├───────────▶              │
+          │   External   │           │  Txn-Token   │
+     9    │   Endpoint   │    3      │   Service    │
+◀─────────┤              ◀───────────│              │
+          └────┬───▲─────┘           └──────────────┘
+               │   │                                 
+             4 │   │ 8                               
+          ┌────▼───┴─────┐                           
+          │              │                           
+          │   Internal   │                           
+          │   µservice   │                           
+          │              │                           
+          └────┬───▲─────┘                           
+               │   │                                 
+               ▼   │                                 
+                 o                                   
+             5   o    8                              
+               │ o ▲                                 
+               │   │                                 
+               │   │                                 
+          ╔════▼═══╩═════╗                           
+          ║              ╠──────┐                    
+          ║   Internal   ║      │ 6                  
+          ║   µservice   ║      │                    
+          ║              ◀──────┘                    
+          ╚════╦═══▲═════╝                           
+               │   │                                 
+               ▼   │                                 
+                 o                                   
+             7   o    8                              
+                 o                                   
+               │   ▲                                 
+               │   │                                 
+          ┌────▼───┴─────┐                           
+          │              │                           
+          │   Internal   │                           
+          │   µservice   │                           
+          │              │                           
+          └──────────────┘                                              
+~~~
+{: #fig-arch-nested title="Flow with Nested Txn-Token generating service"}
+
+In the diagram above, steps 1-5 are the same as in {{basic-flow}}.
+
+{:start="6"}
+6. An internal microservice determines it needs to generate a Nested Txn-Token. It uses its own private key to generate a Nested Txn-Token.
+7. The internal microservice uses the Nested Txn-Token to authorize calls to downstream services
+8. Responses are provided to callers based on successful authorization by the invoked microservices.
+9. External client is provided a response to the external invocation
+
+### Replacement Txn-Token Flow
+
+An intermediate service may decide to obtain a replacement Txn-Token from the Txn-Token service. That flow is described below in {{fig-arch-replacement}}
+
+~~~ ascii-art
+                                                     
+     1    ┌──────────────┐    2      ┌──────────────┐
+─────────▶│              ├───────────▶              │
+          │   External   │           │              │
+     10   │   Endpoint   │    3      │              │
+◀─────────┤              ◀───────────│              │
+          └────┬───▲─────┘           │              │
+               │   │                 │              │
+             4 │   │ 9               │              │
+          ┌────▼───┴─────┐           │              │
+          │              │           │              │
+          │   Internal   │           │              │
+          │   µservice   │           │              │
+          │              │           │              │
+          └────┬───▲─────┘           │  Txn-Token   │
+               │   │                 │   Service    │
+               ▼   │                 │              │
+                 o                   │              │
+             5   o    9              │              │
+               │ o ▲                 │              │
+               │   │                 │              │
+               │   │                 │              │
+          ┌────▼───┴─────┐    6      │              │
+          │              ├───────────▶              │
+          │   Internal   │           │              │
+          │   µservice   │    7      │              │
+          │              ◀───────────│              │
+          └────┬───▲─────┘           │              │
+               │   │                 │              │
+               ▼   │                 └──────────────┘
+                 o                                   
+             8   o    9                              
+                 o                                   
+               │   ▲                                 
+               │   │                                 
+          ┌────▼───┴─────┐                           
+          │              │                           
+          │   Internal   │                           
+          │   µservice   │                           
+          │              │                           
+          └──────────────┘                           
+~~~
+{: #fig-arch-replacement title="Replacement Txn-Token Flow"}
+
+In the diagram above, steps 1-5 are the same as in {{basic-flow}}
+
+{:start="6"}
+6. An intermediate service determines that it needs to obtain a Replacement Txn-Token. It requests a Replacement Txn-Token from the Txn-Token Service. It passes the incoming Txn-Token in the request, along with any additional context it needs to send the Txn-Token Service.
+7. The Txn-Token Service responds with a replacement Txn-Token
+8. The service that requested the Replacement Txn-Token uses that Txn-Token for downstream call authorization
+9. Responses are provided to callers based on successful authorization by the invoked microservices.
+10. External client is provided a response to the external invocation
 
 # Notational Conventions
 
