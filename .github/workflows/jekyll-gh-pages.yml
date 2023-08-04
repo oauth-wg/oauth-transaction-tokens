@@ -25,7 +25,7 @@ jobs:
       - name: Install xml2rfc
         run: pip install xml2rfc
       - name: Convert to rfc xml
-        run: kramdown-rfc2629 draft-tulshibagwale-oauth-transaction-tokens-01.md > transaction-tokens.xml
+        run: kramdown-rfc2629 draft-tulshibagwale-oauth-transaction-tokens-02.md > transaction-tokens.xml
       - name: Render HTML
         run: xml2rfc transaction-tokens.xml --html -o index.html
       - name: Render Text
