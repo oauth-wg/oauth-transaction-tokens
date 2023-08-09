@@ -443,7 +443,7 @@ A Txn-Token Request is an OAuth 2.0 Token Exchange Request, as described in Sect
 
 The following additional parameter MUST be present in a Txn-Token Request:
 
-* A parameter named `azc` , whose value is a JSON object. This object contains any information the Transaction Token Service needs to understand the context of the incoming request.
+* A parameter named `rctx` , whose value is a JSON object. This object contains the request context, i.e. any information the Transaction Token Service needs to understand the context of the incoming request.
 
 {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
@@ -456,7 +456,7 @@ requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
 &audience=http%3A%2F%2Ftrust-domain.example
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-&azc=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
+&rctx=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
