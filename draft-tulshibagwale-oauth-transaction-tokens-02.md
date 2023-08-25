@@ -265,6 +265,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 In the diagram above, steps 1-5 are the same as in {{basic-flow}}.
 
 {:start="6"}
+
 6. An internal microservice determines it needs to generate a Nested Txn-Token. It uses its own private key to generate a Nested Txn-Token
 7. The internal microservice uses the Nested Txn-Token to authorize calls to downstream services
 8. Responses are provided to callers based on successful authorization by the invoked microservices
@@ -322,6 +323,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
 In the diagram above, steps 1-5 are the same as in {{basic-flow}}
 
 {:start="6"}
+
 6. An intermediate service determines that it needs to obtain a Replacement Txn-Token. It requests a Replacement Txn-Token from the Txn-Token Service. It passes the incoming Txn-Token in the request, along with any additional context it needs to send the Txn-Token Service.
 7. The Txn-Token Service responds with a replacement Txn-Token
 8. The service that requested the Replacement Txn-Token uses that Txn-Token for downstream call authorization
@@ -492,7 +494,7 @@ A successful response to a Txn-Token Request by a Transaction Token Service is c
 ~~~ http
 HTTP/1.1 200 OK
 Content-Type: application/json
-Cache-Control: non-cache, no-store
+Cache-Control: no-cache, no-store
 
 {
   "issued_token_type": "urn:ietf:params:oauth:token-type:txn_token",
@@ -525,7 +527,7 @@ A Replacement Txn-Token Request MAY include a Nested Txn-Token in its request. I
 
 If the Replacement Txn-Token Request has a Nested Txn-Token in the request's `subject_token` parameter, then the Transaction Token Server MAY include information about services that had signed the Nested Txn-Token that is requested to be replaced.
 
-If the Transaction Token Server wishes to include information about any nested Txn-Token signers, then it SHALL include a field named `previous_signers` in the `azc` value of the Txn-Token that it issues. The value of this field MUST be an array of strings. Each string is the the value of the `iss` field of a Nested Txn-Tokens received in the Replacement Txn-Token Request. Note that:
+If the Transaction Token Server wishes to include information about any nested Txn-Token signers, then it SHALL include a field named `previous_signers` in the `azc` value of the Txn-Token that it issues. The value of this field MUST be an array of strings. Each string is the value of the `iss` field of a Nested Txn-Tokens received in the Replacement Txn-Token Request. Note that:
 
 * A Nested Txn-Token is a recursive structure, and the `iss` value is present at each level of nesting
 * The Transaction Token Server MAY choose to include or exclude any `iss` value in the `previous_signers` field of the Txn-Token it generates
@@ -552,7 +554,7 @@ This memo includes no request to IANA.
 # Security Considerations {#Security}
 
 ## Txn-Token Lifetime
-A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, The a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.
+A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.
 
 Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the `refresh_token` field. A Txn-Token is also cannot be issued by presenting a `refresh_token`.
 
