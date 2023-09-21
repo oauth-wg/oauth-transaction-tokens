@@ -6,7 +6,7 @@ submissiontype: IETF
 area: sec
 wg: oauth
 
-docname: draft-tulshibagwale-oauth-transaction-tokens-02
+docname: draft-tulshibagwale-oauth-transaction-tokens-03
 
 title: Transaction Tokens
 abbrev: Txn-Tokens
@@ -51,7 +51,7 @@ contributor:
 
 normative:
   RFC2119: # Keywords
-  RFC5246: # TLS
+  RFC8446: # TLS
   RFC6749: #OAuth
   RFC7519: #JWT
   RFC7515: #JWS
@@ -537,7 +537,7 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 
 * It MUST name a limited, pre-configured set of workloads that MAY request Txn-Tokens
 * It MUST individually authenticate the requester as being one of the named requesters
-* It SHOULD rely on mechanisms, such as {{Spiffe}} or some other means of performing MTLS {{RFC5246}}, to securely authenticate the requester
+* It SHOULD rely on mechanisms, such as {{Spiffe}} or some other means of performing MTLS {{RFC8446}}, to securely authenticate the requester
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesters
 
 The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as {{Spiffe}}, to securely authenticate the Transaction Token Service before making a Txn-Token Request.
