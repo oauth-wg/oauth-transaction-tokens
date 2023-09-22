@@ -396,10 +396,10 @@ The JWT body MUST have the following claims regardless of whether the Txn-Token 
 * An `iat` claim, whose value is the time at which the Txn-Token was created.
 * An `exp` claim, whose value is the time at which the Txn-Token expires. Note that if this claim is in a Nested Txn-Token, then this `exp` value MUST NOT exceed the `exp` value of the Txn-Token included in the JWT Body.
 
-### Leaf Txn-Token Claims
+### Leaf Txn-Token Claims {#txn-token-claims}
 The following claims MUST be present in the JWT body of a Leaf Txn-Token:
 
-* A `tid` claim, whose value is the unique identifier of entire call chain.
+* A `txn` claim, whose value is the unique identifier of entire call chain.
 * A `sub_id` claim, whose value is the unique identifier of the user or workload on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in {{SubjectIdentifiers}}.
 * An `azc` claim, whose value is a JSON object that contains values that remain constant in the call chain.
 
@@ -410,7 +410,7 @@ The following claims MUST be present in the JWT body of a Leaf Txn-Token:
     "iss": "https://trust-domain.example/txn-token-service",
     "iat": "1686536226000",
     "exp": "1686536526000",
-    "tid": "97053963-771d-49cc-a4e3-20aad399c312",
+    "txn": "97053963-771d-49cc-a4e3-20aad399c312",
     "sub_id": {
         "format": "email",
         "email": "user@trust-domain.example"
@@ -549,7 +549,23 @@ The expiration time of a enclosing Txn-Token MUST NOT exceed the expiration time
 
 # IANA Considerations {#IANA}
 
-This memo includes no request to IANA.
+This specification registers the following claims defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
+
+## OAuth Registry Contents
+
+* Name: `txn_token`
+* Description: JWT of type Transaction Token
+* Additional Token Endpoint Response Parameters: none
+* HTTP Authentication Schemes: TLS {{RFC8446}}
+* Change Controller: IESG
+* Specification Document: Section {{txn-token-header}} of this specificaiton
+
+## JWT Registry Contents
+
+* Claim Name: `azc`
+* Claim Description: The authorization context
+* Change Controller: IESG
+* Specification Document: Section {{txn-token-claims}} of this specification
 
 # Security Considerations {#Security}
 
