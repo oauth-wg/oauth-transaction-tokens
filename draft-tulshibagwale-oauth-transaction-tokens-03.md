@@ -562,11 +562,6 @@ This specification registers the following claims defined in Section {{txn-token
 
 ## JWT Registry Contents
 
-* Claim Name: `txn`
-* Claim Description: Unique transaction identifier
-* Change Controller: IESG
-* Specification Document: Section {{txn-token-claims}} of this specification
-
 &nbsp;
 &nbsp;
 
