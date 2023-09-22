@@ -562,9 +562,6 @@ This specification registers the following claims defined in Section {{txn-token
 
 ## JWT Registry Contents
 
-&nbsp;
-&nbsp;
-
 * Claim Name: `azc`
 * Claim Description: The authorization context
 * Change Controller: IESG
