@@ -58,6 +58,7 @@ normative:
   RFC8141: # URN
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
+  RFC8417: # Secure Event Token (SET)
   
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
@@ -308,7 +309,7 @@ The JWT body MUST have the following claims:
 * An `iss` claim, whose value is a URN {{RFC8141}} that uniquely identifies the workload or the Txn-Token Service that created the Txn-Token.
 * An `iat` claim, whose value is the time at which the Txn-Token was created.
 * An `exp` claim, whose value is the time at which the Txn-Token expires.
-* A `txn` claim, whose value is the unique identifier of entire call chain.
+* A `txn` claim, whose value is the unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
 * A `sub_id` claim, whose value is the unique identifier of the user or workload on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in {{SubjectIdentifiers}}.
 * An `azc` claim, whose value is a JSON object that contains values that remain constant in the call chain.
 
