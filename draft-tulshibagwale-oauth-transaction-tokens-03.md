@@ -308,28 +308,50 @@ The JWT body MUST have the following claims:
 
 * An `iss` claim, whose value is a URN {{RFC8141}} that uniquely identifies the workload or the Txn-Token Service that created the Txn-Token.
 * An `iat` claim, whose value is the time at which the Txn-Token was created.
+* An `aud` claim, whose value is a URN {{RFC8141}} that uniquely identifies the audience of the Txn-Token. This MUST identify the trust domain in which the Txn-Token is used.
 * An `exp` claim, whose value is the time at which the Txn-Token expires.
 * A `txn` claim, whose value is the unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
 * A `sub_id` claim, whose value is the unique identifier of the user or workload on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in {{SubjectIdentifiers}}.
 * An `azc` claim, whose value is a JSON object that contains values that remain constant in the call chain.
 
-{{figleaftxtokenbody}} shows a non-normative example of the JWT body of a Txn-Token:
+### Optional Claims
+The JWT body MAY have the following claims:
+
+#### Originator
+The Txn-Token MAY contain an `orig` claim, whose value is a JSON object the describes the origin of the transaction. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
+
+The JSON value of the `orig` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
+* `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
+* `authn` The authentication method used to idenitfy the requester. Its value is a URN that uniquely identifies the method used.
+* `req_gw` A URN that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
+
+#### Purpose
+The Txn-Token MAY contain a `purp` claim, whose value specifies the purpose of the transaction. The format of this claim is a JSON string.
+
+### Example
+The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT body of a Txn-Token:
 
 ~~~ json
 {
     "iss": "https://trust-domain.example/txn-token-service",
     "iat": "1686536226000",
+    "aud": "trust-domain.example",
     "exp": "1686536526000",
     "txn": "97053963-771d-49cc-a4e3-20aad399c312",
     "sub_id": {
         "format": "email",
         "email": "user@trust-domain.example"
     },
+    "orig": {
+      "req_ip": "69.151.72.123", // env context of external call
+      "authn": "urn:ietf:rfc:6749", // env context of the external call
+      "req_gw": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
+    },
+    "purp" : "trade.stocks",
     "azc": {
         "action": "BUY", // parameter of external call
         "ticker": "MSFT", // parameter of external call
         "quantity": "100", // parameter of external call
-        "user_ip": "69.151.72.123", // env context of external call
         "user_level": "vip" // computed value not present in external call
     }
 }
@@ -397,6 +419,8 @@ Cache-Control: no-cache, no-store
 A workload within a call chain may request the Transaction Token Server to replace a Txn-Token.
 
 Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.
+
+The value of the `aud` claim MUST remain unchanged in a replacement Txn-Token. If the claim `orig` is present in the original Txn-Token, then it MUST be present unchanged in the replacement Txn-Token.
 
 ### Txn-Token Service Responsibilities
 A Txn-Token Service replacing a Txn-Token must consider that modifying previously asserted values from existing Txn-Tokens can completely negate the benefits of Txn-Tokens. When issuing replacement Txn-Tokens, a Transaction Token Server therefore:
