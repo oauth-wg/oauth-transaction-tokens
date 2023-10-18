@@ -317,15 +317,15 @@ The JWT body MUST have the following claims:
 ### Optional Claims
 The JWT body MAY have the following claims:
 
-#### Requester Context {{#requester-context}}
+#### Requester Context {#requester-context}
 The Txn-Token MAY contain an `req_ctx` claim, whose value is a JSON object the describes the requester context of the transaction. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
 
-The JSON value of the `orig` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
+The JSON value of the `req_ctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
 * `authn` The authentication method used to idenitfy the requester. Its value is a URN that uniquely identifies the method used.
 * `req_wl` The requesting workload. A URN that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
 
-#### Purpose {{purpose}}
+#### Purpose {#purpose}
 The Txn-Token MAY contain a `purp` claim, whose value specifies the purpose of the transaction. The format of this claim is a JSON string.
 
 ### Example
@@ -420,7 +420,7 @@ A workload within a call chain may request the Transaction Token Server to repla
 
 Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.
 
-The value of the `aud` claim MUST remain unchanged in a replacement Txn-Token. If the claim `orig` is present in the original Txn-Token, then it MUST be present unchanged in the replacement Txn-Token.
+The value of the `aud` claim MUST remain unchanged in a replacement Txn-Token. If the claim `req_ctx` is present in the original Txn-Token, then it MUST be present unchanged in the replacement Txn-Token.
 
 ### Txn-Token Service Responsibilities
 A Txn-Token Service replacing a Txn-Token must consider that modifying previously asserted values from existing Txn-Tokens can completely negate the benefits of Txn-Tokens. When issuing replacement Txn-Tokens, a Transaction Token Server therefore:
