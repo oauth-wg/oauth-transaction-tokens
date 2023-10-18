@@ -312,20 +312,20 @@ The JWT body MUST have the following claims:
 * An `exp` claim, whose value is the time at which the Txn-Token expires.
 * A `txn` claim, whose value is the unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
 * A `sub_id` claim, whose value is the unique identifier of the user or workload on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in {{SubjectIdentifiers}}.
-* An `azc` claim, whose value is a JSON object that contains values that remain constant in the call chain.
+* An `azd` claim, whose value is a JSON object that contains values that remain constant in the call chain.
 
 ### Optional Claims
 The JWT body MAY have the following claims:
 
-#### Originator
-The Txn-Token MAY contain an `orig` claim, whose value is a JSON object the describes the origin of the transaction. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
+#### Requester Context {{#requester-context}}
+The Txn-Token MAY contain an `req_ctx` claim, whose value is a JSON object the describes the requester context of the transaction. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
 
 The JSON value of the `orig` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
 * `authn` The authentication method used to idenitfy the requester. Its value is a URN that uniquely identifies the method used.
-* `req_gw` A URN that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
+* `req_wl` The requesting workload. A URN that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
 
-#### Purpose
+#### Purpose {{purpose}}
 The Txn-Token MAY contain a `purp` claim, whose value specifies the purpose of the transaction. The format of this claim is a JSON string.
 
 ### Example
@@ -342,13 +342,13 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
         "format": "email",
         "email": "user@trust-domain.example"
     },
-    "orig": {
+    "req_ctx": {
       "req_ip": "69.151.72.123", // env context of external call
       "authn": "urn:ietf:rfc:6749", // env context of the external call
-      "req_gw": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
+      "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
     },
     "purp" : "trade.stocks",
-    "azc": {
+    "azd": {
         "action": "BUY", // parameter of external call
         "ticker": "MSFT", // parameter of external call
         "quantity": "100", // parameter of external call
@@ -460,10 +460,20 @@ This specification registers the following claims defined in Section {{txn-token
 
 ## JWT Registry Contents
 
-* Claim Name: `azc`
-* Claim Description: The authorization context
+* Claim Name: `azd`
+* Claim Description: The authorization context details
 * Change Controller: IESG
 * Specification Document: Section {{txn-token-claims}} of this specification
+
+* Claim Name: `req_ctx`
+* Claim Description: The requester context
+* Change Controller: IESG
+* Specification Document: Section {{requester-context}} of this specification
+
+* Claim Name: `purp`
+* Claim Description: The purpose of the transaction
+* Change Controller: IESG
+* Specification Document: Section {{purpose}} of this specification
 
 # Security Considerations {#Security}
 
