@@ -49,6 +49,11 @@ contributor:
   org: SPIRL
   email: evan@spirl.com
 
+- ins: A. Schwenkschuster
+  name: Arndt Schwenkschuster
+  org: Microsoft
+  email: arndts@microsoft.com
+
 normative:
   RFC2119: # Keywords
   RFC8446: # TLS
