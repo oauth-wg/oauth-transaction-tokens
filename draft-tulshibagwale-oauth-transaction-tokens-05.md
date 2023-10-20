@@ -467,19 +467,19 @@ This specification registers the following claims defined in Section {{txn-token
 ## JWT Registry Contents
 
 * Claim Name: `azd`
-* Claim Description: The authorization context details
-* Change Controller: IESG
-* Specification Document: Section {{txn-token-claims}} of this specification
+  * Claim Description: The authorization context details
+  * Change Controller: IESG
+  * Specification Document: Section {{txn-token-claims}} of this specification
 
 * Claim Name: `req_ctx`
-* Claim Description: The requester context
-* Change Controller: IESG
-* Specification Document: Section {{requester-context}} of this specification
+  * Claim Description: The requester context
+  * Change Controller: IESG
+  * Specification Document: Section {{requester-context}} of this specification
 
 * Claim Name: `purp`
-* Claim Description: The purpose of the transaction
-* Change Controller: IESG
-* Specification Document: Section {{purpose}} of this specification
+  * Claim Description: The purpose of the transaction
+  * Change Controller: IESG
+  * Specification Document: Section {{purpose}} of this specification
 
 # Security Considerations {#Security}
 
