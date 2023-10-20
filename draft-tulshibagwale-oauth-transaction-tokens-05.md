@@ -6,7 +6,7 @@ submissiontype: IETF
 area: sec
 wg: oauth
 
-docname: draft-tulshibagwale-oauth-transaction-tokens-04
+docname: draft-tulshibagwale-oauth-transaction-tokens-05
 
 title: Transaction Tokens
 abbrev: Txn-Tokens
@@ -326,6 +326,7 @@ The JWT body MAY have the following claims:
 The Txn-Token MAY contain an `req_ctx` claim, whose value is a JSON object the describes the requester context of the transaction. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
 
 The JSON value of the `req_ctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
+
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
 * `authn` The authentication method used to idenitfy the requester. Its value is a URN that uniquely identifies the method used.
 * `req_wl` The requesting workload. A URN that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
