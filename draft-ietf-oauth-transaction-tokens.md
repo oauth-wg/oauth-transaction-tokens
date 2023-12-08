@@ -6,7 +6,7 @@ submissiontype: IETF
 area: sec
 wg: oauth
 
-docname: draft-ietf-oauth-transaction-tokens-00
+docname: draft-ietf-oauth-transaction-tokens-latest
 
 title: Transaction Tokens
 abbrev: Txn-Tokens
@@ -22,17 +22,17 @@ author:
   name: Atul Tulshibagwale
   org: SGNL
   email: atul@sgnl.ai
-  
+
 - ins: G. Fletcher
   name: George Fletcher
   org: Capital One
   email: george.fletcher@capitalone.com
-  
+
 - ins: P. Kasselman
   name: Pieter Kasselman
   org: Microsoft
   email: pieter.kasselman@microsoft.com
-  
+
 contributor:
 - ins: K. Burgin
   name: Dr. Kelley W. Burgin, PhD.
@@ -64,7 +64,7 @@ normative:
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
-  
+
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
     target: https://openid.net/specs/openid-connect-core-1_0.html
@@ -91,7 +91,7 @@ normative:
       org: Coinbase
     - name: Prachi Jain
       org: Fastly
-      
+
 informative:
   Spiffe:
     title: Secure Production Identity Framework for Everyone
@@ -110,7 +110,7 @@ Transaction Tokens (Txn-Tokens) enable workloads in a trusted domain to ensure t
 Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
 
 * Invocations of workloads in the network without any external invocation being present
-* Arbitrary user impersonation 
+* Arbitrary user impersonation
 * Parameter modification or augmentation
 
 The results of these actions are unauthorised access to resources.
@@ -146,7 +146,7 @@ A service within a call chain may choose to replace the Txn-Token. This can typi
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.
 
 ## Txn-Token Lifetime
-Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived. 
+Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
 
 ## Benefits of Txn-Tokens
 Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the Txn-Token, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.
@@ -157,34 +157,34 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 {{fig-arch-basic}} shows the basic flow of how Txn-Tokens are used in an a multi-workload environment.
 
 ~~~ ascii-art
-                                                     
+
      1    ┌──────────────┐    2      ┌──────────────┐
 ─────────▶│              ├───────────▶              │
           │   External   │           │  Txn-Token   │
      7    │   Endpoint   │    3      │   Service    │
 ◀─────────┤              ◀───────────│              │
           └────┬───▲─────┘           └──────────────┘
-               │   │                                 
-             4 │   │ 6                               
-          ┌────▼───┴─────┐                           
-          │              │                           
-          │   Internal   │                           
-          │  µ-service   │                           
-          │              │                           
-          └────┬───▲─────┘                           
-               │   │                                 
-               ▼   │                                 
-                 o                                   
-             5   o    6                              
-                 o                                   
-               │   ▲                                 
-               │   │                                 
-          ┌────▼───┴─────┐                           
-          │              │                           
-          │   Internal   │                           
-          │  µ-service   │                           
-          │              │                           
-          └──────────────┘                                        
+               │   │
+             4 │   │ 6
+          ┌────▼───┴─────┐
+          │              │
+          │   Internal   │
+          │  µ-service   │
+          │              │
+          └────┬───▲─────┘
+               │   │
+               ▼   │
+                 o
+             5   o    6
+                 o
+               │   ▲
+               │   │
+          ┌────▼───┴─────┐
+          │              │
+          │   Internal   │
+          │  µ-service   │
+          │              │
+          └──────────────┘
 ~~~
 {: #fig-arch-basic title="Basic Transaction Tokens Architecture"}
 
@@ -201,7 +201,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 An intermediate service may decide to obtain a replacement Txn-Token from the Txn-Token service. That flow is described below in {{fig-arch-replacement}}
 
 ~~~ ascii-art
-                                                     
+
      1    ┌──────────────┐    2      ┌──────────────┐
 ─────────▶│              ├───────────▶              │
           │   External   │           │              │
@@ -231,17 +231,17 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
           └────┬───▲─────┘           │              │
                │   │                 │              │
                ▼   │                 └──────────────┘
-                 o                                   
-             8   o    9                              
-                 o                                   
-               │   ▲                                 
-               │   │                                 
-          ┌────▼───┴─────┐                           
-          │              │                           
-          │   Internal   │                           
-          │  µ-service   │                           
-          │              │                           
-          └──────────────┘                           
+                 o
+             8   o    9
+                 o
+               │   ▲
+               │   │
+          ┌────▼───┴─────┐
+          │              │
+          │   Internal   │
+          │  µ-service   │
+          │              │
+          └──────────────┘
 ~~~
 {: #fig-arch-replacement title="Replacement Txn-Token Flow"}
 
@@ -432,7 +432,7 @@ The value of the `aud` claim MUST remain unchanged in a replacement Txn-Token. I
 A Txn-Token Service replacing a Txn-Token must consider that modifying previously asserted values from existing Txn-Tokens can completely negate the benefits of Txn-Tokens. When issuing replacement Txn-Tokens, a Transaction Token Server therefore:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions
-* MAY enable additional asserted values 
+* MAY enable additional asserted values
 * SHOULD NOT enable modification to asserted values that expand the scope of permitted actions
 
 ### Replacement Txn-Token Request
@@ -461,7 +461,7 @@ Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token se
 The `expires_in` and `scope` fields of the OAuth 2.0 Token Exchange specification {{RFC8693}} are also not used in Txn-Token responses. The `expires_in` is not required since the issued token has an `exp` field, which indicates the token lifetime. The `scope` field is omitted from the request and therefore omitted in the response.
 
 ## Sender Constrained Tokens
-Although Txn-Tokens are short-lived, they MAY be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor. 
+Although Txn-Tokens are short-lived, they MAY be sender constrained as an additional layer of defence to prevent them from being re-used by a compromised or malicious workload under the control of a hostile actor.
 
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
@@ -472,7 +472,7 @@ When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presen
 Some `req_ctx` claims may be considered personal information in some jurisdictions
 and if so their values need to be obsfucated. For example, originating IP address
 (`req_ip`) is often considerd personal information and in that case must be
-protected through some obsfucation method (e.g. SHA256). 
+protected through some obsfucation method (e.g. SHA256).
 
 # IANA Considerations {#IANA}
 
