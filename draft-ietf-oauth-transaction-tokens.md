@@ -365,24 +365,29 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
 {: #figleaftxtokenbody title="Example: Txn-Token Body"}
 
 # Txn-Token Service
-A Txn-Token Service provides a OAuth 2.0 Token Exchange {{RFC8693}} endpoint that can respond to Txn-Token issuance requests. The token exchange requests it supports require extra parameters than those defined in the OAuth 2.0 Token Exchange {{RFC8693}} specification. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.
+A Txn-Token Service provides a profile of the OAuth 2.0 Token Exchange {{RFC8693}} endpoint that can respond to Txn-Token issuance requests. In addition to profiling the OAuth 2.0 Token Exchange {{RFC8693}} specification, new parameters are also defined. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.
 
-Each Trust Domain MUST have exactly one Txn-Token Service.
+Each Trust Domain MUST have exactly one logical Txn-Token Service.
 
 # Requesting Txn-Tokens
-A workload requests a Txn-Token from a Transaction Token Service using OAuth 2.0 Token Exchange {{RFC8693}}. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. A Txn-Token Request is a Token Exchange Request, as described in Section 2.1 of {{RFC8693}} with additional parameters. A Txn-Token Response is a OAuth 2.0 token endpoint response, as described in Section 5 of {{RFC6749}}, where the `token_type` in the response has the value `txn_token`.
+A workload requests a Txn-Token from a Transaction Token Service using a profile of the OAuth 2.0 Token Exchange {{RFC8693}}. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange {{RFC8693}} is described below.
 
 ## Txn-Token Request {#txn-token-request}
-A Txn-Token Request is an OAuth 2.0 Token Exchange Request, as described in Section 2.1 of {{RFC8693}}, with an additional parameter in the request. The following parameters are required in the Txn-Token Request by the OAuth 2.0 Token Exchange specification {{RFC8693}}:
+A workload requesting a Txn-Token must provide the Transaction Token Service with proof of it's identity (client authentication), the purpose of the Txn-Token and any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. This profile also defines a new token type URN `urn:ieft:params:oauth:token-type:txn-token` which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.
 
-* The `audience` value MUST be set to the Trust Domain name
-* The `requested_token_type` value MUST be `urn:ietf:params:oauth:token-type:txn_token`
-* The `subject_token` value MUST be the external token received by the workload that authorized the call
-* The `subject_token_type` value MUST be present and indicate the type of the authorization token present in the `subject_token` parameter
+To request a Txn-Token the workload invokes the /token endpoint with the following parameters:
+* `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`
+* `audience` REQUIRED. The value MUST be set to the Trust Domain name
+* `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
+* `subject_token` REQUIRED. The value MUST be a token representing the subject of the transaction. This could be an OAuth access_token received by an API GW requesting a Txn-Token or a JWT assertion constructed by a workload initiating a transaction.
+* `subject_token_type` REQUIRED. The value MUST indicate the type of the token present in the `subject_token` parameter
 
-The following additional parameter MUST be present in a Txn-Token Request:
+The following additional parameters MUST be present in a Txn-Token Request:
 
-* A parameter named `rctx` , whose value is a JSON object. This object contains the request context, i.e. any information the Transaction Token Service needs to understand the context of the incoming request
+* `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.
+* `authorization_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction.
+
+The requesting workload MUST authenticate it's identity to the Transaction Token Service. The exact mechanism client authentication mechanism used is outside the scope of this specification. However, some common options are mutual TLS connections, OAuth 2.0 Bearer tokens using a client credentials token, or using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification. If using the `actor_token` and `actor_token_type` parameters, both parameters MUST be present in the request. The `actor_token` MUST autenticate the identity of the requesting workload.
 
 {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
@@ -391,7 +396,8 @@ POST /txn-token-service/token_endpoint HTTP 1.1
 Host: txn-token-service.trust-domain.example
 Content-Type: application/x-www-form-urlencoded
 
-requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
+grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
+&requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
 &audience=http%3A%2F%2Ftrust-domain.example
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
