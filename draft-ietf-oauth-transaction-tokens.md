@@ -69,6 +69,7 @@ normative:
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
+  RFC9493: # Subject Identifiers for Security Event Tokens
 
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
@@ -383,7 +384,7 @@ A workload requesting a Txn-Token must provide the Transaction Token Service wit
 To request a Txn-Token the workload invokes the /token endpoint with the following parameters:
 * `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
-* `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction. 
+* `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
 * `subject_token` REQUIRED. The value MUST be a token representing the subject of the transaction. This could be an OAuth access_token received by an API GW or a JWT assertion constructed by a workload initiating a transaction or another form of token as identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token present in the `subject_token` parameter
@@ -414,7 +415,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 
 
 ## Txn-Token Request Processing
-When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to request the specified Txn-Token. The authorization policy for determining such issuance is out of scope for this specification. 
+When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to request the specified Txn-Token. The authorization policy for determining such issuance is out of scope for this specification.
 
 Next, the Transaction Token Service MUST validate the `subject_token` and determine the values to specify as the `sub_id` of the issued Txn-Token. What `format` mechanism of Subject Identifiers for Security Event Tokens {{RFC9493}} is used for the issued Txn-Token is out of scope of this specification. For example, many deployments may chose to use the `iss_sub` format as described in section 3.2.3 of Subject Identifiers for Security Event Tokens {{RFC9493}} those others formats are perfectly valid as well.
 
