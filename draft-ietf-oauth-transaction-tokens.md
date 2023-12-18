@@ -371,7 +371,7 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
 {: #figleaftxtokenbody title="Example: Txn-Token Body"}
 
 # Txn-Token Service
-A Txn-Token Service provides a profile of the OAuth 2.0 Token Exchange {{RFC8693}} endpoint that can respond to Txn-Token issuance requests. In addition to profiling the OAuth 2.0 Token Exchange {{RFC8693}} specification, new parameters are also defined. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.
+A Txn-Token Service defines a profile of the OAuth 2.0 Token Exchange {{RFC8693}} endpoint that can respond to Txn-Token issuance requests. This profile of the OAuth 2.0 Token Exchange {{RFC8693}} specification MUST be used to obtain Txn-Tokens. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.
 
 Each Trust Domain MUST have exactly one logical Txn-Token Service.
 
@@ -386,7 +386,7 @@ To request a Txn-Token the workload invokes the /token endpoint with the followi
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
-* `subject_token` REQUIRED. The value MUST be a token representing the subject of the transaction. This could be an OAuth access_token received by an API GW or a JWT assertion constructed by a workload initiating a transaction or another form of token as identified by `subject_token_type`.
+* `subject_token` REQUIRED. The value MUST be a token representing the subject of the transaction. This could be an OAuth access_token received by an API Gateway or a JWT assertion constructed by a workload initiating a transaction or another form of token as identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -394,7 +394,7 @@ The following additional parameters MAY be present in a Txn-Token Request:
 * `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.
 * `authz_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads.
 
-The requesting workload MUST authenticate it's identity to the Transaction Token Service. The exact mechanism client authentication mechanism used is outside the scope of this specification. However, some common options are mutual TLS connections, OAuth 2.0 Bearer tokens using a client credentials token, or using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification. If using the `actor_token` and `actor_token_type` parameters, both parameters MUST be present in the request. The `actor_token` MUST autenticate the identity of the requesting workload.
+The requesting workload MUST authenticate it's identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification. However, some common options are mutual TLS connections, OAuth 2.0 Bearer tokens as defined by section 4.4 of The OAuth 2.0 Authorization Framework {{RFC6749}}, or using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification. If using the `actor_token` and `actor_token_type` parameters, both parameters MUST be present in the request. The `actor_token` MUST autenticate the identity of the requesting workload.
 
 {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
@@ -415,7 +415,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 
 
 ## Txn-Token Request Processing
-When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to request the specified Txn-Token. The authorization policy for determining such issuance is out of scope for this specification.
+When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
 
 Next, the Transaction Token Service MUST validate the `subject_token` and determine the values to specify as the `sub_id` of the issued Txn-Token. What `format` mechanism of Subject Identifiers for Security Event Tokens {{RFC9493}} is used for the issued Txn-Token is out of scope of this specification. For example, many deployments may chose to use the `iss_sub` format as described in section 3.2.3 of Subject Identifiers for Security Event Tokens {{RFC9493}} those others formats are perfectly valid as well.
 
@@ -425,7 +425,7 @@ The Transaction Token Service MUST set the `aud` claim to the Trust Domain name 
 The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token.
 The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 
-The Transaction Token Service MUST take the value specified in the `scope` parameter of the request and copy it into the `purpose` claim of the issued Txn-Token. Additionaly, the `request_context` data SHOULD be added to the `req_ctx` object of the Txn-Token. In addition, the Transaction Token Service MUST put the authenticated requesting workload identifier in the `req_ctx` object as the `req_wl` claim.
+The Transaction Token Service MUST take the value specified in the `scope` parameter of the request and copy it into the `purp` claim of the issued Txn-Token. Additionaly, the `request_context` data SHOULD be added to the `req_ctx` object of the Txn-Token. In addition, the Transaction Token Service MUST put the authenticated requesting workload identifier in the `req_ctx` object as the `req_wl` claim.
 
 If an `authz_details` parameter is present in the Txn-Token Request, then the Transaction Token Service MUST specify the JSON object as the value of the `azd` claim.
 
@@ -435,8 +435,9 @@ The Transaction Token Service MAY provide additional processing and verification
 ## Txn-Token Response {#txn-token-response}
 A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of {{RFC6749}}. The following describes required values of a Txn-Token Response:
 
-* The `token_type` value MUST be set to `txn_token`
-* The `access_token` value MUST be the Txn-Token in base64url encoded form
+* The `token_type` value MUST be set to `N_A` per guidance in OAuth 2.0 Token Exchange {{RFC8693}}
+* The `access_token` value MUST be the Txn-Token JWT
+* The `issued_token_type` value MUST bet set to `urn:ieft:params:oauth:token-type:txn-token`
 * The response MUST NOT include the values `expires_in`, `refresh_token` and `scope`
 
 {{figtxtokenresponse}} shows a non-normative example of a Txn-Token Response.
@@ -447,7 +448,8 @@ Content-Type: application/json
 Cache-Control: no-cache, no-store
 
 {
-  "issued_token_type": "urn:ietf:params:oauth:token-type:txn_token",
+  "token_type": "N_A",
+  "issued_token_type": "urn:ieft:params:oauth:token-type:txn-token",
   "access_token": "eyJCI6IjllciJ9...Qedw6rx"
 }
 ~~~
