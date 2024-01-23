@@ -56,6 +56,7 @@ contributor:
 
 normative:
   RFC2119: # Keywords
+  RFC2616: # HTTP
   RFC8446: # TLS
   RFC6749: #OAuth
   RFC7519: #JWT
@@ -450,6 +451,12 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesters
 
 The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as {{Spiffe}}, to securely authenticate the Transaction Token Service before making a Txn-Token Request.
+
+# Using Txn-Tokens
+Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC2616}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
+
+## Txn-Token Header
+A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.
 
 # Security Considerations {#Security}
 
