@@ -335,11 +335,11 @@ JWT claims as well as defines new claims. These claims are described below:
 `sub`:
 : REQUIRED A unique identifier for the subject as defined by the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
 
+`purp`:
+: REQUIRED A string defining the purpose or intent of this transaction.
+
 `azd`:
 : OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain. 
-
-`purp`:
-: OPTIONAL A string defining the purpose or intent of this transaction.
 
 `req_ctx`:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction. 
@@ -405,9 +405,9 @@ To request a Txn-Token the workload invokes the /token endpoint with the followi
 The following additional parameters MAY be present in a Txn-Token Request:
 
 * `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.
-* `authz_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads.
+* `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads.
 
-The requesting workload MUST authenticate it's identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification. However, some common options are mutual TLS connections, OAuth 2.0 Bearer tokens as defined by section 4.4 of The OAuth 2.0 Authorization Framework {{RFC6749}}, or using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification. If using the `actor_token` and `actor_token_type` parameters, both parameters MUST be present in the request. The `actor_token` MUST autenticate the identity of the requesting workload.
+The requesting workload MUST authenticate it's identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.
 
 {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
@@ -430,17 +430,20 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
 
-Next, the Transaction Token Service MUST validate the `subject_token` and determine the values to specify as the `sub_id` of the issued Txn-Token. What `format` mechanism of Subject Identifiers for Security Event Tokens {{RFC9493}} is used for the issued Txn-Token is out of scope of this specification. For example, many deployments may chose to use the `iss_sub` format as described in section 3.2.3 of Subject Identifiers for Security Event Tokens {{RFC9493}} those others formats are perfectly valid as well.
+Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the trust boundary defined by the `aud` claim.
 
-The Transaction Token Service MUST set the `iss` claim of the Txn-Token to it's own issuer URI.
 The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
-The Transaction Token Service MUST set the `aud` claim to the Trust Domain name of the Transaction Token Service.
+The Transaction Token Service MUST set the `aud` claim to a Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct `aud` value for this request.
 The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token.
 The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 
-The Transaction Token Service MUST take the value specified in the `scope` parameter of the request and copy it into the `purp` claim of the issued Txn-Token. Additionaly, the `request_context` data SHOULD be added to the `req_ctx` object of the Txn-Token. In addition, the Transaction Token Service MUST put the authenticated requesting workload identifier in the `req_ctx` object as the `req_wl` claim.
+The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be ommitted if not set.
 
-If an `authz_details` parameter is present in the Txn-Token Request, then the Transaction Token Service MUST specify the JSON object as the value of the `azd` claim.
+The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `purp` claim of the issued Txn-Token. 
+
+If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `req_ctx` object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the `req_ctx` object as the `req_wl` claim.
+
+If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `azd` object as authorized by the Transaction Token Service authorization policy for the requesting client.
 
 The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.
 
@@ -512,6 +515,9 @@ Although Txn-Tokens are short-lived, they MAY be sender constrained as an additi
 
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
+
+## Client Authentication
+How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST autenticate the identity of the requesting workload.
 
 # Privacy Considerations {#Privacy}
 
