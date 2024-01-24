@@ -312,33 +312,46 @@ In the JWT Header:
 ~~~
 {: #figtxtokenheader title="Example: Txn-Token Header"}
 
-## JWT Body {#txn-token-body}
+## JWT Body Claims {#txn-token-claims}
 
-### Required Claims {#txn-token-claims}
-The JWT body MUST have the following claims:
+The transaction token body follows the JWT format and includes existing 
+JWT claims as well as defines new claims. These claims are described below:
 
-* An `iss` claim, whose value is a URN {{RFC8141}} that uniquely identifies the workload or the Txn-Token Service that created the Txn-Token.
-* An `iat` claim, whose value is the time at which the Txn-Token was created.
-* An `aud` claim, whose value is a URN {{RFC8141}} that uniquely identifies the audience of the Txn-Token. This MUST identify the trust domain in which the Txn-Token is used.
-* An `exp` claim, whose value is the time at which the Txn-Token expires.
-* A `txn` claim, whose value is the unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
-* A `sub_id` claim, whose value is the unique identifier of the user or workload on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in {{SubjectIdentifiers}}.
-* An `azd` claim, whose value is a JSON object that contains values that remain constant in the call chain.
+`iss`:
+: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single trust domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MAY be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
 
-### Optional Claims
-The JWT body MAY have the following claims:
+`iat`:
+: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}
 
-#### Requester Context {#requester-context}
-The Txn-Token SHOULD contain an `req_ctx` claim, whose value is a JSON object the describes the requester context of the transaction. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
+`aud`:
+: REQUIRED This claim, defined in {{RFC7519}}, contains the trust domain in which the Txn-Token is valid
+
+`exp`:
+: REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
+
+`txn`:
+: REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
+
+`sub`:
+: REQUIRED A unique identifier for the subject as defined by the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
+
+`azd`:
+: OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain. 
+
+`purp`:
+: OPTIONAL A string defining the purpose or intent of this transaction.
+
+`req_ctx`:
+: OPTIONAL A JSON object that describes the environmental context of the requested transaction. 
+
+### Requester Context {#requester-context}
+The Txn-Token SHOULD contain an `req_ctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
 
 The JSON value of the `req_ctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
 * `authn` The authentication method used to idenitfy the requester. Its value is a URN that uniquely identifies the method used.
 * `req_wl` The requesting workload. A URN that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
-
-#### Purpose {#purpose}
-The Txn-Token MAY contain a `purp` claim, whose value specifies the purpose of the transaction. The format of this claim is a JSON string.
 
 ### Example
 The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT body of a Txn-Token:
