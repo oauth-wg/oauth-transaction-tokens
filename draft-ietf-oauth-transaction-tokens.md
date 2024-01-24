@@ -314,7 +314,7 @@ In the JWT Header:
 
 ## JWT Body Claims {#txn-token-claims}
 
-The transaction token body follows the JWT format and includes existing 
+The transaction token body follows the JWT format and includes existing
 JWT claims as well as defines new claims. These claims are described below:
 
 `iss`:
@@ -339,10 +339,10 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A string defining the purpose or intent of this transaction.
 
 `azd`:
-: OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain. 
+: OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain.
 
 `req_ctx`:
-: OPTIONAL A JSON object that describes the environmental context of the requested transaction. 
+: OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
 ### Requester Context {#requester-context}
 The Txn-Token SHOULD contain an `req_ctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
@@ -439,7 +439,7 @@ The Transaction Token Service MUST set the `txn` claim to a unique ID specific t
 
 The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be ommitted if not set.
 
-The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `purp` claim of the issued Txn-Token. 
+The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `purp` claim of the issued Txn-Token.
 
 If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `req_ctx` object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the `req_ctx` object as the `req_wl` claim.
 
@@ -555,7 +555,7 @@ This specification registers the following claims defined in Section {{txn-token
 * Claim Name: `purp`
   * Claim Description: The purpose of the transaction
   * Change Controller: IESG
-  * Specification Document: Section {{purpose}} of this specification
+  * Specification Document: Section {{txn-token-claims}} of this specification
 
 --- back
 
