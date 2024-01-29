@@ -61,12 +61,10 @@ contributor:
 
 normative:
   RFC2119: # Keywords
-  RFC4648: # Encoding
   RFC8446: # TLS
   RFC6749: #OAuth
   RFC7519: #JWT
   RFC7515: #JWS
-  RFC8141: # URN
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
@@ -87,17 +85,6 @@ normative:
     - name: Chuck Mortimore
       org: Salesforce
     date: 2014-11
-
-  SubjectIdentifiers:
-    title: Subject Identifiers for Security Event Tokens
-    target: https://datatracker.ietf.org/doc/html/draft-ietf-secevent-subject-identifiers
-    author:
-    - name: Annabelle Backman
-      org: Amazon
-    - name: Martin Scurtescu
-      org: Coinbase
-    - name: Prachi Jain
-      org: Fastly
 
 informative:
   Spiffe:
@@ -322,7 +309,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single trust domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
 
 `iat`:
-: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}
+: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
 
 `aud`:
 : REQUIRED This claim, defined in {{RFC7519}}, contains the trust domain in which the Txn-Token is valid
