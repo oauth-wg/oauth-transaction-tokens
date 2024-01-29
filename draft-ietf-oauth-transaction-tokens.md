@@ -61,17 +61,14 @@ contributor:
 
 normative:
   RFC2119: # Keywords
-  RFC2616: # HTTP
-  RFC4648: # Encoding
   RFC8446: # TLS
   RFC6749: #OAuth
   RFC7519: #JWT
   RFC7515: #JWS
-  RFC8141: # URN
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
-  RFC9493: # Subject Identifiers for Security Event Tokens
+  RFC9110: # HTTP
 
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
@@ -88,17 +85,6 @@ normative:
     - name: Chuck Mortimore
       org: Salesforce
     date: 2014-11
-
-  SubjectIdentifiers:
-    title: Subject Identifiers for Security Event Tokens
-    target: https://datatracker.ietf.org/doc/html/draft-ietf-secevent-subject-identifiers
-    author:
-    - name: Annabelle Backman
-      org: Amazon
-    - name: Martin Scurtescu
-      org: Coinbase
-    - name: Prachi Jain
-      org: Fastly
 
 informative:
   Spiffe:
@@ -323,7 +309,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single trust domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
 
 `iat`:
-: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}
+: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
 
 `aud`:
 : REQUIRED This claim, defined in {{RFC7519}}, contains the trust domain in which the Txn-Token is valid
@@ -500,7 +486,7 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as {{Spiffe}}, to securely authenticate the Transaction Token Service before making a Txn-Token Request.
 
 # Using Txn-Tokens
-Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC2616}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
+Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
 
 ## Txn-Token HTTP Header
 A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.
