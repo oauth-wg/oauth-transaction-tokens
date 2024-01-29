@@ -69,7 +69,7 @@ normative:
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
   RFC9110: # HTTP
-  
+
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
     target: https://openid.net/specs/openid-connect-core-1_0.html
