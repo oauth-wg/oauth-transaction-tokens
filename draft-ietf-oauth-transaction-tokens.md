@@ -54,6 +54,11 @@ contributor:
   org: Microsoft
   email: arndts@microsoft.com
 
+- ins: B. Campbell
+  name: Brian Campbell
+  org: Ping Identity
+  email: bcampbell@pingidentity.com
+
 normative:
   RFC2119: # Keywords
   RFC2616: # HTTP
@@ -66,6 +71,7 @@ normative:
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
+  RFC9493: # Subject Identifiers for Security Event Tokens
 
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
@@ -308,49 +314,58 @@ In the JWT Header:
 ~~~
 {: #figtxtokenheader title="Example: Txn-Token Header"}
 
-## JWT Body {#txn-token-body}
+## JWT Body Claims {#txn-token-claims}
 
-### Required Claims {#txn-token-claims}
-The JWT body MUST have the following claims:
+The transaction token body follows the JWT format and includes existing
+JWT claims as well as defines new claims. These claims are described below:
 
-* An `iss` claim, whose value is a URN {{RFC8141}} that uniquely identifies the workload or the Txn-Token Service that created the Txn-Token.
-* An `iat` claim, whose value is the time at which the Txn-Token was created.
-* An `aud` claim, whose value is a URN {{RFC8141}} that uniquely identifies the audience of the Txn-Token. This MUST identify the trust domain in which the Txn-Token is used.
-* An `exp` claim, whose value is the time at which the Txn-Token expires.
-* A `txn` claim, whose value is the unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
-* A `sub_id` claim, whose value is the unique identifier of the user or workload on whose behalf the call chain is being executed. The format of this claim MAY be a Subject Identifier as specified in {{SubjectIdentifiers}}.
-* An `azd` claim, whose value is a JSON object that contains values that remain constant in the call chain.
+`iss`:
+: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single trust domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
 
-### Optional Claims
-The JWT body MAY have the following claims:
+`iat`:
+: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}
 
-#### Requester Context {#requester-context}
-The Txn-Token MAY contain an `req_ctx` claim, whose value is a JSON object the describes the requester context of the transaction. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
+`aud`:
+: REQUIRED This claim, defined in {{RFC7519}}, contains the trust domain in which the Txn-Token is valid
 
-The JSON value of the `req_ctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
+`exp`:
+: REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
+
+`txn`:
+: REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
+
+`sub`:
+: REQUIRED A unique identifier for the subject as defined by the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
+
+`purp`:
+: REQUIRED A string defining the purpose or intent of this transaction.
+
+`azd`:
+: OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain.
+
+`rctx`:
+: OPTIONAL A JSON object that describes the environmental context of the requested transaction.
+
+### Requester Context {#requester-context}
+The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token.
+
+The JSON value of the `rctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
 * `authn` The authentication method used to idenitfy the requester. Its value is a URN that uniquely identifies the method used.
 * `req_wl` The requesting workload. A URN that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
-
-#### Purpose {#purpose}
-The Txn-Token MAY contain a `purp` claim, whose value specifies the purpose of the transaction. The format of this claim is a JSON string.
 
 ### Example
 The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT body of a Txn-Token:
 
 ~~~ json
 {
-    "iss": "https://trust-domain.example/txn-token-service",
     "iat": "1686536226000",
     "aud": "trust-domain.example",
     "exp": "1686536526000",
     "txn": "97053963-771d-49cc-a4e3-20aad399c312",
-    "sub_id": {
-        "format": "email",
-        "email": "user@trust-domain.example"
-    },
-    "req_ctx": {
+    "sub": "d084sdrt234fsaw34tr23t",
+    "rctx": {
       "req_ip": "69.151.72.123", // env context of external call
       "authn": "urn:ietf:rfc:6749", // env context of the external call
       "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
@@ -367,24 +382,30 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
 {: #figleaftxtokenbody title="Example: Txn-Token Body"}
 
 # Txn-Token Service
-A Txn-Token Service provides a OAuth 2.0 Token Exchange {{RFC8693}} endpoint that can respond to Txn-Token issuance requests. The token exchange requests it supports require extra parameters than those defined in the OAuth 2.0 Token Exchange {{RFC8693}} specification. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.
+A Txn-Token Service defines a profile of the OAuth 2.0 Token Exchange {{RFC8693}} endpoint that can respond to Txn-Token issuance requests. This profile of the OAuth 2.0 Token Exchange {{RFC8693}} specification MUST be used to obtain Txn-Tokens. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.
 
-Each Trust Domain MUST have exactly one Txn-Token Service.
+Each Trust Domain MUST have exactly one logical Txn-Token Service.
 
 # Requesting Txn-Tokens
-A workload requests a Txn-Token from a Transaction Token Service using OAuth 2.0 Token Exchange {{RFC8693}}. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. A Txn-Token Request is a Token Exchange Request, as described in Section 2.1 of {{RFC8693}} with additional parameters. A Txn-Token Response is a OAuth 2.0 token endpoint response, as described in Section 5 of {{RFC6749}}, where the `token_type` in the response has the value `txn_token`.
+A workload requests a Txn-Token from a Transaction Token Service using a profile of the OAuth 2.0 Token Exchange {{RFC8693}}. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange {{RFC8693}} is described below.
 
 ## Txn-Token Request {#txn-token-request}
-A Txn-Token Request is an OAuth 2.0 Token Exchange Request, as described in Section 2.1 of {{RFC8693}}, with an additional parameter in the request. The following parameters are required in the Txn-Token Request by the OAuth 2.0 Token Exchange specification {{RFC8693}}:
+A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN `urn:ieft:params:oauth:token-type:txn-token` which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.
 
-* The `audience` value MUST be set to the Trust Domain name
-* The `requested_token_type` value MUST be `urn:ietf:params:oauth:token-type:txn_token`
-* The `subject_token` value MUST be the external token received by the workload that authorized the call
-* The `subject_token_type` value MUST be present and indicate the type of the authorization token present in the `subject_token` parameter
+To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endpoint with the following parameters:
+* `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`
+* `audience` REQUIRED. The value MUST be set to the Trust Domain name
+* `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
+* `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
+* `subject_token` REQUIRED. The value MUST be a token representing the subject of the transaction. This could be an OAuth access_token received by an API Gateway or a JWT assertion constructed by a workload initiating a transaction or another form of token as identified by `subject_token_type`.
+* `subject_token_type` REQUIRED. The value MUST indicate the type of the token present in the `subject_token` parameter
 
-The following additional parameter MUST be present in a Txn-Token Request:
+The following additional parameters MAY be present in a Txn-Token Request:
 
-* A parameter named `rctx` , whose value is a JSON object. This object contains the request context, i.e. any information the Transaction Token Service needs to understand the context of the incoming request
+* `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.
+* `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads.
+
+The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.
 
 {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
@@ -393,20 +414,44 @@ POST /txn-token-service/token_endpoint HTTP 1.1
 Host: txn-token-service.trust-domain.example
 Content-Type: application/x-www-form-urlencoded
 
-requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
+grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
+&requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn-token
 &audience=http%3A%2F%2Ftrust-domain.example
+&scope=finance.watchlist.add
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-&rctx=%7B%22param1%22%3A%22value1%22%2C%22param2%22%3A%22value2%22%2C%22ip_address%22%3A%2269.151.72.123%22%7D
+&request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
+
+
+## Txn-Token Request Processing
+When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
+
+Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the trust domain defined by the `aud` claim.
+
+The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
+The Transaction Token Service MUST set the `aud` claim to a Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct `aud` value for this request.
+The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token.
+The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
+
+The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be ommitted if not set.
+
+The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `purp` claim of the issued Txn-Token.
+
+If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the `rctx` object as the `req_wl` claim.
+
+If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `azd` object as authorized by the Transaction Token Service authorization policy for the requesting client.
+
+The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.
 
 
 ## Txn-Token Response {#txn-token-response}
 A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of {{RFC6749}}. The following describes required values of a Txn-Token Response:
 
-* The `token_type` value MUST be set to `txn_token`
-* The `access_token` value MUST be the Txn-Token
+* The `token_type` value MUST be set to `N_A` per guidance in OAuth 2.0 Token Exchange {{RFC8693}}
+* The `access_token` value MUST be the Txn-Token JWT
+* The `issued_token_type` value MUST bet set to `urn:ieft:params:oauth:token-type:txn-token`
 * The response MUST NOT include the values `expires_in`, `refresh_token` and `scope`
 
 {{figtxtokenresponse}} shows a non-normative example of a Txn-Token Response.
@@ -417,7 +462,8 @@ Content-Type: application/json
 Cache-Control: no-cache, no-store
 
 {
-  "issued_token_type": "urn:ietf:params:oauth:token-type:txn_token",
+  "token_type": "N_A",
+  "issued_token_type": "urn:ieft:params:oauth:token-type:txn-token",
   "access_token": "eyJCI6IjllciJ9...Qedw6rx"
 }
 ~~~
@@ -428,7 +474,7 @@ A workload within a call chain may request the Transaction Token Server to repla
 
 Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.
 
-The value of the `aud` claim MUST remain unchanged in a replacement Txn-Token. If the claim `req_ctx` is present in the original Txn-Token, then it MUST be present unchanged in the replacement Txn-Token.
+The value of the `aud` claim MUST remain unchanged in a replacement Txn-Token. If the claim `rctx` is present in the original Txn-Token, then it MUST be present unchanged in the replacement Txn-Token.
 
 ### Txn-Token Service Responsibilities
 A Txn-Token Service replacing a Txn-Token must consider that modifying previously asserted values from existing Txn-Tokens can completely negate the benefits of Txn-Tokens. When issuing replacement Txn-Tokens, a Transaction Token Server therefore:
@@ -474,10 +520,13 @@ Although Txn-Tokens are short-lived, they MAY be sender constrained as an additi
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
 
+## Client Authentication
+How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST autenticate the identity of the requesting workload.
+
 # Privacy Considerations {#Privacy}
 
 ## Obsfucation of Personal Information
-Some `req_ctx` claims may be considered personal information in some jurisdictions
+Some `rctx` claims may be considered personal information in some jurisdictions
 and if so their values need to be obsfucated. For example, originating IP address
 (`req_ip`) is often considerd personal information and in that case must be
 protected through some obsfucation method (e.g. SHA256).
@@ -502,7 +551,7 @@ This specification registers the following claims defined in Section {{txn-token
   * Change Controller: IESG
   * Specification Document: Section {{txn-token-claims}} of this specification
 
-* Claim Name: `req_ctx`
+* Claim Name: `rctx`
   * Claim Description: The requester context
   * Change Controller: IESG
   * Specification Document: Section {{requester-context}} of this specification
@@ -510,7 +559,7 @@ This specification registers the following claims defined in Section {{txn-token
 * Claim Name: `purp`
   * Claim Description: The purpose of the transaction
   * Change Controller: IESG
-  * Specification Document: Section {{purpose}} of this specification
+  * Specification Document: Section {{txn-token-claims}} of this specification
 
 --- back
 
