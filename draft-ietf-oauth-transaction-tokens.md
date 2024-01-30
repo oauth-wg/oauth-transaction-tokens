@@ -62,9 +62,9 @@ contributor:
 normative:
   RFC2119: # Keywords
   RFC8446: # TLS
-  RFC6749: #OAuth
-  RFC7519: #JWT
-  RFC7515: #JWS
+  RFC6749: # OAuth
+  RFC7519: # JWT
+  RFC7515: # JWS
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
@@ -263,7 +263,7 @@ Workload:
 : An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
 
 Trust Domain:
-: A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces. A Trust Domain must have an identifier that is used as the `aud` (audience) value in Txn-Tokens. The format of this identifier is a universal resource identifier. Each Trust Domain has exactly one Txn-Token Service.
+: A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces. A Trust Domain must have an identifier that is used as the `aud` (audience) value in Txn-Tokens. The format of this identifier is a StringOrURI as defined in {{RFC7519}}. Each Trust Domain has exactly one Txn-Token Service.
 
 External Endpoint:
 : A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain.
@@ -347,7 +347,7 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
 ~~~ json
 {
     "iat": "1686536226000",
-    "aud": "trust-domain.example",
+    "aud": "https://trust-domain.example",
     "exp": "1686536526000",
     "txn": "97053963-771d-49cc-a4e3-20aad399c312",
     "sub": "d084sdrt234fsaw34tr23t",
@@ -402,7 +402,7 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 &requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn-token
-&audience=http%3A%2F%2Ftrust-domain.example
+&audience=https%3A%2F%2Ftrust-domain.example
 &scope=finance.watchlist.add
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
