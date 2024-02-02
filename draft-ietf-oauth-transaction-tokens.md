@@ -263,7 +263,7 @@ Workload:
 : An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
 
 Trust Domain:
-: A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces. A Trust Domain must have an identifier that is used as the `aud` (audience) value in Txn-Tokens. The format of this identifier is a universal resource identifier. Each Trust Domain has exactly one Txn-Token Service.
+: A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces. A Trust Domain must have an identifier that is used as the `aud` (audience) value in Txn-Tokens. The format of this identifier is as defined in the JWT specification {{RFC7519}}.
 
 External Endpoint:
 : A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain.
