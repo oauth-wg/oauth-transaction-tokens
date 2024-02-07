@@ -324,7 +324,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A unique identifier for the subject as defined by the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
 
 `purp`:
-: REQUIRED A  defining the purpose or intent of this transaction.
+: REQUIRED A String defining the purpose or intent of this transaction.
 
 `azd`:
 : OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain.
@@ -333,7 +333,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
 ### Requester Context {#requester-context}
-The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token as well as contextural attributes of the originating request itself.
+The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token as well as contextual attributes of the originating request itself.
 
 The JSON value of the `rctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 
@@ -343,7 +343,7 @@ The JSON value of the `rctx` claim MAY include any values the Txn-Token Service 
 
 #### Requesting Workload Identifier
 
-It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. Be default the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanisms to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there are more than one value then `req_wl` will be prepresented by an array of StringOrURIs.
+It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. Be default the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanisms to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there is more than a single value, then `req_wl` will be prepresented by an array of StringOrURIs.
 
 ~~~ json
 {
@@ -394,7 +394,7 @@ A workload requesting a Txn-Token must provide the Transaction Token Service wit
 To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endpoint with the following parameters:
 * `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
-* `scope` REQUIRED. A space-delimited list of case-sensitive s where the value(s) MUST represent the specific purpose or intent of the transaction.
+* `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
 * `subject_token` REQUIRED. The value MUST be a token representing the subject of the transaction. This could be an OAuth access_token received by an API Gateway or a JWT assertion constructed by a workload initiating a transaction or another form of token as identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token present in the `subject_token` parameter
