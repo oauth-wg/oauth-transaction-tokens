@@ -39,25 +39,31 @@ contributor:
   org: MITRE Corporation
   email: kburgin@mitre.org
 
-- ins: H. Tschofenig
-  name: Hannes Tschofenig
-  org: Arm Ltd.
-  email: Hannes.Tschofenig@arm.com
+- ins: B. Campbell
+  name: Brian Campbell
+  org: Ping Identity
+  email: bcampbell@pingidentity.com
 
 - ins: E. Gilman
   name: Evan Gilman
   org: SPIRL
   email: evan@spirl.com
 
+- ins: K. Lehmann
+  name: Kai Lehmann
+  org: 1&1 Mail & Media Development & Technology GmbH
+  email: kai.lehmann@1und1.de
+
 - ins: A. Schwenkschuster
   name: Arndt Schwenkschuster
   org: Microsoft
   email: arndts@microsoft.com
 
-- ins: B. Campbell
-  name: Brian Campbell
-  org: Ping Identity
-  email: bcampbell@pingidentity.com
+- ins: H. Tschofenig
+  name: Hannes Tschofenig
+  org: Arm Ltd.
+  email: Hannes.Tschofenig@arm.com
+
 
 normative:
   RFC2119: # Keywords
@@ -333,17 +339,17 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
 ### Requester Context {#requester-context}
-The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token as well as contextual attributes of the originating request itself.
+The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.
 
 The JSON value of the `rctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
 * `authn` The authentication method used to idenitfy the requester. Its value is a StringOrURI that uniquely identifies the method used.
-* `req_wl` The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
+* `req_wl` The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.
 
 #### Requesting Workload Identifier
 
-It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. By default the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanisms to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there is more than a single value, then `req_wl` will be prepresented by an array of StringOrURIs.
+It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. By default the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there is more than a single value, then `req_wl` will be prepresented by an array of StringOrURIs.
 
 ~~~ json
 {
@@ -396,7 +402,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
-* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an OAuth access_token received by an API Gateway, a JWT assertion constructed by a workload initiating a transaction or simple string value all identified by `subject_token_type`.
+* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an OAuth access_token received by an API Gateway, a JWT assertion constructed by a workload initiating a transaction or a simple string value all identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -473,7 +479,7 @@ A workload within a call chain may request the Transaction Token Server to repla
 
 Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.
 
-The values of the `sub` and `aud` claims MUST remain unchanged in a replacement Txn-Token. If the claim `rctx` is present in the original Txn-Token, then it MUST be present unchanged in the replacement Txn-Token except for the `req_wl` claim which MUST be updated to include the requesting workload identifier.
+The values of the `sub` and `aud` claims MUST remain unchanged in a replacement Txn-Token. If the claim `rctx` is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the `req_wl` claim which MUST be updated to include the requesting workload identifier.
 
 ### Txn-Token Service Responsibilities
 A Txn-Token Service replacing a Txn-Token must consider that modifying previously asserted values from existing Txn-Tokens can completely negate the benefits of Txn-Tokens. When issuing replacement Txn-Tokens, a Transaction Token Server therefore:
