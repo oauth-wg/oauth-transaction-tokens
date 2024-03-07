@@ -1,0 +1,4069 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-03-07T00:43:07.920414+00:00",
+  "repo": "oauth-wg/oauth-transaction-tokens",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    },
+    {
+      "name": "Nested TraTs",
+      "description": "Nested Transaction Token related issues",
+      "color": "3DE397"
+    },
+    {
+      "name": "pre-adoption",
+      "description": "",
+      "color": "D449DC"
+    },
+    {
+      "name": "PR57",
+      "description": "",
+      "color": "5319e7"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOJt_WwM5orgPO",
+      "title": "Should we allow Access Tokens to be included in a TraT",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/1",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Including Access Tokens may facilitate token theft.",
+      "createdAt": "2023-06-14T07:21:15Z",
+      "updatedAt": "2023-10-03T19:22:45Z",
+      "closedAt": "2023-10-03T19:22:44Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Access tokens are not included in the transaction tokens. They are only present in the request from the external endpoint workload to the Transaction Token Service.",
+          "createdAt": "2023-07-06T20:39:34Z",
+          "updatedAt": "2023-07-06T20:39:34Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed, do we have text to preclude that now?",
+          "createdAt": "2023-07-07T08:21:21Z",
+          "updatedAt": "2023-07-07T08:21:21Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Issue addressed in security considerations.",
+          "createdAt": "2023-10-03T19:22:45Z",
+          "updatedAt": "2023-10-03T19:22:45Z"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOJt_WwM5orirG",
+      "title": "Document layout",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/2",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Perhaps have a shorter introduction section (first paragraph only) and move the rest to an Overview section to be consistent with other OAuth docs?",
+      "createdAt": "2023-06-14T07:27:56Z",
+      "updatedAt": "2023-08-01T01:09:40Z",
+      "closedAt": "2023-08-01T01:09:40Z",
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOJt_WwM5osWt5",
+      "title": "Security Consideration: Mutual Authentication of the TraT Request",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/3",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The requirement that clients must be pre-registered feels like it perpetuates the problem we see with workload identities, where the client identity may not be known ahead of time. This is not unlike the problems we see with wallets and the need for some way to let clients authenticate without being pre-registered. \r\n\r\nI wonder if we can remove this requirement and instead rely on some form of authentication where the trust is in the credential issuer. For example, with SPIFFE, there is an authority that issues the credential to the workload, so as long as the client presents a credential issued by the authority, it could be trusted (provided the authority is trusted). ",
+      "createdAt": "2023-06-14T09:28:39Z",
+      "updatedAt": "2023-10-03T19:23:45Z",
+      "closedAt": "2023-10-03T19:23:44Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm thinking we should just rely on SPIFFE / SPIRE to solve this issue and not have to address it in the transaction tokens draft.",
+          "createdAt": "2023-07-06T20:38:48Z",
+          "updatedAt": "2023-07-06T20:38:48Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There is other work in the pipeline to remove the need for client registration. Perhaps we should reference it here? \r\n\r\n1.https://vcstuff.github.io/draft-looker-oauth-attestation-based-client-authentication/draft-looker-oauth-attestation-based-client-authentication.html\r\n2.https://mattrglobal.github.io/draft-looker-oauth-client-id-scheme/draft-looker-oauth-client-id-scheme.html",
+          "createdAt": "2023-07-07T08:23:46Z",
+          "updatedAt": "2023-07-07T08:23:46Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Current spec removes client pre-registration and references SPIFFE - closing issue.",
+          "createdAt": "2023-10-03T19:23:45Z",
+          "updatedAt": "2023-10-03T19:23:45Z"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOJt_WwM5otiT0",
+      "title": "Need to describe how claims are transcribed",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/4",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Describe how to show that claims are transcribed (namespaced) both withing and across trust domains. ",
+      "createdAt": "2023-06-14T12:18:59Z",
+      "updatedAt": "2023-10-03T19:25:21Z",
+      "closedAt": "2023-10-03T19:25:21Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Would this be more of a concern for the identity chaining draft rather than the transaction tokens draft?",
+          "createdAt": "2023-07-06T20:38:03Z",
+          "updatedAt": "2023-07-06T20:38:03Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I was expecting to see it in the transaction token draft because I think this will be the more common use case - most workloads will operate within a trust boundary, and crossing it will be less frequent. We can the reference it in the Identity Chaing draft and make any tweaks we need to make there (hopefully we can just inherit it all from the transaction token draft).",
+          "createdAt": "2023-07-07T08:20:38Z",
+          "updatedAt": "2023-07-07T08:20:38Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The azc claim in the latest draft describes how to represent transcribed claims. ",
+          "createdAt": "2023-10-03T19:25:21Z",
+          "updatedAt": "2023-10-03T19:25:21Z"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "id": "I_kwDOJt_WwM5qklid",
+      "title": "Short lived tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/6",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need additional guidance on batch or long-lived sessions - more than 30% of workloads run for more than 5 minutes and not solving for them is problematic. One approach is to remove the requirement on short lived or leave it to the implementor to decide what short lived means, Another is to recommend the use of standards like SSF/CAEP as a mitigation for long-lived tokens where the security properties matter. ",
+      "createdAt": "2023-07-04T13:51:09Z",
+      "updatedAt": "2023-10-06T16:21:25Z",
+      "closedAt": "2023-10-06T16:21:25Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed that we cannot have a token lifetime that won't meet the needs of a significant number of workload requests.  We need a recommendation in the spec though in order to mitigate replay attacks. Just curious: In the \"30% workloads > 5 minutes\" statement, are we talking about a process that handles multiple requests, or 30% requests lasting more than 5 minutes?",
+          "createdAt": "2023-07-06T20:37:30Z",
+          "updatedAt": "2023-07-06T20:37:30Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't have that detail about the data point. From personal experience, I have seen batch jobs run for hours (23-24 hours in some cases). ",
+          "createdAt": "2023-07-07T08:25:52Z",
+          "updatedAt": "2023-07-07T08:25:52Z"
+        },
+        {
+          "author": "naveencm4u1",
+          "authorAssociation": "NONE",
+          "body": "Will it not cause security issues If we keep the tokens active for a longer time in a batch job where someone internal can access those tokens?",
+          "createdAt": "2023-07-07T19:02:05Z",
+          "updatedAt": "2023-07-07T19:02:05Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Even in long lived batch jobs, individual RPCs will be short-lived. The external authorization token that impersonates or delegates authority from users can be long lived, in order to generate new Transaction Tokens",
+          "createdAt": "2023-07-11T00:16:40Z",
+          "updatedAt": "2023-07-11T00:16:40Z"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOJt_WwM5qkmFJ",
+      "title": "TX=Transmit",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/7",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I wonder if we should just call these Transaction Tokens or TTs (although is some orgs TT = Trouble Ticket). Tx is commonly used to signify Transmit in the comms industry, and finding folks with that background will not be unusual in the IETF.",
+      "createdAt": "2023-07-04T13:52:31Z",
+      "updatedAt": "2023-08-01T01:09:28Z",
+      "closedAt": "2023-08-01T01:09:28Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "From our Slack conversation, perhaps TxT Token?",
+          "createdAt": "2023-07-07T08:26:44Z",
+          "updatedAt": "2023-07-07T08:26:44Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOJt_WwM5qknIy",
+      "title": "Robotic Prinicpal = Machine (or perhaps specifically Workload)?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/8",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "It's been a challenge to find a consistent and commonly understood term for non-human identities (synthetic identities have their own meaning, machine identities implies a machine, device identities imply devices and workloads imply software). I like the Gartner taxonomy that classifies workload and device identities as subset of the machine identity realm. PErhaps we can use that term consistently and help frame the conversation in language the industry is adopting elsewhere?",
+      "createdAt": "2023-07-04T13:55:15Z",
+      "updatedAt": "2023-09-29T16:31:17Z",
+      "closedAt": "2023-09-29T16:31:17Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed.",
+          "createdAt": "2023-07-06T20:28:37Z",
+          "updatedAt": "2023-07-06T20:28:37Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOJt_WwM5qkvYj",
+      "title": "Tx-Token Service -> Tx-Token endpoint?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/10",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Is the Tx-Token Service really just another endpoint?",
+      "createdAt": "2023-07-04T14:14:05Z",
+      "updatedAt": "2023-08-01T01:11:21Z",
+      "closedAt": "2023-08-01T01:11:21Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed [here](https://hackmd.io/@rpc-sec-wg/notes-20232107). Closing since we decided to call it a service in the end.",
+          "createdAt": "2023-08-01T01:11:21Z",
+          "updatedAt": "2023-08-01T01:11:21Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOJt_WwM5qkwwq",
+      "title": "Security Considerations: Leaf vs Nested Tx-Tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/11",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "Nested TraTs"
+      ],
+      "body": "Add section giving guidance on security properties of nested vs leaf tokens.",
+      "createdAt": "2023-07-04T14:17:42Z",
+      "updatedAt": "2023-10-03T19:34:14Z",
+      "closedAt": "2023-10-03T19:34:14Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "No longer relevant with removal of nested tokens.",
+          "createdAt": "2023-10-03T19:34:14Z",
+          "updatedAt": "2023-10-03T19:34:14Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOJt_WwM5qkxiM",
+      "title": "Leaf Tx-Token Claims",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/12",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "How is the workload identity captured in the leaf tokens and other subsequent tokens (sub_id is reserved for the original subject, how is the workload ids represented)?",
+      "createdAt": "2023-07-04T14:19:13Z",
+      "updatedAt": "2023-10-03T19:36:39Z",
+      "closedAt": "2023-10-03T19:36:38Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in latest version of the spec",
+          "createdAt": "2023-10-03T19:36:38Z",
+          "updatedAt": "2023-10-03T19:36:38Z"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "I_kwDOJt_WwM5rZFsz",
+      "title": "Txt token Header ",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/21",
+      "state": "CLOSED",
+      "author": "naveencm4u1",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I assume the token is sent in the header. Do we have any recommendations for the header name?",
+      "createdAt": "2023-07-12T20:48:47Z",
+      "updatedAt": "2024-02-01T22:48:57Z",
+      "closedAt": "2024-02-01T22:48:57Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In what situations would we have multiple tokens such that leveraging the Authorization header is not sufficient? My preference would be to leverage the Authorization header. Receiving entities can distinguish token types based on the JWT Header. ",
+          "createdAt": "2023-09-05T18:56:46Z",
+          "updatedAt": "2023-09-05T18:56:46Z"
+        },
+        {
+          "author": "naveencm4u1",
+          "authorAssociation": "NONE",
+          "body": "@gffletch It is mainly in the transition phase. In our case, we want to pass both Access Token and Transaction Token until all the downstream are ready.",
+          "createdAt": "2023-09-05T20:35:56Z",
+          "updatedAt": "2023-09-05T20:35:56Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This topic has come up again so re-opening the issue as it's something I think we need to address in the specification.",
+          "createdAt": "2023-10-31T11:11:58Z",
+          "updatedAt": "2023-10-31T11:11:58Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Duplicate of #49 ",
+          "createdAt": "2023-11-14T00:12:51Z",
+          "updatedAt": "2023-11-14T00:12:51Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "I believe, this issue can be closed as well?",
+          "createdAt": "2024-01-30T11:54:40Z",
+          "updatedAt": "2024-01-30T11:54:40Z"
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "I_kwDOJt_WwM5sqqbb",
+      "title": "tid and azc are introduced without calling out they're being defined",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/22",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We should point out in 5.2.2 that \"tid\" and \"azc\" are being defined there. (From Dr. Kelley W Burgin)",
+      "createdAt": "2023-07-26T20:36:02Z",
+      "updatedAt": "2023-09-29T16:29:47Z",
+      "closedAt": "2023-09-29T16:29:47Z",
+      "comments": []
+    },
+    {
+      "number": 23,
+      "id": "I_kwDOJt_WwM5sqrFw",
+      "title": "tid claim is required (section 5.2.2), but what about calls that aren't app specific",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/23",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Dr. Kelley W Burgin\r\n",
+      "createdAt": "2023-07-26T20:38:23Z",
+      "updatedAt": "2023-10-06T16:21:14Z",
+      "closedAt": "2023-10-06T16:21:14Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Kelly, can you clarify? The 'tid' claim; now 'txn' is just an identifier for the transaction.",
+          "createdAt": "2023-09-27T13:35:51Z",
+          "updatedAt": "2023-09-27T13:35:51Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Clarify this in the draft.",
+          "createdAt": "2023-09-29T16:10:51Z",
+          "updatedAt": "2023-09-29T16:10:51Z"
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "id": "I_kwDOJt_WwM5sqroH",
+      "title": "What does the AS do with the values in \"azc\"?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/24",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Dr. Kelley W. Burgin\r\nSection 6.2: What does the AS do with the values in \u201cazc\u201d? Are they included in the transaction token? Can I put anything I want in \u201cazc\u201d?",
+      "createdAt": "2023-07-26T20:40:16Z",
+      "updatedAt": "2023-08-09T18:20:08Z",
+      "closedAt": "2023-08-09T18:20:08Z",
+      "comments": []
+    },
+    {
+      "number": 30,
+      "id": "I_kwDOJt_WwM5vVD62",
+      "title": "azc content recommendations?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/30",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tulshi"
+      ],
+      "labels": [],
+      "body": "              Are there any recommendations on the type of data to include or not include in `azc`? Or is it up to the individuals to encrypt if there is any sensitive data in it?\r\n\r\n_Originally posted by @naveencm4u1 in https://github.com/SGNL-ai/transaction-tokens/pull/29#discussion_r1296765403_\r\n            ",
+      "createdAt": "2023-08-25T23:51:30Z",
+      "updatedAt": "2023-10-18T04:10:18Z",
+      "closedAt": "2023-10-18T04:10:17Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think details about the transaction itself (e.g. a RAR structure) could be put in the 'azc' but in their own sub-object. Generally, my thoughts have been the primary contents is the context of the transaction itself. Who requested the token, the purpose of the transaction, maybe other context that should be immutable (e.g. source IP address, device identifier, time of day, type of authorization token [bearer vs sender-constrained], ...)",
+          "createdAt": "2023-09-05T18:53:39Z",
+          "updatedAt": "2023-09-05T18:53:39Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I feel some of this information (requester, source IP, device ID) may be more interesting from an offline analysis point of view, rather than the transaction processing point of view. If so, the TraT service should just log this information instead of putting it into the TraT in order to prevent token bloat. If it is needed for transaction processing, it can always be included in the `azc` field.",
+          "createdAt": "2023-09-25T18:45:03Z",
+          "updatedAt": "2023-09-25T18:45:03Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So for me, a minimum set is...\nRequesting Entity (GW, Application, etc)\nPurpose of the transaction (to allow for \"downscoping\")\nSubject of the transaction (user/machine id)\n\nI do think that preserving other context of the transaction is useful from any risk engine that might be used by a downstream workload. But maybe we can separate that out. \n\n{\n  'iss'\n  ...\n  'azc'\n  'cxt' /* OPTIONAL: context of the transaction */\n  'azd' /* OPTIONAL: Authorization details */\n}\n\nThe 'azd' claim would allow for the additional information like what can be provided in RAR.\n\nThe 'cxt' claim would allow for capturing other contextual details of the transaction. As optional, it can be left out to reduce token bloat.",
+          "createdAt": "2023-09-27T13:11:37Z",
+          "updatedAt": "2023-09-27T13:11:37Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sounds reasonable. We have the subject `sub_id` claim. Should we add a sub-container or just have specific fields for the originator and purpose claims?",
+          "createdAt": "2023-09-27T17:05:23Z",
+          "updatedAt": "2023-09-27T17:05:23Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "It would be good to show how, in a replacement txn-token, the identity of the previous sub_id is preserved. The replacement token may have a new sub_id that represent the workload that requested the replacement token.",
+          "createdAt": "2023-10-03T19:42:09Z",
+          "updatedAt": "2023-10-03T19:42:09Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed in PR #43 ",
+          "createdAt": "2023-10-18T04:10:17Z",
+          "updatedAt": "2023-10-18T04:10:17Z"
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "id": "I_kwDOJt_WwM5xDCy8",
+      "title": "Change tid claim name",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/31",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "PieterKas"
+      ],
+      "labels": [],
+      "body": "Implementation feedback. The \"tid\" claim clashes with a claim commonly used in AAD for the tenant ID. Perhaps we can use an alternative like idt, txi, txnid, txn_id or tti?",
+      "createdAt": "2023-09-14T13:50:16Z",
+      "updatedAt": "2023-10-05T23:26:11Z",
+      "closedAt": "2023-10-05T23:26:11Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed in the identity chaining call. Recommendation is to use the 'txn' claim name as defined in RFC 8417.",
+          "createdAt": "2023-09-15T16:15:05Z",
+          "updatedAt": "2023-09-15T16:15:05Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Add reference to SET add RFC 8417",
+          "createdAt": "2023-09-29T16:14:51Z",
+          "updatedAt": "2023-09-29T16:14:51Z"
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "I_kwDOJt_WwM5xLPpk",
+      "title": "IANA considerations for txn_token type",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/32",
+      "state": "CLOSED",
+      "author": "arndt-s",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I believe we should add an IANA consideration and propose to register `urn:ietf:params:oauth:token-type:txn_token`.",
+      "createdAt": "2023-09-15T16:48:29Z",
+      "updatedAt": "2023-09-22T16:40:00Z",
+      "closedAt": "2023-09-22T16:40:00Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks for this email and adding the issues to GitHub. I will update the\r\nspec shortly.\r\n\r\nOn Fri, Sep 15, 2023 at 9:48\u202fAM Arndt Schwenkschuster <\r\n***@***.***> wrote:\r\n\r\n> I believe we should add an IANA consideration and propose to register\r\n> urn:ietf:params:oauth:token-type:txn_token.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/SGNL-ai/transaction-tokens/issues/32>, or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG2NFDHWDE7USMWVPDLX2SBGPANCNFSM6AAAAAA42CJ2YU>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: ***@***.***>\r\n>\r\n",
+          "createdAt": "2023-09-15T22:58:17Z",
+          "updatedAt": "2023-09-15T22:58:17Z"
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "id": "I_kwDOJt_WwM5xLQCF",
+      "title": "IANA considerations for azc claim",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/33",
+      "state": "CLOSED",
+      "author": "arndt-s",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I believe we should add an IANA consideration to propose the registration of azc claim.\r\nA list of registered claims can be found here: https://www.iana.org/assignments/jwt/jwt.xhtml#claims",
+      "createdAt": "2023-09-15T16:49:47Z",
+      "updatedAt": "2023-09-22T16:40:00Z",
+      "closedAt": "2023-09-22T16:40:00Z",
+      "comments": []
+    },
+    {
+      "number": 34,
+      "id": "I_kwDOJt_WwM5xW0Ii",
+      "title": "Clarification on the aud claim in Txn-Token format and examples",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/34",
+      "state": "CLOSED",
+      "author": "appsdesh",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> A Trust Domain must have an identifier that is used as the aud (audience) value in Txn-Tokens. The format of this identifier is a universal resource identifier. Each Trust Domain has exactly one Txn-Token Service\r\n\r\nLet's clarify the `aud` claim in examples of [the Txn Token format section ](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-03.html#name-txn-token-format)",
+      "createdAt": "2023-09-18T21:53:44Z",
+      "updatedAt": "2023-11-14T00:11:43Z",
+      "closedAt": "2023-11-14T00:11:43Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Decision: update the example.\r\n\r\nMove context out, add aud.",
+          "createdAt": "2023-10-06T16:20:49Z",
+          "updatedAt": "2023-10-06T16:20:49Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I believe this issue has been resolved.",
+          "createdAt": "2023-11-14T00:11:43Z",
+          "updatedAt": "2023-11-14T00:11:43Z"
+        }
+      ]
+    },
+    {
+      "number": 35,
+      "id": "I_kwDOJt_WwM5xW1Gr",
+      "title": "How do internal services authorize the Transaction Tokens?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/35",
+      "state": "CLOSED",
+      "author": "appsdesh",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Can we clarify in the examples how do internal services authorize the Transaction tokens?\r\n1. Are all the internal services bootstrapped with the token service public key?\r\n2. How do internal services know the boundaries of the trust domain or whether is it part of it?",
+      "createdAt": "2023-09-18T21:57:27Z",
+      "updatedAt": "2024-02-01T22:48:39Z",
+      "closedAt": "2024-02-01T22:48:39Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "You can use something like SPIFFE to establish internal trust between services. The public key for the TraT service can be delivered as a part of the trust bundle.",
+          "createdAt": "2023-09-21T23:22:51Z",
+          "updatedAt": "2023-09-21T23:22:51Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So one though is that if the Transaction Token has an \u2018iss\u2019 claim then the public key should be discoverable. I don\u2019t think that has to be the only way to obtain the public key but it is one way systems could do it. This obviously doesn\u2019t need to be done on every request.",
+          "createdAt": "2023-09-23T21:04:56Z",
+          "updatedAt": "2023-09-23T21:04:56Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Proposal: make the iss claim mandatory and then reference existing mechanisms to discover public keys (maybe from jwks?). Also allow for other mechanisms to discover. General idea is to use the iss claim to discover the public key.",
+          "createdAt": "2023-10-06T16:15:44Z",
+          "updatedAt": "2023-10-06T16:15:44Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "I don't like to make iss claim mandatory. If all services operate within the same trust boundary, they already know their trusted authorization server and an iss claim would just add clutter and unnecessary data to the token. Also it would mean that one had to already trust some data within the transaction token before being able to validate its signature. This could lead to a rogue component to send requests to an internal service with carefully crafted transaction tokens with an iss pointing to another server the rogue component has control over. To prevent injecting rogue iss, the internal service would need to validate the provided iss value with a preconfigured list of allowed ones.\r\n\r\nIn our environment (trust boundary) where we are using internal tokens for transactions, the internal services have the authorization server's host name configured. Internal services can decide to pull (and cache) the jwks from the well-known url and validate the tokens locally or they can use the token introspection endpoint of the authorization server for validating the token. Validating the internal/transaction tokens with token introspection is useful for some sensitive operations and has the benefit that this validation can fail if for instance the access token the transaction token was derived from got revoked or the authentication context associated with the tokens got flagged.\r\n",
+          "createdAt": "2023-10-26T07:52:17Z",
+          "updatedAt": "2023-10-26T07:52:17Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@obfuscoder 's point about all services in the same trust domain know the issuer and putting the `iss` field adds clutter is valid. We can make that field optional in the draft. I believe it is required right now. [Section 5.2.1](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-01.html#name-common-claims).\r\n\r\nEven if we made this claim optional, we should still note the point about validating the `iss` claim so that it prevents external issuers from being trusted by internal services in the Security Considerations section.",
+          "createdAt": "2023-10-26T20:45:02Z",
+          "updatedAt": "2023-10-26T20:45:02Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "As the required iss claim is now replaced with the required aud claim, there should be some validation guidelines for this parameter.\r\n\r\nIn the absence of the iss claim, discovery is not available and either SPIFFE or preconfigured URLs of the TTS and/or its JWKS is possible.",
+          "createdAt": "2024-01-30T11:53:25Z",
+          "updatedAt": "2024-01-30T11:53:25Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "we have made `iss` optional now, after much discussion, so closing this issue.",
+          "createdAt": "2024-02-01T22:48:39Z",
+          "updatedAt": "2024-02-01T22:48:39Z"
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "id": "I_kwDOJt_WwM5ysCEy",
+      "title": "Do we still need the \"Leaf-TXN\" token concept.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/40",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "PieterKas"
+      ],
+      "labels": [],
+      "body": "Now that nested tokens are removed, should we retain the leaf txn concept?\r\n\r\nSuggestion is to remove all mention of \"leaf-txn token\" throughout the doc.",
+      "createdAt": "2023-10-03T13:22:37Z",
+      "updatedAt": "2023-10-11T17:25:40Z",
+      "closedAt": "2023-10-11T17:25:40Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Decision to remove.",
+          "createdAt": "2023-10-06T16:10:17Z",
+          "updatedAt": "2023-10-06T16:10:17Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this PR was merged. Closing the issue, but please reopen if I am mistaken.",
+          "createdAt": "2023-10-11T17:25:40Z",
+          "updatedAt": "2023-10-11T17:25:40Z"
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "id": "I_kwDOJt_WwM50J9VG",
+      "title": "It would be good to show how, in a replacement txn-token, the identity of the previous sub_id is preserved. The replacement token may have a new sub_id that represent the workload that requested the replacement token.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/44",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "pre-adoption"
+      ],
+      "body": "              It would be good to show how, in a replacement txn-token, the identity of the previous sub_id is preserved. The replacement token may have a new sub_id that represent the workload that requested the replacement token.\r\n\r\n_Originally posted by @PieterKas in https://github.com/SGNL-ai/transaction-tokens/issues/30#issuecomment-1745613590_\r\n            ",
+      "createdAt": "2023-10-18T04:09:25Z",
+      "updatedAt": "2024-02-02T19:19:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 48,
+      "id": "I_kwDOJt_WwM51GAj8",
+      "title": "\"sender constrained\" language needs improvement",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/48",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The language in section [Sender Constrained Tokens](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-01.html#name-sender-constrained-tokens) needs to refer to the RFC and specify how to use them with Txn-Tokens",
+      "createdAt": "2023-10-26T23:19:03Z",
+      "updatedAt": "2024-02-02T16:49:42Z",
+      "closedAt": "2024-02-02T16:49:42Z",
+      "comments": []
+    },
+    {
+      "number": 49,
+      "id": "I_kwDOJt_WwM51GBCr",
+      "title": "Using Txn-Tokens securely",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/49",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "pre-adoption"
+      ],
+      "body": "We need to add in the [Security Considerations](https://www.ietf.org/archive/id/draft-tulshibagwale-oauth-transaction-tokens-01.html#name-security-considerations) section, information on how services may use Txn-Tokens securely, by possibly using them in conjunction with SPIFFE or other service-to-service security mechanisms.\r\n\r\n(based on feedback by Kai Lehmann (@obfuscoder))",
+      "createdAt": "2023-10-26T23:21:58Z",
+      "updatedAt": "2024-01-29T19:00:18Z",
+      "closedAt": "2024-01-29T19:00:18Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "#21 talks about the same issue, but this is a broader statement.",
+          "createdAt": "2023-11-14T00:14:05Z",
+          "updatedAt": "2023-11-14T00:14:05Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We will use a new header named \"Txn-Token\"",
+          "createdAt": "2024-01-19T17:41:24Z",
+          "updatedAt": "2024-01-19T17:42:49Z"
+        }
+      ]
+    },
+    {
+      "number": 50,
+      "id": "I_kwDOJt_WwM52d2ec",
+      "title": "Separate transaction tokens from JWT",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/50",
+      "state": "OPEN",
+      "author": "jricher",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "To me, the real value here is the semantics around the payload, and less directly tied to the JWT format as its container. In particular, it seems like the payload could benefit from some of the disclosure capabilities of things like SD-JWT to allow the system to mask certain values from some parties within the trust domain.\r\n\r\nConsequently, perhaps the document should focus on the payload and semantics, or explicitly show ties to both JWT and SD-JWT (and maybe CWT and others?) from the payload definition.",
+      "createdAt": "2023-11-10T12:29:35Z",
+      "updatedAt": "2023-11-11T04:28:00Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That is an interesting restructuring to the doc. Basically a conceptual section and then bindings to particular formats allowing for profiles to other encodings? Is that the general idea?",
+          "createdAt": "2023-11-11T04:28:00Z",
+          "updatedAt": "2023-11-11T04:28:00Z"
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "id": "I_kwDOJt_WwM52iZ-T",
+      "title": "Should the azd claim be mandatory or optional",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/52",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "pre-adoption"
+      ],
+      "body": "I\u2019m wondering if we should move the `azd` claim to the Optional section as there may be some cases where it\u2019s not required. I\u2019d hate for systems to have to process and empty `azd` object. We might be able to leave it in the MUST category if we add text that says if there are no `azd` claims then the object MUST NOT be included in the transaction token.",
+      "createdAt": "2023-11-11T04:51:17Z",
+      "updatedAt": "2024-02-01T22:33:10Z",
+      "closedAt": "2024-02-01T22:33:10Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since we no longer have an optional and mandatory section, I shall close this issue. Please reopen if you think this needs to be addressed.",
+          "createdAt": "2024-02-01T22:33:10Z",
+          "updatedAt": "2024-02-01T22:33:10Z"
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "id": "I_kwDOJt_WwM529ErC",
+      "title": "Transaction Tokens for S2S calls",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/53",
+      "state": "OPEN",
+      "author": "dteleguin",
+      "authorAssociation": "NONE",
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [],
+      "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
+      "createdAt": "2023-11-15T22:58:21Z",
+      "updatedAt": "2024-02-20T19:48:05Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Transaction Tokens can definitely be used with legitimate calls that don't have an external trigger. The key element from an authorization perspective, is \"who is allowed to request an transaction token\" and \"for what purpose(s)\". If any service can request a transaction token, then it's important to limit the scope of how that transaction token can be used. In other words, we wouldn't want the logging service to be able to request a transaction service for the purpose of transferring crypto from a user's account.\r\n\r\nI would argue that there is still a `req_ctx` in this case, it may just contain different claims. I would expect downstream systems to want to know the originating workload that requested the transaction token.\r\n\r\nAs for `azd`, I agree that there are use cases where that needs to be specified to the Transaction Token service.\r\n\r\nGreat points on areas where we need to enhance the specification.",
+          "createdAt": "2023-12-07T14:46:42Z",
+          "updatedAt": "2023-12-07T14:46:42Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "Reviewing this issue, I can see a relation with #62. As it has been established that requesting Txn-Tokens without an external trigger is needed. however, the current spec requires an Access token to be presented in the subject_token parameter and the question is, how an internal batch process would obtain this. @dteguin (and me in the related issue #62) mentioned Client credentials grant for obtaining the AT. However, client credentials grant based ATs may not be related to users referred to with the sub claim, so it may be a challenge to issue Txn-Tokens with a user-related sub when the client credentials grant based AT does not contain one.\r\n\r\nIn #62 I gave an example where a batch processor might be able to present an expired Txn-Token, but there are still scenarios where no AT can be presented in the subject_token parameter or where the presented subject_token does not contain the information necessary to fill and issue the Txn-Token. This information needs to be provided somehow to the TTS. If this information must be part of the subject_token or somehow be obtainable by the TTS via parts of the subject_token content, it should at least be mentioned in the spec.\r\n\r\nPersonally, I'd like to see an option where the TTS can be called without a subject_token as input and instead providing the necessary information via additional parameters (e.g. sub within the req_ctx). It goes without saying, that this type of Token issuance should only be allowed to a very limited set of authenticated clients which have a special trust relationship with the TTS.",
+          "createdAt": "2024-01-30T11:49:00Z",
+          "updatedAt": "2024-01-30T11:49:00Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree that the `subject_token` can be an optional field in the TraT request. We should update the spec to say so. We can discuss this issue on Friday 2/2",
+          "createdAt": "2024-02-01T23:44:44Z",
+          "updatedAt": "2024-02-01T23:44:44Z"
+        },
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "As per RFC 8639, `subject_token` and `subject_token_type` are [required](https://datatracker.ietf.org/doc/html/rfc8693#name-request). Do you think we can \"override\" that in this spec @tulshi ?",
+          "createdAt": "2024-02-01T23:49:30Z",
+          "updatedAt": "2024-02-01T23:49:30Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We could agree on some placeholder to avoid being non-compliant with the RFC8693 (in the event that there is no input token)",
+          "createdAt": "2024-02-02T00:06:41Z",
+          "updatedAt": "2024-02-02T00:06:41Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "There is this \"N_A\" which could be reused here?",
+          "createdAt": "2024-02-02T05:51:22Z",
+          "updatedAt": "2024-02-02T05:51:22Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm still wondering if we'd want to send in a subject_token all the time rather than have this spec override the Token Exchange spec. We need a 'sub' as part of the TraT so why not use the subject_type to provide it. The `subject_token` value  could be something simple like a String and then the subject_token_type could be urn:...:workload_id",
+          "createdAt": "2024-02-20T19:48:04Z",
+          "updatedAt": "2024-02-20T19:48:04Z"
+        }
+      ]
+    },
+    {
+      "number": 56,
+      "id": "I_kwDOJt_WwM55gcQk",
+      "title": "RFC 9493 and sub_id formats",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/56",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "PR57"
+      ],
+      "body": "I suspect in many cases the AS that issues an access_token used to obtain an Txn-Token is going to be different than the Transaction Token Service. In that context, the issuer of the 'subject' of the transaction token is different than the issuer of the transaction token itself. \r\n\r\nSection 3.2.3 of RFC 9493 allows for the specification of an issuer and sub within the `sub_id` object. \r\n\r\nShould we require this format? or just leave out of scope of the specification what values are present in the `sub_id` claim of the transaction token?",
+      "createdAt": "2023-12-12T21:04:09Z",
+      "updatedAt": "2024-02-01T22:47:02Z",
+      "closedAt": "2024-02-01T22:47:02Z",
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "I would definitely not require that format. \r\n\r\nAnd would again suggest that RFC 9493 isn't needed in the Txn-Token context and [JWT's subject](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2) good enough. ",
+          "createdAt": "2023-12-20T21:41:16Z",
+          "updatedAt": "2023-12-20T21:41:16Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My concern with relying on the JWT's subject is that the Transaction Token is issued by the Transaction Token Service which is potentially different than the AS that say issued the access token from which the `sub` claim is determined. In that context, I think the Transaction Token should carry the issuer of the `sub` claim which means the default `sub` and `iss` claims of the JWT are not sufficient.\r\n\r\nOr if the entity requesting the Transaction token is the service that receives inbound mail, and that service wants a transaction token with a purpose of `mail.inbox.delivery`, is the Transaction Token Service the correct issuer of the `sub` which is an email address?",
+          "createdAt": "2023-12-20T22:16:47Z",
+          "updatedAt": "2023-12-20T22:16:47Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "I feel like there might be an undue emphasis on a relationship between `iss` and `sub` that doesn't truly exist. RFC7519 only mentions uniqueness in the context of an issuer https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2 but not ownership or correctness or semantic meaning. \r\n",
+          "createdAt": "2023-12-21T00:12:05Z",
+          "updatedAt": "2023-12-21T00:12:36Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In the context of OpenID and id_tokens there is a clear relationship between the `iss` and the `sub` such that the globally unique identification is the combination of `iss` and `sub`. I've always viewed the relationship of those two claims in that light. Maybe that is an OpenID Connect centric view.",
+          "createdAt": "2023-12-21T00:57:54Z",
+          "updatedAt": "2023-12-21T00:57:54Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "Yeah, I am somewhat familiar with OpenID Connect ;) But this isn't OpenID Connect. With a Transaction Token the subject just needs to be identified within a single trust domain. ",
+          "createdAt": "2023-12-21T13:56:46Z",
+          "updatedAt": "2023-12-21T13:56:46Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So that assumes that the `sub` claim MUST be unique within the single trust domain as identified by the `aud` claim.  This might require the Transaction Token Service (TTS) to do some sort of identifier transformation as well as requiring both the AS and the TTS to both be authoritative for the `sub` claim value. This is easy if the AS is managing the transaction token request endpoint but if the TTS is it's own service and deployed in a distributed way, would that still be true?\r\n\r\nI can see the TTS being authoritative for the single trust domain but not necessarily for the `sub` identifier. However, I'm ok with moving in the direction you are suggesting Brian; I just want to make sure we aren't prohibiting some deployments by making that simplification.",
+          "createdAt": "2023-12-21T15:41:55Z",
+          "updatedAt": "2023-12-21T15:41:55Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "From discussion...\n\n1. 'iss' claim is optional\n2. be clear that there is no relationship between iss and sub claim\n3. sub is unique within context of the 'aud' or trust domain\n4. go back just supporting the `sub` claim (no sub_id)",
+          "createdAt": "2024-01-19T17:37:18Z",
+          "updatedAt": "2024-01-19T17:37:18Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added a new commit to PR #57 to address this issue.",
+          "createdAt": "2024-01-24T13:21:17Z",
+          "updatedAt": "2024-01-24T13:21:17Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "A few months ago, I also suggested to support the sub claim as per JWT RFC. As the current spec has replaced sub_id with sub, I appreciate that the sub claim is supported now.",
+          "createdAt": "2024-01-30T11:26:38Z",
+          "updatedAt": "2024-01-31T07:08:56Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi Kai,\r\nThanks so much for your input in this process.\r\n\r\nAtul\r\n\r\nOn Tue, Jan 30, 2024 at 3:26\u202fAM Kai Lehmann ***@***.***>\r\nwrote:\r\n\r\n> A few months ago, I also suggested to support the sub claim as per JWT\r\n> RFC. As the current spec has replaced sub_id with sub. I appreciate that\r\n> the sub claim is supported now.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/56#issuecomment-1916638607>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG5Y4DBPQOKJBPKGHRLYRDKHTAVCNFSM6AAAAABASDKZWWVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMYTSMJWGYZTQNRQG4>\r\n> .\r\n> You are receiving this because you are subscribed to this thread.Message\r\n> ID: ***@***.***>\r\n>\r\n",
+          "createdAt": "2024-01-31T00:51:53Z",
+          "updatedAt": "2024-01-31T00:51:53Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since we have removed sub_ids now, I will close this issue.",
+          "createdAt": "2024-02-01T22:47:02Z",
+          "updatedAt": "2024-02-01T22:47:02Z"
+        }
+      ]
+    },
+    {
+      "number": 58,
+      "id": "I_kwDOJt_WwM56AT6_",
+      "title": "Authorization details presentation and processing",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/58",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "PR57"
+      ],
+      "body": "PR #57 raised a number of issues around processing of authorization details\r\n\r\n1. How are these details determined by the Transaction Token Service (i.e. where do they come from)?\r\n2. Should all the `azd` claims be visible to all workloads? or should they be restricted to a subset of workloads?\r\n3. Who is authoritative for specifying the claims of the `azd` object\r\n",
+      "createdAt": "2023-12-18T15:20:21Z",
+      "updatedAt": "2024-02-01T22:32:29Z",
+      "closedAt": "2024-02-01T22:32:29Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Some thoughts:\r\n\r\n1.  I think the spec should be un-opinionated about how the TraT service generates the value of `azd` claim. I can see in some instances that the requester has more control over what goes into the claim, and in some cases, the TraT service has more control.\r\n2. A TraT service could implement selective disclosure, although we could recommend in the spec that one should implement it by encrypting certain fields. Stating this makes the actual mechanism for selective disclosure outside the scope of the spec.\r\n3. I believe the TraT service MUST be authoritative for the claims of the `azd` object, because it is signing the TraT.",
+          "createdAt": "2023-12-18T17:42:51Z",
+          "updatedAt": "2023-12-18T17:42:51Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding (1) -- I think we still need a way for the client to pass in data to the TTS that it can use to generate the values. Even if how all that works is out of scope for the specificatio.\r\n\r\nRegarding (2) and (3) -- I'm ok with leaving the rules out of scope for the specification. The TTS will be authoritative for the resulting `azd` object and whether it should be protected in some way or not.\r\n\r\nI am curious to hear from others as to their thoughts.",
+          "createdAt": "2023-12-18T18:31:58Z",
+          "updatedAt": "2023-12-18T18:31:58Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Suggestion to rename `authz_details` to `request_details` and then add a processing rule to the effect of... \"The TTS SHOULD propagate the data from the `request_details` object into claims in the `azd` object as authorized by the TTS authorization policy for the requesting client\"",
+          "createdAt": "2024-01-12T17:26:50Z",
+          "updatedAt": "2024-01-12T17:26:50Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This has been fixed AFAIK. Please reopen the issue if it hasn't been fixed by George's PR.",
+          "createdAt": "2024-02-01T22:32:29Z",
+          "updatedAt": "2024-02-01T22:32:29Z"
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "id": "I_kwDOJt_WwM56AUh2",
+      "title": "Use of base64url encoding for request_context and authz_details",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/59",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "PR57"
+      ],
+      "body": "Should we call out a specific encoding for these JSON objects? ",
+      "createdAt": "2023-12-18T15:21:31Z",
+      "updatedAt": "2024-01-12T17:55:08Z",
+      "closedAt": "2024-01-12T17:55:07Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems fine, re-open if we discover issues with the current PR language",
+          "createdAt": "2024-01-12T17:55:07Z",
+          "updatedAt": "2024-01-12T17:55:07Z"
+        }
+      ]
+    },
+    {
+      "number": 60,
+      "id": "I_kwDOJt_WwM56AVNO",
+      "title": "Use of `actor_token` and `actor_token_type`",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/60",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "PR57"
+      ],
+      "body": "Should we allow the use of `actor_token` and `actor_token_type` to be used as a means of client authentication for the Transaction Token Service? If not, should explicitly prohibit the use of these parameters in the profile of the Token Exchange spec.",
+      "createdAt": "2023-12-18T15:22:56Z",
+      "updatedAt": "2024-02-01T22:31:14Z",
+      "closedAt": "2024-02-01T22:31:14Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Since RFC8693 (Token Exchange) refers to the `actor_token` as \"A security token that represents the identity of the acting party\", we should not use it in the TraT request. I thought we wanted to have some way to convey the inbound token to the TraT service, and that's why we were using `actor_token`, but that is inconsistent with RFC8693. I think we should neither require nor disallow the use of `actor_token` because some implementations may want that for client auth, and some implementations may want to do something else (e.g. mTLS) for client auth.",
+          "createdAt": "2023-12-18T17:53:07Z",
+          "updatedAt": "2023-12-18T17:53:07Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is kind of what the spec says today. It's not required and up to the implementation. It is just referenced as an example. However, I'm fine removing the example and just being silent in the spec on the topic.",
+          "createdAt": "2023-12-18T18:18:37Z",
+          "updatedAt": "2023-12-18T18:18:37Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Recommendation to update example and be silent on use of `actor_token` and `actor_token_type`. Add a section to Security Considerations to talk about client authentication and add some non-normative examples.",
+          "createdAt": "2024-01-12T17:48:13Z",
+          "updatedAt": "2024-01-12T17:48:13Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Removed the additional text regarding possible client authentication methods and just left it that the client MUST authenticate itself to the Transaction Token Service and that the specific client authentication method is out of scope for this specification.",
+          "createdAt": "2024-01-24T13:39:37Z",
+          "updatedAt": "2024-01-24T13:39:37Z"
+        }
+      ]
+    },
+    {
+      "number": 61,
+      "id": "I_kwDOJt_WwM56AWSf",
+      "title": "How is the `purp` claim of the Txn-Token defined?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/61",
+      "state": "CLOSED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "PR57"
+      ],
+      "body": "In PR #57, the token exchange `scope` parameter is profiled to carry the purpose or intent of the transaction and its value is copied into the `purp` claim of the resulting Txn-Token. \r\n\r\nIs this how we want to handle the 'purp' claim?",
+      "createdAt": "2023-12-18T15:25:19Z",
+      "updatedAt": "2024-02-01T22:30:57Z",
+      "closedAt": "2024-02-01T22:30:57Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I propose that the draft should allow value of the `scope` claim in the TraT request be independent of the `purp` claim in the TraT, because the requesting service may not know sufficient details about how the TraT is actually going to be used. For example, the requester may say the `scope` is \"buy stock\", whereas the `purp` claim could have a value like \"equity trade\"",
+          "createdAt": "2023-12-18T17:47:43Z",
+          "updatedAt": "2023-12-18T17:47:43Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok, so allow the TTS to transform the input scope to the appropriate value (if necessary). I'm ok with that.",
+          "createdAt": "2023-12-18T18:28:57Z",
+          "updatedAt": "2023-12-18T18:28:57Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Recommended change that the TTS MUST take the value of the `scope` parameter to determine the `purp` claim of the TraT.",
+          "createdAt": "2024-01-12T17:32:59Z",
+          "updatedAt": "2024-01-12T17:32:59Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Based on this feedback, the `purp` claim is being made REQUIRED.",
+          "createdAt": "2024-01-24T13:35:18Z",
+          "updatedAt": "2024-01-24T13:35:18Z"
+        }
+      ]
+    },
+    {
+      "number": 62,
+      "id": "I_kwDOJt_WwM58ELrW",
+      "title": "Long-living Access Token needed for internal batch processes/offline tasks?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/62",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
+      "createdAt": "2024-01-15T08:11:42Z",
+      "updatedAt": "2024-02-02T05:46:47Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So a couple of thoughts here:\r\n\r\n1. I believe the Txn-Token Service (TTS) must be able to issue Txn-Tokens without a previously issued access_token. Think about a use case where email is being delivered to a mail box. SMTP does not carry the access token that authorized the sending of the email. In that context, the in-bound email server needs to be able to request a Txn-Token for the purpose of delivering the email to the specified inbox.\r\n2. The general intent for keeping Txn-Tokens very short lived is to remove the need for revocation. Revocation is difficult for any token system (see the issuer-holder-verifier efforts in this space). Given that the vast majority of transactions complete in a very short timeframe, keeping the life-time of the Txn-Token short makes a lot of sense.\r\n3. There are some edge cases where a longer lived Txn-Token may be beneficial or required.  Say for instance a user asks for their account to be deleted (GDPR) and the Txn-Token needs to live for multiple days? even though the underlying identity system may have cleaned up the user identifier data. That said, these edge cases should be vetted very carefully as there is a security risk if a Txn-Token lives for a long time and hence can be replayed potentially in compromising ways.",
+          "createdAt": "2024-01-29T16:43:21Z",
+          "updatedAt": "2024-01-29T16:43:21Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "The use cases you mention are pretty much what we had to implement.\r\n\r\n1. For incoming mails we have a mail delivery agent which wants to use the mail storage system service to store the mail in the user mailbox. In order to write to the mailbox of a user, the delivery agent needs a Txn-Token with the sub of the user. The delivery agent asks the TTS about a Txn-Token and presents its client credentials and the mail address of the recipient/user. The TTS allows issuing Txn-Tokens to the delivery agent. There is no long-living access token involved. The issued Txn-Token is short lived (1 minute in our deployments).\r\n\r\n3. Whenever a user cancels their contract, we have to keep the data for some time (number of days depending on type of data, legal restrictions, etc.) after the delete operations are performed. The delayed delete operation is done by batch processes. Now, instead of creating and storing long-living access tokens which could be leaked and abused elsewhere, we decided to retain the short-lived Txn-Tokens and allow only those batch processes to ask the TTS to issue new Txn-Tokens for already expired Txn-Tokens to perform the actual delete operation which requires a valid and not expired Txn-Token when calling the storage system services.\r\n\r\nSo my argument is against using (and potentially abusing) long-living access tokens, and instead for allowing expired Txn-Tokens to be presented to the TTS to re-issue Txn-Tokens for the purpose of finalizing a delayed operation.",
+          "createdAt": "2024-01-30T11:17:56Z",
+          "updatedAt": "2024-01-30T11:18:24Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I do not think we should allow the use of expired TraTs to authorize the issuance of new TraTs. This can be abused for token replay attacks, and negates the security we get through short-lived TraTs.",
+          "createdAt": "2024-02-01T22:30:26Z",
+          "updatedAt": "2024-02-01T22:30:26Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "@tulshi Good point. In order to get a new TraTs, the caller needs proper client authentication (e.g. SPIFFE, mTLS, or Basic Auth credentials). My point was to only allow specific authenticated clients the exchange of expired TraTs. It is true that if those clients get hacked themselves (and the client authentication can be done by an attacker) new TraTs can be created and abused.\r\n\r\nHowever, longer living TraTs have also the risk of being abused with replay attacks. I think the risk for replay attacks with longer living TraTs is even higher as an attacker would just need to get hold of the long-living TraTs and does not have the need to renew it.\r\n",
+          "createdAt": "2024-02-02T05:46:46Z",
+          "updatedAt": "2024-02-02T05:46:46Z"
+        }
+      ]
+    },
+    {
+      "number": 63,
+      "id": "I_kwDOJt_WwM58EStr",
+      "title": "audience REQUIRED for just one trust domain?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/63",
+      "state": "CLOSED",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "This issue is somewhat related to the aud claim comment I made earlier via mail to the authors.\r\n\r\nThe spec states that audience parameter is REQUIRED in the Txn-Token request. It contains the trust domain. To my understanding, every trust domain has a single (logical) Txn-Service. A Txn-Service is usually configured to only issue Txn-Tokens to one and only one trust domain. Also the authenticating clients which the Txn-Service accepts in incoming requests are part of that trust domain. After all, they have been registered within that trust domain. It might be possible that the Txn-Service is used in multiple trust domains. In those scenarios I fully agree that the audience parameter is REQUIRED. My guess is, though, that the most deployed setup will incorporate a single trust domain.",
+      "createdAt": "2024-01-15T08:30:44Z",
+      "updatedAt": "2024-02-02T19:00:53Z",
+      "closedAt": "2024-02-02T19:00:53Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So, with the move to bind the `sub` claim to the trust domain identified by the `aud` claim, I believe we should keep it to be required. I also think that there will be deployments with multiple Transaction Token Services (each using their own unique signing keys) that service a single trust domain. \r\n\r\nWhat is the benefit of making the `aud` claim optional?",
+          "createdAt": "2024-01-29T14:07:40Z",
+          "updatedAt": "2024-01-29T14:07:40Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "> What is the benefit of making the aud claim optional?\r\n\r\nMostly brevity reasons. Also, if it is defined as REQUIRED, it will be enforced by 3rd party libraries which a company might want to integrate in their components/services. This essentially forces the company (albeit using Txn-Tokens within their trust domain only internally) to define and set the aud claim without added benefit.\r\n\r\nHaving aud REQUIRED also implies that the value needs to be validated somehow. I think this aspect should be mentioned in the spec, if it is really required. So every Token service must have the audience parameter validated as well as every service/worker receiving a Txn-Token must validate the aud claim against a configured accepted value (or list of values).\r\n",
+          "createdAt": "2024-01-30T10:06:57Z",
+          "updatedAt": "2024-01-30T10:06:57Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think `aud` is required to prevent a TraT from being reused in a domain its not supposed to be used in.",
+          "createdAt": "2024-02-01T19:27:23Z",
+          "updatedAt": "2024-02-01T19:27:45Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing as per discussion in meeting on 2/2/24: https://hackmd.io/@rpc-sec-wg/Hk0ggi5ca",
+          "createdAt": "2024-02-02T19:00:53Z",
+          "updatedAt": "2024-02-02T19:00:53Z"
+        }
+      ]
+    },
+    {
+      "number": 66,
+      "id": "I_kwDOJt_WwM59nfI7",
+      "title": "Trust domain/audience claim format URI or StringOrUri?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/66",
+      "state": "CLOSED",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In the Terminology section, the Trust Domain value is being defined and referenced in the aud claim as universal resource identifier. It should be spelled Universal Resource Identifier and a reference to RFC3986 should be added.\r\n\r\nHowever, later in the document, the aud claim value is specified as defined in RFC7519. This RFC defines the aud claim as \"StringOrURI\". The different passages should be aligned.\r\n\r\nFurthermore, the examples for the aud claim values should be aligned accordingly. In section Txn-Token Request the POST request example to the token service uses:\r\n\r\n`&audience=http%3A%2F%2Ftrust-domain.example`\r\n\r\nIf an URI is used, I suggest to use 'https' instead of 'http'.\r\n\r\nLater the JWT body example of the Txn-Token just uses a string:\r\n\r\n`\"aud\": \"trust-domain.example\",`\r\n",
+      "createdAt": "2024-01-30T10:38:12Z",
+      "updatedAt": "2024-02-02T19:19:10Z",
+      "closedAt": "2024-02-02T19:19:10Z",
+      "comments": []
+    },
+    {
+      "number": 69,
+      "id": "I_kwDOJt_WwM5-FxH9",
+      "title": "Do we still need replacement transaction tokens.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/69",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to clarify the use case for replacement transaction token and whether we still have it. We included it in the past to preserve call chain information, but it is unclear if we still should address this in the transaction token.",
+      "createdAt": "2024-02-02T17:35:56Z",
+      "updatedAt": "2024-02-02T17:38:20Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conversation: https://hackmd.io/@rpc-sec-wg/Hk0ggi5ca",
+          "createdAt": "2024-02-02T17:38:18Z",
+          "updatedAt": "2024-02-02T17:38:18Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 5,
+      "id": "PR_kwDOJt_WwM5UMFHs",
+      "title": "renaming trats to tx-tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/5",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-06-28T21:45:45Z",
+      "updatedAt": "2023-07-07T23:02:36Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "57443b4a7be04b5e8bf46a7153313dd96a318866",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "rename-trat",
+      "headRefOid": "04b04f78fc0f754ba048329fdbbf00aed6e748c1",
+      "closedAt": "2023-06-28T21:47:32Z",
+      "mergedAt": "2023-06-28T21:47:32Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "15f2f510571cb6efd9cc814a98520413077f2339"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 9,
+      "id": "PR_kwDOJt_WwM5UnxCR",
+      "title": "Updated diagram to reflect token name change",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/9",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-04T14:00:31Z",
+      "updatedAt": "2023-07-07T23:02:48Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "6387cdefbbe7937597147a3f36c65fde3c2a593c",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "ec6b44dc7edea48418d94d10a5bc86e68a321407",
+      "closedAt": "2023-07-06T18:57:06Z",
+      "mergedAt": "2023-07-06T18:57:06Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "a5f062cdb073d334d368a7a87af4f3cdb5a062b6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5abaky",
+          "commit": {
+            "abbreviatedOid": "ec6b44d"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-06T18:56:59Z",
+          "updatedAt": "2023-07-06T18:56:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "PR_kwDOJt_WwM5UunhF",
+      "title": "Update transaction-tokens.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/13",
+      "state": "MERGED",
+      "author": "hannestschofenig",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-05T17:42:27Z",
+      "updatedAt": "2023-07-07T18:34:30Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "a5f062cdb073d334d368a7a87af4f3cdb5a062b6",
+      "headRepository": "hannestschofenig/transaction-tokens",
+      "headRefName": "patch-1",
+      "headRefOid": "cce88e49c12bf4ba3fa898f9bcc636952292e771",
+      "closedAt": "2023-07-07T18:34:30Z",
+      "mergedAt": "2023-07-07T18:34:30Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "e38c3603b7c33d8dd1e5bb45df4d8d54a8b611a5"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5abnNb",
+          "commit": {
+            "abbreviatedOid": "7332ebe"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-06T19:37:15Z",
+          "updatedAt": "2023-07-06T23:01:18Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "I wanted to point out that the contents of the transaction tokens may include claims that are not in the original request to the external endpoint, which is why I used the word \"computed\". If we remove this word from the sentence, then we may need to clarify that elsewhere.",
+              "createdAt": "2023-07-06T19:37:15Z",
+              "updatedAt": "2023-07-06T23:01:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5aj1W1",
+          "commit": {
+            "abbreviatedOid": "a6d234a"
+          },
+          "author": "hannestschofenig",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-07-07T17:27:27Z",
+          "updatedAt": "2023-07-07T17:27:27Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\n* Any computed context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.\r\n```",
+              "createdAt": "2023-07-07T17:27:27Z",
+              "updatedAt": "2023-07-07T17:27:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5akizn",
+          "commit": {
+            "abbreviatedOid": "cce88e4"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-07-07T18:33:27Z",
+          "updatedAt": "2023-07-07T18:33:27Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDOJt_WwM5U-EwV",
+      "title": "renamed file, updated workflow",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/14",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-07T22:50:22Z",
+      "updatedAt": "2023-07-07T23:02:33Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e38c3603b7c33d8dd1e5bb45df4d8d54a8b611a5",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "file-rename",
+      "headRefOid": "33670cc2e3c73ecb35720076a5c6a93926b40138",
+      "closedAt": "2023-07-07T22:51:32Z",
+      "mergedAt": "2023-07-07T22:51:32Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "10d97c629c171361d4a4b049d9e4e2c157af95a9"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOJt_WwM5U-GhU",
+      "title": "added links to output",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/15",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-07T22:58:43Z",
+      "updatedAt": "2023-07-07T23:02:30Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "10d97c629c171361d4a4b049d9e4e2c157af95a9",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "update-readme",
+      "headRefOid": "19c918a2da4874942ca3674b1271630a5bcfa323",
+      "closedAt": "2023-07-07T22:59:46Z",
+      "mergedAt": "2023-07-07T22:59:46Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "dfadd157b66281f24474c27c35dd1199382f65b4"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOJt_WwM5U-IWY",
+      "title": "fixed filename and removed one issue that idnits found",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/16",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-07T23:10:47Z",
+      "updatedAt": "2023-07-07T23:55:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "dfadd157b66281f24474c27c35dd1199382f65b4",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "file-rename-2",
+      "headRefOid": "4c32686891f4886c74fe6d6e42ceb7458dc9653a",
+      "closedAt": "2023-07-07T23:55:05Z",
+      "mergedAt": "2023-07-07T23:55:05Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "60eb7c02e060e823646c3f3b9bb216c147a8db47"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOJt_WwM5VIrMe",
+      "title": "file to ignore unnecessary intermediate files",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/17",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-10T22:27:17Z",
+      "updatedAt": "2023-07-10T22:27:28Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "60eb7c02e060e823646c3f3b9bb216c147a8db47",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "add-gitignore",
+      "headRefOid": "23c4aada0e57e9bc39af4e762d96db9f35bf463c",
+      "closedAt": "2023-07-10T22:27:27Z",
+      "mergedAt": "2023-07-10T22:27:27Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "feabbd1faa9339b900c18d9fb3798dcfe5a819d8"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOJt_WwM5VJEOm",
+      "title": "added replacement transaction tokens section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/18",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-10T23:47:02Z",
+      "updatedAt": "2023-07-10T23:49:12Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "feabbd1faa9339b900c18d9fb3798dcfe5a819d8",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "update-draft",
+      "headRefOid": "e77bf1e895673251056a3ab7dbfcc11ee0f48741",
+      "closedAt": "2023-07-10T23:49:11Z",
+      "mergedAt": "2023-07-10T23:49:11Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "de53e33902a84288bb167f682d135e4a1356eaa1"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOJt_WwM5VJGZn",
+      "title": "updated to version 01",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/19",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-10T23:53:28Z",
+      "updatedAt": "2023-07-10T23:53:38Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "de53e33902a84288bb167f682d135e4a1356eaa1",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "update-version",
+      "headRefOid": "5a235dd676542dfc0cbd311a6eb09e179b83403f",
+      "closedAt": "2023-07-10T23:53:37Z",
+      "mergedAt": "2023-07-10T23:53:37Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "94f0a2db44cf6a6557e3fd3d9acf99ad0ac019e3"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOJt_WwM5VJHp4",
+      "title": "updated workflow",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/20",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-07-10T23:57:10Z",
+      "updatedAt": "2023-07-10T23:57:19Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "94f0a2db44cf6a6557e3fd3d9acf99ad0ac019e3",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "update-version",
+      "headRefOid": "9942aa248e7c25f1d1022cd316a1b98a49be138e",
+      "closedAt": "2023-07-10T23:57:18Z",
+      "mergedAt": "2023-07-10T23:57:18Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "c90d2fe80e850d1fda15c0aa5496488aba69037f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOJt_WwM5XJ2WC",
+      "title": "Broke single flow diagram into 3 different diagrams",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/25",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on discussion and feedback in the IETF 117 Session, I've split the single flow diagram into three different flow diagrams.",
+      "createdAt": "2023-08-04T00:50:50Z",
+      "updatedAt": "2023-08-04T16:34:51Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "c90d2fe80e850d1fda15c0aa5496488aba69037f",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "split-flows",
+      "headRefOid": "fcc8f0203320c615d379273c5f2e4eac8f954e6b",
+      "closedAt": "2023-08-04T16:34:50Z",
+      "mergedAt": "2023-08-04T16:34:50Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "8ace3d59762e5cd06bcdba0343f2e136fad3f3b6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5dKVaA",
+          "commit": {
+            "abbreviatedOid": "fcc8f02"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-08-04T14:26:54Z",
+          "updatedAt": "2023-08-04T14:26:54Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "PR_kwDOJt_WwM5XNw64",
+      "title": "bumped version number for uploading to ietf datatracker",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/26",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-08-04T16:53:45Z",
+      "updatedAt": "2023-08-04T16:54:33Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8ace3d59762e5cd06bcdba0343f2e136fad3f3b6",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "version-number-2",
+      "headRefOid": "ecd49330842df96e32d19dd70d0771ec8bedb5bd",
+      "closedAt": "2023-08-04T16:54:32Z",
+      "mergedAt": "2023-08-04T16:54:32Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "04684bad5e499758a81aed611c29a69097dfdf1a"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 27,
+      "id": "PR_kwDOJt_WwM5XNx4g",
+      "title": "Version number 2",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/27",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-08-04T16:58:10Z",
+      "updatedAt": "2023-08-04T17:00:50Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "04684bad5e499758a81aed611c29a69097dfdf1a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "version-number-2",
+      "headRefOid": "860a10ba08937ceea9561545460d91e8889bc8d3",
+      "closedAt": "2023-08-04T17:00:49Z",
+      "mergedAt": "2023-08-04T17:00:49Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "33e11e4a1e870a7b2fcf411ec232e67a8705c78c"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 28,
+      "id": "PR_kwDOJt_WwM5XN6j_",
+      "title": "renamed param in Txn-Token request",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/28",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The current draft had a request parameter named \"azc\" and also the claim within the TraT is called \"azc\", which leads to confusion whether the request parameter content is directly embedded into the token. So I am renaming the request parameter to \"rctx\".",
+      "createdAt": "2023-08-04T17:35:58Z",
+      "updatedAt": "2023-09-05T18:58:54Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "33e11e4a1e870a7b2fcf411ec232e67a8705c78c",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "request-param",
+      "headRefOid": "4f37d0bbefa119c6c47670464c3d0e35114ed823",
+      "closedAt": "2023-08-09T18:20:07Z",
+      "mergedAt": "2023-08-09T18:20:07Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "18e11ba305018e94769d30afaef74e61c25c2aaa"
+      },
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ahh... I think this parameter is for cases where the requestor wants to add some specific authorization data into the overall TxTkn. I would prefer to rename the parameter 'authz_details' which would be a JSON object and then add it as a sub-object in the `azc` of the TxTkn. ",
+          "createdAt": "2023-09-05T18:58:54Z",
+          "updatedAt": "2023-09-05T18:58:54Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOJt_WwM5YHF3W",
+      "title": "incorporated feedback from Dr. Kelley W Burgin",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/29",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-08-17T01:48:46Z",
+      "updatedAt": "2023-08-25T23:53:37Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "18e11ba305018e94769d30afaef74e61c25c2aaa",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "kelley-feedback",
+      "headRefOid": "8828fe08f4539f729b47a0c50ff25c65fb0e2036",
+      "closedAt": "2023-08-25T23:53:37Z",
+      "mergedAt": "2023-08-25T23:53:37Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "5995ff482120a44ba3337863fcc47c1368c827e8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5eSYOn",
+          "commit": {
+            "abbreviatedOid": "701790f"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-08-17T06:34:33Z",
+          "updatedAt": "2023-08-17T07:08:58Z",
+          "comments": [
+            {
+              "originalPosition": 267,
+              "body": "Cache-Control: no-cache, no-store",
+              "createdAt": "2023-08-17T06:34:33Z",
+              "updatedAt": "2023-08-17T07:08:58Z"
+            },
+            {
+              "originalPosition": 296,
+              "body": "`Each string is the the value of ` -> `Each string is the value of `",
+              "createdAt": "2023-08-17T06:35:13Z",
+              "updatedAt": "2023-08-17T07:08:58Z"
+            },
+            {
+              "originalPosition": 321,
+              "body": "`The a longer lived access token` -> `A longer-lived access token`",
+              "createdAt": "2023-08-17T06:35:59Z",
+              "updatedAt": "2023-08-17T07:08:58Z"
+            },
+            {
+              "originalPosition": 151,
+              "body": "In the draft, Points 6-9 are displayed as one line.",
+              "createdAt": "2023-08-17T06:52:22Z",
+              "updatedAt": "2023-08-17T07:08:58Z"
+            },
+            {
+              "originalPosition": 191,
+              "body": "In the draft, Points 6-9 are displayed as one line.",
+              "createdAt": "2023-08-17T06:53:09Z",
+              "updatedAt": "2023-08-17T07:08:58Z"
+            },
+            {
+              "originalPosition": 296,
+              "body": "Are there any recommendations on the type of data to include or not include in `azc`? Or is it up to the individuals to encrypt if there is any sensitive data in it?\r\n",
+              "createdAt": "2023-08-17T07:06:31Z",
+              "updatedAt": "2023-08-17T07:08:58Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "PR_kwDOJt_WwM5a8D4F",
+      "title": "final changes for draft-03 upload",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/36",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-09-21T23:11:17Z",
+      "updatedAt": "2023-09-21T23:11:27Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5995ff482120a44ba3337863fcc47c1368c827e8",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "draft-03",
+      "headRefOid": "5b475e22a66a55b92859c024c31c57d9ad66ba50",
+      "closedAt": "2023-09-21T23:11:26Z",
+      "mergedAt": "2023-09-21T23:11:26Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "3fa87b2a831cd2dfb864716f36d7b591f02d7341"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 37,
+      "id": "PR_kwDOJt_WwM5a8NVN",
+      "title": "renamed tid to txn and added IANA registry contents",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/37",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-09-22T00:04:30Z",
+      "updatedAt": "2023-09-22T16:40:00Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "27241e07163c90b5e8b0d08528b67d7e936e0b38",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "azc-iana",
+      "headRefOid": "ae6d0ed621fe4b9d5381e1c9c05a1e7eca9ecc8d",
+      "closedAt": "2023-09-22T16:39:58Z",
+      "mergedAt": "2023-09-22T16:39:58Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "b31bf428360796a1ff01e83933fc5bd978b28ef8"
+      },
+      "comments": [
+        {
+          "author": "arndt-s",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "`txn` is already registered (https://www.iana.org/assignments/jwt/jwt.xhtml).\r\nDo we need to register it again? I'm not sure what the guidance here is.",
+          "createdAt": "2023-09-22T14:50:42Z",
+          "updatedAt": "2023-09-22T14:50:42Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5hw1lY",
+          "commit": {
+            "abbreviatedOid": "007bbe2"
+          },
+          "author": "jricher",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-22T15:25:01Z",
+          "updatedAt": "2023-09-22T15:25:02Z",
+          "comments": [
+            {
+              "originalPosition": 44,
+              "body": "This is already registered by SET, we should not (can not) re-register it.\r\n```suggestion\r\n## JWT Registry Contents\r\n\r\n```",
+              "createdAt": "2023-09-22T15:25:01Z",
+              "updatedAt": "2023-09-22T15:25:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5hxJ6J",
+          "commit": {
+            "abbreviatedOid": "ae6d0ed"
+          },
+          "author": "arndt-s",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "Looks good to me",
+          "createdAt": "2023-09-22T16:13:13Z",
+          "updatedAt": "2023-09-22T16:13:13Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "PR_kwDOJt_WwM5bBAKg",
+      "title": "removed nesting",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/38",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-09-22T18:45:02Z",
+      "updatedAt": "2023-09-25T18:33:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "b31bf428360796a1ff01e83933fc5bd978b28ef8",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "remove-nesting",
+      "headRefOid": "aabcdca0a484cb8c5b9c7c856e40111794858630",
+      "closedAt": "2023-09-25T18:33:05Z",
+      "mergedAt": "2023-09-25T18:33:05Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "91b13d7a978a6bb89ed4a5e20a65064c84127f89"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5hzt3g",
+          "commit": {
+            "abbreviatedOid": "aabcdca"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-23T21:09:30Z",
+          "updatedAt": "2023-09-23T21:09:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5h6YGk",
+          "commit": {
+            "abbreviatedOid": "aabcdca"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-25T17:37:37Z",
+          "updatedAt": "2023-09-25T17:37:37Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOJt_WwM5byaFA",
+      "title": "Added reference for RFC 8417 (SET)",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/39",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #31",
+      "createdAt": "2023-10-03T12:47:43Z",
+      "updatedAt": "2023-10-05T23:25:55Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "91b13d7a978a6bb89ed4a5e20a65064c84127f89",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "777c5557408b5208dc996d138c1782848c077ea6",
+      "closedAt": "2023-10-05T23:25:54Z",
+      "mergedAt": "2023-10-05T23:25:54Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "f484a68a9de14df5c8e8bdc3c2f11471a9d3145c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5ipza1",
+          "commit": {
+            "abbreviatedOid": "777c555"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-03T12:49:16Z",
+          "updatedAt": "2023-10-03T12:49:16Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "id": "PR_kwDOJt_WwM5b053s",
+      "title": "Added additional text to constrain Txn-Token Lifetime.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/41",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Constrain Txn-Token to be shorter than the Access Token Lifetime (upper bound on lifetime)\r\n\r\nEditorial update to security considerations",
+      "createdAt": "2023-10-03T19:33:36Z",
+      "updatedAt": "2023-10-05T23:25:42Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "91b13d7a978a6bb89ed4a5e20a65064c84127f89",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-2",
+      "headRefOid": "5c54abefe9899991652b60dc3a30549ba39de495",
+      "closedAt": "2023-10-05T23:25:41Z",
+      "mergedAt": "2023-10-05T23:25:41Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "9b7d4dc12da3e82c6a13e6e7abfaca5875153c9c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5itFdq",
+          "commit": {
+            "abbreviatedOid": "c879e8f"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-03T19:37:40Z",
+          "updatedAt": "2023-10-03T19:37:40Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "This assumes that the original request had an access token, which may not always be the case (although will frequently be the case). Can we update the language to say \"If the token or other credential presented to the Txn-Token service in order to issue a txn-token has an expiration time, then the txn-token MUST not exceed the lifetime of the originally presented token or credential\"",
+              "createdAt": "2023-10-03T19:37:40Z",
+              "updatedAt": "2023-10-03T19:37:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5itI24",
+          "commit": {
+            "abbreviatedOid": "c879e8f"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-03T19:44:43Z",
+          "updatedAt": "2023-10-03T19:44:43Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Yes, that sounds good. Will make the change.",
+              "createdAt": "2023-10-03T19:44:43Z",
+              "updatedAt": "2023-10-03T19:44:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5itKCj",
+          "commit": {
+            "abbreviatedOid": "5c54abe"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-03T19:48:10Z",
+          "updatedAt": "2023-10-03T19:48:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "id": "PR_kwDOJt_WwM5cIX_y",
+      "title": "Removed Leaf-Tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/42",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Removed leaf token terminology",
+      "createdAt": "2023-10-06T16:34:02Z",
+      "updatedAt": "2023-10-06T18:54:43Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "f484a68a9de14df5c8e8bdc3c2f11471a9d3145c",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "7716405404106f490f71a5ef59b1180ad6b3d7a7",
+      "closedAt": "2023-10-06T18:54:41Z",
+      "mergedAt": "2023-10-06T18:54:41Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "6296e00d7010f9dcb73eab379b0cb71983b898e9"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5jGba_",
+          "commit": {
+            "abbreviatedOid": "7716405"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-06T18:54:35Z",
+          "updatedAt": "2023-10-06T18:54:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOJt_WwM5c-ClW",
+      "title": "added aud, orig and purp claims",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/43",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-17T04:28:30Z",
+      "updatedAt": "2023-10-18T11:52:26Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "6296e00d7010f9dcb73eab379b0cb71983b898e9",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "purpose-orig",
+      "headRefOid": "5633e15b55f29ee8fabe6998caf546fdae46bec2",
+      "closedAt": "2023-10-18T04:06:50Z",
+      "mergedAt": "2023-10-18T04:06:50Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "4998e02a0803a65b08c065e86cfbcd00062a1f54"
+      },
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Looks good to me. Left a comment, but nothing major.",
+          "createdAt": "2023-10-18T11:51:54Z",
+          "updatedAt": "2023-10-18T11:51:54Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5kWg7l",
+          "commit": {
+            "abbreviatedOid": "f3fe680"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-17T23:17:41Z",
+          "updatedAt": "2023-10-17T23:17:42Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "What about calling this the \"req_ctxt\" (request context)? For me that is clearer than `orig`.  I might also add something about \"context\" in the text.\r\n\r\n\"... describes the origin and context of the transaction.\"",
+              "createdAt": "2023-10-17T23:17:42Z",
+              "updatedAt": "2023-10-17T23:17:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5kWhj4",
+          "commit": {
+            "abbreviatedOid": "f3fe680"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-17T23:19:42Z",
+          "updatedAt": "2023-10-17T23:19:42Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "What about `req_wl` for requesting workload or `req_app` for requesting app. My thoughts here are that the requesting entity may not always be a gateway. In my original proposal I called this the `act` claim representing \"actor\" per the token exchange spec.",
+              "createdAt": "2023-10-17T23:19:42Z",
+              "updatedAt": "2023-10-17T23:19:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5kWjdf",
+          "commit": {
+            "abbreviatedOid": "f3fe680"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-17T23:22:19Z",
+          "updatedAt": "2023-10-17T23:22:20Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Originally, I thought of `azc` to be more transaction context focused. Since we've moved a lot of those details to the `orig` claim. It may make sense to move this to `azd` for \"authorization details\". For me this maps better to the data we have in the `azc` claim in the example. Thoughts?",
+              "createdAt": "2023-10-17T23:22:19Z",
+              "updatedAt": "2023-10-17T23:22:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5kWjmE",
+          "commit": {
+            "abbreviatedOid": "f3fe680"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "A few comments but otherwise looks good.",
+          "createdAt": "2023-10-17T23:23:10Z",
+          "updatedAt": "2023-10-17T23:23:10Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5kWuZW",
+          "commit": {
+            "abbreviatedOid": "f2dfd9c"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-18T00:19:58Z",
+          "updatedAt": "2023-10-18T00:19:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5kbLgP",
+          "commit": {
+            "abbreviatedOid": "5633e15"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-18T11:49:58Z",
+          "updatedAt": "2023-10-18T11:49:58Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "Do you want to call out that this may be a SPIFFE ID as example?",
+              "createdAt": "2023-10-18T11:49:58Z",
+              "updatedAt": "2023-10-18T11:49:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5kbMfp",
+          "commit": {
+            "abbreviatedOid": "5633e15"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Left a comment, but looks good to me.",
+          "createdAt": "2023-10-18T11:52:26Z",
+          "updatedAt": "2023-10-18T11:52:26Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 45,
+      "id": "PR_kwDOJt_WwM5dZq70",
+      "title": "Added Arndt as contributor, updated draft number to submit to IETF",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/45",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-20T16:25:17Z",
+      "updatedAt": "2023-10-20T17:31:24Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "4998e02a0803a65b08c065e86cfbcd00062a1f54",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "add-arndt",
+      "headRefOid": "2be946c161308d976bbf830cc413391a3f64804e",
+      "closedAt": "2023-10-20T17:31:23Z",
+      "mergedAt": "2023-10-20T17:31:23Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d37ced510df12616ab6eeb29163ad5281c1ee440"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5kxHVk",
+          "commit": {
+            "abbreviatedOid": "2be946c"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good",
+          "createdAt": "2023-10-20T17:22:38Z",
+          "updatedAt": "2023-10-20T17:22:38Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 46,
+      "id": "PR_kwDOJt_WwM5da7ZZ",
+      "title": "Typo fix",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/46",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-20T21:05:37Z",
+      "updatedAt": "2023-10-20T21:10:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d37ced510df12616ab6eeb29163ad5281c1ee440",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "typo-fix",
+      "headRefOid": "d37a3d16d13cea0ca6a5c02b1e81089c867d8948",
+      "closedAt": "2023-10-20T21:10:05Z",
+      "mergedAt": "2023-10-20T21:10:05Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "a04c52de169e85df0693f5b39cf14f0552b778b3"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 47,
+      "id": "PR_kwDOJt_WwM5da-el",
+      "title": "fixed IANA registry formatting",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/47",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-20T21:20:33Z",
+      "updatedAt": "2023-10-20T21:22:25Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "a04c52de169e85df0693f5b39cf14f0552b778b3",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "iana-fix",
+      "headRefOid": "66f089146cbc2493e7122aede219c28acdda951d",
+      "closedAt": "2023-10-20T21:22:24Z",
+      "mergedAt": "2023-10-20T21:22:24Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "6fa76c61aa15d93bade1c840ab6d0769ca617303"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 51,
+      "id": "PR_kwDOJt_WwM5fM189",
+      "title": "Update draft-tulshibagwale-oauth-transaction-tokens-05.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/51",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I moved the Security Considerations section before the IANA registry text and added a Privacy Considerations section as raised in the IETF 118 meeting.",
+      "createdAt": "2023-11-11T04:49:23Z",
+      "updatedAt": "2023-11-13T18:27:02Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "6fa76c61aa15d93bade1c840ab6d0769ca617303",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "main",
+      "headRefOid": "f4fc5e8af64b1bf8d817255a3d55e7afec197259",
+      "closedAt": "2023-11-13T18:27:01Z",
+      "mergedAt": "2023-11-13T18:27:01Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "e5c685831cf7790379b8f4a6e01eec1ade09d220"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5m_oAm",
+          "commit": {
+            "abbreviatedOid": "f4fc5e8"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-13T18:26:51Z",
+          "updatedAt": "2023-11-13T18:26:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "id": "PR_kwDOJt_WwM5gnUzT",
+      "title": "renamed for adopted draft submission",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/54",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-29T00:18:27Z",
+      "updatedAt": "2023-11-29T18:14:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e5c685831cf7790379b8f4a6e01eec1ade09d220",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "adopted-draft",
+      "headRefOid": "390638b34338d70b6ec1c8beadd07091c886e75e",
+      "closedAt": "2023-11-29T18:14:09Z",
+      "mergedAt": "2023-11-29T18:14:09Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "84d9ab78d55c5a2fa49f94188803283510fc3d50"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5okIC2",
+          "commit": {
+            "abbreviatedOid": "2eb2536"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-29T02:21:39Z",
+          "updatedAt": "2023-11-29T02:21:39Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "id": "PR_kwDOJt_WwM5hhM0b",
+      "title": "Migrate tooling",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/55",
+      "state": "MERGED",
+      "author": "arndt-s",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Uses https://github.com/martinthomson/i-d-template template to set up tooling",
+      "createdAt": "2023-12-08T12:21:28Z",
+      "updatedAt": "2023-12-08T14:24:47Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "84d9ab78d55c5a2fa49f94188803283510fc3d50",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "arndt-s/migrate_tooling",
+      "headRefOid": "7100f28efbafe767cb6abc5e37bb75d1cf8b8ff1",
+      "closedAt": "2023-12-08T14:24:46Z",
+      "mergedAt": "2023-12-08T14:24:46Z",
+      "mergedBy": "aaronpk",
+      "mergeCommit": {
+        "oid": "732521a26b4fc3256d2d53b1aef60688946c86f8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5ppe9_",
+          "commit": {
+            "abbreviatedOid": "7100f28"
+          },
+          "author": "aaronpk",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-12-08T14:24:15Z",
+          "updatedAt": "2023-12-08T14:24:15Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "id": "PR_kwDOJt_WwM5h1it9",
+      "title": "Token exchange profile update",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/57",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated the text to more clearly profile the token exchange specification for use with Transaction Tokens.",
+      "createdAt": "2023-12-12T21:23:08Z",
+      "updatedAt": "2024-01-29T19:44:50Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "token-exchange",
+      "headRefOid": "5a8d9a3ec2d59c5ad95253f063179ebc262a953c",
+      "closedAt": "2024-01-29T19:43:15Z",
+      "mergedAt": "2024-01-29T19:43:14Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "379227fd8af3a3cf17e7a5ae53073cc67a0331a1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5qHDWD",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-13T18:17:49Z",
+          "updatedAt": "2023-12-14T00:53:10Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "\"may be requested -> \"MAY be requested\"",
+              "createdAt": "2023-12-13T18:17:49Z",
+              "updatedAt": "2023-12-14T00:53:10Z"
+            },
+            {
+              "originalPosition": 41,
+              "body": "The new wording makes the use of Token Exchange look optional. Is that intended? If so, we should perhaps clarify that (I have no opinion on the optionality, but I would like this draft to describe the Token Exchange profile as it is doing now)",
+              "createdAt": "2023-12-13T18:19:26Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 50,
+              "body": "`scope` is optional in a token exchange request. I'm supportive of making it required, but I'm trying to remember whether we have discussed this.",
+              "createdAt": "2023-12-14T00:45:38Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 63,
+              "body": "I'm not sure about this. I feel that the `azd` claim in the TraT should be minted by the TraT server, so the requesting service should only provide the context based on which the TraT can be minted. I feel the requesting service should not be able to dictate what goes into the TraT as the azd.",
+              "createdAt": "2023-12-14T00:48:30Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 88,
+              "body": "Not sure what you mean by \"the specified Txn-Token\" here. Perhaps we can say \"...determine if that workload is authorized to request Txn-Tokens with the requested values\"?",
+              "createdAt": "2023-12-14T00:51:21Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            },
+            {
+              "originalPosition": 100,
+              "body": "I'd like to discuss this part. I feel the requesting service should not oblige the TraT service to have specific content in the TraT.",
+              "createdAt": "2023-12-14T00:52:50Z",
+              "updatedAt": "2023-12-14T00:53:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qZCoJ",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-15T21:24:28Z",
+          "updatedAt": "2023-12-15T21:51:00Z",
+          "comments": [
+            {
+              "originalPosition": 108,
+              "body": "check the way `token_type` is defined, which is kinda awakrd in this context. See https://datatracker.ietf.org/doc/html/rfc8693#section-2.2.1-2.4 and https://www.rfc-editor.org/rfc/rfc6749#section-7.1 \r\n\r\njust using `N_A` here might be appropriate ",
+              "createdAt": "2023-12-15T21:24:28Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 111,
+              "body": "missing `issued_token_type` in this list ",
+              "createdAt": "2023-12-15T21:24:57Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 110,
+              "body": "I would not say \"in base64url encoded from\" here as might suggest the Txn-Token is supposed to be re-encoded or otherwise confuse folks. The Txn-Token is a JWT. Nothing more needs to be said here. ",
+              "createdAt": "2023-12-15T21:35:01Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 108,
+              "body": "also the example below is missing token_type ",
+              "createdAt": "2023-12-15T21:35:42Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 52,
+              "body": "GW probably needs to be spelled out ",
+              "createdAt": "2023-12-15T21:41:10Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            },
+            {
+              "originalPosition": 66,
+              "body": "\"OAuth 2.0 Bearer tokens using a client credentials token\" -> token exchange is defined at the token endpoint, which can directly accept oauth client authentication. Also \"client credentials token\" isn't a defined thing (I think I know what you mean but I'm guessing).  ",
+              "createdAt": "2023-12-15T21:50:01Z",
+              "updatedAt": "2023-12-15T21:51:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafRZ",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:20:47Z",
+          "updatedAt": "2023-12-17T02:20:47Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "I wasn't intending that MAY to normative. Does it make sense to be normative?",
+              "createdAt": "2023-12-17T02:20:47Z",
+              "updatedAt": "2023-12-18T15:34:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafTm",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:23:25Z",
+          "updatedAt": "2023-12-17T02:23:26Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "I wasn't intending the text to imply that token exchange is optional, but rather that the Transaction Token spec is profiling the token exchange spec and that profile MUST be followed for the purpose of requesting Txn-Tokens. For me a profile doesn't mean the initial spec is optional but rather that the use of the transaction token spec is modified in some way.",
+              "createdAt": "2023-12-17T02:23:26Z",
+              "updatedAt": "2023-12-17T02:23:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafU1",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:25:01Z",
+          "updatedAt": "2023-12-17T02:25:01Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "I added it as required, because we have the 'purpose' claim of the Txn-Token and the requesting workload needs to specify what that purpose is. I discussed with Brian via email and we thought using the existing 'scope' parameter was a better option than defining a new parameter. I'm open to other perspectives.",
+              "createdAt": "2023-12-17T02:25:01Z",
+              "updatedAt": "2023-12-17T02:25:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafWS",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:26:54Z",
+          "updatedAt": "2023-12-17T02:26:54Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "So if all that `azd` data is in the access_token that's fine but what about the case where the requesting workload doesn't have an access token and is requesting a TraT to be minted. In that case, how does the workload ask for the additional transaction data to be added to the Trat in the `azd` claim?",
+              "createdAt": "2023-12-17T02:26:54Z",
+              "updatedAt": "2023-12-17T02:26:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafXq",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:28:21Z",
+          "updatedAt": "2023-12-17T02:28:21Z",
+          "comments": [
+            {
+              "originalPosition": 88,
+              "body": "That's clearer. I'll update with that wording.",
+              "createdAt": "2023-12-17T02:28:21Z",
+              "updatedAt": "2023-12-17T02:28:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafZU",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:30:53Z",
+          "updatedAt": "2023-12-17T02:30:53Z",
+          "comments": [
+            {
+              "originalPosition": 100,
+              "body": "I think I was wondering about that when I wrote it so happy to have a discussion about this. I'm thinking mostly about the case where an internal workload (e.g. like a scheduled job) needs a TraT and has additional details about the transaction that it wants to make immutable. We can say that it is up to the Transaction Token Service (TTS) to determine what data is included in the TraT. How the TTS makes that determination is out of scope for the specification.",
+              "createdAt": "2023-12-17T02:30:53Z",
+              "updatedAt": "2023-12-17T02:30:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafb1",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:33:59Z",
+          "updatedAt": "2023-12-17T02:34:00Z",
+          "comments": [
+            {
+              "originalPosition": 108,
+              "body": "Yes, I agree that N_A is probably better. I'll update accordingly.",
+              "createdAt": "2023-12-17T02:33:59Z",
+              "updatedAt": "2023-12-17T02:34:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafca",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:34:36Z",
+          "updatedAt": "2023-12-17T02:34:36Z",
+          "comments": [
+            {
+              "originalPosition": 111,
+              "body": "Thanks!",
+              "createdAt": "2023-12-17T02:34:36Z",
+              "updatedAt": "2023-12-17T02:34:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafdO",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:35:31Z",
+          "updatedAt": "2023-12-17T02:35:31Z",
+          "comments": [
+            {
+              "originalPosition": 110,
+              "body": "Ok. I wasn't sure how JWT are specified as values of a JSON claim. If multiple encodings are supported that's fine.",
+              "createdAt": "2023-12-17T02:35:31Z",
+              "updatedAt": "2023-12-17T02:35:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qafep",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-17T02:37:19Z",
+          "updatedAt": "2023-12-17T02:37:19Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Ok, let me re-work this paragraph and just point to the client authentication mechanisms supported by the /token endpoint as defined in existing RFCs.",
+              "createdAt": "2023-12-17T02:37:19Z",
+              "updatedAt": "2023-12-17T02:37:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qbx4X",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T02:00:28Z",
+          "updatedAt": "2023-12-18T02:00:28Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "Since the transaction token is passed to multiple workloads in a transaction, is it ok to expose `azd` to all the workloads? Is there any guidance on which type of data can be added to `azd`.\r\nWe are working on adding common fields to `azd` and also encrypt them. Access to the decryption secret is limited to specific workloads that need the data.\r\n\r\n",
+              "createdAt": "2023-12-18T02:00:28Z",
+              "updatedAt": "2023-12-18T02:00:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhDhi",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T14:48:10Z",
+          "updatedAt": "2023-12-18T14:48:11Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "That is a really interesting question and I wonder if selective disclosure JWTs could be a way to address that. I suppose if different workloads need access to different aspects of the `azd` data that could be more complicated.\r\n\r\nOne question, we may want to consider for this specification is whether that level of detail should be left up the specific deployment and become out of scope for this specification. Regardless, it's an interesting question. Would you mind filing an issue on it? I think it needs it's own discussion.",
+              "createdAt": "2023-12-18T14:48:11Z",
+              "updatedAt": "2023-12-18T14:48:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhhiG",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:32:40Z",
+          "updatedAt": "2023-12-18T15:32:41Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "I updated the previous paragraph (#Txn-Token Service) to be much stronger. Do we feel we need both? I can update here as well.",
+              "createdAt": "2023-12-18T15:32:41Z",
+              "updatedAt": "2023-12-18T15:32:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhhua",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:33:04Z",
+          "updatedAt": "2023-12-18T15:33:05Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "I filed an issue regarding this topic",
+              "createdAt": "2023-12-18T15:33:05Z",
+              "updatedAt": "2023-12-18T15:33:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhh7R",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:33:30Z",
+          "updatedAt": "2023-12-18T15:33:30Z",
+          "comments": [
+            {
+              "originalPosition": 100,
+              "body": "I filed an issue on this topic",
+              "createdAt": "2023-12-18T15:33:30Z",
+              "updatedAt": "2023-12-18T15:33:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qhiXi",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T15:34:25Z",
+          "updatedAt": "2023-12-18T15:34:25Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "I filed an issue on this topic",
+              "createdAt": "2023-12-18T15:34:25Z",
+              "updatedAt": "2023-12-18T15:34:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qib6L",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-18T17:37:30Z",
+          "updatedAt": "2023-12-18T17:37:31Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "not sure - it could make sense either way.",
+              "createdAt": "2023-12-18T17:37:30Z",
+              "updatedAt": "2023-12-18T17:37:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5qkeHY",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-12-19T01:20:55Z",
+          "updatedAt": "2023-12-19T01:20:55Z",
+          "comments": [
+            {
+              "originalPosition": 110,
+              "body": "Wait, what? This isn't a claim and there's only one encoding of a JWT.  This confused me :/ But \"Txn-Token JWT\" is in the latest commit works for me. Maybe someday we can discuss and hash out some of the confusion here. But latest text is good. ",
+              "createdAt": "2023-12-19T01:20:55Z",
+              "updatedAt": "2023-12-19T01:20:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5q5_pH",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "CASABECI",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-12-21T20:01:39Z",
+          "updatedAt": "2023-12-21T20:01:39Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5q6AbG",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "CASABECI",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "Wkn",
+          "createdAt": "2023-12-21T20:02:14Z",
+          "updatedAt": "2023-12-21T20:02:14Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5rdUcw",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-03T18:10:02Z",
+          "updatedAt": "2024-01-03T18:10:02Z",
+          "comments": [
+            {
+              "originalPosition": 63,
+              "body": "Issue #58 ",
+              "createdAt": "2024-01-03T18:10:02Z",
+              "updatedAt": "2024-01-03T18:10:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5rdVEF",
+          "commit": {
+            "abbreviatedOid": "fa68598"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-03T18:12:05Z",
+          "updatedAt": "2024-01-03T18:12:05Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "Issue #61 ",
+              "createdAt": "2024-01-03T18:12:05Z",
+              "updatedAt": "2024-01-03T18:12:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5sjT2G",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T08:39:05Z",
+          "updatedAt": "2024-01-15T08:39:05Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "\"For example, many deployments may chose ... those others formats are perfectly valid as well.\"\r\n\r\nI believe that should be two sentences or separated?",
+              "createdAt": "2024-01-15T08:39:05Z",
+              "updatedAt": "2024-01-15T08:39:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5sjUuR",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T08:41:24Z",
+          "updatedAt": "2024-01-15T08:41:33Z",
+          "comments": [
+            {
+              "originalPosition": 98,
+              "body": "The PR  suggests that the scope is simply copied to the purp claim. Is this really the case? Shouldn't rather the scope of the presented Access Token be narrowed down to what is given in the scope request param?",
+              "createdAt": "2024-01-15T08:41:24Z",
+              "updatedAt": "2024-01-15T08:41:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5sjoqB",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-15T09:27:30Z",
+          "updatedAt": "2024-01-15T09:27:30Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "Considering a scenario where multiple trust domains are supported by the Txn-Service, I assume that the aud claim will be determined by the audience request parameter?",
+              "createdAt": "2024-01-15T09:27:30Z",
+              "updatedAt": "2024-01-15T09:27:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5twcm-",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T13:46:28Z",
+          "updatedAt": "2024-01-24T13:46:28Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "After additional discussion, we've decided to move away from using the `sub_id` construct and just use `sub` and bind the uniqueness of the `sub` value to the trust domain as defined by the `aud` claim. An updated commit will make this change.",
+              "createdAt": "2024-01-24T13:46:28Z",
+              "updatedAt": "2024-01-24T13:46:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5twdiX",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T13:48:14Z",
+          "updatedAt": "2024-01-24T13:48:14Z",
+          "comments": [
+            {
+              "originalPosition": 98,
+              "body": "Good catch. The transaction token service (TTS) is authoritative for setting the `purp` claim. The text will be updated to allow the TTS to use the `scope` value to make the determination. Note that not all transaction token requests will contain an access token.",
+              "createdAt": "2024-01-24T13:48:14Z",
+              "updatedAt": "2024-01-24T13:48:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5twgWO",
+          "commit": {
+            "abbreviatedOid": "e050c98"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T13:53:41Z",
+          "updatedAt": "2024-01-24T13:53:41Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "That could be a possible deployment solution provided all transaction token requests have a way to define the trust domain to be used for that request. I've updated the text to allow for this case.",
+              "createdAt": "2024-01-24T13:53:41Z",
+              "updatedAt": "2024-01-24T13:53:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5ty8Fq",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "KramNosaj01",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-24T18:08:22Z",
+          "updatedAt": "2024-01-24T18:08:22Z",
+          "comments": [
+            {
+              "originalPosition": 41,
+              "body": "where to put the tokens?im sorry im just beginner",
+              "createdAt": "2024-01-24T18:08:22Z",
+              "updatedAt": "2024-01-24T18:08:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t8uhQ",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T20:36:26Z",
+          "updatedAt": "2024-01-25T20:51:03Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "I would like to make this language a bit more normative. How about something like \"The iss claim ... is optional. In situations where there are multiple Txn-Token issuers for the same trust domain, the iss claim MUST be included and MUST describe the issuer of the Txn-Token.\"",
+              "createdAt": "2024-01-25T20:36:26Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 67,
+              "body": "For compactness, should we change this name to \"rctx\" (since we are not using that in the Txn-Token request anymore) or something shorter?",
+              "createdAt": "2024-01-25T20:38:20Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 83,
+              "body": "Figure needs to be updated.",
+              "createdAt": "2024-01-25T20:39:10Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 101,
+              "body": "Typo: it's -> its\r\nShould we say \"MUST provide the Txn-Token Service with proof\"? (capitalize MUST)\r\nAlso, should we break this sentence into two parts: the required things (client-auth and purpose) and optional things (request context)? We should also drop the \"also\" from the last sentence (This profile also defines a new token type). We could even make that separate sub-section to clarify that we are defining a new token type.",
+              "createdAt": "2024-01-25T20:44:25Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 107,
+              "body": "Is the \"/\" required in the \"/token\"?",
+              "createdAt": "2024-01-25T20:48:22Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 122,
+              "body": "it's -> its",
+              "createdAt": "2024-01-25T20:48:52Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            },
+            {
+              "originalPosition": 146,
+              "body": "use \"trust domain\" instead of \"trust boundary\"?",
+              "createdAt": "2024-01-25T20:49:59Z",
+              "updatedAt": "2024-01-25T20:51:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t9D9w",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T21:36:21Z",
+          "updatedAt": "2024-01-25T21:36:21Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "I'm ok with that.",
+              "createdAt": "2024-01-25T21:36:21Z",
+              "updatedAt": "2024-01-25T21:36:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t9Eby",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T21:37:47Z",
+          "updatedAt": "2024-01-25T21:37:47Z",
+          "comments": [
+            {
+              "originalPosition": 107,
+              "body": "No, it's just my notation for identifying the endpoint. We could use \"OAuth {{RFC6749}} token endpoint\" to unique identify the endpoint.",
+              "createdAt": "2024-01-25T21:37:47Z",
+              "updatedAt": "2024-01-25T21:37:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t9Vt2",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T22:36:00Z",
+          "updatedAt": "2024-01-25T22:36:01Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "@tulshi are you ok if I just change the MAY to MUST?  It is still possible for multiple Txn-Token issues to use a predetermined signing key.\r\n\r\nI can add a sentence along the lines of \"The signing key MUST be discoverable via the `iss` claim\".\r\n\r\nIf we say that, do we need to define that discovery mechanism? or can we just refer to OAuth AS Metadata?",
+              "createdAt": "2024-01-25T22:36:01Z",
+              "updatedAt": "2024-01-25T22:36:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uMVtR",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-29T13:52:15Z",
+          "updatedAt": "2024-01-29T13:52:15Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "I took out the `iss` claim, and replaced `sub_id` with `sub`",
+              "createdAt": "2024-01-29T13:52:15Z",
+              "updatedAt": "2024-01-29T13:52:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uMXT7",
+          "commit": {
+            "abbreviatedOid": "27c3d44"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-29T13:55:25Z",
+          "updatedAt": "2024-01-29T13:55:26Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "I called out more clearly the optional parts from the required parts. Let me know what you think.",
+              "createdAt": "2024-01-29T13:55:25Z",
+              "updatedAt": "2024-01-29T13:55:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uPuGi",
+          "commit": {
+            "abbreviatedOid": "5a8d9a3"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T19:38:00Z",
+          "updatedAt": "2024-01-29T19:38:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOJt_WwM5kyLy6",
+      "title": "Add header",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/64",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch",
+        "bc-pi",
+        "PieterKas"
+      ],
+      "labels": [],
+      "body": "Addresses Issue #49 ",
+      "createdAt": "2024-01-23T01:46:29Z",
+      "updatedAt": "2024-01-29T19:00:18Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "732521a26b4fc3256d2d53b1aef60688946c86f8",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "add-header",
+      "headRefOid": "73b34be8246cabe1d2dffd7dcc33ac9ece57e127",
+      "closedAt": "2024-01-29T19:00:17Z",
+      "mergedAt": "2024-01-29T19:00:17Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "96733800e3e40a781fdc40473af9faea91e34458"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5tq9e3",
+          "commit": {
+            "abbreviatedOid": "de88238"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-23T21:34:15Z",
+          "updatedAt": "2024-01-23T21:34:15Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "We should probably capitalize `Http` like in the other text",
+              "createdAt": "2024-01-23T21:34:15Z",
+              "updatedAt": "2024-01-23T21:34:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5tq-Xc",
+          "commit": {
+            "abbreviatedOid": "61e0025"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-23T21:36:13Z",
+          "updatedAt": "2024-01-23T21:36:14Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Do we need to (or should we) say anything about the encoding of the JWT?",
+              "createdAt": "2024-01-23T21:36:13Z",
+              "updatedAt": "2024-01-23T21:36:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5t1RV0",
+          "commit": {
+            "abbreviatedOid": "61e0025"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-25T01:21:57Z",
+          "updatedAt": "2024-01-25T01:21:58Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I've updated the language to specify the encoding. However, I feel like this might be redundant.",
+              "createdAt": "2024-01-25T01:21:57Z",
+              "updatedAt": "2024-01-25T01:21:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uDVAO",
+          "commit": {
+            "abbreviatedOid": "61e0025"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-01-26T18:58:38Z",
+          "updatedAt": "2024-01-26T18:58:38Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "See [notes](https://hackmd.io/@rpc-sec-wg/BJKeLDZcp) of call on 1/26. We have decided to drop the line about the format.",
+              "createdAt": "2024-01-26T18:58:38Z",
+              "updatedAt": "2024-01-26T18:58:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uMcPc",
+          "commit": {
+            "abbreviatedOid": "73b34be"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T14:04:48Z",
+          "updatedAt": "2024-01-29T14:04:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 65,
+      "id": "PR_kwDOJt_WwM5lXcDe",
+      "title": "updated HTTP reference",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/65",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-01-29T19:17:03Z",
+      "updatedAt": "2024-01-29T21:56:00Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "379227fd8af3a3cf17e7a5ae53073cc67a0331a1",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "update-http-rfc-ref",
+      "headRefOid": "d1c4ed26d6b913f5f163e362b83ccb273dfaf7be",
+      "closedAt": "2024-01-29T21:55:59Z",
+      "mergedAt": "2024-01-29T21:55:59Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d3110bceb6efcd50383b3528888cc362117fe44d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5uPu0m",
+          "commit": {
+            "abbreviatedOid": "2229c0e"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T19:39:46Z",
+          "updatedAt": "2024-01-29T19:39:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uP1Aa",
+          "commit": {
+            "abbreviatedOid": "2229c0e"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good",
+          "createdAt": "2024-01-29T19:55:43Z",
+          "updatedAt": "2024-01-29T19:55:43Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uQmHm",
+          "commit": {
+            "abbreviatedOid": "d1c4ed2"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-01-29T21:52:50Z",
+          "updatedAt": "2024-01-29T21:52:50Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 67,
+      "id": "PR_kwDOJt_WwM5lbwpr",
+      "title": "Clarify and align audience claim value format",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/67",
+      "state": "CLOSED",
+      "author": "obfuscoder",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolve #66",
+      "createdAt": "2024-01-30T10:48:05Z",
+      "updatedAt": "2024-02-22T13:10:38Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3110bceb6efcd50383b3528888cc362117fe44d",
+      "headRepository": "obfuscoder/oauth-transaction-tokens",
+      "headRefName": "audformat",
+      "headRefOid": "1150bfd047e72e55a1be4b7c33e0a260d0685dfc",
+      "closedAt": "2024-02-22T13:10:37Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "As this was addressed in another PR in parallel which was merged already, I am closing this PR.",
+          "createdAt": "2024-02-22T13:10:37Z",
+          "updatedAt": "2024-02-22T13:10:37Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5utgpr",
+          "commit": {
+            "abbreviatedOid": "1150bfd"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-01T19:31:33Z",
+          "updatedAt": "2024-02-01T19:32:18Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "specify \"Section 2 of {{RFC7519}}\"",
+              "createdAt": "2024-02-01T19:31:34Z",
+              "updatedAt": "2024-02-01T19:32:18Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "Do we need to have \"https\" or any protocol in a StringOrUri? It should be OK to not have a protocol prefix.",
+              "createdAt": "2024-02-01T19:32:06Z",
+              "updatedAt": "2024-02-01T19:32:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5uxLDJ",
+          "commit": {
+            "abbreviatedOid": "1150bfd"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-02T06:02:16Z",
+          "updatedAt": "2024-02-02T06:02:17Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "True, if StringOrUri type should be defined, then a leading https:// is not necessary. In this case I would align the other instances where this audience is used.\r\n\r\nAs you want to discuss it in the call today, I wait with the update of the PR until after the discussion.\r\n\r\n(P.S: As much as I would like to join the regular call, the time slot is quite difficult for me due to other conflicting obligations.)",
+              "createdAt": "2024-02-02T06:02:16Z",
+              "updatedAt": "2024-02-02T06:02:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5u1i3X",
+          "commit": {
+            "abbreviatedOid": "1150bfd"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-02T15:33:11Z",
+          "updatedAt": "2024-02-02T15:33:12Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "I'm not sure we want to require that \"Each Trust Domain has `exactly one` Txn-Service\". I'd prefer we remove this line entirely and be silent on the topic as there can be multiple deployment options.",
+              "createdAt": "2024-02-02T15:33:11Z",
+              "updatedAt": "2024-02-02T15:33:12Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "PR_kwDOJt_WwM5lwziU",
+      "title": "removed sender constrained text as discussed on 12/08",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/68",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See meeting notes here where we agreed to remove this: https://hackmd.io/v6Gx0rvsTp2VJwL_quWuGA",
+      "createdAt": "2024-02-01T22:41:13Z",
+      "updatedAt": "2024-02-02T16:49:42Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3110bceb6efcd50383b3528888cc362117fe44d",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "remove-sender-constraints",
+      "headRefOid": "79ea8b2d4a526df17c7ed7c16647ae2258fdea84",
+      "closedAt": "2024-02-02T16:49:41Z",
+      "mergedAt": "2024-02-02T16:49:41Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "b47a5d626cd2ca5f63e7d3c24fa1215f9de5fb40"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5u1hy8",
+          "commit": {
+            "abbreviatedOid": "79ea8b2"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-02T15:30:56Z",
+          "updatedAt": "2024-02-02T15:30:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "id": "PR_kwDOJt_WwM5l3g4L",
+      "title": "clarified that aud claim should have the same format as in the JWT spec",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/70",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-02-02T19:11:43Z",
+      "updatedAt": "2024-02-02T19:19:09Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "b47a5d626cd2ca5f63e7d3c24fa1215f9de5fb40",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "aud-claim-format",
+      "headRefOid": "d43d739055c1c7d580be8e3ac2dfd9b2a571be24",
+      "closedAt": "2024-02-02T19:19:09Z",
+      "mergedAt": "2024-02-02T19:19:09Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "15d18fbacd2682c53672ad487c4e0d4b497d6860"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5u323d",
+          "commit": {
+            "abbreviatedOid": "d43d739"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-02T19:15:33Z",
+          "updatedAt": "2024-02-02T19:15:33Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 71,
+      "id": "PR_kwDOJt_WwM5mQ_Jm",
+      "title": "Addressing issue #44 - updating rules for the `sub` claim when requesting replacement transaction tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/71",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I updated the text to require the `sub` claim remain unchanged when requesting a replacement transaction token. I also added a mechanism to allow for tracking the workloads that have requested replacement transaction tokens. This was necessary as the current text required the `rctx` to remain unchanged in the replacement transaction token and the `rctx` object contains the requesting workload identifier. I used a mechanisms similar to x-forwarded-for. This needs lots of review.",
+      "createdAt": "2024-02-07T13:53:06Z",
+      "updatedAt": "2024-02-24T21:20:57Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "15d18fbacd2682c53672ad487c4e0d4b497d6860",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "txn-token-issues",
+      "headRefOid": "d07dde61e76e0380ff3d00b2d03ed0eb95559e86",
+      "closedAt": "2024-02-24T21:20:57Z",
+      "mergedAt": "2024-02-24T21:20:57Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "5f8197ca32747537775b0353b1aeb30f24aa68f7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5v15xE",
+          "commit": {
+            "abbreviatedOid": "b93798d"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-12T21:41:43Z",
+          "updatedAt": "2024-02-12T21:49:31Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "Do we need to provide a reference for \"StringOrUri\", or has it occurred earlier in the doc?",
+              "createdAt": "2024-02-12T21:41:44Z",
+              "updatedAt": "2024-02-12T21:49:31Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "\"Be default\" -> \"By default\"\r\n2nd sentence also should clarify that the value becomes an array if more than one workload needs to be included, and the successive elements are later services that obtained replacements Txn-tokens. (Your text implies both these things, but it might be good to clarify it.)",
+              "createdAt": "2024-02-12T21:48:40Z",
+              "updatedAt": "2024-02-12T21:49:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5wvcHo",
+          "commit": {
+            "abbreviatedOid": "b93798d"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-20T20:03:40Z",
+          "updatedAt": "2024-02-20T20:03:40Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "When we approve PR #67 StringOrURI will be defined at the first use when describing the Trust Domain so I don't think we need to define it here.",
+              "createdAt": "2024-02-20T20:03:40Z",
+              "updatedAt": "2024-02-20T20:03:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5wv4t_",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-20T21:16:08Z",
+          "updatedAt": "2024-02-20T21:16:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5w_usX",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-22T12:38:42Z",
+          "updatedAt": "2024-02-22T13:08:47Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "the phrase \"as well as\" is now used twice in this sentence. Maybe you can reorder the sentence or make it two?",
+              "createdAt": "2024-02-22T12:38:43Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "Typo in:  ... a \"pathing\" mechanisms ...\r\n\r\nShould be mechanism",
+              "createdAt": "2024-02-22T12:41:55Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 22,
+              "body": "This definition contradicts the definition in the added section below. You could also mention here that it can be an array if multiple computational entities where involved in requesting the Txn-Token.\r\n",
+              "createdAt": "2024-02-22T12:45:52Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "Is it practical from an implementer's perspective to deal with multiple types in one attribute?\r\n\r\nPossible alternatives:\r\n\r\n1) Define req_wl always as an array of StringOrURIs, even if there is only one element.\r\n2) Have a separate attribute (maybe \"orig_wls\") which is an array with StringOrURIs of the workloads originally requesting the Txn-Token in order of replacement. This attribute can be omitted if there was no replacement Txn-Token issued.\r\n",
+              "createdAt": "2024-02-22T12:51:04Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 45,
+              "body": "I am assuming this change here addresses a discussion where there is no subject token available which the Txn-Token can extract the subject from and instead the subject identifier is being provided in plain? Should we maybe define a specific subject_token_type for this case? \"N_A\" might not fit here.\r\n\r\nAlso ... (I'm not a native speaker in English, but ...)\r\n\r\n\"or simple string value\" -> \"or a simple string value\"\r\n\r\nand shouldn't there be a comma before the \"or\"?",
+              "createdAt": "2024-02-22T12:52:27Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            },
+            {
+              "originalPosition": 55,
+              "body": "Maybe also update the part \"then it MUST be present unchanged in\"? Should be \"then it MUST be present and unchanged in\"",
+              "createdAt": "2024-02-22T13:07:13Z",
+              "updatedAt": "2024-02-22T13:08:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJfiU",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T14:58:29Z",
+          "updatedAt": "2024-02-23T14:58:30Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "So, there are many claims in JWT that use this method of being a string if only one value and an array if more than one. I was just following that precedent. This is true of the `aud` claim among others. https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.3",
+              "createdAt": "2024-02-23T14:58:30Z",
+              "updatedAt": "2024-02-23T14:58:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJhq0",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T15:02:10Z",
+          "updatedAt": "2024-02-23T15:02:10Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "Yes, this is addressing the case where a entity needs to obtain a transaction token and there is not \"inbound\" token. For example, a mail delivery service that receives a new email from the internet. That service could request a transaction token where the `subject_token` is the inbound email address. \r\n\r\nGiven that the `sub` claim of the Txn-Token is REQUIRED, I think we want `subject_token` to also be required.",
+              "createdAt": "2024-02-23T15:02:10Z",
+              "updatedAt": "2024-02-23T15:02:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJinQ",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T15:03:58Z",
+          "updatedAt": "2024-02-23T15:03:58Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "As for the comma rule... my understanding of current rules is that it's optional before the last option :) ",
+              "createdAt": "2024-02-23T15:03:58Z",
+              "updatedAt": "2024-02-23T15:03:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJ5dF",
+          "commit": {
+            "abbreviatedOid": "ec697e9"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-02-23T15:48:24Z",
+          "updatedAt": "2024-02-23T15:48:24Z",
+          "comments": [
+            {
+              "originalPosition": 33,
+              "body": "True, the aud claim can have multiple or single values. Although I still think that implementations around overloaded value types tend to be a bit more complex, those implementations can be reused when dealing with the req_wl overload as well. So I consider this as resolved as well.",
+              "createdAt": "2024-02-23T15:48:24Z",
+              "updatedAt": "2024-02-23T15:48:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5xJ6X4",
+          "commit": {
+            "abbreviatedOid": "d07dde6"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-02-23T15:50:19Z",
+          "updatedAt": "2024-02-23T15:50:19Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
