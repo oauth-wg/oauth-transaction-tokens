@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 1 August 2024                                       Capital One
+Expires: 9 September 2024                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                         29 January 2024
+                                                            8 March 2024
 
 
                            Transaction Tokens
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 August 2024.
+   This Internet-Draft will expire on 9 September 2024.
 
 Copyright Notice
 
@@ -100,9 +100,8 @@ Table of Contents
      8.1.  Txn-Token HTTP Header
    9.  Security Considerations
      9.1.  Txn-Token Lifetime
-     9.2.  Sender Constrained Tokens
-     9.3.  Access Tokens
-     9.4.  Client Authentication
+     9.2.  Access Tokens
+     9.3.  Client Authentication
    10. Privacy Considerations
      10.1.  Obsfucation of Personal Information
    11. IANA Considerations
@@ -371,9 +370,8 @@ Table of Contents
       contains two or more workloads.  The workloads within an Trust
       Domain may be invoked only through published interfaces.  A Trust
       Domain must have an identifier that is used as the aud (audience)
-      value in Txn-Tokens.  The format of this identifier is a universal
-      resource identifier.  Each Trust Domain has exactly one Txn-Token
-      Service.
+      value in Txn-Tokens.  The format of this identifier is as defined
+      in the JWT specification [RFC7519].
 
    External Endpoint:  A published interface to an Trust Domain that
       results in the invocation of a workload within the Trust Domain.
@@ -447,7 +445,7 @@ Table of Contents
       aud trust domain.  Unlike OpenID Connect, the sub claim is NOT
       associated with the iss claim.
 
-   purp:  REQUIRED A string defining the purpose or intent of this
+   purp:  REQUIRED A String defining the purpose or intent of this
       transaction.
 
    azd:  OPTIONAL A JSON object that conatains values that remain
@@ -460,7 +458,8 @@ Table of Contents
 
    The Txn-Token SHOULD contain an rctx claim.  This MAY include the IP
    address information of the originating user, as well as information
-   about the computational entity that requested the Txn-Token.
+   about the computational entity that requested the Txn-Token and
+   contextual attributes of the originating request itself.
 
    The JSON value of the rctx claim MAY include any values the Txn-Token
    Service determines are interesting to downstream services that rely
@@ -471,11 +470,39 @@ Table of Contents
       or a robotic process that requested the Transaction
 
    *  authn The authentication method used to idenitfy the requester.
-      Its value is a URN that uniquely identifies the method used.
+      Its value is a StringOrURI that uniquely identifies the method
+      used.
 
-   *  req_wl The requesting workload.  A URN that uniquely identifies
-      the computational entity that requested the Txn-Token.  This
-      entity MUST be within the Trust Domain of the Txn-Token.
+   *  req_wl The requesting workload.  A StringOrURI that uniquely
+      identifies the computational entity that requested the Txn-Token.
+      This entity MUST be within the Trust Domain of the Txn-Token.  If
+      a replacement Txn-Token has been requested, then this claim will
+      be an array of StringOrURIs representing the different workloads
+      that have requested Txn-Tokens as part of the transaction
+      processing.
+
+5.2.1.1.  Requesting Workload Identifier
+
+   It is useful to be able to track the set of workloads that have
+   requested a Txn-Token.  The req_wl claim allows for tracking this
+   information even through requests for a replacement Txn-Token.  By
+   default the req_wl is a StringOrURI representing the original
+   workload entity that requested the Txn-Token.  However, if a workload
+   within the path of servicing the transaction requests a replacement
+   Txn-Token, then the Transaction Token Service will append the new
+   requesting workload as a subsequent array element in the req_wl
+   claim.  This provides a "pathing" mechanism to track which services
+   have requested replacement Txn-Tokens.  If there is only a single
+   value the req_wl will be a StringOrURI.  If there is more than a
+   single value, then req_wl will be prepresented by an array of
+   StringOrURIs.
+
+   {
+       "rctx": {
+         "req_ip": "69.151.72.123", // env context of external call
+         "authn": "urn:ietf:rfc:6749", // env context of the external call
+         "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+   }
 
 5.2.2.  Example
 
@@ -549,13 +576,13 @@ Table of Contents
    sensitive strings where the value(s) MUST represent the specific
    purpose or intent of the transaction. * requested_token_type
    REQUIRED.  The value MUST be urn:ietf:params:oauth:token-type:txn-
-   token * subject_token REQUIRED.  The value MUST be a token
-   representing the subject of the transaction.  This could be an OAuth
-   access_token received by an API Gateway or a JWT assertion
-   constructed by a workload initiating a transaction or another form of
-   token as identified by subject_token_type. * subject_token_type
-   REQUIRED.  The value MUST indicate the type of the token present in
-   the subject_token parameter
+   token * subject_token REQUIRED.  The value MUST represent the subject
+   of the transaction.  This could be an OAuth access_token received by
+   an API Gateway, a JWT assertion constructed by a workload initiating
+   a transaction or a simple string value all identified by
+   subject_token_type. * subject_token_type REQUIRED.  The value MUST
+   indicate the type of the token or value present in the subject_token
+   parameter
 
    The following additional parameters MAY be present in a Txn-Token
    Request:
@@ -677,9 +704,11 @@ Table of Contents
    Workloads MAY request replacement Txn-Tokens in order to change (add
    to, remove or modify) the asserted values within a Txn-Token.
 
-   The value of the aud claim MUST remain unchanged in a replacement
-   Txn-Token.  If the claim rctx is present in the original Txn-Token,
-   then it MUST be present unchanged in the replacement Txn-Token.
+   The values of the sub and aud claims MUST remain unchanged in a
+   replacement Txn-Token.  If the claim rctx is present in the original
+   Txn-Token, then it MUST be present and unchanged in the replacement
+   Txn-Token except for the req_wl claim which MUST be updated to
+   include the requesting workload identifier.
 
 7.4.1.  Txn-Token Service Responsibilities
 
@@ -772,14 +801,7 @@ Table of Contents
    field, which indicates the token lifetime.  The scope field is
    omitted from the request and therefore omitted in the response.
 
-9.2.  Sender Constrained Tokens
-
-   Although Txn-Tokens are short-lived, they MAY be sender constrained
-   as an additional layer of defence to prevent them from being re-used
-   by a compromised or malicious workload under the control of a hostile
-   actor.
-
-9.3.  Access Tokens
+9.2.  Access Tokens
 
    When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access
    Token presented to the external endpoint.  If an Access Token is
@@ -789,7 +811,7 @@ Table of Contents
    this attack since the Access Token may remain valid even after the
    Txn-Token has expired.
 
-9.4.  Client Authentication
+9.3.  Client Authentication
 
    How requesting clients authenticate to the Transaction Token Service
    is out of scope for this specification.  However, if using the
@@ -923,9 +945,9 @@ Contributors
    Email: kburgin@mitre.org
 
 
-   Hannes Tschofenig
-   Arm Ltd.
-   Email: Hannes.Tschofenig@arm.com
+   Brian Campbell
+   Ping Identity
+   Email: bcampbell@pingidentity.com
 
 
    Evan Gilman
@@ -933,14 +955,19 @@ Contributors
    Email: evan@spirl.com
 
 
+   Kai Lehmann
+   1&1 Mail & Media Development & Technology GmbH
+   Email: kai.lehmann@1und1.de
+
+
    Arndt Schwenkschuster
    Microsoft
    Email: arndts@microsoft.com
 
 
-   Brian Campbell
-   Ping Identity
-   Email: bcampbell@pingidentity.com
+   Hannes Tschofenig
+   Arm Ltd.
+   Email: Hannes.Tschofenig@arm.com
 
 
 Authors' Addresses
