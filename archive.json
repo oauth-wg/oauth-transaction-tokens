@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-10T00:56:44.665920+00:00",
+  "timestamp": "2024-03-12T00:11:58.835568+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -578,7 +578,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/32",
       "state": "CLOSED",
       "author": "arndt-s",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "I believe we should add an IANA consideration and propose to register `urn:ietf:params:oauth:token-type:txn_token`.",
@@ -602,7 +602,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/33",
       "state": "CLOSED",
       "author": "arndt-s",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "I believe we should add an IANA consideration to propose the registration of azc claim.\r\nA list of registered claims can be found here: https://www.iana.org/assignments/jwt/jwt.xhtml#claims",
@@ -1948,7 +1948,7 @@
       "comments": [
         {
           "author": "arndt-s",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "MEMBER",
           "body": "`txn` is already registered (https://www.iana.org/assignments/jwt/jwt.xhtml).\r\nDo we need to register it again? I'm not sure what the guidance here is.",
           "createdAt": "2023-09-22T14:50:42Z",
           "updatedAt": "2023-09-22T14:50:42Z"
@@ -1981,7 +1981,7 @@
             "abbreviatedOid": "ae6d0ed"
           },
           "author": "arndt-s",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "MEMBER",
           "state": "APPROVED",
           "body": "Looks good to me",
           "createdAt": "2023-09-22T16:13:13Z",
@@ -2556,7 +2556,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/55",
       "state": "MERGED",
       "author": "arndt-s",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Uses https://github.com/martinthomson/i-d-template template to set up tooling",
