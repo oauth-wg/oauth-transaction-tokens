@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-19T00:12:34.574843+00:00",
+  "timestamp": "2024-03-21T00:13:27.364632+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -757,9 +757,17 @@
       ],
       "body": "              It would be good to show how, in a replacement txn-token, the identity of the previous sub_id is preserved. The replacement token may have a new sub_id that represent the workload that requested the replacement token.\r\n\r\n_Originally posted by @PieterKas in https://github.com/SGNL-ai/transaction-tokens/issues/30#issuecomment-1745613590_\r\n            ",
       "createdAt": "2023-10-18T04:09:25Z",
-      "updatedAt": "2024-02-02T19:19:53Z",
+      "updatedAt": "2024-03-19T22:38:52Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Can we close this since it was addressed in PR #71?",
+          "createdAt": "2024-03-19T22:38:51Z",
+          "updatedAt": "2024-03-19T22:38:51Z"
+        }
+      ]
     },
     {
       "number": 48,
@@ -874,7 +882,7 @@
       "labels": [],
       "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
       "createdAt": "2023-11-15T22:58:21Z",
-      "updatedAt": "2024-02-20T19:48:05Z",
+      "updatedAt": "2024-03-19T22:40:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -925,6 +933,13 @@
           "body": "I'm still wondering if we'd want to send in a subject_token all the time rather than have this spec override the Token Exchange spec. We need a 'sub' as part of the TraT so why not use the subject_type to provide it. The `subject_token` value  could be something simple like a String and then the subject_token_type could be urn:...:workload_id",
           "createdAt": "2024-02-20T19:48:04Z",
           "updatedAt": "2024-02-20T19:48:04Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Are the updates to draft 01 sufficient to close this issue? or do we need additional text?",
+          "createdAt": "2024-03-19T22:40:16Z",
+          "updatedAt": "2024-03-19T22:40:16Z"
         }
       ]
     },
@@ -1211,7 +1226,7 @@
       "labels": [],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
       "createdAt": "2024-01-15T08:11:42Z",
-      "updatedAt": "2024-02-02T05:46:47Z",
+      "updatedAt": "2024-03-19T22:48:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -1241,6 +1256,13 @@
           "body": "@tulshi Good point. In order to get a new TraTs, the caller needs proper client authentication (e.g. SPIFFE, mTLS, or Basic Auth credentials). My point was to only allow specific authenticated clients the exchange of expired TraTs. It is true that if those clients get hacked themselves (and the client authentication can be done by an attacker) new TraTs can be created and abused.\r\n\r\nHowever, longer living TraTs have also the risk of being abused with replay attacks. I think the risk for replay attacks with longer living TraTs is even higher as an attacker would just need to get hold of the long-living TraTs and does not have the need to renew it.\r\n",
           "createdAt": "2024-02-02T05:46:46Z",
           "updatedAt": "2024-02-02T05:46:46Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Using an expired Txn-Token has some interesting properties. Assuming the `purp` claim is narrowly scoped, the TTS should NOT issue a new Txn-Token with a different `purp` value. \n\nI would probably recommend creating very specific `purp` values for this use case and then only allowing specific clients to request a Txn-Token where the `subject_token` value is the expired Txn-Token. This is currently allowed within the spec... the question might be whether we want to explicitly encourage or discourage such behavior.\n\nIn my mind, using an expired Txn-Token is a bit like requesting a replacement Txn-Token except the processing rules are even more strict.",
+          "createdAt": "2024-03-19T22:48:04Z",
+          "updatedAt": "2024-03-19T22:48:04Z"
         }
       ]
     },
@@ -1317,7 +1339,7 @@
       "labels": [],
       "body": "We need to clarify the use case for replacement transaction token and whether we still have it. We included it in the past to preserve call chain information, but it is unclear if we still should address this in the transaction token.",
       "createdAt": "2024-02-02T17:35:56Z",
-      "updatedAt": "2024-02-02T17:38:20Z",
+      "updatedAt": "2024-03-19T22:49:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -1326,8 +1348,47 @@
           "body": "Conversation: https://hackmd.io/@rpc-sec-wg/Hk0ggi5ca",
           "createdAt": "2024-02-02T17:38:18Z",
           "updatedAt": "2024-02-02T17:38:18Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@PieterKas do we still want to keep this issue open? Or are we good with the latest text around replacement transaction tokens?",
+          "createdAt": "2024-03-19T22:49:05Z",
+          "updatedAt": "2024-03-19T22:49:05Z"
         }
       ]
+    },
+    {
+      "number": 72,
+      "id": "I_kwDOJt_WwM6C6a-S",
+      "title": "Add GitHub metadata to spec draft",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/72",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-20T00:41:00Z",
+      "updatedAt": "2024-03-20T01:35:48Z",
+      "closedAt": "2024-03-20T01:35:48Z",
+      "comments": []
+    },
+    {
+      "number": 74,
+      "id": "I_kwDOJt_WwM6C6gtr",
+      "title": "Section 2.2.2 - Needs tighter security controls on replacement tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/74",
+      "state": "OPEN",
+      "author": "dhs-aws",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "The following text in 2.2.2 is too open ended and should be refactored.\r\n\r\n> To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.\r\n\r\nFirst, the text should include specific guidance on replacement tokens to require scopes to remain the same or be down-scoped on replacement.  Second, the draft should include a mechanism to ensure that scopes cannot be increased, or an increase in scope can be detected by downstream services.  Finally, add text to the security considerations section regarding the risks of replacement tokens and/or a malicious txn-token-sts.\r\n\r\n\r\n",
+      "createdAt": "2024-03-20T00:47:45Z",
+      "updatedAt": "2024-03-20T00:48:33Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -4062,6 +4123,115 @@
           "createdAt": "2024-02-23T15:50:19Z",
           "updatedAt": "2024-02-23T15:50:19Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 73,
+      "id": "PR_kwDOJt_WwM5qKgp7",
+      "title": "add link to github and editor's draft",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/73",
+      "state": "MERGED",
+      "author": "aaronpk",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "closes #72",
+      "createdAt": "2024-03-20T00:44:05Z",
+      "updatedAt": "2024-03-20T01:35:48Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5f8197ca32747537775b0353b1aeb30f24aa68f7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "aaronpk-patch-1",
+      "headRefOid": "34f405e76c26bad0718dc6aaa468d1e4a8a83c44",
+      "closedAt": "2024-03-20T01:35:47Z",
+      "mergedAt": "2024-03-20T01:35:47Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "8c5fe0358d339a401bc3509392783ff1ec712545"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM50GW8l",
+          "commit": {
+            "abbreviatedOid": "34f405e"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-03-20T01:35:41Z",
+          "updatedAt": "2024-03-20T01:35:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 75,
+      "id": "PR_kwDOJt_WwM5qKkzO",
+      "title": "Section 6 - Cardinality of txn-token services",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/75",
+      "state": "OPEN",
+      "author": "dhs-aws",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Changed MUST to MAY.  Cardinality of the txn-token service is 0..1, not exactly one.  \r\n\r\nMAY not be the appropriate framing, I'm open to alternative text here to describe this more correctly.",
+      "createdAt": "2024-03-20T00:53:33Z",
+      "updatedAt": "2024-03-20T05:01:02Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5f8197ca32747537775b0353b1aeb30f24aa68f7",
+      "headRepository": "dhs-aws/oauth-transaction-tokens",
+      "headRefName": "patch-1",
+      "headRefOid": "b7e36a9ee9093c68a764ae4abc764ad9529fb8fa",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM50GWzW",
+          "commit": {
+            "abbreviatedOid": "b7e36a9"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-20T01:34:30Z",
+          "updatedAt": "2024-03-20T01:34:30Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm not very familiar with the distinction here, but is there an optionality implied in the word \"MAY\"? I guess the intent is to say \"one and only one logical Txn-Token Service\"",
+              "createdAt": "2024-03-20T01:34:30Z",
+              "updatedAt": "2024-03-20T01:34:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM50G1Ki",
+          "commit": {
+            "abbreviatedOid": "b7e36a9"
+          },
+          "author": "dhs-aws",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-20T05:01:02Z",
+          "updatedAt": "2024-03-20T05:01:02Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Perhaps the language should read, \"...MUST have at most one logical Txn-Token session\"",
+              "createdAt": "2024-03-20T05:01:02Z",
+              "updatedAt": "2024-03-20T05:01:02Z"
+            }
+          ]
         }
       ]
     }
