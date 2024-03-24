@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-21T00:13:27.364632+00:00",
+  "timestamp": "2024-03-24T00:14:10.316417+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -830,7 +830,7 @@
       "labels": [],
       "body": "To me, the real value here is the semantics around the payload, and less directly tied to the JWT format as its container. In particular, it seems like the payload could benefit from some of the disclosure capabilities of things like SD-JWT to allow the system to mask certain values from some parties within the trust domain.\r\n\r\nConsequently, perhaps the document should focus on the payload and semantics, or explicitly show ties to both JWT and SD-JWT (and maybe CWT and others?) from the payload definition.",
       "createdAt": "2023-11-10T12:29:35Z",
-      "updatedAt": "2023-11-11T04:28:00Z",
+      "updatedAt": "2024-03-22T13:28:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -839,6 +839,13 @@
           "body": "That is an interesting restructuring to the doc. Basically a conceptual section and then bindings to particular formats allowing for profiles to other encodings? Is that the general idea?",
           "createdAt": "2023-11-11T04:28:00Z",
           "updatedAt": "2023-11-11T04:28:00Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "Are we considering opaque token formats as an alternative as well? Those formats could not be verified (e.g. signature check) by the workloads locally, but would require incorporating Token Introspection to get the data. For performance reasons, the format should at least be defined as self contained and verifiable locally. CWT as well as (SD-)JWT would have these properties. In the IETF meeting protobuf was mentioned. As far as I know, protobuf does not have this property, so I don't see it as a fitting candidate.\r\n\r\nWe also need to consider interoperability. If the spec allowed for multiple formats (or even leaves the format out of the specification), generic libraries/frameworks to implement the protocol would need to support not just one but a lot of formats or even make the format (serialization/deserialization) pluggable. Although this might be a good idea anyway, it tends to be more complex.\r\n\r\nIn regards to selective disclosure: The purpose of the transaction token is to pass it along the transaction call chain. So if there is specific data of the original presented Access Token not to be disclosed in the transaction token, the TTS would simply not add it in the transaction token when issuing it. Although a workload can choose to exchange the transaction token for another one, the purpose was to narrow the scope to further limit the access which the new transaction token could be used for. At this point the new transaction token could contain even less information than the original transaction token. I don't think that there should be more information disclosed at this point. That's why I don't think that SD-JWTs would have an application here.\r\n\r\nOn the other hand, I do see an application for a transaction token which contains specific information for specific workloads along the call chain. I can see some similarities to Rich Authorization Requests (RAR) where there can be PII/resource identifiers in the transaction token which should only be visible to some workloads even if the transaction token is passed along through all participating workloads.\r\n",
+          "createdAt": "2024-03-22T13:28:46Z",
+          "updatedAt": "2024-03-22T13:28:59Z"
         }
       ]
     },
@@ -882,7 +889,7 @@
       "labels": [],
       "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
       "createdAt": "2023-11-15T22:58:21Z",
-      "updatedAt": "2024-03-19T22:40:17Z",
+      "updatedAt": "2024-03-22T16:53:23Z",
       "closedAt": null,
       "comments": [
         {
@@ -940,6 +947,13 @@
           "body": "Are the updates to draft 01 sufficient to close this issue? or do we need additional text?",
           "createdAt": "2024-03-19T22:40:16Z",
           "updatedAt": "2024-03-19T22:40:16Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "@gffletch The current draft mentions that the subject_token represents the subject and it could either be a token or simple string. However, the current draft does not say, what should be the subject_token_type if the subject_token contains a simple string. My suggestion would be to register a URN at IANA for this and name it urn:ietf:params:oauth:token-type:subject\r\n",
+          "createdAt": "2024-03-22T16:53:03Z",
+          "updatedAt": "2024-03-22T16:53:23Z"
         }
       ]
     },
@@ -1226,7 +1240,7 @@
       "labels": [],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
       "createdAt": "2024-01-15T08:11:42Z",
-      "updatedAt": "2024-03-19T22:48:05Z",
+      "updatedAt": "2024-03-22T16:47:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -1263,6 +1277,13 @@
           "body": "Using an expired Txn-Token has some interesting properties. Assuming the `purp` claim is narrowly scoped, the TTS should NOT issue a new Txn-Token with a different `purp` value. \n\nI would probably recommend creating very specific `purp` values for this use case and then only allowing specific clients to request a Txn-Token where the `subject_token` value is the expired Txn-Token. This is currently allowed within the spec... the question might be whether we want to explicitly encourage or discourage such behavior.\n\nIn my mind, using an expired Txn-Token is a bit like requesting a replacement Txn-Token except the processing rules are even more strict.",
           "createdAt": "2024-03-19T22:48:04Z",
           "updatedAt": "2024-03-19T22:48:04Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "Indeed, the spec does not say anything about whether and how the TTS is validating the txn token before issuing a replacement txn-token. So presenting an already expired txn-token can be accepted based on the authenticated client, purpose and scope. After all, it can be a specifically defined policy.\r\n\r\nI recommend that we at least acknowledge this case in the spec and give guidance when to use it. As we also have the case of not presenting any token when requesting a txn-token (see #53), I think that as long as a workload is in possession of a txn-token - even if it is expired - we should recommend to present it when requesting replacement txn-tokens. It should be the decision of the TTS whether to accept the expired txn-token and not of the workload (the workload could just take the subject from the expired token and present it as the subject_token to the TTS).\r\n\r\nOne additional aspect came to our attention. There are actually two cases for expired txn-tokens:\r\n\r\n1. The exp claim says it is expired, but the signature is still valid\r\n2. The signature is not valid (anymore) as the key used to sign the token is not available anymore\r\n\r\nDepending on how frequently a TTS is rotating its key material, the second case might occur for such long running processes like deleting account data several weeks after the customer has cancelled their contract. For instance our TTS implementation is rotating the keys daily. Only the next, current and previous signing keys are provided to workloads (via JWKS uri). Even if a workload is not able to verify the signature of a txn-token it received several weeks ago, the TTS might still be able to keep the old key material for a longer period so that it can at least validate the signature of those txn-tokens.\r\n",
+          "createdAt": "2024-03-22T16:46:59Z",
+          "updatedAt": "2024-03-22T16:46:59Z"
         }
       ]
     },
@@ -4180,7 +4201,7 @@
       "labels": [],
       "body": "Changed MUST to MAY.  Cardinality of the txn-token service is 0..1, not exactly one.  \r\n\r\nMAY not be the appropriate framing, I'm open to alternative text here to describe this more correctly.",
       "createdAt": "2024-03-20T00:53:33Z",
-      "updatedAt": "2024-03-20T05:01:02Z",
+      "updatedAt": "2024-03-21T01:51:06Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5f8197ca32747537775b0353b1aeb30f24aa68f7",
@@ -4230,6 +4251,26 @@
               "body": "Perhaps the language should read, \"...MUST have at most one logical Txn-Token session\"",
               "createdAt": "2024-03-20T05:01:02Z",
               "updatedAt": "2024-03-20T05:01:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM50Q8-t",
+          "commit": {
+            "abbreviatedOid": "b7e36a9"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-21T01:51:06Z",
+          "updatedAt": "2024-03-21T01:51:06Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Should we say \"Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.\"?",
+              "createdAt": "2024-03-21T01:51:06Z",
+              "updatedAt": "2024-03-21T01:51:06Z"
             }
           ]
         }
