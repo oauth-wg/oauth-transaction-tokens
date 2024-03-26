@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-24T00:14:10.316417+00:00",
+  "timestamp": "2024-03-26T00:11:57.203289+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -746,7 +746,7 @@
       "id": "I_kwDOJt_WwM50J9VG",
       "title": "It would be good to show how, in a replacement txn-token, the identity of the previous sub_id is preserved. The replacement token may have a new sub_id that represent the workload that requested the replacement token.",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/44",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -757,8 +757,8 @@
       ],
       "body": "              It would be good to show how, in a replacement txn-token, the identity of the previous sub_id is preserved. The replacement token may have a new sub_id that represent the workload that requested the replacement token.\r\n\r\n_Originally posted by @PieterKas in https://github.com/SGNL-ai/transaction-tokens/issues/30#issuecomment-1745613590_\r\n            ",
       "createdAt": "2023-10-18T04:09:25Z",
-      "updatedAt": "2024-03-19T22:38:52Z",
-      "closedAt": null,
+      "updatedAt": "2024-03-25T23:32:34Z",
+      "closedAt": "2024-03-25T23:32:34Z",
       "comments": [
         {
           "author": "gffletch",
@@ -1353,15 +1353,15 @@
       "id": "I_kwDOJt_WwM5-FxH9",
       "title": "Do we still need replacement transaction tokens.",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/69",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We need to clarify the use case for replacement transaction token and whether we still have it. We included it in the past to preserve call chain information, but it is unclear if we still should address this in the transaction token.",
       "createdAt": "2024-02-02T17:35:56Z",
-      "updatedAt": "2024-03-19T22:49:06Z",
-      "closedAt": null,
+      "updatedAt": "2024-03-25T23:37:06Z",
+      "closedAt": "2024-03-25T23:37:05Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -1376,6 +1376,13 @@
           "body": "@PieterKas do we still want to keep this issue open? Or are we good with the latest text around replacement transaction tokens?",
           "createdAt": "2024-03-19T22:49:05Z",
           "updatedAt": "2024-03-19T22:49:05Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@PieterKas you can re-open this if you think we should discuss this.",
+          "createdAt": "2024-03-25T23:37:05Z",
+          "updatedAt": "2024-03-25T23:37:05Z"
         }
       ]
     },
@@ -1407,9 +1414,17 @@
       "labels": [],
       "body": "The following text in 2.2.2 is too open ended and should be refactored.\r\n\r\n> To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.\r\n\r\nFirst, the text should include specific guidance on replacement tokens to require scopes to remain the same or be down-scoped on replacement.  Second, the draft should include a mechanism to ensure that scopes cannot be increased, or an increase in scope can be detected by downstream services.  Finally, add text to the security considerations section regarding the risks of replacement tokens and/or a malicious txn-token-sts.\r\n\r\n\r\n",
       "createdAt": "2024-03-20T00:47:45Z",
-      "updatedAt": "2024-03-20T00:48:33Z",
+      "updatedAt": "2024-03-25T09:13:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "As far as I understand it, replacement txn-tokens is just a profile to Token Exchange. The Token Exchange RFC defines that an issued token can only have the same or a smaller scope than the presented token. I would assume this applies to replacement tokens as well. If the replacement token mechanism is intended to deviate from Token Exchange in this regard, this should probably be mentioned specifically.",
+          "createdAt": "2024-03-25T09:13:07Z",
+          "updatedAt": "2024-03-25T09:13:07Z"
+        }
+      ]
     }
   ],
   "pulls": [
