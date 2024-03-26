@@ -96,7 +96,7 @@ normative:
     date: 2014-11
 
 informative:
-  Spiffe:
+  SPIFFE:
     title: Secure Production Identity Framework for Everyone
     target: https://spiffe.io/docs/latest/spiffe-about/overview/
     author:
@@ -130,7 +130,7 @@ They preserve any context such as:
 Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.
 
 ## What are Transaction Tokens?
-Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.
+Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call chain as it passes through multiple workloads.
 
 ## Creating Txn-Tokens
 
@@ -152,12 +152,12 @@ To get a replacement Txn-Token, a service will request a new Txn-Token from the 
 Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
 
 ## Benefits of Txn-Tokens
-Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the Txn-Token, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.
+Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.
 
 ## Txn-Token Issuance and Usage Flows
 
 ### Basic Flow {#basic-flow}
-{{fig-arch-basic}} shows the basic flow of how Txn-Tokens are used in an a multi-workload environment.
+{{fig-arch-basic}} shows the basic flow of how Txn-Tokens are used in a multi-workload environment.
 
 ~~~ ascii-art
 
@@ -172,7 +172,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
-          │  µ-service   │
+          │ Microservice │
           │              │
           └────┬───▲─────┘
                │   │
@@ -185,7 +185,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
-          │  µ-service   │
+          │ Microservice │
           │              │
           └──────────────┘
 ~~~
@@ -216,7 +216,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
           ┌────▼───┴─────┐           │              │
           │              │           │              │
           │   Internal   │           │              │
-          │  µ-service   │           │              │
+          │ Microservice │           │              │
           │              │           │              │
           └────┬───▲─────┘           │  Txn-Token   │
                │   │                 │   Service    │
@@ -229,7 +229,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
           ┌────▼───┴─────┐    6      │              │
           │              ├───────────▶              │
           │   Internal   │           │              │
-          │  µ-service   │    7      │              │
+          │ Microservice │    7      │              │
           │              ◀───────────│              │
           └────┬───▲─────┘           │              │
                │   │                 │              │
@@ -242,7 +242,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
-          │  µ-service   │
+          │ Microservice │
           │              │
           └──────────────┘
 ~~~
@@ -401,6 +401,7 @@ A workload requests a Txn-Token from a Transaction Token Service using a profile
 A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN `urn:ieft:params:oauth:token-type:txn-token` which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.
 
 To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endpoint with the following parameters:
+
 * `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
@@ -502,10 +503,10 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 
 * It MUST name a limited, pre-configured set of workloads that MAY request Txn-Tokens
 * It MUST individually authenticate the requester as being one of the named requesters
-* It SHOULD rely on mechanisms, such as {{Spiffe}} or some other means of performing MTLS {{RFC8446}}, to securely authenticate the requester
+* It SHOULD rely on mechanisms, such as {{SPIFFE}} used in conjunction with MTLS {{RFC8446}}, or some other means of performing MTLS, to securely authenticate the requester
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesters
 
-The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as {{Spiffe}}, to securely authenticate the Transaction Token Service before making a Txn-Token Request.
+The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as {{SPIFFE}}, to securely authenticate the Transaction Token Service before making a Txn-Token Request.
 
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
