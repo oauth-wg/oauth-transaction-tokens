@@ -1034,7 +1034,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 21 September 2024</td>
+<td class="center">Expires 27 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-03-20" class="published">20 March 2024</time>
+<time datetime="2024-03-26" class="published">26 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-09-21">21 September 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-27">27 September 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 27 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1342,7 +1342,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
         <h3 id="name-what-are-transaction-tokens">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-what-are-transaction-tokens" class="section-name selfRef">What are Transaction Tokens?</a>
         </h3>
-<p id="section-2.1-1">Txn-Tokens are short-lived, signed JWTs <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call as it passes through multiple workloads.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-1">Txn-Tokens are short-lived, signed JWTs <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call chain as it passes through multiple workloads.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="creating-txn-tokens">
@@ -1394,7 +1394,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
         <h3 id="name-benefits-of-txn-tokens">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-benefits-of-txn-tokens" class="section-name selfRef">Benefits of Txn-Tokens</a>
         </h3>
-<p id="section-2.4-1">Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call. Through the presence of additional signatures on the Txn-Token, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-1">Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="txn-token-issuance-and-usage-flows">
@@ -1407,7 +1407,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           <h4 id="name-basic-flow">
 <a href="#section-2.5.1" class="section-number selfRef">2.5.1. </a><a href="#name-basic-flow" class="section-name selfRef">Basic Flow</a>
           </h4>
-<p id="section-2.5.1-1"><a href="#fig-arch-basic" class="auto internal xref">Figure 1</a> shows the basic flow of how Txn-Tokens are used in an a multi-workload environment.<a href="#section-2.5.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.5.1-1"><a href="#fig-arch-basic" class="auto internal xref">Figure 1</a> shows the basic flow of how Txn-Tokens are used in a multi-workload environment.<a href="#section-2.5.1-1" class="pilcrow">¶</a></p>
 <span id="name-basic-transaction-tokens-ar"></span><div id="fig-arch-basic">
 <figure id="figure-1">
             <div class="alignLeft art-ascii-art art-text artwork" id="section-2.5.1-2.1">
@@ -1423,7 +1423,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
-          │  µ-service   │
+          │ Microservice │
           │              │
           └────┬───▲─────┘
                │   │
@@ -1436,7 +1436,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
-          │  µ-service   │
+          │ Microservice │
           │              │
           └──────────────┘
 </pre>
@@ -1491,7 +1491,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           ┌────▼───┴─────┐           │              │
           │              │           │              │
           │   Internal   │           │              │
-          │  µ-service   │           │              │
+          │ Microservice │           │              │
           │              │           │              │
           └────┬───▲─────┘           │  Txn-Token   │
                │   │                 │   Service    │
@@ -1504,7 +1504,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           ┌────▼───┴─────┐    6      │              │
           │              ├───────────▶              │
           │   Internal   │           │              │
-          │  µ-service   │    7      │              │
+          │ Microservice │    7      │              │
           │              ◀───────────│              │
           └────┬───▲─────┘           │              │
                │   │                 │              │
@@ -1517,7 +1517,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
-          │  µ-service   │
+          │ Microservice │
           │              │
           └──────────────┘
 </pre>
@@ -1807,27 +1807,41 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-txn-token-request" class="section-name selfRef">Txn-Token Request</a>
         </h3>
 <p id="section-7.1-1">A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN <code>urn:ieft:params:oauth:token-type:txn-token</code> which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1-2">To request a Txn-Token the workload invokes the OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> token endpoint with the following parameters:
-* <code>grant_type</code> REQUIRED. The value MUST be set to <code>urn:ietf:params:oauth:grant-type:token-exchange</code>
-* <code>audience</code> REQUIRED. The value MUST be set to the Trust Domain name
-* <code>scope</code> REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
-* <code>requested_token_type</code> REQUIRED. The value MUST be <code>urn:ietf:params:oauth:token-type:txn-token</code>
-* <code>subject_token</code> REQUIRED. The value MUST represent the subject of the transaction. This could be an OAuth access_token received by an API Gateway, a JWT assertion constructed by a workload initiating a transaction or a simple string value all identified by <code>subject_token_type</code>.
-* <code>subject_token_type</code> REQUIRED. The value MUST indicate the type of the token or value present in the <code>subject_token</code> parameter<a href="#section-7.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.1-3">The following additional parameters MAY be present in a Txn-Token Request:<a href="#section-7.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">To request a Txn-Token the workload invokes the OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> token endpoint with the following parameters:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.1-4.1">
-            <p id="section-7.1-4.1.1"><code>request_context</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.<a href="#section-7.1-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7.1-3.1">
+            <p id="section-7.1-3.1.1"><code>grant_type</code> REQUIRED. The value MUST be set to <code>urn:ietf:params:oauth:grant-type:token-exchange</code><a href="#section-7.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.1-4.2">
-            <p id="section-7.1-4.2.1"><code>request_details</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads.<a href="#section-7.1-4.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.1-3.2">
+            <p id="section-7.1-3.2.1"><code>audience</code> REQUIRED. The value MUST be set to the Trust Domain name<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.3">
+            <p id="section-7.1-3.3.1"><code>scope</code> REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.<a href="#section-7.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.4">
+            <p id="section-7.1-3.4.1"><code>requested_token_type</code> REQUIRED. The value MUST be <code>urn:ietf:params:oauth:token-type:txn-token</code><a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.5">
+            <p id="section-7.1-3.5.1"><code>subject_token</code> REQUIRED. The value MUST represent the subject of the transaction. This could be an OAuth access_token received by an API Gateway, a JWT assertion constructed by a workload initiating a transaction or a simple string value all identified by <code>subject_token_type</code>.<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.6">
+            <p id="section-7.1-3.6.1"><code>subject_token_type</code> REQUIRED. The value MUST indicate the type of the token or value present in the <code>subject_token</code> parameter<a href="#section-7.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.1-5">The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
-<p id="section-7.1-6"><a href="#figtxtokenrequest" class="auto internal xref">Figure 5</a> shows a non-normative example of a Txn-Token Request.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">The following additional parameters MAY be present in a Txn-Token Request:<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-5.1">
+            <p id="section-7.1-5.1.1"><code>request_context</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.<a href="#section-7.1-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-5.2">
+            <p id="section-7.1-5.2.1"><code>request_details</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads.<a href="#section-7.1-5.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.1-6">The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+<p id="section-7.1-7"><a href="#figtxtokenrequest" class="auto internal xref">Figure 5</a> shows a non-normative example of a Txn-Token Request.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-request"></span><div id="figtxtokenrequest">
 <figure id="figure-5">
-          <div class="lang-http sourcecode" id="section-7.1-7.1">
+          <div class="lang-http sourcecode" id="section-7.1-8.1">
 <pre>
 POST /txn-token-service/token_endpoint HTTP 1.1
 Host: txn-token-service.trust-domain.example
@@ -1967,13 +1981,13 @@ Cache-Control: no-cache, no-store
             <p id="section-7.5-2.2.1">It MUST individually authenticate the requester as being one of the named requesters<a href="#section-7.5-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.5-2.3">
-            <p id="section-7.5-2.3.1">It SHOULD rely on mechanisms, such as <span>[<a href="#Spiffe" class="cite xref">Spiffe</a>]</span> or some other means of performing MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, to securely authenticate the requester<a href="#section-7.5-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-7.5-2.3.1">It SHOULD rely on mechanisms, such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> used in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or some other means of performing MTLS, to securely authenticate the requester<a href="#section-7.5-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.5-2.4">
             <p id="section-7.5-2.4.1">It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesters<a href="#section-7.5-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.5-3">The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as <span>[<a href="#Spiffe" class="cite xref">Spiffe</a>]</span>, to securely authenticate the Transaction Token Service before making a Txn-Token Request.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+<p id="section-7.5-3">The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span>, to securely authenticate the Transaction Token Service before making a Txn-Token Request.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2190,7 +2204,7 @@ protected through some obsfucation method (e.g. SHA256).<a href="#section-10.1-1
 <a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="Spiffe">[Spiffe]</dt>
+<dt id="SPIFFE">[SPIFFE]</dt>
       <dd>
 <span class="refAuthor">Cloud Native Computing Foundation</span>, <span class="refTitle">"Secure Production Identity Framework for Everyone"</span>, <span>n.d.</span>, <span>&lt;<a href="https://spiffe.io/docs/latest/spiffe-about/overview/">https://spiffe.io/docs/latest/spiffe-about/overview/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
