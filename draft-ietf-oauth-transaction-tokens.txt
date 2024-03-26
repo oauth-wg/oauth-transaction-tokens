@@ -388,7 +388,8 @@ Table of Contents
 
    Transaction Token Service (Txn-Token Service):  A special service
       within the Trust Domain, which issues Txn-Tokens to requesting
-      workloads.  Each Trust Domain has exactly one Txn-Token Service.
+      workloads.  Each Trust Domain that uses Txn-Tokens MUST have
+      exactly one logical Txn-Token Service.
 
 5.  Txn-Token Format
 
@@ -541,7 +542,8 @@ Table of Contents
    features, but that is not a requirement for it to be a Txn-Token
    Service.
 
-   Each Trust Domain MUST have exactly one logical Txn-Token Service.
+   Each Trust Domain that uses Txn-Tokens MUST have exactly one logical
+   Txn-Token Service.
 
 7.  Requesting Txn-Tokens
 

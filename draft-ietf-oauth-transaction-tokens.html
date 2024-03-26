@@ -1600,7 +1600,7 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
         <dd class="break"></dd>
 <dt id="section-4-1.13">Transaction Token Service (Txn-Token Service):</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.14">
-          <p id="section-4-1.14.1">A special service within the Trust Domain, which issues Txn-Tokens to requesting workloads. Each Trust Domain has exactly one Txn-Token Service.<a href="#section-4-1.14.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.14.1">A special service within the Trust Domain, which issues Txn-Tokens to requesting workloads. Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-4-1.14.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1792,7 +1792,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-txn-token-service" class="section-name selfRef">Txn-Token Service</a>
       </h2>
 <p id="section-6-1">A Txn-Token Service defines a profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> endpoint that can respond to Txn-Token issuance requests. This profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> specification MUST be used to obtain Txn-Tokens. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">Each Trust Domain MUST have exactly one logical Txn-Token Service.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-2">Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="requesting-txn-tokens">
