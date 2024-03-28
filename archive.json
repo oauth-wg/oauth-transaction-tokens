@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-26T00:11:57.203289+00:00",
+  "timestamp": "2024-03-28T00:12:37.555873+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1409,7 +1409,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/74",
       "state": "OPEN",
       "author": "dhs-aws",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "The following text in 2.2.2 is too open ended and should be refactored.\r\n\r\n> To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.\r\n\r\nFirst, the text should include specific guidance on replacement tokens to require scopes to remain the same or be down-scoped on replacement.  Second, the draft should include a mechanism to ensure that scopes cannot be increased, or an increase in scope can be detected by downstream services.  Finally, add text to the security considerations section regarding the risks of replacement tokens and/or a malicious txn-token-sts.\r\n\r\n\r\n",
@@ -1425,6 +1425,150 @@
           "updatedAt": "2024-03-25T09:13:07Z"
         }
       ]
+    },
+    {
+      "number": 76,
+      "id": "I_kwDOJt_WwM6DjHwR",
+      "title": "Move 'aud' requirement in Trust Domain away from 'Terminology' section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/76",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Point from Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
+      "createdAt": "2024-03-26T00:51:15Z",
+      "updatedAt": "2024-03-26T00:51:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 77,
+      "id": "I_kwDOJt_WwM6DjH6z",
+      "title": "`txn` value should be optional",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/77",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
+      "createdAt": "2024-03-26T00:52:07Z",
+      "updatedAt": "2024-03-26T00:52:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 78,
+      "id": "I_kwDOJt_WwM6DjIGO",
+      "title": "`purp` claim name and optionality",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/78",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nneed a lot more discussion of this claim, also it may be OPTIONAL too. Also, why not call it \"scope\" if that's what it is?",
+      "createdAt": "2024-03-26T00:53:07Z",
+      "updatedAt": "2024-03-26T00:53:08Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 79,
+      "id": "I_kwDOJt_WwM6DjITB",
+      "title": "Clarify difference between `rctx` and `azd`",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/79",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nhow is \"azd\" different from \"rctx\"? There's a whole section about \"rctx\" and nothing about \"azd\".",
+      "createdAt": "2024-03-26T00:54:10Z",
+      "updatedAt": "2024-03-26T00:54:10Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 80,
+      "id": "I_kwDOJt_WwM6DjIjw",
+      "title": "Extensibility of `azd` and `rctx`",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/80",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)\r\nextensibility: please say explicitly that arbitrary claims may be added to the \"azd\" (and \"rctx\"?) objects. There is no IANA registry for either. Note that having 3 predefined attributes complicates the situation a bit - what happens if we want a 4th one? Also mention that any additional attributes are local to the trust domain.",
+      "createdAt": "2024-03-26T00:55:37Z",
+      "updatedAt": "2024-03-26T00:55:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 81,
+      "id": "I_kwDOJt_WwM6DjIv-",
+      "title": "Clarify `sub` field",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/81",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nsub\" should be better clarified, this is not your typical \u201csub\u201d. Also, I strongly prefer \"sub_id\" here (RFC 9493), as the use case I have an mind is of the subject as a human. In addition, \"as defined by the aud trust domain\" is confusing, I think you want to say that \"sub\" is relative to the scope of the trust domain.",
+      "createdAt": "2024-03-26T00:56:39Z",
+      "updatedAt": "2024-03-26T00:56:39Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 82,
+      "id": "I_kwDOJt_WwM6DjJ-P",
+      "title": "Replacement token `sub` and `aud` modification language",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/82",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There was a point in Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/) about specifying in 7.4.1 that sub must be unchanged, and although this is mentioned in 7.4, perhaps we should add bullet points in 7.4.1 (Txn-Token Service Responsibilities) that specify that `sub` MUST NOT be modified and `aud` MUST NOT be modified.\r\n",
+      "createdAt": "2024-03-26T01:03:13Z",
+      "updatedAt": "2024-03-26T01:03:13Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 83,
+      "id": "I_kwDOJt_WwM6DjK0H",
+      "title": "Privacy section improvements",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/83",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\n10.1: salted SHA256.\r\n10.1: also, in most cases txn tokens MUST NOT be logged because they contain PII (e.g. a subject that's an email address).",
+      "createdAt": "2024-03-26T01:07:44Z",
+      "updatedAt": "2024-03-26T01:07:45Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 84,
+      "id": "I_kwDOJt_WwM6DjLbT",
+      "title": "Possible confusion in IANA registry section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/84",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/) states that:\r\n\"11.1: I think there is some confusion here. It is possibly useful to define this value (if we want to embed txn tokens within access tokens). But the \"typ\" header is a whole different thing, it needs to be a media type. See https://datatracker.ietf.org/doc/html/rfc8725#name-use-explicit-typing\"\r\n\r\nI'm not completely sure about this, so tracking this item",
+      "createdAt": "2024-03-26T01:11:08Z",
+      "updatedAt": "2024-03-26T01:11:08Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -4209,25 +4353,35 @@
       "id": "PR_kwDOJt_WwM5qKkzO",
       "title": "Section 6 - Cardinality of txn-token services",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/75",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "dhs-aws",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Changed MUST to MAY.  Cardinality of the txn-token service is 0..1, not exactly one.  \r\n\r\nMAY not be the appropriate framing, I'm open to alternative text here to describe this more correctly.",
       "createdAt": "2024-03-20T00:53:33Z",
-      "updatedAt": "2024-03-21T01:51:06Z",
+      "updatedAt": "2024-03-26T22:54:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5f8197ca32747537775b0353b1aeb30f24aa68f7",
       "headRepository": "dhs-aws/oauth-transaction-tokens",
       "headRefName": "patch-1",
-      "headRefOid": "b7e36a9ee9093c68a764ae4abc764ad9529fb8fa",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "cd1a3a0aaa43b378780099330602615f18fdfd5a",
+      "closedAt": "2024-03-26T22:54:54Z",
+      "mergedAt": "2024-03-26T22:54:54Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "c3daba2b30dd97694e437d156a347ad28c628010"
+      },
+      "comments": [
+        {
+          "author": "dhs-aws",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I've updated the PR with the language provided by @tulshi in two places where the previous language was found in the draft.",
+          "createdAt": "2024-03-26T22:52:57Z",
+          "updatedAt": "2024-03-26T22:52:57Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM50GWzW",
@@ -4255,7 +4409,7 @@
             "abbreviatedOid": "b7e36a9"
           },
           "author": "dhs-aws",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-03-20T05:01:02Z",
@@ -4288,6 +4442,94 @@
               "updatedAt": "2024-03-21T01:51:06Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM508B6w",
+          "commit": {
+            "abbreviatedOid": "b7e36a9"
+          },
+          "author": "dhs-aws",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-26T22:49:37Z",
+          "updatedAt": "2024-03-26T22:49:37Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "That language works for me, @tulshi.  ",
+              "createdAt": "2024-03-26T22:49:37Z",
+              "updatedAt": "2024-03-26T22:49:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM508DBb",
+          "commit": {
+            "abbreviatedOid": "cd1a3a0"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-03-26T22:54:01Z",
+          "updatedAt": "2024-03-26T22:54:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 85,
+      "id": "PR_kwDOJt_WwM5qugt-",
+      "title": "editorial fixes identified by Yaron",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/85",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-26T01:19:17Z",
+      "updatedAt": "2024-03-26T16:41:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8c5fe0358d339a401bc3509392783ff1ec712545",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "editorial-fixes",
+      "headRefOid": "27087b77651cc7391416223c4ad32900381943d2",
+      "closedAt": "2024-03-26T16:41:09Z",
+      "mergedAt": "2024-03-26T16:41:09Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d133905578230d02810a8ed0c4864801bf42aa0e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM501Zcd",
+          "commit": {
+            "abbreviatedOid": "27087b7"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-03-26T12:02:42Z",
+          "updatedAt": "2024-03-26T12:02:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM504_dt",
+          "commit": {
+            "abbreviatedOid": "27087b7"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-03-26T16:40:25Z",
+          "updatedAt": "2024-03-26T16:40:25Z",
+          "comments": []
         }
       ]
     }
