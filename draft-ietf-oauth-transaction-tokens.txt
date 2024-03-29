@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 27 September 2024                                   Capital One
+Expires: 30 September 2024                                   Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                           26 March 2024
+                                                           29 March 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 September 2024.
+   This Internet-Draft will expire on 30 September 2024.
 
 Copyright Notice
 
@@ -106,6 +106,7 @@ Table of Contents
      9.3.  Client Authentication
    10. Privacy Considerations
      10.1.  Obsfucation of Personal Information
+     10.2.  Logging
    11. IANA Considerations
      11.1.  OAuth Registry Contents
      11.2.  JWT Registry Contents
@@ -837,7 +838,14 @@ Table of Contents
    jurisdictions and if so their values need to be obsfucated.  For
    example, originating IP address (req_ip) is often considerd personal
    information and in that case must be protected through some
-   obsfucation method (e.g.  SHA256).
+   obsfucation method (e.g. salted SHA256).
+
+10.2.  Logging
+
+   Txn-Tokens SHOULD NOT be logged if they contain Personally
+   Identifiable Information (PII).  What constitutes PII depends upon
+   the use case, but in some cases even an email address (which could be
+   a sub value) can be protected PII, which should not be logged.
 
 11.  IANA Considerations
 
