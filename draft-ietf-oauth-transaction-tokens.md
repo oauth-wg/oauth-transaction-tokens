@@ -535,7 +535,10 @@ How requesting clients authenticate to the Transaction Token Service is out of s
 Some `rctx` claims may be considered personal information in some jurisdictions
 and if so their values need to be obsfucated. For example, originating IP address
 (`req_ip`) is often considerd personal information and in that case must be
-protected through some obsfucation method (e.g. SHA256).
+protected through some obsfucation method (e.g. salted SHA256).
+
+## Logging
+Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Information (PII). What constitutes PII depends upon the use case, but in some cases even an email address (which could be a `sub` value) can be protected PII, which should not be logged.
 
 # IANA Considerations {#IANA}
 
