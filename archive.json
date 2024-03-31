@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-28T00:12:37.555873+00:00",
+  "timestamp": "2024-03-31T00:14:16.784654+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -889,7 +889,7 @@
       "labels": [],
       "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
       "createdAt": "2023-11-15T22:58:21Z",
-      "updatedAt": "2024-03-22T16:53:23Z",
+      "updatedAt": "2024-03-29T19:18:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -954,6 +954,13 @@
           "body": "@gffletch The current draft mentions that the subject_token represents the subject and it could either be a token or simple string. However, the current draft does not say, what should be the subject_token_type if the subject_token contains a simple string. My suggestion would be to register a URN at IANA for this and name it urn:ietf:params:oauth:token-type:subject\r\n",
           "createdAt": "2024-03-22T16:53:03Z",
           "updatedAt": "2024-03-22T16:53:23Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@obfuscoder My original intent was to make this out of scope for the specification as the only entity that needs to understand a subject_token_type value is the Transaction Token Service. If the deployment wants to define a urn:x-example:params:oauth:token-type:email to identify a subject_token value of \"foo@bar.com\" then that is totally fine. I don't think this is an area where specification is required. \r\n\r\nI'm open to options and ways to better support use cases where transaction tokens are needing to be \"minted\" without any existing \"access token\".\r\n\r\nOne such use case could be a service that uses mTLS to unique identify a user (e.g. per user certificate) and then wants to specify that user as the subject of the transaction token. How does the requesting workload specify the \"subject\" (CN of the certificate?) to the Transaction Token Service?",
+          "createdAt": "2024-03-29T19:18:31Z",
+          "updatedAt": "2024-03-29T19:18:31Z"
         }
       ]
     },
@@ -1434,13 +1441,30 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "Point from Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
       "createdAt": "2024-03-26T00:51:15Z",
-      "updatedAt": "2024-03-26T00:51:15Z",
+      "updatedAt": "2024-03-29T19:19:49Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "From Yaron:\r\n\r\n> 4: the terminology section is not a good place for normative language, specifically around the \"aud\" claim.",
+          "createdAt": "2024-03-29T19:19:17Z",
+          "updatedAt": "2024-03-29T19:19:17Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Great point. I think I can move the key aspects into section 5.2",
+          "createdAt": "2024-03-29T19:19:48Z",
+          "updatedAt": "2024-03-29T19:19:48Z"
+        }
+      ]
     },
     {
       "number": 77,
@@ -1454,9 +1478,31 @@
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
       "createdAt": "2024-03-26T00:52:07Z",
-      "updatedAt": "2024-03-26T00:52:07Z",
+      "updatedAt": "2024-03-29T15:09:01Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Text from Yaron's email:\r\n\r\n5.2: I think txn should be OPTIONAL. While it is very useful, there may be architectural reasons why transaction ID issuance in an organization is independent of transaction tokens.",
+          "createdAt": "2024-03-29T14:21:29Z",
+          "updatedAt": "2024-03-29T14:21:29Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm curious to the use cases? I'd prefer a way to make the `txn` claim REQUIRED and allow an organization to provide it's own value in that context. Maybe we could go with RECOMMENDED? This is one of those cases where people who know what they are doing can potentially remove it or possibly provide a \"N_A\" value and it will be fine. However, if it's OPTIONAL most developers will not specify the value and then they will lose a lot of value from the Transaction Token.",
+          "createdAt": "2024-03-29T14:24:35Z",
+          "updatedAt": "2024-03-29T14:24:35Z"
+        },
+        {
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "body": "No specific use cases, it's just that we're assuming that an organization can easily integrate its (preexisting) transaction ID-issuing service with this one. Sometimes it can, sometimes it can't.\r\n\r\nI'm good with RECOMMENDED.",
+          "createdAt": "2024-03-29T15:09:01Z",
+          "updatedAt": "2024-03-29T15:09:01Z"
+        }
+      ]
     },
     {
       "number": 78,
@@ -1543,15 +1589,15 @@
       "id": "I_kwDOJt_WwM6DjK0H",
       "title": "Privacy section improvements",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/83",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\n10.1: salted SHA256.\r\n10.1: also, in most cases txn tokens MUST NOT be logged because they contain PII (e.g. a subject that's an email address).",
       "createdAt": "2024-03-26T01:07:44Z",
-      "updatedAt": "2024-03-26T01:07:45Z",
-      "closedAt": null,
+      "updatedAt": "2024-03-29T16:00:11Z",
+      "closedAt": "2024-03-29T16:00:11Z",
       "comments": []
     },
     {
@@ -1567,6 +1613,22 @@
       "body": "Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/) states that:\r\n\"11.1: I think there is some confusion here. It is possibly useful to define this value (if we want to embed txn tokens within access tokens). But the \"typ\" header is a whole different thing, it needs to be a media type. See https://datatracker.ietf.org/doc/html/rfc8725#name-use-explicit-typing\"\r\n\r\nI'm not completely sure about this, so tracking this item",
       "createdAt": "2024-03-26T01:11:08Z",
       "updatedAt": "2024-03-26T01:11:08Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 88,
+      "id": "I_kwDOJt_WwM6ED7X3",
+      "title": "Additional guidance on privacy in logging ",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/88",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The TraTs spec should add more guidance on privacy in logging.",
+      "createdAt": "2024-03-29T16:01:19Z",
+      "updatedAt": "2024-03-29T16:01:19Z",
       "closedAt": null,
       "comments": []
     }
@@ -4532,6 +4594,137 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 86,
+      "id": "PR_kwDOJt_WwM5rKh5h",
+      "title": "Addressed privacy changes identified by Yaron",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/86",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-29T13:03:55Z",
+      "updatedAt": "2024-03-29T16:00:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "c3daba2b30dd97694e437d156a347ad28c628010",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "privacy-changes",
+      "headRefOid": "3553120a152dd050cf12db65fa7b865d344128d5",
+      "closedAt": "2024-03-29T16:00:10Z",
+      "mergedAt": "2024-03-29T16:00:10Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "cb64104423637c8540f066c9b73532ce5f3492fb"
+      },
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'll create a new issue to track that logging concern ",
+          "createdAt": "2024-03-29T16:00:03Z",
+          "updatedAt": "2024-03-29T16:00:03Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM51Vu15",
+          "commit": {
+            "abbreviatedOid": "3553120"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I'm ok with these changes. I think we could give some more advise around logging that could be useful to the industry. ",
+          "createdAt": "2024-03-29T14:15:36Z",
+          "updatedAt": "2024-03-29T14:15:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 87,
+      "id": "PR_kwDOJt_WwM5rKl-m",
+      "title": "Clarified responsibilities of Txn-Token Service in",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/87",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "a replacement request. Removed vague language",
+      "createdAt": "2024-03-29T13:13:08Z",
+      "updatedAt": "2024-03-29T14:17:39Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "c3daba2b30dd97694e437d156a347ad28c628010",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "Issue-82-fixes",
+      "headRefOid": "904863692cdd30a16eab1a565d022d0f51887a20",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM51Vvd6",
+          "commit": {
+            "abbreviatedOid": "9048636"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-03-29T14:17:38Z",
+          "updatedAt": "2024-03-29T14:17:39Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "I think we need to add that the previously identified requesting workload MUST NOT be modified as well. Thoughts?",
+              "createdAt": "2024-03-29T14:17:39Z",
+              "updatedAt": "2024-03-29T14:17:39Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 89,
+      "id": "PR_kwDOJt_WwM5rMo9Y",
+      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/89",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses text regarding the `aud` claim throughout the document. Issue #76",
+      "createdAt": "2024-03-29T19:38:04Z",
+      "updatedAt": "2024-03-29T21:18:07Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "aud-text-cleanup",
+      "headRefOid": "ced6f33f9947cc8cb9e7b03b2131a376af72573b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Although your changes sufficiently capture what is needed, what I liked about the previous draft is that it clearly identified that each Trust Domain MUST have a unique identifier, which is set as the `aud` value. I wonder if we can say that somewhere (outside of the Terminology section)",
+          "createdAt": "2024-03-29T21:18:07Z",
+          "updatedAt": "2024-03-29T21:18:07Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
