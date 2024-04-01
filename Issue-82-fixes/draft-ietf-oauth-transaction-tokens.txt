@@ -733,8 +733,9 @@ Table of Contents
 
    *  MUST NOT modify sub and aud values of the Txn-Token in the request
 
-   *  MUST NOT modify the value of the req_wl field in the rctx claim of
-      the Txn-Token
+   *  MUST NOT remove any of the existing requesting workload
+      identifiers from the req_wl field in the rctx claim of the Txn-
+      Token
 
 7.4.2.  Replacement Txn-Token Request
 
