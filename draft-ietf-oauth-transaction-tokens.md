@@ -492,6 +492,7 @@ When issuing replacement Txn-Tokens, a Txn-Token Service:
 * MAY enable additional asserted values
 * SHOULD NOT enable modification to asserted values that expand the scope of permitted actions
 * MUST NOT modify `sub` and `aud` values of the Txn-Token in the request
+* MUST NOT modify the value of the `req_wl` field in the `rctx` claim of the Txn-Token
 
 ### Replacement Txn-Token Request
 To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter.
