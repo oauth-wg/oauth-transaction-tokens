@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-02T00:12:27.569348+00:00",
+  "timestamp": "2024-04-04T00:13:22.132529+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1612,9 +1612,17 @@
       "labels": [],
       "body": "Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/) states that:\r\n\"11.1: I think there is some confusion here. It is possibly useful to define this value (if we want to embed txn tokens within access tokens). But the \"typ\" header is a whole different thing, it needs to be a media type. See https://datatracker.ietf.org/doc/html/rfc8725#name-use-explicit-typing\"\r\n\r\nI'm not completely sure about this, so tracking this item",
       "createdAt": "2024-03-26T01:11:08Z",
-      "updatedAt": "2024-03-26T01:11:08Z",
+      "updatedAt": "2024-04-02T20:00:05Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "body": "https://hackmd.io/@rpc-sec-wg/SyAb2pxI6 from a while back had \"https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-00.html#name-iana-considerations Registration requests are off or missing or \u2026.\" ",
+          "createdAt": "2024-04-02T20:00:05Z",
+          "updatedAt": "2024-04-02T20:00:05Z"
+        }
+      ]
     },
     {
       "number": 88,
