@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 9 September 2024                                    Capital One
+Expires: 14 October 2024                                     Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                            8 March 2024
+                                                           12 April 2024
 
 
                            Transaction Tokens
@@ -24,13 +24,15 @@ Abstract
    domain to optionally immutably assert to downstream workloads that
    they were invoked in the call chain of the request.
 
-Discussion Venues
+About This Document
 
    This note is to be removed before publishing as an RFC.
 
-   Discussion of this document takes place on the Web Authorization
-   Protocol Working Group mailing list (oauth@ietf.org), which is
-   archived at https://mailarchive.ietf.org/arch/browse/oauth/.
+   The latest revision of this draft can be found at
+   https://drafts.oauth.net/oauth-transaction-tokens/draft-ietf-oauth-
+   transaction-tokens.html.  Status information for this document may be
+   found at https://datatracker.ietf.org/doc/draft-ietf-oauth-
+   transaction-tokens/.
 
    Source for this draft and an issue tracker can be found at
    https://github.com/oauth-wg/oauth-transaction-tokens.
@@ -50,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 September 2024.
+   This Internet-Draft will expire on 14 October 2024.
 
 Copyright Notice
 
@@ -89,6 +91,7 @@ Table of Contents
    6.  Txn-Token Service
    7.  Requesting Txn-Tokens
      7.1.  Txn-Token Request
+       7.1.1.  Subject Token Types
      7.2.  Txn-Token Request Processing
      7.3.  Txn-Token Response
      7.4.  Creating Replacement Txn-Tokens
@@ -104,6 +107,7 @@ Table of Contents
      9.3.  Client Authentication
    10. Privacy Considerations
      10.1.  Obsfucation of Personal Information
+     10.2.  Logging
    11. IANA Considerations
      11.1.  OAuth Registry Contents
      11.2.  JWT Registry Contents
@@ -163,8 +167,8 @@ Table of Contents
    Txn-Tokens are short-lived, signed JWTs [RFC7519] that assert the
    identity of a user or a workload and assert an authorization context.
    The authorization context provides information expected to remain
-   constant during the execution of a call as it passes through multiple
-   workloads.
+   constant during the execution of a call chain as it passes through
+   multiple workloads.
 
 2.2.  Creating Txn-Tokens
 
@@ -192,6 +196,11 @@ Table of Contents
    generating a Txn-Token.  The calling workload then uses the Txn-Token
    to authorize its calls to subsequent workloads.  Subsequent workloads
    may obtain Txn-Tokens of their own.
+
+   If the requesting service does not have an inbound token that it can
+   use in its request to the Txn-Token Service, it generates a self-
+   signed JWT and passes that in the request in place of the external
+   authorization token.
 
 2.2.2.  Replacement Txn-Tokens
 
@@ -222,17 +231,14 @@ Table of Contents
    Txn-Tokens help prevent spurious invocations by ensuring that a
    workload receiving an invocation can independently verify the user or
    workload on whose behalf an external call was made and any context
-   relevant to the processing of the call.  Through the presence of
-   additional signatures on the Txn-Token, a workload receiving an
-   invocation can also independently verify that specific workloads were
-   within the path of the call before it was invoked.
+   relevant to the processing of the call.
 
 2.5.  Txn-Token Issuance and Usage Flows
 
 2.5.1.  Basic Flow
 
-   Figure 1 shows the basic flow of how Txn-Tokens are used in an a
-   multi-workload environment.
+   Figure 1 shows the basic flow of how Txn-Tokens are used in a multi-
+   workload environment.
 
         1    ┌──────────────┐    2      ┌──────────────┐
    ─────────▶│              ├───────────▶              │
@@ -245,7 +251,7 @@ Table of Contents
              ┌────▼───┴─────┐
              │              │
              │   Internal   │
-             │  µ-service   │
+             │ Microservice │
              │              │
              └────┬───▲─────┘
                   │   │
@@ -258,7 +264,7 @@ Table of Contents
              ┌────▼───┴─────┐
              │              │
              │   Internal   │
-             │  µ-service   │
+             │ Microservice │
              │              │
              └──────────────┘
 
@@ -300,7 +306,7 @@ Table of Contents
              ┌────▼───┴─────┐           │              │
              │              │           │              │
              │   Internal   │           │              │
-             │  µ-service   │           │              │
+             │ Microservice │           │              │
              │              │           │              │
              └────┬───▲─────┘           │  Txn-Token   │
                   │   │                 │   Service    │
@@ -313,7 +319,7 @@ Table of Contents
              ┌────▼───┴─────┐    6      │              │
              │              ├───────────▶              │
              │   Internal   │           │              │
-             │  µ-service   │    7      │              │
+             │ Microservice │    7      │              │
              │              ◀───────────│              │
              └────┬───▲─────┘           │              │
                   │   │                 │              │
@@ -326,7 +332,7 @@ Table of Contents
              ┌────▼───┴─────┐
              │              │
              │   Internal   │
-             │  µ-service   │
+             │ Microservice │
              │              │
              └──────────────┘
 
@@ -389,7 +395,8 @@ Table of Contents
 
    Transaction Token Service (Txn-Token Service):  A special service
       within the Trust Domain, which issues Txn-Tokens to requesting
-      workloads.  Each Trust Domain has exactly one Txn-Token Service.
+      workloads.  Each Trust Domain that uses Txn-Tokens MUST have
+      exactly one logical Txn-Token Service.
 
 5.  Txn-Token Format
 
@@ -502,6 +509,7 @@ Table of Contents
          "req_ip": "69.151.72.123", // env context of external call
          "authn": "urn:ietf:rfc:6749", // env context of the external call
          "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+       }
    }
 
 5.2.2.  Example
@@ -542,7 +550,8 @@ Table of Contents
    features, but that is not a requirement for it to be a Txn-Token
    Service.
 
-   Each Trust Domain MUST have exactly one logical Txn-Token Service.
+   Each Trust Domain that uses Txn-Tokens MUST have exactly one logical
+   Txn-Token Service.
 
 7.  Requesting Txn-Tokens
 
@@ -569,20 +578,28 @@ Table of Contents
    requesting the Txn-Token Response to contain a Txn-Token.
 
    To request a Txn-Token the workload invokes the OAuth 2.0 [RFC6749]
-   token endpoint with the following parameters: * grant_type REQUIRED.
-   The value MUST be set to urn:ietf:params:oauth:grant-type:token-
-   exchange * audience REQUIRED.  The value MUST be set to the Trust
-   Domain name * scope REQUIRED.  A space-delimited list of case-
-   sensitive strings where the value(s) MUST represent the specific
-   purpose or intent of the transaction. * requested_token_type
-   REQUIRED.  The value MUST be urn:ietf:params:oauth:token-type:txn-
-   token * subject_token REQUIRED.  The value MUST represent the subject
-   of the transaction.  This could be an OAuth access_token received by
-   an API Gateway, a JWT assertion constructed by a workload initiating
-   a transaction or a simple string value all identified by
-   subject_token_type. * subject_token_type REQUIRED.  The value MUST
-   indicate the type of the token or value present in the subject_token
-   parameter
+   token endpoint with the following parameters:
+
+   *  grant_type REQUIRED.  The value MUST be set to
+      urn:ietf:params:oauth:grant-type:token-exchange
+
+   *  audience REQUIRED.  The value MUST be set to the Trust Domain name
+
+   *  scope REQUIRED.  A space-delimited list of case-sensitive strings
+      where the value(s) MUST represent the specific purpose or intent
+      of the transaction.
+
+   *  requested_token_type REQUIRED.  The value MUST be
+      urn:ietf:params:oauth:token-type:txn-token
+
+   *  subject_token REQUIRED.  The value MUST represent the subject of
+      the transaction.  This could be an inbound token received by an
+      API Gateway, or a self-signed JWT constructed by a workload
+      initiating a transaction, the type of which is identified by
+      subject_token_type.
+
+   *  subject_token_type REQUIRED.  The value MUST indicate the type of
+      the token or value present in the subject_token parameter
 
    The following additional parameters MAY be present in a Txn-Token
    Request:
@@ -617,6 +634,23 @@ Table of Contents
    &request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
 
                     Figure 5: Example: Txn-Token Request
+
+7.1.1.  Subject Token Types
+
+   The subject_token_type parameter in the Txn-Token Request MAY have
+   one of the following values:
+
+   rfc9068  The subject_token is a JWT format OAuth 2.0 Access Token as
+      defined in [RFC9068]
+
+   id-token  The subject_token is an OpenID Connect [OpenIdConnect] ID
+      Token
+
+   self-signed  The subject_token is a self-signed JWT issued by the
+      requesting workload
+
+   The Txn-Token Service MAY support other formats, which MAY be
+   specified in the subject_token_type parameter
 
 7.2.  Txn-Token Request Processing
 
@@ -748,16 +782,16 @@ Table of Contents
    *  It MUST individually authenticate the requester as being one of
       the named requesters
 
-   *  It SHOULD rely on mechanisms, such as [Spiffe] or some other means
-      of performing MTLS [RFC8446], to securely authenticate the
-      requester
+   *  It SHOULD rely on mechanisms, such as [SPIFFE] used in conjunction
+      with MTLS [RFC8446], or some other means of performing MTLS, to
+      securely authenticate the requester
 
    *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
       shared secrets to authenticate the requesters
 
    The requesting workload MUST have a pre-configured location for the
    Transaction Token Service.  It SHOULD rely on mechanisms, such as
-   [Spiffe], to securely authenticate the Transaction Token Service
+   [SPIFFE], to securely authenticate the Transaction Token Service
    before making a Txn-Token Request.
 
 8.  Using Txn-Tokens
@@ -828,7 +862,14 @@ Table of Contents
    jurisdictions and if so their values need to be obsfucated.  For
    example, originating IP address (req_ip) is often considerd personal
    information and in that case must be protected through some
-   obsfucation method (e.g.  SHA256).
+   obsfucation method (e.g. salted SHA256).
+
+10.2.  Logging
+
+   Txn-Tokens SHOULD NOT be logged if they contain Personally
+   Identifiable Information (PII).  What constitutes PII depends upon
+   the use case, but in some cases even an email address (which could be
+   a sub value) can be protected PII, which should not be logged.
 
 11.  IANA Considerations
 
@@ -919,6 +960,10 @@ Table of Contents
               DOI 10.17487/RFC8417, July 2018,
               <https://www.rfc-editor.org/rfc/rfc8417>.
 
+   [RFC9068]  Bertocci, V., "JSON Web Token (JWT) Profile for OAuth 2.0
+              Access Tokens", RFC 9068, DOI 10.17487/RFC9068, October
+              2021, <https://www.rfc-editor.org/rfc/rfc9068>.
+
    [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
@@ -932,7 +977,7 @@ Table of Contents
 
 12.2.  Informative References
 
-   [Spiffe]   Cloud Native Computing Foundation, "Secure Production
+   [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
 
