@@ -77,6 +77,7 @@ normative:
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
+  RFC9068: # JWT Profile for OAuth 2.0 Access Tokens
   RFC9110: # HTTP
 
   OpenIdConnect:
@@ -142,6 +143,8 @@ Txn-Tokens are typically created when a workload is invoked using an endpoint th
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token
 
 The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens of their own.
+
+If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token.
 
 ### Replacement Txn-Tokens
 A service within a call chain may choose to replace the Txn-Token. This can typically happen if the service wants to add to the context of the current Txn-Token
@@ -360,6 +363,7 @@ It is useful to be able to track the set of workloads that have requested a Txn-
       "req_ip": "69.151.72.123", // env context of external call
       "authn": "urn:ietf:rfc:6749", // env context of the external call
       "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+    }
 }
 ~~~
 
@@ -406,7 +410,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
-* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an OAuth access_token received by an API Gateway, a JWT assertion constructed by a workload initiating a transaction or a simple string value all identified by `subject_token_type`.
+* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -433,6 +437,19 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
+### Subject Token Types
+The `subject_token_type` parameter in the Txn-Token Request MAY have one of the following values:
+
+rfc9068
+: The `subject_token` is a JWT format OAuth 2.0 Access Token as defined in {{RFC9068}}
+
+id-token
+: The `subject_token` is an OpenID Connect {{OpenIdConnect}} ID Token
+
+self-signed
+: The `subject_token` is a self-signed JWT issued by the requesting workload
+
+The Txn-Token Service MAY support other formats, which MAY be specified in the `subject_token_type` parameter
 
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
