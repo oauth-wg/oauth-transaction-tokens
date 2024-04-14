@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-11T00:13:09.602574+00:00",
+  "timestamp": "2024-04-14T00:16:27.883698+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4753,6 +4753,146 @@
         }
       ],
       "reviews": []
+    },
+    {
+      "number": 90,
+      "id": "PR_kwDOJt_WwM5sgw-l",
+      "title": "specified language for self-signed JWTs as subject_tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/90",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-04-12T16:48:40Z",
+      "updatedAt": "2024-04-12T17:47:58Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "self-signed-tokens",
+      "headRefOid": "c7918a9ab6c2be007cdf51688db5269f04d04e45",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM53GJMh",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T17:35:51Z",
+          "updatedAt": "2024-04-12T17:35:51Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "You might want to reconcile these with how Token Exchange (not particularity well) defines subject_token_type   https://datatracker.ietf.org/doc/html/rfc8693#section-2.1-4.14 and points to https://datatracker.ietf.org/doc/html/rfc8693#TokenTypeIdentifiers about identifiers that sort of implies it has to be a URI and mentions or defines some that can be used \r\n\r\n",
+              "createdAt": "2024-04-12T17:35:51Z",
+              "updatedAt": "2024-04-12T17:37:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53GMmT",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T17:44:40Z",
+          "updatedAt": "2024-04-12T17:44:40Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "Oh and note Aaron's draft use of the `urn:ietf:params:oauth:token-type:id_token` URI for id tokens https://www.ietf.org/archive/id/draft-parecki-oauth-identity-assertion-authz-grant-00.html#section-5 ",
+              "createdAt": "2024-04-12T17:44:40Z",
+              "updatedAt": "2024-04-12T17:44:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53GNT6",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T17:46:26Z",
+          "updatedAt": "2024-04-12T17:46:26Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "I agree with Brian. I think we need to make these URIs. If we want to explicitly support an rfc9068 token then we should define a URI for it. However, if the intent of the `rfc9068` value is to represent an access_token then we should use the value defined within RFC 8693.",
+              "createdAt": "2024-04-12T17:46:26Z",
+              "updatedAt": "2024-04-12T17:46:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53GNU0",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T17:46:28Z",
+          "updatedAt": "2024-04-12T17:46:29Z",
+          "comments": [
+            {
+              "originalPosition": 44,
+              "body": "RFC 8693 already defines a `subject_token_type` value for this which we should use. That said, `id_tokens` aren't usually authorization tokens and so I worry about explicitly calling it out here. The `id_token` can most definitely define the subject but then there is likely a need to pass in a different token containing the external authorization state. I'd rather we focus on AS generated access tokens and self-signed access tokens (recommended as RFC 9068).",
+              "createdAt": "2024-04-12T17:46:28Z",
+              "updatedAt": "2024-04-12T17:46:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53GNxX",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-12T17:47:42Z",
+          "updatedAt": "2024-04-12T17:47:42Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "Maybe add: \"Note, as defined in RFC8693, the `subject_token_type` must be a URI.",
+              "createdAt": "2024-04-12T17:47:42Z",
+              "updatedAt": "2024-04-12T17:47:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53GN4v",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "See inline comments.",
+          "createdAt": "2024-04-12T17:47:58Z",
+          "updatedAt": "2024-04-12T17:47:58Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
