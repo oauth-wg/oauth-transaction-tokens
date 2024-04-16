@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-14T00:16:27.883698+00:00",
+  "timestamp": "2024-04-16T00:12:28.393812+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4766,7 +4766,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-04-12T17:47:58Z",
+      "updatedAt": "2024-04-15T21:50:57Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
@@ -4891,6 +4891,72 @@
           "createdAt": "2024-04-12T17:47:58Z",
           "updatedAt": "2024-04-12T17:47:58Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53Liax",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2024-04-14T08:33:47Z",
+          "updatedAt": "2024-04-14T08:38:43Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "True, and it means the current document should have an IANA subsection to define it.",
+              "createdAt": "2024-04-14T08:33:48Z",
+              "updatedAt": "2024-04-14T08:38:43Z"
+            },
+            {
+              "originalPosition": 48,
+              "body": "Other subject token types define the semantics of the token, and I think we should do that too. Maybe say (if this is true): \r\n\r\n> The `subject_token` is a self-signed OAuth access token issued by the requesting workload",
+              "createdAt": "2024-04-14T08:38:25Z",
+              "updatedAt": "2024-04-14T08:38:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53VBQa",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-15T19:32:48Z",
+          "updatedAt": "2024-04-15T19:32:48Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "It's really not an OAuth access token though (acknowledging that what actually constitutes an OAuth access token isn't totally clear but calling this an access token would be a stretch and unnecessarily confusing). ",
+              "createdAt": "2024-04-15T19:32:48Z",
+              "updatedAt": "2024-04-15T19:32:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53V8r8",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-15T21:50:57Z",
+          "updatedAt": "2024-04-15T21:50:57Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "@bc-pi OK, but I guess we should qualify this JWT to get interoperability. Should we say what claims are REQUIRED?",
+              "createdAt": "2024-04-15T21:50:57Z",
+              "updatedAt": "2024-04-15T21:50:57Z"
+            }
+          ]
         }
       ]
     }
