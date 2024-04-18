@@ -11,15 +11,15 @@
 <meta content="
        Transaction Tokens (Txn-Tokens) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, are preserved and available to all workloads that are invoked as part of processing such a request. Txn-Tokens also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request. 
     " name="description">
-<meta content="xml2rfc 3.20.1" name="generator">
+<meta content="xml2rfc 3.21.0" name="generator">
 <meta content="Microservices" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.20.1
-    Python 3.11.8
+  xml2rfc 3.21.0
+    Python 3.11.9
     ConfigArgParse 1.7
     google-i18n-address 3.1.0
     intervaltree 3.1.0
@@ -1034,7 +1034,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 14 October 2024</td>
+<td class="center">Expires 20 October 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-04-12" class="published">12 April 2024</time>
+<time datetime="2024-04-18" class="published">18 April 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-10-14">14 October 2024</time></dd>
+<dd class="expires"><time datetime="2024-10-20">20 October 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 14 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1875,25 +1875,15 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
           <h4 id="name-subject-token-types">
 <a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-subject-token-types" class="section-name selfRef">Subject Token Types</a>
           </h4>
-<p id="section-7.1.1-1">The <code>subject_token_type</code> parameter in the Txn-Token Request MAY have one of the following values:<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-1">The <code>subject_token_type</code> parameter value MUST be a URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>, or it MAY be set to the value:<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1.1-2">
-            <dt id="section-7.1.1-2.1">rfc9068</dt>
+            <dt id="section-7.1.1-2.1"><code>urn:ietf:params:txn-token:token-type:self-signed</code></dt>
             <dd style="margin-left: 1.5em" id="section-7.1.1-2.2">
-              <p id="section-7.1.1-2.2.1">The <code>subject_token</code> is a JWT format OAuth 2.0 Access Token as defined in <span>[<a href="#RFC9068" class="cite xref">RFC9068</a>]</span><a href="#section-7.1.1-2.2.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-7.1.1-2.3">id-token</dt>
-            <dd style="margin-left: 1.5em" id="section-7.1.1-2.4">
-              <p id="section-7.1.1-2.4.1">The <code>subject_token</code> is an OpenID Connect <span>[<a href="#OpenIdConnect" class="cite xref">OpenIdConnect</a>]</span> ID Token<a href="#section-7.1.1-2.4.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-<dt id="section-7.1.1-2.5">self-signed</dt>
-            <dd style="margin-left: 1.5em" id="section-7.1.1-2.6">
-              <p id="section-7.1.1-2.6.1">The <code>subject_token</code> is a self-signed JWT issued by the requesting workload<a href="#section-7.1.1-2.6.1" class="pilcrow">¶</a></p>
+              <p id="section-7.1.1-2.2.1">Indicates that the subject token is a self-signed JWT.<a href="#section-7.1.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
-<p id="section-7.1.1-3">The Txn-Token Service MAY support other formats, which MAY be specified in the <code>subject_token_type</code> parameter<a href="#section-7.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-3">The Txn-Token Service MAY support other token formats, which MAY be specified in the <code>subject_token_type</code> parameter. Any value used in this parameter SHOULD be a URI.<a href="#section-7.1.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2202,6 +2192,10 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3986">[RFC3986]</dt>
+        <dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8446">[RFC8446]</dt>
         <dd>

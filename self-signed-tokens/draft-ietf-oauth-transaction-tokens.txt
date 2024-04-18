@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 14 October 2024                                     Capital One
+Expires: 20 October 2024                                     Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                           12 April 2024
+                                                           18 April 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 October 2024.
+   This Internet-Draft will expire on 20 October 2024.
 
 Copyright Notice
 
@@ -637,20 +637,16 @@ Table of Contents
 
 7.1.1.  Subject Token Types
 
-   The subject_token_type parameter in the Txn-Token Request MAY have
-   one of the following values:
+   The subject_token_type parameter value MUST be a URI [RFC3986].  It
+   MAY be one of the subject token types described in Section 3 of OAuth
+   2.0 Token Exchange [RFC8693], or it MAY be set to the value:
 
-   rfc9068  The subject_token is a JWT format OAuth 2.0 Access Token as
-      defined in [RFC9068]
+   urn:ietf:params:txn-token:token-type:self-signed  Indicates that the
+      subject token is a self-signed JWT.
 
-   id-token  The subject_token is an OpenID Connect [OpenIdConnect] ID
-      Token
-
-   self-signed  The subject_token is a self-signed JWT issued by the
-      requesting workload
-
-   The Txn-Token Service MAY support other formats, which MAY be
-   specified in the subject_token_type parameter
+   The Txn-Token Service MAY support other token formats, which MAY be
+   specified in the subject_token_type parameter.  Any value used in
+   this parameter SHOULD be a URI.
 
 7.2.  Txn-Token Request Processing
 
@@ -929,6 +925,11 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
