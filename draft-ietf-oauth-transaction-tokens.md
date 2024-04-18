@@ -70,6 +70,7 @@ contributor:
 
 normative:
   RFC2119: # Keywords
+  RFC3986: # URI
   RFC8446: # TLS
   RFC6749: #OAuth
   RFC7519: #JWT
@@ -438,18 +439,12 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
 ### Subject Token Types
-The `subject_token_type` parameter in the Txn-Token Request MAY have one of the following values:
+The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}}, or it MAY be set to the value:
 
-rfc9068
-: The `subject_token` is a JWT format OAuth 2.0 Access Token as defined in {{RFC9068}}
+`urn:ietf:params:txn-token:token-type:self-signed`
+: Indicates that the subject token is a self-signed JWT.
 
-id-token
-: The `subject_token` is an OpenID Connect {{OpenIdConnect}} ID Token
-
-self-signed
-: The `subject_token` is a self-signed JWT issued by the requesting workload
-
-The Txn-Token Service MAY support other formats, which MAY be specified in the `subject_token_type` parameter
+The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter SHOULD be a URI.
 
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
