@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-16T00:12:28.393812+00:00",
+  "timestamp": "2024-04-18T00:12:45.230826+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4766,7 +4766,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-04-15T21:50:57Z",
+      "updatedAt": "2024-04-16T15:41:15Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
@@ -4955,6 +4955,26 @@
               "body": "@bc-pi OK, but I guess we should qualify this JWT to get interoperability. Should we say what claims are REQUIRED?",
               "createdAt": "2024-04-15T21:50:57Z",
               "updatedAt": "2024-04-15T21:50:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53ctrs",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-16T15:41:15Z",
+          "updatedAt": "2024-04-16T15:41:15Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "I don't know... I was only trying to politely point out that this thing is not an OAuth access token. ",
+              "createdAt": "2024-04-16T15:41:15Z",
+              "updatedAt": "2024-04-16T15:41:15Z"
             }
           ]
         }
