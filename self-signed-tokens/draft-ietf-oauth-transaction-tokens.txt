@@ -647,7 +647,7 @@ Table of Contents
 
    The Txn-Token Service MAY support other token formats, which MAY be
    specified in the subject_token_type parameter.  Any value used in
-   this parameter SHOULD be a URI.
+   this parameter MUST be a URI as specified in RFC 8693 [RFC8693].
 
 7.2.  Txn-Token Request Processing
 
