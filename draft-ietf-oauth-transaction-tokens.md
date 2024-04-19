@@ -572,7 +572,7 @@ This specification registers the following claims defined in Section {{txn-token
 
 ## OAuth URI Subregistry Contents
 
-* URN: urn:ietf:params:oauth:token-type:self-signed
+* URN: urn:ietf:params:oauth:token-type:self_signed
 * Common Name: Token type for Self-signed JWT in lieu of an access token
 * Change Controller: IESG
 * Specification Document: Section {{subject-token-types}} of this specification
