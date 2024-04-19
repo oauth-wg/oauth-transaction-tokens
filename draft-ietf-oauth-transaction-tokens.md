@@ -81,6 +81,11 @@ normative:
   RFC9068: # JWT Profile for OAuth 2.0 Access Tokens
   RFC9110: # HTTP
 
+  IANA.OAuth.Parameters:
+    title: OAuth Parameters
+    target: https://www.iana.org/assignments/oauth-parameters
+    author:
+    - name: IANA
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
     target: https://openid.net/specs/openid-connect-core-1_0.html
@@ -438,10 +443,10 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
-### Subject Token Types
+### Subject Token Types {#subject-token-types}
 The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}}, or it MAY be set to the value:
 
-`urn:ietf:params:txn-token:token-type:self-signed`
+`urn:ietf:params:oauth:token-type:self-signed`
 : Indicates that the subject token is a self-signed JWT.
 
 The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter SHOULD be a URI.
@@ -554,7 +559,7 @@ Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Informat
 
 # IANA Considerations {#IANA}
 
-This specification registers the following claims defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
+This specification registers the following claims defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, the following claim in Section {{subject-token-types}} to the "OAuth URI" subregistry of the "OAuth Parameters" {{IANA.OAuth.Parameters}} registry, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
 
 ## OAuth Registry Contents
 
@@ -564,6 +569,13 @@ This specification registers the following claims defined in Section {{txn-token
 * HTTP Authentication Schemes: TLS {{RFC8446}}
 * Change Controller: IESG
 * Specification Document: Section {{txn-token-header}} of this specificaiton
+
+## OAuth URI Subregistry Contents
+
+* URN: urn:ietf:params:oauth:token-type:self-signed
+* Common Name: Token type for Self-signed JWT in lieu of an access token
+* Change Controller: IESG
+* Specification Document: Section {{subject-token-types}} of this specification
 
 ## JWT Registry Contents
 
