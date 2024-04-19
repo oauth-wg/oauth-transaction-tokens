@@ -1034,7 +1034,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 20 October 2024</td>
+<td class="center">Expires 21 October 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-04-18" class="published">18 April 2024</time>
+<time datetime="2024-04-19" class="published">19 April 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-10-20">20 October 2024</time></dd>
+<dd class="expires"><time datetime="2024-10-21">21 October 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 October 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1277,7 +1277,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="auto internal xref">11.1</a>.  <a href="#name-oauth-registry-contents" class="internal xref">OAuth Registry Contents</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
-                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-jwt-registry-contents" class="internal xref">JWT Registry Contents</a></p>
+                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="auto internal xref">11.2</a>.  <a href="#name-oauth-uri-subregistry-conte" class="internal xref">OAuth URI Subregistry Contents</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.3">
+                <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-jwt-registry-contents" class="internal xref">JWT Registry Contents</a></p>
 </li>
             </ul>
 </li>
@@ -1877,7 +1880,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
           </h4>
 <p id="section-7.1.1-1">The <code>subject_token_type</code> parameter value MUST be a URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>, or it MAY be set to the value:<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1.1-2">
-            <dt id="section-7.1.1-2.1"><code>urn:ietf:params:txn-token:token-type:self-signed</code></dt>
+            <dt id="section-7.1.1-2.1"><code>urn:ietf:params:oauth:token-type:self-signed</code></dt>
             <dd style="margin-left: 1.5em" id="section-7.1.1-2.2">
               <p id="section-7.1.1-2.2.1">Indicates that the subject token is a self-signed JWT.<a href="#section-7.1.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -2098,7 +2101,7 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
       <h2 id="name-iana-considerations">
 <a href="#section-11" class="section-number selfRef">11. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-11-1">This specification registers the following claims defined in Section <a href="#txn-token-header" class="auto internal xref">Section 5.1</a> to the OAuth Access Token Types Registry defined in <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>, and the following claims defined in Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> in the IANA JSON Web Token Claims Registry defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-11-1" class="pilcrow">¶</a></p>
+<p id="section-11-1">This specification registers the following claims defined in Section <a href="#txn-token-header" class="auto internal xref">Section 5.1</a> to the OAuth Access Token Types Registry defined in <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>, the following claim in Section <a href="#subject-token-types" class="auto internal xref">Section 7.1.1</a> to the "OAuth URI" subregistry of the "OAuth Parameters" <span>[<a href="#IANA.OAuth.Parameters" class="cite xref">IANA.OAuth.Parameters</a>]</span> registry, and the following claims defined in Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> in the IANA JSON Web Token Claims Registry defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span><a href="#section-11-1" class="pilcrow">¶</a></p>
 <div id="oauth-registry-contents">
 <section id="section-11.1">
         <h3 id="name-oauth-registry-contents">
@@ -2126,51 +2129,72 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
         </ul>
 </section>
 </div>
-<div id="jwt-registry-contents">
+<div id="oauth-uri-subregistry-contents">
 <section id="section-11.2">
-        <h3 id="name-jwt-registry-contents">
-<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-jwt-registry-contents" class="section-name selfRef">JWT Registry Contents</a>
+        <h3 id="name-oauth-uri-subregistry-conte">
+<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-oauth-uri-subregistry-conte" class="section-name selfRef">OAuth URI Subregistry Contents</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="section-11.2-1.1">
-            <p id="section-11.2-1.1.1">Claim Name: <code>azd</code><a href="#section-11.2-1.1.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.2-1.1.2.1">
-                <p id="section-11.2-1.1.2.1.1">Claim Description: The authorization context details<a href="#section-11.2-1.1.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-11.2-1.1.2.2">
-                <p id="section-11.2-1.1.2.2.1">Change Controller: IESG<a href="#section-11.2-1.1.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-11.2-1.1.2.3">
-                <p id="section-11.2-1.1.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> of this specification<a href="#section-11.2-1.1.2.3.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
+            <p id="section-11.2-1.1.1">URN: urn:ietf:params:oauth:token-type:self-signed<a href="#section-11.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.2-1.2">
-            <p id="section-11.2-1.2.1">Claim Name: <code>rctx</code><a href="#section-11.2-1.2.1" class="pilcrow">¶</a></p>
+            <p id="section-11.2-1.2.1">Common Name: Token type for Self-signed JWT in lieu of an access token<a href="#section-11.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.2-1.3">
+            <p id="section-11.2-1.3.1">Change Controller: IESG<a href="#section-11.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.2-1.4">
+            <p id="section-11.2-1.4.1">Specification Document: Section <a href="#subject-token-types" class="auto internal xref">Section 7.1.1</a> of this specification<a href="#section-11.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="jwt-registry-contents">
+<section id="section-11.3">
+        <h3 id="name-jwt-registry-contents">
+<a href="#section-11.3" class="section-number selfRef">11.3. </a><a href="#name-jwt-registry-contents" class="section-name selfRef">JWT Registry Contents</a>
+        </h3>
 <ul class="normal">
-<li class="normal" id="section-11.2-1.2.2.1">
-                <p id="section-11.2-1.2.2.1.1">Claim Description: The requester context<a href="#section-11.2-1.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-11.3-1.1">
+            <p id="section-11.3-1.1.1">Claim Name: <code>azd</code><a href="#section-11.3-1.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-11.3-1.1.2.1">
+                <p id="section-11.3-1.1.2.1.1">Claim Description: The authorization context details<a href="#section-11.3-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-11.2-1.2.2.2">
-                <p id="section-11.2-1.2.2.2.1">Change Controller: IESG<a href="#section-11.2-1.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-11.3-1.1.2.2">
+                <p id="section-11.3-1.1.2.2.1">Change Controller: IESG<a href="#section-11.3-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-11.2-1.2.2.3">
-                <p id="section-11.2-1.2.2.3.1">Specification Document: Section <a href="#requester-context" class="auto internal xref">Section 5.2.1</a> of this specification<a href="#section-11.2-1.2.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-11.3-1.1.2.3">
+                <p id="section-11.3-1.1.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> of this specification<a href="#section-11.3-1.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-11.2-1.3">
-            <p id="section-11.2-1.3.1">Claim Name: <code>purp</code><a href="#section-11.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-11.3-1.2">
+            <p id="section-11.3-1.2.1">Claim Name: <code>rctx</code><a href="#section-11.3-1.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-11.2-1.3.2.1">
-                <p id="section-11.2-1.3.2.1.1">Claim Description: The purpose of the transaction<a href="#section-11.2-1.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-11.3-1.2.2.1">
+                <p id="section-11.3-1.2.2.1.1">Claim Description: The requester context<a href="#section-11.3-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-11.2-1.3.2.2">
-                <p id="section-11.2-1.3.2.2.1">Change Controller: IESG<a href="#section-11.2-1.3.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-11.3-1.2.2.2">
+                <p id="section-11.3-1.2.2.2.1">Change Controller: IESG<a href="#section-11.3-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-11.2-1.3.2.3">
-                <p id="section-11.2-1.3.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> of this specification<a href="#section-11.2-1.3.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-11.3-1.2.2.3">
+                <p id="section-11.3-1.2.2.3.1">Specification Document: Section <a href="#requester-context" class="auto internal xref">Section 5.2.1</a> of this specification<a href="#section-11.3-1.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-11.3-1.3">
+            <p id="section-11.3-1.3.1">Claim Name: <code>purp</code><a href="#section-11.3-1.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-11.3-1.3.2.1">
+                <p id="section-11.3-1.3.2.1.1">Claim Description: The purpose of the transaction<a href="#section-11.3-1.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-11.3-1.3.2.2">
+                <p id="section-11.3-1.3.2.2.1">Change Controller: IESG<a href="#section-11.3-1.3.2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-11.3-1.3.2.3">
+                <p id="section-11.3-1.3.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> of this specification<a href="#section-11.3-1.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -2232,6 +2256,10 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
 <dt id="RFC9110">[RFC9110]</dt>
         <dd>
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Semantics"</span>, <span class="seriesInfo">STD 97</span>, <span class="seriesInfo">RFC 9110</span>, <span class="seriesInfo">DOI 10.17487/RFC9110</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9110">https://www.rfc-editor.org/rfc/rfc9110</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA.OAuth.Parameters">[IANA.OAuth.Parameters]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"OAuth Parameters"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/oauth-parameters">https://www.iana.org/assignments/oauth-parameters</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="OpenIdConnect">[OpenIdConnect]</dt>
       <dd>

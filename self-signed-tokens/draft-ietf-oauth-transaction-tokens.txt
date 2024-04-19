@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 20 October 2024                                     Capital One
+Expires: 21 October 2024                                     Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                           18 April 2024
+                                                           19 April 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 October 2024.
+   This Internet-Draft will expire on 21 October 2024.
 
 Copyright Notice
 
@@ -110,7 +110,8 @@ Table of Contents
      10.2.  Logging
    11. IANA Considerations
      11.1.  OAuth Registry Contents
-     11.2.  JWT Registry Contents
+     11.2.  OAuth URI Subregistry Contents
+     11.3.  JWT Registry Contents
    12. References
      12.1.  Normative References
      12.2.  Informative References
@@ -641,7 +642,7 @@ Table of Contents
    MAY be one of the subject token types described in Section 3 of OAuth
    2.0 Token Exchange [RFC8693], or it MAY be set to the value:
 
-   urn:ietf:params:txn-token:token-type:self-signed  Indicates that the
+   urn:ietf:params:oauth:token-type:self-signed  Indicates that the
       subject token is a self-signed JWT.
 
    The Txn-Token Service MAY support other token formats, which MAY be
@@ -871,8 +872,11 @@ Table of Contents
 
    This specification registers the following claims defined in
    Section Section 5.1 to the OAuth Access Token Types Registry defined
-   in [RFC6749], and the following claims defined in Section Section 5.2
-   in the IANA JSON Web Token Claims Registry defined in [RFC7519]
+   in [RFC6749], the following claim in Section Section 7.1.1 to the
+   "OAuth URI" subregistry of the "OAuth Parameters"
+   [IANA.OAuth.Parameters] registry, and the following claims defined in
+   Section Section 5.2 in the IANA JSON Web Token Claims Registry
+   defined in [RFC7519]
 
 11.1.  OAuth Registry Contents
 
@@ -888,7 +892,19 @@ Table of Contents
 
    *  Specification Document: Section Section 5.1 of this specificaiton
 
-11.2.  JWT Registry Contents
+11.2.  OAuth URI Subregistry Contents
+
+   *  URN: urn:ietf:params:oauth:token-type:self-signed
+
+   *  Common Name: Token type for Self-signed JWT in lieu of an access
+      token
+
+   *  Change Controller: IESG
+
+   *  Specification Document: Section Section 7.1.1 of this
+      specification
+
+11.3.  JWT Registry Contents
 
    *  Claim Name: azd
 
@@ -969,6 +985,10 @@ Table of Contents
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [IANA.OAuth.Parameters]
+              IANA, "OAuth Parameters", n.d.,
+              <https://www.iana.org/assignments/oauth-parameters>.
 
    [OpenIdConnect]
               Sakimura, N., Bradley, J., Jones, M., Medeiros, B. de.,
