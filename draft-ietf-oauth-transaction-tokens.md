@@ -449,7 +449,7 @@ The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be on
 `urn:ietf:params:oauth:token-type:self-signed`
 : Indicates that the subject token is a self-signed JWT.
 
-The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter SHOULD be a URI.
+The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.
 
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
