@@ -444,9 +444,9 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
 ### Subject Token Types {#subject-token-types}
-The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}}, or it MAY be set to the value:
+The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be set to the value:
 
-`urn:ietf:params:oauth:token-type:self-signed`
+`urn:ietf:params:oauth:token-type:self_signed`
 : Indicates that the subject token is a self-signed JWT.
 
 The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.
