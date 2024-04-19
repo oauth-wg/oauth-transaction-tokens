@@ -1878,9 +1878,9 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
           <h4 id="name-subject-token-types">
 <a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-subject-token-types" class="section-name selfRef">Subject Token Types</a>
           </h4>
-<p id="section-7.1.1-1">The <code>subject_token_type</code> parameter value MUST be a URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>, or it MAY be set to the value:<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-1">The <code>subject_token_type</code> parameter value MUST be a URI <span>[<a href="#RFC3986" class="cite xref">RFC3986</a>]</span>. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> except the Refresh Token type (i.e., <code>urn:ietf:params:oauth:token-type:refresh_token</code>), or it MAY be set to the value:<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.1.1-2">
-            <dt id="section-7.1.1-2.1"><code>urn:ietf:params:oauth:token-type:self-signed</code></dt>
+            <dt id="section-7.1.1-2.1"><code>urn:ietf:params:oauth:token-type:self_signed</code></dt>
             <dd style="margin-left: 1.5em" id="section-7.1.1-2.2">
               <p id="section-7.1.1-2.2.1">Indicates that the subject token is a self-signed JWT.<a href="#section-7.1.1-2.2.1" class="pilcrow">¶</a></p>
 </dd>
