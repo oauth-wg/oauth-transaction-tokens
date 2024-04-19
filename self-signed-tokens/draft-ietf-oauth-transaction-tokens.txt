@@ -896,7 +896,7 @@ Table of Contents
 
 11.2.  OAuth URI Subregistry Contents
 
-   *  URN: urn:ietf:params:oauth:token-type:self-signed
+   *  URN: urn:ietf:params:oauth:token-type:self_signed
 
    *  Common Name: Token type for Self-signed JWT in lieu of an access
       token
