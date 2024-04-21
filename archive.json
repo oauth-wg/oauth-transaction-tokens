@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-18T00:12:45.230826+00:00",
+  "timestamp": "2024-04-21T00:13:54.008531+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4766,18 +4766,26 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-04-16T15:41:15Z",
+      "updatedAt": "2024-04-20T10:18:58Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "self-signed-tokens",
-      "headRefOid": "c7918a9ab6c2be007cdf51688db5269f04d04e45",
+      "headRefOid": "d7edbcf9922b663fe6c6edbcaed4196f4f2a6b51",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yup. Thanks. I realized I forgot to add the IANA section after I sent out\r\nthe PR. I'll update it soon.\r\n\r\nOn Fri, Apr 19, 2024, 6:30\u202fAM Yaron Sheffer ***@***.***>\r\nwrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In draft-ietf-oauth-transaction-tokens.md\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/90#discussion_r1572377478>\r\n> :\r\n>\r\n> >\r\n> -rfc9068\r\n> -: The `subject_token` is a JWT format OAuth 2.0 Access Token as defined in {{RFC9068}}\r\n> +`urn:ietf:params:txn-token:token-type:self-signed`\r\n>\r\n> I'm pretty sure you need an IANA section to register\r\n> urn:ietf:params:txn-token.\r\n>\r\n> Hint: https://www.iana.org/assignments/params/params.xhtml\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/90#pullrequestreview-2011438609>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG5Q3BQQWGMFVDMGJUDY6EL6NAVCNFSM6AAAAABGEOTLE6VHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZDAMJRGQZTQNRQHE>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2024-04-19T15:06:34Z",
+          "updatedAt": "2024-04-19T15:06:34Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM53GJMh",
@@ -4977,6 +4985,79 @@
               "updatedAt": "2024-04-16T15:41:15Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53ziFS",
+          "commit": {
+            "abbreviatedOid": "c7918a9"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-18T22:05:26Z",
+          "updatedAt": "2024-04-18T22:05:26Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "Thanks @bc-pi , @gffletch and @yaronf for your feedback here. I've updated the PR. Please take a look. thanks",
+              "createdAt": "2024-04-18T22:05:26Z",
+              "updatedAt": "2024-04-18T22:05:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM535B4R",
+          "commit": {
+            "abbreviatedOid": "6a49362"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-19T13:29:52Z",
+          "updatedAt": "2024-04-19T13:29:53Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "I'm pretty sure you need an IANA section to register `urn:ietf:params:txn-token`.\r\n\r\nHint: https://www.iana.org/assignments/params/params.xhtml",
+              "createdAt": "2024-04-19T13:29:53Z",
+              "updatedAt": "2024-04-19T13:29:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM539e3D",
+          "commit": {
+            "abbreviatedOid": "6a49362"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-19T22:09:43Z",
+          "updatedAt": "2024-04-19T22:09:43Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "I have fixed this (changed to the OAuth namespace and added an IANA registry section.",
+              "createdAt": "2024-04-19T22:09:43Z",
+              "updatedAt": "2024-04-19T22:09:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM53_PQK",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-04-20T10:18:58Z",
+          "updatedAt": "2024-04-20T10:18:58Z",
+          "comments": []
         }
       ]
     }
