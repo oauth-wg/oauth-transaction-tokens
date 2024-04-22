@@ -416,7 +416,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
-* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`.
+* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token in the response to this request.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -444,7 +444,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
 ### Subject Token Types {#subject-token-types}
-The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be set to the value:
+The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be set to the value:
 
 `urn:ietf:params:oauth:token-type:self_signed`
 : Indicates that the subject token is a self-signed JWT.
