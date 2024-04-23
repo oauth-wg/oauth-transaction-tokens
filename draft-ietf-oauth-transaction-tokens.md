@@ -416,7 +416,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
-* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token in the response to this request.
+* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`. 
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -426,7 +426,7 @@ The following additional parameters MAY be present in a Txn-Token Request:
 
 The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.
 
-{{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
+The figure below {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
 ~~~ http
 POST /txn-token-service/token_endpoint HTTP 1.1
@@ -443,13 +443,19 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
-### Subject Token Types {#subject-token-types}
-The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be set to the value:
-
-`urn:ietf:params:oauth:token-type:self_signed`
-: Indicates that the subject token is a self-signed JWT.
+## Subject Token Types {#subject-token-types}
+The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be a self-signed JWT, as described below.
 
 The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.
+
+### Self-Signed Subject Token Type {#self-signed-subject-token-type}
+A requester MAY use a self-signed JWT as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:self_signed`. This self-signed JWT MUST contain the following claims:
+
+* `iss`: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determiining the `req_wl` value in the Txn-Token issued in response to this request.
+* `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
+* `iat`: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens that is unreasonably far in the past.
+
+The self-signed JWT MAY contain other claims.
 
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
@@ -573,7 +579,7 @@ This specification registers the following claims defined in Section {{txn-token
 ## OAuth URI Subregistry Contents
 
 * URN: urn:ietf:params:oauth:token-type:self_signed
-* Common Name: Token type for Self-signed JWT in lieu of an access token
+* Common Name: Token type for Self-signed JWT
 * Change Controller: IESG
 * Specification Document: Section {{subject-token-types}} of this specification
 
