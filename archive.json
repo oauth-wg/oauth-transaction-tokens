@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-21T00:13:54.008531+00:00",
+  "timestamp": "2024-04-23T00:13:07.387872+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4766,13 +4766,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-04-20T10:18:58Z",
+      "updatedAt": "2024-04-22T21:21:40Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "self-signed-tokens",
-      "headRefOid": "d7edbcf9922b663fe6c6edbcaed4196f4f2a6b51",
+      "headRefOid": "406b143691fae932121d28027bd4af2aeff32703",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5058,6 +5058,86 @@
           "createdAt": "2024-04-20T10:18:58Z",
           "updatedAt": "2024-04-20T10:18:58Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54ITg6",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-22T17:42:38Z",
+          "updatedAt": "2024-04-22T17:42:38Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "Are there any RFCs that gives guidance on how to generate a self-signed JWT that we can reference? For example, can we reference RFC 7523?",
+              "createdAt": "2024-04-22T17:42:38Z",
+              "updatedAt": "2024-04-22T17:42:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54IWHy",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-22T17:48:41Z",
+          "updatedAt": "2024-04-22T17:48:41Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "Perhaps add:\r\n\r\n\"The subject of this token will be the subject of the security token issued in response to the request.\" (RFC 8693 has similar terminology)",
+              "createdAt": "2024-04-22T17:48:41Z",
+              "updatedAt": "2024-04-22T17:48:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54IW8K",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-22T17:50:40Z",
+          "updatedAt": "2024-04-22T17:50:40Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "It MAY be any of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except for the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be set to the value:",
+              "createdAt": "2024-04-22T17:50:40Z",
+              "updatedAt": "2024-04-22T17:50:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54Jw3A",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-22T21:21:13Z",
+          "updatedAt": "2024-04-22T21:21:15Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "I didn't see any RFCs specific to self-signed JWTs. Referring to RFC7523 is probably not appropriate because of the additional constraints that RFC puts on the content of the JWT, which may not be what we intend here.",
+              "createdAt": "2024-04-22T21:21:14Z",
+              "updatedAt": "2024-04-22T21:21:15Z"
+            }
+          ]
         }
       ]
     }
