@@ -453,7 +453,7 @@ A requester MAY use a self-signed JWT as a `subject_token` value. In that case, 
 
 * `iss`: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determiining the `req_wl` value in the Txn-Token issued in response to this request.
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
-* `iat`: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens that is unreasonably far in the past.
+* `iat`: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens with an `iat` value that is unreasonably far in the past.
 
 The self-signed JWT MAY contain other claims.
 
