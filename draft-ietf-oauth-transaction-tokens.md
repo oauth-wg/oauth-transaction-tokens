@@ -542,7 +542,7 @@ Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Informat
 
 # IANA Considerations {#IANA}
 
-This specification registers the following claims defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
+This specification registers the following fields defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
 
 ## OAuth Registry Contents
 
@@ -553,7 +553,7 @@ This specification registers the following claims defined in Section {{txn-token
 * Change Controller: IESG
 * Specification Document: Section {{txn-token-header}} of this specificaiton
 
-## JWT Registry Contents
+## JWT Claims Registry Contents
 
 * Claim Name: `azd`
   * Claim Description: The authorization context details
