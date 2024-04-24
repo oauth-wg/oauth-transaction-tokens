@@ -659,8 +659,8 @@ Table of Contents
    MUST contain the following claims:
 
    *  iss: The unique identifier of the requesting workload.  The Txn-
-      Token Service SHALL use this value in determiining the req_wl
-      value in the Txn-Token issued in response to this request.
+      Token Service SHALL use this value in determining the req_wl value
+      in the Txn-Token issued in response to this request.
 
    *  sub: The subject for whom the Txn-Token is being requested.  The
       Txn-Token Service SHALL use this value in determining the sub

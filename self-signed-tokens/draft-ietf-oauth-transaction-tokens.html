@@ -1893,7 +1893,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 <p id="section-7.2.1-1">A requester MAY use a self-signed JWT as a <code>subject_token</code> value. In that case, the requester MUST set the <code>subject_token_type</code> value to: <code>urn:ietf:params:oauth:token-type:self_signed</code>. This self-signed JWT MUST contain the following claims:<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2.1-2.1">
-              <p id="section-7.2.1-2.1.1"><code>iss</code>: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determiining the <code>req_wl</code> value in the Txn-Token issued in response to this request.<a href="#section-7.2.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.1-2.1.1"><code>iss</code>: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determining the <code>req_wl</code> value in the Txn-Token issued in response to this request.<a href="#section-7.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-2.2">
               <p id="section-7.2.1-2.2.1"><code>sub</code>: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the <code>sub</code> value in the Txn-Token issued in the response to this request.<a href="#section-7.2.1-2.2.1" class="pilcrow">¶</a></p>
