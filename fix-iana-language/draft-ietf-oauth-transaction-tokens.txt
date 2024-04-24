@@ -849,7 +849,7 @@ Table of Contents
 
 11.  IANA Considerations
 
-   This specification registers the following fields defined in
+   This specification registers the following field defined in
    Section Section 5.1 to the OAuth Access Token Types Registry defined
    in [RFC6749], and the following claims defined in Section Section 5.2
    in the IANA JSON Web Token Claims Registry defined in [RFC7519]
