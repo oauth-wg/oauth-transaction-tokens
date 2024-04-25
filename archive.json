@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-23T00:13:07.387872+00:00",
+  "timestamp": "2024-04-25T00:13:47.928687+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1637,6 +1637,22 @@
       "body": "The TraTs spec should add more guidance on privacy in logging.",
       "createdAt": "2024-03-29T16:01:19Z",
       "updatedAt": "2024-03-29T16:01:19Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 91,
+      "id": "I_kwDOJt_WwM6GpEKU",
+      "title": "Clarification on additional signatures",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/91",
+      "state": "OPEN",
+      "author": "dteleguin",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "From 2.4. Benefits of Txn-Tokens:\r\n\r\n> Through the presence of additional signatures on the Txn-Token, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.\r\n\r\nIt is unclear from the document how exactly the additional signatures could be added to the Txn-Token by the workloads within the call chain. Would be nice to provide some details here, or to state that this is out of the scope of the current document.",
+      "createdAt": "2024-04-23T13:38:00Z",
+      "updatedAt": "2024-04-23T13:38:00Z",
       "closedAt": null,
       "comments": []
     }
@@ -4766,13 +4782,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-04-22T21:21:40Z",
+      "updatedAt": "2024-04-24T23:19:57Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "self-signed-tokens",
-      "headRefOid": "406b143691fae932121d28027bd4af2aeff32703",
+      "headRefOid": "e03653e37e8c9eb4e0565e510ea01a6b1d86cab7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5136,6 +5152,358 @@
               "body": "I didn't see any RFCs specific to self-signed JWTs. Referring to RFC7523 is probably not appropriate because of the additional constraints that RFC puts on the content of the JWT, which may not be what we intend here.",
               "createdAt": "2024-04-22T21:21:14Z",
               "updatedAt": "2024-04-22T21:21:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54NUV3",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-23T09:40:54Z",
+          "updatedAt": "2024-04-23T09:40:54Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "@tulshi I think there are already implied constraints on what should be in the token *e.g. a \"sub\" claim, and \"iss\" claim that is the same as the \"sub\", \"exp\", \"nbf\", etc. Making it explicit makes implementors lives easier, and improves interop. Looking at RFC 7523 Section 3 defines a set of claims https://www.rfc-editor.org/rfc/rfc7523.html#section-3 that feels highly relevant. Leaving it undefined creates an interop problem.\r\n\r\n@bc-pi and @gffletch what are your thoughts on being more prescriptive on the format of the self-signed token? Can we leverage Section 3 of RFC 7523, or should we define our own?",
+              "createdAt": "2024-04-23T09:40:54Z",
+              "updatedAt": "2024-04-23T09:40:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54QRgG",
+          "commit": {
+            "abbreviatedOid": "406b143"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-23T15:00:59Z",
+          "updatedAt": "2024-04-23T15:27:51Z",
+          "comments": [
+            {
+              "originalPosition": 79,
+              "body": "Instead of \"in lieu\" could you please use a more well-known English phrase?",
+              "createdAt": "2024-04-23T15:00:59Z",
+              "updatedAt": "2024-04-23T15:27:51Z"
+            },
+            {
+              "originalPosition": 28,
+              "body": "The self-signed JWT should be short-living as well. So \"iat\" and \"exp\" should be included. there should probably some guidance on how short those self-sign JWTs should be valid. Could be same as for Txn-Tokens itself or even shorter as the self-signed JWTs here are meant to be used just once. \"aud\" and \"sub\" should be essential with \"aud\" either defining the trust domain (as described elsewhere in the spec) or narrowing down the audience even further to just the TTS by using the StringorURI of the TTS. Providing the \"iss\" claim could help the TTS to look up the necessary JWKS of the signing party.",
+              "createdAt": "2024-04-23T15:12:37Z",
+              "updatedAt": "2024-04-23T15:27:51Z"
+            },
+            {
+              "originalPosition": 56,
+              "body": "Is defining and registering a new token type actually necessary? There is urn:ietf:params:oauth:token-type:jwt",
+              "createdAt": "2024-04-23T15:27:06Z",
+              "updatedAt": "2024-04-23T15:27:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54Tleb",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-23T21:56:39Z",
+          "updatedAt": "2024-04-23T21:56:39Z",
+          "comments": [
+            {
+              "originalPosition": 70,
+              "body": "```suggestion\r\n* `iss`: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determining the `req_wl` value in the Txn-Token issued in response to this request.\r\n```",
+              "createdAt": "2024-04-23T21:56:39Z",
+              "updatedAt": "2024-04-23T21:56:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54TmQg",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-23T21:57:55Z",
+          "updatedAt": "2024-04-23T21:57:56Z",
+          "comments": [
+            {
+              "originalPosition": 71,
+              "body": "If we revert to `sub_id` for the main Txn Token, this one would also have to change.",
+              "createdAt": "2024-04-23T21:57:55Z",
+              "updatedAt": "2024-04-23T21:57:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54TmWv",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-04-23T21:58:12Z",
+          "updatedAt": "2024-04-23T21:58:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54Tt55",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-23T22:28:10Z",
+          "updatedAt": "2024-04-23T22:28:11Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "> @bc-pi and @gffletch what are your thoughts on being more prescriptive on the format of the self-signed token? Can we leverage Section 3 of RFC 7523, or should we define our own? \r\n\r\nI wouldn't try to reference 7523 directly but maybe consider it (really just the client auth context) as partial inspiration for the claims that would make sense in this context of a self-signed JWT. Looks like @tulshi already started on a definition down in #self-signed-subject-token-type though and notably absent are `aud` and `exp`, which one would expect to see short of some compelling reason (that I'm not seeing). ",
+              "createdAt": "2024-04-23T22:28:10Z",
+              "updatedAt": "2024-04-23T22:28:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54T6m7",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-23T23:19:27Z",
+          "updatedAt": "2024-04-23T23:19:27Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "@bc-pi,  I considered adding `aud` and `exp` in the self-signed JWT, but here are the reasons why I decided not to:\r\n\r\n- At a high-level, I'm thinking of the self-signed JWT in the request as a convenience rather than something that will have a lot of applicability outside of the communication between the requesting service and the TTS.\r\n- We could set the `aud` value to be the TTS, but that is redundant. If we were to somehow hint about the `aud` value in the resulting TraT, that is determined by the TTS, so providing that in the request is inconsequential (and the requester has no control over it). It's possible that the same TTS has multiple trust domains, but there could be other ways for it to distinguish which trust domain it is acting on behalf of, such as a different token exchange endpoint URL.\r\n- Similarly, the `exp` value could be used to indicate the expiration of the request itself, or it could be used as a hint to indicate the lifetime of the resulting TraT. Since we have already noted that a TTS may reject JWTs with an unreasonably old `iat` value, we do not need to specify an `exp` value. If we were to hint about the lifetime of the resulting TraT, I feel the requester would need to know a lot more about the transaction than a typical requester such as a general-purpose API gateway would know. I'd rather that the TTS determine the TraT's `exp` based on its policy and understanding of the actual transaction that is being requested. ",
+              "createdAt": "2024-04-23T23:19:27Z",
+              "updatedAt": "2024-04-23T23:19:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54Zvjj",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T14:16:38Z",
+          "updatedAt": "2024-04-24T14:16:39Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "@tulshi I am not so sure about not defining the aud value. Given everything that goes on in he world of token theft, having this extra constraint can help minimise the impact of token replay (stealing a token from one workload and replaying against another transaction token endpoint and so forth). Are there scenarios where we think the workload would not know which transaction token service it will be presenting its self-signed credential to?\r\n\r\nI also recall that we had some constraint that a transaction token cannot be valid for longer than the original token. This raises the question on what the guidance is for expiry if the exp claim is not present as in this case. Section 2.3 is somewhat silent on this, but I think this is a decision for the Authorization service (perhaps something to be made clearer in section 2.3). ",
+              "createdAt": "2024-04-24T14:16:38Z",
+              "updatedAt": "2024-04-24T14:16:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54WAML",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T07:04:21Z",
+          "updatedAt": "2024-04-24T14:28:34Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "If the JWT is considered a convenience to pass the necessary parameters (e.g. subject) to the TTS, why does it have to be a new self-signed type? Wouldn't a JWT be enough then? TTS Implementers could decide if they require signed JWTs or accept plain JWTs.\r\n\r\nIf, on the other hand, there are security considerations, having at least \"exp\" helps in mitigating possible abuse of such a JWT (replay attacks).",
+              "createdAt": "2024-04-24T07:04:21Z",
+              "updatedAt": "2024-04-24T14:28:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54b4Qz",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T17:56:15Z",
+          "updatedAt": "2024-04-24T17:56:15Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "Claims like `exp`, `nbf`, `aud`, etc (also constructs like [explicit typing](https://www.rfc-editor.org/rfc/rfc8725.html#name-use-explicit-typing) fwiw) are about out the validity/security of the JWT in the intended context and also preventing misuse in unintended context. They have no bearing on whatever the output of the processes is. Any such bearing would need to be profiled and likely isn't what you'd want anyway. \r\n\r\nNote also that there are no normative processing requirements on `iat`.",
+              "createdAt": "2024-04-24T17:56:15Z",
+              "updatedAt": "2024-04-24T17:56:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54b433",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T17:57:42Z",
+          "updatedAt": "2024-04-24T17:57:42Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "most of these things are not claims ",
+              "createdAt": "2024-04-24T17:57:42Z",
+              "updatedAt": "2024-04-24T17:57:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54cKSG",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T18:35:29Z",
+          "updatedAt": "2024-04-24T18:35:29Z",
+          "comments": [
+            {
+              "originalPosition": 28,
+              "body": "Thanks all, I've added the \"aud\" and \"exp\". Good points all (what was I thinking?). In order to minimize abuse of the self-signed JWT, I've specified that its lifetime should be just a few seconds. Since the Txn-token lifetime will exceed this, I've carved out that exception in \"Txn-Token Lifetime\" section (line 160)",
+              "createdAt": "2024-04-24T18:35:29Z",
+              "updatedAt": "2024-04-24T18:35:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54dYm4",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T21:25:12Z",
+          "updatedAt": "2024-04-24T21:25:12Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "I realize much of this text is preexisting but it'd be good if the PR didn't introduce more misstatements ",
+              "createdAt": "2024-04-24T21:25:12Z",
+              "updatedAt": "2024-04-24T21:25:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54dttH",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T22:28:12Z",
+          "updatedAt": "2024-04-24T22:28:12Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Created separate PR for tracking this: https://github.com/oauth-wg/oauth-transaction-tokens/pull/92",
+              "createdAt": "2024-04-24T22:28:12Z",
+              "updatedAt": "2024-04-24T22:28:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54d7Co",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T23:19:56Z",
+          "updatedAt": "2024-04-24T23:19:57Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "#92 kinda misses the mark https://github.com/oauth-wg/oauth-transaction-tokens/pull/92#discussion_r1578619029 and the new text here is still problematic ",
+              "createdAt": "2024-04-24T23:19:57Z",
+              "updatedAt": "2024-04-24T23:19:57Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 92,
+      "id": "PR_kwDOJt_WwM5tp-91",
+      "title": "clarified fields versus claims and IANA registry name",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/92",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-04-24T22:27:13Z",
+      "updatedAt": "2024-04-24T23:13:47Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-iana-language",
+      "headRefOid": "f7ddfab2f436e10d4af2f11964913e633554fd8e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM54d50U",
+          "commit": {
+            "abbreviatedOid": "f7ddfab"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-24T23:13:47Z",
+          "updatedAt": "2024-04-24T23:13:47Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Lots to unpack here that goes beyond changing one word...\r\n\r\nThe referenced section `{{txn-token-header}}` is [JWT Header](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-01.html#name-jwt-header) which calls headers claims. Headers are not claims. Also the value of the `typ` header is supposed to be a media type so the `txn_token` value probably isn't quite right and the registration for it below certainly isn't right. Also the `urn:ieft:params:oauth:token-type:txn-token` URI is missing a registration and the [Txn-Token Request](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-01.html#name-txn-token-request) section that defines it has some major formatting issues. \r\n\r\nSome related reading, issues, and examples of these things being done in other specs follows: \r\n\r\nhttps://github.com/oauth-wg/oauth-transaction-tokens/issues/84\r\nhttps://www.rfc-editor.org/rfc/rfc7515#section-4.1.9\r\nhttps://www.rfc-editor.org/rfc/rfc7519#section-5.1\r\nhttps://www.rfc-editor.org/rfc/rfc8725.html#name-use-explicit-typing\r\nhttps://datatracker.ietf.org/doc/html/rfc9068#name-header\r\nhttps://www.rfc-editor.org/rfc/rfc9449.html#name-dpop-proof-jwt-syntax\r\nhttps://www.rfc-editor.org/rfc/rfc7519.html#section-10.2\r\n\r\n ",
+              "createdAt": "2024-04-24T23:13:47Z",
+              "updatedAt": "2024-04-24T23:13:48Z"
             }
           ]
         }
