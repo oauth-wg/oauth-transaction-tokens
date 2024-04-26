@@ -672,7 +672,7 @@ Table of Contents
 
    *  iat: The time at which the self-signed JWT was created.  Note that
       the Txn-Token Service may reject self-signed tokens with an iat
-      value that is unreasonably far in the past.
+      value that is unreasonably far in the past or future.
 
    *  exp: The expiration time for the JWT.  This should be a very short
       duration (order of seconds) in order to prevent any abuse of the

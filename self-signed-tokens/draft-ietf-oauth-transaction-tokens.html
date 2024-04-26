@@ -1902,7 +1902,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
               <p id="section-7.2.1-2.3.1"><code>aud</code>: The unique identifier of the Txn-Token Service. The Txn-Token Service SHALL verify that this value matches its own unique identifier.<a href="#section-7.2.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-2.4">
-              <p id="section-7.2.1-2.4.1"><code>iat</code>: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens with an <code>iat</code> value that is unreasonably far in the past.<a href="#section-7.2.1-2.4.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.1-2.4.1"><code>iat</code>: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens with an <code>iat</code> value that is unreasonably far in the past or future.<a href="#section-7.2.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-2.5">
               <p id="section-7.2.1-2.5.1"><code>exp</code>: The expiration time for the JWT. This should be a very short duration (order of seconds) in order to prevent any abuse of the JWT.<a href="#section-7.2.1-2.5.1" class="pilcrow">¶</a></p>
