@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 26 October 2024                                     Capital One
+Expires: 28 October 2024                                     Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                           24 April 2024
+                                                           26 April 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 October 2024.
+   This Internet-Draft will expire on 28 October 2024.
 
 Copyright Notice
 
@@ -674,9 +674,9 @@ Table of Contents
       the Txn-Token Service may reject self-signed tokens with an iat
       value that is unreasonably far in the past.
 
-   *  exp: The expiration time for the request.  This should be a very
-      short duration (order of seconds) in order to prevent any abuse of
-      the JWT.
+   *  exp: The expiration time for the JWT.  This should be a very short
+      duration (order of seconds) in order to prevent any abuse of the
+      JWT.
 
    The self-signed JWT MAY contain other claims.
 
@@ -879,7 +879,7 @@ Table of Contents
    is out of scope for this specification.  However, if using the
    actor_token and actor_token_type parameters of the OAuth 2.0 Token
    Exchange specification, both parameters MUST be present in the
-   request.  The actor_token MUST autenticate the identity of the
+   request.  The actor_token MUST authenticate the identity of the
    requesting workload.
 
 10.  Privacy Considerations
