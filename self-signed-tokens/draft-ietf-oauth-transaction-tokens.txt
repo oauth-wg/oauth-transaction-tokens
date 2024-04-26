@@ -903,11 +903,11 @@ Table of Contents
 
    This specification registers the following claims defined in
    Section Section 5.1 to the OAuth Access Token Types Registry defined
-   in [RFC6749], the following claim in Section Section 7.2 to the
-   "OAuth URI" subregistry of the "OAuth Parameters"
-   [IANA.OAuth.Parameters] registry, and the following claims defined in
-   Section Section 5.2 in the IANA JSON Web Token Claims Registry
-   defined in [RFC7519]
+   in [RFC6749], the following token type identifier in
+   Section Section 7.2 to the "OAuth URI" subregistry of the "OAuth
+   Parameters" [IANA.OAuth.Parameters] registry, and the following
+   claims defined in Section Section 5.2 in the IANA JSON Web Token
+   Claims Registry defined in [RFC7519]
 
 11.1.  OAuth Registry Contents
 
