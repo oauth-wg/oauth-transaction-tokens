@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-25T00:13:47.928687+00:00",
+  "timestamp": "2024-04-28T00:14:21.181814+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -985,7 +985,7 @@
       "comments": [
         {
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "I would definitely not require that format. \r\n\r\nAnd would again suggest that RFC 9493 isn't needed in the Txn-Token context and [JWT's subject](https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2) good enough. ",
           "createdAt": "2023-12-20T21:41:16Z",
           "updatedAt": "2023-12-20T21:41:16Z"
@@ -999,7 +999,7 @@
         },
         {
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "I feel like there might be an undue emphasis on a relationship between `iss` and `sub` that doesn't truly exist. RFC7519 only mentions uniqueness in the context of an issuer https://www.rfc-editor.org/rfc/rfc7519#section-4.1.2 but not ownership or correctness or semantic meaning. \r\n",
           "createdAt": "2023-12-21T00:12:05Z",
           "updatedAt": "2023-12-21T00:12:36Z"
@@ -1013,7 +1013,7 @@
         },
         {
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Yeah, I am somewhat familiar with OpenID Connect ;) But this isn't OpenID Connect. With a Transaction Token the subject just needs to be identified within a single trust domain. ",
           "createdAt": "2023-12-21T13:56:46Z",
           "updatedAt": "2023-12-21T13:56:46Z"
@@ -1617,7 +1617,7 @@
       "comments": [
         {
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "https://hackmd.io/@rpc-sec-wg/SyAb2pxI6 from a while back had \"https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-00.html#name-iana-considerations Registration requests are off or missing or \u2026.\" ",
           "createdAt": "2024-04-02T20:00:05Z",
           "updatedAt": "2024-04-02T20:00:05Z"
@@ -3001,7 +3001,7 @@
             "abbreviatedOid": "fa68598"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-12-15T21:24:28Z",
@@ -3391,7 +3391,7 @@
             "abbreviatedOid": "fa68598"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-12-19T01:20:55Z",
@@ -3941,7 +3941,7 @@
             "abbreviatedOid": "2229c0e"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-01-29T19:39:46Z",
@@ -4748,7 +4748,7 @@
       "labels": [],
       "body": "Addresses text regarding the `aud` claim throughout the document. Issue #76",
       "createdAt": "2024-03-29T19:38:04Z",
-      "updatedAt": "2024-03-29T21:18:07Z",
+      "updatedAt": "2024-04-26T22:10:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
@@ -4766,6 +4766,13 @@
           "body": "Although your changes sufficiently capture what is needed, what I liked about the previous draft is that it clearly identified that each Trust Domain MUST have a unique identifier, which is set as the `aud` value. I wonder if we can say that somewhere (outside of the Terminology section)",
           "createdAt": "2024-03-29T21:18:07Z",
           "updatedAt": "2024-03-29T21:18:07Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok, let me see if there is a good place to add that. I wonder if it will be easier to merge PR #90 first and then let me fix this one as there may be conflicts?",
+          "createdAt": "2024-04-26T22:10:52Z",
+          "updatedAt": "2024-04-26T22:10:52Z"
         }
       ],
       "reviews": []
@@ -4782,13 +4789,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-04-24T23:19:57Z",
+      "updatedAt": "2024-04-26T22:01:25Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
+      "baseRefOid": "9a4e2a10383b263f43ae2cc0f064824873481ca7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "self-signed-tokens",
-      "headRefOid": "e03653e37e8c9eb4e0565e510ea01a6b1d86cab7",
+      "headRefOid": "52b3fca127484ab3f9a5ba555c853cb657560ca5",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -4800,6 +4807,62 @@
           "body": "Yup. Thanks. I realized I forgot to add the IANA section after I sent out\r\nthe PR. I'll update it soon.\r\n\r\nOn Fri, Apr 19, 2024, 6:30\u202fAM Yaron Sheffer ***@***.***>\r\nwrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In draft-ietf-oauth-transaction-tokens.md\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/90#discussion_r1572377478>\r\n> :\r\n>\r\n> >\r\n> -rfc9068\r\n> -: The `subject_token` is a JWT format OAuth 2.0 Access Token as defined in {{RFC9068}}\r\n> +`urn:ietf:params:txn-token:token-type:self-signed`\r\n>\r\n> I'm pretty sure you need an IANA section to register\r\n> urn:ietf:params:txn-token.\r\n>\r\n> Hint: https://www.iana.org/assignments/params/params.xhtml\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/90#pullrequestreview-2011438609>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG5Q3BQQWGMFVDMGJUDY6EL6NAVCNFSM6AAAAABGEOTLE6VHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMZDAMJRGQZTQNRQHE>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
           "createdAt": "2024-04-19T15:06:34Z",
           "updatedAt": "2024-04-19T15:06:34Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "@yaronf Regarding your comment about wrong approach: I mentioned something along those lines as well. I personally don't think that a new token type is actually necessary. A JWT is a good fit as it can carry the necessary data, but whether it should be signed by the workload (or what additional claims and associated checks should be incorporated) could be a decision by the individual TTS/trust domain.",
+          "createdAt": "2024-04-25T10:17:10Z",
+          "updatedAt": "2024-04-25T10:17:10Z"
+        },
+        {
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "body": "> @yaronf Regarding your comment about wrong approach: I mentioned something along those lines as well. I personally don't think that a new token type is actually necessary. A JWT is a good fit as it can carry the necessary data, but whether it should be signed by the workload (or what additional claims and associated checks should be incorporated) could be a decision by the individual TTS/trust domain.\r\n\r\n@obfuscoder My point is that even the JWT structure/encoding is not needed. No need to sign anything, no need to encode stuff in base64 (and either of them adds potential security issues). All the semantics we need can be carried in a simple JSON object.",
+          "createdAt": "2024-04-25T13:55:03Z",
+          "updatedAt": "2024-04-25T13:55:03Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I tend to agree with Yaron, that perhaps self-signed JWTs aren't the best\r\nway to express this. We can discuss this on the call tomorrow.\r\n\r\nOn Thu, Apr 25, 2024 at 6:55\u202fAM Yaron Sheffer ***@***.***>\r\nwrote:\r\n\r\n> @yaronf <https://github.com/yaronf> Regarding your comment about wrong\r\n> approach: I mentioned something along those lines as well. I personally\r\n> don't think that a new token type is actually necessary. A JWT is a good\r\n> fit as it can carry the necessary data, but whether it should be signed by\r\n> the workload (or what additional claims and associated checks should be\r\n> incorporated) could be a decision by the individual TTS/trust domain.\r\n>\r\n> @obfuscoder <https://github.com/obfuscoder> My point is that even the JWT\r\n> structure/encoding is not needed. No need to sign anything, no need to\r\n> encode stuff in base64 (and either of them adds potential security issues).\r\n> All the semantics we need can be carried in a simple JSON object.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/90#issuecomment-2077255417>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG3R5BUBBQW55C32VOLY7EDM3AVCNFSM6AAAAABGEOTLE6VHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDANZXGI2TKNBRG4>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2024-04-25T23:31:32Z",
+          "updatedAt": "2024-04-25T23:31:32Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Given the requirement that the TTS/AS always has to authenticate the identity of the requesting workload, conveying this info in an unsigned thing (the subject token could even contain just plain JSON) would probably be okay. Though it seems like the kind of thing that might lead to mistakes in deployment and resultant security issues. ",
+          "createdAt": "2024-04-26T12:45:29Z",
+          "updatedAt": "2024-04-26T12:45:29Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Letting the input be any kind of JSON structure feels problematic - not least because of interop. Using a JWT as the container and then putting constraints on it (i.e. a minimal set of supported claims) will help transaction token services in parsing and making some basic determinations about security. \r\n\r\nSelf-signing has pros and cons - we can make it optional for those deployments that have a risk profile that would get additional assurances from it, but as Brian notes, signing is easy to get wrong.",
+          "createdAt": "2024-04-26T13:09:33Z",
+          "updatedAt": "2024-04-26T13:09:33Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Well, you'd put some constraints on the JSON content too. I don't see how that'd be any more problematic from an interop perspective. \r\n",
+          "createdAt": "2024-04-26T13:30:44Z",
+          "updatedAt": "2024-04-26T14:31:01Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As long as there are some constraints on the format and contents that everyone would expect. Why not just use a JWT at that point though (there are libraries that support it etc)?",
+          "createdAt": "2024-04-26T14:17:11Z",
+          "updatedAt": "2024-04-26T14:17:11Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> TBH I think we took the wrong approach here. Instead of defining a new token type and having to ensure it cannot be abused for anything else, we could have had a simple JSON object containing the relevant claims. The object would be carried as a separate, optional parameter. This would be so much simpler for developers and would reduce the attack surface by a ton.\r\n> \r\n> With that said, I can live with the current solution.\r\n\r\n@yaronf On [today's call](https://hackmd.io/@rpc-sec-wg/BJqJZLYW0) we discussed this topic, and while there are valid opinions on both approaches, for now I am keeping the request as a self-signed JWT unless we think this approach is problematic.",
+          "createdAt": "2024-04-26T18:51:05Z",
+          "updatedAt": "2024-04-26T18:51:05Z"
         }
       ],
       "reviews": [
@@ -4809,7 +4872,7 @@
             "abbreviatedOid": "c7918a9"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-12T17:35:51Z",
@@ -4829,7 +4892,7 @@
             "abbreviatedOid": "c7918a9"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-12T17:44:40Z",
@@ -4948,7 +5011,7 @@
             "abbreviatedOid": "c7918a9"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-15T19:32:48Z",
@@ -4988,7 +5051,7 @@
             "abbreviatedOid": "c7918a9"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-16T15:41:15Z",
@@ -5266,7 +5329,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-23T22:28:10Z",
@@ -5346,7 +5409,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-24T17:56:15Z",
@@ -5366,7 +5429,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-24T17:57:42Z",
@@ -5406,7 +5469,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-24T21:25:12Z",
@@ -5446,7 +5509,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-24T23:19:56Z",
@@ -5457,6 +5520,198 @@
               "body": "#92 kinda misses the mark https://github.com/oauth-wg/oauth-transaction-tokens/pull/92#discussion_r1578619029 and the new text here is still problematic ",
               "createdAt": "2024-04-24T23:19:57Z",
               "updatedAt": "2024-04-24T23:19:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54gzxQ",
+          "commit": {
+            "abbreviatedOid": "e03653e"
+          },
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "TBH I think we took the wrong approach here. Instead of defining a new token type and having to ensure it cannot be abused for anything else, we could have had a simple JSON object containing the relevant claims. The object would be carried as a separate, optional parameter. This would be so much simpler for developers and would reduce the attack surface by a ton.\r\n\r\nWith that said, I can live with the current solution.",
+          "createdAt": "2024-04-25T08:26:50Z",
+          "updatedAt": "2024-04-25T08:26:50Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54hyLn",
+          "commit": {
+            "abbreviatedOid": "e03653e"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-25T10:25:19Z",
+          "updatedAt": "2024-04-25T10:30:50Z",
+          "comments": [
+            {
+              "originalPosition": 81,
+              "body": "or future?",
+              "createdAt": "2024-04-25T10:25:19Z",
+              "updatedAt": "2024-04-25T10:30:50Z"
+            },
+            {
+              "originalPosition": 82,
+              "body": "\"Expiration time for the request\". It should be expiration time for the JWT. There is nothing said about checking this value by the TTS. I think we should be explicit here that TTS MUST validate this, but also clock skew needs to be addressed. We could also just refer the definition of the already registered claim name by RFC 7519",
+              "createdAt": "2024-04-25T10:28:39Z",
+              "updatedAt": "2024-04-25T10:30:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54i7vg",
+          "commit": {
+            "abbreviatedOid": "e03653e"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-25T12:57:56Z",
+          "updatedAt": "2024-04-25T12:57:56Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "Kai is, of course, correct here that it's the expiration time of the JWT not of the request itself. And referring to existing definition of claims (not just exp) where possible and appropriate is likely preferable to (possibly erroneously)  restating/redefining them.",
+              "createdAt": "2024-04-25T12:57:56Z",
+              "updatedAt": "2024-04-25T12:57:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54vOtY",
+          "commit": {
+            "abbreviatedOid": "406b143"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-26T18:34:13Z",
+          "updatedAt": "2024-04-26T18:34:13Z",
+          "comments": [
+            {
+              "originalPosition": 56,
+              "body": "This will certainly simplify the current PR, but would it prevent us in future from using the `urn:ietf:params:oauth:token-type:jwt` subject token type for other unanticipated purposes in the request?",
+              "createdAt": "2024-04-26T18:34:13Z",
+              "updatedAt": "2024-04-26T18:34:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54vQiS",
+          "commit": {
+            "abbreviatedOid": "e03653e"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-26T18:39:12Z",
+          "updatedAt": "2024-04-26T18:39:12Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "fixed.",
+              "createdAt": "2024-04-26T18:39:12Z",
+              "updatedAt": "2024-04-26T18:39:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54vRpG",
+          "commit": {
+            "abbreviatedOid": "e03653e"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-26T18:40:52Z",
+          "updatedAt": "2024-04-26T18:40:52Z",
+          "comments": [
+            {
+              "originalPosition": 81,
+              "body": "fixed.",
+              "createdAt": "2024-04-26T18:40:52Z",
+              "updatedAt": "2024-04-26T18:40:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54vUb6",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-26T18:48:48Z",
+          "updatedAt": "2024-04-26T18:48:48Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "I will address the broader issues with the nomenclature (header, media-type, etc.) in a separate PR (#92). For this PR, I have addressed the language regarding the token type identifier. @bc-pi  Please review if that part is OK.",
+              "createdAt": "2024-04-26T18:48:48Z",
+              "updatedAt": "2024-04-26T18:48:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54vyQC",
+          "commit": {
+            "abbreviatedOid": "eae1750"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-26T20:09:26Z",
+          "updatedAt": "2024-04-26T20:09:26Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "looks OK, thx ",
+              "createdAt": "2024-04-26T20:09:26Z",
+              "updatedAt": "2024-04-26T20:09:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54vyTC",
+          "commit": {
+            "abbreviatedOid": "52b3fca"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-04-26T20:09:36Z",
+          "updatedAt": "2024-04-26T20:09:36Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54wTmP",
+          "commit": {
+            "abbreviatedOid": "406b143"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-26T22:01:25Z",
+          "updatedAt": "2024-04-26T22:01:25Z",
+          "comments": [
+            {
+              "originalPosition": 56,
+              "body": "Good point. I also learned that token-type:jwt more or less defines the format of the token and not the purpose. Than again the name \"token-type:self_signed\" also seems to describe format rather than purpose.\r\n\r\nHow about registering a token type name based on the purpose and maybe avoid having \"signed\" in the type name while still defining the format as JWT with the needed attributes for interop and allow implementers to choose whether they want to require a signed JWT or allow a plain one. If implementers require a signed one, the additional attributes like \"exp\" could make sense to help prevent misuse/abuse. We could make those additional attributes OPTIONAL in the plain version and REQUIRED in the signed one.",
+              "createdAt": "2024-04-26T22:01:25Z",
+              "updatedAt": "2024-04-26T22:01:25Z"
             }
           ]
         }
@@ -5493,7 +5748,7 @@
             "abbreviatedOid": "f7ddfab"
           },
           "author": "bc-pi",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-24T23:13:47Z",
@@ -5506,6 +5761,48 @@
               "updatedAt": "2024-04-24T23:13:48Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 93,
+      "id": "PR_kwDOJt_WwM5t1lm_",
+      "title": "fix typo/spellng",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/93",
+      "state": "MERGED",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-04-26T12:28:45Z",
+      "updatedAt": "2024-04-26T18:19:58Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
+      "headRepository": "bc-pi/oauth-transaction-tokens",
+      "headRefName": "patch-1",
+      "headRefOid": "28217e7b99a6842c19225df6800228c82a4846b1",
+      "closedAt": "2024-04-26T18:19:58Z",
+      "mergedAt": "2024-04-26T18:19:58Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "9a4e2a10383b263f43ae2cc0f064824873481ca7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM54vJah",
+          "commit": {
+            "abbreviatedOid": "28217e7"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-04-26T18:19:52Z",
+          "updatedAt": "2024-04-26T18:19:52Z",
+          "comments": []
         }
       ]
     }
