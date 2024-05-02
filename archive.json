@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-04-30T00:12:13.127283+00:00",
+  "timestamp": "2024-05-02T00:12:53.096546+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4748,7 +4748,7 @@
       "labels": [],
       "body": "Addresses text regarding the `aud` claim throughout the document. Issue #76",
       "createdAt": "2024-03-29T19:38:04Z",
-      "updatedAt": "2024-04-26T22:10:54Z",
+      "updatedAt": "2024-04-30T21:14:36Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
@@ -4773,6 +4773,13 @@
           "body": "Ok, let me see if there is a good place to add that. I wonder if it will be easier to merge PR #90 first and then let me fix this one as there may be conflicts?",
           "createdAt": "2024-04-26T22:10:52Z",
           "updatedAt": "2024-04-26T22:10:52Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Makes sense to work on this after we merge #90\r\n\r\nOn Fri, Apr 26, 2024 at 3:11\u202fPM George Fletcher ***@***.***>\r\nwrote:\r\n\r\n> Ok, let me see if there is a good place to add that. I wonder if it will\r\n> be easier to merge PR #90\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/90> first and\r\n> then let me fix this one as there may be conflicts?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/89#issuecomment-2080179762>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG77Y2GZKFE7FSVPC7LY7LGIFAVCNFSM6AAAAABFO22ZLKVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDAOBQGE3TSNZWGI>\r\n> .\r\n> You are receiving this because your review was requested.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2024-04-30T21:14:35Z",
+          "updatedAt": "2024-04-30T21:14:35Z"
         }
       ],
       "reviews": []
@@ -4789,13 +4796,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-04-26T22:01:25Z",
+      "updatedAt": "2024-05-01T19:52:10Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "9a4e2a10383b263f43ae2cc0f064824873481ca7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "self-signed-tokens",
-      "headRefOid": "52b3fca127484ab3f9a5ba555c853cb657560ca5",
+      "headRefOid": "575c9eae6609db7460f8be46eabb4b80692fa02f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -5712,6 +5719,110 @@
               "body": "Good point. I also learned that token-type:jwt more or less defines the format of the token and not the purpose. Than again the name \"token-type:self_signed\" also seems to describe format rather than purpose.\r\n\r\nHow about registering a token type name based on the purpose and maybe avoid having \"signed\" in the type name while still defining the format as JWT with the needed attributes for interop and allow implementers to choose whether they want to require a signed JWT or allow a plain one. If implementers require a signed one, the additional attributes like \"exp\" could make sense to help prevent misuse/abuse. We could make those additional attributes OPTIONAL in the plain version and REQUIRED in the signed one.",
               "createdAt": "2024-04-26T22:01:25Z",
               "updatedAt": "2024-04-26T22:01:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM55JTR_",
+          "commit": {
+            "abbreviatedOid": "52b3fca"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-30T20:39:54Z",
+          "updatedAt": "2024-04-30T20:39:55Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "Line 465 states that the `subject_token` is used to determine the `sub` of the Txn-Token. Is that good enough?",
+              "createdAt": "2024-04-30T20:39:54Z",
+              "updatedAt": "2024-04-30T20:39:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM55JUFA",
+          "commit": {
+            "abbreviatedOid": "d7edbcf"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-30T20:42:03Z",
+          "updatedAt": "2024-04-30T20:42:03Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "Wrote it as \"MAY be any one of...\"",
+              "createdAt": "2024-04-30T20:42:03Z",
+              "updatedAt": "2024-04-30T20:42:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM55JUf_",
+          "commit": {
+            "abbreviatedOid": "406b143"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-04-30T20:43:15Z",
+          "updatedAt": "2024-04-30T20:43:15Z",
+          "comments": [
+            {
+              "originalPosition": 79,
+              "body": "Removed the additional phrase. The sentence makes sense without it.",
+              "createdAt": "2024-04-30T20:43:15Z",
+              "updatedAt": "2024-04-30T20:43:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM54Kd_E",
+          "commit": {
+            "abbreviatedOid": "406b143"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Let's go ahead and merge and then file issues if there is stuff we want to change.",
+          "createdAt": "2024-04-23T00:28:11Z",
+          "updatedAt": "2024-05-01T19:52:10Z",
+          "comments": [
+            {
+              "originalPosition": 45,
+              "body": "Wondering if we should be clearer about non-normative text. Maybe add \"For example, this could ...\"",
+              "createdAt": "2024-04-23T00:28:12Z",
+              "updatedAt": "2024-05-01T19:52:11Z"
+            },
+            {
+              "originalPosition": 54,
+              "body": "Maybe add \"For example, it MAY be any ...\"",
+              "createdAt": "2024-04-23T00:32:07Z",
+              "updatedAt": "2024-05-01T19:52:11Z"
+            },
+            {
+              "originalPosition": 28,
+              "body": "Should we add \"use as a `subject_token` value in its request...\" to make it explicit that the token being referenced is the one that is going to be passed as the subject_token?",
+              "createdAt": "2024-04-26T21:59:57Z",
+              "updatedAt": "2024-05-01T19:52:11Z"
+            },
+            {
+              "originalPosition": 36,
+              "body": "Is the call out for self-signed tokens trying to change the life-time of the transaction token? I don't think that should be the case. The life-time of the transaction-token should be bound to the transaction and its needs and NOT to the time-frame of the token passed as the subject_token. In many ways, I'd want the self-signed subject_token to be extremely short-lived (e.g. 5 seconds) and the resulting transaction-token to have a life-time of say 120 seconds.",
+              "createdAt": "2024-04-26T22:04:24Z",
+              "updatedAt": "2024-05-01T19:52:11Z"
+            },
+            {
+              "originalPosition": 78,
+              "body": "We may want to add somewhere that the TTS should verify that the iss in this subject_token is the same workload identified via the required client authentication. If not the same some additional authorization policy should apply. Generally we don't want the self-signed subject_tokens to be replayable.",
+              "createdAt": "2024-04-26T22:07:53Z",
+              "updatedAt": "2024-05-01T19:52:11Z"
             }
           ]
         }
