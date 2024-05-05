@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-02T00:12:53.096546+00:00",
+  "timestamp": "2024-05-05T00:13:41.686601+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4789,24 +4789,26 @@
       "id": "PR_kwDOJt_WwM5sgw-l",
       "title": "specified language for self-signed JWTs as subject_tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/90",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-04-12T16:48:40Z",
-      "updatedAt": "2024-05-01T19:52:10Z",
+      "updatedAt": "2024-05-04T01:20:32Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "9a4e2a10383b263f43ae2cc0f064824873481ca7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "self-signed-tokens",
       "headRefOid": "575c9eae6609db7460f8be46eabb4b80692fa02f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-05-04T01:20:31Z",
+      "mergedAt": "2024-05-04T01:20:31Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "57c8e30da70c3a026c5b51f5407432cce75d4a9e"
+      },
       "comments": [
         {
           "author": "tulshi",
@@ -5823,6 +5825,26 @@
               "body": "We may want to add somewhere that the TTS should verify that the iss in this subject_token is the same workload identified via the required client authentication. If not the same some additional authorization policy should apply. Generally we don't want the self-signed subject_tokens to be replayable.",
               "createdAt": "2024-04-26T22:07:53Z",
               "updatedAt": "2024-05-01T19:52:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM55i4PB",
+          "commit": {
+            "abbreviatedOid": "52b3fca"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-04T01:19:06Z",
+          "updatedAt": "2024-05-04T01:19:06Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "Before we introduced self-signed JWTs in the request, the inbound tokens were expected to be longer lived. So this sentence said the Txn-Token MUST NOT exceed the lifetime of the inbound token. However, since self-signed JWTs are expected to be much more short-lived (as you mention), we want to carve out an exception for that. That is why I've made this change.",
+              "createdAt": "2024-05-04T01:19:06Z",
+              "updatedAt": "2024-05-04T01:19:06Z"
             }
           ]
         }
