@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-07T00:13:04.621729+00:00",
+  "timestamp": "2024-05-09T00:12:55.805426+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1653,6 +1653,22 @@
       "body": "From 2.4. Benefits of Txn-Tokens:\r\n\r\n> Through the presence of additional signatures on the Txn-Token, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.\r\n\r\nIt is unclear from the document how exactly the additional signatures could be added to the Txn-Token by the workloads within the call chain. Would be nice to provide some details here, or to state that this is out of the scope of the current document.",
       "createdAt": "2024-04-23T13:38:00Z",
       "updatedAt": "2024-04-23T13:38:00Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 94,
+      "id": "I_kwDOJt_WwM6IM89B",
+      "title": "typo: `ieft` -> `ietf`  in `urn:ieft:params:oauth:token-type:txn-token`",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/94",
+      "state": "OPEN",
+      "author": "yuriyz",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "typo: `ieft` -> `ietf`  in `urn:ieft:params:oauth:token-type:txn-token`\r\n\r\nIt seems spec has this typo also in other places. ",
+      "createdAt": "2024-05-08T09:10:34Z",
+      "updatedAt": "2024-05-08T09:10:34Z",
       "closedAt": null,
       "comments": []
     }
