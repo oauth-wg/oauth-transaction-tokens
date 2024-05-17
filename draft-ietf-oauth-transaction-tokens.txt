@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 5 November 2024                                     Capital One
+Expires: 18 November 2024                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                              4 May 2024
+                                                             17 May 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 November 2024.
+   This Internet-Draft will expire on 18 November 2024.
 
 Copyright Notice
 
@@ -775,10 +775,7 @@ Table of Contents
 
 7.5.1.  Txn-Token Service Responsibilities
 
-   A Txn-Token Service replacing a Txn-Token must consider that
-   modifying previously asserted values from existing Txn-Tokens can
-   completely negate the benefits of Txn-Tokens.  When issuing
-   replacement Txn-Tokens, a Transaction Token Server therefore:
+   When issuing replacement Txn-Tokens, a Txn-Token Service:
 
    *  MAY enable modifications to asserted values that reduce the scope
       of permitted actions
@@ -788,6 +785,12 @@ Table of Contents
    *  SHOULD NOT enable modification to asserted values that expand the
       scope of permitted actions
 
+   *  MUST NOT modify sub and aud values of the Txn-Token in the request
+
+   *  MUST NOT remove any of the existing requesting workload
+      identifiers from the req_wl field in the rctx claim of the Txn-
+      Token
+
 7.5.2.  Replacement Txn-Token Request
 
    To request a replacement Txn-Token, the requester makes a Txn-Token
@@ -796,9 +799,8 @@ Table of Contents
 
 7.5.3.  Replacement Txn-Token Response
 
-   A successful response by the Transaction Token Server to a
-   Replacement Txn-Token Request is a Txn-Token Response as described in
-   Section 7.4
+   A successful response by the Txn-Token Service to a Replacement Txn-
+   Token Request is a Txn-Token Response as described in Section 7.4
 
 7.6.  Mutual Authentication of the Txn-Token Request
 
