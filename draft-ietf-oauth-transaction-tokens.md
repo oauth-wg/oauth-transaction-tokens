@@ -281,7 +281,7 @@ Workload:
 : An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
 
 Trust Domain:
-: A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces. A Trust Domain must have an identifier that is used as the `aud` (audience) value in Txn-Tokens. The format of this identifier is as defined in the JWT specification {{RFC7519}}.
+: A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces.
 
 External Endpoint:
 : A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain.
@@ -330,7 +330,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
 
 `aud`:
-: REQUIRED This claim, defined in {{RFC7519}}, contains the trust domain in which the Txn-Token is valid
+: REQUIRED This claim, defined in {{RFC7519}}, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain.
 
 `exp`:
 : REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
@@ -339,7 +339,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
 
 `sub`:
-: REQUIRED A unique identifier for the subject as defined by the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
+: REQUIRED A unique identifier for the subject within the context of the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
 
 `purp`:
 : REQUIRED A String defining the purpose or intent of this transaction.
@@ -465,7 +465,7 @@ When the Transaction Token Service receives a Txn-Token Request it MUST validate
 Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the trust domain defined by the `aud` claim.
 
 The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
-The Transaction Token Service MUST set the `aud` claim to a Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct `aud` value for this request.
+The Transaction Token Service MUST set the `aud` claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct `aud` value for this request.
 The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token.
 The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 
