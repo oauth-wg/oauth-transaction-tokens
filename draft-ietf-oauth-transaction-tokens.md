@@ -339,7 +339,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
 
 `sub`:
-: REQUIRED A unique identifier for the subject within the context of the `aud` trust boundary. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
+: REQUIRED A unique identifier for the subject within the context of the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
 
 `purp`:
 : REQUIRED A String defining the purpose or intent of this transaction.
