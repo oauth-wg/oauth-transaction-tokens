@@ -70,6 +70,7 @@ contributor:
 
 normative:
   RFC2119: # Keywords
+  RFC3986: # URI
   RFC8446: # TLS
   RFC6749: #OAuth
   RFC7519: #JWT
@@ -77,8 +78,14 @@ normative:
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
+  RFC9068: # JWT Profile for OAuth 2.0 Access Tokens
   RFC9110: # HTTP
 
+  IANA.OAuth.Parameters:
+    title: OAuth Parameters
+    target: https://www.iana.org/assignments/oauth-parameters
+    author:
+    - name: IANA
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
     target: https://openid.net/specs/openid-connect-core-1_0.html
@@ -143,13 +150,15 @@ Txn-Tokens are typically created when a workload is invoked using an endpoint th
 
 The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens of their own.
 
+If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token.
+
 ### Replacement Txn-Tokens
 A service within a call chain may choose to replace the Txn-Token. This can typically happen if the service wants to add to the context of the current Txn-Token
 
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.
 
 ## Txn-Token Lifetime
-Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. If the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
+Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
 
 ## Benefits of Txn-Tokens
 Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.
@@ -360,6 +369,7 @@ It is useful to be able to track the set of workloads that have requested a Txn-
       "req_ip": "69.151.72.123", // env context of external call
       "authn": "urn:ietf:rfc:6749", // env context of the external call
       "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+    }
 }
 ~~~
 
@@ -406,7 +416,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
-* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an OAuth access_token received by an API Gateway, a JWT assertion constructed by a workload initiating a transaction or a simple string value all identified by `subject_token_type`.
+* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -416,7 +426,7 @@ The following additional parameters MAY be present in a Txn-Token Request:
 
 The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.
 
-{{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
+The figure below {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
 ~~~ http
 POST /txn-token-service/token_endpoint HTTP 1.1
@@ -433,6 +443,21 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
+## Subject Token Types {#subject-token-types}
+The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be a self-signed JWT, as described below, or it MAY be a custom URI agreed to between requesters and the Txn-Token Service.
+
+The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.
+
+### Self-Signed Subject Token Type {#self-signed-subject-token-type}
+A requester MAY use a self-signed JWT as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:self_signed`. This self-signed JWT MUST contain the following claims:
+
+* `iss`: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determining the `req_wl` value in the Txn-Token issued in response to this request.
+* `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
+* `aud`: The unique identifier of the Txn-Token Service. The Txn-Token Service SHALL verify that this value matches its own unique identifier.
+* `iat`: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens with an `iat` value that is unreasonably far in the past or future.
+* `exp`: The expiration time for the JWT. This should be a very short duration (order of seconds) in order to prevent any abuse of the JWT.
+
+The self-signed JWT MAY contain other claims.
 
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
@@ -527,7 +552,7 @@ The `expires_in` and `scope` fields of the OAuth 2.0 Token Exchange specificatio
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
 
 ## Client Authentication
-How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST autenticate the identity of the requesting workload.
+How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST authenticate the identity of the requesting workload.
 
 # Privacy Considerations {#Privacy}
 
@@ -542,7 +567,7 @@ Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Informat
 
 # IANA Considerations {#IANA}
 
-This specification registers the following claims defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
+This specification registers the following claims defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, the following token type identifier in Section {{subject-token-types}} to the "OAuth URI" subregistry of the "OAuth Parameters" {{IANA.OAuth.Parameters}} registry, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
 
 ## OAuth Registry Contents
 
@@ -552,6 +577,13 @@ This specification registers the following claims defined in Section {{txn-token
 * HTTP Authentication Schemes: TLS {{RFC8446}}
 * Change Controller: IESG
 * Specification Document: Section {{txn-token-header}} of this specificaiton
+
+## OAuth URI Subregistry Contents
+
+* URN: urn:ietf:params:oauth:token-type:self_signed
+* Common Name: Token type for Self-signed JWT
+* Change Controller: IESG
+* Specification Document: Section {{subject-token-types}} of this specification
 
 ## JWT Registry Contents
 
