@@ -511,17 +511,19 @@ Workloads MAY request replacement Txn-Tokens in order to change (add to, remove 
 The values of the `sub` and `aud` claims MUST remain unchanged in a replacement Txn-Token. If the claim `rctx` is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the `req_wl` claim which MUST be updated to include the requesting workload identifier.
 
 ### Txn-Token Service Responsibilities
-A Txn-Token Service replacing a Txn-Token must consider that modifying previously asserted values from existing Txn-Tokens can completely negate the benefits of Txn-Tokens. When issuing replacement Txn-Tokens, a Transaction Token Server therefore:
+When issuing replacement Txn-Tokens, a Txn-Token Service:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions
 * MAY enable additional asserted values
 * SHOULD NOT enable modification to asserted values that expand the scope of permitted actions
+* MUST NOT modify `sub` and `aud` values of the Txn-Token in the request
+* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` field in the `rctx` claim of the Txn-Token
 
 ### Replacement Txn-Token Request
 To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter.
 
 ### Replacement Txn-Token Response
-A successful response by the Transaction Token Server to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
+A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
 
 ## Mutual Authentication of the Txn-Token Request
 A Txn-Token Service MUST ensure that it authenticates any workloads requesting Txn-Tokens. In order to do so:
