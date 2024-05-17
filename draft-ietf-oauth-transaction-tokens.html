@@ -1590,7 +1590,7 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
         <dd class="break"></dd>
 <dt id="section-4-1.3">Trust Domain:</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.4">
-          <p id="section-4-1.4.1">A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces. A Trust Domain must have an identifier that is used as the <code>aud</code> (audience) value in Txn-Tokens. The format of this identifier is as defined in the JWT specification <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.4.1">A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.5">External Endpoint:</dt>
@@ -1682,7 +1682,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.5">
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.6">
-            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, contains the trust domain in which the Txn-Token is valid<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.7">
@@ -1700,7 +1700,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.11">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.12">
-            <p id="section-5.2-2.12.1">REQUIRED A unique identifier for the subject as defined by the <code>aud</code> trust domain. Unlike OpenID Connect, the <code>sub</code> claim is NOT associated with the <code>iss</code> claim.<a href="#section-5.2-2.12.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.12.1">REQUIRED A unique identifier for the subject within the context of the <code>aud</code> trust domain. Unlike OpenID Connect, the <code>sub</code> claim is NOT associated with the <code>iss</code> claim.<a href="#section-5.2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.13">
@@ -1921,7 +1921,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 <p id="section-7.3-1">When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <p id="section-7.3-2">Next, the Transaction Token Service MUST validate the <code>subject_token</code> and determine the value to specify as the <code>sub</code> of the issued Txn-Token. The Txn-Token Service MUST ensure the <code>sub</code> value is unique within the trust domain defined by the <code>aud</code> claim.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <p id="section-7.3-3">The Transaction Token Service MUST set the <code>iat</code> claim to the time of issuance of the Txn-Token.
-The Transaction Token Service MUST set the <code>aud</code> claim to a Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct <code>aud</code> value for this request.
+The Transaction Token Service MUST set the <code>aud</code> claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct <code>aud</code> value for this request.
 The Transaction Token Service MUST set the <code>exp</code> claim to the expiry time of the Txn-Token.
 The Transaction Token Service MUST set the <code>txn</code> claim to a unique ID specific to this transaction.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <p id="section-7.3-4">The Transaction Token Service MAY set the <code>iss</code> claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be ommitted if not set.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
