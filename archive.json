@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-05-16T00:12:46.873463+00:00",
+  "timestamp": "2024-05-19T00:14:19.245521+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1573,15 +1573,15 @@
       "id": "I_kwDOJt_WwM6DjJ-P",
       "title": "Replacement token `sub` and `aud` modification language",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/82",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "There was a point in Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/) about specifying in 7.4.1 that sub must be unchanged, and although this is mentioned in 7.4, perhaps we should add bullet points in 7.4.1 (Txn-Token Service Responsibilities) that specify that `sub` MUST NOT be modified and `aud` MUST NOT be modified.\r\n",
       "createdAt": "2024-03-26T01:03:13Z",
-      "updatedAt": "2024-03-26T01:03:13Z",
-      "closedAt": null,
+      "updatedAt": "2024-05-17T20:17:53Z",
+      "closedAt": "2024-05-17T20:17:53Z",
       "comments": []
     },
     {
@@ -1671,6 +1671,46 @@
       "updatedAt": "2024-05-08T09:10:34Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 95,
+      "id": "I_kwDOJt_WwM6JSD9m",
+      "title": "Define discovery metadata for support of the Transaction Token functionality",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/95",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Should we add to the spec a mechanism for a client to discover if the AS has support for the transaction token profile of the token-exchange endpoint? Or do we need to define a new .well-known location for the Transaction Token Service?",
+      "createdAt": "2024-05-17T16:57:32Z",
+      "updatedAt": "2024-05-17T16:57:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 96,
+      "id": "I_kwDOJt_WwM6JS0tW",
+      "title": "Deployment models for the Transaction Token Service",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/96",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This issue is to track different deployment models for the Transaction Token Service \r\n- embedded with the AS\r\n- embedded with an API GW\r\n- standalone service\r\n- ???",
+      "createdAt": "2024-05-17T19:14:19Z",
+      "updatedAt": "2024-05-17T20:49:26Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Embedded with the Authorization Server\r\n\r\nIn this model, the token exchange endpoint is exposed as part of the standard Authorization Server exposed endpoints. \r\nPros:\r\n* the `iss` claim is the same as the authorization server and likely already known by downstream workloads\r\n* the AS metadata can already be discovered from it's `iss` claim and exposes the JWKS URI\r\n* centralizes authorization policy management into a single service (policies for issuing tokens [both access and transaction] is in one place)\r\n\r\nCons:\r\n* potentially exposes the ability to obtain a transaction token outside the bounds of the trust domain (e.g. exposed externally to the internet)\r\n* difficult to distribute the transaction token issuing capability as the AS is not likely geographically distributed",
+          "createdAt": "2024-05-17T20:49:25Z",
+          "updatedAt": "2024-05-17T20:49:25Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -4690,24 +4730,26 @@
       "id": "PR_kwDOJt_WwM5rKl-m",
       "title": "Clarified responsibilities of Txn-Token Service in",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/87",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "a replacement request. Removed vague language",
       "createdAt": "2024-03-29T13:13:08Z",
-      "updatedAt": "2024-04-01T19:49:50Z",
+      "updatedAt": "2024-05-17T20:17:53Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "c3daba2b30dd97694e437d156a347ad28c628010",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "Issue-82-fixes",
       "headRefOid": "744e8d1bdd2e9e8731c1515a7f9e6d535edd59e9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-05-17T20:17:52Z",
+      "mergedAt": "2024-05-17T20:17:52Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "cc5bcd361519b59629a79f4e329599998ca4d64b"
+      },
       "comments": [],
       "reviews": [
         {
@@ -4749,6 +4791,19 @@
               "updatedAt": "2024-04-01T19:47:45Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM57CnqS",
+          "commit": {
+            "abbreviatedOid": "744e8d1"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2024-05-17T19:49:45Z",
+          "updatedAt": "2024-05-17T19:49:45Z",
+          "comments": []
         }
       ]
     },
@@ -4757,24 +4812,26 @@
       "id": "PR_kwDOJt_WwM5rMo9Y",
       "title": "Update draft-ietf-oauth-transaction-tokens.md",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/89",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses text regarding the `aud` claim throughout the document. Issue #76",
       "createdAt": "2024-03-29T19:38:04Z",
-      "updatedAt": "2024-04-30T21:14:36Z",
+      "updatedAt": "2024-05-17T21:04:05Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
+      "baseRefOid": "cc5bcd361519b59629a79f4e329599998ca4d64b",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "aud-text-cleanup",
-      "headRefOid": "ced6f33f9947cc8cb9e7b03b2131a376af72573b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "c549135ec5fa6068757ccd017937b1df4efa5b03",
+      "closedAt": "2024-05-17T21:04:05Z",
+      "mergedAt": "2024-05-17T21:04:05Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "38acb3eca471dd87dcfff4c4ae0db5a5c4bc380d"
+      },
       "comments": [
         {
           "author": "tulshi",
@@ -4798,7 +4855,81 @@
           "updatedAt": "2024-04-30T21:14:35Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM57CyXx",
+          "commit": {
+            "abbreviatedOid": "767448e"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-17T20:20:17Z",
+          "updatedAt": "2024-05-17T20:20:27Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Did you intend for \"trust boundary\" to be something separaet from \"trust domain\"? I'd rather not invoke an additional concept if we can avoid it.",
+              "createdAt": "2024-05-17T20:20:17Z",
+              "updatedAt": "2024-05-17T20:20:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM57C-1O",
+          "commit": {
+            "abbreviatedOid": "767448e"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-17T20:51:05Z",
+          "updatedAt": "2024-05-17T20:51:05Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Yes, I agree. Let me fix that.",
+              "createdAt": "2024-05-17T20:51:05Z",
+              "updatedAt": "2024-05-17T20:51:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM57DBdT",
+          "commit": {
+            "abbreviatedOid": "767448e"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-05-17T21:01:27Z",
+          "updatedAt": "2024-05-17T21:01:27Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Updated",
+              "createdAt": "2024-05-17T21:01:27Z",
+              "updatedAt": "2024-05-17T21:01:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM57DCxa",
+          "commit": {
+            "abbreviatedOid": "c549135"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-05-17T21:03:53Z",
+          "updatedAt": "2024-05-17T21:03:53Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 90,
