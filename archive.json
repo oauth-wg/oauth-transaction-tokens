@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-02T00:14:28.556815+00:00",
+  "timestamp": "2024-06-04T00:13:12.596127+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1711,6 +1711,22 @@
           "updatedAt": "2024-05-17T20:49:25Z"
         }
       ]
+    },
+    {
+      "number": 97,
+      "id": "I_kwDOJt_WwM6LAZHN",
+      "title": "Typ header parameter being misused in TraTs draft",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/97",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "According to the RFC 7515 (JWS), the \"typ\" header parameter is supposed to indicate a media-type (https://www.iana.org/assignments/media-types/media-types.xhtml). In addition, the JWT spec section 5.1 clarifies that if used, it should be set to \"JWT\". However, the TraTs draft requires this to be set to \"txn_token\". This is clearly not right. We need to find another way to identify a JWT to be a TraT.",
+      "createdAt": "2024-06-03T22:01:32Z",
+      "updatedAt": "2024-06-03T22:01:32Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -6009,7 +6025,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-24T22:27:13Z",
-      "updatedAt": "2024-05-21T14:50:23Z",
+      "updatedAt": "2024-06-03T22:02:38Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
@@ -6054,6 +6070,46 @@
           "createdAt": "2024-05-21T14:50:23Z",
           "updatedAt": "2024-05-21T14:50:23Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM583i4n",
+          "commit": {
+            "abbreviatedOid": "f7ddfab"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-03T21:58:08Z",
+          "updatedAt": "2024-06-03T21:58:08Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm pulling out the misuse of the \"typ\" Header Parameter as a separate issue so that it can be discussed on its own.",
+              "createdAt": "2024-06-03T21:58:08Z",
+              "updatedAt": "2024-06-03T21:58:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM583kFA",
+          "commit": {
+            "abbreviatedOid": "f7ddfab"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-03T22:02:38Z",
+          "updatedAt": "2024-06-03T22:02:38Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/97",
+              "createdAt": "2024-06-03T22:02:38Z",
+              "updatedAt": "2024-06-03T22:02:38Z"
+            }
+          ]
         }
       ]
     },
