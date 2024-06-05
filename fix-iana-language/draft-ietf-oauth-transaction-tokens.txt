@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 26 October 2024                                     Capital One
+Expires: 7 December 2024                                     Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                           24 April 2024
+                                                             5 June 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 October 2024.
+   This Internet-Draft will expire on 7 December 2024.
 
 Copyright Notice
 
@@ -91,13 +91,15 @@ Table of Contents
    6.  Txn-Token Service
    7.  Requesting Txn-Tokens
      7.1.  Txn-Token Request
-     7.2.  Txn-Token Request Processing
-     7.3.  Txn-Token Response
-     7.4.  Creating Replacement Txn-Tokens
-       7.4.1.  Txn-Token Service Responsibilities
-       7.4.2.  Replacement Txn-Token Request
-       7.4.3.  Replacement Txn-Token Response
-     7.5.  Mutual Authentication of the Txn-Token Request
+     7.2.  Subject Token Types
+       7.2.1.  Self-Signed Subject Token Type
+     7.3.  Txn-Token Request Processing
+     7.4.  Txn-Token Response
+     7.5.  Creating Replacement Txn-Tokens
+       7.5.1.  Txn-Token Service Responsibilities
+       7.5.2.  Replacement Txn-Token Request
+       7.5.3.  Replacement Txn-Token Response
+     7.6.  Mutual Authentication of the Txn-Token Request
    8.  Using Txn-Tokens
      8.1.  Txn-Token HTTP Header
    9.  Security Considerations
@@ -108,8 +110,9 @@ Table of Contents
      10.1.  Obsfucation of Personal Information
      10.2.  Logging
    11. IANA Considerations
-     11.1.  OAuth Registry Contents
+     11.1.  OAuth URI Subregistry Contents
      11.2.  JWT Claims Registry Contents
+     11.3.  IANA Media Type Registration Contents
    12. References
      12.1.  Normative References
      12.2.  Informative References
@@ -196,6 +199,11 @@ Table of Contents
    to authorize its calls to subsequent workloads.  Subsequent workloads
    may obtain Txn-Tokens of their own.
 
+   If the requesting service does not have an inbound token that it can
+   use in its request to the Txn-Token Service, it generates a self-
+   signed JWT and passes that in the request in place of the external
+   authorization token.
+
 2.2.2.  Replacement Txn-Tokens
 
    A service within a call chain may choose to replace the Txn-Token.
@@ -212,7 +220,8 @@ Table of Contents
 
    Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5
    minutes), and as a result MAY be used only for the expected duration
-   of an external invocation.  If the token or other credential
+   of an external invocation.  Except in the case where the request is
+   made using a self-signed JWT, if the token or other credential
    presented to the Txn-Token service when requesting a Txn-Token has an
    expiration time, then the Txn-Token MUST NOT exceed the lifetime of
    the originally presented token or credential.  If a long-running
@@ -368,10 +377,7 @@ Table of Contents
 
    Trust Domain:  A virtually or physically separated network, which
       contains two or more workloads.  The workloads within an Trust
-      Domain may be invoked only through published interfaces.  A Trust
-      Domain must have an identifier that is used as the aud (audience)
-      value in Txn-Tokens.  The format of this identifier is as defined
-      in the JWT specification [RFC7519].
+      Domain may be invoked only through published interfaces.
 
    External Endpoint:  A published interface to an Trust Domain that
       results in the invocation of a workload within the Trust Domain.
@@ -402,15 +408,16 @@ Table of Contents
 
    In the JWT Header:
 
-   *  The typ claim MUST be present and MUST have the value txn_token.
+   *  The typ Header Parameter MUST be present and MUST have the value
+      txntoken+jwt.
 
    *  Key rotation of the signing key SHOULD be supported through the
-      use of a kid claim.
+      use of a kid Header Parameter.
 
    Figure 3 is a non-normative example of the JWT Header of a Txn-Token
 
    {
-       "typ": "txn_token",
+       "typ": "txntoken+jwt",
        "alg": "RS256",
        "kid": "identifier-to-key"
    }
@@ -433,8 +440,9 @@ Table of Contents
    iat:  REQUIRED The issued at time of the Txn-Token as defined in
       [RFC7519]
 
-   aud:  REQUIRED This claim, defined in [RFC7519], contains the trust
-      domain in which the Txn-Token is valid
+   aud:  REQUIRED This claim, defined in [RFC7519], identifies the trust
+      domain in which the Txn-Token is valid.  This identifier MUST
+      uniquely identify the trust domain.
 
    exp:  REQUIRED Expiry time of the Txn-Token as defined in [RFC7519]
 
@@ -442,9 +450,9 @@ Table of Contents
       Section 2.2 of [RFC8417].  When used in the transaction token, it
       identifies the entire call chain.
 
-   sub:  REQUIRED A unique identifier for the subject as defined by the
-      aud trust domain.  Unlike OpenID Connect, the sub claim is NOT
-      associated with the iss claim.
+   sub:  REQUIRED A unique identifier for the subject within the context
+      of the aud trust domain.  Unlike OpenID Connect, the sub claim is
+      NOT associated with the iss claim.
 
    purp:  REQUIRED A String defining the purpose or intent of this
       transaction.
@@ -503,6 +511,7 @@ Table of Contents
          "req_ip": "69.151.72.123", // env context of external call
          "authn": "urn:ietf:rfc:6749", // env context of the external call
          "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+       }
    }
 
 5.2.2.  Example
@@ -586,10 +595,10 @@ Table of Contents
       urn:ietf:params:oauth:token-type:txn-token
 
    *  subject_token REQUIRED.  The value MUST represent the subject of
-      the transaction.  This could be an OAuth access_token received by
-      an API Gateway, a JWT assertion constructed by a workload
-      initiating a transaction or a simple string value all identified
-      by subject_token_type.
+      the transaction.  This could be an inbound token received by an
+      API Gateway, or a self-signed JWT constructed by a workload
+      initiating a transaction, the type of which is identified by
+      subject_token_type.
 
    *  subject_token_type REQUIRED.  The value MUST indicate the type of
       the token or value present in the subject_token parameter
@@ -612,7 +621,8 @@ Table of Contents
    Transaction Token Service.  The exact client authentication mechanism
    used is outside the scope of this specification.
 
-   Figure 5 shows a non-normative example of a Txn-Token Request.
+   The figure below Figure 5 shows a non-normative example of a Txn-
+   Token Request.
 
    POST /txn-token-service/token_endpoint HTTP 1.1
    Host: txn-token-service.trust-domain.example
@@ -628,7 +638,49 @@ Table of Contents
 
                     Figure 5: Example: Txn-Token Request
 
-7.2.  Txn-Token Request Processing
+7.2.  Subject Token Types
+
+   The subject_token_type parameter value MUST be a URI [RFC3986].  It
+   MAY be any one of the subject token types described in Section 3 of
+   OAuth 2.0 Token Exchange [RFC8693] except the Refresh Token type
+   (i.e., urn:ietf:params:oauth:token-type:refresh_token), or it MAY be
+   a self-signed JWT, as described below, or it MAY be a custom URI
+   agreed to between requesters and the Txn-Token Service.
+
+   The Txn-Token Service MAY support other token formats, which MAY be
+   specified in the subject_token_type parameter.  Any value used in
+   this parameter MUST be a URI as specified in RFC 8693 [RFC8693].
+
+7.2.1.  Self-Signed Subject Token Type
+
+   A requester MAY use a self-signed JWT as a subject_token value.  In
+   that case, the requester MUST set the subject_token_type value to:
+   urn:ietf:params:oauth:token-type:self_signed.  This self-signed JWT
+   MUST contain the following claims:
+
+   *  iss: The unique identifier of the requesting workload.  The Txn-
+      Token Service SHALL use this value in determining the req_wl value
+      in the Txn-Token issued in response to this request.
+
+   *  sub: The subject for whom the Txn-Token is being requested.  The
+      Txn-Token Service SHALL use this value in determining the sub
+      value in the Txn-Token issued in the response to this request.
+
+   *  aud: The unique identifier of the Txn-Token Service.  The Txn-
+      Token Service SHALL verify that this value matches its own unique
+      identifier.
+
+   *  iat: The time at which the self-signed JWT was created.  Note that
+      the Txn-Token Service may reject self-signed tokens with an iat
+      value that is unreasonably far in the past or future.
+
+   *  exp: The expiration time for the JWT.  This should be a very short
+      duration (order of seconds) in order to prevent any abuse of the
+      JWT.
+
+   The self-signed JWT MAY contain other claims.
+
+7.3.  Txn-Token Request Processing
 
    When the Transaction Token Service receives a Txn-Token Request it
    MUST validate the requesting workload client authentication and
@@ -643,12 +695,13 @@ Table of Contents
 
    The Transaction Token Service MUST set the iat claim to the time of
    issuance of the Txn-Token.  The Transaction Token Service MUST set
-   the aud claim to a Trust Domain of the Transaction Token Service.  If
-   the Transaction Token Service supports multiple trust domains, then
-   it MUST determine the correct aud value for this request.  The
-   Transaction Token Service MUST set the exp claim to the expiry time
-   of the Txn-Token.  The Transaction Token Service MUST set the txn
-   claim to a unique ID specific to this transaction.
+   the aud claim to an identifier representing the Trust Domain of the
+   Transaction Token Service.  If the Transaction Token Service supports
+   multiple trust domains, then it MUST determine the correct aud value
+   for this request.  The Transaction Token Service MUST set the exp
+   claim to the expiry time of the Txn-Token.  The Transaction Token
+   Service MUST set the txn claim to a unique ID specific to this
+   transaction.
 
    The Transaction Token Service MAY set the iss claim of the Txn-Token
    to a value defining the entity that signed the Txn-Token.  This claim
@@ -673,7 +726,7 @@ Table of Contents
    The Transaction Token Service MAY provide additional processing and
    verification that is outside the scope of this specification.
 
-7.3.  Txn-Token Response
+7.4.  Txn-Token Response
 
    A successful response to a Txn-Token Request by a Transaction Token
    Service is called a Txn-Token Response.  If the Transaction Token
@@ -706,7 +759,7 @@ Table of Contents
 
                    Figure 6: Example: Txn-Token Response
 
-7.4.  Creating Replacement Txn-Tokens
+7.5.  Creating Replacement Txn-Tokens
 
    A workload within a call chain may request the Transaction Token
    Server to replace a Txn-Token.
@@ -720,12 +773,9 @@ Table of Contents
    Txn-Token except for the req_wl claim which MUST be updated to
    include the requesting workload identifier.
 
-7.4.1.  Txn-Token Service Responsibilities
+7.5.1.  Txn-Token Service Responsibilities
 
-   A Txn-Token Service replacing a Txn-Token must consider that
-   modifying previously asserted values from existing Txn-Tokens can
-   completely negate the benefits of Txn-Tokens.  When issuing
-   replacement Txn-Tokens, a Transaction Token Server therefore:
+   When issuing replacement Txn-Tokens, a Txn-Token Service:
 
    *  MAY enable modifications to asserted values that reduce the scope
       of permitted actions
@@ -735,19 +785,24 @@ Table of Contents
    *  SHOULD NOT enable modification to asserted values that expand the
       scope of permitted actions
 
-7.4.2.  Replacement Txn-Token Request
+   *  MUST NOT modify sub and aud values of the Txn-Token in the request
+
+   *  MUST NOT remove any of the existing requesting workload
+      identifiers from the req_wl field in the rctx claim of the Txn-
+      Token
+
+7.5.2.  Replacement Txn-Token Request
 
    To request a replacement Txn-Token, the requester makes a Txn-Token
    Request as described in Section 7.1 but includes the Txn-Token to be
    replaced as the value of the subject_token parameter.
 
-7.4.3.  Replacement Txn-Token Response
+7.5.3.  Replacement Txn-Token Response
 
-   A successful response by the Transaction Token Server to a
-   Replacement Txn-Token Request is a Txn-Token Response as described in
-   Section 7.3
+   A successful response by the Txn-Token Service to a Replacement Txn-
+   Token Request is a Txn-Token Response as described in Section 7.4
 
-7.5.  Mutual Authentication of the Txn-Token Request
+7.6.  Mutual Authentication of the Txn-Token Request
 
    A Txn-Token Service MUST ensure that it authenticates any workloads
    requesting Txn-Tokens.  In order to do so:
@@ -827,7 +882,7 @@ Table of Contents
    is out of scope for this specification.  However, if using the
    actor_token and actor_token_type parameters of the OAuth 2.0 Token
    Exchange specification, both parameters MUST be present in the
-   request.  The actor_token MUST autenticate the identity of the
+   request.  The actor_token MUST authenticate the identity of the
    requesting workload.
 
 10.  Privacy Considerations
@@ -849,24 +904,31 @@ Table of Contents
 
 11.  IANA Considerations
 
-   This specification registers the following field defined in
-   Section Section 5.1 to the OAuth Access Token Types Registry defined
-   in [RFC6749], and the following claims defined in Section Section 5.2
-   in the IANA JSON Web Token Claims Registry defined in [RFC7519]
+   This specification registers the following token type identifiers to
+   the "OAuth URI" subregistry of the "OAuth Parameters"
+   [IANA.OAuth.Parameters] registry.  It also registers the following
+   claims defined in Section Section 5.2 in the IANA JSON Web Token
+   Claims Registry defined in [RFC7519].  It also registers the Media
+   Type [IANA.MediaTypes] "txntoken+jwt" as defined in the section
+   Section 5.1.
 
-11.1.  OAuth Registry Contents
+11.1.  OAuth URI Subregistry Contents
 
-   *  Name: txn_token
+   *  URN: urn:ieft:params:oauth:token-type:txn-token
 
-   *  Description: JWT of type Transaction Token
-
-   *  Additional Token Endpoint Response Parameters: none
-
-   *  HTTP Authentication Schemes: TLS [RFC8446]
+   *  Common Name: Transaction Token
 
    *  Change Controller: IESG
 
-   *  Specification Document: Section Section 5.1 of this specificaiton
+   *  Specification Document Section Section 7.1 of this specification
+
+   *  URN: urn:ietf:params:oauth:token-type:self_signed
+
+   *  Common Name: Token type for Self-signed JWT
+
+   *  Change Controller: IESG
+
+   *  Specification Document: Section Section 7.2 of this specification
 
 11.2.  JWT Claims Registry Contents
 
@@ -897,6 +959,64 @@ Table of Contents
       -  Specification Document: Section Section 5.2 of this
          specification
 
+11.3.  IANA Media Type Registration Contents
+
+   The following entry will be proposed using the IANA Media Type
+   registration [IANA.MediaTypes] form.
+
+   *  Applicant Name: Atul Tulshibagwale
+
+   *  Applicant Email: atul@sgnl.ai
+
+   *  Type Name: "application (RFC 2046)"
+
+   *  Subtype Name: "txntoken+jwt"
+
+   *  Required Parameters: "N/A."
+
+   *  Optional Parameters: "N/A."
+
+   *  Encoding Considerations: 7-bit text
+
+   *  Security Considerations:
+
+      1.  The media type is used to identify JWTs that may be used as
+          Transaction Tokens.  It is a piece of data, and may not
+          contain executable content.
+
+      2.  Transaction Tokens are short-lived tokens used within a
+          trusted environment, so there are no privacy considerations.
+          Transaction Tokens are unmodifiable tokens, which need
+          integrity protection.
+
+      3.  The JWTs representing Transaction Tokens are signed, and
+          therefore are integrity protected.  A recipient of a
+          Transaction Token must verify the signature on the Transaction
+          Token before using it.
+
+      4.  There are no additional security considerations specific to
+          the use of JWTs as Transaction Tokens
+
+      5.  The Transaction Tokens format does not require the use of
+          links within the token.  If links are used by specific
+          instances of Transaction Tokens, then their interpretation is
+          usage specific
+
+   *  Interoperability Considerations: Transaction Tokens inherit all
+      interoperability properties of JWTs.
+
+   *  Published Specification: this document (when published)
+
+   *  Application Usage: Any application supporting the use of JWTs
+
+   *  Frabment Identifier Consideration: N/A.
+
+   *  Restrictions on Usage: Any application supporting the use of JWTs
+
+   *  Intended Usage: Common
+
+   *  Contact Person: Atul Tulshibagwale
+
 12.  References
 
 12.1.  Normative References
@@ -905,6 +1025,11 @@ Table of Contents
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC3986]  Berners-Lee, T., Fielding, R., and L. Masinter, "Uniform
+              Resource Identifier (URI): Generic Syntax", STD 66,
+              RFC 3986, DOI 10.17487/RFC3986, January 2005,
+              <https://www.rfc-editor.org/rfc/rfc3986>.
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
@@ -936,10 +1061,22 @@ Table of Contents
               DOI 10.17487/RFC8417, July 2018,
               <https://www.rfc-editor.org/rfc/rfc8417>.
 
+   [RFC9068]  Bertocci, V., "JSON Web Token (JWT) Profile for OAuth 2.0
+              Access Tokens", RFC 9068, DOI 10.17487/RFC9068, October
+              2021, <https://www.rfc-editor.org/rfc/rfc9068>.
+
    [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [IANA.OAuth.Parameters]
+              IANA, "OAuth Parameters", n.d.,
+              <https://www.iana.org/assignments/oauth-parameters>.
+
+   [IANA.MediaTypes]
+              IANA, "Media Types", n.d.,
+              <http://www.iana.org/assignments/media-types>.
 
    [OpenIdConnect]
               Sakimura, N., Bradley, J., Jones, M., Medeiros, B. de.,
