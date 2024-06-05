@@ -86,6 +86,11 @@ normative:
     target: https://www.iana.org/assignments/oauth-parameters
     author:
     - name: IANA
+  IANA.MediaTypes:
+    title: Media Types
+    target: http://www.iana.org/assignments/media-types
+    author:
+    - name: IANA
   OpenIdConnect:
     title: OpenID Connect Core 1.0 incorporating errata set 1
     target: https://openid.net/specs/openid-connect-core-1_0.html
@@ -304,14 +309,14 @@ A Txn-Token is a JSON Web Token {{RFC7519}} protected by a JSON Web Signature {{
 ## JWT Header {#txn-token-header}
 In the JWT Header:
 
-* The `typ` claim MUST be present and MUST have the value `txn_token`.
-* Key rotation of the signing key SHOULD be supported through the use of a `kid` claim.
+* The `typ` Header Parameter MUST be present and MUST have the value `txntoken+jwt`.
+* Key rotation of the signing key SHOULD be supported through the use of a `kid` Header Parameter.
 
 {{figtxtokenheader}} is a non-normative example of the JWT Header of a Txn-Token
 
 ~~~ json
 {
-    "typ": "txn_token",
+    "typ": "txntoken+jwt",
     "alg": "RS256",
     "kid": "identifier-to-key"
 }
@@ -569,32 +574,21 @@ Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Informat
 
 # IANA Considerations {#IANA}
 
-This specification registers the following claims defined in Section {{txn-token-header}} to the OAuth Access Token Types Registry defined in {{RFC6749}}, the following token type identifier in Section {{subject-token-types}} to the "OAuth URI" subregistry of the "OAuth Parameters" {{IANA.OAuth.Parameters}} registry, and the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}
-
-## OAuth Registry Contents
-
-* Name: `txn_token`
-* Description: JWT of type Transaction Token
-* Additional Token Endpoint Response Parameters: none
-* HTTP Authentication Schemes: TLS {{RFC8446}}
-* Change Controller: IESG
-* Specification Document: Section {{txn-token-header}} of this specificaiton
+This specification registers the following token type identifiers to the "OAuth URI" subregistry of the "OAuth Parameters" {{IANA.OAuth.Parameters}} registry. It also registers the following claims defined in Section {{txn-token-claims}} in the IANA JSON Web Token Claims Registry defined in {{RFC7519}}. It also registers the Media Type {{IANA.MediaTypes}} "txntoken+jwt" as defined in the section {{txn-token-header}}.
 
 ## OAuth URI Subregistry Contents
+
+* URN: urn:ieft:params:oauth:token-type:txn-token
+* Common Name: Transaction Token
+* Change Controller: IESG
+* Specification Document Section {{txn-token-request}} of this specification
 
 * URN: urn:ietf:params:oauth:token-type:self_signed
 * Common Name: Token type for Self-signed JWT
 * Change Controller: IESG
 * Specification Document: Section {{subject-token-types}} of this specification
 
-## OAuth URI Subregistry Contents
-
-* URN: urn:ietf:params:oauth:token-type:self_signed
-* Common Name: Token type for Self-signed JWT
-* Change Controller: IESG
-* Specification Document: Section {{subject-token-types}} of this specification
-
-## JWT  Registry Contents
+## JWT Claims Registry Contents
 
 * Claim Name: `azd`
   * Claim Description: The authorization context details
@@ -610,6 +604,31 @@ This specification registers the following claims defined in Section {{txn-token
   * Claim Description: The purpose of the transaction
   * Change Controller: IESG
   * Specification Document: Section {{txn-token-claims}} of this specification
+
+## IANA Media Type Registration Contents
+The following entry will be proposed using the IANA Media Type registration {{IANA.MediaTypes}} form.
+
+* Applicant Name: Atul Tulshibagwale
+* Applicant Email: atul@sgnl.ai
+* Type Name: "application (RFC 2046)"
+* Subtype Name: "txntoken+jwt"
+* Required Parameters: "N/A."
+* Optional Parameters: "N/A."
+* Encoding Considerations: 7-bit text
+* Security Considerations:
+  1. The media type is used to identify JWTs that may be used as Transaction Tokens. It is a piece of data, and may not contain executable content.
+  2. Transaction Tokens are short-lived tokens used within a trusted environment, so there are no privacy considerations. Transaction Tokens are unmodifiable tokens, which need integrity protection.
+  3. The JWTs representing Transaction Tokens are signed, and therefore are integrity protected. A recipient of a Transaction Token must verify the signature on the Transaction Token before using it.
+  4. There are no additional security considerations specific to the use of JWTs as Transaction Tokens
+  5. The Transaction Tokens format does not require the use of links within the token. If links are used by specific instances of Transaction Tokens, then their interpretation is usage specific
+
+* Interoperability Considerations: Transaction Tokens inherit all interoperability properties of JWTs.
+* Published Specification: this document (when published)
+* Application Usage: Any application supporting the use of JWTs
+* Frabment Identifier Consideration: N/A.
+* Restrictions on Usage: Any application supporting the use of JWTs
+* Intended Usage: Common
+* Contact Person: Atul Tulshibagwale
 
 --- back
 
