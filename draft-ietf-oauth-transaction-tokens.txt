@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 18 November 2024                                    Capital One
+Expires: 8 December 2024                                     Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                             17 May 2024
+                                                             6 June 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 November 2024.
+   This Internet-Draft will expire on 8 December 2024.
 
 Copyright Notice
 
@@ -110,9 +110,9 @@ Table of Contents
      10.1.  Obsfucation of Personal Information
      10.2.  Logging
    11. IANA Considerations
-     11.1.  OAuth Registry Contents
-     11.2.  OAuth URI Subregistry Contents
-     11.3.  JWT Registry Contents
+     11.1.  OAuth URI Subregistry Contents
+     11.2.  JWT Claims Registry Contents
+     11.3.  IANA Media Type Registration Contents
    12. References
      12.1.  Normative References
      12.2.  Informative References
@@ -408,15 +408,16 @@ Table of Contents
 
    In the JWT Header:
 
-   *  The typ claim MUST be present and MUST have the value txn_token.
+   *  The typ Header Parameter MUST be present and MUST have the value
+      txntoken+jwt.
 
    *  Key rotation of the signing key SHOULD be supported through the
-      use of a kid claim.
+      use of a kid Header Parameter.
 
    Figure 3 is a non-normative example of the JWT Header of a Txn-Token
 
    {
-       "typ": "txn_token",
+       "typ": "txntoken+jwt",
        "alg": "RS256",
        "kid": "identifier-to-key"
    }
@@ -903,29 +904,23 @@ Table of Contents
 
 11.  IANA Considerations
 
-   This specification registers the following claims defined in
-   Section Section 5.1 to the OAuth Access Token Types Registry defined
-   in [RFC6749], the following token type identifier in
-   Section Section 7.2 to the "OAuth URI" subregistry of the "OAuth
-   Parameters" [IANA.OAuth.Parameters] registry, and the following
+   This specification registers the following token type identifiers to
+   the "OAuth URI" subregistry of the "OAuth Parameters"
+   [IANA.OAuth.Parameters] registry.  It also registers the following
    claims defined in Section Section 5.2 in the IANA JSON Web Token
-   Claims Registry defined in [RFC7519]
+   Claims Registry defined in [RFC7519].  It also registers the Media
+   Type [IANA.MediaTypes] "txntoken+jwt" as defined in the section
+   Section 5.1.
 
-11.1.  OAuth Registry Contents
+11.1.  OAuth URI Subregistry Contents
 
-   *  Name: txn_token
+   *  URN: urn:ieft:params:oauth:token-type:txn-token
 
-   *  Description: JWT of type Transaction Token
-
-   *  Additional Token Endpoint Response Parameters: none
-
-   *  HTTP Authentication Schemes: TLS [RFC8446]
+   *  Common Name: Transaction Token
 
    *  Change Controller: IESG
 
-   *  Specification Document: Section Section 5.1 of this specificaiton
-
-11.2.  OAuth URI Subregistry Contents
+   *  Specification Document Section Section 7.1 of this specification
 
    *  URN: urn:ietf:params:oauth:token-type:self_signed
 
@@ -935,7 +930,7 @@ Table of Contents
 
    *  Specification Document: Section Section 7.2 of this specification
 
-11.3.  JWT Registry Contents
+11.2.  JWT Claims Registry Contents
 
    *  Claim Name: azd
 
@@ -963,6 +958,64 @@ Table of Contents
 
       -  Specification Document: Section Section 5.2 of this
          specification
+
+11.3.  IANA Media Type Registration Contents
+
+   The following entry will be proposed using the IANA Media Type
+   registration [IANA.MediaTypes] form.
+
+   *  Applicant Name: Atul Tulshibagwale
+
+   *  Applicant Email: atul@sgnl.ai
+
+   *  Type Name: "application (RFC 2046)"
+
+   *  Subtype Name: "txntoken+jwt"
+
+   *  Required Parameters: "N/A."
+
+   *  Optional Parameters: "N/A."
+
+   *  Encoding Considerations: 7-bit text
+
+   *  Security Considerations:
+
+      1.  The media type is used to identify JWTs that may be used as
+          Transaction Tokens.  It is a piece of data, and may not
+          contain executable content.
+
+      2.  Transaction Tokens are short-lived tokens used within a
+          trusted environment, so there are no privacy considerations.
+          Transaction Tokens are unmodifiable tokens, which need
+          integrity protection.
+
+      3.  The JWTs representing Transaction Tokens are signed, and
+          therefore are integrity protected.  A recipient of a
+          Transaction Token must verify the signature on the Transaction
+          Token before using it.
+
+      4.  There are no additional security considerations specific to
+          the use of JWTs as Transaction Tokens
+
+      5.  The Transaction Tokens format does not require the use of
+          links within the token.  If links are used by specific
+          instances of Transaction Tokens, then their interpretation is
+          usage specific
+
+   *  Interoperability Considerations: Transaction Tokens inherit all
+      interoperability properties of JWTs.
+
+   *  Published Specification: this document (when published)
+
+   *  Application Usage: Any application supporting the use of JWTs
+
+   *  Frabment Identifier Consideration: N/A.
+
+   *  Restrictions on Usage: Any application supporting the use of JWTs
+
+   *  Intended Usage: Common
+
+   *  Contact Person: Atul Tulshibagwale
 
 12.  References
 
@@ -1020,6 +1073,10 @@ Table of Contents
    [IANA.OAuth.Parameters]
               IANA, "OAuth Parameters", n.d.,
               <https://www.iana.org/assignments/oauth-parameters>.
+
+   [IANA.MediaTypes]
+              IANA, "Media Types", n.d.,
+              <http://www.iana.org/assignments/media-types>.
 
    [OpenIdConnect]
               Sakimura, N., Bradley, J., Jones, M., Medeiros, B. de.,
