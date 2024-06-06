@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-04T00:13:12.596127+00:00",
+  "timestamp": "2024-06-06T00:13:19.588241+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1724,9 +1724,24 @@
       "labels": [],
       "body": "According to the RFC 7515 (JWS), the \"typ\" header parameter is supposed to indicate a media-type (https://www.iana.org/assignments/media-types/media-types.xhtml). In addition, the JWT spec section 5.1 clarifies that if used, it should be set to \"JWT\". However, the TraTs draft requires this to be set to \"txn_token\". This is clearly not right. We need to find another way to identify a JWT to be a TraT.",
       "createdAt": "2024-06-03T22:01:32Z",
-      "updatedAt": "2024-06-03T22:01:32Z",
+      "updatedAt": "2024-06-04T23:27:46Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "see also https://www.rfc-editor.org/rfc/rfc8725.html#name-use-explicit-typing\r\nhttps://datatracker.ietf.org/doc/html/rfc9068#name-header\r\nhttps://www.rfc-editor.org/rfc/rfc9449.html#name-dpop-proof-jwt-syntax",
+          "createdAt": "2024-06-04T17:08:01Z",
+          "updatedAt": "2024-06-04T17:08:01Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks for these references. I will go with \"txntoken+jwt\" for now, based on the recommendation of the \"Explicit Typing\" section.",
+          "createdAt": "2024-06-04T21:27:20Z",
+          "updatedAt": "2024-06-04T23:27:46Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -6025,13 +6040,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-04-24T22:27:13Z",
-      "updatedAt": "2024-06-03T22:02:38Z",
+      "updatedAt": "2024-06-05T19:58:53Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "cb64104423637c8540f066c9b73532ce5f3492fb",
+      "baseRefOid": "38acb3eca471dd87dcfff4c4ae0db5a5c4bc380d",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-iana-language",
-      "headRefOid": "f7ddfab2f436e10d4af2f11964913e633554fd8e",
+      "headRefOid": "172971b810053d26a66cd09d880cfd348b78607f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
