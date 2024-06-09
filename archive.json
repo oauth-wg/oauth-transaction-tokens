@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-06T00:13:19.588241+00:00",
+  "timestamp": "2024-06-09T00:15:32.375674+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1717,15 +1717,15 @@
       "id": "I_kwDOJt_WwM6LAZHN",
       "title": "Typ header parameter being misused in TraTs draft",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/97",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "According to the RFC 7515 (JWS), the \"typ\" header parameter is supposed to indicate a media-type (https://www.iana.org/assignments/media-types/media-types.xhtml). In addition, the JWT spec section 5.1 clarifies that if used, it should be set to \"JWT\". However, the TraTs draft requires this to be set to \"txn_token\". This is clearly not right. We need to find another way to identify a JWT to be a TraT.",
       "createdAt": "2024-06-03T22:01:32Z",
-      "updatedAt": "2024-06-04T23:27:46Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-06T23:55:55Z",
+      "closedAt": "2024-06-06T23:55:55Z",
       "comments": [
         {
           "author": "bc-pi",
@@ -6033,24 +6033,26 @@
       "id": "PR_kwDOJt_WwM5tp-91",
       "title": "clarified fields versus claims and IANA registry name",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/92",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-04-24T22:27:13Z",
-      "updatedAt": "2024-06-05T19:58:53Z",
+      "updatedAt": "2024-06-06T23:55:55Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "38acb3eca471dd87dcfff4c4ae0db5a5c4bc380d",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-iana-language",
       "headRefOid": "172971b810053d26a66cd09d880cfd348b78607f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-06T23:55:55Z",
+      "mergedAt": "2024-06-06T23:55:55Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d4ec023a99e54163f875695bbd63e4d4c81fd283"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6125,6 +6127,19 @@
               "updatedAt": "2024-06-03T22:02:38Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM59Xhbt",
+          "commit": {
+            "abbreviatedOid": "172971b"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-06T22:35:28Z",
+          "updatedAt": "2024-06-06T22:35:28Z",
+          "comments": []
         }
       ]
     },
