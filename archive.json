@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-09T00:15:32.375674+00:00",
+  "timestamp": "2024-06-11T00:13:23.357971+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1605,15 +1605,15 @@
       "id": "I_kwDOJt_WwM6DjLbT",
       "title": "Possible confusion in IANA registry section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/84",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/) states that:\r\n\"11.1: I think there is some confusion here. It is possibly useful to define this value (if we want to embed txn tokens within access tokens). But the \"typ\" header is a whole different thing, it needs to be a media type. See https://datatracker.ietf.org/doc/html/rfc8725#name-use-explicit-typing\"\r\n\r\nI'm not completely sure about this, so tracking this item",
       "createdAt": "2024-03-26T01:11:08Z",
-      "updatedAt": "2024-04-02T20:00:05Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-10T23:41:31Z",
+      "closedAt": "2024-06-10T23:41:31Z",
       "comments": [
         {
           "author": "bc-pi",
@@ -6184,6 +6184,34 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 98,
+      "id": "PR_kwDOJt_WwM5yCa6h",
+      "title": "fixed typo ieft->ietf (issue #94)",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/98",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tulshi"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-10T23:36:10Z",
+      "updatedAt": "2024-06-10T23:37:23Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d4ec023a99e54163f875695bbd63e4d4c81fd283",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-typo",
+      "headRefOid": "c731481ecf287438850bae9a10cc467f04547848",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
