@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-11T00:13:23.357971+00:00",
+  "timestamp": "2024-06-13T00:13:30.280721+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6199,7 +6199,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-06-10T23:36:10Z",
-      "updatedAt": "2024-06-10T23:37:23Z",
+      "updatedAt": "2024-06-11T00:41:25Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d4ec023a99e54163f875695bbd63e4d4c81fd283",
@@ -6211,7 +6211,21 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM59tN2z",
+          "commit": {
+            "abbreviatedOid": "c731481"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-11T00:41:25Z",
+          "updatedAt": "2024-06-11T00:41:25Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
