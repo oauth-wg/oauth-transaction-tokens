@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 8 December 2024                                     Capital One
+Expires: 16 December 2024                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                             6 June 2024
+                                                            14 June 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 December 2024.
+   This Internet-Draft will expire on 16 December 2024.
 
 Copyright Notice
 
@@ -575,7 +575,7 @@ Table of Contents
    relating to the transaction being performed.  Most of these elements
    are provided by the OAuth 2.0 Token Exchange specification and the
    rest are defined as new parameters.  Additionally, this profile
-   defines a new token type URN urn:ieft:params:oauth:token-type:txn-
+   defines a new token type URN urn:ietf:params:oauth:token-type:txn-
    token which is used by the requesting workload to identify that it is
    requesting the Txn-Token Response to contain a Txn-Token.
 
@@ -740,7 +740,7 @@ Table of Contents
    *  The access_token value MUST be the Txn-Token JWT
 
    *  The issued_token_type value MUST bet set to
-      urn:ieft:params:oauth:token-type:txn-token
+      urn:ietf:params:oauth:token-type:txn-token
 
    *  The response MUST NOT include the values expires_in, refresh_token
       and scope
@@ -753,7 +753,7 @@ Table of Contents
 
    {
      "token_type": "N_A",
-     "issued_token_type": "urn:ieft:params:oauth:token-type:txn-token",
+     "issued_token_type": "urn:ietf:params:oauth:token-type:txn-token",
      "access_token": "eyJCI6IjllciJ9...Qedw6rx"
    }
 
@@ -914,7 +914,7 @@ Table of Contents
 
 11.1.  OAuth URI Subregistry Contents
 
-   *  URN: urn:ieft:params:oauth:token-type:txn-token
+   *  URN: urn:ietf:params:oauth:token-type:txn-token
 
    *  Common Name: Transaction Token
 
