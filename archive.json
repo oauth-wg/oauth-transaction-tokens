@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-13T00:13:30.280721+00:00",
+  "timestamp": "2024-06-16T00:15:03.190603+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -62,6 +62,11 @@
       "name": "PR57",
       "description": "",
       "color": "5319e7"
+    },
+    {
+      "name": "IETF120-discuss",
+      "description": "",
+      "color": "f9d0c4"
     }
   ],
   "issues": [
@@ -880,7 +885,7 @@
       "id": "I_kwDOJt_WwM529ErC",
       "title": "Transaction Tokens for S2S calls",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/53",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [
@@ -889,8 +894,8 @@
       "labels": [],
       "body": "> Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an external trigger.\r\n\r\nWhat about legitimate (non-spurious) calls without the presence of an external trigger?\r\n\r\nA transaction might be initiated by an internal component (e.g. triggered by a scheduler). In this case, there will be no external context (`req_ctx`) and no user (human) identity. However, transaction details (`purp` and `azd`) might still be relevant.\r\n\r\nCan TX Tokens cover this use case as well? The benefits will be unified token issuance and verification process for both external- and internal-initiated transactions. The only alternative in the OAuth world I could think of is the Client Credentials Grant, but it doesn't specify how to push transaction-specific data. Also, the result will be an Access Token and not a Txn-Token, which assumes that downstream workloads must be able to understand both.\r\n\r\nMaybe slightly unrelated, but it is also a bit unclear how should we communicate the desired `azd` and `purp` to the Txn-Token Service? Or is it assumed that everything should be derived from the external token + `rctx`?",
       "createdAt": "2023-11-15T22:58:21Z",
-      "updatedAt": "2024-03-29T19:18:32Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-14T15:27:25Z",
+      "closedAt": "2024-06-14T15:27:25Z",
       "comments": [
         {
           "author": "gffletch",
@@ -961,6 +966,13 @@
           "body": "@obfuscoder My original intent was to make this out of scope for the specification as the only entity that needs to understand a subject_token_type value is the Transaction Token Service. If the deployment wants to define a urn:x-example:params:oauth:token-type:email to identify a subject_token value of \"foo@bar.com\" then that is totally fine. I don't think this is an area where specification is required. \r\n\r\nI'm open to options and ways to better support use cases where transaction tokens are needing to be \"minted\" without any existing \"access token\".\r\n\r\nOne such use case could be a service that uses mTLS to unique identify a user (e.g. per user certificate) and then wants to specify that user as the subject of the transaction token. How does the requesting workload specify the \"subject\" (CN of the certificate?) to the Transaction Token Service?",
           "createdAt": "2024-03-29T19:18:31Z",
           "updatedAt": "2024-03-29T19:18:31Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the self-signed token addition to the draft addresses this issue. Please reopen if not addressed fully.",
+          "createdAt": "2024-06-14T15:27:25Z",
+          "updatedAt": "2024-06-14T15:27:25Z"
         }
       ]
     },
@@ -1417,11 +1429,13 @@
       "state": "OPEN",
       "author": "dhs-aws",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "The following text in 2.2.2 is too open ended and should be refactored.\r\n\r\n> To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.\r\n\r\nFirst, the text should include specific guidance on replacement tokens to require scopes to remain the same or be down-scoped on replacement.  Second, the draft should include a mechanism to ensure that scopes cannot be increased, or an increase in scope can be detected by downstream services.  Finally, add text to the security considerations section regarding the risks of replacement tokens and/or a malicious txn-token-sts.\r\n\r\n\r\n",
       "createdAt": "2024-03-20T00:47:45Z",
-      "updatedAt": "2024-03-25T09:13:08Z",
+      "updatedAt": "2024-06-14T15:36:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -1438,7 +1452,7 @@
       "id": "I_kwDOJt_WwM6DjHwR",
       "title": "Move 'aud' requirement in Trust Domain away from 'Terminology' section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/76",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1447,8 +1461,8 @@
       "labels": [],
       "body": "Point from Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
       "createdAt": "2024-03-26T00:51:15Z",
-      "updatedAt": "2024-03-29T19:19:49Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-14T15:36:29Z",
+      "closedAt": "2024-06-14T15:36:29Z",
       "comments": [
         {
           "author": "gffletch",
@@ -1474,11 +1488,13 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
       "createdAt": "2024-03-26T00:52:07Z",
-      "updatedAt": "2024-03-29T15:09:01Z",
+      "updatedAt": "2024-06-14T15:39:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -1512,13 +1528,23 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nneed a lot more discussion of this claim, also it may be OPTIONAL too. Also, why not call it \"scope\" if that's what it is?",
       "createdAt": "2024-03-26T00:53:07Z",
-      "updatedAt": "2024-03-26T00:53:08Z",
+      "updatedAt": "2024-06-14T15:44:52Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "From @gffletch:\r\n\r\n- In an external to internal flow, the scopes tend to be broad. The TraT can be set to a more specific to narrow the use of the TraT.\r\n- We could call it scope, but it could be confused with the OAuth scope\r\n- One could set the `purp` value to the actual API that was called to be very specific\r\n\r\nWe should add a sub-section to describe the above in the draft.",
+          "createdAt": "2024-06-14T15:44:23Z",
+          "updatedAt": "2024-06-14T15:44:23Z"
+        }
+      ]
     },
     {
       "number": 79,
@@ -1528,13 +1554,23 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nhow is \"azd\" different from \"rctx\"? There's a whole section about \"rctx\" and nothing about \"azd\".",
       "createdAt": "2024-03-26T00:54:10Z",
-      "updatedAt": "2024-03-26T00:54:10Z",
+      "updatedAt": "2024-06-14T15:55:27Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed in meeting on 06/14/2024: Add a subsection for azd, like we agreed to add a section for purp.",
+          "createdAt": "2024-06-14T15:49:06Z",
+          "updatedAt": "2024-06-14T15:49:06Z"
+        }
+      ]
     },
     {
       "number": 80,
@@ -1544,29 +1580,63 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "IETF120-discuss"
+      ],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)\r\nextensibility: please say explicitly that arbitrary claims may be added to the \"azd\" (and \"rctx\"?) objects. There is no IANA registry for either. Note that having 3 predefined attributes complicates the situation a bit - what happens if we want a 4th one? Also mention that any additional attributes are local to the trust domain.",
       "createdAt": "2024-03-26T00:55:37Z",
-      "updatedAt": "2024-03-26T00:55:37Z",
+      "updatedAt": "2024-06-15T15:03:30Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "TraTs are unique within a trust domain, so do we really need an IANA registry for this? We can add a statement that specifies we can add any sub claims appropriate for the specific trust domain.",
+          "createdAt": "2024-06-14T15:59:55Z",
+          "updatedAt": "2024-06-14T15:59:55Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We need to add the `azd`, `purp`, and `rctx` claims to the JWT claims registry.  A question we need to address is how the RAR `authorization_details` and `azd` claims differ / coexist. We should do a PR that describes this. We can bring this up as a question in Vancouver. ",
+          "createdAt": "2024-06-14T16:06:06Z",
+          "updatedAt": "2024-06-14T16:07:33Z"
+        },
+        {
+          "author": "yaronf",
+          "authorAssociation": "NONE",
+          "body": "Even within a trust domain we may want interoperability between multiple vendor solutions. And there will be token translation services that exchange/translate TraTs between trust domains. All of these would benefit from registering claims.",
+          "createdAt": "2024-06-15T15:03:29Z",
+          "updatedAt": "2024-06-15T15:03:29Z"
+        }
+      ]
     },
     {
       "number": 81,
       "id": "I_kwDOJt_WwM6DjIv-",
       "title": "Clarify `sub` field",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/81",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nsub\" should be better clarified, this is not your typical \u201csub\u201d. Also, I strongly prefer \"sub_id\" here (RFC 9493), as the use case I have an mind is of the subject as a human. In addition, \"as defined by the aud trust domain\" is confusing, I think you want to say that \"sub\" is relative to the scope of the trust domain.",
       "createdAt": "2024-03-26T00:56:39Z",
-      "updatedAt": "2024-03-26T00:56:39Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-06-14T15:57:01Z",
+      "closedAt": "2024-06-14T15:57:00Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors feels that the `sub` format is more appropriate for TraTs. Please reopen if you would like to discuss.",
+          "createdAt": "2024-06-14T15:57:00Z",
+          "updatedAt": "2024-06-14T15:57:00Z"
+        }
+      ]
     },
     {
       "number": 82,
@@ -1629,47 +1699,63 @@
       "id": "I_kwDOJt_WwM6ED7X3",
       "title": "Additional guidance on privacy in logging ",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/88",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The TraTs spec should add more guidance on privacy in logging.",
       "createdAt": "2024-03-29T16:01:19Z",
-      "updatedAt": "2024-03-29T16:01:19Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-06-14T16:09:17Z",
+      "closedAt": "2024-06-14T16:09:17Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressed in updated draft",
+          "createdAt": "2024-06-14T16:09:17Z",
+          "updatedAt": "2024-06-14T16:09:17Z"
+        }
+      ]
     },
     {
       "number": 91,
       "id": "I_kwDOJt_WwM6GpEKU",
       "title": "Clarification on additional signatures",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/91",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "From 2.4. Benefits of Txn-Tokens:\r\n\r\n> Through the presence of additional signatures on the Txn-Token, a workload receiving an invocation can also independently verify that specific workloads were within the path of the call before it was invoked.\r\n\r\nIt is unclear from the document how exactly the additional signatures could be added to the Txn-Token by the workloads within the call chain. Would be nice to provide some details here, or to state that this is out of the scope of the current document.",
       "createdAt": "2024-04-23T13:38:00Z",
-      "updatedAt": "2024-04-23T13:38:00Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-06-14T16:10:47Z",
+      "closedAt": "2024-06-14T16:10:46Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "this issue is outdated. It seems to have been addressed in the new draft.",
+          "createdAt": "2024-06-14T16:10:46Z",
+          "updatedAt": "2024-06-14T16:10:46Z"
+        }
+      ]
     },
     {
       "number": 94,
       "id": "I_kwDOJt_WwM6IM89B",
       "title": "typo: `ieft` -> `ietf`  in `urn:ieft:params:oauth:token-type:txn-token`",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/94",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "yuriyz",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "typo: `ieft` -> `ietf`  in `urn:ieft:params:oauth:token-type:txn-token`\r\n\r\nIt seems spec has this typo also in other places. ",
       "createdAt": "2024-05-08T09:10:34Z",
-      "updatedAt": "2024-05-08T09:10:34Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-14T16:11:10Z",
+      "closedAt": "2024-06-14T16:11:10Z",
       "comments": []
     },
     {
@@ -1681,12 +1767,22 @@
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "IETF120-discuss"
+      ],
       "body": "Should we add to the spec a mechanism for a client to discover if the AS has support for the transaction token profile of the token-exchange endpoint? Or do we need to define a new .well-known location for the Transaction Token Service?",
       "createdAt": "2024-05-17T16:57:32Z",
-      "updatedAt": "2024-05-17T16:57:32Z",
+      "updatedAt": "2024-06-14T16:19:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Notes from call on 06-14-24\r\n- (George) Discovery by an external client may not be useful, but for internal clients, it might be important. We could chain it out of the AS, because we would expect services to know where the AS is.\r\n- (Atul) Can we do a 401 response with the location of the TTS?\r\n- (Pieter) Agree that external clients don't need to discover the TTS. Discovery is useful for internal clients. Can we do resource metadata?\r\n- (George) One way is to add a new URL to the AS metadata. We should discuss this in Vancouver\r\n- (Atul, Pieter) Can we use OPRM?\r\n- (Pieter) The flow is going to be different because it assumes OAuth Access tokens\r\n",
+          "createdAt": "2024-06-14T16:19:07Z",
+          "updatedAt": "2024-06-14T16:19:07Z"
+        }
+      ]
     },
     {
       "number": 96,
@@ -1697,10 +1793,12 @@
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "IETF120-discuss"
+      ],
       "body": "This issue is to track different deployment models for the Transaction Token Service \r\n- embedded with the AS\r\n- embedded with an API GW\r\n- standalone service\r\n- ???",
       "createdAt": "2024-05-17T19:14:19Z",
-      "updatedAt": "2024-05-17T20:49:26Z",
+      "updatedAt": "2024-06-14T16:30:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -1709,6 +1807,13 @@
           "body": "Embedded with the Authorization Server\r\n\r\nIn this model, the token exchange endpoint is exposed as part of the standard Authorization Server exposed endpoints. \r\nPros:\r\n* the `iss` claim is the same as the authorization server and likely already known by downstream workloads\r\n* the AS metadata can already be discovered from it's `iss` claim and exposes the JWKS URI\r\n* centralizes authorization policy management into a single service (policies for issuing tokens [both access and transaction] is in one place)\r\n\r\nCons:\r\n* potentially exposes the ability to obtain a transaction token outside the bounds of the trust domain (e.g. exposed externally to the internet)\r\n* difficult to distribute the transaction token issuing capability as the AS is not likely geographically distributed",
           "createdAt": "2024-05-17T20:49:25Z",
           "updatedAt": "2024-05-17T20:49:25Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Notes from call on 06-14-2024\r\n- In a small deployment, the TTS could be a part of the AS, but for multi-region deployments, it could be distributed\r\n- Does thinking through this bring any new requirements to the spec\r\n- (Justin) We should think through this to make sure we are not over optimizing\r\n- (Justin) A TTS is going to be a part of an AS for a lot of systems, but in more workload focused systems, it could be a part of the \"workload bundle\" or something. It has less to do with the AS in that case\r\n- (George) In that context, if my workload needs to initiate 3 different types of transactions by calling 3 different workloads, my service would still go to the TTS to get a TraT for each use case. In the Lambda case, one could provision the Lambda with a pre-injected TraT. A Kubernetes WL would get a workload token at startup, but would need a TraT per request.\r\n- (Justin) Agree that these are two different things. There isn't going to be just one way for this to show up at runtime. This is different from access tokens\r\n- (Pieter) We could have at least one TTS per cluster. Having it called out that it can be standalone, or a part of the AS will be interesting. We should call out the security considerations of standalone, so that we don't redo all the work that AS security considerations already cover\r\n- (Pieter) In WIMSE, a deliverable is local token issuance. There's a model where the TraT is embedded in the workload (the workload is self-issuing)\r\n- (George) One of the reasons to create this issue is to collect these ideas. We could collect these  different ideas, and discuss in Vancouver. People who have deployed something similar already would be useful to get feedback from.\r\n- (Atul) Can we individually contribute slides that can be discussed in Vancouver?\r\n- (Justin) Are we collecting these in a Wiki page, or a temporary section of the document that we know we are going to discard.\r\n- (George) We should just add it to this issue.\r\n- (Pieter) We should raise this both in the WIMSE and the OAuth WG in Vancouver\r\n- ",
+          "createdAt": "2024-06-14T16:29:54Z",
+          "updatedAt": "2024-06-14T16:29:54Z"
         }
       ]
     },
@@ -6190,7 +6295,7 @@
       "id": "PR_kwDOJt_WwM5yCa6h",
       "title": "fixed typo ieft->ietf (issue #94)",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/98",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -6199,17 +6304,19 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-06-10T23:36:10Z",
-      "updatedAt": "2024-06-11T00:41:25Z",
+      "updatedAt": "2024-06-14T16:11:10Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d4ec023a99e54163f875695bbd63e4d4c81fd283",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-typo",
       "headRefOid": "c731481ecf287438850bae9a10cc467f04547848",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-14T16:11:09Z",
+      "mergedAt": "2024-06-14T16:11:09Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d3febe84ae8c544e53af7ef8aeeb79419b151467"
+      },
       "comments": [],
       "reviews": [
         {
