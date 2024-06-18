@@ -525,7 +525,7 @@ When issuing replacement Txn-Tokens, a Txn-Token Service:
 * MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` field in the `rctx` claim of the Txn-Token
 
 ### Replacement Txn-Token Request
-To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter.
+To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter. The `scope` value in the replacement request, if different from that in the original Txn-Token, MUST NOT increase the authorization surface beyond that of the original Txn-Token.
 
 ### Replacement Txn-Token Response
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
@@ -553,13 +553,19 @@ A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore
 
 Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the `refresh_token` field. A Txn-Token cannot be issued by presenting a `refresh_token`.
 
-The `expires_in` and `scope` fields of the OAuth 2.0 Token Exchange specification {{RFC8693}} are also not used in Txn-Token responses. The `expires_in` is not required since the issued token has an `exp` field, which indicates the token lifetime. The `scope` field is omitted from the request and therefore omitted in the response.
+The `expires_in` and `scope` fields of the OAuth 2.0 Token Exchange specification {{RFC8693}} are also not used in Txn-Token responses. The `expires_in` is not required since the issued token has an `exp` field, which indicates the token lifetime. The `scope` field is omitted from the response in favor of the `purp` claim in the Txn-Token.
 
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
 
 ## Client Authentication
 How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST authenticate the identity of the requesting workload.
+
+## Replacement Tokens
+Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to the security of the entire transaction invocation sequence. Ony Txn-Tokens issued by a trusted Transaction Token Service may be trusted so verification of the Txn-Token signature is required. For replacement transaction tokens, not only must the JWT signature be verified but also the workload identity of the workload requesting the replacement Txn-Token. Only workloads authorized to request replacement Txn-Tokens must be trusted.
+
+## Scope processing
+The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with client external to the trust domain. This make managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (`scope`) of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is not unintentional increase in authorization scope.
 
 # Privacy Considerations {#Privacy}
 
