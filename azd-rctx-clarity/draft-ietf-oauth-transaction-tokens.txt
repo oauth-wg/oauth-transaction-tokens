@@ -494,9 +494,9 @@ Table of Contents
 5.2.2.  Authorizaiton Details
 
    The Txn-Token SHOULD contain an azd claim.  The value of this claim
-   is a JSON object that contains key-value pairs, which together assert
-   the details that remain immutable through the call-chain where this
-   Txn-Token is used.
+   is a JSON object that contains name/value pairs (wherein the value
+   could itself be an object), which together assert the details that
+   remain immutable through the call-chain where this Txn-Token is used.
 
    Txn-Tokens are primarily used to assure identity and context for a
    transaction, and the content of this field is a critical part of that
