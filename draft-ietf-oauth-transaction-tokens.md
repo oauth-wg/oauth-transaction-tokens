@@ -369,7 +369,7 @@ The Txn-Token SHOULD contain an `azd` claim. The value of this claim is a JSON o
 
 Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.
 
-Whereas the `rctx` field contains environmental values related to the request, the `azd` field contains the actual authorizaiton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `azd` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token. 
+Whereas the `rctx` field contains environmental values related to the request, the `azd` field contains the actual authorizaiton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `azd` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
 
 The following is a non-normative example of an `azd` claim:
 
