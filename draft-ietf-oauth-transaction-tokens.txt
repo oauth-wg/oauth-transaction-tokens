@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 16 December 2024                                    Capital One
+Expires: 22 December 2024                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                            14 June 2024
+                                                            20 June 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 December 2024.
+   This Internet-Draft will expire on 22 December 2024.
 
 Copyright Notice
 
@@ -448,7 +448,10 @@ Table of Contents
 
    txn:  REQUIRED A unique transaction identifier as defined in
       Section 2.2 of [RFC8417].  When used in the transaction token, it
-      identifies the entire call chain.
+      identifies the entire call chain.  It is strongly RECOMMENDED to
+      provide an identifier unique within the trust domain.  If
+      providing such an identifier is not possible, then a fixed value
+      of "N_A" MAY be supplied.
 
    sub:  REQUIRED A unique identifier for the subject within the context
       of the aud trust domain.  Unlike OpenID Connect, the sub claim is
