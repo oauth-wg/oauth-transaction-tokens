@@ -355,6 +355,9 @@ JWT claims as well as defines new claims. These claims are described below:
 `rctx`:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
+### Purpose claim {#purp-claim}
+The `purp` claim captures the exact purpose of this particular transaction. This is often much narrower than a scope value issued to an external client. This is due to the fact that in most cases, the authorization model within the trust domain is quite different than the authorization model used with clients external to the trust domain. To that end, it is intentional to separate the concept of scope (often fairly coarse-grained) used with external clients from the purpose of the transaction used within the trust domain. How a given deployment represents the authorization model within the trust domain is out of scope for this specification.
+
 ### Requester Context {#requester-context}
 The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.
 
