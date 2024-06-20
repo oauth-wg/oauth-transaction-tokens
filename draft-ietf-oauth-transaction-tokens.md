@@ -413,14 +413,14 @@ Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token S
 A workload requests a Txn-Token from a Transaction Token Service using a profile of the OAuth 2.0 Token Exchange {{RFC8693}}. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange {{RFC8693}} is described below.
 
 ## Txn-Token Request {#txn-token-request}
-A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN `urn:ietf:params:oauth:token-type:txn-token` which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.
+A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN `urn:ietf:params:oauth:token-type:txn_token` which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.
 
 To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endpoint with the following parameters:
 
 * `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
-* `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn-token`
+* `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn_token`
 * `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
@@ -490,7 +490,7 @@ A successful response to a Txn-Token Request by a Transaction Token Service is c
 
 * The `token_type` value MUST be set to `N_A` per guidance in OAuth 2.0 Token Exchange {{RFC8693}}
 * The `access_token` value MUST be the Txn-Token JWT
-* The `issued_token_type` value MUST bet set to `urn:ietf:params:oauth:token-type:txn-token`
+* The `issued_token_type` value MUST bet set to `urn:ietf:params:oauth:token-type:txn_token`
 * The response MUST NOT include the values `expires_in`, `refresh_token` and `scope`
 
 {{figtxtokenresponse}} shows a non-normative example of a Txn-Token Response.
@@ -502,7 +502,7 @@ Cache-Control: no-cache, no-store
 
 {
   "token_type": "N_A",
-  "issued_token_type": "urn:ietf:params:oauth:token-type:txn-token",
+  "issued_token_type": "urn:ietf:params:oauth:token-type:txn_token",
   "access_token": "eyJCI6IjllciJ9...Qedw6rx"
 }
 ~~~
@@ -578,7 +578,7 @@ This specification registers the following token type identifiers to the "OAuth 
 
 ## OAuth URI Subregistry Contents
 
-* URN: urn:ietf:params:oauth:token-type:txn-token
+* URN: urn:ietf:params:oauth:token-type:txn_token
 * Common Name: Transaction Token
 * Change Controller: IESG
 * Specification Document Section {{txn-token-request}} of this specification
