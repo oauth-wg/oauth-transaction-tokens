@@ -1833,7 +1833,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
         <h3 id="name-txn-token-request">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-txn-token-request" class="section-name selfRef">Txn-Token Request</a>
         </h3>
-<p id="section-7.1-1">A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN <code>urn:ietf:params:oauth:token-type:txn-token</code> which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN <code>urn:ietf:params:oauth:token-type:txn_token</code> which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">To request a Txn-Token the workload invokes the OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> token endpoint with the following parameters:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-3.1">
@@ -1846,7 +1846,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
             <p id="section-7.1-3.3.1"><code>scope</code> REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.<a href="#section-7.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.4">
-            <p id="section-7.1-3.4.1"><code>requested_token_type</code> REQUIRED. The value MUST be <code>urn:ietf:params:oauth:token-type:txn-token</code><a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.4.1"><code>requested_token_type</code> REQUIRED. The value MUST be <code>urn:ietf:params:oauth:token-type:txn_token</code><a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.5">
             <p id="section-7.1-3.5.1"><code>subject_token</code> REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by <code>subject_token_type</code>.<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
@@ -1956,7 +1956,7 @@ The Transaction Token Service MUST set the <code>txn</code> claim to a unique ID
             <p id="section-7.4-2.2.1">The <code>access_token</code> value MUST be the Txn-Token JWT<a href="#section-7.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.4-2.3">
-            <p id="section-7.4-2.3.1">The <code>issued_token_type</code> value MUST bet set to <code>urn:ietf:params:oauth:token-type:txn-token</code><a href="#section-7.4-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-7.4-2.3.1">The <code>issued_token_type</code> value MUST bet set to <code>urn:ietf:params:oauth:token-type:txn_token</code><a href="#section-7.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.4-2.4">
             <p id="section-7.4-2.4.1">The response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-7.4-2.4.1" class="pilcrow">¶</a></p>
@@ -1973,7 +1973,7 @@ Cache-Control: no-cache, no-store
 
 {
   "token_type": "N_A",
-  "issued_token_type": "urn:ietf:params:oauth:token-type:txn-token",
+  "issued_token_type": "urn:ietf:params:oauth:token-type:txn_token",
   "access_token": "eyJCI6IjllciJ9...Qedw6rx"
 }
 </pre>
@@ -2148,7 +2148,7 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
         </h3>
 <ul class="normal">
 <li class="normal" id="section-11.1-1.1">
-            <p id="section-11.1-1.1.1">URN: urn:ietf:params:oauth:token-type:txn-token<a href="#section-11.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-1.1.1">URN: urn:ietf:params:oauth:token-type:txn_token<a href="#section-11.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.1-1.2">
             <p id="section-11.1-1.2.1">Common Name: Transaction Token<a href="#section-11.1-1.2.1" class="pilcrow">¶</a></p>
