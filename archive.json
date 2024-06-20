@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-18T00:13:43.752992+00:00",
+  "timestamp": "2024-06-20T00:13:10.617882+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1435,7 +1435,7 @@
       "labels": [],
       "body": "The following text in 2.2.2 is too open ended and should be refactored.\r\n\r\n> To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.\r\n\r\nFirst, the text should include specific guidance on replacement tokens to require scopes to remain the same or be down-scoped on replacement.  Second, the draft should include a mechanism to ensure that scopes cannot be increased, or an increase in scope can be detected by downstream services.  Finally, add text to the security considerations section regarding the risks of replacement tokens and/or a malicious txn-token-sts.\r\n\r\n\r\n",
       "createdAt": "2024-03-20T00:47:45Z",
-      "updatedAt": "2024-06-14T15:36:03Z",
+      "updatedAt": "2024-06-18T19:56:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -1444,6 +1444,20 @@
           "body": "As far as I understand it, replacement txn-tokens is just a profile to Token Exchange. The Token Exchange RFC defines that an issued token can only have the same or a smaller scope than the presented token. I would assume this applies to replacement tokens as well. If the replacement token mechanism is intended to deviate from Token Exchange in this regard, this should probably be mentioned specifically.",
           "createdAt": "2024-03-25T09:13:07Z",
           "updatedAt": "2024-03-25T09:13:07Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dhs-aws please review PR #100 and see if I addressed your comments.",
+          "createdAt": "2024-06-18T14:15:18Z",
+          "updatedAt": "2024-06-18T14:15:18Z"
+        },
+        {
+          "author": "dhs-aws",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Completed.  Looks good to me.",
+          "createdAt": "2024-06-18T19:56:27Z",
+          "updatedAt": "2024-06-18T19:56:27Z"
         }
       ]
     },
@@ -1494,7 +1508,7 @@
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
       "createdAt": "2024-03-26T00:52:07Z",
-      "updatedAt": "2024-06-14T15:39:27Z",
+      "updatedAt": "2024-06-18T14:23:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -1517,6 +1531,13 @@
           "body": "No specific use cases, it's just that we're assuming that an organization can easily integrate its (preexisting) transaction ID-issuing service with this one. Sometimes it can, sometimes it can't.\r\n\r\nI'm good with RECOMMENDED.",
           "createdAt": "2024-03-29T15:09:01Z",
           "updatedAt": "2024-03-29T15:09:01Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@yaronf please review PR #101 which addresses this issue",
+          "createdAt": "2024-06-18T14:23:15Z",
+          "updatedAt": "2024-06-18T14:23:15Z"
         }
       ]
     },
@@ -6330,6 +6351,251 @@
           "body": "",
           "createdAt": "2024-06-11T00:41:25Z",
           "updatedAt": "2024-06-11T00:41:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 99,
+      "id": "PR_kwDOJt_WwM5ywoBH",
+      "title": "Added a subsection for the azd  value",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/99",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "To address issue #79 ",
+      "createdAt": "2024-06-18T00:43:16Z",
+      "updatedAt": "2024-06-18T18:36:53Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "azd-rctx-clarity",
+      "headRefOid": "6feaa8d32e1404bf269ecea88e30b41a0d7c1299",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5-tA6-",
+          "commit": {
+            "abbreviatedOid": "2826890"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-18T14:42:41Z",
+          "updatedAt": "2024-06-18T14:42:41Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "This looks great. I'm not sure about the \"key-value pairs\" term as the non-normative example has a nested JSON structure. Maybe \"...a JSON object that contains claims, which together...\" to make it a little less specific?",
+              "createdAt": "2024-06-18T14:42:41Z",
+              "updatedAt": "2024-06-18T14:42:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5-u5GM",
+          "commit": {
+            "abbreviatedOid": "2826890"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-18T18:32:31Z",
+          "updatedAt": "2024-06-18T18:32:31Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The [JSON spec](https://datatracker.ietf.org/doc/html/rfc8259#section-1) says that the content of a JSON object are name value pairs, wherein the value can be an object.",
+              "createdAt": "2024-06-18T18:32:31Z",
+              "updatedAt": "2024-06-18T18:32:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5-u60X",
+          "commit": {
+            "abbreviatedOid": "2826890"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-18T18:36:49Z",
+          "updatedAt": "2024-06-18T18:36:49Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I updated the text a bit, but I'm not sure if it will address your issue. Please review.",
+              "createdAt": "2024-06-18T18:36:49Z",
+              "updatedAt": "2024-06-18T18:36:49Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 100,
+      "id": "PR_kwDOJt_WwM5y1Z0U",
+      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/100",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added text to address issue #74",
+      "createdAt": "2024-06-18T14:13:43Z",
+      "updatedAt": "2024-06-18T19:56:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "sec-replace-txn",
+      "headRefOid": "cd45864093ed101e098786f31eb4fd22f52db9e4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5-u76K",
+          "commit": {
+            "abbreviatedOid": "cd45864"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-18T18:39:34Z",
+          "updatedAt": "2024-06-18T18:45:15Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Ony -> Only\r\nmay -> MAY (?)\r\nadd comma after \"may be trusted\"\r\n",
+              "createdAt": "2024-06-18T18:39:34Z",
+              "updatedAt": "2024-06-18T18:45:15Z"
+            },
+            {
+              "originalPosition": 23,
+              "body": "I'm a bit conflicted about the last sentence. The rest of this paragraph applies to any service, whereas the last sentence applies only to the TTS. Should we have a separate \"security considerations\" subsection for TTSes?",
+              "createdAt": "2024-06-18T18:42:31Z",
+              "updatedAt": "2024-06-18T18:45:15Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "Should we change this title to \"Scope and Purpose processing\" to avoid confusion?",
+              "createdAt": "2024-06-18T18:43:41Z",
+              "updatedAt": "2024-06-18T18:45:15Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "make -> makes",
+              "createdAt": "2024-06-18T18:44:37Z",
+              "updatedAt": "2024-06-18T18:45:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5-vcQR",
+          "commit": {
+            "abbreviatedOid": "cd45864"
+          },
+          "author": "dhs-aws",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "LGTM.",
+          "createdAt": "2024-06-18T19:56:10Z",
+          "updatedAt": "2024-06-18T19:56:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 101,
+      "id": "PR_kwDOJt_WwM5y1d6V",
+      "title": "Updated text on `txn` claim",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/101",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added text to address issue #77 regarding the value of the `txn` claim within the Txn-Token",
+      "createdAt": "2024-06-18T14:22:04Z",
+      "updatedAt": "2024-06-18T18:38:52Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "txn-optional",
+      "headRefOid": "2e332e8cf65db24b0e95bc4670cf5239a6ada991",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5-u7nE",
+          "commit": {
+            "abbreviatedOid": "2e332e8"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-18T18:38:52Z",
+          "updatedAt": "2024-06-18T18:38:52Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 102,
+      "id": "PR_kwDOJt_WwM5y1lBk",
+      "title": "Clarified the `purp` claim",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/102",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added a section to clarify the intent of the `purp` claim and how it is different from scope values addressing issue #78.",
+      "createdAt": "2024-06-18T14:36:36Z",
+      "updatedAt": "2024-06-18T18:38:29Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "purp-clarification",
+      "headRefOid": "6347600c0e1951d24923da2bdfb0def544b1e1d7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5-u7db",
+          "commit": {
+            "abbreviatedOid": "6347600"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-18T18:38:29Z",
+          "updatedAt": "2024-06-18T18:38:29Z",
           "comments": []
         }
       ]
