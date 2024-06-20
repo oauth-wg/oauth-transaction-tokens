@@ -88,7 +88,8 @@ Table of Contents
      5.2.  JWT Body Claims
        5.2.1.  Purpose claim
        5.2.2.  Requester Context
-       5.2.3.  Example
+       5.2.3.  Authorizaiton Details
+       5.2.4.  Example
    6.  Txn-Token Service
    7.  Requesting Txn-Tokens
      7.1.  Txn-Token Request
@@ -507,7 +508,38 @@ Table of Contents
       that have requested Txn-Tokens as part of the transaction
       processing.
 
-5.2.2.1.  Requesting Workload Identifier
+5.2.3.  Authorizaiton Details
+
+   The Txn-Token SHOULD contain an azd claim.  The value of this claim
+   is a JSON object that contains name/value pairs (wherein the value
+   could itself be an object), which together assert the details that
+   remain immutable through the call-chain where this Txn-Token is used.
+
+   Txn-Tokens are primarily used to assure identity and context for a
+   transaction, and the content of this field is a critical part of that
+   context.
+
+   Whereas the rctx field contains environmental values related to the
+   request, the azd field contains the actual authorizaiton details that
+   are determined by the TTS.  These values are used by services using
+   the Txn-Token to reliably obtain specific parameters needed to
+   perform their work.  The content of the azd field is determined by
+   the Txn-Token Service and they may be computed internally or from
+   parameters it receives from the service that requests the Txn-Token.
+
+   The following is a non-normative example of an azd claim:
+
+   "azd": {
+     "action": "BUY", // parameter of external call
+     "ticker": "MSFT", // parameter of external call
+     "quantity": "100", // parameter of external call
+     "customer_type": { // computed value not present in external call
+       "geo": "US",
+       "level": "VIP"
+     }
+   }
+
+5.2.3.1.  Requesting Workload Identifier
 
    It is useful to be able to track the set of workloads that have
    requested a Txn-Token.  The req_wl claim allows for tracking this
@@ -531,29 +563,32 @@ Table of Contents
        }
    }
 
-5.2.3.  Example
+5.2.4.  Example
 
    The figure below Figure 4 shows a non-normative example of the JWT
    body of a Txn-Token:
 
    {
-       "iat": "1686536226000",
-       "aud": "trust-domain.example",
-       "exp": "1686536526000",
-       "txn": "97053963-771d-49cc-a4e3-20aad399c312",
-       "sub": "d084sdrt234fsaw34tr23t",
-       "rctx": {
-         "req_ip": "69.151.72.123", // env context of external call
-         "authn": "urn:ietf:rfc:6749", // env context of the external call
-         "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
-       },
-       "purp" : "trade.stocks",
-       "azd": {
-           "action": "BUY", // parameter of external call
-           "ticker": "MSFT", // parameter of external call
-           "quantity": "100", // parameter of external call
-           "user_level": "vip" // computed value not present in external call
+     "iat": "1686536226000",
+     "aud": "trust-domain.example",
+     "exp": "1686536526000",
+     "txn": "97053963-771d-49cc-a4e3-20aad399c312",
+     "sub": "d084sdrt234fsaw34tr23t",
+     "rctx": {
+       "req_ip": "69.151.72.123", // env context of external call
+       "authn": "urn:ietf:rfc:6749", // env context of the external call
+       "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
+     },
+     "purp" : "trade.stocks",
+     "azd": {
+       "action": "BUY", // parameter of external call
+       "ticker": "MSFT", // parameter of external call
+       "quantity": "100", // parameter of external call
+       "customer_type": { // computed value not present in external call
+         "geo": "US",
+         "level": "VIP"
        }
+     }
    }
 
                      Figure 4: Example: Txn-Token Body

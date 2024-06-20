@@ -1195,7 +1195,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
                     <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-requester-context" class="internal xref">Requester Context</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
-                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-example" class="internal xref">Example</a></p>
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-authorizaiton-details" class="internal xref">Authorizaiton Details</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.4">
+                    <p id="section-toc.1-1.5.2.2.2.4.1"><a href="#section-5.2.4" class="auto internal xref">5.2.4</a>.  <a href="#name-example" class="internal xref">Example</a></p>
 </li>
                 </ul>
 </li>
@@ -1751,13 +1754,37 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
               <p id="section-5.2.2-3.3.1"><code>req_wl</code> The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.<a href="#section-5.2.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
+</section>
+</div>
+<div id="authorization-details">
+<section id="section-5.2.3">
+          <h4 id="name-authorizaiton-details">
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-authorizaiton-details" class="section-name selfRef">Authorizaiton Details</a>
+          </h4>
+<p id="section-5.2.3-1">The Txn-Token SHOULD contain an <code>azd</code> claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-2">Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">Whereas the <code>rctx</code> field contains environmental values related to the request, the <code>azd</code> field contains the actual authorizaiton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the <code>azd</code> field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-4">The following is a non-normative example of an <code>azd</code> claim:<a href="#section-5.2.3-4" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-5.2.3-5">
+<pre>
+"azd": {
+  "action": "BUY", // parameter of external call
+  "ticker": "MSFT", // parameter of external call
+  "quantity": "100", // parameter of external call
+  "customer_type": { // computed value not present in external call
+    "geo": "US",
+    "level": "VIP"
+  }
+}
+</pre><a href="#section-5.2.3-5" class="pilcrow">¶</a>
+</div>
 <div id="requesting-workload-identifier">
-<section id="section-5.2.2.1">
+<section id="section-5.2.3.1">
             <h5 id="name-requesting-workload-identif">
-<a href="#section-5.2.2.1" class="section-number selfRef">5.2.2.1. </a><a href="#name-requesting-workload-identif" class="section-name selfRef">Requesting Workload Identifier</a>
+<a href="#section-5.2.3.1" class="section-number selfRef">5.2.3.1. </a><a href="#name-requesting-workload-identif" class="section-name selfRef">Requesting Workload Identifier</a>
             </h5>
-<p id="section-5.2.2.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default the <code>req_wl</code> is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a StringOrURI. If there is more than a single value, then <code>req_wl</code> will be prepresented by an array of StringOrURIs.<a href="#section-5.2.2.1-1" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-5.2.2.1-2">
+<p id="section-5.2.3.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default the <code>req_wl</code> is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a StringOrURI. If there is more than a single value, then <code>req_wl</code> will be prepresented by an array of StringOrURIs.<a href="#section-5.2.3.1-1" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-5.2.3.1-2">
 <pre>
 {
     "rctx": {
@@ -1766,40 +1793,43 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
       "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
     }
 }
-</pre><a href="#section-5.2.2.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-5.2.3.1-2" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 </section>
 </div>
 <div id="example">
-<section id="section-5.2.3">
+<section id="section-5.2.4">
           <h4 id="name-example">
-<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-example" class="section-name selfRef">Example</a>
+<a href="#section-5.2.4" class="section-number selfRef">5.2.4. </a><a href="#name-example" class="section-name selfRef">Example</a>
           </h4>
-<p id="section-5.2.3-1">The figure below <a href="#figleaftxtokenbody" class="auto internal xref">Figure 4</a> shows a non-normative example of the JWT body of a Txn-Token:<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-1">The figure below <a href="#figleaftxtokenbody" class="auto internal xref">Figure 4</a> shows a non-normative example of the JWT body of a Txn-Token:<a href="#section-5.2.4-1" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-body"></span><div id="figleaftxtokenbody">
 <figure id="figure-4">
-            <div class="lang-json sourcecode" id="section-5.2.3-2.1">
+            <div class="lang-json sourcecode" id="section-5.2.4-2.1">
 <pre>
 {
-    "iat": "1686536226000",
-    "aud": "trust-domain.example",
-    "exp": "1686536526000",
-    "txn": "97053963-771d-49cc-a4e3-20aad399c312",
-    "sub": "d084sdrt234fsaw34tr23t",
-    "rctx": {
-      "req_ip": "69.151.72.123", // env context of external call
-      "authn": "urn:ietf:rfc:6749", // env context of the external call
-      "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
-    },
-    "purp" : "trade.stocks",
-    "azd": {
-        "action": "BUY", // parameter of external call
-        "ticker": "MSFT", // parameter of external call
-        "quantity": "100", // parameter of external call
-        "user_level": "vip" // computed value not present in external call
+  "iat": "1686536226000",
+  "aud": "trust-domain.example",
+  "exp": "1686536526000",
+  "txn": "97053963-771d-49cc-a4e3-20aad399c312",
+  "sub": "d084sdrt234fsaw34tr23t",
+  "rctx": {
+    "req_ip": "69.151.72.123", // env context of external call
+    "authn": "urn:ietf:rfc:6749", // env context of the external call
+    "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
+  },
+  "purp" : "trade.stocks",
+  "azd": {
+    "action": "BUY", // parameter of external call
+    "ticker": "MSFT", // parameter of external call
+    "quantity": "100", // parameter of external call
+    "customer_type": { // computed value not present in external call
+      "geo": "US",
+      "level": "VIP"
     }
+  }
 }
 </pre>
 </div>
