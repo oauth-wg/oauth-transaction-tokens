@@ -1189,10 +1189,13 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-jwt-body-claims" class="internal xref">JWT Body Claims</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
-                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-requester-context" class="internal xref">Requester Context</a></p>
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-purpose-claim" class="internal xref">Purpose claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
-                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-example" class="internal xref">Example</a></p>
+                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-requester-context" class="internal xref">Requester Context</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-example" class="internal xref">Example</a></p>
 </li>
                 </ul>
 </li>
@@ -1722,31 +1725,39 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 </dd>
         <dd class="break"></dd>
 </dl>
-<div id="requester-context">
+<div id="purp-claim">
 <section id="section-5.2.1">
-          <h4 id="name-requester-context">
-<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-requester-context" class="section-name selfRef">Requester Context</a>
+          <h4 id="name-purpose-claim">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-purpose-claim" class="section-name selfRef">Purpose claim</a>
           </h4>
-<p id="section-5.2.1-1">The Txn-Token SHOULD contain an <code>rctx</code> claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.2.1-2">The JSON value of the <code>rctx</code> claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:<a href="#section-5.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-1">The <code>purp</code> claim captures the exact purpose of this particular transaction. This is often much narrower than a scope value issued to an external client. This is due to the fact that in most cases, the authorization model within the trust domain is quite different than the authorization model used with clients external to the trust domain. To that end, it is intentional to separate the concept of scope (often fairly coarse-grained) used with external clients from the purpose of the transaction used within the trust domain. How a given deployment represents the authorization model within the trust domain is out of scope for this specification.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="requester-context">
+<section id="section-5.2.2">
+          <h4 id="name-requester-context">
+<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-requester-context" class="section-name selfRef">Requester Context</a>
+          </h4>
+<p id="section-5.2.2-1">The Txn-Token SHOULD contain an <code>rctx</code> claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-2">The JSON value of the <code>rctx</code> claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.2.1-3.1">
-              <p id="section-5.2.1-3.1.1"><code>req_ip</code> The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction<a href="#section-5.2.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.2.2-3.1">
+              <p id="section-5.2.2-3.1.1"><code>req_ip</code> The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction<a href="#section-5.2.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.2.1-3.2">
-              <p id="section-5.2.1-3.2.1"><code>authn</code> The authentication method used to idenitfy the requester. Its value is a StringOrURI that uniquely identifies the method used.<a href="#section-5.2.1-3.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.2.2-3.2">
+              <p id="section-5.2.2-3.2.1"><code>authn</code> The authentication method used to idenitfy the requester. Its value is a StringOrURI that uniquely identifies the method used.<a href="#section-5.2.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.2.1-3.3">
-              <p id="section-5.2.1-3.3.1"><code>req_wl</code> The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.<a href="#section-5.2.1-3.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.2.2-3.3">
+              <p id="section-5.2.2-3.3.1"><code>req_wl</code> The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.<a href="#section-5.2.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <div id="requesting-workload-identifier">
-<section id="section-5.2.1.1">
+<section id="section-5.2.2.1">
             <h5 id="name-requesting-workload-identif">
-<a href="#section-5.2.1.1" class="section-number selfRef">5.2.1.1. </a><a href="#name-requesting-workload-identif" class="section-name selfRef">Requesting Workload Identifier</a>
+<a href="#section-5.2.2.1" class="section-number selfRef">5.2.2.1. </a><a href="#name-requesting-workload-identif" class="section-name selfRef">Requesting Workload Identifier</a>
             </h5>
-<p id="section-5.2.1.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default the <code>req_wl</code> is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a StringOrURI. If there is more than a single value, then <code>req_wl</code> will be prepresented by an array of StringOrURIs.<a href="#section-5.2.1.1-1" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-5.2.1.1-2">
+<p id="section-5.2.2.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default the <code>req_wl</code> is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a StringOrURI. If there is more than a single value, then <code>req_wl</code> will be prepresented by an array of StringOrURIs.<a href="#section-5.2.2.1-1" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-5.2.2.1-2">
 <pre>
 {
     "rctx": {
@@ -1755,21 +1766,21 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
       "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
     }
 }
-</pre><a href="#section-5.2.1.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-5.2.2.1-2" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 </section>
 </div>
 <div id="example">
-<section id="section-5.2.2">
+<section id="section-5.2.3">
           <h4 id="name-example">
-<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-example" class="section-name selfRef">Example</a>
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-example" class="section-name selfRef">Example</a>
           </h4>
-<p id="section-5.2.2-1">The figure below <a href="#figleaftxtokenbody" class="auto internal xref">Figure 4</a> shows a non-normative example of the JWT body of a Txn-Token:<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-1">The figure below <a href="#figleaftxtokenbody" class="auto internal xref">Figure 4</a> shows a non-normative example of the JWT body of a Txn-Token:<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-body"></span><div id="figleaftxtokenbody">
 <figure id="figure-4">
-            <div class="lang-json sourcecode" id="section-5.2.2-2.1">
+            <div class="lang-json sourcecode" id="section-5.2.3-2.1">
 <pre>
 {
     "iat": "1686536226000",
@@ -2193,7 +2204,7 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
                 <p id="section-11.2-1.2.2.2.1">Change Controller: IESG<a href="#section-11.2-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-11.2-1.2.2.3">
-                <p id="section-11.2-1.2.2.3.1">Specification Document: Section <a href="#requester-context" class="auto internal xref">Section 5.2.1</a> of this specification<a href="#section-11.2-1.2.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-11.2-1.2.2.3.1">Specification Document: Section <a href="#requester-context" class="auto internal xref">Section 5.2.2</a> of this specification<a href="#section-11.2-1.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
