@@ -592,9 +592,9 @@ Table of Contents
    relating to the transaction being performed.  Most of these elements
    are provided by the OAuth 2.0 Token Exchange specification and the
    rest are defined as new parameters.  Additionally, this profile
-   defines a new token type URN urn:ietf:params:oauth:token-type:txn-
-   token which is used by the requesting workload to identify that it is
-   requesting the Txn-Token Response to contain a Txn-Token.
+   defines a new token type URN urn:ietf:params:oauth:token-
+   type:txn_token which is used by the requesting workload to identify
+   that it is requesting the Txn-Token Response to contain a Txn-Token.
 
    To request a Txn-Token the workload invokes the OAuth 2.0 [RFC6749]
    token endpoint with the following parameters:
@@ -609,7 +609,7 @@ Table of Contents
       of the transaction.
 
    *  requested_token_type REQUIRED.  The value MUST be
-      urn:ietf:params:oauth:token-type:txn-token
+      urn:ietf:params:oauth:token-type:txn_token
 
    *  subject_token REQUIRED.  The value MUST represent the subject of
       the transaction.  This could be an inbound token received by an
@@ -757,7 +757,7 @@ Table of Contents
    *  The access_token value MUST be the Txn-Token JWT
 
    *  The issued_token_type value MUST bet set to
-      urn:ietf:params:oauth:token-type:txn-token
+      urn:ietf:params:oauth:token-type:txn_token
 
    *  The response MUST NOT include the values expires_in, refresh_token
       and scope
@@ -770,7 +770,7 @@ Table of Contents
 
    {
      "token_type": "N_A",
-     "issued_token_type": "urn:ietf:params:oauth:token-type:txn-token",
+     "issued_token_type": "urn:ietf:params:oauth:token-type:txn_token",
      "access_token": "eyJCI6IjllciJ9...Qedw6rx"
    }
 
@@ -931,7 +931,7 @@ Table of Contents
 
 11.1.  OAuth URI Subregistry Contents
 
-   *  URN: urn:ietf:params:oauth:token-type:txn-token
+   *  URN: urn:ietf:params:oauth:token-type:txn_token
 
    *  Common Name: Transaction Token
 
