@@ -86,8 +86,9 @@ Table of Contents
    5.  Txn-Token Format
      5.1.  JWT Header
      5.2.  JWT Body Claims
-       5.2.1.  Requester Context
-       5.2.2.  Example
+       5.2.1.  Purpose claim
+       5.2.2.  Requester Context
+       5.2.3.  Example
    6.  Txn-Token Service
    7.  Requesting Txn-Tokens
      7.1.  Txn-Token Request
@@ -466,7 +467,20 @@ Table of Contents
    rctx:  OPTIONAL A JSON object that describes the environmental
       context of the requested transaction.
 
-5.2.1.  Requester Context
+5.2.1.  Purpose claim
+
+   The purp claim captures the exact purpose of this particular
+   transaction.  This is often much narrower than a scope value issued
+   to an external client.  This is due to the fact that in most cases,
+   the authorization model within the trust domain is quite different
+   than the authorization model used with clients external to the trust
+   domain.  To that end, it is intentional to separate the concept of
+   scope (often fairly coarse-grained) used with external clients from
+   the purpose of the transaction used within the trust domain.  How a
+   given deployment represents the authorization model within the trust
+   domain is out of scope for this specification.
+
+5.2.2.  Requester Context
 
    The Txn-Token SHOULD contain an rctx claim.  This MAY include the IP
    address information of the originating user, as well as information
@@ -493,7 +507,7 @@ Table of Contents
       that have requested Txn-Tokens as part of the transaction
       processing.
 
-5.2.1.1.  Requesting Workload Identifier
+5.2.2.1.  Requesting Workload Identifier
 
    It is useful to be able to track the set of workloads that have
    requested a Txn-Token.  The req_wl claim allows for tracking this
@@ -517,7 +531,7 @@ Table of Contents
        }
    }
 
-5.2.2.  Example
+5.2.3.  Example
 
    The figure below Figure 4 shows a non-normative example of the JWT
    body of a Txn-Token:
@@ -950,7 +964,7 @@ Table of Contents
 
       -  Change Controller: IESG
 
-      -  Specification Document: Section Section 5.2.1 of this
+      -  Specification Document: Section Section 5.2.2 of this
          specification
 
    *  Claim Name: purp
