@@ -367,6 +367,27 @@ The JSON value of the `rctx` claim MAY include any values the Txn-Token Service 
 * `authn` The authentication method used to idenitfy the requester. Its value is a StringOrURI that uniquely identifies the method used.
 * `req_wl` The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.
 
+### Authorizaiton Details {#authorization-details}
+The Txn-Token SHOULD contain an `azd` claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.
+
+Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.
+
+Whereas the `rctx` field contains environmental values related to the request, the `azd` field contains the actual authorizaiton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `azd` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
+
+The following is a non-normative example of an `azd` claim:
+
+~~~ json
+"azd": {
+  "action": "BUY", // parameter of external call
+  "ticker": "MSFT", // parameter of external call
+  "quantity": "100", // parameter of external call
+  "customer_type": { // computed value not present in external call
+    "geo": "US",
+    "level": "VIP"
+  }
+}
+~~~
+
 #### Requesting Workload Identifier
 
 It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. By default the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there is more than a single value, then `req_wl` will be prepresented by an array of StringOrURIs.
@@ -386,23 +407,26 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
 
 ~~~ json
 {
-    "iat": "1686536226000",
-    "aud": "trust-domain.example",
-    "exp": "1686536526000",
-    "txn": "97053963-771d-49cc-a4e3-20aad399c312",
-    "sub": "d084sdrt234fsaw34tr23t",
-    "rctx": {
-      "req_ip": "69.151.72.123", // env context of external call
-      "authn": "urn:ietf:rfc:6749", // env context of the external call
-      "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
-    },
-    "purp" : "trade.stocks",
-    "azd": {
-        "action": "BUY", // parameter of external call
-        "ticker": "MSFT", // parameter of external call
-        "quantity": "100", // parameter of external call
-        "user_level": "vip" // computed value not present in external call
+  "iat": "1686536226000",
+  "aud": "trust-domain.example",
+  "exp": "1686536526000",
+  "txn": "97053963-771d-49cc-a4e3-20aad399c312",
+  "sub": "d084sdrt234fsaw34tr23t",
+  "rctx": {
+    "req_ip": "69.151.72.123", // env context of external call
+    "authn": "urn:ietf:rfc:6749", // env context of the external call
+    "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
+  },
+  "purp" : "trade.stocks",
+  "azd": {
+    "action": "BUY", // parameter of external call
+    "ticker": "MSFT", // parameter of external call
+    "quantity": "100", // parameter of external call
+    "customer_type": { // computed value not present in external call
+      "geo": "US",
+      "level": "VIP"
     }
+  }
 }
 ~~~
 {: #figleaftxtokenbody title="Example: Txn-Token Body"}
