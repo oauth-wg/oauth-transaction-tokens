@@ -341,7 +341,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
 
 `txn`:
-: REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain.
+: REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain. It is strongly RECOMMENDED to provide an identifier unique within the trust domain. If providing such an identifier is not possible, then a fixed value of "N_A" MAY be supplied.
 
 `sub`:
 : REQUIRED A unique identifier for the subject within the context of the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
