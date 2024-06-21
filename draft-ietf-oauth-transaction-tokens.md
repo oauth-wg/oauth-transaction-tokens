@@ -6,7 +6,7 @@ submissiontype: IETF
 area: sec
 wg: oauth
 
-docname: draft-ietf-oauth-transaction-tokens-02
+docname: draft-ietf-oauth-transaction-tokens-latest
 venue:
   github: "oauth-wg/oauth-transaction-tokens"
   latest: "https://drafts.oauth.net/oauth-transaction-tokens/draft-ietf-oauth-transaction-tokens.html"
