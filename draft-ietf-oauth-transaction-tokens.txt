@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 22 December 2024                                    Capital One
+Expires: 23 December 2024                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                            20 June 2024
+                                                            21 June 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 December 2024.
+   This Internet-Draft will expire on 23 December 2024.
 
 Copyright Notice
 
@@ -108,6 +108,8 @@ Table of Contents
      9.1.  Txn-Token Lifetime
      9.2.  Access Tokens
      9.3.  Client Authentication
+     9.4.  Replacement Tokens
+     9.5.  Scope and Purpose processing
    10. Privacy Considerations
      10.1.  Obsfucation of Personal Information
      10.2.  Logging
@@ -847,7 +849,10 @@ Table of Contents
 
    To request a replacement Txn-Token, the requester makes a Txn-Token
    Request as described in Section 7.1 but includes the Txn-Token to be
-   replaced as the value of the subject_token parameter.
+   replaced as the value of the subject_token parameter.  The scope
+   value in the replacement request, if different from that in the
+   original Txn-Token, MUST NOT increase the authorization surface
+   beyond that of the original Txn-Token.
 
 7.5.3.  Replacement Txn-Token Response
 
@@ -916,7 +921,8 @@ Table of Contents
    specification [RFC8693] are also not used in Txn-Token responses.
    The expires_in is not required since the issued token has an exp
    field, which indicates the token lifetime.  The scope field is
-   omitted from the request and therefore omitted in the response.
+   omitted from the response in favor of the purp claim in the Txn-
+   Token.
 
 9.2.  Access Tokens
 
@@ -936,6 +942,28 @@ Table of Contents
    Exchange specification, both parameters MUST be present in the
    request.  The actor_token MUST authenticate the identity of the
    requesting workload.
+
+9.4.  Replacement Tokens
+
+   Validation of a replacement Txn-Token, as well as any Txn-Token, is
+   critical to the security of the entire transaction invocation
+   sequence.  Only Txn-Tokens issued by a trusted Transaction Token
+   Service may be trusted, so verification of the Txn-Token signature is
+   required.  For replacement transaction tokens, not only must the JWT
+   signature be verified but also the workload identity of the workload
+   requesting the replacement Txn-Token.
+
+9.5.  Scope and Purpose processing
+
+   The authorization model within a trust domain boundary is most often
+   quite different from the authorization model (e.g.  OAuth scopes)
+   used with client external to the trust domain.  This makes managing
+   unintentional scope increase a critical aspect of the Transaction
+   Token Service.  The TTS MUST ensure that the requested purpose
+   (scope) of the Txn-Token is equal or less than the scope(s)
+   identified in the subject_token.  This is also true of requesting a
+   replacement Txn-Token.  The TTS MUST ensure there is not
+   unintentional increase in authorization scope.
 
 10.  Privacy Considerations
 
