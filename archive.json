@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-20T00:13:10.617882+00:00",
+  "timestamp": "2024-06-23T00:14:41.997401+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1426,7 +1426,7 @@
       "id": "I_kwDOJt_WwM6C6gtr",
       "title": "Section 2.2.2 - Needs tighter security controls on replacement tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/74",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dhs-aws",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -1435,8 +1435,8 @@
       "labels": [],
       "body": "The following text in 2.2.2 is too open ended and should be refactored.\r\n\r\n> To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.\r\n\r\nFirst, the text should include specific guidance on replacement tokens to require scopes to remain the same or be down-scoped on replacement.  Second, the draft should include a mechanism to ensure that scopes cannot be increased, or an increase in scope can be detected by downstream services.  Finally, add text to the security considerations section regarding the risks of replacement tokens and/or a malicious txn-token-sts.\r\n\r\n\r\n",
       "createdAt": "2024-03-20T00:47:45Z",
-      "updatedAt": "2024-06-18T19:56:28Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-21T18:09:26Z",
+      "closedAt": "2024-06-21T18:09:26Z",
       "comments": [
         {
           "author": "obfuscoder",
@@ -1499,7 +1499,7 @@
       "id": "I_kwDOJt_WwM6DjH6z",
       "title": "`txn` value should be optional",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/77",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1508,8 +1508,8 @@
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)",
       "createdAt": "2024-03-26T00:52:07Z",
-      "updatedAt": "2024-06-18T14:23:17Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-21T18:09:48Z",
+      "closedAt": "2024-06-21T18:09:48Z",
       "comments": [
         {
           "author": "gffletch",
@@ -1546,7 +1546,7 @@
       "id": "I_kwDOJt_WwM6DjIGO",
       "title": "`purp` claim name and optionality",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/78",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1555,8 +1555,8 @@
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nneed a lot more discussion of this claim, also it may be OPTIONAL too. Also, why not call it \"scope\" if that's what it is?",
       "createdAt": "2024-03-26T00:53:07Z",
-      "updatedAt": "2024-06-14T15:44:52Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-21T18:08:41Z",
+      "closedAt": "2024-06-21T18:08:41Z",
       "comments": [
         {
           "author": "tulshi",
@@ -1572,7 +1572,7 @@
       "id": "I_kwDOJt_WwM6DjITB",
       "title": "Clarify difference between `rctx` and `azd`",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/79",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1581,8 +1581,8 @@
       "labels": [],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/):\r\nhow is \"azd\" different from \"rctx\"? There's a whole section about \"rctx\" and nothing about \"azd\".",
       "createdAt": "2024-03-26T00:54:10Z",
-      "updatedAt": "2024-06-14T15:55:27Z",
-      "closedAt": null,
+      "updatedAt": "2024-06-20T21:30:10Z",
+      "closedAt": "2024-06-20T21:30:10Z",
       "comments": [
         {
           "author": "tulshi",
@@ -1609,7 +1609,7 @@
       ],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)\r\nextensibility: please say explicitly that arbitrary claims may be added to the \"azd\" (and \"rctx\"?) objects. There is no IANA registry for either. Note that having 3 predefined attributes complicates the situation a bit - what happens if we want a 4th one? Also mention that any additional attributes are local to the trust domain.",
       "createdAt": "2024-03-26T00:55:37Z",
-      "updatedAt": "2024-06-15T15:03:30Z",
+      "updatedAt": "2024-06-21T18:10:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -1632,6 +1632,13 @@
           "body": "Even within a trust domain we may want interoperability between multiple vendor solutions. And there will be token translation services that exchange/translate TraTs between trust domains. All of these would benefit from registering claims.",
           "createdAt": "2024-06-15T15:03:29Z",
           "updatedAt": "2024-06-15T15:03:29Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I look forward to discussing this in Vancouver",
+          "createdAt": "2024-06-21T18:10:45Z",
+          "updatedAt": "2024-06-21T18:10:45Z"
         }
       ]
     },
@@ -6360,24 +6367,26 @@
       "id": "PR_kwDOJt_WwM5ywoBH",
       "title": "Added a subsection for the azd  value",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/99",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "To address issue #79 ",
       "createdAt": "2024-06-18T00:43:16Z",
-      "updatedAt": "2024-06-18T18:36:53Z",
+      "updatedAt": "2024-06-20T21:30:10Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "azd-rctx-clarity",
       "headRefOid": "6feaa8d32e1404bf269ecea88e30b41a0d7c1299",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-20T21:30:09Z",
+      "mergedAt": "2024-06-20T21:30:09Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "e8830562c02d0d01523e4b9d3dfff36e1da31cfd"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6439,6 +6448,19 @@
               "updatedAt": "2024-06-18T18:36:49Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5_Akd_",
+          "commit": {
+            "abbreviatedOid": "6feaa8d"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good",
+          "createdAt": "2024-06-20T16:13:05Z",
+          "updatedAt": "2024-06-20T16:13:05Z",
+          "comments": []
         }
       ]
     },
@@ -6447,24 +6469,26 @@
       "id": "PR_kwDOJt_WwM5y1Z0U",
       "title": "Update draft-ietf-oauth-transaction-tokens.md",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/100",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Added text to address issue #74",
       "createdAt": "2024-06-18T14:13:43Z",
-      "updatedAt": "2024-06-18T19:56:10Z",
+      "updatedAt": "2024-06-21T18:09:10Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "sec-replace-txn",
-      "headRefOid": "cd45864093ed101e098786f31eb4fd22f52db9e4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "66fac7c1ace9f75c967ba6ed361c3760f4bfeb90",
+      "closedAt": "2024-06-21T18:09:10Z",
+      "mergedAt": "2024-06-21T18:09:10Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "7d004dd6444511ad0be17d395be56a4b1dab5e60"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6517,6 +6541,39 @@
           "createdAt": "2024-06-18T19:56:10Z",
           "updatedAt": "2024-06-18T19:56:10Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5_Ah74",
+          "commit": {
+            "abbreviatedOid": "cd45864"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-06-20T16:07:47Z",
+          "updatedAt": "2024-06-20T16:07:47Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Yeah... I will remove that last sentence and then we can maybe add another section of validating tokens either TTS specific or even for receiving workloads.",
+              "createdAt": "2024-06-20T16:07:47Z",
+              "updatedAt": "2024-06-20T16:07:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5_CtUV",
+          "commit": {
+            "abbreviatedOid": "66fac7c"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-20T21:29:39Z",
+          "updatedAt": "2024-06-20T21:29:39Z",
+          "comments": []
         }
       ]
     },
@@ -6525,24 +6582,26 @@
       "id": "PR_kwDOJt_WwM5y1d6V",
       "title": "Updated text on `txn` claim",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/101",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Added text to address issue #77 regarding the value of the `txn` claim within the Txn-Token",
       "createdAt": "2024-06-18T14:22:04Z",
-      "updatedAt": "2024-06-18T18:38:52Z",
+      "updatedAt": "2024-06-20T16:10:47Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "txn-optional",
       "headRefOid": "2e332e8cf65db24b0e95bc4670cf5239a6ada991",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-20T16:10:31Z",
+      "mergedAt": "2024-06-20T16:10:31Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "17c4691d651509b0dc11a590d36ab15dfc7d52ea"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6565,24 +6624,26 @@
       "id": "PR_kwDOJt_WwM5y1lBk",
       "title": "Clarified the `purp` claim",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/102",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Added a section to clarify the intent of the `purp` claim and how it is different from scope values addressing issue #78.",
       "createdAt": "2024-06-18T14:36:36Z",
-      "updatedAt": "2024-06-18T18:38:29Z",
+      "updatedAt": "2024-06-20T16:11:25Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "purp-clarification",
       "headRefOid": "6347600c0e1951d24923da2bdfb0def544b1e1d7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-06-20T16:11:17Z",
+      "mergedAt": "2024-06-20T16:11:17Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "c11cc2df589c817a066a7daa72815d7ba8fae7e2"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6599,6 +6660,87 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 103,
+      "id": "PR_kwDOJt_WwM5zA--Z",
+      "title": "changing OAuth URI subregistry entry for Txn-Tokens to be txn_token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/103",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We currently use the URI: \"urn:ietf:params:oauth:token-type:txn-token\" to denote a Txn-Token in requests or in the token itself. However, if I look at other entries in the OAuth URI Subregistry here (https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml#uri), they use the \"_token\" style for the token types. We also use that style when the subject-token-type is \"self_signed\". So I'd like to propose that we use the URI: \"urn:ietf:params:oauth:token-type:txn_token\" for the transaction token URI.",
+      "createdAt": "2024-06-20T01:48:49Z",
+      "updatedAt": "2024-06-20T17:02:20Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-token-type",
+      "headRefOid": "f437015f5789969ce423649405b3ee789cc2595d",
+      "closedAt": "2024-06-20T17:02:20Z",
+      "mergedAt": "2024-06-20T17:02:20Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "15045bf7b3dda66dd648883ae3f3a3eb268eaebc"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5-91gC",
+          "commit": {
+            "abbreviatedOid": "f437015"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Agreed with aligning to the common practices elsewhere.",
+          "createdAt": "2024-06-20T11:11:50Z",
+          "updatedAt": "2024-06-20T11:11:50Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5_Ad2I",
+          "commit": {
+            "abbreviatedOid": "f437015"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-20T16:00:10Z",
+          "updatedAt": "2024-06-20T16:00:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 104,
+      "id": "PR_kwDOJt_WwM5zNzYE",
+      "title": "draft02 files for submission. I have performed the IDNits check, and \u2026",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/104",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026the only issue is that there are non-ascii characters",
+      "createdAt": "2024-06-21T19:12:03Z",
+      "updatedAt": "2024-06-21T19:13:25Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "7d004dd6444511ad0be17d395be56a4b1dab5e60",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "prep-for-submission",
+      "headRefOid": "fb81168c371f5bb3bb233f526788f67907d2a1b7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
