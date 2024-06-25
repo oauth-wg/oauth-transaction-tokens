@@ -1111,10 +1111,11 @@ Table of Contents
 11.4.  HTTP User Authentication Header
 
    The header name txn-token is proposed to be added to the HTTP User
-   Authentication Schemes registry [IANA.HTTP.AuthSchemes].  This
-   addition requires an IETF Review according to the process specified
-   in [RFC9110] Section 16.4.1.  The following clarifications are
-   provided for that purpose:
+   Authentication Schemes registry [IANA.HTTP.AuthSchemes].  This header
+   is defined in the section Section 8.1.  Adding this new
+   authentication scheme requires an IETF Review according to the
+   process specified in [RFC9110] Section 16.4.1.  The following
+   clarifications are provided for that purpose:
 
 11.4.1.  Usage In Origin Server Authentication
 
