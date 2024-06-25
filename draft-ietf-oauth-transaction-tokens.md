@@ -80,7 +80,13 @@ normative:
   RFC8417: # Secure Event Token (SET)
   RFC9068: # JWT Profile for OAuth 2.0 Access Tokens
   RFC9110: # HTTP
+  RFC9111: # HTTP Caching
 
+  IANA.HTTP.AuthSchemes:
+    title: HTTP Authentication Schemes
+    target: https://www.iana.org/assignments/http-authschemes/
+    author:
+      -name: IANA
   IANA.OAuth.Parameters:
     title: OAuth Parameters
     target: https://www.iana.org/assignments/oauth-parameters
@@ -573,6 +579,9 @@ Txn-Tokens need to be communicated between workloads that depend upon them to au
 ## Txn-Token HTTP Header
 A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.
 
+## No response caching {#no-response-caching}
+A workload using Txn-tokens MUST NOT cache responses. Workloads that receive requests that use Txn-tokens MAY include the `private` caching directive ({{RFC9111}} Section 5.2.2.7) in its response.
+
 # Security Considerations {#Security}
 
 ## Txn-Token Lifetime
@@ -662,6 +671,18 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Restrictions on Usage: Any application supporting the use of JWTs
 * Intended Usage: Common
 * Contact Person: Atul Tulshibagwale
+
+## HTTP User Authentication Header
+The header name `txn-token` is proposed to be added to the HTTP User Authentication Schemes registry {{IANA.HTTP.AuthSchemes}}. This addition requires an IETF Review according to the process specified in {{RFC9110}} Section 16.4.1. The following clarifications are provided for that purpose:
+
+### Usage In Origin Server Authentication
+Txn-tokens are not expected to support and therefore not usable for Origin Server Authentication ({{RFC9110}} Section 11.6.1)
+
+### Usage in Proxy Authentication
+Txn-tokens are not expected to support and therefore not usable for Proxy Authentication ({{RFC9110}} Section 11.7.1)
+
+### No Caching
+Section {{no-response-caching}} specifies that responses MUST NOT be cached, satisfying this requirement for new HTTP Authentication Schemes.
 
 --- back
 
