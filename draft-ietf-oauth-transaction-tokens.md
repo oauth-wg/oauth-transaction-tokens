@@ -576,7 +576,7 @@ The requesting workload MUST have a pre-configured location for the Transaction 
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
 
-## Txn-Token HTTP Header
+## Txn-Token HTTP Header {#txn-token-http-header}
 A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.
 
 ## No response caching {#no-response-caching}
@@ -673,7 +673,7 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Contact Person: Atul Tulshibagwale
 
 ## HTTP User Authentication Header
-The header name `txn-token` is proposed to be added to the HTTP User Authentication Schemes registry {{IANA.HTTP.AuthSchemes}}. This addition requires an IETF Review according to the process specified in {{RFC9110}} Section 16.4.1. The following clarifications are provided for that purpose:
+The header name `txn-token` is proposed to be added to the HTTP User Authentication Schemes registry {{IANA.HTTP.AuthSchemes}}. This header is defined in the section {{txn-token-http-header}}. Adding this new authentication scheme requires an IETF Review according to the process specified in {{RFC9110}} Section 16.4.1. The following clarifications are provided for that purpose:
 
 ### Usage In Origin Server Authentication
 Txn-tokens are not expected to support and therefore not usable for Origin Server Authentication ({{RFC9110}} Section 11.6.1)
