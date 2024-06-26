@@ -1034,7 +1034,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 27 December 2024</td>
+<td class="center">Expires 28 December 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1047,12 +1047,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-06-25" class="published">25 June 2024</time>
+<time datetime="2024-06-26" class="published">26 June 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-12-27">27 December 2024</time></dd>
+<dd class="expires"><time datetime="2024-12-28">28 December 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1105,7 +1105,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 December 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1252,9 +1252,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
                 <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-txn-token-http-header" class="internal xref">Txn-Token HTTP Header</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-no-response-caching" class="internal xref">No response caching</a></p>
-</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
@@ -1301,18 +1298,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.11.2.3.1"><a href="#section-11.3" class="auto internal xref">11.3</a>.  <a href="#name-iana-media-type-registratio" class="internal xref">IANA Media Type Registration Contents</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4">
-                <p id="section-toc.1-1.11.2.4.1"><a href="#section-11.4" class="auto internal xref">11.4</a>.  <a href="#name-http-user-authentication-he" class="internal xref">HTTP User Authentication Header</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4.2.1">
-                    <p id="section-toc.1-1.11.2.4.2.1.1"><a href="#section-11.4.1" class="auto internal xref">11.4.1</a>.  <a href="#name-usage-in-origin-server-auth" class="internal xref">Usage In Origin Server Authentication</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4.2.2">
-                    <p id="section-toc.1-1.11.2.4.2.2.1"><a href="#section-11.4.2" class="auto internal xref">11.4.2</a>.  <a href="#name-usage-in-proxy-authenticati" class="internal xref">Usage in Proxy Authentication</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.4.2.3">
-                    <p id="section-toc.1-1.11.2.4.2.3.1"><a href="#section-11.4.3" class="auto internal xref">11.4.3</a>.  <a href="#name-no-caching" class="internal xref">No Caching</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.11.2.4.1"><a href="#section-11.4" class="auto internal xref">11.4</a>.  <a href="#name-http-header" class="internal xref">HTTP Header</a></p>
 </li>
             </ul>
 </li>
@@ -2127,14 +2113,6 @@ Cache-Control: no-cache, no-store
 <p id="section-8.1-1">A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header <code>Txn-Token</code> to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="no-response-caching">
-<section id="section-8.2">
-        <h3 id="name-no-response-caching">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-no-response-caching" class="section-name selfRef">No response caching</a>
-        </h3>
-<p id="section-8.2-1">A workload using Txn-tokens MUST NOT cache responses. Workloads that receive requests that use Txn-tokens MAY include the <code>private</code> caching directive (<span>[<a href="#RFC9111" class="cite xref">RFC9111</a>]</span> Section 5.2.2.7) in its response.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 </section>
 </div>
 <div id="Security">
@@ -2374,36 +2352,26 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
         </ul>
 </section>
 </div>
-<div id="http-user-authentication-header">
+<div id="http-header">
 <section id="section-11.4">
-        <h3 id="name-http-user-authentication-he">
-<a href="#section-11.4" class="section-number selfRef">11.4. </a><a href="#name-http-user-authentication-he" class="section-name selfRef">HTTP User Authentication Header</a>
+        <h3 id="name-http-header">
+<a href="#section-11.4" class="section-number selfRef">11.4. </a><a href="#name-http-header" class="section-name selfRef">HTTP Header</a>
         </h3>
-<p id="section-11.4-1">The header name <code>txn-token</code> is proposed to be added to the HTTP User Authentication Schemes registry <span>[<a href="#IANA.HTTP.AuthSchemes" class="cite xref">IANA.HTTP.AuthSchemes</a>]</span>. This header is defined in the section <a href="#txn-token-http-header" class="auto internal xref">Section 8.1</a>. Adding this new authentication scheme requires an IETF Review according to the process specified in <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> Section 16.4.1. The following clarifications are provided for that purpose:<a href="#section-11.4-1" class="pilcrow">¶</a></p>
-<div id="usage-in-origin-server-authentication">
-<section id="section-11.4.1">
-          <h4 id="name-usage-in-origin-server-auth">
-<a href="#section-11.4.1" class="section-number selfRef">11.4.1. </a><a href="#name-usage-in-origin-server-auth" class="section-name selfRef">Usage In Origin Server Authentication</a>
-          </h4>
-<p id="section-11.4.1-1">Txn-tokens are not expected to support and therefore not usable for Origin Server Authentication (<span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> Section 11.6.1)<a href="#section-11.4.1-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="usage-in-proxy-authentication">
-<section id="section-11.4.2">
-          <h4 id="name-usage-in-proxy-authenticati">
-<a href="#section-11.4.2" class="section-number selfRef">11.4.2. </a><a href="#name-usage-in-proxy-authenticati" class="section-name selfRef">Usage in Proxy Authentication</a>
-          </h4>
-<p id="section-11.4.2-1">Txn-tokens are not expected to support and therefore not usable for Proxy Authentication (<span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span> Section 11.7.1)<a href="#section-11.4.2-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="no-caching">
-<section id="section-11.4.3">
-          <h4 id="name-no-caching">
-<a href="#section-11.4.3" class="section-number selfRef">11.4.3. </a><a href="#name-no-caching" class="section-name selfRef">No Caching</a>
-          </h4>
-<p id="section-11.4.3-1">Section <a href="#no-response-caching" class="auto internal xref">Section 8.2</a> specifies that responses MUST NOT be cached, satisfying this requirement for new HTTP Authentication Schemes.<a href="#section-11.4.3-1" class="pilcrow">¶</a></p>
-</section>
-</div>
+<p id="section-11.4-1">The header name <code>Txn-Token</code> is proposed to be added to the HTTP Field Name Registry <span>[<a href="#IANA.HTTP.FieldNames" class="cite xref">IANA.HTTP.FieldNames</a>]</span>. This header is defined in the section <a href="#txn-token-http-header" class="auto internal xref">Section 8.1</a>. The following entry will be proposed in the HTTP Field Name Registry:<a href="#section-11.4-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-11.4-2.1">
+            <p id="section-11.4-2.1.1">Field Name: Txn-Token<a href="#section-11.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.4-2.2">
+            <p id="section-11.4-2.2.1">Status: permanent<a href="#section-11.4-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.4-2.3">
+            <p id="section-11.4-2.3.1">Specification Document: Section <a href="#txn-token-http-header" class="auto internal xref">Section 8.1</a> of this document<a href="#section-11.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-11.4-2.4">
+            <p id="section-11.4-2.4.1">Comment: The <code>Authorization</code> header cannot be used for Txn-tokens because that may be use for service-to-service authorization, and the services may simulatneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.<a href="#section-11.4-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -2466,9 +2434,9 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
         <dd>
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP Caching"</span>, <span class="seriesInfo">STD 98</span>, <span class="seriesInfo">RFC 9111</span>, <span class="seriesInfo">DOI 10.17487/RFC9111</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9111">https://www.rfc-editor.org/rfc/rfc9111</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="IANA.HTTP.AuthSchemes">[IANA.HTTP.AuthSchemes]</dt>
+<dt id="IANA.HTTP.FieldNames">[IANA.HTTP.FieldNames]</dt>
         <dd>
-<span class="refTitle">"HTTP Authentication Schemes"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/http-authschemes/">https://www.iana.org/assignments/http-authschemes/</a>&gt;</span>. </dd>
+<span class="refTitle">"HTTP Authentication Schemes"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/http-fields/">https://www.iana.org/assignments/http-fields/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.OAuth.Parameters">[IANA.OAuth.Parameters]</dt>
         <dd>

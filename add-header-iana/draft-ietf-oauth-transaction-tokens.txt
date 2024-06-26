@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 27 December 2024                                    Capital One
+Expires: 28 December 2024                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                            25 June 2024
+                                                            26 June 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 December 2024.
+   This Internet-Draft will expire on 28 December 2024.
 
 Copyright Notice
 
@@ -104,7 +104,6 @@ Table of Contents
      7.6.  Mutual Authentication of the Txn-Token Request
    8.  Using Txn-Tokens
      8.1.  Txn-Token HTTP Header
-     8.2.  No response caching
    9.  Security Considerations
      9.1.  Txn-Token Lifetime
      9.2.  Access Tokens
@@ -118,10 +117,7 @@ Table of Contents
      11.1.  OAuth URI Subregistry Contents
      11.2.  JWT Claims Registry Contents
      11.3.  IANA Media Type Registration Contents
-     11.4.  HTTP User Authentication Header
-       11.4.1.  Usage In Origin Server Authentication
-       11.4.2.  Usage in Proxy Authentication
-       11.4.3.  No Caching
+     11.4.  HTTP Header
    12. References
      12.1.  Normative References
      12.2.  Informative References
@@ -905,12 +901,6 @@ Table of Contents
    Txn-Token to communicate the Txn-Token.  The value of this header
    MUST be the JWT that represents the Txn-Token.
 
-8.2.  No response caching
-
-   A workload using Txn-tokens MUST NOT cache responses.  Workloads that
-   receive requests that use Txn-tokens MAY include the private caching
-   directive ([RFC9111] Section 5.2.2.7) in its response.
-
 9.  Security Considerations
 
 9.1.  Txn-Token Lifetime
@@ -1108,29 +1098,25 @@ Table of Contents
 
    *  Contact Person: Atul Tulshibagwale
 
-11.4.  HTTP User Authentication Header
+11.4.  HTTP Header
 
-   The header name txn-token is proposed to be added to the HTTP User
-   Authentication Schemes registry [IANA.HTTP.AuthSchemes].  This header
-   is defined in the section Section 8.1.  Adding this new
-   authentication scheme requires an IETF Review according to the
-   process specified in [RFC9110] Section 16.4.1.  The following
-   clarifications are provided for that purpose:
+   The header name Txn-Token is proposed to be added to the HTTP Field
+   Name Registry [IANA.HTTP.FieldNames].  This header is defined in the
+   section Section 8.1.  The following entry will be proposed in the
+   HTTP Field Name Registry:
 
-11.4.1.  Usage In Origin Server Authentication
+   *  Field Name: Txn-Token
 
-   Txn-tokens are not expected to support and therefore not usable for
-   Origin Server Authentication ([RFC9110] Section 11.6.1)
+   *  Status: permanent
 
-11.4.2.  Usage in Proxy Authentication
+   *  Specification Document: Section Section 8.1 of this document
 
-   Txn-tokens are not expected to support and therefore not usable for
-   Proxy Authentication ([RFC9110] Section 11.7.1)
-
-11.4.3.  No Caching
-
-   Section Section 8.2 specifies that responses MUST NOT be cached,
-   satisfying this requirement for new HTTP Authentication Schemes.
+   *  Comment: The Authorization header cannot be used for Txn-tokens
+      because that may be use for service-to-service authorization, and
+      the services may simulatneously require the use of Txn-tokens to
+      convey detailed immutable information such as user identity and
+      details of fine-grained authorization that are included in the
+      Txn-token.
 
 12.  References
 
@@ -1190,9 +1176,9 @@ Table of Contents
               DOI 10.17487/RFC9111, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9111>.
 
-   [IANA.HTTP.AuthSchemes]
+   [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
-              <https://www.iana.org/assignments/http-authschemes/>.
+              <https://www.iana.org/assignments/http-fields/>.
 
    [IANA.OAuth.Parameters]
               IANA, "OAuth Parameters", n.d.,
