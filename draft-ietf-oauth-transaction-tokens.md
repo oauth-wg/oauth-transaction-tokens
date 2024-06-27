@@ -596,7 +596,7 @@ The authorization model within a trust domain boundary is most often quite diffe
 
 # Privacy Considerations {#Privacy}
 
-## Obfucation of Personal Information
+## Obfuscation of Personal Information
 Some `rctx` claims may be considered personal information in some jurisdictions
 and if so their values need to be obfuscated. For example, originating IP address
 (`req_ip`) is often considered personal information and in that case must be
