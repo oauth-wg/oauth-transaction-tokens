@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-06-25T00:13:22.943153+00:00",
+  "timestamp": "2024-06-27T00:13:32.817367+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1826,7 +1826,7 @@
       ],
       "body": "This issue is to track different deployment models for the Transaction Token Service \r\n- embedded with the AS\r\n- embedded with an API GW\r\n- standalone service\r\n- ???",
       "createdAt": "2024-05-17T19:14:19Z",
-      "updatedAt": "2024-06-14T16:30:00Z",
+      "updatedAt": "2024-06-26T06:46:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -1842,6 +1842,13 @@
           "body": "Notes from call on 06-14-2024\r\n- In a small deployment, the TTS could be a part of the AS, but for multi-region deployments, it could be distributed\r\n- Does thinking through this bring any new requirements to the spec\r\n- (Justin) We should think through this to make sure we are not over optimizing\r\n- (Justin) A TTS is going to be a part of an AS for a lot of systems, but in more workload focused systems, it could be a part of the \"workload bundle\" or something. It has less to do with the AS in that case\r\n- (George) In that context, if my workload needs to initiate 3 different types of transactions by calling 3 different workloads, my service would still go to the TTS to get a TraT for each use case. In the Lambda case, one could provision the Lambda with a pre-injected TraT. A Kubernetes WL would get a workload token at startup, but would need a TraT per request.\r\n- (Justin) Agree that these are two different things. There isn't going to be just one way for this to show up at runtime. This is different from access tokens\r\n- (Pieter) We could have at least one TTS per cluster. Having it called out that it can be standalone, or a part of the AS will be interesting. We should call out the security considerations of standalone, so that we don't redo all the work that AS security considerations already cover\r\n- (Pieter) In WIMSE, a deliverable is local token issuance. There's a model where the TraT is embedded in the workload (the workload is self-issuing)\r\n- (George) One of the reasons to create this issue is to collect these ideas. We could collect these  different ideas, and discuss in Vancouver. People who have deployed something similar already would be useful to get feedback from.\r\n- (Atul) Can we individually contribute slides that can be discussed in Vancouver?\r\n- (Justin) Are we collecting these in a Wiki page, or a temporary section of the document that we know we are going to discard.\r\n- (George) We should just add it to this issue.\r\n- (Pieter) We should raise this both in the WIMSE and the OAuth WG in Vancouver\r\n- ",
           "createdAt": "2024-06-14T16:29:54Z",
           "updatedAt": "2024-06-14T16:29:54Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "Here is how we deployed the TTS in our environment:\r\n\r\nAlthough the TTS is a logical part of the AS system (and provided by the same team), it is a separate microservice than the authorizarion and token endpoints of the AS used by OAuth clients. The auth and token endpoints used by clients are reachable by clients outside of the company network, while the TTS endpoint is only reachable from within the company network. The key to sign the TraT is different from the key material used to encrypt/sign the ATs issued by the externally reachable token endpoint. Hence the \"iss\" and JWKS uris are different. We have multiple data centers and in each DC the TTS is available. The \"iss\" used by all TTS is the same for all DCs; a DC agnostic URI. All TTS deployments share the same key material.",
+          "createdAt": "2024-06-26T06:46:23Z",
+          "updatedAt": "2024-06-26T06:46:23Z"
         }
       ]
     },
@@ -6741,6 +6748,67 @@
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 105,
+      "id": "PR_kwDOJt_WwM5zjuKe",
+      "title": "Added HTTP Header registration requirements",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/105",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-06-25T23:11:34Z",
+      "updatedAt": "2024-06-26T19:13:48Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "7d004dd6444511ad0be17d395be56a4b1dab5e60",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "add-header-iana",
+      "headRefOid": "e41a34439b0ee1dc61f04e644f566807b6dee243",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\r\n> Brian Campbell 7:28 AM a new header is not the same thing as a new HTTP Authentication Scheme and there seems to be some conflation of things here\r\n\r\nSwitched to defining a new HTTP header.",
+          "createdAt": "2024-06-26T18:30:04Z",
+          "updatedAt": "2024-06-26T18:30:04Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM5_rjhI",
+          "commit": {
+            "abbreviatedOid": "46a1d23"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-06-26T14:48:42Z",
+          "updatedAt": "2024-06-26T14:48:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM5_r_QW",
+          "commit": {
+            "abbreviatedOid": "46a1d23"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Atul Tulshibagwale\r\n  5:14 PM\r\nAdded a section that will help register Txn-Token as a new HTTP Authentication Scheme, when this draft progress to WGLC: https://github.com/oauth-wg/oauth-transaction-tokens/pull/105. Please review!\r\n[#105 Added HTTP Authentication Scheme registration requirements](https://github.com/oauth-wg/oauth-transaction-tokens/pull/105)\r\n<https://github.com/[oauth-wg/oauth-transaction-tokens](https://github.com/oauth-wg/oauth-transaction-tokens)|oauth-wg/oauth-transaction-tokens>oauth-wg/oauth-transaction-tokens | Yesterday at 5:11 PM | Added by [GitHub](https://ietf.slack.com/services/B058XLB1MMY)\r\n\r\n\r\nBrian Campbell\r\n  7:28 AM\r\na new header is not the same thing as a new HTTP Authentication Scheme and there seems to be some conflation of things here",
+          "createdAt": "2024-06-26T15:30:48Z",
+          "updatedAt": "2024-06-26T15:30:48Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
