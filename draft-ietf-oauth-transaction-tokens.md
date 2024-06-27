@@ -92,7 +92,7 @@ normative:
     author:
     - name: IANA
   OpenIdConnect:
-    title: OpenID Connect Core 1.0 incorporating errata set 1
+    title: OpenID Connect Core 1.0 incorporating errata set 2
     target: https://openid.net/specs/openid-connect-core-1_0.html
     author:
     - name: Nat Sakimura
