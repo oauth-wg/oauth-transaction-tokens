@@ -128,7 +128,7 @@ Modern computing architectures often use multiple independently running componen
 * Arbitrary user impersonation
 * Parameter modification or augmentation
 
-The results of these actions are unauthorised access to resources.
+The results of these actions are unauthorized access to resources.
 
 # Overview
 Transaction Tokens (Txn-Token) are a means to mitigate damage from such attacks or spurious invocations. A valid Txn-Token indicates a valid external invocation.
@@ -286,10 +286,10 @@ Workload:
 : An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
 
 Trust Domain:
-: A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces.
+: A virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
 
 External Endpoint:
-: A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain.
+: A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.
 
 Call Chain:
 : A sequence of invocations that results from the invocation of an external endpoint.
@@ -350,7 +350,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A String defining the purpose or intent of this transaction.
 
 `azd`:
-: OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain.
+: OPTIONAL A JSON object that contains values that remain immutable throughout the call chain.
 
 `rctx`:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
@@ -372,7 +372,7 @@ The Txn-Token SHOULD contain an `azd` claim. The value of this claim is a JSON o
 
 Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.
 
-Whereas the `rctx` field contains environmental values related to the request, the `azd` field contains the actual authorizaiton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `azd` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
+Whereas the `rctx` field contains environmental values related to the request, the `azd` field contains the actual authorizaton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `azd` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
 
 The following is a non-normative example of an `azd` claim:
 
@@ -390,7 +390,7 @@ The following is a non-normative example of an `azd` claim:
 
 #### Requesting Workload Identifier
 
-It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. By default the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there is more than a single value, then `req_wl` will be prepresented by an array of StringOrURIs.
+It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. By default, the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there is more than a single value, then `req_wl` will be represented by an array of StringOrURIs.
 
 ~~~ json
 {
@@ -525,7 +525,7 @@ A successful response to a Txn-Token Request by a Transaction Token Service is c
 ~~~ http
 HTTP/1.1 200 OK
 Content-Type: application/json
-Cache-Control: no-cache, no-store
+Cache-Control: no-store
 
 {
   "token_type": "N_A",
@@ -596,11 +596,11 @@ The authorization model within a trust domain boundary is most often quite diffe
 
 # Privacy Considerations {#Privacy}
 
-## Obsfucation of Personal Information
+## Obfucation of Personal Information
 Some `rctx` claims may be considered personal information in some jurisdictions
-and if so their values need to be obsfucated. For example, originating IP address
-(`req_ip`) is often considerd personal information and in that case must be
-protected through some obsfucation method (e.g. salted SHA256).
+and if so their values need to be obfuscated. For example, originating IP address
+(`req_ip`) is often considered personal information and in that case must be
+protected through some obfuscation method (e.g. salted SHA256).
 
 ## Logging
 Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Information (PII). What constitutes PII depends upon the use case, but in some cases even an email address (which could be a `sub` value) can be protected PII, which should not be logged.
