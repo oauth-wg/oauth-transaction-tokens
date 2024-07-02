@@ -675,7 +675,7 @@ The header name `Txn-Token` is proposed to be added to the HTTP Field Name Regis
 * Field Name: Txn-Token
 * Status: permanent
 * Specification Document: Section {{txn-token-http-header}} of this document
-* Comment: The `Authorization` header cannot be used for Txn-tokens because that may be use for service-to-service authorization, and the services may simulatneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.
+* Comment: The `Authorization` header cannot be used for Txn-tokens because that may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.
 
 --- back
 
