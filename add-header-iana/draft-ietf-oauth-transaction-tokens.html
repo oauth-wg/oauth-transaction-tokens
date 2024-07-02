@@ -1278,7 +1278,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
-                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-obsfucation-of-personal-inf" class="internal xref">Obsfucation of Personal Information</a></p>
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-obfuscation-of-personal-inf" class="internal xref">Obfuscation of Personal Information</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
                 <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-logging" class="internal xref">Logging</a></p>
@@ -1343,7 +1343,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <p id="section-1-2.3.1">Parameter modification or augmentation<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-1-3">The results of these actions are unauthorised access to resources.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-3">The results of these actions are unauthorized access to resources.<a href="#section-1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="overview">
@@ -1396,7 +1396,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
               <p id="section-2.2.1-2.3.1">Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token<a href="#section-2.2.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-2.2.1-3">The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens of their own.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-3">The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.2.1-4">If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token.<a href="#section-2.2.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1605,12 +1605,12 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
         <dd class="break"></dd>
 <dt id="section-4-1.3">Trust Domain:</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.4">
-          <p id="section-4-1.4.1">A virtually or physically separated network, which contains two or more workloads. The workloads within an Trust Domain may be invoked only through published interfaces.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.4.1">A virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.5">External Endpoint:</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.6">
-          <p id="section-4-1.6.1">A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain.<a href="#section-4-1.6.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.6.1">A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.<a href="#section-4-1.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.7">Call Chain:</dt>
@@ -1727,7 +1727,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.15">
 <code>azd</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.16">
-            <p id="section-5.2-2.16.1">OPTIONAL A JSON object that conatains values that remain immutable throughout the call chain.<a href="#section-5.2-2.16.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.16.1">OPTIONAL A JSON object that contains values that remain immutable throughout the call chain.<a href="#section-5.2-2.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.17">
@@ -1772,7 +1772,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
           </h4>
 <p id="section-5.2.3-1">The Txn-Token SHOULD contain an <code>azd</code> claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.3-2">Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
-<p id="section-5.2.3-3">Whereas the <code>rctx</code> field contains environmental values related to the request, the <code>azd</code> field contains the actual authorizaiton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the <code>azd</code> field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">Whereas the <code>rctx</code> field contains environmental values related to the request, the <code>azd</code> field contains the actual authorizaton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the <code>azd</code> field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.2.3-4">The following is a non-normative example of an <code>azd</code> claim:<a href="#section-5.2.3-4" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-5.2.3-5">
 <pre>
@@ -1792,7 +1792,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
             <h5 id="name-requesting-workload-identif">
 <a href="#section-5.2.3.1" class="section-number selfRef">5.2.3.1. </a><a href="#name-requesting-workload-identif" class="section-name selfRef">Requesting Workload Identifier</a>
             </h5>
-<p id="section-5.2.3.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default the <code>req_wl</code> is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a StringOrURI. If there is more than a single value, then <code>req_wl</code> will be prepresented by an array of StringOrURIs.<a href="#section-5.2.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default, the <code>req_wl</code> is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a StringOrURI. If there is more than a single value, then <code>req_wl</code> will be represented by an array of StringOrURIs.<a href="#section-5.2.3.1-1" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-5.2.3.1-2">
 <pre>
 {
@@ -2008,7 +2008,7 @@ The Transaction Token Service MUST set the <code>txn</code> claim to a unique ID
 <pre>
 HTTP/1.1 200 OK
 Content-Type: application/json
-Cache-Control: no-cache, no-store
+Cache-Control: no-store
 
 {
   "token_type": "N_A",
@@ -2169,15 +2169,15 @@ Cache-Control: no-cache, no-store
       <h2 id="name-privacy-considerations">
 <a href="#section-10" class="section-number selfRef">10. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<div id="obsfucation-of-personal-information">
+<div id="obfuscation-of-personal-information">
 <section id="section-10.1">
-        <h3 id="name-obsfucation-of-personal-inf">
-<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-obsfucation-of-personal-inf" class="section-name selfRef">Obsfucation of Personal Information</a>
+        <h3 id="name-obfuscation-of-personal-inf">
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-obfuscation-of-personal-inf" class="section-name selfRef">Obfuscation of Personal Information</a>
         </h3>
 <p id="section-10.1-1">Some <code>rctx</code> claims may be considered personal information in some jurisdictions
-and if so their values need to be obsfucated. For example, originating IP address
-(<code>req_ip</code>) is often considerd personal information and in that case must be
-protected through some obsfucation method (e.g. salted SHA256).<a href="#section-10.1-1" class="pilcrow">¶</a></p>
+and if so their values need to be obfuscated. For example, originating IP address
+(<code>req_ip</code>) is often considered personal information and in that case must be
+protected through some obfuscation method (e.g. salted SHA256).<a href="#section-10.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="logging">
@@ -2448,7 +2448,7 @@ protected through some obsfucation method (e.g. salted SHA256).<a href="#section
 <dd class="break"></dd>
 <dt id="OpenIdConnect">[OpenIdConnect]</dt>
       <dd>
-<span class="refAuthor">Sakimura, N.</span>, <span class="refAuthor">Bradley, J.</span>, <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Medeiros, B. de.</span>, and <span class="refAuthor">C. Mortimore</span>, <span class="refTitle">"OpenID Connect Core 1.0 incorporating errata set 1"</span>, <time datetime="2014-11" class="refDate">November 2014</time>, <span>&lt;<a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a>&gt;</span>. </dd>
+<span class="refAuthor">Sakimura, N.</span>, <span class="refAuthor">Bradley, J.</span>, <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Medeiros, B. de.</span>, and <span class="refAuthor">C. Mortimore</span>, <span class="refTitle">"OpenID Connect Core 1.0 incorporating errata set 2"</span>, <time datetime="2014-11" class="refDate">November 2014</time>, <span>&lt;<a href="https://openid.net/specs/openid-connect-core-1_0.html">https://openid.net/specs/openid-connect-core-1_0.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
