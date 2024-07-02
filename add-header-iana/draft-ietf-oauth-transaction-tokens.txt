@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 28 December 2024                                    Capital One
+Expires: 3 January 2025                                      Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                            26 June 2024
+                                                             2 July 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 December 2024.
+   This Internet-Draft will expire on 3 January 2025.
 
 Copyright Notice
 
@@ -1112,8 +1112,8 @@ Table of Contents
    *  Specification Document: Section Section 8.1 of this document
 
    *  Comment: The Authorization header cannot be used for Txn-tokens
-      because that may be use for service-to-service authorization, and
-      the services may simulatneously require the use of Txn-tokens to
+      because that may be used for service-to-service authorization, and
+      the services may simultaneously require the use of Txn-tokens to
       convey detailed immutable information such as user identity and
       details of fine-grained authorization that are included in the
       Txn-token.
