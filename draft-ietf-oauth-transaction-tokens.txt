@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 23 December 2024                                    Capital One
+Expires: 3 January 2025                                      Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                            21 June 2024
+                                                             2 July 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 December 2024.
+   This Internet-Draft will expire on 3 January 2025.
 
 Copyright Notice
 
@@ -111,7 +111,7 @@ Table of Contents
      9.4.  Replacement Tokens
      9.5.  Scope and Purpose processing
    10. Privacy Considerations
-     10.1.  Obsfucation of Personal Information
+     10.1.  Obfuscation of Personal Information
      10.2.  Logging
    11. IANA Considerations
      11.1.  OAuth URI Subregistry Contents
@@ -145,7 +145,7 @@ Table of Contents
 
    *  Parameter modification or augmentation
 
-   The results of these actions are unauthorised access to resources.
+   The results of these actions are unauthorized access to resources.
 
 2.  Overview
 
@@ -201,7 +201,7 @@ Table of Contents
    The Txn-Token Service responds to a successful invocation by
    generating a Txn-Token.  The calling workload then uses the Txn-Token
    to authorize its calls to subsequent workloads.  Subsequent workloads
-   may obtain Txn-Tokens of their own.
+   may obtain Txn-Tokens on their own.
 
    If the requesting service does not have an inbound token that it can
    use in its request to the Txn-Token Service, it generates a self-
@@ -380,10 +380,10 @@ Table of Contents
       such as managed databases.
 
    Trust Domain:  A virtually or physically separated network, which
-      contains two or more workloads.  The workloads within an Trust
+      contains two or more workloads.  The workloads within a Trust
       Domain may be invoked only through published interfaces.
 
-   External Endpoint:  A published interface to an Trust Domain that
+   External Endpoint:  A published interface to a Trust Domain that
       results in the invocation of a workload within the Trust Domain.
 
    Call Chain:  A sequence of invocations that results from the
@@ -464,7 +464,7 @@ Table of Contents
    purp:  REQUIRED A String defining the purpose or intent of this
       transaction.
 
-   azd:  OPTIONAL A JSON object that conatains values that remain
+   azd:  OPTIONAL A JSON object that contains values that remain
       immutable throughout the call chain.
 
    rctx:  OPTIONAL A JSON object that describes the environmental
@@ -522,7 +522,7 @@ Table of Contents
    context.
 
    Whereas the rctx field contains environmental values related to the
-   request, the azd field contains the actual authorizaiton details that
+   request, the azd field contains the actual authorizaton details that
    are determined by the TTS.  These values are used by services using
    the Txn-Token to reliably obtain specific parameters needed to
    perform their work.  The content of the azd field is determined by
@@ -546,7 +546,7 @@ Table of Contents
    It is useful to be able to track the set of workloads that have
    requested a Txn-Token.  The req_wl claim allows for tracking this
    information even through requests for a replacement Txn-Token.  By
-   default the req_wl is a StringOrURI representing the original
+   default, the req_wl is a StringOrURI representing the original
    workload entity that requested the Txn-Token.  However, if a workload
    within the path of servicing the transaction requests a replacement
    Txn-Token, then the Transaction Token Service will append the new
@@ -554,7 +554,7 @@ Table of Contents
    claim.  This provides a "pathing" mechanism to track which services
    have requested replacement Txn-Tokens.  If there is only a single
    value the req_wl will be a StringOrURI.  If there is more than a
-   single value, then req_wl will be prepresented by an array of
+   single value, then req_wl will be represented by an array of
    StringOrURIs.
 
    {
@@ -803,7 +803,7 @@ Table of Contents
 
    HTTP/1.1 200 OK
    Content-Type: application/json
-   Cache-Control: no-cache, no-store
+   Cache-Control: no-store
 
    {
      "token_type": "N_A",
@@ -967,13 +967,13 @@ Table of Contents
 
 10.  Privacy Considerations
 
-10.1.  Obsfucation of Personal Information
+10.1.  Obfuscation of Personal Information
 
    Some rctx claims may be considered personal information in some
-   jurisdictions and if so their values need to be obsfucated.  For
-   example, originating IP address (req_ip) is often considerd personal
+   jurisdictions and if so their values need to be obfuscated.  For
+   example, originating IP address (req_ip) is often considered personal
    information and in that case must be protected through some
-   obsfucation method (e.g. salted SHA256).
+   obfuscation method (e.g. salted SHA256).
 
 10.2.  Logging
 
@@ -1161,7 +1161,7 @@ Table of Contents
    [OpenIdConnect]
               Sakimura, N., Bradley, J., Jones, M., Medeiros, B. de.,
               and C. Mortimore, "OpenID Connect Core 1.0 incorporating
-              errata set 1", November 2014,
+              errata set 2", November 2014,
               <https://openid.net/specs/openid-connect-core-1_0.html>.
 
 12.2.  Informative References
