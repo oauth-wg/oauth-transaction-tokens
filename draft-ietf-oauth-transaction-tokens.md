@@ -80,7 +80,13 @@ normative:
   RFC8417: # Secure Event Token (SET)
   RFC9068: # JWT Profile for OAuth 2.0 Access Tokens
   RFC9110: # HTTP
+  RFC9111: # HTTP Caching
 
+  IANA.HTTP.FieldNames:
+    title: HTTP Authentication Schemes
+    target: https://www.iana.org/assignments/http-fields/
+    author:
+      -name: IANA
   IANA.OAuth.Parameters:
     title: OAuth Parameters
     target: https://www.iana.org/assignments/oauth-parameters
@@ -570,7 +576,7 @@ The requesting workload MUST have a pre-configured location for the Transaction 
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
 
-## Txn-Token HTTP Header
+## Txn-Token HTTP Header {#txn-token-http-header}
 A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.
 
 # Security Considerations {#Security}
@@ -662,6 +668,14 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Restrictions on Usage: Any application supporting the use of JWTs
 * Intended Usage: Common
 * Contact Person: Atul Tulshibagwale
+
+## HTTP Header
+The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}}. This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry:
+
+* Field Name: Txn-Token
+* Status: permanent
+* Specification Document: Section {{txn-token-http-header}} of this document
+* Comment: The `Authorization` header cannot be used for Txn-tokens because that may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.
 
 --- back
 
