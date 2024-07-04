@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 3 January 2025                                      Capital One
+Expires: 5 January 2025                                      Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                             2 July 2024
+                                                             4 July 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 January 2025.
+   This Internet-Draft will expire on 5 January 2025.
 
 Copyright Notice
 
@@ -117,6 +117,7 @@ Table of Contents
      11.1.  OAuth URI Subregistry Contents
      11.2.  JWT Claims Registry Contents
      11.3.  IANA Media Type Registration Contents
+     11.4.  HTTP Header
    12. References
      12.1.  Normative References
      12.2.  Informative References
@@ -1097,6 +1098,26 @@ Table of Contents
 
    *  Contact Person: Atul Tulshibagwale
 
+11.4.  HTTP Header
+
+   The header name Txn-Token is proposed to be added to the HTTP Field
+   Name Registry [IANA.HTTP.FieldNames].  This header is defined in the
+   section Section 8.1.  The following entry will be proposed in the
+   HTTP Field Name Registry:
+
+   *  Field Name: Txn-Token
+
+   *  Status: permanent
+
+   *  Specification Document: Section Section 8.1 of this document
+
+   *  Comment: The Authorization header cannot be used for Txn-tokens
+      because that may be used for service-to-service authorization, and
+      the services may simultaneously require the use of Txn-tokens to
+      convey detailed immutable information such as user identity and
+      details of fine-grained authorization that are included in the
+      Txn-token.
+
 12.  References
 
 12.1.  Normative References
@@ -1149,6 +1170,15 @@ Table of Contents
               Ed., "HTTP Semantics", STD 97, RFC 9110,
               DOI 10.17487/RFC9110, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9110>.
+
+   [RFC9111]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Caching", STD 98, RFC 9111,
+              DOI 10.17487/RFC9111, June 2022,
+              <https://www.rfc-editor.org/rfc/rfc9111>.
+
+   [IANA.HTTP.FieldNames]
+              "HTTP Authentication Schemes", n.d.,
+              <https://www.iana.org/assignments/http-fields/>.
 
    [IANA.OAuth.Parameters]
               IANA, "OAuth Parameters", n.d.,
