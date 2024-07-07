@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-04T00:13:34.457227+00:00",
+  "timestamp": "2024-07-07T00:15:15.083603+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1895,9 +1895,17 @@
       "labels": [],
       "body": "I'm sorry if I miss anything but why does this spec put so much emphasize on \"external\" invocations?\r\n> Transaction Tokens (Txn-Tokens) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation\r\n\r\nand\r\n> A valid Txn-Token indicates a valid external invocation\r\n\r\nand in many other places. This somehow limits the set of use cases where Txn Token tokens can be applied. ServiceA can make a m2m call to ServiceB in an asynchronous way, say because of some task in its scheduler, etc.\r\n\r\nI would suggest shortening \"external invocations to \"invocations\".",
       "createdAt": "2024-06-27T23:50:56Z",
-      "updatedAt": "2024-06-27T23:50:56Z",
+      "updatedAt": "2024-07-04T16:05:44Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What about explicitly calling out in the overview that both external and internal use cases are supported by this specifications? Support for internal use cases is called out in the section around the use of self-signed tokens and the definition associated with the `subject_token` parameter. However, I agree it's not called out as an equal use case.",
+          "createdAt": "2024-07-04T16:05:43Z",
+          "updatedAt": "2024-07-04T16:05:43Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -6784,24 +6792,26 @@
       "id": "PR_kwDOJt_WwM5zjuKe",
       "title": "Added HTTP Header registration requirements",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/105",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-06-25T23:11:34Z",
-      "updatedAt": "2024-07-02T21:04:31Z",
+      "updatedAt": "2024-07-04T00:56:21Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "95f9bdcd0e539c697a05b74a7a3a407834b9f439",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "add-header-iana",
       "headRefOid": "a01b7f975573407c2b960c8692cb5ea0355d1dbe",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-07-04T00:56:19Z",
+      "mergedAt": "2024-07-04T00:56:19Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "6f7b57d26b721974a403231d27414e1943679372"
+      },
       "comments": [
         {
           "author": "tulshi",
