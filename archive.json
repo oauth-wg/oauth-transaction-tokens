@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-11T00:14:25.773436+00:00",
+  "timestamp": "2024-07-14T00:15:41.868259+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1906,6 +1906,70 @@
           "updatedAt": "2024-07-04T16:05:43Z"
         }
       ]
+    },
+    {
+      "number": 108,
+      "id": "I_kwDOJt_WwM6Pc7bA",
+      "title": "A dummy transaction token - useful for debugging",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/108",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "There is no concept of placeholder or temporary token here. Sometimes the call chain breaks i.e some service in the chain doesn't propagate the token in header, either due to a bug or unexpected code change, in such case, the service that didn't receive token from caller can generate a dummy unsigned token with caller information (that missed to send token) and pass to next service.  So if A -> B -> C -> D and B misses to forward the header token, then C generates a dummy token with info about B and passes to D. This increases visibility for debugging. The service at end will find that its not real token but it can audit which service broke the call chain and can involve B directly to debug. Unsigned dummy token cannot be trusted hence MUST not be used for making authorization decision and MUST be used only for auditing/logging.",
+      "createdAt": "2024-07-13T06:04:53Z",
+      "updatedAt": "2024-07-13T06:04:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 109,
+      "id": "I_kwDOJt_WwM6Pc75O",
+      "title": "Key rotation guidance",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/109",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
+      "createdAt": "2024-07-13T06:10:04Z",
+      "updatedAt": "2024-07-13T06:10:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 110,
+      "id": "I_kwDOJt_WwM6Pc8IA",
+      "title": "Tx token lifetime guidance missing for replacement token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/110",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "There should be guidance for token lifetime of replacement token. A replacement token can have lifetime of whatever is left in the original token that was used to replacement or someone will keep using replacement token feature to keep increasing lifetime of the original incoming token. ",
+      "createdAt": "2024-07-13T06:12:47Z",
+      "updatedAt": "2024-07-13T06:12:47Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 111,
+      "id": "I_kwDOJt_WwM6Pc8zZ",
+      "title": "Batch or long running processes and extending lifetime of a token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/111",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
+      "createdAt": "2024-07-13T06:21:17Z",
+      "updatedAt": "2024-07-13T06:21:17Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
