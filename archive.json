@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-14T00:15:41.868259+00:00",
+  "timestamp": "2024-07-16T00:14:05.776024+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1919,9 +1919,24 @@
       "labels": [],
       "body": "There is no concept of placeholder or temporary token here. Sometimes the call chain breaks i.e some service in the chain doesn't propagate the token in header, either due to a bug or unexpected code change, in such case, the service that didn't receive token from caller can generate a dummy unsigned token with caller information (that missed to send token) and pass to next service.  So if A -> B -> C -> D and B misses to forward the header token, then C generates a dummy token with info about B and passes to D. This increases visibility for debugging. The service at end will find that its not real token but it can audit which service broke the call chain and can involve B directly to debug. Unsigned dummy token cannot be trusted hence MUST not be used for making authorization decision and MUST be used only for auditing/logging.",
       "createdAt": "2024-07-13T06:04:53Z",
-      "updatedAt": "2024-07-13T06:04:53Z",
+      "updatedAt": "2024-07-15T18:19:10Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "body": "This is awesome feedback!\r\n\r\nSome questions that come into my mind:\r\n\r\n---\r\n\r\nI suppose C will only generate the dummy token when it doesn't need to validate it or require specific caller information from A or B which it cannot securely extract from the request. Otherwise the call from B -> C would result in an authn/z error and fail - no need for an replacement token, is it? \r\n\r\n---\r\n\r\nIf B can generate dummy tokens, how can it be prevented that it does not generate a dummy token which looks like a legit token and impersonate users like this? E.g. B is compromised and generates dummy tokens to request informations from other workloads that in fact accept dummy tokens? \r\n\r\nMaybe this question is leading to the next one:\r\n\r\n---\r\n\r\nHow are dummy tokens distinguished from real ones? Is there a risk developers by mistake consider dummy tokens as trusted? \r\n\r\n\r\n",
+          "createdAt": "2024-07-15T09:04:14Z",
+          "updatedAt": "2024-07-15T09:04:14Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "> Otherwise the call from B -> C would result in an authn/z error and fail - no need for an replacement token, is it?\r\n\r\nYes. If C is validating token, then it can deny request. If C is more of an intermediate passthrough type service, then C will rely on D to deny/allow, in which case B has to send a token.\r\n\r\n> How are dummy tokens distinguished from real ones? Is there a risk developers by mistake consider dummy tokens as trusted?\r\n\r\nYes, that is the most important aspect. In general, as Hyrum's law suggests, once token is out there, we won't be able to control who uses it for what purpose. Our recommendation can be that - a token validator (e.g. Service D) MUST always use the claims in token ONLY IF validate signature exists. So that even if Service B signs it, D must deny request saying you (service B) isn't valid Tx Token service. Anyways, even if we don't specify the idea of dummy token here, someone (service B or C), can potentially overwrite the header value with its own Tx token string. \r\n\r\n",
+          "createdAt": "2024-07-15T18:19:10Z",
+          "updatedAt": "2024-07-15T18:19:10Z"
+        }
+      ]
     },
     {
       "number": 109,
@@ -1935,9 +1950,38 @@
       "labels": [],
       "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
       "createdAt": "2024-07-13T06:10:04Z",
-      "updatedAt": "2024-07-13T06:10:04Z",
+      "updatedAt": "2024-07-15T21:44:14Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "body": "Transaction tokens are Json Web Tokens (JWT) they leverage Json Web Signatures (JWS) for validation. This gives implementors/deployments a vast choice of options - from a choice between symmetric and asymmetric to various key delivery mechanisms. If I understand above correctly it is currently perfectly possible to achieve this, for instance by using the kid claim in JWT and publishing multiple asymmetric keys ahead of usage via JWKS. Please correct me if I'm wrong.\r\n\r\n---\r\n> but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.\r\n\r\nWhat sort of guarantees do you refer to? Is it enough to know that validating party can look up a asymmetric key or is it more sophisticated such as \"symmetric key is delivered and available on the host\"?",
+          "createdAt": "2024-07-15T08:55:49Z",
+          "updatedAt": "2024-07-15T08:55:49Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "> Is it enough to know that validating party can look up a asymmetric key\r\n\r\nI think so.",
+          "createdAt": "2024-07-15T18:37:01Z",
+          "updatedAt": "2024-07-15T18:37:01Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "By the way, yes JWKS provides host of options. But in this TraTs model, to optimize cost and performance impact, it is good to choose an algorithm that is OK to be expensive (CPU) while issuing a token v/s while validating a token because the number of validating parties will be a lot big in number. So algorithms that are cheaper in signature verification (ECDSA P256) could be better. \r\n\r\nBut we can recommend to choose something that is cheaper for many and expensive for Tx Token service.",
+          "createdAt": "2024-07-15T18:44:46Z",
+          "updatedAt": "2024-07-15T18:44:46Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Best practices around choice of algorithms, key rotation, etc. for TraTs could be a separate draft, IMO. I'd like to know what others in the group think.",
+          "createdAt": "2024-07-15T21:44:13Z",
+          "updatedAt": "2024-07-15T21:44:13Z"
+        }
+      ]
     },
     {
       "number": 110,
@@ -1951,9 +1995,31 @@
       "labels": [],
       "body": "There should be guidance for token lifetime of replacement token. A replacement token can have lifetime of whatever is left in the original token that was used to replacement or someone will keep using replacement token feature to keep increasing lifetime of the original incoming token. ",
       "createdAt": "2024-07-13T06:12:47Z",
-      "updatedAt": "2024-07-13T06:12:47Z",
+      "updatedAt": "2024-07-15T21:42:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "body": "I believe this is partly covered by `Section 2.3 Txn-Token Lifetime`\r\n>  Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential.\r\n\r\nHowever, I agree that this is very focused on the original token and not in cases where transaction tokens are replaced.",
+          "createdAt": "2024-07-15T09:09:57Z",
+          "updatedAt": "2024-07-15T09:09:57Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "Yes, I'd say we must include details about it so that there is some guidance for replacement tokens too. Default suggestion could be to set expiry time on replace token, same as expiryTimeOfOriginalToken. So it also discourages replacing a token multiple times. \r\n\r\nother alternatives are to keep a counter on Tx Token Service side (or inside the token itself) where we can keep track on how many times it was replaced and limit on Tx token service side if a certain token is replaced too many times but unfortunately, it will be difficult to gauge value for \"replaced too many times\".. :-)",
+          "createdAt": "2024-07-15T18:26:39Z",
+          "updatedAt": "2024-07-15T18:26:39Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The intent was that the replacement token should expire no later than the expiration of the original TraT, but I don't recollect whether that is in the spec or not.",
+          "createdAt": "2024-07-15T21:42:46Z",
+          "updatedAt": "2024-07-15T21:42:46Z"
+        }
+      ]
     },
     {
       "number": 111,
@@ -1967,9 +2033,17 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2024-07-13T06:21:17Z",
+      "updatedAt": "2024-07-15T21:41:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Interesting proposition. ",
+          "createdAt": "2024-07-15T21:41:07Z",
+          "updatedAt": "2024-07-15T21:41:07Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -6816,25 +6890,33 @@
       "id": "PR_kwDOJt_WwM5zNzYE",
       "title": "draft02 files for submission. I have performed the IDNits check, and \u2026",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/104",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "\u2026the only issue is that there are non-ascii characters",
       "createdAt": "2024-06-21T19:12:03Z",
-      "updatedAt": "2024-06-28T17:57:18Z",
+      "updatedAt": "2024-07-15T21:46:15Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7d004dd6444511ad0be17d395be56a4b1dab5e60",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "prep-for-submission",
       "headRefOid": "fb81168c371f5bb3bb233f526788f67907d2a1b7",
-      "closedAt": null,
+      "closedAt": "2024-07-15T21:46:15Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "closing this PR since we have moved to draft-03 now.",
+          "createdAt": "2024-07-15T21:46:15Z",
+          "updatedAt": "2024-07-15T21:46:15Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM6AEcyL",
