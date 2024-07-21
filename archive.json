@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-18T00:13:45.752784+00:00",
+  "timestamp": "2024-07-21T00:15:30.454842+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1826,7 +1826,7 @@
       ],
       "body": "This issue is to track different deployment models for the Transaction Token Service \r\n- embedded with the AS\r\n- embedded with an API GW\r\n- standalone service\r\n- ???",
       "createdAt": "2024-05-17T19:14:19Z",
-      "updatedAt": "2024-06-26T06:46:24Z",
+      "updatedAt": "2024-07-19T04:42:23Z",
       "closedAt": null,
       "comments": [
         {
@@ -1849,6 +1849,13 @@
           "body": "Here is how we deployed the TTS in our environment:\r\n\r\nAlthough the TTS is a logical part of the AS system (and provided by the same team), it is a separate microservice than the authorizarion and token endpoints of the AS used by OAuth clients. The auth and token endpoints used by clients are reachable by clients outside of the company network, while the TTS endpoint is only reachable from within the company network. The key to sign the TraT is different from the key material used to encrypt/sign the ATs issued by the externally reachable token endpoint. Hence the \"iss\" and JWKS uris are different. We have multiple data centers and in each DC the TTS is available. The \"iss\" used by all TTS is the same for all DCs; a DC agnostic URI. All TTS deployments share the same key material.",
           "createdAt": "2024-06-26T06:46:23Z",
           "updatedAt": "2024-06-26T06:46:23Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "Our implementation overlaps with what @obfuscoder described. One interesting thing to think about is debugging and tracing back the token to the AS that issued it. We have token identifier that identifies the region + DC in which it was issued which it makes easier for validating party to know where request came from. Sometimes the request crosses region boundary. We make sure that public key is shared across all regions. Each region+DC uses its own private+public key pair but we make the public key globally available.",
+          "createdAt": "2024-07-19T04:42:22Z",
+          "updatedAt": "2024-07-19T04:42:22Z"
         }
       ]
     },
@@ -1919,7 +1926,7 @@
       "labels": [],
       "body": "There is no concept of placeholder or temporary token here. Sometimes the call chain breaks i.e some service in the chain doesn't propagate the token in header, either due to a bug or unexpected code change, in such case, the service that didn't receive token from caller can generate a dummy unsigned token with caller information (that missed to send token) and pass to next service.  So if A -> B -> C -> D and B misses to forward the header token, then C generates a dummy token with info about B and passes to D. This increases visibility for debugging. The service at end will find that its not real token but it can audit which service broke the call chain and can involve B directly to debug. Unsigned dummy token cannot be trusted hence MUST not be used for making authorization decision and MUST be used only for auditing/logging.",
       "createdAt": "2024-07-13T06:04:53Z",
-      "updatedAt": "2024-07-15T18:19:10Z",
+      "updatedAt": "2024-07-19T02:20:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -1935,6 +1942,20 @@
           "body": "> Otherwise the call from B -> C would result in an authn/z error and fail - no need for an replacement token, is it?\r\n\r\nYes. If C is validating token, then it can deny request. If C is more of an intermediate passthrough type service, then C will rely on D to deny/allow, in which case B has to send a token.\r\n\r\n> How are dummy tokens distinguished from real ones? Is there a risk developers by mistake consider dummy tokens as trusted?\r\n\r\nYes, that is the most important aspect. In general, as Hyrum's law suggests, once token is out there, we won't be able to control who uses it for what purpose. Our recommendation can be that - a token validator (e.g. Service D) MUST always use the claims in token ONLY IF validate signature exists. So that even if Service B signs it, D must deny request saying you (service B) isn't valid Tx Token service. Anyways, even if we don't specify the idea of dummy token here, someone (service B or C), can potentially overwrite the header value with its own Tx token string. \r\n\r\n",
           "createdAt": "2024-07-15T18:19:10Z",
           "updatedAt": "2024-07-15T18:19:10Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "We are actually facing this issue in our current deployments. Although we have some workloads which already receive, validate and forward TraTs, they are being called by other workloads which do not present TraTs yet and on the other end, they call other workloads which just ignore the TraTs and don't pass them along yet. So during this rollout phase (which can take months or even years) it is quite common that TraTs are getting lost frequently and no workload can actually enforce TraT validation.\r\n\r\nHowever, we do not think that any workload should be able to create its own dummy TraT just to fill the gap. We think that only the TraT Service should have the authority to issue TraTs even for those cases where gaps need to be filled. This scenario is similar to presenting self-signed tokens to the TraT Service which then issues TraTs to the requestors. The TraT Service decides which client is allowed to present self-signed tokens. While deployment is progressing the number of allowed clients will be reduced over time.",
+          "createdAt": "2024-07-18T07:22:29Z",
+          "updatedAt": "2024-07-18T07:22:29Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "Requesting a new Trats token from issuer always makes sense. The idea of dummy token has some value -\r\n\r\nfor example, not every service in call graph especially where 1000s of services are involved require to connect with Trats. Keeps it simple. Also latency profile of request is predictable otherwise remote call could change latency profile suddenly because propagation broke and it resulted in remote calls.\r\n\r\n\r\nI ack that We can keep our RFC simple - suggest that an intermediate service doesn\u2019t receive token from caller then it can request new one. However such a token may not exactly have claims like what caller might sent and hence the response from validating party can differ. \r\n\r\n\r\non separate note, dummy tokens helped us because when you want to do something like Trats and not everyone is propagating tokens then you need a way to identify who is not doing it and ask them to propagate. This solution for this  identification problem has to be cheap otherwise 1000s of services will request tokens from Tx token service and brown out the Tx token service. ",
+          "createdAt": "2024-07-19T02:20:15Z",
+          "updatedAt": "2024-07-19T02:20:15Z"
         }
       ]
     },
@@ -1950,7 +1971,7 @@
       "labels": [],
       "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
       "createdAt": "2024-07-13T06:10:04Z",
-      "updatedAt": "2024-07-15T21:44:14Z",
+      "updatedAt": "2024-07-18T07:06:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -1980,6 +2001,13 @@
           "body": "Best practices around choice of algorithms, key rotation, etc. for TraTs could be a separate draft, IMO. I'd like to know what others in the group think.",
           "createdAt": "2024-07-15T21:44:13Z",
           "updatedAt": "2024-07-15T21:44:13Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "I don't think a separate draft should be necessary. I suggest to give some recommendation within the current draft (security consideration section).\r\n\r\nTime spent on token validation by workloads should be considered, but I don't think we should deviate too much from RFC7518 for example. Otherwise we make it more difficult for implementers and interop.\r\n\r\nWhat every deployment needs to consider is that there will be a lot more TraTs being issued than Access Tokens (ATs). One AT, which is valid for maybe an hour can be used in thousands of requests to resource servers which will each create new TraTs. This can have an impact on performance as well as available key space and collision probabilities.\r\n\r\nRe key rotation and availability of signature key material: This aspect is already adressed by standards we rely upon. I don't think that there is need for any specifics. Naturally \"kid\" should be used as well as making validation keys available before they are being used. Workloads should fetch key sets on demand if they encounter a kid they don't know.\r\n",
+          "createdAt": "2024-07-18T07:06:04Z",
+          "updatedAt": "2024-07-18T07:06:04Z"
         }
       ]
     },
@@ -1995,7 +2023,7 @@
       "labels": [],
       "body": "There should be guidance for token lifetime of replacement token. A replacement token can have lifetime of whatever is left in the original token that was used to replacement or someone will keep using replacement token feature to keep increasing lifetime of the original incoming token. ",
       "createdAt": "2024-07-13T06:12:47Z",
-      "updatedAt": "2024-07-15T21:42:48Z",
+      "updatedAt": "2024-07-19T08:48:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -2018,6 +2046,27 @@
           "body": "The intent was that the replacement token should expire no later than the expiration of the original TraT, but I don't recollect whether that is in the spec or not.",
           "createdAt": "2024-07-15T21:42:46Z",
           "updatedAt": "2024-07-15T21:42:46Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "If there are long running batch processes involved, it may be necessary to extend lifetime of such TraTs (or issue TraTs out of bounds as discussed in other issues). However, the TraT Service should have the authority about what is possible.",
+          "createdAt": "2024-07-18T07:11:37Z",
+          "updatedAt": "2024-07-18T07:11:37Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "I didn\u2019t see Tx token lifetime for replacement token in draft. We should add it.\r\n\r\nabout long running process I have a proposal in other GitHub issue. In general the Trats service can decide to issue tokens with higher lifetime but with Trats tokens it\u2019s a risk to have higher lifetime as they are bearer tokens can be used by anyone. So my proposal addresses that by using another token for it. ",
+          "createdAt": "2024-07-19T02:23:14Z",
+          "updatedAt": "2024-07-19T02:23:14Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "I didn't mean that the TTS should issue TraTs with long lifetimes. That would be bad indeed. Instead the TTS should be able to issue new TraTs with short lifetime, but the lifetime can essentially exceed that of the presented one. As I suggested in #62, the presented TxT could even be expired aand the TTS could allow to issue a new TxT to that specific workload as the TTS knows that this workload is a long running batch processor.",
+          "createdAt": "2024-07-19T08:48:23Z",
+          "updatedAt": "2024-07-19T08:48:23Z"
         }
       ]
     },
