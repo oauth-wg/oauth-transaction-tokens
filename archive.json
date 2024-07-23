@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-21T00:15:30.454842+00:00",
+  "timestamp": "2024-07-23T00:14:08.443541+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2100,6 +2100,70 @@
           "updatedAt": "2024-07-16T16:20:08Z"
         }
       ]
+    },
+    {
+      "number": 112,
+      "id": "I_kwDOJt_WwM6QUp0A",
+      "title": "please add document history to the draft",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/112",
+      "state": "OPEN",
+      "author": "Sakurann",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "so that people can easily review what has changed between the versions. thank you!",
+      "createdAt": "2024-07-21T10:20:42Z",
+      "updatedAt": "2024-07-21T10:20:42Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 113,
+      "id": "I_kwDOJt_WwM6QWG5e",
+      "title": "subject_token_type for Replacement Txn-Token Request",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/113",
+      "state": "OPEN",
+      "author": "dteleguin",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In [7.5.2](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#section-7.5.2):\r\n\r\n> To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in [Section 7.1](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#txn-token-request) but includes the Txn-Token to be replaced as the value of the subject_token parameter.\r\n\r\nDoes this assume that `subject_token_type` should be `urn:ietf:params:oauth:token-type:txn_token`? Should we call it out explicitly?",
+      "createdAt": "2024-07-22T01:22:11Z",
+      "updatedAt": "2024-07-22T01:22:11Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 114,
+      "id": "I_kwDOJt_WwM6Qd20v",
+      "title": "Seconds vs. milliseconds in the example",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/114",
+      "state": "OPEN",
+      "author": "dteleguin",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "In [5.2.4](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#section-5.2.4):\r\n\r\n```\r\n{\r\n  \"iat\": \"1686536226000\",\r\n  \"aud\": \"trust-domain.example\",\r\n  \"exp\": \"1686536526000\",\r\n  ...\r\n}\r\n```\r\n\r\nThe `iat` and `exp` claims are strings expressed in milliseconds. According to RFC 7519 [4.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1), those should be numerics and expressed in seconds.",
+      "createdAt": "2024-07-22T20:48:39Z",
+      "updatedAt": "2024-07-22T20:48:39Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 115,
+      "id": "I_kwDOJt_WwM6QeAZQ",
+      "title": "Audience, scope & purpose",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/115",
+      "state": "OPEN",
+      "author": "arndt-s",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
+      "createdAt": "2024-07-22T21:16:50Z",
+      "updatedAt": "2024-07-22T21:16:50Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
