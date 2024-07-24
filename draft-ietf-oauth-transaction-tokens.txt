@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 5 January 2025                                      Capital One
+Expires: 25 January 2025                                     Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                             4 July 2024
+                                                            24 July 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 January 2025.
+   This Internet-Draft will expire on 25 January 2025.
 
 Copyright Notice
 
@@ -572,9 +572,9 @@ Table of Contents
    body of a Txn-Token:
 
    {
-     "iat": "1686536226000",
+     "iat": 1686536226,
      "aud": "trust-domain.example",
-     "exp": "1686536526000",
+     "exp": 1686536586,
      "txn": "97053963-771d-49cc-a4e3-20aad399c312",
      "sub": "d084sdrt234fsaw34tr23t",
      "rctx": {
