@@ -413,9 +413,9 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
 
 ~~~ json
 {
-  "iat": "1686536226000",
+  "iat": 1686536226,
   "aud": "trust-domain.example",
-  "exp": "1686536526000",
+  "exp": 1686536586,
   "txn": "97053963-771d-49cc-a4e3-20aad399c312",
   "sub": "d084sdrt234fsaw34tr23t",
   "rctx": {
