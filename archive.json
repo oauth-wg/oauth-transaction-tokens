@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-23T00:14:08.443541+00:00",
+  "timestamp": "2024-07-25T00:13:57.599564+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1926,7 +1926,7 @@
       "labels": [],
       "body": "There is no concept of placeholder or temporary token here. Sometimes the call chain breaks i.e some service in the chain doesn't propagate the token in header, either due to a bug or unexpected code change, in such case, the service that didn't receive token from caller can generate a dummy unsigned token with caller information (that missed to send token) and pass to next service.  So if A -> B -> C -> D and B misses to forward the header token, then C generates a dummy token with info about B and passes to D. This increases visibility for debugging. The service at end will find that its not real token but it can audit which service broke the call chain and can involve B directly to debug. Unsigned dummy token cannot be trusted hence MUST not be used for making authorization decision and MUST be used only for auditing/logging.",
       "createdAt": "2024-07-13T06:04:53Z",
-      "updatedAt": "2024-07-19T02:20:16Z",
+      "updatedAt": "2024-07-24T22:37:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -1956,6 +1956,20 @@
           "body": "Requesting a new Trats token from issuer always makes sense. The idea of dummy token has some value -\r\n\r\nfor example, not every service in call graph especially where 1000s of services are involved require to connect with Trats. Keeps it simple. Also latency profile of request is predictable otherwise remote call could change latency profile suddenly because propagation broke and it resulted in remote calls.\r\n\r\n\r\nI ack that We can keep our RFC simple - suggest that an intermediate service doesn\u2019t receive token from caller then it can request new one. However such a token may not exactly have claims like what caller might sent and hence the response from validating party can differ. \r\n\r\n\r\non separate note, dummy tokens helped us because when you want to do something like Trats and not everyone is propagating tokens then you need a way to identify who is not doing it and ask them to propagate. This solution for this  identification problem has to be cheap otherwise 1000s of services will request tokens from Tx token service and brown out the Tx token service. ",
           "createdAt": "2024-07-19T02:20:15Z",
           "updatedAt": "2024-07-19T02:20:15Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "At IETF 120, @gffletch , @PieterKas and I discussed this issue. Our collective opinion is that since this is something that is related to debugging, we should not really address this in the TraTs spec.\r\n\r\nWe talked about having a separate document that describes best practices how to rollout TraTs gradually.",
+          "createdAt": "2024-07-24T22:01:57Z",
+          "updatedAt": "2024-07-24T22:05:20Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "A separate document should work fine too. That will give us opportunity to be more elaborate.",
+          "createdAt": "2024-07-24T22:37:12Z",
+          "updatedAt": "2024-07-24T22:37:12Z"
         }
       ]
     },
@@ -2023,7 +2037,7 @@
       "labels": [],
       "body": "There should be guidance for token lifetime of replacement token. A replacement token can have lifetime of whatever is left in the original token that was used to replacement or someone will keep using replacement token feature to keep increasing lifetime of the original incoming token. ",
       "createdAt": "2024-07-13T06:12:47Z",
-      "updatedAt": "2024-07-19T08:48:24Z",
+      "updatedAt": "2024-07-24T21:49:51Z",
       "closedAt": null,
       "comments": [
         {
@@ -2067,6 +2081,13 @@
           "body": "I didn't mean that the TTS should issue TraTs with long lifetimes. That would be bad indeed. Instead the TTS should be able to issue new TraTs with short lifetime, but the lifetime can essentially exceed that of the presented one. As I suggested in #62, the presented TxT could even be expired aand the TTS could allow to issue a new TxT to that specific workload as the TTS knows that this workload is a long running batch processor.",
           "createdAt": "2024-07-19T08:48:23Z",
           "updatedAt": "2024-07-19T08:48:23Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Note- combine this with any PR on \"refresh\" tokens when time extension/replacement is needed to keep language consistent.",
+          "createdAt": "2024-07-24T21:49:50Z",
+          "updatedAt": "2024-07-24T21:49:50Z"
         }
       ]
     },
@@ -2082,7 +2103,7 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2024-07-16T16:20:09Z",
+      "updatedAt": "2024-07-24T21:49:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -2098,6 +2119,20 @@
           "body": "Thanks. I think we can generalize it a bit and share some guidance for batch proposes. Important thing is to think through all security threats.",
           "createdAt": "2024-07-16T16:20:08Z",
           "updatedAt": "2024-07-16T16:20:08Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Just to make sure I understand... the \"refresh token\" (I'm going to call it the \"batch token\") is ONLY valid at the Transaction Token Service (potentially encrypted such that ONLY the Transaction Token Service can decrypt it). The \"batch token\" contains the context from the A/B transaction token with the longer TTL. I think this \"batch token\" should also be sender constrained in some way. Is this along the lines you were thinking?",
+          "createdAt": "2024-07-24T16:30:26Z",
+          "updatedAt": "2024-07-24T16:30:26Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@ashayraut Please post the description of this issue on the IETF OAuth mailing list, and point people to this issue to add their comments here. This together with Issue #110 should be addressed in a single pull request.",
+          "createdAt": "2024-07-24T21:49:58Z",
+          "updatedAt": "2024-07-24T21:49:58Z"
         }
       ]
     },
@@ -2129,25 +2164,41 @@
       "labels": [],
       "body": "In [7.5.2](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#section-7.5.2):\r\n\r\n> To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in [Section 7.1](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#txn-token-request) but includes the Txn-Token to be replaced as the value of the subject_token parameter.\r\n\r\nDoes this assume that `subject_token_type` should be `urn:ietf:params:oauth:token-type:txn_token`? Should we call it out explicitly?",
       "createdAt": "2024-07-22T01:22:11Z",
-      "updatedAt": "2024-07-22T01:22:11Z",
+      "updatedAt": "2024-07-24T15:48:05Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, I think that makes sense.",
+          "createdAt": "2024-07-24T15:48:05Z",
+          "updatedAt": "2024-07-24T15:48:05Z"
+        }
+      ]
     },
     {
       "number": 114,
       "id": "I_kwDOJt_WwM6Qd20v",
       "title": "Seconds vs. milliseconds in the example",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/114",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In [5.2.4](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#section-5.2.4):\r\n\r\n```\r\n{\r\n  \"iat\": \"1686536226000\",\r\n  \"aud\": \"trust-domain.example\",\r\n  \"exp\": \"1686536526000\",\r\n  ...\r\n}\r\n```\r\n\r\nThe `iat` and `exp` claims are strings expressed in milliseconds. According to RFC 7519 [4.1](https://www.rfc-editor.org/rfc/rfc7519#section-4.1), those should be numerics and expressed in seconds.",
       "createdAt": "2024-07-22T20:48:39Z",
-      "updatedAt": "2024-07-22T20:48:39Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-07-24T21:35:55Z",
+      "closedAt": "2024-07-24T21:35:55Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thank you! Will update the examples to be correct. ",
+          "createdAt": "2024-07-24T15:42:04Z",
+          "updatedAt": "2024-07-24T15:42:04Z"
+        }
+      ]
     },
     {
       "number": 115,
@@ -2161,7 +2212,119 @@
       "labels": [],
       "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
       "createdAt": "2024-07-22T21:16:50Z",
-      "updatedAt": "2024-07-22T21:16:50Z",
+      "updatedAt": "2024-07-24T15:47:12Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm a little confused regarding the inclusion of scope as 'scope' is only an input parameter to the Transaction Token Service and that parameter name is used because of the profiling of the Token Exchange spec. \r\n\r\nThe transaction token itself only has `aud` and `purp` and the point of using a different name than 'scope' for `purp` is that the semantics are slightly different. A transaction token should have a very fine-grained purpose and most scope values are not fine-grained. \r\n\r\nA workload should only need to validate the `aud` field to know that the transaction token is part of it's trust domain and secondly the `purp` claim to evaluate if the stated purpose is something that the workload participates in. Not also, that a workload is not required to process the `purp` claim from an authorization point of view. I can depend on what the request is and risk, etc. \r\n\r\nThe intended authorization model is that the Transaction Token Service acts as a primary PDP when issuing the transaction token and then each workload can run it's own policy (if desired) to further evaluate the validity of the request.",
+          "createdAt": "2024-07-24T15:47:11Z",
+          "updatedAt": "2024-07-24T15:47:11Z"
+        }
+      ]
+    },
+    {
+      "number": 117,
+      "id": "I_kwDOJt_WwM6Qv4GP",
+      "title": "IANA registration procedures",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/117",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We received the following email from IANA:\r\n\r\nBefore the IETF meeting, we check working group agendas for documents with IANA-related issues. We have notes about the current version of this document:\r\n\r\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-03\r\n\r\n1) We haven\u2019t been asked to update the change controller field for existing registrations, but the IESG prefers that the IETF be listed as the change controller for new registrations.\r\n\r\n2) A few minor editorial notes about the media type registration:\r\n\r\n- The applicant name and email field should be omitted. Where those fields appear on the IANA website, they\u2019re an artifact of the web form, and not officially part of the template. We\u2019re gradually removing those fields from existing registrations.\r\n\r\n- The media type registrations don\u2019t appear to include a change controller field.\r\n\r\n- The quotation marks around type, subtype, and required and optional parameters can be removed, as should the \u201c(RFC 2046)\u201d after \u201capplication.\u201d\r\n\r\nFinally, please note that RFC 6838 recommends asking the [media-types@ietf.org](mailto:media-types@ietf.org) mailing list for an informal review.\r\n\r\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us next to the RFC Editor's table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@iana.org](mailto:iana@iana.org).\r\n\r\nFor more information about IANA Considerations section requirements, please see\r\n\r\nhttps://www.iana.org/help/protocol-registration\r\n\r\nBest regards,\r\n\r\nAmanda Baber\r\nIANA Operations Manager",
+      "createdAt": "2024-07-24T21:05:47Z",
+      "updatedAt": "2024-07-24T21:05:47Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 118,
+      "id": "I_kwDOJt_WwM6Qv5QV",
+      "title": "RAR object inside a TraT",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/118",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The following was suggested by Justin at the IETF 120 session on TraTs:\r\nParaphrasing: Justin suggested a way to include a RAR object itself.",
+      "createdAt": "2024-07-24T21:08:41Z",
+      "updatedAt": "2024-07-24T21:34:36Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Email sent to the list... I'm not sure it makes sense to define this in the transaction token spec",
+          "createdAt": "2024-07-24T21:34:35Z",
+          "updatedAt": "2024-07-24T21:34:35Z"
+        }
+      ]
+    },
+    {
+      "number": 119,
+      "id": "I_kwDOJt_WwM6Qv9ND",
+      "title": "Azd claim name conflict with RAR",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/119",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The following came up in the IETF 120 session about TraTs:\r\n\r\nThere was some confusion about the re-use of the claim defined in RAR",
+      "createdAt": "2024-07-24T21:16:14Z",
+      "updatedAt": "2024-07-24T21:17:47Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "\"tad\": \"Transaction Authorization Details\" is a possible replacement name for \"azd\"",
+          "createdAt": "2024-07-24T21:17:46Z",
+          "updatedAt": "2024-07-24T21:17:46Z"
+        }
+      ]
+    },
+    {
+      "number": 120,
+      "id": "I_kwDOJt_WwM6Qv-Nk",
+      "title": "The \"N_A\" value for the \"txn\" claim can complicate processing",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/120",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The following issue came up during the IETF 120 session on TraTs:\r\nThere was a comment about some of the processing rules that was the equivalent of NULL with extra processing steps (N_A)\r\n",
+      "createdAt": "2024-07-24T21:19:28Z",
+      "updatedAt": "2024-07-24T21:26:19Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "George and Atul recommend that we should drop the sentences after \"REQUIRED A unique transaction identifier as defined in Section 2.2 of [[RFC8417](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#RFC8417)].\"\r\n\r\nSince this is a normative section, it need not have any usage guidance in there. If required we can add non-normative usage guidance such as \"The txn value MAY be used to identify the call chain\"",
+          "createdAt": "2024-07-24T21:26:18Z",
+          "updatedAt": "2024-07-24T21:26:18Z"
+        }
+      ]
+    },
+    {
+      "number": 121,
+      "id": "I_kwDOJt_WwM6QwDHF",
+      "title": "`subject_token` description needs to be more flexible",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/121",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "the following came up in the IETF 120 session about TraTs:\r\n\"Add an outline on when self-signed may be useful\r\nYaron thought self-signed wil be a footgun\r\nSuggest a simple JSON object as replacement.\"\r\n\r\nThe description of `subject_token` in section 7.1 is too rigid as it only allows an inbound token or a self-signed token. It should make it clear that an implementation may choose to have any different format for the subject_token.\r\n\r\n",
+      "createdAt": "2024-07-24T21:34:42Z",
+      "updatedAt": "2024-07-24T21:34:42Z",
       "closedAt": null,
       "comments": []
     }
@@ -6765,7 +6928,7 @@
       "labels": [],
       "body": "Added text to address issue #74",
       "createdAt": "2024-06-18T14:13:43Z",
-      "updatedAt": "2024-06-21T18:09:10Z",
+      "updatedAt": "2024-07-24T16:17:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d3febe84ae8c544e53af7ef8aeeb79419b151467",
@@ -7220,6 +7383,48 @@
           "body": "",
           "createdAt": "2024-07-02T21:03:21Z",
           "updatedAt": "2024-07-02T21:03:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 116,
+      "id": "PR_kwDOJt_WwM52XT5v",
+      "title": "Correct JSON example - address issue #114",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/116",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Correcting the JSON example to use NumericDate for `iat` and `exp` claims. Address issue #114",
+      "createdAt": "2024-07-24T16:20:57Z",
+      "updatedAt": "2024-07-24T16:31:12Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "ea45852550bdb2b74ea51202196a06bfbc4f31c6",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "json-cleanup",
+      "headRefOid": "75d2702f44c545f92779f4cb39f9ed0bc1846583",
+      "closedAt": "2024-07-24T16:31:12Z",
+      "mergedAt": "2024-07-24T16:31:11Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "bea633c0f9fb6db8521f94063665362cda2673ca"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6C9wwK",
+          "commit": {
+            "abbreviatedOid": "75d2702"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-07-24T16:21:39Z",
+          "updatedAt": "2024-07-24T16:21:39Z",
           "comments": []
         }
       ]
