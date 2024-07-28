@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-25T00:13:57.599564+00:00",
+  "timestamp": "2024-07-28T00:15:53.916686+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2212,7 +2212,7 @@
       "labels": [],
       "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
       "createdAt": "2024-07-22T21:16:50Z",
-      "updatedAt": "2024-07-24T15:47:12Z",
+      "updatedAt": "2024-07-26T13:11:01Z",
       "closedAt": null,
       "comments": [
         {
@@ -2221,6 +2221,27 @@
           "body": "I'm a little confused regarding the inclusion of scope as 'scope' is only an input parameter to the Transaction Token Service and that parameter name is used because of the profiling of the Token Exchange spec. \r\n\r\nThe transaction token itself only has `aud` and `purp` and the point of using a different name than 'scope' for `purp` is that the semantics are slightly different. A transaction token should have a very fine-grained purpose and most scope values are not fine-grained. \r\n\r\nA workload should only need to validate the `aud` field to know that the transaction token is part of it's trust domain and secondly the `purp` claim to evaluate if the stated purpose is something that the workload participates in. Not also, that a workload is not required to process the `purp` claim from an authorization point of view. I can depend on what the request is and risk, etc. \r\n\r\nThe intended authorization model is that the Transaction Token Service acts as a primary PDP when issuing the transaction token and then each workload can run it's own policy (if desired) to further evaluate the validity of the request.",
           "createdAt": "2024-07-24T15:47:11Z",
           "updatedAt": "2024-07-24T15:47:11Z"
+        },
+        {
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "body": "You are right @gffletch, `scope` is not part of the transaction token and just a parameter of token exchange that results in the `aud` claim.\r\n\r\nMy thinking during the talk was whether `aud` is truly necessary. Once the signature check has passed (either based on issuer claim + metatabase + JWKS or trust bundle) the trust domain is implicit IMO. Also, what if the signature check passed but the audience does not match with the signing keys? Are workloads expected to check and deny then?\r\n\r\nRelated, do we expect workloads to just accept transaction tokens of a single trust domain or do we see use cases where incoming transaction tokens are part of different trust domains than the workload itself?",
+          "createdAt": "2024-07-25T08:06:06Z",
+          "updatedAt": "2024-07-25T08:06:06Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So a couple of thoughts... I do think that `aud` is necessary as it's possible there could be multiple issuers that are all part of the single trust domain. For me, this makes the audience an easier way to determine the validity of the token to the workload.\r\n\r\nAs for transaction tokens that cross trust domain boundaries, I don't think we want to enable that. I'd prefer we leverage the cross domain OAuth work and the wimse token translation work to get a transaction token issued by the trust domain.\r\n\r\nWe may need to expand some thinking around authorization models and how they fit in with transaction tokens.",
+          "createdAt": "2024-07-25T16:35:18Z",
+          "updatedAt": "2024-07-25T16:35:18Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "NONE",
+          "body": "Note: Although `scope` may not be part of the TraT definition, we decided to include the `scope` value in our implementation. For us, this value should at least be validated by workloads if there isn't a more specific purpose given in the TraT. ",
+          "createdAt": "2024-07-26T13:10:59Z",
+          "updatedAt": "2024-07-26T13:10:59Z"
         }
       ]
     },
@@ -2252,7 +2273,7 @@
       "labels": [],
       "body": "The following was suggested by Justin at the IETF 120 session on TraTs:\r\nParaphrasing: Justin suggested a way to include a RAR object itself.",
       "createdAt": "2024-07-24T21:08:41Z",
-      "updatedAt": "2024-07-24T21:34:36Z",
+      "updatedAt": "2024-07-27T03:22:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -2261,6 +2282,13 @@
           "body": "Email sent to the list... I'm not sure it makes sense to define this in the transaction token spec",
           "createdAt": "2024-07-24T21:34:35Z",
           "updatedAt": "2024-07-24T21:34:35Z"
+        },
+        {
+          "author": "jricher",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "RFC9396 already defines \"authorization_details\" for use at the top level of a JWT. ",
+          "createdAt": "2024-07-27T03:22:04Z",
+          "updatedAt": "2024-07-27T03:22:04Z"
         }
       ]
     },
@@ -2276,7 +2304,7 @@
       "labels": [],
       "body": "The following came up in the IETF 120 session about TraTs:\r\n\r\nThere was some confusion about the re-use of the claim defined in RAR",
       "createdAt": "2024-07-24T21:16:14Z",
-      "updatedAt": "2024-07-24T21:17:47Z",
+      "updatedAt": "2024-07-27T03:24:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -2285,6 +2313,13 @@
           "body": "\"tad\": \"Transaction Authorization Details\" is a possible replacement name for \"azd\"",
           "createdAt": "2024-07-24T21:17:46Z",
           "updatedAt": "2024-07-24T21:17:46Z"
+        },
+        {
+          "author": "jricher",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I suggest \"txc\" or \"tctx\" for transaction context",
+          "createdAt": "2024-07-27T03:21:07Z",
+          "updatedAt": "2024-07-27T03:24:31Z"
         }
       ]
     },
