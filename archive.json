@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-07-28T00:15:53.916686+00:00",
+  "timestamp": "2024-07-30T00:14:12.605096+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2103,7 +2103,7 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2024-07-24T21:49:59Z",
+      "updatedAt": "2024-07-29T17:14:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -2133,6 +2133,13 @@
           "body": "@ashayraut Please post the description of this issue on the IETF OAuth mailing list, and point people to this issue to add their comments here. This together with Issue #110 should be addressed in a single pull request.",
           "createdAt": "2024-07-24T21:49:58Z",
           "updatedAt": "2024-07-24T21:49:58Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "NONE",
+          "body": "This is taken care of. I have emailed with the subject \"*[OAUTH-WG]\r\nProposal for Tx token batching processing on\r\ndraft-ietf-oauth-transaction-tokens-03*\".\r\n\r\n\r\nOn Wed, Jul 24, 2024 at 2:50\u202fPM Atul Tulshibagwale ***@***.***>\r\nwrote:\r\n\r\n> @ashayraut <https://github.com/ashayraut> Please post the description of\r\n> this issue on the IETF OAuth mailing list, and point people to this issue\r\n> to add their comments here. This together with Issue #110\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/110> should\r\n> be addressed in a single pull request.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/111#issuecomment-2248958420>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/ABHO2XZDBROMGLSCCA6I3C3ZOAORZAVCNFSM6AAAAABK2AEJHSVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDENBYHE2TQNBSGA>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n\r\n\r\n-- \r\nRegards,\r\nAshay Raut\r\n",
+          "createdAt": "2024-07-29T17:14:16Z",
+          "updatedAt": "2024-07-29T17:14:16Z"
         }
       ]
     },
@@ -2304,7 +2311,7 @@
       "labels": [],
       "body": "The following came up in the IETF 120 session about TraTs:\r\n\r\nThere was some confusion about the re-use of the claim defined in RAR",
       "createdAt": "2024-07-24T21:16:14Z",
-      "updatedAt": "2024-07-27T03:24:31Z",
+      "updatedAt": "2024-07-29T19:01:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -2320,6 +2327,20 @@
           "body": "I suggest \"txc\" or \"tctx\" for transaction context",
           "createdAt": "2024-07-27T03:21:07Z",
           "updatedAt": "2024-07-27T03:24:31Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "https://mailarchive.ietf.org/arch/msg/oauth/sA5CIPkF9k5qJ3OG7JFVtDnpZDU/ \r\n\r\n> Any statement I made at meeting the other day on this topic was less an\r\nactual proposal and more just a meta comment that there might be some\r\nconfusion around the term \"authorization details\" because it is already\r\nused extensively in RAR to mean a RAR related thing. RFC9396 uses the\r\nterm \"authorization\r\ndetails\" 64 times while the parameter, claim, and introspection response\r\nmember name \"authorization_details\" appears 87 times.\r\n> \r\n> Ironically, I'm sending this from the \"[ID-align] Side Meeting at IETF120\"\r\nwhich is about divergent use of similar or same terms.",
+          "createdAt": "2024-07-29T13:36:25Z",
+          "updatedAt": "2024-07-29T13:36:25Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "copied from the WG mailing list https://mailarchive.ietf.org/arch/msg/oauth/sA5CIPkF9k5qJ3OG7JFVtDnpZDU/ \r\n\r\n> Any statement I made at meeting the other day on this topic was less an\r\nactual proposal and more just a meta comment that there might be some\r\nconfusion around the term \"authorization details\" because it is already\r\nused extensively in RAR to mean a RAR related thing. RFC9396 uses the\r\nterm \"authorization\r\ndetails\" 64 times while the parameter, claim, and introspection response\r\nmember name \"authorization_details\" appears 87 times.\r\n> \r\n> Ironically, I'm sending this from the \"[ID-align] Side Meeting at IETF120\"\r\nwhich is about divergent use of similar or same terms.",
+          "createdAt": "2024-07-29T19:01:34Z",
+          "updatedAt": "2024-07-29T19:01:34Z"
         }
       ]
     },
