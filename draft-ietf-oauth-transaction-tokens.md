@@ -482,9 +482,12 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
 ## Subject Token Types {#subject-token-types}
-The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`), or it MAY be a self-signed JWT, as described below, or it MAY be a custom URI agreed to between requesters and the Txn-Token Service.
+The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be:
 
-The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.
+* Any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`). 
+* A self-signed JWT, as described below.
+* An unsigned JSON object, as described below.
+* A custom URI agreed to between requesters and the Txn-Token Service. The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.
 
 ### Self-Signed Subject Token Type {#self-signed-subject-token-type}
 A requester MAY use a self-signed JWT as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:self_signed`. This self-signed JWT MUST contain the following claims:
@@ -496,6 +499,14 @@ A requester MAY use a self-signed JWT as a `subject_token` value. In that case, 
 * `exp`: The expiration time for the JWT. This should be a very short duration (order of seconds) in order to prevent any abuse of the JWT.
 
 The self-signed JWT MAY contain other claims.
+
+### Unsigned JSON Object Subject Token Type {#unsigned-json-subject-token-type}
+A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The JSON object in the subject token MUST contain the following fields:
+
+* `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
+* `exp`: The expiration time of the requested Txn-Token.
+
+The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.
 
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
@@ -591,6 +602,9 @@ The `expires_in` and `scope` fields of the OAuth 2.0 Token Exchange specificatio
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
 
+## Subject Token Types {#sec-sub-token-types}
+A service requesting a Txn-Token SHOULD provide an incoming token if it has one that it used itself to authorize a caller, and if it directly correlates with the downstream call chain it needs the Txn-Token for. In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the requester to the Txn-Token service.
+
 ## Client Authentication
 How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST authenticate the identity of the requesting workload.
 
@@ -618,14 +632,19 @@ This specification registers the following token type identifiers to the "OAuth 
 ## OAuth URI Subregistry Contents
 
 * URN: urn:ietf:params:oauth:token-type:txn_token
-* Common Name: Transaction Token
-* Change Controller: IESG
-* Specification Document Section {{txn-token-request}} of this specification
+  * Common Name: Transaction Token
+  * Change Controller: IESG
+  * Specification Document Section {{txn-token-request}} of this specification
 
 * URN: urn:ietf:params:oauth:token-type:self_signed
-* Common Name: Token type for Self-signed JWT
-* Change Controller: IESG
-* Specification Document: Section {{subject-token-types}} of this specification
+  * Common Name: Token type for Self-signed JWT
+  * Change Controller: IESG
+  * Specification Document: Section {{self-signed-subject-token-type}} of this specification
+
+* URN: urn:ietf:params:oauth:token-type:unsigned_json
+  * Common Name: Token type for Unsigned JSON Object
+  * Change Controller: IESG
+  * Specification Document: Section {{unsigned-json-subject-token-type}} of this specification
 
 ## JWT Claims Registry Contents
 
