@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-04T00:15:19.578034+00:00",
+  "timestamp": "2024-08-06T00:14:07.194588+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -412,7 +412,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "I believe, this issue can be closed as well?",
           "createdAt": "2024-01-30T11:54:40Z",
           "updatedAt": "2024-01-30T11:54:40Z"
@@ -685,7 +685,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "I don't like to make iss claim mandatory. If all services operate within the same trust boundary, they already know their trusted authorization server and an iss claim would just add clutter and unnecessary data to the token. Also it would mean that one had to already trust some data within the transaction token before being able to validate its signature. This could lead to a rogue component to send requests to an internal service with carefully crafted transaction tokens with an iss pointing to another server the rogue component has control over. To prevent injecting rogue iss, the internal service would need to validate the provided iss value with a preconfigured list of allowed ones.\r\n\r\nIn our environment (trust boundary) where we are using internal tokens for transactions, the internal services have the authorization server's host name configured. Internal services can decide to pull (and cache) the jwks from the well-known url and validate the tokens locally or they can use the token introspection endpoint of the authorization server for validating the token. Validating the internal/transaction tokens with token introspection is useful for some sensitive operations and has the benefit that this validation can fail if for instance the access token the transaction token was derived from got revoked or the authentication context associated with the tokens got flagged.\r\n",
           "createdAt": "2023-10-26T07:52:17Z",
           "updatedAt": "2023-10-26T07:52:17Z"
@@ -699,7 +699,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "As the required iss claim is now replaced with the required aud claim, there should be some validation guidelines for this parameter.\r\n\r\nIn the absence of the iss claim, discovery is not available and either SPIFFE or preconfigured URLs of the TTS and/or its JWKS is possible.",
           "createdAt": "2024-01-30T11:53:25Z",
           "updatedAt": "2024-01-30T11:53:25Z"
@@ -847,7 +847,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Are we considering opaque token formats as an alternative as well? Those formats could not be verified (e.g. signature check) by the workloads locally, but would require incorporating Token Introspection to get the data. For performance reasons, the format should at least be defined as self contained and verifiable locally. CWT as well as (SD-)JWT would have these properties. In the IETF meeting protobuf was mentioned. As far as I know, protobuf does not have this property, so I don't see it as a fitting candidate.\r\n\r\nWe also need to consider interoperability. If the spec allowed for multiple formats (or even leaves the format out of the specification), generic libraries/frameworks to implement the protocol would need to support not just one but a lot of formats or even make the format (serialization/deserialization) pluggable. Although this might be a good idea anyway, it tends to be more complex.\r\n\r\nIn regards to selective disclosure: The purpose of the transaction token is to pass it along the transaction call chain. So if there is specific data of the original presented Access Token not to be disclosed in the transaction token, the TTS would simply not add it in the transaction token when issuing it. Although a workload can choose to exchange the transaction token for another one, the purpose was to narrow the scope to further limit the access which the new transaction token could be used for. At this point the new transaction token could contain even less information than the original transaction token. I don't think that there should be more information disclosed at this point. That's why I don't think that SD-JWTs would have an application here.\r\n\r\nOn the other hand, I do see an application for a transaction token which contains specific information for specific workloads along the call chain. I can see some similarities to Rich Authorization Requests (RAR) where there can be PII/resource identifiers in the transaction token which should only be visible to some workloads even if the transaction token is passed along through all participating workloads.\r\n",
           "createdAt": "2024-03-22T13:28:46Z",
           "updatedAt": "2024-03-22T13:28:59Z"
@@ -906,7 +906,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Reviewing this issue, I can see a relation with #62. As it has been established that requesting Txn-Tokens without an external trigger is needed. however, the current spec requires an Access token to be presented in the subject_token parameter and the question is, how an internal batch process would obtain this. @dteguin (and me in the related issue #62) mentioned Client credentials grant for obtaining the AT. However, client credentials grant based ATs may not be related to users referred to with the sub claim, so it may be a challenge to issue Txn-Tokens with a user-related sub when the client credentials grant based AT does not contain one.\r\n\r\nIn #62 I gave an example where a batch processor might be able to present an expired Txn-Token, but there are still scenarios where no AT can be presented in the subject_token parameter or where the presented subject_token does not contain the information necessary to fill and issue the Txn-Token. This information needs to be provided somehow to the TTS. If this information must be part of the subject_token or somehow be obtainable by the TTS via parts of the subject_token content, it should at least be mentioned in the spec.\r\n\r\nPersonally, I'd like to see an option where the TTS can be called without a subject_token as input and instead providing the necessary information via additional parameters (e.g. sub within the req_ctx). It goes without saying, that this type of Token issuance should only be allowed to a very limited set of authenticated clients which have a special trust relationship with the TTS.",
           "createdAt": "2024-01-30T11:49:00Z",
           "updatedAt": "2024-01-30T11:49:00Z"
@@ -934,7 +934,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "There is this \"N_A\" which could be reused here?",
           "createdAt": "2024-02-02T05:51:22Z",
           "updatedAt": "2024-02-02T05:51:22Z"
@@ -955,7 +955,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "@gffletch The current draft mentions that the subject_token represents the subject and it could either be a token or simple string. However, the current draft does not say, what should be the subject_token_type if the subject_token contains a simple string. My suggestion would be to register a URN at IANA for this and name it urn:ietf:params:oauth:token-type:subject\r\n",
           "createdAt": "2024-03-22T16:53:03Z",
           "updatedAt": "2024-03-22T16:53:23Z"
@@ -1053,7 +1053,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "A few months ago, I also suggested to support the sub claim as per JWT RFC. As the current spec has replaced sub_id with sub, I appreciate that the sub claim is supported now.",
           "createdAt": "2024-01-30T11:26:38Z",
           "updatedAt": "2024-01-31T07:08:56Z"
@@ -1254,7 +1254,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/62",
       "state": "OPEN",
       "author": "obfuscoder",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
@@ -1271,7 +1271,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "The use cases you mention are pretty much what we had to implement.\r\n\r\n1. For incoming mails we have a mail delivery agent which wants to use the mail storage system service to store the mail in the user mailbox. In order to write to the mailbox of a user, the delivery agent needs a Txn-Token with the sub of the user. The delivery agent asks the TTS about a Txn-Token and presents its client credentials and the mail address of the recipient/user. The TTS allows issuing Txn-Tokens to the delivery agent. There is no long-living access token involved. The issued Txn-Token is short lived (1 minute in our deployments).\r\n\r\n3. Whenever a user cancels their contract, we have to keep the data for some time (number of days depending on type of data, legal restrictions, etc.) after the delete operations are performed. The delayed delete operation is done by batch processes. Now, instead of creating and storing long-living access tokens which could be leaked and abused elsewhere, we decided to retain the short-lived Txn-Tokens and allow only those batch processes to ask the TTS to issue new Txn-Tokens for already expired Txn-Tokens to perform the actual delete operation which requires a valid and not expired Txn-Token when calling the storage system services.\r\n\r\nSo my argument is against using (and potentially abusing) long-living access tokens, and instead for allowing expired Txn-Tokens to be presented to the TTS to re-issue Txn-Tokens for the purpose of finalizing a delayed operation.",
           "createdAt": "2024-01-30T11:17:56Z",
           "updatedAt": "2024-01-30T11:18:24Z"
@@ -1285,7 +1285,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "@tulshi Good point. In order to get a new TraTs, the caller needs proper client authentication (e.g. SPIFFE, mTLS, or Basic Auth credentials). My point was to only allow specific authenticated clients the exchange of expired TraTs. It is true that if those clients get hacked themselves (and the client authentication can be done by an attacker) new TraTs can be created and abused.\r\n\r\nHowever, longer living TraTs have also the risk of being abused with replay attacks. I think the risk for replay attacks with longer living TraTs is even higher as an attacker would just need to get hold of the long-living TraTs and does not have the need to renew it.\r\n",
           "createdAt": "2024-02-02T05:46:46Z",
           "updatedAt": "2024-02-02T05:46:46Z"
@@ -1299,7 +1299,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Indeed, the spec does not say anything about whether and how the TTS is validating the txn token before issuing a replacement txn-token. So presenting an already expired txn-token can be accepted based on the authenticated client, purpose and scope. After all, it can be a specifically defined policy.\r\n\r\nI recommend that we at least acknowledge this case in the spec and give guidance when to use it. As we also have the case of not presenting any token when requesting a txn-token (see #53), I think that as long as a workload is in possession of a txn-token - even if it is expired - we should recommend to present it when requesting replacement txn-tokens. It should be the decision of the TTS whether to accept the expired txn-token and not of the workload (the workload could just take the subject from the expired token and present it as the subject_token to the TTS).\r\n\r\nOne additional aspect came to our attention. There are actually two cases for expired txn-tokens:\r\n\r\n1. The exp claim says it is expired, but the signature is still valid\r\n2. The signature is not valid (anymore) as the key used to sign the token is not available anymore\r\n\r\nDepending on how frequently a TTS is rotating its key material, the second case might occur for such long running processes like deleting account data several weeks after the customer has cancelled their contract. For instance our TTS implementation is rotating the keys daily. Only the next, current and previous signing keys are provided to workloads (via JWKS uri). Even if a workload is not able to verify the signature of a txn-token it received several weeks ago, the TTS might still be able to keep the old key material for a longer period so that it can at least validate the signature of those txn-tokens.\r\n",
           "createdAt": "2024-03-22T16:46:59Z",
           "updatedAt": "2024-03-22T16:46:59Z"
@@ -1313,7 +1313,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/63",
       "state": "CLOSED",
       "author": "obfuscoder",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This issue is somewhat related to the aud claim comment I made earlier via mail to the authors.\r\n\r\nThe spec states that audience parameter is REQUIRED in the Txn-Token request. It contains the trust domain. To my understanding, every trust domain has a single (logical) Txn-Service. A Txn-Service is usually configured to only issue Txn-Tokens to one and only one trust domain. Also the authenticating clients which the Txn-Service accepts in incoming requests are part of that trust domain. After all, they have been registered within that trust domain. It might be possible that the Txn-Service is used in multiple trust domains. In those scenarios I fully agree that the audience parameter is REQUIRED. My guess is, though, that the most deployed setup will incorporate a single trust domain.",
@@ -1330,7 +1330,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "> What is the benefit of making the aud claim optional?\r\n\r\nMostly brevity reasons. Also, if it is defined as REQUIRED, it will be enforced by 3rd party libraries which a company might want to integrate in their components/services. This essentially forces the company (albeit using Txn-Tokens within their trust domain only internally) to define and set the aud claim without added benefit.\r\n\r\nHaving aud REQUIRED also implies that the value needs to be validated somehow. I think this aspect should be mentioned in the spec, if it is really required. So every Token service must have the audience parameter validated as well as every service/worker receiving a Txn-Token must validate the aud claim against a configured accepted value (or list of values).\r\n",
           "createdAt": "2024-01-30T10:06:57Z",
           "updatedAt": "2024-01-30T10:06:57Z"
@@ -1358,7 +1358,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/66",
       "state": "CLOSED",
       "author": "obfuscoder",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In the Terminology section, the Trust Domain value is being defined and referenced in the aud claim as universal resource identifier. It should be spelled Universal Resource Identifier and a reference to RFC3986 should be added.\r\n\r\nHowever, later in the document, the aud claim value is specified as defined in RFC7519. This RFC defines the aud claim as \"StringOrURI\". The different passages should be aligned.\r\n\r\nFurthermore, the examples for the aud claim values should be aligned accordingly. In section Txn-Token Request the POST request example to the token service uses:\r\n\r\n`&audience=http%3A%2F%2Ftrust-domain.example`\r\n\r\nIf an URI is used, I suggest to use 'https' instead of 'http'.\r\n\r\nLater the JWT body example of the Txn-Token just uses a string:\r\n\r\n`\"aud\": \"trust-domain.example\",`\r\n",
@@ -1440,7 +1440,7 @@
       "comments": [
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "As far as I understand it, replacement txn-tokens is just a profile to Token Exchange. The Token Exchange RFC defines that an issued token can only have the same or a smaller scope than the presented token. I would assume this applies to replacement tokens as well. If the replacement token mechanism is intended to deviate from Token Exchange in this regard, this should probably be mentioned specifically.",
           "createdAt": "2024-03-25T09:13:07Z",
           "updatedAt": "2024-03-25T09:13:07Z"
@@ -1845,14 +1845,14 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Here is how we deployed the TTS in our environment:\r\n\r\nAlthough the TTS is a logical part of the AS system (and provided by the same team), it is a separate microservice than the authorizarion and token endpoints of the AS used by OAuth clients. The auth and token endpoints used by clients are reachable by clients outside of the company network, while the TTS endpoint is only reachable from within the company network. The key to sign the TraT is different from the key material used to encrypt/sign the ATs issued by the externally reachable token endpoint. Hence the \"iss\" and JWKS uris are different. We have multiple data centers and in each DC the TTS is available. The \"iss\" used by all TTS is the same for all DCs; a DC agnostic URI. All TTS deployments share the same key material.",
           "createdAt": "2024-06-26T06:46:23Z",
           "updatedAt": "2024-06-26T06:46:23Z"
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Our implementation overlaps with what @obfuscoder described. One interesting thing to think about is debugging and tracing back the token to the AS that issued it. We have token identifier that identifies the region + DC in which it was issued which it makes easier for validating party to know where request came from. Sometimes the request crosses region boundary. We make sure that public key is shared across all regions. Each region+DC uses its own private+public key pair but we make the public key globally available.",
           "createdAt": "2024-07-19T04:42:22Z",
           "updatedAt": "2024-07-19T04:42:22Z"
@@ -1921,7 +1921,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/108",
       "state": "OPEN",
       "author": "ashayraut",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "There is no concept of placeholder or temporary token here. Sometimes the call chain breaks i.e some service in the chain doesn't propagate the token in header, either due to a bug or unexpected code change, in such case, the service that didn't receive token from caller can generate a dummy unsigned token with caller information (that missed to send token) and pass to next service.  So if A -> B -> C -> D and B misses to forward the header token, then C generates a dummy token with info about B and passes to D. This increases visibility for debugging. The service at end will find that its not real token but it can audit which service broke the call chain and can involve B directly to debug. Unsigned dummy token cannot be trusted hence MUST not be used for making authorization decision and MUST be used only for auditing/logging.",
@@ -1938,21 +1938,21 @@
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "> Otherwise the call from B -> C would result in an authn/z error and fail - no need for an replacement token, is it?\r\n\r\nYes. If C is validating token, then it can deny request. If C is more of an intermediate passthrough type service, then C will rely on D to deny/allow, in which case B has to send a token.\r\n\r\n> How are dummy tokens distinguished from real ones? Is there a risk developers by mistake consider dummy tokens as trusted?\r\n\r\nYes, that is the most important aspect. In general, as Hyrum's law suggests, once token is out there, we won't be able to control who uses it for what purpose. Our recommendation can be that - a token validator (e.g. Service D) MUST always use the claims in token ONLY IF validate signature exists. So that even if Service B signs it, D must deny request saying you (service B) isn't valid Tx Token service. Anyways, even if we don't specify the idea of dummy token here, someone (service B or C), can potentially overwrite the header value with its own Tx token string. \r\n\r\n",
           "createdAt": "2024-07-15T18:19:10Z",
           "updatedAt": "2024-07-15T18:19:10Z"
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "We are actually facing this issue in our current deployments. Although we have some workloads which already receive, validate and forward TraTs, they are being called by other workloads which do not present TraTs yet and on the other end, they call other workloads which just ignore the TraTs and don't pass them along yet. So during this rollout phase (which can take months or even years) it is quite common that TraTs are getting lost frequently and no workload can actually enforce TraT validation.\r\n\r\nHowever, we do not think that any workload should be able to create its own dummy TraT just to fill the gap. We think that only the TraT Service should have the authority to issue TraTs even for those cases where gaps need to be filled. This scenario is similar to presenting self-signed tokens to the TraT Service which then issues TraTs to the requestors. The TraT Service decides which client is allowed to present self-signed tokens. While deployment is progressing the number of allowed clients will be reduced over time.",
           "createdAt": "2024-07-18T07:22:29Z",
           "updatedAt": "2024-07-18T07:22:29Z"
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Requesting a new Trats token from issuer always makes sense. The idea of dummy token has some value -\r\n\r\nfor example, not every service in call graph especially where 1000s of services are involved require to connect with Trats. Keeps it simple. Also latency profile of request is predictable otherwise remote call could change latency profile suddenly because propagation broke and it resulted in remote calls.\r\n\r\n\r\nI ack that We can keep our RFC simple - suggest that an intermediate service doesn\u2019t receive token from caller then it can request new one. However such a token may not exactly have claims like what caller might sent and hence the response from validating party can differ. \r\n\r\n\r\non separate note, dummy tokens helped us because when you want to do something like Trats and not everyone is propagating tokens then you need a way to identify who is not doing it and ask them to propagate. This solution for this  identification problem has to be cheap otherwise 1000s of services will request tokens from Tx token service and brown out the Tx token service. ",
           "createdAt": "2024-07-19T02:20:15Z",
           "updatedAt": "2024-07-19T02:20:15Z"
@@ -1966,7 +1966,7 @@
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "A separate document should work fine too. That will give us opportunity to be more elaborate.",
           "createdAt": "2024-07-24T22:37:12Z",
           "updatedAt": "2024-07-24T22:37:12Z"
@@ -1980,7 +1980,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/109",
       "state": "OPEN",
       "author": "ashayraut",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
@@ -1997,14 +1997,14 @@
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "> Is it enough to know that validating party can look up a asymmetric key\r\n\r\nI think so.",
           "createdAt": "2024-07-15T18:37:01Z",
           "updatedAt": "2024-07-15T18:37:01Z"
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "By the way, yes JWKS provides host of options. But in this TraTs model, to optimize cost and performance impact, it is good to choose an algorithm that is OK to be expensive (CPU) while issuing a token v/s while validating a token because the number of validating parties will be a lot big in number. So algorithms that are cheaper in signature verification (ECDSA P256) could be better. \r\n\r\nBut we can recommend to choose something that is cheaper for many and expensive for Tx Token service.",
           "createdAt": "2024-07-15T18:44:46Z",
           "updatedAt": "2024-07-15T18:44:46Z"
@@ -2018,7 +2018,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "I don't think a separate draft should be necessary. I suggest to give some recommendation within the current draft (security consideration section).\r\n\r\nTime spent on token validation by workloads should be considered, but I don't think we should deviate too much from RFC7518 for example. Otherwise we make it more difficult for implementers and interop.\r\n\r\nWhat every deployment needs to consider is that there will be a lot more TraTs being issued than Access Tokens (ATs). One AT, which is valid for maybe an hour can be used in thousands of requests to resource servers which will each create new TraTs. This can have an impact on performance as well as available key space and collision probabilities.\r\n\r\nRe key rotation and availability of signature key material: This aspect is already adressed by standards we rely upon. I don't think that there is need for any specifics. Naturally \"kid\" should be used as well as making validation keys available before they are being used. Workloads should fetch key sets on demand if they encounter a kid they don't know.\r\n",
           "createdAt": "2024-07-18T07:06:04Z",
           "updatedAt": "2024-07-18T07:06:04Z"
@@ -2032,7 +2032,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/110",
       "state": "OPEN",
       "author": "ashayraut",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "There should be guidance for token lifetime of replacement token. A replacement token can have lifetime of whatever is left in the original token that was used to replacement or someone will keep using replacement token feature to keep increasing lifetime of the original incoming token. ",
@@ -2049,7 +2049,7 @@
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Yes, I'd say we must include details about it so that there is some guidance for replacement tokens too. Default suggestion could be to set expiry time on replace token, same as expiryTimeOfOriginalToken. So it also discourages replacing a token multiple times. \r\n\r\nother alternatives are to keep a counter on Tx Token Service side (or inside the token itself) where we can keep track on how many times it was replaced and limit on Tx token service side if a certain token is replaced too many times but unfortunately, it will be difficult to gauge value for \"replaced too many times\".. :-)",
           "createdAt": "2024-07-15T18:26:39Z",
           "updatedAt": "2024-07-15T18:26:39Z"
@@ -2063,21 +2063,21 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "If there are long running batch processes involved, it may be necessary to extend lifetime of such TraTs (or issue TraTs out of bounds as discussed in other issues). However, the TraT Service should have the authority about what is possible.",
           "createdAt": "2024-07-18T07:11:37Z",
           "updatedAt": "2024-07-18T07:11:37Z"
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "I didn\u2019t see Tx token lifetime for replacement token in draft. We should add it.\r\n\r\nabout long running process I have a proposal in other GitHub issue. In general the Trats service can decide to issue tokens with higher lifetime but with Trats tokens it\u2019s a risk to have higher lifetime as they are bearer tokens can be used by anyone. So my proposal addresses that by using another token for it. ",
           "createdAt": "2024-07-19T02:23:14Z",
           "updatedAt": "2024-07-19T02:23:14Z"
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "I didn't mean that the TTS should issue TraTs with long lifetimes. That would be bad indeed. Instead the TTS should be able to issue new TraTs with short lifetime, but the lifetime can essentially exceed that of the presented one. As I suggested in #62, the presented TxT could even be expired aand the TTS could allow to issue a new TxT to that specific workload as the TTS knows that this workload is a long running batch processor.",
           "createdAt": "2024-07-19T08:48:23Z",
           "updatedAt": "2024-07-19T08:48:23Z"
@@ -2098,7 +2098,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/111",
       "state": "OPEN",
       "author": "ashayraut",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
@@ -2115,7 +2115,7 @@
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Thanks. I think we can generalize it a bit and share some guidance for batch proposes. Important thing is to think through all security threats.",
           "createdAt": "2024-07-16T16:20:08Z",
           "updatedAt": "2024-07-16T16:20:08Z"
@@ -2136,7 +2136,7 @@
         },
         {
           "author": "ashayraut",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "This is taken care of. I have emailed with the subject \"*[OAUTH-WG]\r\nProposal for Tx token batching processing on\r\ndraft-ietf-oauth-transaction-tokens-03*\".\r\n\r\n\r\nOn Wed, Jul 24, 2024 at 2:50\u202fPM Atul Tulshibagwale ***@***.***>\r\nwrote:\r\n\r\n> @ashayraut <https://github.com/ashayraut> Please post the description of\r\n> this issue on the IETF OAuth mailing list, and point people to this issue\r\n> to add their comments here. This together with Issue #110\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/110> should\r\n> be addressed in a single pull request.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/111#issuecomment-2248958420>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/ABHO2XZDBROMGLSCCA6I3C3ZOAORZAVCNFSM6AAAAABK2AEJHSVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDENBYHE2TQNBSGA>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n\r\n\r\n-- \r\nRegards,\r\nAshay Raut\r\n",
           "createdAt": "2024-07-29T17:14:16Z",
           "updatedAt": "2024-07-29T17:14:16Z"
@@ -2245,7 +2245,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Note: Although `scope` may not be part of the TraT definition, we decided to include the `scope` value in our implementation. For us, this value should at least be validated by workloads if there isn't a more specific purpose given in the TraT. ",
           "createdAt": "2024-07-26T13:10:59Z",
           "updatedAt": "2024-07-26T13:10:59Z"
@@ -2376,11 +2376,13 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [],
       "body": "the following came up in the IETF 120 session about TraTs:\r\n\"Add an outline on when self-signed may be useful\r\nYaron thought self-signed wil be a footgun\r\nSuggest a simple JSON object as replacement.\"\r\n\r\nThe description of `subject_token` in section 7.1 is too rigid as it only allows an inbound token or a self-signed token. It should make it clear that an implementation may choose to have any different format for the subject_token.\r\n\r\n",
       "createdAt": "2024-07-24T21:34:42Z",
-      "updatedAt": "2024-07-24T21:34:42Z",
+      "updatedAt": "2024-08-05T19:06:32Z",
       "closedAt": null,
       "comments": []
     }
@@ -4205,7 +4207,7 @@
             "abbreviatedOid": "e050c98"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-01-15T08:39:05Z",
@@ -4225,7 +4227,7 @@
             "abbreviatedOid": "e050c98"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-01-15T08:41:24Z",
@@ -4245,7 +4247,7 @@
             "abbreviatedOid": "e050c98"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-01-15T09:27:30Z",
@@ -4711,7 +4713,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/67",
       "state": "CLOSED",
       "author": "obfuscoder",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Resolve #66",
@@ -4730,7 +4732,7 @@
       "comments": [
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "As this was addressed in another PR in parallel which was merged already, I am closing this PR.",
           "createdAt": "2024-02-22T13:10:37Z",
           "updatedAt": "2024-02-22T13:10:37Z"
@@ -4769,7 +4771,7 @@
             "abbreviatedOid": "1150bfd"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-02-02T06:02:16Z",
@@ -4981,7 +4983,7 @@
             "abbreviatedOid": "ec697e9"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-02-22T12:38:42Z",
@@ -5091,7 +5093,7 @@
             "abbreviatedOid": "ec697e9"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-02-23T15:48:24Z",
@@ -5111,7 +5113,7 @@
             "abbreviatedOid": "d07dde6"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-02-23T15:50:19Z",
@@ -5638,7 +5640,7 @@
         },
         {
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "@yaronf Regarding your comment about wrong approach: I mentioned something along those lines as well. I personally don't think that a new token type is actually necessary. A JWT is a good fit as it can carry the necessary data, but whether it should be signed by the workload (or what additional claims and associated checks should be incorporated) could be a decision by the individual TTS/trust domain.",
           "createdAt": "2024-04-25T10:17:10Z",
           "updatedAt": "2024-04-25T10:17:10Z"
@@ -6072,7 +6074,7 @@
             "abbreviatedOid": "406b143"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-23T15:00:59Z",
@@ -6217,7 +6219,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-24T07:04:21Z",
@@ -6370,7 +6372,7 @@
             "abbreviatedOid": "e03653e"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-25T10:25:19Z",
@@ -6529,7 +6531,7 @@
             "abbreviatedOid": "406b143"
           },
           "author": "obfuscoder",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-26T22:01:25Z",
@@ -7484,6 +7486,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 122,
+      "id": "PR_kwDOJt_WwM53fRrs",
+      "title": "added unsigned json subject token type",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/122",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-08-05T19:33:50Z",
+      "updatedAt": "2024-08-06T00:03:28Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "clarify-sub-token",
+      "headRefOid": "749779ad55a36d8810113b7ccbdd28373d15d152",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
