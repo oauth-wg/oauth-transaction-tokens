@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-06T00:14:07.194588+00:00",
+  "timestamp": "2024-08-08T00:14:03.945110+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1527,7 +1527,7 @@
         },
         {
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "No specific use cases, it's just that we're assuming that an organization can easily integrate its (preexisting) transaction ID-issuing service with this one. Sometimes it can, sometimes it can't.\r\n\r\nI'm good with RECOMMENDED.",
           "createdAt": "2024-03-29T15:09:01Z",
           "updatedAt": "2024-03-29T15:09:01Z"
@@ -1628,7 +1628,7 @@
         },
         {
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "Even within a trust domain we may want interoperability between multiple vendor solutions. And there will be token translation services that exchange/translate TraTs between trust domains. All of these would benefit from registering claims.",
           "createdAt": "2024-06-15T15:03:29Z",
           "updatedAt": "2024-06-15T15:03:29Z"
@@ -5327,7 +5327,7 @@
             "abbreviatedOid": "27087b7"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-03-26T12:02:42Z",
@@ -5647,7 +5647,7 @@
         },
         {
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "body": "> @yaronf Regarding your comment about wrong approach: I mentioned something along those lines as well. I personally don't think that a new token type is actually necessary. A JWT is a good fit as it can carry the necessary data, but whether it should be signed by the workload (or what additional claims and associated checks should be incorporated) could be a decision by the individual TTS/trust domain.\r\n\r\n@obfuscoder My point is that even the JWT structure/encoding is not needed. No need to sign anything, no need to encode stuff in base64 (and either of them adds potential security issues). All the semantics we need can be carried in a simple JSON object.",
           "createdAt": "2024-04-25T13:55:03Z",
           "updatedAt": "2024-04-25T13:55:03Z"
@@ -5815,7 +5815,7 @@
             "abbreviatedOid": "c7918a9"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "CHANGES_REQUESTED",
           "body": "",
           "createdAt": "2024-04-14T08:33:47Z",
@@ -5861,7 +5861,7 @@
             "abbreviatedOid": "c7918a9"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-15T21:50:57Z",
@@ -5921,7 +5921,7 @@
             "abbreviatedOid": "6a49362"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-19T13:29:52Z",
@@ -5961,7 +5961,7 @@
             "abbreviatedOid": "d7edbcf"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-04-20T10:18:58Z",
@@ -6106,7 +6106,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-23T21:56:39Z",
@@ -6126,7 +6126,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2024-04-23T21:57:55Z",
@@ -6146,7 +6146,7 @@
             "abbreviatedOid": "eae1750"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2024-04-23T21:58:12Z",
@@ -6359,7 +6359,7 @@
             "abbreviatedOid": "e03653e"
           },
           "author": "yaronf",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "TBH I think we took the wrong approach here. Instead of defining a new token type and having to ensure it cannot be abused for anything else, we could have had a simple JSON object containing the relevant claims. The object would be carried as a separate, optional parameter. This would be so much simpler for developers and would reduce the attack surface by a ton.\r\n\r\nWith that said, I can live with the current solution.",
           "createdAt": "2024-04-25T08:26:50Z",
@@ -7499,7 +7499,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-05T19:33:50Z",
-      "updatedAt": "2024-08-06T00:03:28Z",
+      "updatedAt": "2024-08-06T16:54:57Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
@@ -7511,7 +7511,73 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6EVHlX",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Please correct me if I am wrong but the github issue 121 asks \"Add an outline on when self-signed may be useful\". Which line here indicates \"when\" to use signed. Unsigned is in-expensive and low overhead for requesters so why would they ever go with Signed json, especially when in both signed or unsigned case, the Tx token may or may not consider the \"sub\" value in json to create Tx Token. The motivation (or mandate) to use signed json has to come from Tx token service. \r\n\r\nIf Tx token service is going to use this value to find data about what claims to add or in other words if the claims are going to be determined based on sub value then requester MUST pass signed. If unsigned token is sent to Tx token that depends on signed token, then the claims might be missing from Tx token.",
+          "createdAt": "2024-08-06T02:05:53Z",
+          "updatedAt": "2024-08-06T02:05:53Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6EYQyt",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-06T10:49:38Z",
+          "updatedAt": "2024-08-06T11:02:08Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "\"Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.\" This sounds repetitive as it is already stated above: \"The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be: ....\"",
+              "createdAt": "2024-08-06T10:49:38Z",
+              "updatedAt": "2024-08-06T11:02:08Z"
+            },
+            {
+              "originalPosition": 23,
+              "body": "Is it mentioned how the Txn-Token Service should handle the exp field? I think the Txn-Token Service should still have the authority over when the issued Txn-Token expires. The exp field in the request should be a mere wish, but it cannot force the Txn-Token Service to grant it. Maybe it makes sense to say whether this would be a maximum expiration time (\"please give me a Txn-Token which expires not later than that\") or minimum time (\"please give me a Token which is valid untilll at least this time\").",
+              "createdAt": "2024-08-06T10:55:21Z",
+              "updatedAt": "2024-08-06T11:02:08Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "How exactly is the  unsigned JSON encoded? Is it just a JSON string or is it at least base64urll encoded? We may need  to  mention this.",
+              "createdAt": "2024-08-06T11:01:45Z",
+              "updatedAt": "2024-08-06T11:02:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6EbkkO",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-06T16:54:57Z",
+          "updatedAt": "2024-08-06T16:54:57Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "That's good callout to encode base64. Our language can be similar to what it says here in https://www.ietf.org/archive/id/draft-jones-json-web-token-02.html#rfc.section.7 \r\n",
+              "createdAt": "2024-08-06T16:54:57Z",
+              "updatedAt": "2024-08-06T16:54:57Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
