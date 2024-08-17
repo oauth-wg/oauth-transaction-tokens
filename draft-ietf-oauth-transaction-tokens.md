@@ -454,7 +454,13 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn_token`
-* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This could be an inbound token received by an API Gateway, or a self-signed JWT constructed by a workload initiating a transaction, the type of which is identified by `subject_token_type`.
+* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This MAY be:
+  - An inbound token received by an API Gateway
+  - A self-signed JWT constructed by a workload initiating a transaction
+  - An unsigned JSON object constructed by a workload initiating a transaction
+  - Any other format that is understood by the Txn-Token Service
+  
+  The type of `subject_token` field is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -487,7 +493,7 @@ The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be:
 * Any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`).
 * A self-signed JWT, as described below.
 * An unsigned JSON object, as described below.
-* A custom URI agreed to between requesters and the Txn-Token Service. The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter. Any value used in this parameter MUST be a URI as specified in RFC 8693 {{RFC8693}}.
+* A custom URI agreed to between requesters and the Txn-Token Service. The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter.
 
 ### Self-Signed Subject Token Type {#self-signed-subject-token-type}
 A requester MAY use a self-signed JWT as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:self_signed`. This self-signed JWT MUST contain the following claims:
@@ -514,11 +520,14 @@ When the Transaction Token Service receives a Txn-Token Request it MUST validate
 Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the trust domain defined by the `aud` claim.
 
 The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
+
 The Transaction Token Service MUST set the `aud` claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct `aud` value for this request.
-The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token.
+
+The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any `exp` value present in the `subject_token` field of the Txn-Token Request in determining the `exp` value of the resulting Txn-Token.
+
 The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 
-The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be ommitted if not set.
+The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.
 
 The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `purp` claim of the issued Txn-Token.
 
@@ -527,7 +536,6 @@ If a `request_context` parameter is present in the Txn-Token Request, the data S
 If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `azd` object as authorized by the Transaction Token Service authorization policy for the requesting client.
 
 The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.
-
 
 ## Txn-Token Response {#txn-token-response}
 A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of {{RFC6749}}. The following describes required values of a Txn-Token Response:
