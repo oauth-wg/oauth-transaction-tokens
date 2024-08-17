@@ -459,7 +459,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
   - A self-signed JWT constructed by a workload initiating a transaction
   - An unsigned JSON object constructed by a workload initiating a transaction
   - Any other format that is understood by the Txn-Token Service
-  
+
   The type of `subject_token` field is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
