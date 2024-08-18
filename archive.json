@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-15T00:14:15.787413+00:00",
+  "timestamp": "2024-08-18T00:16:03.704527+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7499,18 +7499,26 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-05T19:33:50Z",
-      "updatedAt": "2024-08-06T16:54:57Z",
+      "updatedAt": "2024-08-17T11:09:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "clarify-sub-token",
-      "headRefOid": "749779ad55a36d8810113b7ccbdd28373d15d152",
+      "headRefOid": "2bed5de30437581a06a1cd84a01037ef3fa6f18e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Please correct me if I am wrong but the github issue 121 asks \"Add an outline on when self-signed may be useful\". Which line here indicates \"when\" to use signed. Unsigned is in-expensive and low overhead for requesters so why would they ever go with Signed json, especially when in both signed or unsigned case, the Tx token may or may not consider the \"sub\" value in json to create Tx Token. The motivation (or mandate) to use signed json has to come from Tx token service.\r\n> \r\n> If Tx token service is going to use this value to find data about what claims to add or in other words if the claims are going to be determined based on sub value then requester MUST pass signed. If unsigned token is sent to Tx token that depends on signed token, then the claims might be missing from Tx token.\r\n\r\nThe notes copy-pasted from the WG notes do say \"when\", but based on our recollection of the events during that session, the real ask was to clarify that one could use unsigned JSON objects. That is indicated in the action item (i.e. the last line in that issue description)",
+          "createdAt": "2024-08-17T00:44:09Z",
+          "updatedAt": "2024-08-17T00:44:09Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM6EVHlX",
@@ -7574,6 +7582,92 @@
               "body": "That's good callout to encode base64. Our language can be similar to what it says here in https://www.ietf.org/archive/id/draft-jones-json-web-token-02.html#rfc.section.7 \r\n",
               "createdAt": "2024-08-06T16:54:57Z",
               "updatedAt": "2024-08-06T16:54:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6FvdAT",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-17T00:39:49Z",
+          "updatedAt": "2024-08-17T00:39:49Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "I believe a JWT is always Base64url encoded. It is either a JWS or a JWE, and those specs specify that it is encoded, e.g. in this section: https://datatracker.ietf.org/doc/html/rfc7515#section-5",
+              "createdAt": "2024-08-17T00:39:49Z",
+              "updatedAt": "2024-08-17T00:39:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6FvgaV",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-17T00:47:04Z",
+          "updatedAt": "2024-08-17T00:47:04Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Good point. I've added a line in the Txn-Token Request processing section to clarify.",
+              "createdAt": "2024-08-17T00:47:04Z",
+              "updatedAt": "2024-08-17T00:47:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6Fvg51",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-17T00:48:06Z",
+          "updatedAt": "2024-08-17T00:48:06Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "I'm OK with dropping this additional line. I thought someone had brought this up in our discussion at Vancouver, but I'll drop it for now.",
+              "createdAt": "2024-08-17T00:48:06Z",
+              "updatedAt": "2024-08-17T00:48:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6FwgSA",
+          "commit": {
+            "abbreviatedOid": "2bed5de"
+          },
+          "author": "yaronf",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2024-08-17T11:03:55Z",
+          "updatedAt": "2024-08-17T11:09:54Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\n* A URN type name when the subject token is a self-signed JWT, as described below.\r\n* A URN type name when the subject token is an unsigned JSON object, as described below.\r\n```\r\n\r\nClearly the value of this field is not the self-signed JWT itself.",
+              "createdAt": "2024-08-17T11:03:55Z",
+              "updatedAt": "2024-08-17T11:09:54Z"
+            },
+            {
+              "originalPosition": 74,
+              "body": "To represent the requester? Maybe \"to express the properties it desires from the generated Txn-Token\".",
+              "createdAt": "2024-08-17T11:09:26Z",
+              "updatedAt": "2024-08-17T11:09:54Z"
             }
           ]
         }
