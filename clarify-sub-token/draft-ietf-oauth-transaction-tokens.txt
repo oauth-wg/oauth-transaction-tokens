@@ -982,8 +982,8 @@ Table of Contents
    directly correlates with the downstream call chain it needs the Txn-
    Token for.  In the absence of an appropriate incoming token, the
    requesting service MAY use a self-signed JWT, an unsigned JSON object
-   or any other format to represent the requester to the Txn-Token
-   service.
+   or any other format to represent the details of the requester to the
+   Txn-Token service.
 
 9.4.  Client Authentication
 
