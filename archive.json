@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-18T00:16:03.704527+00:00",
+  "timestamp": "2024-08-20T00:14:10.160843+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7499,13 +7499,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-05T19:33:50Z",
-      "updatedAt": "2024-08-17T11:09:54Z",
+      "updatedAt": "2024-08-20T00:13:27Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "clarify-sub-token",
-      "headRefOid": "2bed5de30437581a06a1cd84a01037ef3fa6f18e",
+      "headRefOid": "e679a93de9f22c2582347887b176c08bd0c92358",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
