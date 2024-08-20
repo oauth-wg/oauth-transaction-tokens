@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 18 February 2025                                    Capital One
+Expires: 21 February 2025                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                          17 August 2024
+                                                          20 August 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 February 2025.
+   This Internet-Draft will expire on 21 February 2025.
 
 Copyright Notice
 
@@ -714,9 +714,11 @@ Table of Contents
       2.0 Token Exchange [RFC8693] except the Refresh Token type (i.e.,
       urn:ietf:params:oauth:token-type:refresh_token).
 
-   *  A self-signed JWT, as described below.
+   *  A URN type name when the subject token is a self-signed JWT, as
+      described below.
 
-   *  An unsigned JSON object, as described below.
+   *  A URN type name when the subject token is an unsigned JSON object,
+      as described below.
 
    *  A custom URI agreed to between requesters and the Txn-Token
       Service.  The Txn-Token Service MAY support other token formats,
