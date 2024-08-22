@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-20T00:14:10.160843+00:00",
+  "timestamp": "2024-08-22T00:14:16.679386+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7499,13 +7499,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-05T19:33:50Z",
-      "updatedAt": "2024-08-20T00:13:27Z",
+      "updatedAt": "2024-08-20T14:55:56Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "clarify-sub-token",
-      "headRefOid": "e679a93de9f22c2582347887b176c08bd0c92358",
+      "headRefOid": "a20f4ab1c210a13f24c620597f11338bc31db12c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -7668,6 +7668,66 @@
               "body": "To represent the requester? Maybe \"to express the properties it desires from the generated Txn-Token\".",
               "createdAt": "2024-08-17T11:09:26Z",
               "updatedAt": "2024-08-17T11:09:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6GAYF7",
+          "commit": {
+            "abbreviatedOid": "a20f4ab"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-20T14:51:03Z",
+          "updatedAt": "2024-08-20T14:51:03Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "add...  `the` -> The type of *the* `subject_token` ...",
+              "createdAt": "2024-08-20T14:51:03Z",
+              "updatedAt": "2024-08-20T14:51:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6GAZUN",
+          "commit": {
+            "abbreviatedOid": "a20f4ab"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-20T14:52:55Z",
+          "updatedAt": "2024-08-20T14:52:55Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "The \"custom URI\" could also be a URN correct? ",
+              "createdAt": "2024-08-20T14:52:55Z",
+              "updatedAt": "2024-08-20T14:52:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6GAbUI",
+          "commit": {
+            "abbreviatedOid": "a20f4ab"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-20T14:55:55Z",
+          "updatedAt": "2024-08-20T14:55:56Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "I think the exp should the the validity of the unsigned JSON object to keep it semantically equivalent to the self-signed JWT \"The expiration time for the JWT.\"",
+              "createdAt": "2024-08-20T14:55:55Z",
+              "updatedAt": "2024-08-20T14:55:56Z"
             }
           ]
         }
