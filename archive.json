@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-22T00:14:16.679386+00:00",
+  "timestamp": "2024-08-25T00:16:00.081244+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7499,7 +7499,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-05T19:33:50Z",
-      "updatedAt": "2024-08-20T14:55:56Z",
+      "updatedAt": "2024-08-22T07:09:56Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
@@ -7728,6 +7728,46 @@
               "body": "I think the exp should the the validity of the unsigned JSON object to keep it semantically equivalent to the self-signed JWT \"The expiration time for the JWT.\"",
               "createdAt": "2024-08-20T14:55:55Z",
               "updatedAt": "2024-08-20T14:55:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6GVElf",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-22T07:08:10Z",
+          "updatedAt": "2024-08-22T07:08:10Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "@gffletch Although this would be more in line with JWTs, I'm not sure if this is useful. The unsigned JSON is typically constructed by the workload right before performing the request and it's usuallly a one-off. The server would rread the unsigned JSON and issue the Txn-Token after which it just thows away the unsigned JSON. It may help to detect large clock skews between workload and TTS though.",
+              "createdAt": "2024-08-22T07:08:10Z",
+              "updatedAt": "2024-08-22T07:08:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6GVFXr",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-22T07:09:56Z",
+          "updatedAt": "2024-08-22T07:09:56Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "Yes JWTs are always base64 encoded, but we do not use an unsigned JWT here, but an unsigned JSON object. This is different.",
+              "createdAt": "2024-08-22T07:09:56Z",
+              "updatedAt": "2024-08-22T07:09:56Z"
             }
           ]
         }
