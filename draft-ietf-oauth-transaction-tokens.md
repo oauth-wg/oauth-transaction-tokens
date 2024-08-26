@@ -347,7 +347,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
 
 `txn`:
-: REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}. When used in the transaction token, it identifies the entire call chain. It is strongly RECOMMENDED to provide an identifier unique within the trust domain. If providing such an identifier is not possible, then a fixed value of "N_A" MAY be supplied.
+: REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}.
 
 `sub`:
 : REQUIRED A unique identifier for the subject within the context of the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
@@ -599,6 +599,9 @@ Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to 
 
 ## Scope and Purpose processing
 The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with client external to the trust domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (`scope`) of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is not unintentional increase in authorization scope.
+
+## Identifying Call Chains
+A Txn-Token typically represents one call-chain following an external invocation. It is thus useful to identify the call-chain using the Txn-Token. The `txn` claim in the Txn-Token may be used for this purpose. When used in the Txn-Token, it identifies the entire call chain. It is strongly RECOMMENDED to provide an identifier unique within the trust domain.
 
 # Privacy Considerations {#Privacy}
 
