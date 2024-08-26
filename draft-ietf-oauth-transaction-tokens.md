@@ -73,6 +73,7 @@ normative:
   RFC3986: # URI
   RFC8446: # TLS
   RFC6749: #OAuth
+  RFC6848: #Base64url encoding
   RFC7519: #JWT
   RFC7515: #JWS
   RFC8174: # Ambiguity in Keywords
@@ -460,7 +461,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
   - An unsigned JSON object constructed by a workload initiating a transaction
   - Any other format that is understood by the Txn-Token Service
 
-  The type of `subject_token` field is identified by `subject_token_type`.
+  The type of the `subject_token` field is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
 The following additional parameters MAY be present in a Txn-Token Request:
@@ -493,7 +494,7 @@ The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be:
 * Any one of the subject token types described in Section 3 of OAuth 2.0 Token Exchange {{RFC8693}} except the Refresh Token type (i.e., `urn:ietf:params:oauth:token-type:refresh_token`).
 * A URN type name when the subject token is a self-signed JWT, as described below.
 * A URN type name when the subject token is an unsigned JSON object, as described below.
-* A custom URI agreed to between requesters and the Txn-Token Service. The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter.
+* A custom URN agreed to between requesters and the Txn-Token Service. The Txn-Token Service MAY support other token formats, which MAY be specified in the `subject_token_type` parameter.
 
 ### Self-Signed Subject Token Type {#self-signed-subject-token-type}
 A requester MAY use a self-signed JWT as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:self_signed`. This self-signed JWT MUST contain the following claims:
@@ -507,7 +508,7 @@ A requester MAY use a self-signed JWT as a `subject_token` value. In that case, 
 The self-signed JWT MAY contain other claims.
 
 ### Unsigned JSON Object Subject Token Type {#unsigned-json-subject-token-type}
-A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The JSON object in the subject token MUST contain the following fields:
+A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The value of the `subject_token` field MUST be the BASE64URL encoded value of the JSON object as described in {{Section 5 of RFC6848}}.  The JSON object in the subject token MUST contain the following fields:
 
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
 * `exp`: The expiration time of the requested Txn-Token.
