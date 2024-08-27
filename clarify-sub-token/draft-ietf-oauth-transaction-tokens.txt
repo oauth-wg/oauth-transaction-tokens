@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 27 February 2025                                    Capital One
+Expires: 28 February 2025                                    Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                          26 August 2024
+                                                          27 August 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 February 2025.
+   This Internet-Draft will expire on 28 February 2025.
 
 Copyright Notice
 
@@ -766,7 +766,8 @@ Table of Contents
       Txn-Token Service SHALL use this value in determining the sub
       value in the Txn-Token issued in the response to this request.
 
-   *  exp: The expiration time of the requested Txn-Token.
+   *  exp: The expiration time of the unsigned JSON object, which the
+      TTS MAY use as input to determining the lifetime of the Txn-token.
 
    The unsigned JSON object MAY contain other fields, and the Txn-Token
    Service MAY consider them when generating the Txn-Token.
