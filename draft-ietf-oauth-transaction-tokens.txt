@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 25 January 2025                                     Capital One
+Expires: 2 March 2025                                        Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                            24 July 2024
+                                                          29 August 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 January 2025.
+   This Internet-Draft will expire on 2 March 2025.
 
 Copyright Notice
 
@@ -95,6 +95,7 @@ Table of Contents
      7.1.  Txn-Token Request
      7.2.  Subject Token Types
        7.2.1.  Self-Signed Subject Token Type
+       7.2.2.  Unsigned JSON Object Subject Token Type
      7.3.  Txn-Token Request Processing
      7.4.  Txn-Token Response
      7.5.  Creating Replacement Txn-Tokens
@@ -107,9 +108,10 @@ Table of Contents
    9.  Security Considerations
      9.1.  Txn-Token Lifetime
      9.2.  Access Tokens
-     9.3.  Client Authentication
-     9.4.  Replacement Tokens
-     9.5.  Scope and Purpose processing
+     9.3.  Subject Token Types
+     9.4.  Client Authentication
+     9.5.  Replacement Tokens
+     9.6.  Scope and Purpose processing
    10. Privacy Considerations
      10.1.  Obfuscation of Personal Information
      10.2.  Logging
@@ -650,9 +652,19 @@ Table of Contents
       urn:ietf:params:oauth:token-type:txn_token
 
    *  subject_token REQUIRED.  The value MUST represent the subject of
-      the transaction.  This could be an inbound token received by an
-      API Gateway, or a self-signed JWT constructed by a workload
-      initiating a transaction, the type of which is identified by
+      the transaction.  This MAY be:
+
+      -  An inbound token received by an API Gateway
+
+      -  A self-signed JWT constructed by a workload initiating a
+         transaction
+
+      -  An unsigned JSON object constructed by a workload initiating a
+         transaction
+
+      -  Any other format that is understood by the Txn-Token Service
+
+      The type of the subject_token field is identified by
       subject_token_type.
 
    *  subject_token_type REQUIRED.  The value MUST indicate the type of
@@ -696,15 +708,21 @@ Table of Contents
 7.2.  Subject Token Types
 
    The subject_token_type parameter value MUST be a URI [RFC3986].  It
-   MAY be any one of the subject token types described in Section 3 of
-   OAuth 2.0 Token Exchange [RFC8693] except the Refresh Token type
-   (i.e., urn:ietf:params:oauth:token-type:refresh_token), or it MAY be
-   a self-signed JWT, as described below, or it MAY be a custom URI
-   agreed to between requesters and the Txn-Token Service.
+   MAY be:
 
-   The Txn-Token Service MAY support other token formats, which MAY be
-   specified in the subject_token_type parameter.  Any value used in
-   this parameter MUST be a URI as specified in RFC 8693 [RFC8693].
+   *  Any one of the subject token types described in Section 3 of OAuth
+      2.0 Token Exchange [RFC8693] except the Refresh Token type (i.e.,
+      urn:ietf:params:oauth:token-type:refresh_token).
+
+   *  A URN type name when the subject token is a self-signed JWT, as
+      described below.
+
+   *  A URN type name when the subject token is an unsigned JSON object,
+      as described below.
+
+   *  A custom URN agreed to between requesters and the Txn-Token
+      Service.  The Txn-Token Service MAY support other token formats,
+      which MAY be specified in the subject_token_type parameter.
 
 7.2.1.  Self-Signed Subject Token Type
 
@@ -735,6 +753,25 @@ Table of Contents
 
    The self-signed JWT MAY contain other claims.
 
+7.2.2.  Unsigned JSON Object Subject Token Type
+
+   A requester MAY use an unsigned JSON object as a subject_token value.
+   In that case, the requester MUST set the subject_token_type value to:
+   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the
+   subject_token field MUST be the BASE64URL encoded value of the JSON
+   object as described in Section 5 of [RFC6848].  The JSON object in
+   the subject token MUST contain the following fields:
+
+   *  sub: The subject for whom the Txn-Token is being requested.  The
+      Txn-Token Service SHALL use this value in determining the sub
+      value in the Txn-Token issued in the response to this request.
+
+   *  exp: The expiration time of the unsigned JSON object, which the
+      TTS MAY use as input to determining the lifetime of the Txn-token.
+
+   The unsigned JSON object MAY contain other fields, and the Txn-Token
+   Service MAY consider them when generating the Txn-Token.
+
 7.3.  Txn-Token Request Processing
 
    When the Transaction Token Service receives a Txn-Token Request it
@@ -749,18 +786,24 @@ Table of Contents
    within the trust domain defined by the aud claim.
 
    The Transaction Token Service MUST set the iat claim to the time of
-   issuance of the Txn-Token.  The Transaction Token Service MUST set
-   the aud claim to an identifier representing the Trust Domain of the
-   Transaction Token Service.  If the Transaction Token Service supports
-   multiple trust domains, then it MUST determine the correct aud value
-   for this request.  The Transaction Token Service MUST set the exp
-   claim to the expiry time of the Txn-Token.  The Transaction Token
-   Service MUST set the txn claim to a unique ID specific to this
-   transaction.
+   issuance of the Txn-Token.
+
+   The Transaction Token Service MUST set the aud claim to an identifier
+   representing the Trust Domain of the Transaction Token Service.  If
+   the Transaction Token Service supports multiple trust domains, then
+   it MUST determine the correct aud value for this request.
+
+   The Transaction Token Service MUST set the exp claim to the expiry
+   time of the Txn-Token.  The Txn-Token Service MAY consider any exp
+   value present in the subject_token parameter of the Txn-Token Request
+   in determining the exp value of the resulting Txn-Token.
+
+   The Transaction Token Service MUST set the txn claim to a unique ID
+   specific to this transaction.
 
    The Transaction Token Service MAY set the iss claim of the Txn-Token
    to a value defining the entity that signed the Txn-Token.  This claim
-   MUST be ommitted if not set.
+   MUST be omitted if not set.
 
    The Transaction Token Service MUST evaluate the value specified in
    the scope parameter of the request to determine the purp claim of the
@@ -935,7 +978,17 @@ Table of Contents
    this attack since the Access Token may remain valid even after the
    Txn-Token has expired.
 
-9.3.  Client Authentication
+9.3.  Subject Token Types
+
+   A service requesting a Txn-Token SHOULD provide an incoming token if
+   it has one that it used itself to authorize a caller, and if it
+   directly correlates with the downstream call chain it needs the Txn-
+   Token for.  In the absence of an appropriate incoming token, the
+   requesting service MAY use a self-signed JWT, an unsigned JSON object
+   or any other format to represent the details of the requester to the
+   Txn-Token service.
+
+9.4.  Client Authentication
 
    How requesting clients authenticate to the Transaction Token Service
    is out of scope for this specification.  However, if using the
@@ -944,7 +997,7 @@ Table of Contents
    request.  The actor_token MUST authenticate the identity of the
    requesting workload.
 
-9.4.  Replacement Tokens
+9.5.  Replacement Tokens
 
    Validation of a replacement Txn-Token, as well as any Txn-Token, is
    critical to the security of the entire transaction invocation
@@ -954,7 +1007,7 @@ Table of Contents
    signature be verified but also the workload identity of the workload
    requesting the replacement Txn-Token.
 
-9.5.  Scope and Purpose processing
+9.6.  Scope and Purpose processing
 
    The authorization model within a trust domain boundary is most often
    quite different from the authorization model (e.g.  OAuth scopes)
@@ -997,19 +1050,30 @@ Table of Contents
 
    *  URN: urn:ietf:params:oauth:token-type:txn_token
 
-   *  Common Name: Transaction Token
+      -  Common Name: Transaction Token
 
-   *  Change Controller: IESG
+      -  Change Controller: IESG
 
-   *  Specification Document Section Section 7.1 of this specification
+      -  Specification Document Section Section 7.1 of this
+         specification
 
    *  URN: urn:ietf:params:oauth:token-type:self_signed
 
-   *  Common Name: Token type for Self-signed JWT
+      -  Common Name: Token type for Self-signed JWT
 
-   *  Change Controller: IESG
+      -  Change Controller: IESG
 
-   *  Specification Document: Section Section 7.2 of this specification
+      -  Specification Document: Section Section 7.2.1 of this
+         specification
+
+   *  URN: urn:ietf:params:oauth:token-type:unsigned_json
+
+      -  Common Name: Token type for Unsigned JSON Object
+
+      -  Change Controller: IESG
+
+      -  Specification Document: Section Section 7.2.2 of this
+         specification
 
 11.2.  JWT Claims Registry Contents
 
@@ -1139,6 +1203,12 @@ Table of Contents
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/rfc/rfc6749>.
+
+   [RFC6848]  Winterbottom, J., Thomson, M., Barnes, R., Rosen, B., and
+              R. George, "Specifying Civic Address Extensions in the
+              Presence Information Data Format Location Object (PIDF-
+              LO)", RFC 6848, DOI 10.17487/RFC6848, January 2013,
+              <https://www.rfc-editor.org/rfc/rfc6848>.
 
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
