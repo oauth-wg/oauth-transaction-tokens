@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-27T00:14:53.343506+00:00",
+  "timestamp": "2024-08-29T00:14:51.912987+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2383,6 +2383,22 @@
       "body": "the following came up in the IETF 120 session about TraTs:\r\n\"Add an outline on when self-signed may be useful\r\nYaron thought self-signed wil be a footgun\r\nSuggest a simple JSON object as replacement.\"\r\n\r\nThe description of `subject_token` in section 7.1 is too rigid as it only allows an inbound token or a self-signed token. It should make it clear that an implementation may choose to have any different format for the subject_token.\r\n\r\n",
       "createdAt": "2024-07-24T21:34:42Z",
       "updatedAt": "2024-08-05T19:06:32Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 124,
+      "id": "I_kwDOJt_WwM6UmVFG",
+      "title": "Logging guidance and PII data handling",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/124",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently logging guidance says \"Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Information (PII)\". I have few questions on this one\r\n1. Risks with logging is that token is still valid for few minutes and if logs are rotated to any other central archival storage with access to broader set of people or someone has access to the server with logs, then they can reuse the token. So why not just say MUST not log token?\r\n2. Also how would a service know if incoming token has PII or not. They will have to validate the token, extract claims and then somehow know infer that a claim is PII or not. \r\n3. On similar lines, for PII , can we mention that TTS SHOULD evaluate encrypting  or tokenizing PII claims rather than adding them in plaintext. Adding in plaintext is a risk because TTS isn't aware where the token flows. ",
+      "createdAt": "2024-08-28T22:15:07Z",
+      "updatedAt": "2024-08-28T22:15:07Z",
       "closedAt": null,
       "comments": []
     }
@@ -7499,13 +7515,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-05T19:33:50Z",
-      "updatedAt": "2024-08-26T23:42:55Z",
+      "updatedAt": "2024-08-27T20:58:24Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "clarify-sub-token",
-      "headRefOid": "21d457b07bc492f1cc17c3e7a3416fc2383da577",
+      "headRefOid": "be5a1aaec80a83f0a34a03b00518c07a5a615487",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -7796,6 +7812,46 @@
               "updatedAt": "2024-08-26T23:42:55Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6G4w7T",
+          "commit": {
+            "abbreviatedOid": "749779a"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T11:30:57Z",
+          "updatedAt": "2024-08-27T11:30:57Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "I just don't like changing the semantics of the `exp` field between different token types. What about describing the `exp` value as...\r\n\r\n`exp` : The expiry time of the unsigned JSON object which the TTS MAY use as input to determining the life-time of the Txn-token.\r\n\r\nIf we need a way for the requesting workload to request an expiry time for the Txn-token then we should allow that for all flows and not just this one.",
+              "createdAt": "2024-08-27T11:30:57Z",
+              "updatedAt": "2024-08-27T11:30:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6G-KWF",
+          "commit": {
+            "abbreviatedOid": "21d457b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T20:57:42Z",
+          "updatedAt": "2024-08-27T20:57:44Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Agreed, used your proposed language.",
+              "createdAt": "2024-08-27T20:57:43Z",
+              "updatedAt": "2024-08-27T20:57:44Z"
+            }
+          ]
         }
       ]
     },
@@ -7811,7 +7867,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-26T23:59:18Z",
-      "updatedAt": "2024-08-26T23:59:58Z",
+      "updatedAt": "2024-08-27T11:21:47Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
@@ -7823,7 +7879,68 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6G0io8",
+          "commit": {
+            "abbreviatedOid": "64b8872"
+          },
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T01:27:05Z",
+          "updatedAt": "2024-08-27T01:27:05Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Txn identifier is useful for auditing and debugging. We have to make sure TTS logs Tx identifier on its end and then every service in call chain also logs Txn identifier, so in case, a Tx token validating party reports some problem like missing claim or security auditors want to verify why some data was allowed/denied access, then its useful to go back to TTS and verify what happened exactly using token issuance using the Tx identifier.\r\n\r\nWe should include TTS logging Txn identifier.",
+              "createdAt": "2024-08-27T01:27:05Z",
+              "updatedAt": "2024-08-27T01:27:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6G4ofz",
+          "commit": {
+            "abbreviatedOid": "64b8872"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T11:15:49Z",
+          "updatedAt": "2024-08-27T11:15:49Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "I would recommend \"following an *initial* invocation\" or \"following an *initiating* invocation\" so that we don't bias this toward external calls vs inside-the-perimeter invocations.",
+              "createdAt": "2024-08-27T11:15:49Z",
+              "updatedAt": "2024-08-27T11:15:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6G4rix",
+          "commit": {
+            "abbreviatedOid": "64b8872"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-27T11:21:47Z",
+          "updatedAt": "2024-08-27T11:21:47Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "What about...\r\n\r\nA Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The `txn` claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the trust domain, for the `txn` value.\r\n",
+              "createdAt": "2024-08-27T11:21:47Z",
+              "updatedAt": "2024-08-27T11:21:47Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
