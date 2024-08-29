@@ -511,7 +511,7 @@ The self-signed JWT MAY contain other claims.
 A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The value of the `subject_token` field MUST be the BASE64URL encoded value of the JSON object as described in {{Section 5 of RFC6848}}.  The JSON object in the subject token MUST contain the following fields:
 
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
-* `exp`: The expiration time of the unsigned JSON object,  which the TTS MAY use as input to determining the lifetime of the Txn-token.
+* `exp`: The expiration time of the unsigned JSON object, which the TTS MAY use as input to determining the lifetime of the Txn-token.
 
 The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.
 
@@ -524,7 +524,7 @@ The Transaction Token Service MUST set the `iat` claim to the time of issuance o
 
 The Transaction Token Service MUST set the `aud` claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct `aud` value for this request.
 
-The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any `exp` value present in the `subject_token` field of the Txn-Token Request in determining the `exp` value of the resulting Txn-Token.
+The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any `exp` value present in the `subject_token` parameter of the Txn-Token Request in determining the `exp` value of the resulting Txn-Token.
 
 The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 
