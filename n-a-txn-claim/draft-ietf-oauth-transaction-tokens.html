@@ -1033,7 +1033,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 2 March 2025</td>
+<td class="center">Expires 3 March 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1046,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-08-29" class="published">29 August 2024</time>
+<time datetime="2024-08-30" class="published">30 August 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-03-02">2 March 2025</time></dd>
+<dd class="expires"><time datetime="2025-03-03">3 March 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,7 +1104,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 March 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2229,7 +2229,7 @@ Cache-Control: no-store
         <h3 id="name-identifying-call-chains">
 <a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-identifying-call-chains" class="section-name selfRef">Identifying Call Chains</a>
         </h3>
-<p id="section-9.7-1">A Txn-Token typically represents one call-chain following an external invocation. It is thus useful to identify the call-chain using the Txn-Token. The <code>txn</code> claim in the Txn-Token may be used for this purpose. When used in the Txn-Token, it identifies the entire call chain. It is strongly RECOMMENDED to provide an identifier unique within the trust domain.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
+<p id="section-9.7-1">A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The <code>txn</code> claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the trust domain, for the <code>txn</code> value.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
