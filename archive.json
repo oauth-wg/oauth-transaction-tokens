@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-08-29T00:14:51.912987+00:00",
+  "timestamp": "2024-09-01T00:18:15.503205+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2373,7 +2373,7 @@
       "id": "I_kwDOJt_WwM6QwDHF",
       "title": "`subject_token` description needs to be more flexible",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/121",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2382,8 +2382,8 @@
       "labels": [],
       "body": "the following came up in the IETF 120 session about TraTs:\r\n\"Add an outline on when self-signed may be useful\r\nYaron thought self-signed wil be a footgun\r\nSuggest a simple JSON object as replacement.\"\r\n\r\nThe description of `subject_token` in section 7.1 is too rigid as it only allows an inbound token or a self-signed token. It should make it clear that an implementation may choose to have any different format for the subject_token.\r\n\r\n",
       "createdAt": "2024-07-24T21:34:42Z",
-      "updatedAt": "2024-08-05T19:06:32Z",
-      "closedAt": null,
+      "updatedAt": "2024-08-29T22:41:11Z",
+      "closedAt": "2024-08-29T22:41:11Z",
       "comments": []
     },
     {
@@ -2398,9 +2398,24 @@
       "labels": [],
       "body": "Currently logging guidance says \"Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Information (PII)\". I have few questions on this one\r\n1. Risks with logging is that token is still valid for few minutes and if logs are rotated to any other central archival storage with access to broader set of people or someone has access to the server with logs, then they can reuse the token. So why not just say MUST not log token?\r\n2. Also how would a service know if incoming token has PII or not. They will have to validate the token, extract claims and then somehow know infer that a claim is PII or not. \r\n3. On similar lines, for PII , can we mention that TTS SHOULD evaluate encrypting  or tokenizing PII claims rather than adding them in plaintext. Adding in plaintext is a risk because TTS isn't aware where the token flows. ",
       "createdAt": "2024-08-28T22:15:07Z",
-      "updatedAt": "2024-08-28T22:15:07Z",
+      "updatedAt": "2024-08-29T10:11:00Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Txn-Tokens already contain the subject identifier which is enough to be considered PII in some environments. Our own policy states that PII data can be logged, but the logs must be deleted after a few days (max 7) days.\r\n\r\nWe forbid logging of Txn-Tokens in our integrations for security reasons, not just because they could contain PII.\r\n",
+          "createdAt": "2024-08-29T07:11:36Z",
+          "updatedAt": "2024-08-29T07:11:36Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Our implementation in my company, we do follow the same guidance i.e do not log tokens at all, nothing to do with PII. Tokens are pretty much considered as credentials as validating parties leverage the claims for authorizing the request. ",
+          "createdAt": "2024-08-29T10:10:59Z",
+          "updatedAt": "2024-08-29T10:10:59Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -7508,24 +7523,26 @@
       "id": "PR_kwDOJt_WwM53fRrs",
       "title": "added unsigned json subject token type",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/122",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-08-05T19:33:50Z",
-      "updatedAt": "2024-08-27T20:58:24Z",
+      "updatedAt": "2024-08-29T22:41:11Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "clarify-sub-token",
-      "headRefOid": "be5a1aaec80a83f0a34a03b00518c07a5a615487",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "3e9a2a25c088e86c4a3bd4e2770c3e5e7d4a8e1e",
+      "closedAt": "2024-08-29T22:41:10Z",
+      "mergedAt": "2024-08-29T22:41:10Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d7f4a841016c0ae5698f111d5a90f5ce73b67b6f"
+      },
       "comments": [
         {
           "author": "tulshi",
@@ -7852,6 +7869,79 @@
               "updatedAt": "2024-08-27T20:57:44Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6HNXS5",
+          "commit": {
+            "abbreviatedOid": "be5a1aa"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-29T11:22:21Z",
+          "updatedAt": "2024-08-29T11:22:21Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "There's an extra space after the comma :)",
+              "createdAt": "2024-08-29T11:22:21Z",
+              "updatedAt": "2024-08-29T11:22:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6HNYeW",
+          "commit": {
+            "abbreviatedOid": "be5a1aa"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-29T11:24:43Z",
+          "updatedAt": "2024-08-29T11:24:44Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "Maybe change \"`subject_token` field\" to \"`subject_token` parameter\" ?",
+              "createdAt": "2024-08-29T11:24:43Z",
+              "updatedAt": "2024-08-29T11:24:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6HNYvk",
+          "commit": {
+            "abbreviatedOid": "be5a1aa"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Just a few very minor comments",
+          "createdAt": "2024-08-29T11:25:13Z",
+          "updatedAt": "2024-08-29T11:25:13Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6HUv5H",
+          "commit": {
+            "abbreviatedOid": "be5a1aa"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-08-29T22:37:37Z",
+          "updatedAt": "2024-08-29T22:37:38Z",
+          "comments": [
+            {
+              "originalPosition": 60,
+              "body": "done.",
+              "createdAt": "2024-08-29T22:37:37Z",
+              "updatedAt": "2024-08-29T22:37:38Z"
+            }
+          ]
         }
       ]
     },
@@ -7867,13 +7957,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-08-26T23:59:18Z",
-      "updatedAt": "2024-08-27T11:21:47Z",
+      "updatedAt": "2024-08-30T16:35:03Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "bea633c0f9fb6db8521f94063665362cda2673ca",
+      "baseRefOid": "d7f4a841016c0ae5698f111d5a90f5ce73b67b6f",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "n-a-txn-claim",
-      "headRefOid": "64b8872a046620df013e3021c6115a26924ad76f",
+      "headRefOid": "62ad115a33b6b29b75dfc3909bc776d2dffb6de3",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
