@@ -1038,11 +1038,11 @@ Table of Contents
 
 10.2.  Logging
 
-   Txn-Tokens should not be logged to prevent abuse of tokens via log
-   files.  The content from the Txn-Tokens may be logged after the
-   signature has been removed.  If the Txn-Token contains PII, then care
-   should be taken in logging the content of the Txn-Token so that the
-   PII does not get logged.
+   Txn-Tokens should not be logged.  This is in order to prevent abuse
+   of tokens via log files.  The content from the Txn-Tokens may be
+   logged after the signature has been removed.  If the Txn-Token
+   contains PII, then care should be taken in logging the content of the
+   Txn-Token so that the PII does not get logged.
 
 11.  IANA Considerations
 
