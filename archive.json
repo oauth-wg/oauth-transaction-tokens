@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-03T00:14:44.892615+00:00",
+  "timestamp": "2024-09-05T00:14:52.980525+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2349,15 +2349,15 @@
       "id": "I_kwDOJt_WwM6Qv-Nk",
       "title": "The \"N_A\" value for the \"txn\" claim can complicate processing",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/120",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The following issue came up during the IETF 120 session on TraTs:\r\nThere was a comment about some of the processing rules that was the equivalent of NULL with extra processing steps (N_A)\r\n",
       "createdAt": "2024-07-24T21:19:28Z",
-      "updatedAt": "2024-07-24T21:26:19Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-04T23:20:54Z",
+      "closedAt": "2024-09-04T23:20:54Z",
       "comments": [
         {
           "author": "tulshi",
@@ -7950,24 +7950,26 @@
       "id": "PR_kwDOJt_WwM55gDkX",
       "title": "moved txn field usage information to Security Considerations section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/123",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-08-26T23:59:18Z",
-      "updatedAt": "2024-08-30T16:35:03Z",
+      "updatedAt": "2024-09-04T23:20:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d7f4a841016c0ae5698f111d5a90f5ce73b67b6f",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "n-a-txn-claim",
       "headRefOid": "62ad115a33b6b29b75dfc3909bc776d2dffb6de3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-04T23:20:53Z",
+      "mergedAt": "2024-09-04T23:20:53Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "b9fa6db2879cfc17ae5ed2a0e000e69c5a57ad4b"
+      },
       "comments": [],
       "reviews": [
         {
@@ -8029,6 +8031,19 @@
               "updatedAt": "2024-08-27T11:21:47Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6H_eiq",
+          "commit": {
+            "abbreviatedOid": "62ad115"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-04T23:19:09Z",
+          "updatedAt": "2024-09-04T23:19:09Z",
+          "comments": []
         }
       ]
     }
