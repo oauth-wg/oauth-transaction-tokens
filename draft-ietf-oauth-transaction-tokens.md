@@ -635,7 +635,7 @@ and if so their values need to be obfuscated. For example, originating IP addres
 protected through some obfuscation method (e.g. salted SHA256).
 
 ## Logging
-Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Information (PII). What constitutes PII depends upon the use case, but in some cases even an email address (which could be a `sub` value) can be protected PII, which should not be logged.
+Txn-Tokens should not be logged to prevent abuse of tokens via log files. The content from the Txn-Tokens may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.
 
 # IANA Considerations {#IANA}
 
