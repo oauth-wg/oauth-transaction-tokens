@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-05T00:14:52.980525+00:00",
+  "timestamp": "2024-09-08T00:16:43.723362+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2103,7 +2103,7 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2024-07-29T17:14:17Z",
+      "updatedAt": "2024-09-05T04:16:34Z",
       "closedAt": null,
       "comments": [
         {
@@ -2140,6 +2140,13 @@
           "body": "This is taken care of. I have emailed with the subject \"*[OAUTH-WG]\r\nProposal for Tx token batching processing on\r\ndraft-ietf-oauth-transaction-tokens-03*\".\r\n\r\n\r\nOn Wed, Jul 24, 2024 at 2:50\u202fPM Atul Tulshibagwale ***@***.***>\r\nwrote:\r\n\r\n> @ashayraut <https://github.com/ashayraut> Please post the description of\r\n> this issue on the IETF OAuth mailing list, and point people to this issue\r\n> to add their comments here. This together with Issue #110\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/110> should\r\n> be addressed in a single pull request.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/issues/111#issuecomment-2248958420>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/ABHO2XZDBROMGLSCCA6I3C3ZOAORZAVCNFSM6AAAAABK2AEJHSVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDENBYHE2TQNBSGA>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n\r\n\r\n-- \r\nRegards,\r\nAshay Raut\r\n",
           "createdAt": "2024-07-29T17:14:16Z",
           "updatedAt": "2024-07-29T17:14:16Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch You comment - \"batch token is ONLY valid at the Transaction Token Service (potentially encrypted such that ONLY the Transaction Token Service can decrypt it)\"\r\n\r\nAshay: Yes, you are right. Its' valid only in Tx token service. We can encrypt it or but won't signature just suffice?\r\n\r\n@gffletch About your comment - \"I think this 'batch token' should also be sender constrained in some way.\"\r\n\r\nAshay: The way we implemented this is by creating a unique use case id or you call it namespace. So, the problem is -> A requests a batch token which it can pass to B but B would need some permissions to get Tx token back from A's batch token. To solve it, when A onboards Tx Token issuer, it creates a use case id unique to A which is registered with Tx token issuer. Every time Tx Token issuer issues a 'batch token' to A, it will find the usecaseId and put it in batch token. If B gets batch token from A (or steals it somehow), then B will not be able to get a Tx token back from issuer. Tx token issuer maintains an allowlist against each unique usecaseId, for who is allowed to get token back for that use case it. To get token back, B has to register itself to Tx token issuer against A's usecaseId.\r\n\r\nWe call services like A, the \"batch token initiator\" and services like B \"the batch rehydrator\" as it rehydates Tx token back from batch token. \r\n\r\nEdge case - A can play both roles - initiator and rehydrator. This might lead to problem of infinite exchanges. But not sure if its a problem. It may be a problem for some use case. Tx token can also keep a counter in batch token and Tx token to ensure only finite amount of exchanges are allowed.\r\n\r\nOverall, how does the proposal sound? I think we cannot write all this into a complexity into RFC. For RFC, we can keep it simple that there can be long lived batch token and Tx token must implement some sort of access control to ensure only authorized services can convert the batch to Tx token.\r\n\r\nSupporting batch has been super important for my company and major milestone as many critical workflows are model on such event based architecture. \r\n\r\nIf everything looks good, I can create PR for it and take a stab at updating our draft.",
+          "createdAt": "2024-09-05T04:11:12Z",
+          "updatedAt": "2024-09-05T04:16:34Z"
         }
       ]
     },
@@ -8044,6 +8051,86 @@
           "createdAt": "2024-09-04T23:19:09Z",
           "updatedAt": "2024-09-04T23:19:09Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 125,
+      "id": "PR_kwDOJt_WwM56kTYt",
+      "title": "clarified logging recommendation",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/125",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-09-05T19:25:42Z",
+      "updatedAt": "2024-09-06T15:11:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "b9fa6db2879cfc17ae5ed2a0e000e69c5a57ad4b",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "clarify-logging",
+      "headRefOid": "eaae10cb21f33919e471784780095932c34bdb5c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6IIsCU",
+          "commit": {
+            "abbreviatedOid": "eaae10c"
+          },
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me.",
+          "createdAt": "2024-09-05T20:04:40Z",
+          "updatedAt": "2024-09-05T20:04:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6IRgFs",
+          "commit": {
+            "abbreviatedOid": "eaae10c"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-06T13:33:33Z",
+          "updatedAt": "2024-09-06T13:33:33Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Removing the signature is one way to make the token not replayable, but it's not the only way to address the logging concerns. For instance, select fields could be extracted from the token and logged. \r\n\r\nComplete Txn-Tokens must not be logged verbatim due to the potential replay risk of tokens extracted from the log files. Additionally, Txn-Tokens may contain PII which should be anonymized or removed before logging the values. There are multiple ways to ensure the logged data can not be replayed for example logging a Txn-Token that does not contain any PII after removing the signature from the base64url encoded token.\r\n\r\nOr something like that?",
+              "createdAt": "2024-09-06T13:33:33Z",
+              "updatedAt": "2024-09-06T13:33:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6ISYzs",
+          "commit": {
+            "abbreviatedOid": "eaae10c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-06T15:11:10Z",
+          "updatedAt": "2024-09-06T15:11:10Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I think there are multiple forms of abuse, including replay and information leakage.\r\n\r\nI worry about schemes that strip the signature - it limits replay risk (assuming the signature is checked.... if it is not, there are bigger problems), but removes the integrity protection allowing an attacker to manipulate the contents of the token which may make forensic analysis a bit more tricky, so stripping the signature is safe as long as the log file's integrity is protected.\r\n\r\nBuilding on the existing text, something like:\r\n\r\nTxn-Tokens should not be logged by microservices. This is in order to prevent replay of tokens or leakage of PII or other sensitive information via log files. A hash of the Txn-Token may be logged to allow for correlation with the log files of the Txn-Token Service that records issued tokens. Alternatively the JWS payload of a Txn-Token may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.\r\n\r\n",
+              "createdAt": "2024-09-06T15:11:10Z",
+              "updatedAt": "2024-09-06T15:11:10Z"
+            }
+          ]
         }
       ]
     }
