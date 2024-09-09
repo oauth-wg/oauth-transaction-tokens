@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 8 March 2025                                        Capital One
+Expires: 13 March 2025                                       Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                        4 September 2024
+                                                        9 September 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 March 2025.
+   This Internet-Draft will expire on 13 March 2025.
 
 Copyright Notice
 
@@ -88,7 +88,7 @@ Table of Contents
      5.2.  JWT Body Claims
        5.2.1.  Purpose claim
        5.2.2.  Requester Context
-       5.2.3.  Authorizaiton Details
+       5.2.3.  Authorization Details
        5.2.4.  Example
    6.  Txn-Token Service
    7.  Requesting Txn-Tokens
@@ -510,7 +510,7 @@ Table of Contents
       that have requested Txn-Tokens as part of the transaction
       processing.
 
-5.2.3.  Authorizaiton Details
+5.2.3.  Authorization Details
 
    The Txn-Token SHOULD contain an azd claim.  The value of this claim
    is a JSON object that contains name/value pairs (wherein the value
