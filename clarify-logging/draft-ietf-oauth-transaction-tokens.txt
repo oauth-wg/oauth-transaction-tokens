@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 9 March 2025                                        Capital One
+Expires: 13 March 2025                                       Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                        5 September 2024
+                                                        9 September 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 March 2025.
+   This Internet-Draft will expire on 13 March 2025.
 
 Copyright Notice
 
@@ -1038,11 +1038,14 @@ Table of Contents
 
 10.2.  Logging
 
-   Txn-Tokens should not be logged.  This is in order to prevent abuse
-   of tokens via log files.  The content from the Txn-Tokens may be
-   logged after the signature has been removed.  If the Txn-Token
-   contains PII, then care should be taken in logging the content of the
-   Txn-Token so that the PII does not get logged.
+   Complete Txn-Tokens must not be logged verbatim.  This is in order to
+   prevent replay of tokens or leakage of PII or other sensitive
+   information via log files.  A hash of the Txn-Token may be logged to
+   allow for correlation with the log files of the Txn-Token Service
+   that records issued tokens.  Alternatively the JWS payload of a Txn-
+   Token may be logged after the signature has been removed.  If the
+   Txn-Token contains PII, then care should be taken in logging the
+   content of the Txn-Token so that the PII does not get logged.
 
 11.  IANA Considerations
 
