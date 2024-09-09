@@ -635,7 +635,7 @@ and if so their values need to be obfuscated. For example, originating IP addres
 protected through some obfuscation method (e.g. salted SHA256).
 
 ## Logging
-Txn-Tokens should not be logged. This is in order to prevent abuse of tokens via log files. The content from the Txn-Tokens may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.
+Complete Txn-Tokens must not be logged verbatim. This is in order to prevent replay of tokens or leakage of PII or other sensitive information via log files. A hash of the Txn-Token may be logged to allow for correlation with the log files of the Txn-Token Service that records issued tokens. Alternatively the JWS payload of a Txn-Token may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.
 
 # IANA Considerations {#IANA}
 
