@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-08T00:16:43.723362+00:00",
+  "timestamp": "2024-09-10T00:15:12.833968+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -8066,13 +8066,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-09-05T19:25:42Z",
-      "updatedAt": "2024-09-06T15:11:10Z",
+      "updatedAt": "2024-09-09T23:12:58Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "b9fa6db2879cfc17ae5ed2a0e000e69c5a57ad4b",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "clarify-logging",
-      "headRefOid": "eaae10cb21f33919e471784780095932c34bdb5c",
+      "headRefOid": "59a0cbda1c885644b1e6c59c325f8f1307a623c2",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -8131,6 +8131,56 @@
               "updatedAt": "2024-09-06T15:11:10Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 126,
+      "id": "PR_kwDOJt_WwM56zrOg",
+      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/126",
+      "state": "MERGED",
+      "author": "federicofdez",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Typo corrected.",
+      "createdAt": "2024-09-09T07:26:32Z",
+      "updatedAt": "2024-09-09T16:44:07Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "b9fa6db2879cfc17ae5ed2a0e000e69c5a57ad4b",
+      "headRepository": "federicofdez/oauth-transaction-tokens",
+      "headRefName": "patch-1",
+      "headRefOid": "d61da4e0a4de2df336aaf654f69e33d07b374e57",
+      "closedAt": "2024-09-09T16:43:43Z",
+      "mergedAt": "2024-09-09T16:43:43Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "8b39624909cc857534a55addccc16c3de021de58"
+      },
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@federicofdez thanks for the PR!",
+          "createdAt": "2024-09-09T16:44:05Z",
+          "updatedAt": "2024-09-09T16:44:05Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6Igy9j",
+          "commit": {
+            "abbreviatedOid": "d61da4e"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-09T15:43:49Z",
+          "updatedAt": "2024-09-09T15:43:49Z",
+          "comments": []
         }
       ]
     }
