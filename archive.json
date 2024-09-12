@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-10T00:15:12.833968+00:00",
+  "timestamp": "2024-09-12T00:15:32.587335+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -8066,7 +8066,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2024-09-05T19:25:42Z",
-      "updatedAt": "2024-09-09T23:12:58Z",
+      "updatedAt": "2024-09-11T15:39:04Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "b9fa6db2879cfc17ae5ed2a0e000e69c5a57ad4b",
@@ -8077,7 +8077,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is there a reason why you did not use uppercase terms like MUST NOT or SHOULD? Because it's supposed to be informative?",
+          "createdAt": "2024-09-11T06:44:00Z",
+          "updatedAt": "2024-09-11T06:44:00Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, the section is non-normative.\r\n\r\nOn Tue, Sep 10, 2024 at 11:44\u202fPM Kai Lehmann ***@***.***>\r\nwrote:\r\n\r\n> Is there a reason why you did not use uppercase terms like MUST NOT or\r\n> SHOULD? Because it's supposed to be informative?\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/oauth-wg/oauth-transaction-tokens/pull/125#issuecomment-2342792520>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AB55UG63MMHMIFIJYT4M53LZV7RENAVCNFSM6AAAAABNXE4OQCVHI2DSMVQWIX3LMV43OSLTON2WKQ3PNVWWK3TUHMZDGNBSG44TENJSGA>\r\n> .\r\n> You are receiving this because you authored the thread.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2024-09-11T15:39:03Z",
+          "updatedAt": "2024-09-11T15:39:03Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM6IIsCU",
@@ -8131,6 +8146,39 @@
               "updatedAt": "2024-09-06T15:11:10Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6Ikitt",
+          "commit": {
+            "abbreviatedOid": "eaae10c"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-10T03:13:03Z",
+          "updatedAt": "2024-09-10T03:13:03Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I've incorporated some of both your comments here.",
+              "createdAt": "2024-09-10T03:13:03Z",
+              "updatedAt": "2024-09-10T03:13:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6IsCha",
+          "commit": {
+            "abbreviatedOid": "59a0cbd"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-10T17:43:01Z",
+          "updatedAt": "2024-09-10T17:43:01Z",
+          "comments": []
         }
       ]
     },
