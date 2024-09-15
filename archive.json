@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-12T00:15:32.587335+00:00",
+  "timestamp": "2024-09-15T00:17:18.910855+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2178,7 +2178,7 @@
       "labels": [],
       "body": "In [7.5.2](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#section-7.5.2):\r\n\r\n> To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in [Section 7.1](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#txn-token-request) but includes the Txn-Token to be replaced as the value of the subject_token parameter.\r\n\r\nDoes this assume that `subject_token_type` should be `urn:ietf:params:oauth:token-type:txn_token`? Should we call it out explicitly?",
       "createdAt": "2024-07-22T01:22:11Z",
-      "updatedAt": "2024-07-24T15:48:05Z",
+      "updatedAt": "2024-09-13T01:54:08Z",
       "closedAt": null,
       "comments": [
         {
