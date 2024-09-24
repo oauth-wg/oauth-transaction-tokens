@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-22T00:17:28.503265+00:00",
+  "timestamp": "2024-09-24T00:15:46.743423+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2423,6 +2423,161 @@
           "updatedAt": "2024-08-29T10:10:59Z"
         }
       ]
+    },
+    {
+      "number": 127,
+      "id": "I_kwDOJt_WwM6XjqcD",
+      "title": "Clarify Transaction Token Context",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/127",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch",
+        "tulshi"
+      ],
+      "labels": [],
+      "body": "In section 2.2.1 the context that may be included in a transaction token includes \"The external authorization token (e.g., the OAuth access token)\". To ensure this is not interpreted to mean that an access token is included in a transaction token, I would suggest the following additions, in line with section 9.3 in Security Considerations:\r\n\r\n\"A reference to the external authorization token (e.g., the OAuth access token), including scopes or claims included in the authorization token, but not the unmodified authorization token (see Security Considerations, Section 9.3)\"",
+      "createdAt": "2024-09-23T13:44:56Z",
+      "updatedAt": "2024-09-23T13:44:57Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 128,
+      "id": "I_kwDOJt_WwM6Xjuk0",
+      "title": "Ascii Diagram update",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/128",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "PieterKas"
+      ],
+      "labels": [],
+      "body": "The ASCII diagram in Figure 1 has misaligned lines in the HTML rendering for steps 1,2,3 and 7 on the diagram.\r\n\r\nThe ASCII diagram in Figure 2 has misaligned lines in the HTML rendering for steps 1,2,3 and 10 on the diagram.",
+      "createdAt": "2024-09-23T13:50:49Z",
+      "updatedAt": "2024-09-23T13:52:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 129,
+      "id": "I_kwDOJt_WwM6Xj3qX",
+      "title": "Trust Domain definition",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/129",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The definition of a Trust Domain feels very specific to network segmentation. Is there a industry level Trust Domain definition we can use instead? For example, should we use a definition that defines the trust domain in terms of the shared policies that apply? Something like:\r\n\r\n\"A trust domain refers to a collection of systems, applications, or workloads that share a common security policy\".",
+      "createdAt": "2024-09-23T14:03:15Z",
+      "updatedAt": "2024-09-23T14:03:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 130,
+      "id": "I_kwDOJt_WwM6Xj4lr",
+      "title": "Editorial change",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/130",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 4\r\n\r\nChange from:\r\n\r\n\"A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain.\"\r\n\r\nto\r\n\r\n\"A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.\"",
+      "createdAt": "2024-09-23T14:04:46Z",
+      "updatedAt": "2024-09-23T14:04:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 131,
+      "id": "I_kwDOJt_WwM6XkFrD",
+      "title": "Can a sub_id change?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/131",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?",
+      "createdAt": "2024-09-23T14:20:49Z",
+      "updatedAt": "2024-09-23T14:20:50Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 132,
+      "id": "I_kwDOJt_WwM6XkKgb",
+      "title": "rctx MUST",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/132",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 7.1 makes the inclusion of an rctx value mandatory (MUST). \r\n\r\n1. Should this be a MUST, or could it be omitted if no additional context is passed\r\n2. If no additional context is passed, should we specify that it is included, but with a null value?",
+      "createdAt": "2024-09-23T14:26:03Z",
+      "updatedAt": "2024-09-23T14:26:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 133,
+      "id": "I_kwDOJt_WwM6XkTWR",
+      "title": "access_token potential for confusion",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/133",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch",
+        "tulshi"
+      ],
+      "labels": [],
+      "body": "Section 7.2 includes a \"access_token\", which is part of the token exchange protocol. RFC 8693 makes it clear that it des not need to be an OAuth token, but perhaps we can reference that this parameter is define in RFC 8693?\r\n\r\nPerhaps something like:\r\n\r\n\"The following describes required values of the token exchange protocol as defined in RFC 8693 which must be included in the Txn-Token Response:\"\r\n\r\nor\r\n\r\n\"A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. The Txn-Token Response is a profile of the token exchange response defined in RFC 8693. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of RFC6749. The following describes required values of the token exchange protocol as defined in RFC 8693 which must be included in the Txn-Token Response:\"",
+      "createdAt": "2024-09-23T14:39:26Z",
+      "updatedAt": "2024-09-23T14:39:26Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 134,
+      "id": "I_kwDOJt_WwM6XkV93",
+      "title": "Clarify why the \"aud\" claim remains unchanged",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/134",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch",
+        "tulshi"
+      ],
+      "labels": [],
+      "body": "Good practice is to explain why something is a MUST. \r\n\r\nSuggestion:\r\n\r\nFrom: The value of the aud claim MUST remain unchanged in a replacement Txn-Token.\r\n\r\nTo: The value of the aud claim MUST remain unchanged in a replacement Txn-Token to prevent the Txn-Token from being accepted outside it's current Trust Domain.\r\n\r\nAlternatively, we cann add security considerations for the draft as well.",
+      "createdAt": "2024-09-23T14:43:26Z",
+      "updatedAt": "2024-09-23T14:43:26Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 135,
+      "id": "I_kwDOJt_WwM6XkZyG",
+      "title": "Authentication mechanisms",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/135",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I wonder if we can clarify the guidance in Section 7.4 a bit: \r\n\r\nFrom: It SHOULD rely on mechanisms, such as Spiffe or some other means of performing MTLS [RFC8446], to securely authenticate the requester.\r\n\r\nTo: It SHOULD rely on JWT or X.509 credentials, which may be provisioned using SPIFFE or other mechanisms, to securely authenticate the requester. \r\n\r\nThe final sentence in section 7 probably also needs a bit of clarification:\r\n\r\nIt SHOULD rely on mechanisms, such as [Spiffe], to securely authenticate the Transaction Token Service before making a Txn-Token Request. I think the requirement here should be that the Transaction Server should be authenticated to the workload using a JWT or X.509 certificate, which may be provisioned using SPIFFE or another mechanism and used with a secure protocol like MTLS or using the WIMSE service-to-service authentication mechanisms.",
+      "createdAt": "2024-09-23T14:49:19Z",
+      "updatedAt": "2024-09-23T15:06:43Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
