@@ -193,12 +193,7 @@ Table of Contents
    provides context that is sufficient for it to generate a Txn-Token.
    This context MAY include:
 
-   *  A reference to the external authorization token (e.g., the OAuth
-      access token).  This may inlcude a hash of the authorization token
-      and may including scopes or claims included in the authorization
-      token.  To minimise the risk of token theft, It MUST NOT include
-      the unmodified authorization token (see Security Considerations,
-      Section 9.3).
+   *  The external authorization token (e.g., the OAuth access token)
 
    *  Parameters that are required to be bound for the duration of this
       call
@@ -256,33 +251,33 @@ Table of Contents
    Figure 1 shows the basic flow of how Txn-Tokens are used in a multi-
    workload environment.
 
-        1    ┌──────────────┐    2      ┌──────────────┐
-   ─────────▶│              ├───────────▶              │
+        1    +--------------+    2      +--------------+
+   --------->│              │---------->│              │
              │   External   │           │  Txn-Token   │
         7    │   Endpoint   │    3      │   Service    │
-   ◀─────────┤              ◀───────────│              │
-             └────┬───▲─────┘           └──────────────┘
-                  │   │
-                4 │   │ 6
-             ┌────▼───┴─────┐
+   <---------│              │<----------│              │
+             +--------------+           +--------------+
+                  │   ^
+                4 v   │ 6
+             +--------------+
              │              │
              │   Internal   │
              │ Microservice │
              │              │
-             └────┬───▲─────┘
-                  │   │
-                  ▼   │
+             +--------------+
+                  │   ^
+                  v   │
                     o
                 5   o    6
                     o
-                  │   ▲
-                  │   │
-             ┌────▼───┴─────┐
+                  │   ^
+                  v   │
+             +--------------+
              │              │
              │   Internal   │
              │ Microservice │
              │              │
-             └──────────────┘
+             +--------------+
 
               Figure 1: Basic Transaction Tokens Architecture
 
@@ -311,46 +306,46 @@ Table of Contents
    An intermediate service may decide to obtain a replacement Txn-Token
    from the Txn-Token service.  That flow is described below in Figure 2
 
-        1    ┌──────────────┐    2      ┌──────────────┐
-   ─────────▶│              ├───────────▶              │
+        1    +--------------+    2      +--------------+
+   --------->│              │---------->│              │
              │   External   │           │              │
         10   │   Endpoint   │    3      │              │
-   ◀─────────┤              ◀───────────│              │
-             └────┬───▲─────┘           │              │
-                  │   │                 │              │
-                4 │   │ 9               │              │
-             ┌────▼───┴─────┐           │              │
+   <---------│              │<----------│              │
+             +--------------+           │              │
+                  │   ^                 │              │
+                4 v   │ 9               │              │
+             +--------------+           │              │
              │              │           │              │
              │   Internal   │           │              │
              │ Microservice │           │              │
              │              │           │              │
-             └────┬───▲─────┘           │  Txn-Token   │
-                  │   │                 │   Service    │
-                  ▼   │                 │              │
+             +--------------+           │  Txn-Token   │
+                  │   ^                 │   Service    │
+                  v   │                 │              │
                     o                   │              │
                 5   o    9              │              │
-                  │ o ▲                 │              │
+                  │ o ^                 │              │
                   │   │                 │              │
-                  │   │                 │              │
-             ┌────▼───┴─────┐    6      │              │
-             │              ├───────────▶              │
+                  v   │                 │              │
+             +--------------+    6      │              │
+             │              │---------->│              │
              │   Internal   │           │              │
              │ Microservice │    7      │              │
-             │              ◀───────────│              │
-             └────┬───▲─────┘           │              │
-                  │   │                 │              │
-                  ▼   │                 └──────────────┘
+             │              │<----------│              │
+             +--------------+           │              │
+                  │   ^                 │              │
+                  v   │                 +--------------+
                     o
                 8   o    9
                     o
-                  │   ▲
-                  │   │
-             ┌────▼───┴─────┐
+                  │   ^
+                  v   │
+             +--------------+
              │              │
              │   Internal   │
              │ Microservice │
              │              │
-             └──────────────┘
+             +--------------+
 
                     Figure 2: Replacement Txn-Token Flow
 
@@ -455,7 +450,8 @@ Table of Contents
 
    aud:  REQUIRED This claim, defined in [RFC7519], identifies the trust
       domain in which the Txn-Token is valid.  This identifier MUST
-      uniquely identify the trust domain.
+      uniquely identify the trust domain to prevent the Txn-Token from
+      being accepted outside it's current Trust Domain.
 
    exp:  REQUIRED Expiry time of the Txn-Token as defined in [RFC7519]
 
@@ -642,9 +638,11 @@ Table of Contents
    token endpoint with the following parameters:
 
    *  grant_type REQUIRED.  The value MUST be set to
-      urn:ietf:params:oauth:grant-type:token-exchange
+      urn:ietf:params:oauth:grant-type:token-exchange.
 
-   *  audience REQUIRED.  The value MUST be set to the Trust Domain name
+   *  audience REQUIRED.  The value of the aud claim MUST remain
+      unchanged in a replacement Txn-Token to prevent the Txn-Token from
+      being accepted outside it's current Trust Domain.
 
    *  scope REQUIRED.  A space-delimited list of case-sensitive strings
       where the value(s) MUST represent the specific purpose or intent

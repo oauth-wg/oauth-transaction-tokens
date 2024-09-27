@@ -1395,7 +1395,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
 <p id="section-2.2.1-1">Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> access token or an OpenID Connect <span>[<a href="#OpenIdConnect" class="cite xref">OpenIdConnect</a>]</span> ID token. This workload then performs an OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> to obtain a Txn-Token. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. This context MAY include:<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.2.1-2.1">
-              <p id="section-2.2.1-2.1.1">A reference to the external authorization token (e.g., the OAuth access token). This may inlcude a hash of the authorization token and may including scopes or claims included in the authorization token. To minimise the risk of token theft, It MUST NOT include the unmodified authorization token (see Security Considerations, Section 9.3).<a href="#section-2.2.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-2.2.1-2.1.1">The external authorization token (e.g., the OAuth access token)<a href="#section-2.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-2.2.1-2.2">
               <p id="section-2.2.1-2.2.1">Parameters that are required to be bound for the duration of this call<a href="#section-2.2.1-2.2.1" class="pilcrow">¶</a></p>
@@ -1450,33 +1450,33 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
 <figure id="figure-1">
             <div class="alignLeft art-ascii-art art-text artwork" id="section-2.5.1-2.1">
 <pre>
-     1    ┌──────────────┐    2      ┌──────────────┐
-─────────▶│              ├───────────▶              │
+     1    +--------------+    2      +--------------+
+---------&gt;│              │----------&gt;│              │
           │   External   │           │  Txn-Token   │
      7    │   Endpoint   │    3      │   Service    │
-◀─────────┤              ◀───────────│              │
-          └────┬───▲─────┘           └──────────────┘
-               │   │
-             4 │   │ 6
-          ┌────▼───┴─────┐
+&lt;---------│              │&lt;----------│              │
+          +--------------+           +--------------+
+               │   ^
+             4 v   │ 6
+          +--------------+
           │              │
           │   Internal   │
           │ Microservice │
           │              │
-          └────┬───▲─────┘
-               │   │
-               ▼   │
+          +--------------+
+               │   ^
+               v   │
                  o
              5   o    6
                  o
-               │   ▲
-               │   │
-          ┌────▼───┴─────┐
+               │   ^
+               v   │
+          +--------------+
           │              │
           │   Internal   │
           │ Microservice │
           │              │
-          └──────────────┘
+          +--------------+
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
@@ -1518,46 +1518,46 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
 <figure id="figure-2">
             <div class="alignLeft art-ascii-art art-text artwork" id="section-2.5.2-2.1">
 <pre>
-     1    ┌──────────────┐    2      ┌──────────────┐
-─────────▶│              ├───────────▶              │
+     1    +--------------+    2      +--------------+
+---------&gt;│              │----------&gt;│              │
           │   External   │           │              │
      10   │   Endpoint   │    3      │              │
-◀─────────┤              ◀───────────│              │
-          └────┬───▲─────┘           │              │
-               │   │                 │              │
-             4 │   │ 9               │              │
-          ┌────▼───┴─────┐           │              │
+&lt;---------│              │&lt;----------│              │
+          +--------------+           │              │
+               │   ^                 │              │
+             4 v   │ 9               │              │
+          +--------------+           │              │
           │              │           │              │
           │   Internal   │           │              │
           │ Microservice │           │              │
           │              │           │              │
-          └────┬───▲─────┘           │  Txn-Token   │
-               │   │                 │   Service    │
-               ▼   │                 │              │
+          +--------------+           │  Txn-Token   │
+               │   ^                 │   Service    │
+               v   │                 │              │
                  o                   │              │
              5   o    9              │              │
-               │ o ▲                 │              │
+               │ o ^                 │              │
                │   │                 │              │
-               │   │                 │              │
-          ┌────▼───┴─────┐    6      │              │
-          │              ├───────────▶              │
+               v   │                 │              │
+          +--------------+    6      │              │
+          │              │----------&gt;│              │
           │   Internal   │           │              │
           │ Microservice │    7      │              │
-          │              ◀───────────│              │
-          └────┬───▲─────┘           │              │
-               │   │                 │              │
-               ▼   │                 └──────────────┘
+          │              │&lt;----------│              │
+          +--------------+           │              │
+               │   ^                 │              │
+               v   │                 +--------------+
                  o
              8   o    9
                  o
-               │   ▲
-               │   │
-          ┌────▼───┴─────┐
+               │   ^
+               v   │
+          +--------------+
           │              │
           │   Internal   │
           │ Microservice │
           │              │
-          └──────────────┘
+          +--------------+
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
@@ -1705,7 +1705,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.5">
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.6">
-            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain to prevent the Txn-Token from being accepted outside it's current Trust Domain.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.7">
@@ -1884,10 +1884,10 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <p id="section-7.1-2">To request a Txn-Token the workload invokes the OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> token endpoint with the following parameters:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-3.1">
-            <p id="section-7.1-3.1.1"><code>grant_type</code> REQUIRED. The value MUST be set to <code>urn:ietf:params:oauth:grant-type:token-exchange</code><a href="#section-7.1-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.1.1"><code>grant_type</code> REQUIRED. The value MUST be set to <code>urn:ietf:params:oauth:grant-type:token-exchange</code>.<a href="#section-7.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.2">
-            <p id="section-7.1-3.2.1"><code>audience</code> REQUIRED. The value MUST be set to the Trust Domain name<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.2.1"><code>audience</code> REQUIRED. The value of the aud claim MUST remain unchanged in a replacement Txn-Token to prevent the Txn-Token from being accepted outside it's current Trust Domain.<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.3">
             <p id="section-7.1-3.3.1"><code>scope</code> REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.<a href="#section-7.1-3.3.1" class="pilcrow">¶</a></p>
