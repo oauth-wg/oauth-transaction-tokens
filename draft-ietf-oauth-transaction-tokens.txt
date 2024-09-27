@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 13 March 2025                                       Capital One
+Expires: 31 March 2025                                       Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                        9 September 2024
+                                                       27 September 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 March 2025.
+   This Internet-Draft will expire on 31 March 2025.
 
 Copyright Notice
 
@@ -251,33 +251,33 @@ Table of Contents
    Figure 1 shows the basic flow of how Txn-Tokens are used in a multi-
    workload environment.
 
-        1    ┌──────────────┐    2      ┌──────────────┐
-   ─────────▶│              ├───────────▶              │
+        1    +--------------+    2      +--------------+
+   --------->│              │---------->│              │
              │   External   │           │  Txn-Token   │
         7    │   Endpoint   │    3      │   Service    │
-   ◀─────────┤              ◀───────────│              │
-             └────┬───▲─────┘           └──────────────┘
-                  │   │
-                4 │   │ 6
-             ┌────▼───┴─────┐
+   <---------│              │<----------│              │
+             +--------------+           +--------------+
+                  │   ^
+                4 v   │ 6
+             +--------------+
              │              │
              │   Internal   │
              │ Microservice │
              │              │
-             └────┬───▲─────┘
-                  │   │
-                  ▼   │
+             +--------------+
+                  │   ^
+                  v   │
                     o
                 5   o    6
                     o
-                  │   ▲
-                  │   │
-             ┌────▼───┴─────┐
+                  │   ^
+                  v   │
+             +--------------+
              │              │
              │   Internal   │
              │ Microservice │
              │              │
-             └──────────────┘
+             +--------------+
 
               Figure 1: Basic Transaction Tokens Architecture
 
@@ -306,46 +306,46 @@ Table of Contents
    An intermediate service may decide to obtain a replacement Txn-Token
    from the Txn-Token service.  That flow is described below in Figure 2
 
-        1    ┌──────────────┐    2      ┌──────────────┐
-   ─────────▶│              ├───────────▶              │
+        1    +--------------+    2      +--------------+
+   --------->│              │---------->│              │
              │   External   │           │              │
         10   │   Endpoint   │    3      │              │
-   ◀─────────┤              ◀───────────│              │
-             └────┬───▲─────┘           │              │
-                  │   │                 │              │
-                4 │   │ 9               │              │
-             ┌────▼───┴─────┐           │              │
+   <---------│              │<----------│              │
+             +--------------+           │              │
+                  │   ^                 │              │
+                4 v   │ 9               │              │
+             +--------------+           │              │
              │              │           │              │
              │   Internal   │           │              │
              │ Microservice │           │              │
              │              │           │              │
-             └────┬───▲─────┘           │  Txn-Token   │
-                  │   │                 │   Service    │
-                  ▼   │                 │              │
+             +--------------+           │  Txn-Token   │
+                  │   ^                 │   Service    │
+                  v   │                 │              │
                     o                   │              │
                 5   o    9              │              │
-                  │ o ▲                 │              │
+                  │ o ^                 │              │
                   │   │                 │              │
-                  │   │                 │              │
-             ┌────▼───┴─────┐    6      │              │
-             │              ├───────────▶              │
+                  v   │                 │              │
+             +--------------+    6      │              │
+             │              │---------->│              │
              │   Internal   │           │              │
              │ Microservice │    7      │              │
-             │              ◀───────────│              │
-             └────┬───▲─────┘           │              │
-                  │   │                 │              │
-                  ▼   │                 └──────────────┘
+             │              │<----------│              │
+             +--------------+           │              │
+                  │   ^                 │              │
+                  v   │                 +--------------+
                     o
                 8   o    9
                     o
-                  │   ▲
-                  │   │
-             ┌────▼───┴─────┐
+                  │   ^
+                  v   │
+             +--------------+
              │              │
              │   Internal   │
              │ Microservice │
              │              │
-             └──────────────┘
+             +--------------+
 
                     Figure 2: Replacement Txn-Token Flow
 
