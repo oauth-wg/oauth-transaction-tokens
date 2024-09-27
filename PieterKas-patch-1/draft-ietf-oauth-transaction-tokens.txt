@@ -191,7 +191,8 @@ Table of Contents
    an OAuth 2.0 Token Exchange [RFC8693] to obtain a Txn-Token.  To do
    this, it invokes a special Token Service (the Txn-Token Service) and
    provides context that is sufficient for it to generate a Txn-Token.
-   This context MAY include:
+   The context information provided to the Txn-Token Service MAY
+   include:
 
    *  The external authorization token (e.g., the OAuth access token)
 
