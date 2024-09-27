@@ -293,7 +293,7 @@ Workload:
 : An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
 
 Trust Domain:
-: A virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
+: A collection of systems, applications, or workloads that share a common security policy. In practice this may include a  virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
 
 External Endpoint:
 : A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.
