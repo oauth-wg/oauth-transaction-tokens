@@ -828,8 +828,8 @@ Table of Contents
    A successful response to a Txn-Token Request by a Transaction Token
    Service is called a Txn-Token Response.  If the Transaction Token
    Service responds with an error, the error response is as described in
-   Section 5.2 of [RFC6749].  The following describes required values of
-   a Txn-Token Response:
+   Section 5.2 of [RFC6749].  The following values defined in [RFC8693]
+   MUST be included in the Txn-Token Response:
 
    *  The token_type value MUST be set to N_A per guidance in OAuth 2.0
       Token Exchange [RFC8693]
@@ -839,8 +839,8 @@ Table of Contents
    *  The issued_token_type value MUST bet set to
       urn:ietf:params:oauth:token-type:txn_token
 
-   *  The response MUST NOT include the values expires_in, refresh_token
-      and scope
+   The Txn-Token Response MUST NOT include the values expires_in,
+   refresh_token and scope
 
    Figure 6 shows a non-normative example of a Txn-Token Response.
 

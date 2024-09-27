@@ -2040,7 +2040,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
         <h3 id="name-txn-token-response">
 <a href="#section-7.4" class="section-number selfRef">7.4. </a><a href="#name-txn-token-response" class="section-name selfRef">Txn-Token Response</a>
         </h3>
-<p id="section-7.4-1">A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. The following describes required values of a Txn-Token Response:<a href="#section-7.4-1" class="pilcrow">¶</a></p>
+<p id="section-7.4-1">A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>. The following values defined in <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> MUST be included in the Txn-Token Response:<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.4-2.1">
             <p id="section-7.4-2.1.1">The <code>token_type</code> value MUST be set to <code>N_A</code> per guidance in OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span><a href="#section-7.4-2.1.1" class="pilcrow">¶</a></p>
@@ -2051,14 +2051,12 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
           <li class="normal" id="section-7.4-2.3">
             <p id="section-7.4-2.3.1">The <code>issued_token_type</code> value MUST bet set to <code>urn:ietf:params:oauth:token-type:txn_token</code><a href="#section-7.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.4-2.4">
-            <p id="section-7.4-2.4.1">The response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-7.4-2.4.1" class="pilcrow">¶</a></p>
-</li>
         </ul>
-<p id="section-7.4-3"><a href="#figtxtokenresponse" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Response.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">The Txn-Token Response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-4"><a href="#figtxtokenresponse" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Response.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-response"></span><div id="figtxtokenresponse">
 <figure id="figure-6">
-          <div class="lang-http sourcecode" id="section-7.4-4.1">
+          <div class="lang-http sourcecode" id="section-7.4-5.1">
 <pre>
 HTTP/1.1 200 OK
 Content-Type: application/json
