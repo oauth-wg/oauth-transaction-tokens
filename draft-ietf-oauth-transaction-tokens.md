@@ -156,7 +156,7 @@ Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of 
 ### Initial Creation
 Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} access token or an OpenID Connect {{OpenIdConnect}} ID token. This workload then performs an OAuth 2.0 Token Exchange {{RFC8693}} to obtain a Txn-Token. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. This context MAY include:
 
-* The external authorization token (e.g., the OAuth access token)
+* A reference to the external authorization token (e.g., the OAuth access token). This may inlcude a hash of the authorization token and may including scopes or claims included in the authorization token. To minimise the risk of token theft, It MUST NOT include the unmodified authorization token (see Security Considerations, Section 9.3).
 * Parameters that are required to be bound for the duration of this call
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token
 
