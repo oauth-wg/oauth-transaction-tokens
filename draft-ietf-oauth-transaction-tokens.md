@@ -260,12 +260,12 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
                  o
                │   ^
                v   │
-          +--------------+ 
+          +--------------+
           │              │
           │   Internal   │
           │ Microservice │
           │              │
-          +--------------+ 
+          +--------------+
 ~~~
 {: #fig-arch-replacement title="Replacement Txn-Token Flow"}
 
