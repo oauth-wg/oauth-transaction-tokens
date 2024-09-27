@@ -539,12 +539,13 @@ If a `request_details` parameter is present in the Txn-Token Request, then the T
 The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.
 
 ## Txn-Token Response {#txn-token-response}
-A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of {{RFC6749}}. The following describes required values of a Txn-Token Response:
+A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of {{RFC6749}}. The following values defined in {{RFC8693}} MUST be included in the Txn-Token Response:
 
 * The `token_type` value MUST be set to `N_A` per guidance in OAuth 2.0 Token Exchange {{RFC8693}}
 * The `access_token` value MUST be the Txn-Token JWT
 * The `issued_token_type` value MUST bet set to `urn:ietf:params:oauth:token-type:txn_token`
-* The response MUST NOT include the values `expires_in`, `refresh_token` and `scope`
+
+The Txn-Token Response MUST NOT include the values `expires_in`, `refresh_token` and `scope`
 
 {{figtxtokenresponse}} shows a non-normative example of a Txn-Token Response.
 
