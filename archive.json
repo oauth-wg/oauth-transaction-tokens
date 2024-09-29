@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-26T00:15:33.585362+00:00",
+  "timestamp": "2024-09-29T00:17:33.403584+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2226,7 +2226,7 @@
       "labels": [],
       "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
       "createdAt": "2024-07-22T21:16:50Z",
-      "updatedAt": "2024-07-26T13:11:01Z",
+      "updatedAt": "2024-09-27T18:28:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -2256,6 +2256,13 @@
           "body": "Note: Although `scope` may not be part of the TraT definition, we decided to include the `scope` value in our implementation. For us, this value should at least be validated by workloads if there isn't a more specific purpose given in the TraT. ",
           "createdAt": "2024-07-26T13:10:59Z",
           "updatedAt": "2024-07-26T13:10:59Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@obfuscoder is there a reason you chose not to just set the purpose of the given TraT to the scope ? Semantic mismatch?",
+          "createdAt": "2024-09-27T18:28:18Z",
+          "updatedAt": "2024-09-27T18:28:18Z"
         }
       ]
     },
@@ -2287,7 +2294,7 @@
       "labels": [],
       "body": "The following was suggested by Justin at the IETF 120 session on TraTs:\r\nParaphrasing: Justin suggested a way to include a RAR object itself.",
       "createdAt": "2024-07-24T21:08:41Z",
-      "updatedAt": "2024-07-27T03:22:05Z",
+      "updatedAt": "2024-09-27T18:19:42Z",
       "closedAt": null,
       "comments": [
         {
@@ -2303,6 +2310,13 @@
           "body": "RFC9396 already defines \"authorization_details\" for use at the top level of a JWT. ",
           "createdAt": "2024-07-27T03:22:04Z",
           "updatedAt": "2024-07-27T03:22:04Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@jricher are you suggesting that we call out that if you want to put a RAR object inside the `tctx` that you add the `authorization_details` claim at the top level of the `tctx`? I wouldn't want the `authorization_details` claim at the top-level of the TraT.",
+          "createdAt": "2024-09-27T18:19:42Z",
+          "updatedAt": "2024-09-27T18:19:42Z"
         }
       ]
     },
@@ -2318,7 +2332,7 @@
       "labels": [],
       "body": "The following came up in the IETF 120 session about TraTs:\r\n\r\nThere was some confusion about the re-use of the claim defined in RAR",
       "createdAt": "2024-07-24T21:16:14Z",
-      "updatedAt": "2024-07-29T19:01:35Z",
+      "updatedAt": "2024-09-27T18:17:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -2348,6 +2362,13 @@
           "body": "copied from the WG mailing list https://mailarchive.ietf.org/arch/msg/oauth/sA5CIPkF9k5qJ3OG7JFVtDnpZDU/ \r\n\r\n> Any statement I made at meeting the other day on this topic was less an\r\nactual proposal and more just a meta comment that there might be some\r\nconfusion around the term \"authorization details\" because it is already\r\nused extensively in RAR to mean a RAR related thing. RFC9396 uses the\r\nterm \"authorization\r\ndetails\" 64 times while the parameter, claim, and introspection response\r\nmember name \"authorization_details\" appears 87 times.\r\n> \r\n> Ironically, I'm sending this from the \"[ID-align] Side Meeting at IETF120\"\r\nwhich is about divergent use of similar or same terms.",
           "createdAt": "2024-07-29T19:01:34Z",
           "updatedAt": "2024-07-29T19:01:34Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm good with `tctx` as that \"matches\" the request context `rctx`. We may need to add additional text to describe what is expected within the `tctx` object.",
+          "createdAt": "2024-09-27T18:17:50Z",
+          "updatedAt": "2024-09-27T18:17:50Z"
         }
       ]
     },
@@ -2398,15 +2419,15 @@
       "id": "I_kwDOJt_WwM6UmVFG",
       "title": "Logging guidance and PII data handling",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/124",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Currently logging guidance says \"Txn-Tokens SHOULD NOT be logged if they contain Personally Identifiable Information (PII)\". I have few questions on this one\r\n1. Risks with logging is that token is still valid for few minutes and if logs are rotated to any other central archival storage with access to broader set of people or someone has access to the server with logs, then they can reuse the token. So why not just say MUST not log token?\r\n2. Also how would a service know if incoming token has PII or not. They will have to validate the token, extract claims and then somehow know infer that a claim is PII or not. \r\n3. On similar lines, for PII , can we mention that TTS SHOULD evaluate encrypting  or tokenizing PII claims rather than adding them in plaintext. Adding in plaintext is a risk because TTS isn't aware where the token flows. ",
       "createdAt": "2024-08-28T22:15:07Z",
-      "updatedAt": "2024-08-29T10:11:00Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-27T18:08:08Z",
+      "closedAt": "2024-09-27T18:08:08Z",
       "comments": [
         {
           "author": "obfuscoder",
@@ -2439,16 +2460,45 @@
       "labels": [],
       "body": "In section 2.2.1 the context that may be included in a transaction token includes \"The external authorization token (e.g., the OAuth access token)\". To ensure this is not interpreted to mean that an access token is included in a transaction token, I would suggest the following additions, in line with section 9.3 in Security Considerations:\r\n\r\n\"A reference to the external authorization token (e.g., the OAuth access token), including scopes or claims included in the authorization token, but not the unmodified authorization token (see Security Considerations, Section 9.3)\"",
       "createdAt": "2024-09-23T13:44:56Z",
-      "updatedAt": "2024-09-23T13:44:57Z",
+      "updatedAt": "2024-09-27T18:06:16Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Pieter, in that section of the spec we are describing what needs to be sent to the Transaction token service, I think in that case the full access token should be passed. However, when generating the request context, we want to ensure that the full access token is not included. Did I get my spec sections wrong?",
+          "createdAt": "2024-09-27T15:37:55Z",
+          "updatedAt": "2024-09-27T15:37:55Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Maybe instead we shouldn't say \"This context MAY include:\" but rather ... \"The information provided to the Txn-Token Service MAY include\" to not confuse readers who might think this data should be included in the request context.",
+          "createdAt": "2024-09-27T15:39:48Z",
+          "updatedAt": "2024-09-27T15:39:48Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed - I missed that this was for initial token creation. I did create a PR with your suggested text.",
+          "createdAt": "2024-09-27T15:53:14Z",
+          "updatedAt": "2024-09-27T15:53:14Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PR approved",
+          "createdAt": "2024-09-27T18:06:14Z",
+          "updatedAt": "2024-09-27T18:06:14Z"
+        }
+      ]
     },
     {
       "number": 128,
       "id": "I_kwDOJt_WwM6Xjuk0",
       "title": "Ascii Diagram update",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/128",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2457,8 +2507,8 @@
       "labels": [],
       "body": "The ASCII diagram in Figure 1 has misaligned lines in the HTML rendering for steps 1,2,3 and 7 on the diagram.\r\n\r\nThe ASCII diagram in Figure 2 has misaligned lines in the HTML rendering for steps 1,2,3 and 10 on the diagram.",
       "createdAt": "2024-09-23T13:50:49Z",
-      "updatedAt": "2024-09-23T13:52:43Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-27T17:26:33Z",
+      "closedAt": "2024-09-27T17:26:33Z",
       "comments": []
     },
     {
@@ -2466,15 +2516,15 @@
       "id": "I_kwDOJt_WwM6Xj3qX",
       "title": "Trust Domain definition",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/129",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The definition of a Trust Domain feels very specific to network segmentation. Is there a industry level Trust Domain definition we can use instead? For example, should we use a definition that defines the trust domain in terms of the shared policies that apply? Something like:\r\n\r\n\"A trust domain refers to a collection of systems, applications, or workloads that share a common security policy\".",
       "createdAt": "2024-09-23T14:03:15Z",
-      "updatedAt": "2024-09-23T14:03:15Z",
-      "closedAt": null,
+      "updatedAt": "2024-09-27T17:18:54Z",
+      "closedAt": "2024-09-27T17:18:54Z",
       "comments": []
     },
     {
@@ -2482,16 +2532,24 @@
       "id": "I_kwDOJt_WwM6Xj4lr",
       "title": "Editorial change",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/130",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Section 4\r\n\r\nChange from:\r\n\r\n\"A published interface to an Trust Domain that results in the invocation of a workload within the Trust Domain.\"\r\n\r\nto\r\n\r\n\"A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.\"",
       "createdAt": "2024-09-23T14:04:46Z",
-      "updatedAt": "2024-09-23T14:04:46Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-09-27T12:08:27Z",
+      "closedAt": "2024-09-27T12:08:27Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Issue already adressed.",
+          "createdAt": "2024-09-27T12:08:27Z",
+          "updatedAt": "2024-09-27T12:08:27Z"
+        }
+      ]
     },
     {
       "number": 131,
@@ -2501,36 +2559,66 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch",
+        "tulshi",
+        "PieterKas"
+      ],
       "labels": [],
-      "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?",
+      "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?\r\n\r\n@tulshi and @gffletch ",
       "createdAt": "2024-09-23T14:20:49Z",
-      "updatedAt": "2024-09-23T14:20:50Z",
+      "updatedAt": "2024-09-27T16:15:56Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we moved away from `sub_id` to just using `sub`.  However, the larger question is an interesting one. Is there a case where in completing a requested transaction, one of the calls to one of the workloads SHOULD NOT receive the `sub` claim. Is the TraT then leaking information? I haven't thought about this more than writing this comment :) ",
+          "createdAt": "2024-09-27T16:15:56Z",
+          "updatedAt": "2024-09-27T16:15:56Z"
+        }
+      ]
     },
     {
       "number": 132,
       "id": "I_kwDOJt_WwM6XkKgb",
       "title": "rctx MUST",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/132",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch",
+        "tulshi"
+      ],
       "labels": [],
-      "body": "Section 7.1 makes the inclusion of an rctx value mandatory (MUST). \r\n\r\n1. Should this be a MUST, or could it be omitted if no additional context is passed\r\n2. If no additional context is passed, should we specify that it is included, but with a null value?",
+      "body": "Section 7.1 makes the inclusion of an rctx value mandatory (MUST). \r\n\r\n1. Should this be a MUST, or could it be omitted if no additional context is passed\r\n2. If no additional context is passed, should we specify that it is included, but with a null value?\r\n\r\n@gffletch @tulshi ",
       "createdAt": "2024-09-23T14:26:03Z",
-      "updatedAt": "2024-09-23T14:26:03Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-09-27T17:48:58Z",
+      "closedAt": "2024-09-27T17:48:58Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think it should be a MUST because the requesting workload identity is part of the `rctx`. Maybe we could clarify that only specifying that value is ok. Is there a reason that the requesting workload should NOT be part of the TraT?",
+          "createdAt": "2024-09-27T16:13:43Z",
+          "updatedAt": "2024-09-27T16:13:43Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Latest drafts show rctx as optional....",
+          "createdAt": "2024-09-27T17:48:58Z",
+          "updatedAt": "2024-09-27T17:48:58Z"
+        }
+      ]
     },
     {
       "number": 133,
       "id": "I_kwDOJt_WwM6XkTWR",
       "title": "access_token potential for confusion",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/133",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2540,16 +2628,31 @@
       "labels": [],
       "body": "Section 7.2 includes a \"access_token\", which is part of the token exchange protocol. RFC 8693 makes it clear that it des not need to be an OAuth token, but perhaps we can reference that this parameter is define in RFC 8693?\r\n\r\nPerhaps something like:\r\n\r\n\"The following describes required values of the token exchange protocol as defined in RFC 8693 which must be included in the Txn-Token Response:\"\r\n\r\nor\r\n\r\n\"A successful response to a Txn-Token Request by a Transaction Token Service is called a Txn-Token Response. The Txn-Token Response is a profile of the token exchange response defined in RFC 8693. If the Transaction Token Service responds with an error, the error response is as described in Section 5.2 of RFC6749. The following describes required values of the token exchange protocol as defined in RFC 8693 which must be included in the Txn-Token Response:\"",
       "createdAt": "2024-09-23T14:39:26Z",
-      "updatedAt": "2024-09-23T14:39:26Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-09-27T17:20:29Z",
+      "closedAt": "2024-09-27T17:20:29Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm not seeing access_token mentioned in section 7.2 other than implicitly when referencing the token types defined by 8693. Did you mean section 7.4? I'm fine with the first suggestion.",
+          "createdAt": "2024-09-27T16:08:19Z",
+          "updatedAt": "2024-09-27T16:11:00Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, section 7.4.",
+          "createdAt": "2024-09-27T17:20:29Z",
+          "updatedAt": "2024-09-27T17:20:29Z"
+        }
+      ]
     },
     {
       "number": 134,
       "id": "I_kwDOJt_WwM6XkV93",
       "title": "Clarify why the \"aud\" claim remains unchanged",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/134",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2559,9 +2662,17 @@
       "labels": [],
       "body": "Good practice is to explain why something is a MUST. \r\n\r\nSuggestion:\r\n\r\nFrom: The value of the aud claim MUST remain unchanged in a replacement Txn-Token.\r\n\r\nTo: The value of the aud claim MUST remain unchanged in a replacement Txn-Token to prevent the Txn-Token from being accepted outside it's current Trust Domain.\r\n\r\nAlternatively, we cann add security considerations for the draft as well.",
       "createdAt": "2024-09-23T14:43:26Z",
-      "updatedAt": "2024-09-23T14:43:26Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-09-27T17:49:43Z",
+      "closedAt": "2024-09-27T17:49:43Z",
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm good with that text.",
+          "createdAt": "2024-09-27T16:04:17Z",
+          "updatedAt": "2024-09-27T16:04:17Z"
+        }
+      ]
     },
     {
       "number": 135,
@@ -2575,9 +2686,45 @@
       "labels": [],
       "body": "I wonder if we can clarify the guidance in Section 7.4 a bit: \r\n\r\nFrom: It SHOULD rely on mechanisms, such as Spiffe or some other means of performing MTLS [RFC8446], to securely authenticate the requester.\r\n\r\nTo: It SHOULD rely on JWT or X.509 credentials, which may be provisioned using SPIFFE or other mechanisms, to securely authenticate the requester. \r\n\r\nThe final sentence in section 7 probably also needs a bit of clarification:\r\n\r\nIt SHOULD rely on mechanisms, such as [Spiffe], to securely authenticate the Transaction Token Service before making a Txn-Token Request. I think the requirement here should be that the Transaction Server should be authenticated to the workload using a JWT or X.509 certificate, which may be provisioned using SPIFFE or another mechanism and used with a secure protocol like MTLS or using the WIMSE service-to-service authentication mechanisms.",
       "createdAt": "2024-09-23T14:49:19Z",
-      "updatedAt": "2024-09-23T15:06:43Z",
+      "updatedAt": "2024-09-27T20:23:17Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think clarifying this would be good (Section 7.6:) For me the key is that any workload invoking the TTS must use some form of strong client authentication. That could be SPIFFE, private_secret_jwt, mTLS, ??? The normative requirement should be \"strong client authentication\" and the others can be examples of such.\r\n\r\nI'm not sure how the workload can \"pre-authenticate\" the TTS. I like the pre-defined endpoint (or maybe \"pre-configured\" endpoint) concept. Basically, the TTS should be at a well known location. I guess there is a security issue if the workload sends an access_token to the wrong server especially if the external access_token is a bearer token. Is this something we should just cover in the Security Considerations section?",
+          "createdAt": "2024-09-27T15:56:04Z",
+          "updatedAt": "2024-09-27T15:56:04Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think you touch on a few things here:\r\n\r\n1. We don't address discoverability of transaction token servers. Should we add something (e.g. define a well known endpoint, include discovery metadata in the authorization server metadata etc?)\r\n2. Can you say more about \"pre-authenticate\"? Do you mean some mechanism whereby the workload can trust the TTS or the location of the TTS?\r\n3. Agreed on the security considerations for ensuring that the access token is not sent to an incorrect endpoint (I can imagine an adversary getting into a build server, modifying the TTS location for a workload, and then have the TTS send tokens to it. I can also imagine this happening by accident, especially if there are multiple TTS's in a deployment.",
+          "createdAt": "2024-09-27T16:15:09Z",
+          "updatedAt": "2024-09-27T16:15:09Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding the second point: Yes, should there be a way for the workload to determine it can trust the TTS before sending it an external token? This isn't something that is common in OAuth specs. It is assumed that the client knows whether to send the request or not.",
+          "createdAt": "2024-09-27T18:01:21Z",
+          "updatedAt": "2024-09-27T18:03:20Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding 1: I think we wanted to talk about it at the last IETF and ran out of time. I seem to remember a few conversations around \"discovery\" but nothing concrete was decided.",
+          "createdAt": "2024-09-27T18:04:19Z",
+          "updatedAt": "2024-09-27T18:04:19Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I found the issue it's #95 ",
+          "createdAt": "2024-09-27T20:23:16Z",
+          "updatedAt": "2024-09-27T20:23:16Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -8214,24 +8361,26 @@
       "id": "PR_kwDOJt_WwM56kTYt",
       "title": "clarified logging recommendation",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/125",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-09-05T19:25:42Z",
-      "updatedAt": "2024-09-11T15:39:04Z",
+      "updatedAt": "2024-09-27T18:08:08Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "b9fa6db2879cfc17ae5ed2a0e000e69c5a57ad4b",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "clarify-logging",
       "headRefOid": "59a0cbda1c885644b1e6c59c325f8f1307a623c2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-09-27T18:08:07Z",
+      "mergedAt": "2024-09-27T18:08:07Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "d238f18e16364f12206c5ee1ac0001498b5a3822"
+      },
       "comments": [
         {
           "author": "obfuscoder",
@@ -8334,6 +8483,19 @@
           "createdAt": "2024-09-10T17:43:01Z",
           "updatedAt": "2024-09-10T17:43:01Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6LIzsS",
+          "commit": {
+            "abbreviatedOid": "59a0cbd"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-09-27T18:07:51Z",
+          "updatedAt": "2024-09-27T18:07:51Z",
+          "comments": []
         }
       ]
     },
@@ -8386,6 +8548,325 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 136,
+      "id": "PR_kwDOJt_WwM586VZm",
+      "title": "Editorial changes to the ASCII diagrams",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/136",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #128",
+      "createdAt": "2024-09-27T11:49:54Z",
+      "updatedAt": "2024-09-27T15:41:36Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8b39624909cc857534a55addccc16c3de021de58",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "6afcd71ec7a43ef18a14e0a4514f5dff99ed8dea",
+      "closedAt": "2024-09-27T15:41:34Z",
+      "mergedAt": "2024-09-27T15:41:34Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "8fd7f07db2284998d698a8eedaea5a30615e83c7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6LHvAT",
+          "commit": {
+            "abbreviatedOid": "6afcd71"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good",
+          "createdAt": "2024-09-27T15:32:09Z",
+          "updatedAt": "2024-09-27T15:32:09Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 137,
+      "id": "PR_kwDOJt_WwM586Y_h",
+      "title": "Clarify Transaction Token Context",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/137",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #127",
+      "createdAt": "2024-09-27T11:58:18Z",
+      "updatedAt": "2024-09-27T15:49:22Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8b39624909cc857534a55addccc16c3de021de58",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-2",
+      "headRefOid": "99ac81f3df87edcef7909eb00454bfc471d0c95f",
+      "closedAt": "2024-09-27T15:49:10Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6LH1-V",
+          "commit": {
+            "abbreviatedOid": "99ac81f"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-09-27T15:46:47Z",
+          "updatedAt": "2024-09-27T15:46:47Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "In this context of the spec... what needs to be sent to the Txn-Token Service, I believe we want to send the full access token. If not, we should have a longer discussion about what should be sent. My expectation has been that the TTS would validate the access_token for it's authenticity before evaluating the TTS authorization policy to determine whether a TraT should be issued.",
+              "createdAt": "2024-09-27T15:46:47Z",
+              "updatedAt": "2024-09-27T15:46:47Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 138,
+      "id": "PR_kwDOJt_WwM586cX5",
+      "title": "Trust domain clarification",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/138",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #129\r\n\r\nQuestion for reviewers. \r\n\r\n1. Do we need the final sentence on how a workload is invoked? If the sentence was not there would it change how we think about a trust domain?\r\n\r\n2. Do we need the second sentence as an example? Should we add more examples (e.g. trust domains can be defined as all the applications or workloads that recognise a specific issuer).",
+      "createdAt": "2024-09-27T12:06:30Z",
+      "updatedAt": "2024-09-27T17:18:22Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8b39624909cc857534a55addccc16c3de021de58",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-3",
+      "headRefOid": "aaf7713158775938b5d72af9728cd1f3b13a2eb7",
+      "closedAt": "2024-09-27T17:18:20Z",
+      "mergedAt": "2024-09-27T17:18:20Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "cc919450cb2f4c47ea9580ab40a24ca5c7f9d209"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6LH0GV",
+          "commit": {
+            "abbreviatedOid": "aaf7713"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I'm good with this",
+          "createdAt": "2024-09-27T15:42:48Z",
+          "updatedAt": "2024-09-27T15:42:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 139,
+      "id": "PR_kwDOJt_WwM586nGI",
+      "title": "Proposed editorial update to  Txn-Token Response",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/139",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Related to issue #133",
+      "createdAt": "2024-09-27T12:28:05Z",
+      "updatedAt": "2024-09-27T17:19:50Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8b39624909cc857534a55addccc16c3de021de58",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "9fc6fed52fa49146e72f011e386de3280bacf5b8",
+      "closedAt": "2024-09-27T17:19:49Z",
+      "mergedAt": "2024-09-27T17:19:49Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "45e30da1e85cb0f3ee5eec5228aede008101bc83"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6LH1E6",
+          "commit": {
+            "abbreviatedOid": "9fc6fed"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I'm good with this",
+          "createdAt": "2024-09-27T15:44:54Z",
+          "updatedAt": "2024-09-27T15:44:54Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 140,
+      "id": "PR_kwDOJt_WwM588JrW",
+      "title": "Clarification on token context",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/140",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #127",
+      "createdAt": "2024-09-27T15:52:01Z",
+      "updatedAt": "2024-09-27T18:05:57Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "e7d2bcacfe73a2df795059227f42bbac5f42fc29",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6LIx2O",
+          "commit": {
+            "abbreviatedOid": "e7d2bca"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good.",
+          "createdAt": "2024-09-27T18:05:57Z",
+          "updatedAt": "2024-09-27T18:05:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 141,
+      "id": "PR_kwDOJt_WwM588ODg",
+      "title": "Additional detail on 'aud' claim",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/141",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #134",
+      "createdAt": "2024-09-27T16:03:22Z",
+      "updatedAt": "2024-09-27T18:26:24Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-2",
+      "headRefOid": "ec6c176dc31c3a3225b297bea024bb45505e2476",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6LI7od",
+          "commit": {
+            "abbreviatedOid": "ec6c176"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good",
+          "createdAt": "2024-09-27T18:26:24Z",
+          "updatedAt": "2024-09-27T18:26:24Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 142,
+      "id": "PR_kwDOJt_WwM588nqY",
+      "title": "Updated Mutual Authentication Guidance",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/142",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In response to #135 \r\n\r\nUpdated section on:\r\n\r\n1. Mutual Authentication\r\n2. Security Considerations for Client Authentication\r\n3. Added security considerations for protecting the workload configuration\r\n\r\n@gffletch @tulshi ",
+      "createdAt": "2024-09-27T17:17:03Z",
+      "updatedAt": "2024-09-27T18:25:30Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-5",
+      "headRefOid": "5301944ac3b820ec207a08ee1710d9d48bde1653",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6LI7TN",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks goood",
+          "createdAt": "2024-09-27T18:25:30Z",
+          "updatedAt": "2024-09-27T18:25:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 143,
+      "id": "PR_kwDOJt_WwM589lZr",
+      "title": "Clarify `subject_token_type` value when requesting a replacement Txn-Token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/143",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses issue #113 - clarifying the value for `subject_token_type` when requesting a replacement Txn-Token",
+      "createdAt": "2024-09-27T20:21:07Z",
+      "updatedAt": "2024-09-27T20:43:00Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d238f18e16364f12206c5ee1ac0001498b5a3822",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue-113",
+      "headRefOid": "4b94a0d3b1907fba3dab2c74b52697b97f358f6b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
