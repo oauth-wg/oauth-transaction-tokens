@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-09-29T00:17:33.403584+00:00",
+  "timestamp": "2024-10-01T00:18:10.778677+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2099,11 +2099,13 @@
       "state": "OPEN",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "ashayraut"
+      ],
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2024-09-05T04:16:34Z",
+      "updatedAt": "2024-09-30T20:58:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -2226,7 +2228,7 @@
       "labels": [],
       "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
       "createdAt": "2024-07-22T21:16:50Z",
-      "updatedAt": "2024-09-27T18:28:19Z",
+      "updatedAt": "2024-09-30T10:56:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -2263,6 +2265,13 @@
           "body": "@obfuscoder is there a reason you chose not to just set the purpose of the given TraT to the scope ? Semantic mismatch?",
           "createdAt": "2024-09-27T18:28:18Z",
           "updatedAt": "2024-09-27T18:28:18Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch We had already an implementation of transaction tokens in place before we became aware of the transaction token draft. Our implementation was a bit more aligned with Token Exchange where the scope is copied (or narrowed down) to the internally used transaction token. So most deployments rely on having the scope in the \"scope\" claim. There is also pretty good library support for the scope claim already.\r\n\r\nThat said, it might not be an issue of semantics, but rather of ownership. At least in our implementation, scope values are defined (and owned) by the services which enforce the scope (also in internal calls using transaction tokens) when the internal microservice interface is called. Purpose, on the other hand, is more bound to the use case which needs to be fulfilled and the definition of those use cases will rather be done by the external endpoints (BFFs) and thus also owned by them. The internal microservices will then need to be configured to support purposes defined by several external endpoints. So it might still be worth, having the microservice check the scope it defined to be present when calling its API on top of validating the purpose.",
+          "createdAt": "2024-09-30T10:56:57Z",
+          "updatedAt": "2024-09-30T10:56:57Z"
         }
       ]
     },
