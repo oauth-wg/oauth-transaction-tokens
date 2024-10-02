@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 31 March 2025                                       Capital One
+Expires: 5 April 2025                                        Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                       27 September 2024
+                                                          2 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 March 2025.
+   This Internet-Draft will expire on 5 April 2025.
 
 Copyright Notice
 
@@ -892,10 +892,12 @@ Table of Contents
 
    To request a replacement Txn-Token, the requester makes a Txn-Token
    Request as described in Section 7.1 but includes the Txn-Token to be
-   replaced as the value of the subject_token parameter.  The scope
-   value in the replacement request, if different from that in the
-   original Txn-Token, MUST NOT increase the authorization surface
-   beyond that of the original Txn-Token.
+   replaced as the value of the subject_token parameter and sets the
+   subject_token_type parameter to the value
+   urn:ietf:params:oauth:token-type:txn_token.  The scope value in the
+   replacement request, if different from that in the original Txn-
+   Token, MUST NOT increase the authorization surface beyond that of the
+   original Txn-Token.
 
 7.5.3.  Replacement Txn-Token Response
 
