@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-01T00:18:10.778677+00:00",
+  "timestamp": "2024-10-03T00:15:46.282828+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2173,15 +2173,15 @@
       "id": "I_kwDOJt_WwM6QWG5e",
       "title": "subject_token_type for Replacement Txn-Token Request",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/113",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In [7.5.2](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#section-7.5.2):\r\n\r\n> To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in [Section 7.1](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-03.html#txn-token-request) but includes the Txn-Token to be replaced as the value of the subject_token parameter.\r\n\r\nDoes this assume that `subject_token_type` should be `urn:ietf:params:oauth:token-type:txn_token`? Should we call it out explicitly?",
       "createdAt": "2024-07-22T01:22:11Z",
-      "updatedAt": "2024-09-13T01:54:08Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-02T23:40:06Z",
+      "closedAt": "2024-10-02T23:40:06Z",
       "comments": [
         {
           "author": "gffletch",
@@ -2459,7 +2459,7 @@
       "id": "I_kwDOJt_WwM6XjqcD",
       "title": "Clarify Transaction Token Context",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/127",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2469,8 +2469,8 @@
       "labels": [],
       "body": "In section 2.2.1 the context that may be included in a transaction token includes \"The external authorization token (e.g., the OAuth access token)\". To ensure this is not interpreted to mean that an access token is included in a transaction token, I would suggest the following additions, in line with section 9.3 in Security Considerations:\r\n\r\n\"A reference to the external authorization token (e.g., the OAuth access token), including scopes or claims included in the authorization token, but not the unmodified authorization token (see Security Considerations, Section 9.3)\"",
       "createdAt": "2024-09-23T13:44:56Z",
-      "updatedAt": "2024-09-27T18:06:16Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-03T00:06:20Z",
+      "closedAt": "2024-10-03T00:06:20Z",
       "comments": [
         {
           "author": "gffletch",
@@ -8736,24 +8736,26 @@
       "id": "PR_kwDOJt_WwM588JrW",
       "title": "Clarification on token context",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/140",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #127",
       "createdAt": "2024-09-27T15:52:01Z",
-      "updatedAt": "2024-09-27T18:05:57Z",
+      "updatedAt": "2024-10-03T00:06:21Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "e7d2bcacfe73a2df795059227f42bbac5f42fc29",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-03T00:06:19Z",
+      "mergedAt": "2024-10-03T00:06:19Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "26e1cb85453191b6c735fbaf6bc0c9f86f987518"
+      },
       "comments": [],
       "reviews": [
         {
@@ -8767,6 +8769,19 @@
           "body": "Looks good.",
           "createdAt": "2024-09-27T18:05:57Z",
           "updatedAt": "2024-09-27T18:05:57Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6LvJJs",
+          "commit": {
+            "abbreviatedOid": "e7d2bca"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-03T00:05:56Z",
+          "updatedAt": "2024-10-03T00:05:56Z",
           "comments": []
         }
       ]
@@ -8783,7 +8798,7 @@
       "labels": [],
       "body": "See issue #134",
       "createdAt": "2024-09-27T16:03:22Z",
-      "updatedAt": "2024-09-27T18:26:24Z",
+      "updatedAt": "2024-10-03T00:05:26Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
@@ -8808,6 +8823,26 @@
           "createdAt": "2024-09-27T18:26:24Z",
           "updatedAt": "2024-09-27T18:26:24Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6LvI2o",
+          "commit": {
+            "abbreviatedOid": "ec6c176"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-03T00:05:19Z",
+          "updatedAt": "2024-10-03T00:05:26Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "This is in the \"Txn-Token Request\" section. Do we need to talk about replacement here, or should we have that language in the \"Creating Replacement Txn-Tokens\" section? We perhaps already have this there. Also, if you delete the \"value MUST be set to the Trust Domain name\", then we don't have that constraint listed anywhere else. We should make sure we have that specified somewhere if we want to remove it from here.",
+              "createdAt": "2024-10-03T00:05:19Z",
+              "updatedAt": "2024-10-03T00:05:26Z"
+            }
+          ]
         }
       ]
     },
@@ -8823,7 +8858,7 @@
       "labels": [],
       "body": "In response to #135 \r\n\r\nUpdated section on:\r\n\r\n1. Mutual Authentication\r\n2. Security Considerations for Client Authentication\r\n3. Added security considerations for protecting the workload configuration\r\n\r\n@gffletch @tulshi ",
       "createdAt": "2024-09-27T17:17:03Z",
-      "updatedAt": "2024-09-27T18:25:30Z",
+      "updatedAt": "2024-10-03T00:02:04Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
@@ -8848,6 +8883,62 @@
           "createdAt": "2024-09-27T18:25:30Z",
           "updatedAt": "2024-09-27T18:25:30Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6LvAE_",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-02T23:48:24Z",
+          "updatedAt": "2024-10-03T00:02:04Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "The new line numbers 591 and 592 are essentially the same as the old line numbers 589 and 590. Was there anything specific about the previous language that didn't work for you?",
+              "createdAt": "2024-10-02T23:48:24Z",
+              "updatedAt": "2024-10-03T00:02:04Z"
+            },
+            {
+              "originalPosition": 4,
+              "body": "since we are not defining what is \"strong authentication\", should we just stay with \"TTS must authenticate workloads requesting TraTs\"?",
+              "createdAt": "2024-10-02T23:49:30Z",
+              "updatedAt": "2024-10-03T00:02:04Z"
+            },
+            {
+              "originalPosition": 18,
+              "body": "authenticated -> authenticates",
+              "createdAt": "2024-10-02T23:54:24Z",
+              "updatedAt": "2024-10-03T00:02:04Z"
+            },
+            {
+              "originalPosition": 15,
+              "body": "AFAIK MTLS is only possible with X.509, right? Using JWT with TLS is possible, but that is not the same as MTLS",
+              "createdAt": "2024-10-02T23:55:12Z",
+              "updatedAt": "2024-10-03T00:02:04Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "workloads credentials -> workload credentials",
+              "createdAt": "2024-10-02T23:55:26Z",
+              "updatedAt": "2024-10-03T00:02:04Z"
+            },
+            {
+              "originalPosition": 22,
+              "body": "The current spec (Section 6) specifies that there is exactly 1 logical TTS per trust domain, so we should drop the new line 600.",
+              "createdAt": "2024-10-02T23:57:47Z",
+              "updatedAt": "2024-10-03T00:02:04Z"
+            },
+            {
+              "originalPosition": 43,
+              "body": "This is conflicting with Section 6, we need to discuss whether we want to change that assumption.",
+              "createdAt": "2024-10-03T00:01:49Z",
+              "updatedAt": "2024-10-03T00:02:04Z"
+            }
+          ]
         }
       ]
     },
@@ -8856,26 +8947,42 @@
       "id": "PR_kwDOJt_WwM589lZr",
       "title": "Clarify `subject_token_type` value when requesting a replacement Txn-Token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/143",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses issue #113 - clarifying the value for `subject_token_type` when requesting a replacement Txn-Token",
       "createdAt": "2024-09-27T20:21:07Z",
-      "updatedAt": "2024-09-27T20:43:00Z",
+      "updatedAt": "2024-10-02T23:39:43Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d238f18e16364f12206c5ee1ac0001498b5a3822",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue-113",
       "headRefOid": "4b94a0d3b1907fba3dab2c74b52697b97f358f6b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-02T23:39:43Z",
+      "mergedAt": "2024-10-02T23:39:43Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "b1db1dc2ddea219d0d013f1bec981160a53cba50"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6Lu-jP",
+          "commit": {
+            "abbreviatedOid": "4b94a0d"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-02T23:39:32Z",
+          "updatedAt": "2024-10-02T23:39:32Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
