@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 5 April 2025                                        Capital One
+Expires: 6 April 2025                                        Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                          2 October 2024
+                                                          3 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 April 2025.
+   This Internet-Draft will expire on 6 April 2025.
 
 Copyright Notice
 
@@ -191,7 +191,8 @@ Table of Contents
    an OAuth 2.0 Token Exchange [RFC8693] to obtain a Txn-Token.  To do
    this, it invokes a special Token Service (the Txn-Token Service) and
    provides context that is sufficient for it to generate a Txn-Token.
-   This context MAY include:
+   The context information provided to the Txn-Token Service MAY
+   include:
 
    *  The external authorization token (e.g., the OAuth access token)
 
