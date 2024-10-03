@@ -646,45 +646,44 @@ This specification registers the following token type identifiers to the "OAuth 
 
 * URN: urn:ietf:params:oauth:token-type:txn_token
   * Common Name: Transaction Token
-  * Change Controller: IESG
+  * Change Controller: IETF
   * Specification Document Section {{txn-token-request}} of this specification
 
 * URN: urn:ietf:params:oauth:token-type:self_signed
   * Common Name: Token type for Self-signed JWT
-  * Change Controller: IESG
+  * Change Controller: IETF
   * Specification Document: Section {{self-signed-subject-token-type}} of this specification
 
 * URN: urn:ietf:params:oauth:token-type:unsigned_json
   * Common Name: Token type for Unsigned JSON Object
-  * Change Controller: IESG
+  * Change Controller: IETF
   * Specification Document: Section {{unsigned-json-subject-token-type}} of this specification
 
 ## JWT Claims Registry Contents
 
 * Claim Name: `azd`
   * Claim Description: The authorization context details
-  * Change Controller: IESG
+  * Change Controller: IETF
   * Specification Document: Section {{txn-token-claims}} of this specification
 
 * Claim Name: `rctx`
   * Claim Description: The requester context
-  * Change Controller: IESG
+  * Change Controller: IETF
   * Specification Document: Section {{requester-context}} of this specification
 
 * Claim Name: `purp`
   * Claim Description: The purpose of the transaction
-  * Change Controller: IESG
+  * Change Controller: IETF
   * Specification Document: Section {{txn-token-claims}} of this specification
 
 ## IANA Media Type Registration Contents
 The following entry will be proposed using the IANA Media Type registration {{IANA.MediaTypes}} form.
 
-* Applicant Name: Atul Tulshibagwale
-* Applicant Email: atul@sgnl.ai
-* Type Name: "application (RFC 2046)"
-* Subtype Name: "txntoken+jwt"
-* Required Parameters: "N/A."
-* Optional Parameters: "N/A."
+* Type Name: application
+* Subtype Name: txntoken+jwt
+* Change Controller: IETF
+* Required Parameters: N/A.
+* Optional Parameters: N/A.
 * Encoding Considerations: 7-bit text
 * Security Considerations:
   1. The media type is used to identify JWTs that may be used as Transaction Tokens. It is a piece of data, and may not contain executable content.
