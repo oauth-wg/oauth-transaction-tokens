@@ -590,11 +590,11 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 
 * It MUST maintain a limited, pre-configured set of authorized workloads that MAY request Txn-Tokens.
 * It MUST authenticate the requesting workload and confirm that it is included in the list of workloads authorized to request a transaction token.
-* It SHOULD accept workloads credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
+* It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
 * It SHOULD use X.509 or JWT credentials in conjunction with MTLS {{RFC8446}}, or another secure authentication protocol, to securely authenticate the requesting workload.
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.
 
-The requesting workload MUST ensure that it authenticated the Transaction Token Service. In order to do so:
+The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:
 
 * It MUST have a pre-configured location for the Transaction Token Service.
 * If there is more than one Transaction Token Service, it MUST ensure that it is sending transaction token requests to the right Transaction Token Service to avoid leaking sensitive information like access tokens.
