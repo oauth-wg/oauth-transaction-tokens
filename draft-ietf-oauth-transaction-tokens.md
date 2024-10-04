@@ -342,7 +342,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
 
 `aud`:
-: REQUIRED This claim, defined in {{RFC7519}}, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain.
+: REQUIRED This claim, defined in {{RFC7519}}, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain to prevent the Txn-Token from being accepted outside it's current trust domain.
 
 `exp`:
 : REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
@@ -451,8 +451,8 @@ A workload requesting a Txn-Token must provide the Transaction Token Service wit
 
 To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endpoint with the following parameters:
 
-* `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`
-* `audience` REQUIRED. The value MUST be set to the Trust Domain name
+* `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`.
+* `audience` REQUIRED. The value MUST be set to the trust domain name.
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn_token`
 * `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This MAY be:
