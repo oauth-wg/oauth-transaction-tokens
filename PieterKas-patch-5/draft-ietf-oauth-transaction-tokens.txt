@@ -921,8 +921,8 @@ Table of Contents
       [SPIFFE] or other provisioning protocols.
 
    *  It SHOULD use X.509 credentials in conjunction with MTLS
-      [RFC8446], or a JWT over protected by TLS, to securely
-      authenticate the requesting workload.
+      [RFC8446], or a JWT protected by TLS at the transport layer, to
+      securely authenticate the requesting workload.
 
    *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
       shared secrets to authenticate the requesting workloads.
