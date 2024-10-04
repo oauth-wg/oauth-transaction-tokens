@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 31 March 2025                                       Capital One
+Expires: 7 April 2025                                        Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                       27 September 2024
+                                                          4 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 March 2025.
+   This Internet-Draft will expire on 7 April 2025.
 
 Copyright Notice
 
@@ -916,7 +916,7 @@ Table of Contents
       is included in the list of workloads authorized to request a
       transaction token.
 
-   *  It SHOULD accept workloads credentials such as JWTs or X.509
+   *  It SHOULD accept workload credentials such as JWTs or X.509
       certificates which MAY be provisiond using mechanisms such as
       [SPIFFE] or other provisioning protocols.
 
@@ -927,7 +927,7 @@ Table of Contents
    *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
       shared secrets to authenticate the requesting workloads.
 
-   The requesting workload MUST ensure that it authenticated the
+   The requesting workload MUST ensure that it authenticates the
    Transaction Token Service.  In order to do so:
 
    *  It MUST have a pre-configured location for the Transaction Token
