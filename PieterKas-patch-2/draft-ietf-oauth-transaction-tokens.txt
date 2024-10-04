@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 31 March 2025                                       Capital One
+Expires: 7 April 2025                                        Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                       27 September 2024
+                                                          4 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 March 2025.
+   This Internet-Draft will expire on 7 April 2025.
 
 Copyright Notice
 
@@ -451,7 +451,7 @@ Table of Contents
    aud:  REQUIRED This claim, defined in [RFC7519], identifies the trust
       domain in which the Txn-Token is valid.  This identifier MUST
       uniquely identify the trust domain to prevent the Txn-Token from
-      being accepted outside it's current Trust Domain.
+      being accepted outside it's current trust domain.
 
    exp:  REQUIRED Expiry time of the Txn-Token as defined in [RFC7519]
 
@@ -640,9 +640,8 @@ Table of Contents
    *  grant_type REQUIRED.  The value MUST be set to
       urn:ietf:params:oauth:grant-type:token-exchange.
 
-   *  audience REQUIRED.  The value of the aud claim MUST remain
-      unchanged in a replacement Txn-Token to prevent the Txn-Token from
-      being accepted outside it's current Trust Domain.
+   *  audience REQUIRED.  The value MUST be set to the trust domain
+      name.
 
    *  scope REQUIRED.  A space-delimited list of case-sensitive strings
       where the value(s) MUST represent the specific purpose or intent
