@@ -2149,7 +2149,7 @@ Cache-Control: no-store
             <p id="section-7.6-3.3.1">It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-3.4">
-            <p id="section-7.6-3.4.1">It SHOULD use X.509 or JWT credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or another secure authentication protocol, to securely authenticate the requesting workload.<a href="#section-7.6-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-7.6-3.4.1">It SHOULD use X.509 credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or a JWT over protected by TLS, to securely authenticate the requesting workload.<a href="#section-7.6-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-3.5">
             <p id="section-7.6-3.5.1">It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.<a href="#section-7.6-3.5.1" class="pilcrow">¶</a></p>
