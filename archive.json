@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-03T00:15:46.282828+00:00",
+  "timestamp": "2024-10-06T00:17:37.404273+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2228,7 +2228,7 @@
       "labels": [],
       "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
       "createdAt": "2024-07-22T21:16:50Z",
-      "updatedAt": "2024-09-30T10:56:57Z",
+      "updatedAt": "2024-10-04T17:24:20Z",
       "closedAt": null,
       "comments": [
         {
@@ -2272,6 +2272,13 @@
           "body": "@gffletch We had already an implementation of transaction tokens in place before we became aware of the transaction token draft. Our implementation was a bit more aligned with Token Exchange where the scope is copied (or narrowed down) to the internally used transaction token. So most deployments rely on having the scope in the \"scope\" claim. There is also pretty good library support for the scope claim already.\r\n\r\nThat said, it might not be an issue of semantics, but rather of ownership. At least in our implementation, scope values are defined (and owned) by the services which enforce the scope (also in internal calls using transaction tokens) when the internal microservice interface is called. Purpose, on the other hand, is more bound to the use case which needs to be fulfilled and the definition of those use cases will rather be done by the external endpoints (BFFs) and thus also owned by them. The internal microservices will then need to be configured to support purposes defined by several external endpoints. So it might still be worth, having the microservice check the scope it defined to be present when calling its API on top of validating the purpose.",
           "createdAt": "2024-09-30T10:56:57Z",
           "updatedAt": "2024-09-30T10:56:57Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I've worked in environments earlier where the name \"scope\" in internal tokens caused enormous confusion with OAuth scopes from external systems.",
+          "createdAt": "2024-10-04T17:24:19Z",
+          "updatedAt": "2024-10-04T17:24:19Z"
         }
       ]
     },
@@ -2283,11 +2290,13 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [],
       "body": "We received the following email from IANA:\r\n\r\nBefore the IETF meeting, we check working group agendas for documents with IANA-related issues. We have notes about the current version of this document:\r\n\r\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-03\r\n\r\n1) We haven\u2019t been asked to update the change controller field for existing registrations, but the IESG prefers that the IETF be listed as the change controller for new registrations.\r\n\r\n2) A few minor editorial notes about the media type registration:\r\n\r\n- The applicant name and email field should be omitted. Where those fields appear on the IANA website, they\u2019re an artifact of the web form, and not officially part of the template. We\u2019re gradually removing those fields from existing registrations.\r\n\r\n- The media type registrations don\u2019t appear to include a change controller field.\r\n\r\n- The quotation marks around type, subtype, and required and optional parameters can be removed, as should the \u201c(RFC 2046)\u201d after \u201capplication.\u201d\r\n\r\nFinally, please note that RFC 6838 recommends asking the [media-types@ietf.org](mailto:media-types@ietf.org) mailing list for an informal review.\r\n\r\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us next to the RFC Editor's table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@iana.org](mailto:iana@iana.org).\r\n\r\nFor more information about IANA Considerations section requirements, please see\r\n\r\nhttps://www.iana.org/help/protocol-registration\r\n\r\nBest regards,\r\n\r\nAmanda Baber\r\nIANA Operations Manager",
       "createdAt": "2024-07-24T21:05:47Z",
-      "updatedAt": "2024-07-24T21:05:47Z",
+      "updatedAt": "2024-10-04T17:06:20Z",
       "closedAt": null,
       "comments": []
     },
@@ -2337,11 +2346,13 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [],
       "body": "The following came up in the IETF 120 session about TraTs:\r\n\r\nThere was some confusion about the re-use of the claim defined in RAR",
       "createdAt": "2024-07-24T21:16:14Z",
-      "updatedAt": "2024-09-27T18:17:52Z",
+      "updatedAt": "2024-10-03T00:54:04Z",
       "closedAt": null,
       "comments": [
         {
@@ -2576,7 +2587,7 @@
       "labels": [],
       "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?\r\n\r\n@tulshi and @gffletch ",
       "createdAt": "2024-09-23T14:20:49Z",
-      "updatedAt": "2024-09-27T16:15:56Z",
+      "updatedAt": "2024-10-03T00:50:42Z",
       "closedAt": null,
       "comments": [
         {
@@ -2585,6 +2596,13 @@
           "body": "I think we moved away from `sub_id` to just using `sub`.  However, the larger question is an interesting one. Is there a case where in completing a requested transaction, one of the calls to one of the workloads SHOULD NOT receive the `sub` claim. Is the TraT then leaking information? I haven't thought about this more than writing this comment :) ",
           "createdAt": "2024-09-27T16:15:56Z",
           "updatedAt": "2024-09-27T16:15:56Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hmm. interesting question. We do not have a means of creating constrained versions of TraTs today. I'd punt this for later though. I'm not sure this is critical to the TraTs draft as of now.",
+          "createdAt": "2024-10-03T00:50:41Z",
+          "updatedAt": "2024-10-03T00:50:41Z"
         }
       ]
     },
@@ -2671,8 +2689,8 @@
       "labels": [],
       "body": "Good practice is to explain why something is a MUST. \r\n\r\nSuggestion:\r\n\r\nFrom: The value of the aud claim MUST remain unchanged in a replacement Txn-Token.\r\n\r\nTo: The value of the aud claim MUST remain unchanged in a replacement Txn-Token to prevent the Txn-Token from being accepted outside it's current Trust Domain.\r\n\r\nAlternatively, we cann add security considerations for the draft as well.",
       "createdAt": "2024-09-23T14:43:26Z",
-      "updatedAt": "2024-09-27T17:49:43Z",
-      "closedAt": "2024-09-27T17:49:43Z",
+      "updatedAt": "2024-10-04T21:24:21Z",
+      "closedAt": "2024-10-04T21:24:21Z",
       "comments": [
         {
           "author": "gffletch",
@@ -2680,6 +2698,13 @@
           "body": "I'm good with that text.",
           "createdAt": "2024-09-27T16:04:17Z",
           "updatedAt": "2024-09-27T16:04:17Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the current PR is making the change in the wrong place (unless I'm horribly mistaken)",
+          "createdAt": "2024-10-03T00:28:45Z",
+          "updatedAt": "2024-10-03T00:28:45Z"
         }
       ]
     },
@@ -2732,6 +2757,33 @@
           "body": "I found the issue it's #95 ",
           "createdAt": "2024-09-27T20:23:16Z",
           "updatedAt": "2024-09-27T20:23:16Z"
+        }
+      ]
+    },
+    {
+      "number": 145,
+      "id": "I_kwDOJt_WwM6ZAw-k",
+      "title": "Trust Doman vs trust domain",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/145",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "gffletch",
+        "tulshi"
+      ],
+      "labels": [],
+      "body": "I see different capitalisation of trust domain (sometimes Trust Domain). We define \"Trust Domain\", but we also use \"trust domain\" throughout the document. Should we be consistent with capitalisation? If not, what are the rules for being inconsistent? ",
+      "createdAt": "2024-10-04T19:03:57Z",
+      "updatedAt": "2024-10-04T22:57:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, we should be consistent:) It seems like we'd only capitalize it if it's a proper noun? I'm very bad at English grammar rules :)",
+          "createdAt": "2024-10-04T22:57:25Z",
+          "updatedAt": "2024-10-04T22:57:25Z"
         }
       ]
     }
@@ -8791,24 +8843,26 @@
       "id": "PR_kwDOJt_WwM588ODg",
       "title": "Additional detail on 'aud' claim",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/141",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #134",
       "createdAt": "2024-09-27T16:03:22Z",
-      "updatedAt": "2024-10-03T00:05:26Z",
+      "updatedAt": "2024-10-04T21:24:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-2",
-      "headRefOid": "ec6c176dc31c3a3225b297bea024bb45505e2476",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "490abac173ad4e681a745fb3be91e58cf9fb562c",
+      "closedAt": "2024-10-04T21:24:20Z",
+      "mergedAt": "2024-10-04T21:24:20Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "3ec38046fcd7dc352ab2a79e411e406d6daee68e"
+      },
       "comments": [],
       "reviews": [
         {
@@ -8843,6 +8897,39 @@
               "updatedAt": "2024-10-03T00:05:26Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAQ5a",
+          "commit": {
+            "abbreviatedOid": "ec6c176"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T18:47:29Z",
+          "updatedAt": "2024-10-04T18:47:30Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "When the aud claim is initially defined, it is constrained to the trust domain. Agreed this is in the wrong section. Thanks for catching that. Reading the section on the replacement transaction tokens, it states that the sub and and values must remain unchanged. It may be enough to have the constraint explained in the original definition, so just removing this.,",
+              "createdAt": "2024-10-04T18:47:29Z",
+              "updatedAt": "2024-10-04T18:59:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MBzlo",
+          "commit": {
+            "abbreviatedOid": "490abac"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-04T21:24:12Z",
+          "updatedAt": "2024-10-04T21:24:12Z",
+          "comments": []
         }
       ]
     },
@@ -8858,13 +8945,13 @@
       "labels": [],
       "body": "In response to #135 \r\n\r\nUpdated section on:\r\n\r\n1. Mutual Authentication\r\n2. Security Considerations for Client Authentication\r\n3. Added security considerations for protecting the workload configuration\r\n\r\n@gffletch @tulshi ",
       "createdAt": "2024-09-27T17:17:03Z",
-      "updatedAt": "2024-10-03T00:02:04Z",
+      "updatedAt": "2024-10-04T23:10:08Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-5",
-      "headRefOid": "5301944ac3b820ec207a08ee1710d9d48bde1653",
+      "headRefOid": "2fb9ba43ab610adc5e58ddb8ca4aa86938919bf7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -8939,6 +9026,206 @@
               "updatedAt": "2024-10-03T00:02:04Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAZdG",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T19:06:54Z",
+          "updatedAt": "2024-10-04T19:06:54Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "@gffletch your thoughts? I think Atul has a point - we don't define \"strong auth\", and probably shouldn't. However, we also want to steer people away from using shared secrets etc.",
+              "createdAt": "2024-10-04T19:06:54Z",
+              "updatedAt": "2024-10-04T19:06:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAmfz",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T19:20:54Z",
+          "updatedAt": "2024-10-04T19:20:54Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "I was overly focused on teasing out credential formats from authentication protocols. What I tried to say was - use X.509 certs with MTLS or use a JWT over TLS. Perhaps I should just say that.",
+              "createdAt": "2024-10-04T19:20:54Z",
+              "updatedAt": "2024-10-04T19:20:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAnKV",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T19:21:38Z",
+          "updatedAt": "2024-10-04T19:21:38Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Fixed",
+              "createdAt": "2024-10-04T19:21:38Z",
+              "updatedAt": "2024-10-04T19:21:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAtw6",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T19:32:19Z",
+          "updatedAt": "2024-10-04T19:32:19Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "@gffletch I think you pointed this out in one of the issues- are you OK with removing this bullet given the limitation in Section 6?",
+              "createdAt": "2024-10-04T19:32:19Z",
+              "updatedAt": "2024-10-04T19:32:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAt4e",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T19:32:40Z",
+          "updatedAt": "2024-10-04T19:32:40Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "Fixed",
+              "createdAt": "2024-10-04T19:32:40Z",
+              "updatedAt": "2024-10-04T19:32:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAt-5",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T19:32:57Z",
+          "updatedAt": "2024-10-04T19:32:57Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "I found the old lines 589 and 590 a little ambiguous and wanted to give a little more guidance. Specifically using terminology like \"authorised workloads\" attempt to communicate that there is a security decision involved in adding a workload to the list. Similarly, requesting workload was an attempt at making it clearer that the requester is a workload (as opposed to say the user). repeating the \"authorisation language\" was likewise an attempt to re-emphaise the security decision and make the link to the list described in the previous bullet more explicit.  ",
+              "createdAt": "2024-10-04T19:32:57Z",
+              "updatedAt": "2024-10-04T19:32:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MAv5d",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T19:38:32Z",
+          "updatedAt": "2024-10-04T19:38:32Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "I can see cases where a transaction token service only issues tokens for a single domain, but I can also imagine that one is shared by two or more domains, especially if it is a more centralised model and it is attached to a Authorisation Server that services an entire enterprise, and must issue txn-tokens to many trust domains. \r\n\r\nI do like the simplifications of a single transaction token service per trust domain though, but I wonder if that is how it will get deployed in practice.\r\n\r\nWhat else breaks in the spec if we don't make this assumption? ",
+              "createdAt": "2024-10-04T19:38:32Z",
+              "updatedAt": "2024-10-04T19:38:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MByaH",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T21:21:06Z",
+          "updatedAt": "2024-10-04T21:21:06Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "we can clarify that in the \"Security Considerations\", but not bring that into the normative language here.",
+              "createdAt": "2024-10-04T21:21:06Z",
+              "updatedAt": "2024-10-04T21:21:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MCFjw",
+          "commit": {
+            "abbreviatedOid": "2fb9ba4"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T23:05:59Z",
+          "updatedAt": "2024-10-04T23:05:59Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "I'm fine with saying the TTS must authenticate the requesting workload and then add a security consideration covering the potential exposure if the requesting workload makes a transaction token request from a service that is not the TTS.",
+              "createdAt": "2024-10-04T23:05:59Z",
+              "updatedAt": "2024-10-04T23:05:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6MCF_o",
+          "commit": {
+            "abbreviatedOid": "2fb9ba4"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-04T23:10:07Z",
+          "updatedAt": "2024-10-04T23:10:07Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "We've talked about a logical TTS which doesn't require a single endpoint. \n\nOtherwise our text about the requesting workload needing to ensure it is talking to the correct TTS should cover this.\n\n(I am doing this from my phone:)",
+              "createdAt": "2024-10-04T23:10:07Z",
+              "updatedAt": "2024-10-04T23:10:08Z"
+            }
+          ]
         }
       ]
     },
@@ -8980,6 +9267,46 @@
           "body": "",
           "createdAt": "2024-10-02T23:39:32Z",
           "updatedAt": "2024-10-02T23:39:32Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 144,
+      "id": "PR_kwDOJt_WwM59cPvx",
+      "title": "Addressed comments from IANA review",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/144",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-03T01:01:25Z",
+      "updatedAt": "2024-10-04T22:58:27Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "26e1cb85453191b6c735fbaf6bc0c9f86f987518",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "iana-update",
+      "headRefOid": "59847ab9aac5a79d092a57a165542c6e8d4f38b5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6MCEqs",
+          "commit": {
+            "abbreviatedOid": "59847ab"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-04T22:58:27Z",
+          "updatedAt": "2024-10-04T22:58:27Z",
           "comments": []
         }
       ]
