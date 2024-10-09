@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 7 April 2025                                        Capital One
+Expires: 12 April 2025                                       Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                          4 October 2024
+                                                          9 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 April 2025.
+   This Internet-Draft will expire on 12 April 2025.
 
 Copyright Notice
 
@@ -1070,7 +1070,7 @@ Table of Contents
 
       -  Common Name: Transaction Token
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document Section Section 7.1 of this
          specification
@@ -1079,7 +1079,7 @@ Table of Contents
 
       -  Common Name: Token type for Self-signed JWT
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 7.2.1 of this
          specification
@@ -1088,7 +1088,7 @@ Table of Contents
 
       -  Common Name: Token type for Unsigned JSON Object
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 7.2.2 of this
          specification
@@ -1099,7 +1099,7 @@ Table of Contents
 
       -  Claim Description: The authorization context details
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 5.2 of this
          specification
@@ -1108,7 +1108,7 @@ Table of Contents
 
       -  Claim Description: The requester context
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 5.2.2 of this
          specification
@@ -1117,7 +1117,7 @@ Table of Contents
 
       -  Claim Description: The purpose of the transaction
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 5.2 of this
          specification
@@ -1127,17 +1127,15 @@ Table of Contents
    The following entry will be proposed using the IANA Media Type
    registration [IANA.MediaTypes] form.
 
-   *  Applicant Name: Atul Tulshibagwale
+   *  Type Name: application
 
-   *  Applicant Email: atul@sgnl.ai
+   *  Subtype Name: txntoken+jwt
 
-   *  Type Name: "application (RFC 2046)"
+   *  Change Controller: IETF
 
-   *  Subtype Name: "txntoken+jwt"
+   *  Required Parameters: N/A.
 
-   *  Required Parameters: "N/A."
-
-   *  Optional Parameters: "N/A."
+   *  Optional Parameters: N/A.
 
    *  Encoding Considerations: 7-bit text
 
