@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-08T00:15:32.177282+00:00",
+  "timestamp": "2024-10-10T00:15:41.234542+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2287,7 +2287,7 @@
       "id": "I_kwDOJt_WwM6Qv4GP",
       "title": "IANA registration procedures",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/117",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2296,8 +2296,8 @@
       "labels": [],
       "body": "We received the following email from IANA:\r\n\r\nBefore the IETF meeting, we check working group agendas for documents with IANA-related issues. We have notes about the current version of this document:\r\n\r\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-03\r\n\r\n1) We haven\u2019t been asked to update the change controller field for existing registrations, but the IESG prefers that the IETF be listed as the change controller for new registrations.\r\n\r\n2) A few minor editorial notes about the media type registration:\r\n\r\n- The applicant name and email field should be omitted. Where those fields appear on the IANA website, they\u2019re an artifact of the web form, and not officially part of the template. We\u2019re gradually removing those fields from existing registrations.\r\n\r\n- The media type registrations don\u2019t appear to include a change controller field.\r\n\r\n- The quotation marks around type, subtype, and required and optional parameters can be removed, as should the \u201c(RFC 2046)\u201d after \u201capplication.\u201d\r\n\r\nFinally, please note that RFC 6838 recommends asking the [media-types@ietf.org](mailto:media-types@ietf.org) mailing list for an informal review.\r\n\r\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us next to the RFC Editor's table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@iana.org](mailto:iana@iana.org).\r\n\r\nFor more information about IANA Considerations section requirements, please see\r\n\r\nhttps://www.iana.org/help/protocol-registration\r\n\r\nBest regards,\r\n\r\nAmanda Baber\r\nIANA Operations Manager",
       "createdAt": "2024-07-24T21:05:47Z",
-      "updatedAt": "2024-10-04T17:06:20Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-09T05:05:13Z",
+      "closedAt": "2024-10-09T05:05:13Z",
       "comments": []
     },
     {
@@ -9276,24 +9276,26 @@
       "id": "PR_kwDOJt_WwM59cPvx",
       "title": "Addressed comments from IANA review",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/144",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-10-03T01:01:25Z",
-      "updatedAt": "2024-10-04T22:58:27Z",
+      "updatedAt": "2024-10-09T05:05:14Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "26e1cb85453191b6c735fbaf6bc0c9f86f987518",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "iana-update",
       "headRefOid": "59847ab9aac5a79d092a57a165542c6e8d4f38b5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-10-09T05:05:12Z",
+      "mergedAt": "2024-10-09T05:05:12Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "f5c7b549ecd574100edc08eb4c860baaaa56957b"
+      },
       "comments": [],
       "reviews": [
         {
