@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 31 March 2025                                       Capital One
+Expires: 18 April 2025                                       Capital One
                                                             P. Kasselman
-                                                               Microsoft
-                                                       27 September 2024
+                                                                   SPIRL
+                                                         15 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 March 2025.
+   This Internet-Draft will expire on 18 April 2025.
 
 Copyright Notice
 
@@ -384,9 +384,11 @@ Table of Contents
       microservices, monolithic services and infrastructure services
       such as managed databases.
 
-   Trust Domain:  A virtually or physically separated network, which
-      contains two or more workloads.  The workloads within a Trust
-      Domain may be invoked only through published interfaces.
+   Trust Domain:  A collection of systems, applications, or workloads
+      that share a common security policy.  In practice this may include
+      a virtually or physically separated network, which contains two or
+      more workloads.  The workloads within a Trust Domain may be
+      invoked only through published interfaces.
 
    External Endpoint:  A published interface to a Trust Domain that
       results in the invocation of a workload within the Trust Domain.
@@ -451,7 +453,8 @@ Table of Contents
 
    aud:  REQUIRED This claim, defined in [RFC7519], identifies the trust
       domain in which the Txn-Token is valid.  This identifier MUST
-      uniquely identify the trust domain.
+      uniquely identify the trust domain to prevent the Txn-Token from
+      being accepted outside it's current trust domain.
 
    exp:  REQUIRED Expiry time of the Txn-Token as defined in [RFC7519]
 
@@ -638,9 +641,10 @@ Table of Contents
    token endpoint with the following parameters:
 
    *  grant_type REQUIRED.  The value MUST be set to
-      urn:ietf:params:oauth:grant-type:token-exchange
+      urn:ietf:params:oauth:grant-type:token-exchange.
 
-   *  audience REQUIRED.  The value MUST be set to the Trust Domain name
+   *  audience REQUIRED.  The value MUST be set to the trust domain
+      name.
 
    *  scope REQUIRED.  A space-delimited list of case-sensitive strings
       where the value(s) MUST represent the specific purpose or intent
@@ -827,8 +831,8 @@ Table of Contents
    A successful response to a Txn-Token Request by a Transaction Token
    Service is called a Txn-Token Response.  If the Transaction Token
    Service responds with an error, the error response is as described in
-   Section 5.2 of [RFC6749].  The following describes required values of
-   a Txn-Token Response:
+   Section 5.2 of [RFC6749].  The following values defined in [RFC8693]
+   MUST be included in the Txn-Token Response:
 
    *  The token_type value MUST be set to N_A per guidance in OAuth 2.0
       Token Exchange [RFC8693]
@@ -838,8 +842,8 @@ Table of Contents
    *  The issued_token_type value MUST bet set to
       urn:ietf:params:oauth:token-type:txn_token
 
-   *  The response MUST NOT include the values expires_in, refresh_token
-      and scope
+   The Txn-Token Response MUST NOT include the values expires_in,
+   refresh_token and scope
 
    Figure 6 shows a non-normative example of a Txn-Token Response.
 
@@ -891,10 +895,12 @@ Table of Contents
 
    To request a replacement Txn-Token, the requester makes a Txn-Token
    Request as described in Section 7.1 but includes the Txn-Token to be
-   replaced as the value of the subject_token parameter.  The scope
-   value in the replacement request, if different from that in the
-   original Txn-Token, MUST NOT increase the authorization surface
-   beyond that of the original Txn-Token.
+   replaced as the value of the subject_token parameter and sets the
+   subject_token_type parameter to the value
+   urn:ietf:params:oauth:token-type:txn_token.  The scope value in the
+   replacement request, if different from that in the original Txn-
+   Token, MUST NOT increase the authorization surface beyond that of the
+   original Txn-Token.
 
 7.5.3.  Replacement Txn-Token Response
 
@@ -1039,10 +1045,14 @@ Table of Contents
 
 10.2.  Logging
 
-   Txn-Tokens SHOULD NOT be logged if they contain Personally
-   Identifiable Information (PII).  What constitutes PII depends upon
-   the use case, but in some cases even an email address (which could be
-   a sub value) can be protected PII, which should not be logged.
+   Complete Txn-Tokens must not be logged verbatim.  This is in order to
+   prevent replay of tokens or leakage of PII or other sensitive
+   information via log files.  A hash of the Txn-Token may be logged to
+   allow for correlation with the log files of the Txn-Token Service
+   that records issued tokens.  Alternatively the JWS payload of a Txn-
+   Token may be logged after the signature has been removed.  If the
+   Txn-Token contains PII, then care should be taken in logging the
+   content of the Txn-Token so that the PII does not get logged.
 
 11.  IANA Considerations
 
@@ -1060,7 +1070,7 @@ Table of Contents
 
       -  Common Name: Transaction Token
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document Section Section 7.1 of this
          specification
@@ -1069,7 +1079,7 @@ Table of Contents
 
       -  Common Name: Token type for Self-signed JWT
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 7.2.1 of this
          specification
@@ -1078,7 +1088,7 @@ Table of Contents
 
       -  Common Name: Token type for Unsigned JSON Object
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 7.2.2 of this
          specification
@@ -1089,7 +1099,7 @@ Table of Contents
 
       -  Claim Description: The authorization context details
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 5.2 of this
          specification
@@ -1098,7 +1108,7 @@ Table of Contents
 
       -  Claim Description: The requester context
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 5.2.2 of this
          specification
@@ -1107,7 +1117,7 @@ Table of Contents
 
       -  Claim Description: The purpose of the transaction
 
-      -  Change Controller: IESG
+      -  Change Controller: IETF
 
       -  Specification Document: Section Section 5.2 of this
          specification
@@ -1117,17 +1127,15 @@ Table of Contents
    The following entry will be proposed using the IANA Media Type
    registration [IANA.MediaTypes] form.
 
-   *  Applicant Name: Atul Tulshibagwale
+   *  Type Name: application
 
-   *  Applicant Email: atul@sgnl.ai
+   *  Subtype Name: txntoken+jwt
 
-   *  Type Name: "application (RFC 2046)"
+   *  Change Controller: IETF
 
-   *  Subtype Name: "txntoken+jwt"
+   *  Required Parameters: N/A.
 
-   *  Required Parameters: "N/A."
-
-   *  Optional Parameters: "N/A."
+   *  Optional Parameters: N/A.
 
    *  Encoding Considerations: 7-bit text
 
@@ -1325,5 +1333,5 @@ Authors' Addresses
 
 
    Pieter Kasselman
-   Microsoft
-   Email: pieter.kasselman@microsoft.com
+   SPIRL
+   Email: pieter@spirl.com
