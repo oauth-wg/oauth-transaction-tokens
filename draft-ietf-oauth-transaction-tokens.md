@@ -33,8 +33,8 @@ author:
 
 - ins: P. Kasselman
   name: Pieter Kasselman
-  org: Microsoft
-  email: pieter.kasselman@microsoft.com
+  org: SPIRL
+  email: pieter@spirl.com
 
 contributor:
 - ins: K. Burgin
