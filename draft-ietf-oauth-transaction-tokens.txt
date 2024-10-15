@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 12 April 2025                                       Capital One
+Expires: 18 April 2025                                       Capital One
                                                             P. Kasselman
-                                                               Microsoft
-                                                          9 October 2024
+                                                                   SPIRL
+                                                         15 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 April 2025.
+   This Internet-Draft will expire on 18 April 2025.
 
 Copyright Notice
 
@@ -1333,5 +1333,5 @@ Authors' Addresses
 
 
    Pieter Kasselman
-   Microsoft
-   Email: pieter.kasselman@microsoft.com
+   SPIRL
+   Email: pieter@spirl.com
