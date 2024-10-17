@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-15T00:16:12.124066+00:00",
+  "timestamp": "2024-10-17T00:16:06.231706+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -9309,6 +9309,48 @@
           "body": "",
           "createdAt": "2024-10-04T22:58:27Z",
           "updatedAt": "2024-10-04T22:58:27Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 146,
+      "id": "PR_kwDOJt_WwM5-tK91",
+      "title": "Affiliation change for Pieter",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/146",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-10-15T16:59:58Z",
+      "updatedAt": "2024-10-15T17:03:15Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "f5c7b549ecd574100edc08eb4c860baaaa56957b",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "b560a234187c03730b6097b918ae1e7b68ca67a9",
+      "closedAt": "2024-10-15T17:03:13Z",
+      "mergedAt": "2024-10-15T17:03:13Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "e24ef1cd3463f010e7378e4ebc8e2702fbb554a6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6NRA09",
+          "commit": {
+            "abbreviatedOid": "b560a23"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-15T17:03:08Z",
+          "updatedAt": "2024-10-15T17:03:08Z",
           "comments": []
         }
       ]
