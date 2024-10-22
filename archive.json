@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T00:17:51.608382+00:00",
+  "timestamp": "2024-10-22T00:16:10.469323+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2037,7 +2037,7 @@
       "labels": [],
       "body": "There should be guidance for token lifetime of replacement token. A replacement token can have lifetime of whatever is left in the original token that was used to replacement or someone will keep using replacement token feature to keep increasing lifetime of the original incoming token. ",
       "createdAt": "2024-07-13T06:12:47Z",
-      "updatedAt": "2024-07-24T21:49:51Z",
+      "updatedAt": "2024-10-20T04:40:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -2088,6 +2088,13 @@
           "body": "Note- combine this with any PR on \"refresh\" tokens when time extension/replacement is needed to keep language consistent.",
           "createdAt": "2024-07-24T21:49:50Z",
           "updatedAt": "2024-07-24T21:49:50Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Raised a PR with minor fixes https://github.com/oauth-wg/oauth-transaction-tokens/pull/147",
+          "createdAt": "2024-10-20T04:40:55Z",
+          "updatedAt": "2024-10-20T04:40:55Z"
         }
       ]
     },
@@ -2587,7 +2594,7 @@
       "labels": [],
       "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?\r\n\r\n@tulshi and @gffletch ",
       "createdAt": "2024-09-23T14:20:49Z",
-      "updatedAt": "2024-10-03T00:50:42Z",
+      "updatedAt": "2024-10-21T20:56:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -2603,6 +2610,13 @@
           "body": "Hmm. interesting question. We do not have a means of creating constrained versions of TraTs today. I'd punt this for later though. I'm not sure this is critical to the TraTs draft as of now.",
           "createdAt": "2024-10-03T00:50:41Z",
           "updatedAt": "2024-10-03T00:50:41Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree. Within a single trust domain, this is probably less of an issue. ",
+          "createdAt": "2024-10-21T20:56:04Z",
+          "updatedAt": "2024-10-21T20:56:04Z"
         }
       ]
     },
@@ -9354,6 +9368,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 147,
+      "id": "PR_kwDOJt_WwM5_NNMb",
+      "title": "Update Transaction Token Service responsibility for replacement tokens #110",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/147",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update Transaction Token Service responsibility when creating replacement tokens. Also contains minor changes for consistent language. Related https://github.com/oauth-wg/oauth-transaction-tokens/issues/110",
+      "createdAt": "2024-10-20T04:26:23Z",
+      "updatedAt": "2024-10-20T04:26:24Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e24ef1cd3463f010e7378e4ebc8e2702fbb554a6",
+      "headRepository": "ashayraut/replacement_token_tts",
+      "headRefName": "main",
+      "headRefOid": "b14100d98b10c22775c0de47f7d911f2e91b87e7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
