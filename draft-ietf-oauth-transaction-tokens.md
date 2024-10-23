@@ -597,7 +597,6 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:
 
 * It MUST have a pre-configured location for the Transaction Token Service.
-* If there is more than one Transaction Token Service, it MUST ensure that it is sending transaction token requests to the right Transaction Token Service to avoid leaking sensitive information like access tokens.
 * It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
 * It SHOULD use X.509 or JWT credentials in conjunction with MTLS {{RFC8446}}, or another secure authentication protocol, to securely authenticate the Transaction Token Service.
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.
@@ -636,7 +635,10 @@ The authorization model within a trust domain boundary is most often quite diffe
 A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The `txn` claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the trust domain, for the `txn` value.
 
 ## Workload Configuration Protection
-A workload may be configured to access more than one Transaction Token Service to ensure redundency or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of the Transaction Token Services that it may access. An attacker may perform a denial of service attack or degrade the performance of a system by removing Transaction Token Services from the workload configuration. Alternatively, an attacker may add its own Transaction Token Service to the configuration, resulting in the workload sending sensitive information such as Access Tokens to a Transaction token Service under the attacker's control.
+A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundency or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Services from the workload configuration. 
+
+## Transaction token Service Authentication
+A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes senstive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transacation token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.
 
 # Privacy Considerations {#Privacy}
 
