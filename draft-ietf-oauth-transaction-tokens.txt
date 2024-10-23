@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 18 April 2025                                       Capital One
+Expires: 26 April 2025                                       Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                         15 October 2024
+                                                         23 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2025.
+   This Internet-Draft will expire on 26 April 2025.
 
 Copyright Notice
 
@@ -862,7 +862,7 @@ Table of Contents
 7.5.  Creating Replacement Txn-Tokens
 
    A workload within a call chain may request the Transaction Token
-   Server to replace a Txn-Token.
+   Service to replace a Txn-Token.
 
    Workloads MAY request replacement Txn-Tokens in order to change (add
    to, remove or modify) the asserted values within a Txn-Token.
@@ -890,6 +890,9 @@ Table of Contents
    *  MUST NOT remove any of the existing requesting workload
       identifiers from the req_wl field in the rctx claim of the Txn-
       Token
+
+   *  MUST NOT issue replacement Txn-token with lifetime exceeding the
+      lifetime of the originally presented token
 
 7.5.2.  Replacement Txn-Token Request
 
