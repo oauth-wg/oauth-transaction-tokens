@@ -67,12 +67,6 @@ contributor:
   org: Arm Ltd.
   email: Hannes.Tschofenig@arm.com
 
-- ins: A. Raut
-  name: Ashay Raut
-  org: Amazon
-  email: asharaut@amazon.com
-
-
 normative:
   RFC2119: # Keywords
   RFC3986: # URI
