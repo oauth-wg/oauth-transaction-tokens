@@ -584,7 +584,7 @@ To request a replacement Txn-Token, the requester makes a Txn-Token Request as d
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
 
 ## Mutual Authentication of the Txn-Token Request
-A workload and Transaction Token Service MUST perform mutual authentication using strong authentication mechanisms.
+A workload and Transaction Token Service MUST perform mutual authentication.
 
 A Txn-Token Service MUST ensure that it authenticates any workloads requesting Txn-Tokens. In order to do so:
 
