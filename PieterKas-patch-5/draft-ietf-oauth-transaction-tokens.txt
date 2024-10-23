@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 7 April 2025                                        Capital One
+Expires: 26 April 2025                                       Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                          4 October 2024
+                                                         23 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 April 2025.
+   This Internet-Draft will expire on 26 April 2025.
 
 Copyright Notice
 
@@ -904,7 +904,7 @@ Table of Contents
 7.6.  Mutual Authentication of the Txn-Token Request
 
    A workload and Transaction Token Service MUST perform mutual
-   authentication using strong authentication mechanisms.
+   authentication.
 
    A Txn-Token Service MUST ensure that it authenticates any workloads
    requesting Txn-Tokens.  In order to do so:
