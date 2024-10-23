@@ -1283,6 +1283,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.8">
                 <p id="section-toc.1-1.9.2.8.1"><a href="#section-9.8" class="auto internal xref">9.8</a>.  <a href="#name-workload-configuration-prot" class="internal xref">Workload Configuration Protection</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.9">
+                <p id="section-toc.1-1.9.2.9.1"><a href="#section-9.9" class="auto internal xref">9.9</a>.  <a href="#name-transaction-token-service-a" class="internal xref">Transaction token Service Authentication</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
@@ -2161,16 +2164,13 @@ Cache-Control: no-store
             <p id="section-7.6-5.1.1">It MUST have a pre-configured location for the Transaction Token Service.<a href="#section-7.6-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-5.2">
-            <p id="section-7.6-5.2.1">If there is more than one Transaction Token Service, it MUST ensure that it is sending transaction token requests to the right Transaction Token Service to avoid leaking sensitive information like access tokens.<a href="#section-7.6-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.6-5.2.1">It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-5.3">
-            <p id="section-7.6-5.3.1">It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-5.3.1" class="pilcrow">¶</a></p>
+            <p id="section-7.6-5.3.1">It SHOULD use X.509 or JWT credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or another secure authentication protocol, to securely authenticate the Transaction Token Service.<a href="#section-7.6-5.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-5.4">
-            <p id="section-7.6-5.4.1">It SHOULD use X.509 or JWT credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or another secure authentication protocol, to securely authenticate the Transaction Token Service.<a href="#section-7.6-5.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-5.5">
-            <p id="section-7.6-5.5.1">It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.<a href="#section-7.6-5.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.6-5.4.1">It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.<a href="#section-7.6-5.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2261,7 +2261,15 @@ Cache-Control: no-store
         <h3 id="name-workload-configuration-prot">
 <a href="#section-9.8" class="section-number selfRef">9.8. </a><a href="#name-workload-configuration-prot" class="section-name selfRef">Workload Configuration Protection</a>
         </h3>
-<p id="section-9.8-1">A workload may be configured to access more than one Transaction Token Service to ensure redundency or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of the Transaction Token Services that it may access. An attacker may perform a denial of service attack or degrade the performance of a system by removing Transaction Token Services from the workload configuration. Alternatively, an attacker may add its own Transaction Token Service to the configuration, resulting in the workload sending sensitive information such as Access Tokens to a Transaction token Service under the attacker's control.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
+<p id="section-9.8-1">A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundency or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Services from the workload configuration.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="transaction-token-service-authentication">
+<section id="section-9.9">
+        <h3 id="name-transaction-token-service-a">
+<a href="#section-9.9" class="section-number selfRef">9.9. </a><a href="#name-transaction-token-service-a" class="section-name selfRef">Transaction token Service Authentication</a>
+        </h3>
+<p id="section-9.9-1">A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes senstive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transacation token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.<a href="#section-9.9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
