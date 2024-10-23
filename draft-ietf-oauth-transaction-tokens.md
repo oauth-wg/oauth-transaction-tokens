@@ -598,7 +598,7 @@ The requesting workload MUST ensure that it authenticates the Transaction Token 
 
 * It MUST have a pre-configured location for the Transaction Token Service.
 * It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
-* It SHOULD use X.509 or JWT credentials in conjunction with MTLS {{RFC8446}}, or another secure authentication protocol, to securely authenticate the Transaction Token Service.
+* It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the Transaction Token Service.
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.
 
 # Using Txn-Tokens
