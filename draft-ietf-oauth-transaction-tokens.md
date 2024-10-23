@@ -67,7 +67,6 @@ contributor:
   org: Arm Ltd.
   email: Hannes.Tschofenig@arm.com
 
-
 normative:
   RFC2119: # Keywords
   RFC3986: # URI
@@ -563,7 +562,7 @@ Cache-Control: no-store
 {: #figtxtokenresponse title="Example: Txn-Token Response"}
 
 ## Creating Replacement Txn-Tokens
-A workload within a call chain may request the Transaction Token Server to replace a Txn-Token.
+A workload within a call chain may request the Transaction Token Service to replace a Txn-Token.
 
 Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.
 
@@ -577,6 +576,7 @@ When issuing replacement Txn-Tokens, a Txn-Token Service:
 * SHOULD NOT enable modification to asserted values that expand the scope of permitted actions
 * MUST NOT modify `sub` and `aud` values of the Txn-Token in the request
 * MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` field in the `rctx` claim of the Txn-Token
+* MUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
 
 ### Replacement Txn-Token Request
 To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter and sets the `subject_token_type` parameter to the value `urn:ietf:params:oauth:token-type:txn_token`. The `scope` value in the replacement request, if different from that in the original Txn-Token, MUST NOT increase the authorization surface beyond that of the original Txn-Token.
