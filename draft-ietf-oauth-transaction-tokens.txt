@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 26 April 2025                                       Capital One
+Expires: 27 April 2025                                       Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                         23 October 2024
+                                                         24 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2025.
+   This Internet-Draft will expire on 27 April 2025.
 
 Copyright Notice
 
@@ -113,6 +113,8 @@ Table of Contents
      9.5.  Replacement Tokens
      9.6.  Scope and Purpose processing
      9.7.  Identifying Call Chains
+     9.8.  Workload Configuration Protection
+     9.9.  Transaction token Service Authentication
    10. Privacy Considerations
      10.1.  Obfuscation of Personal Information
      10.2.  Logging
@@ -912,26 +914,46 @@ Table of Contents
 
 7.6.  Mutual Authentication of the Txn-Token Request
 
+   A workload and Transaction Token Service MUST perform mutual
+   authentication.
+
    A Txn-Token Service MUST ensure that it authenticates any workloads
    requesting Txn-Tokens.  In order to do so:
 
-   *  It MUST name a limited, pre-configured set of workloads that MAY
-      request Txn-Tokens
+   *  It MUST maintain a limited, pre-configured set of authorized
+      workloads that MAY request Txn-Tokens.
 
-   *  It MUST individually authenticate the requester as being one of
-      the named requesters
+   *  It MUST authenticate the requesting workload and confirm that it
+      is included in the list of workloads authorized to request a
+      transaction token.
 
-   *  It SHOULD rely on mechanisms, such as [SPIFFE] used in conjunction
-      with MTLS [RFC8446], or some other means of performing MTLS, to
-      securely authenticate the requester
+   *  It SHOULD accept workload credentials such as JWTs or X.509
+      certificates which MAY be provisiond using mechanisms such as
+      [SPIFFE] or other provisioning protocols.
+
+   *  It SHOULD use X.509 credentials in conjunction with MTLS
+      [RFC8446], or a JWT protected by TLS at the transport layer, to
+      securely authenticate the requesting workload.
 
    *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
-      shared secrets to authenticate the requesters
+      shared secrets to authenticate the requesting workloads.
 
-   The requesting workload MUST have a pre-configured location for the
-   Transaction Token Service.  It SHOULD rely on mechanisms, such as
-   [SPIFFE], to securely authenticate the Transaction Token Service
-   before making a Txn-Token Request.
+   The requesting workload MUST ensure that it authenticates the
+   Transaction Token Service.  In order to do so:
+
+   *  It MUST have a pre-configured location for the Transaction Token
+      Service.
+
+   *  It SHOULD accept Transaction Token Service credentials such as
+      JWTs or X.509 certificates which MAY be provisiond using
+      mechanisms such as [SPIFFE] or other provisioning protocols.
+
+   *  It SHOULD use X.509 credentials in conjunction with MTLS
+      [RFC8446], or a JWT protected by TLS at the transport layer, to
+      securely authenticate the Transaction Token Service.
+
+   *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
+      shared secrets to authenticate the Transaction Token Service.
 
 8.  Using Txn-Tokens
 
@@ -997,11 +1019,9 @@ Table of Contents
 
 9.4.  Client Authentication
 
-   How requesting clients authenticate to the Transaction Token Service
-   is out of scope for this specification.  However, if using the
-   actor_token and actor_token_type parameters of the OAuth 2.0 Token
-   Exchange specification, both parameters MUST be present in the
-   request.  The actor_token MUST authenticate the identity of the
+   If using the actor_token and actor_token_type parameters of the OAuth
+   2.0 Token Exchange specification, both parameters MUST be present in
+   the request.  The actor_token MUST authenticate the identity of the
    requesting workload.
 
 9.5.  Replacement Tokens
@@ -1035,6 +1055,29 @@ Table of Contents
    can provide both discovery and auditability of successful and failed
    transactions.  It is therefore strongly RECOMMENDED to use an
    identifier, unique within the trust domain, for the txn value.
+
+9.8.  Workload Configuration Protection
+
+   A workload may be configured to access more than one instance of a
+   Transaction Token Service to ensure redundency or reduce latency for
+   transaction token requests.  The workload configuration should be
+   protected against unauthorized addition or removal of Transaction
+   Token Service instances.  An attacker may perform a denial of service
+   attack or degrade the performance of a system by removing an instance
+   of a Transaction Token Service from the workload configuration.
+
+9.9.  Transaction token Service Authentication
+
+   A workload may accidently send a transaction token request to a
+   service that is not a Transaction Token Service, or an attacker may
+   attempt to impersonate a Transaction Token Service in order to gain
+   access to transaction token requests which includes senstive
+   information like access tokens.  To minimise the risk of leaking
+   sensitive information like access tokens that are included in the
+   transacation token request, the workload must ensure that it
+   authenticates the Transaction Token Service and only contact
+   instances of the Transaction Token Service that is authorized to
+   issue transaction tokens.
 
 10.  Privacy Considerations
 
