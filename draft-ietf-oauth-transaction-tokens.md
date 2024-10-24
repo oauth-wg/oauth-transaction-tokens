@@ -585,14 +585,22 @@ To request a replacement Txn-Token, the requester makes a Txn-Token Request as d
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
 
 ## Mutual Authentication of the Txn-Token Request
+A workload and Transaction Token Service MUST perform mutual authentication.
+
 A Txn-Token Service MUST ensure that it authenticates any workloads requesting Txn-Tokens. In order to do so:
 
-* It MUST name a limited, pre-configured set of workloads that MAY request Txn-Tokens
-* It MUST individually authenticate the requester as being one of the named requesters
-* It SHOULD rely on mechanisms, such as {{SPIFFE}} used in conjunction with MTLS {{RFC8446}}, or some other means of performing MTLS, to securely authenticate the requester
-* It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesters
+* It MUST maintain a limited, pre-configured set of authorized workloads that MAY request Txn-Tokens.
+* It MUST authenticate the requesting workload and confirm that it is included in the list of workloads authorized to request a transaction token.
+* It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
+* It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the requesting workload.
+* It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.
 
-The requesting workload MUST have a pre-configured location for the Transaction Token Service. It SHOULD rely on mechanisms, such as {{SPIFFE}}, to securely authenticate the Transaction Token Service before making a Txn-Token Request.
+The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:
+
+* It MUST have a pre-configured location for the Transaction Token Service.
+* It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
+* It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the Transaction Token Service.
+* It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.
 
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
@@ -616,7 +624,7 @@ When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presen
 A service requesting a Txn-Token SHOULD provide an incoming token if it has one that it used itself to authorize a caller, and if it directly correlates with the downstream call chain it needs the Txn-Token for. In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the details of the requester to the Txn-Token service.
 
 ## Client Authentication
-How requesting clients authenticate to the Transaction Token Service is out of scope for this specification. However, if using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST authenticate the identity of the requesting workload.
+If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST authenticate the identity of the requesting workload.
 
 ## Replacement Tokens
 Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to the security of the entire transaction invocation sequence. Only Txn-Tokens issued by a trusted Transaction Token Service may be trusted, so verification of the Txn-Token signature is required. For replacement transaction tokens, not only must the JWT signature be verified but also the workload identity of the workload requesting the replacement Txn-Token.
@@ -626,6 +634,12 @@ The authorization model within a trust domain boundary is most often quite diffe
 
 ## Identifying Call Chains
 A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The `txn` claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the trust domain, for the `txn` value.
+
+## Workload Configuration Protection
+A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundency or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.
+
+## Transaction token Service Authentication
+A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes senstive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transacation token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.
 
 # Privacy Considerations {#Privacy}
 
