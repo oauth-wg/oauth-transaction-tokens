@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 26 April 2025                                       Capital One
+Expires: 27 April 2025                                       Capital One
                                                             P. Kasselman
                                                                Microsoft
-                                                         23 October 2024
+                                                         24 October 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2025.
+   This Internet-Draft will expire on 27 April 2025.
 
 Copyright Notice
 
@@ -1054,7 +1054,7 @@ Table of Contents
    protected against unauthorized addition or removal of Transaction
    Token Service instances.  An attacker may perform a denial of service
    attack or degrade the performance of a system by removing an instance
-   of a Transaction Token Services from the workload configuration.
+   of a Transaction Token Service from the workload configuration.
 
 9.9.  Transaction token Service Authentication
 
