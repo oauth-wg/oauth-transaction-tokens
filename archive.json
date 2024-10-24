@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-22T00:16:10.469323+00:00",
+  "timestamp": "2024-10-24T00:16:11.099917+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -8959,13 +8959,13 @@
       "labels": [],
       "body": "In response to #135 \r\n\r\nUpdated section on:\r\n\r\n1. Mutual Authentication\r\n2. Security Considerations for Client Authentication\r\n3. Added security considerations for protecting the workload configuration\r\n\r\n@gffletch @tulshi ",
       "createdAt": "2024-09-27T17:17:03Z",
-      "updatedAt": "2024-10-04T23:10:08Z",
+      "updatedAt": "2024-10-23T22:48:04Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-5",
-      "headRefOid": "2fb9ba43ab610adc5e58ddb8ca4aa86938919bf7",
+      "headRefOid": "e3c2fb8ab6932ee651c0bfa3ba377dfd20a01e14",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -9240,6 +9240,119 @@
               "updatedAt": "2024-10-04T23:10:08Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OZqNz",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T14:58:46Z",
+          "updatedAt": "2024-10-23T14:58:46Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Removed the \"strong authentication\" requirement and left \"mutual authentication\"",
+              "createdAt": "2024-10-23T14:58:46Z",
+              "updatedAt": "2024-10-23T14:58:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OZuyQ",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T15:03:58Z",
+          "updatedAt": "2024-10-23T15:03:58Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "OK, so my take here is that we stick with a single logical TTS. I will add a security consideration to remind people why they should make sure they request transaction tokens to the right server (and not some rogue) and delete line 600.",
+              "createdAt": "2024-10-23T15:03:58Z",
+              "updatedAt": "2024-10-23T15:03:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OZ_h-",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T15:21:58Z",
+          "updatedAt": "2024-10-23T15:21:59Z",
+          "comments": [
+            {
+              "originalPosition": 43,
+              "body": "Updated to reflect a single logical transaction token service that may have multiple instances.",
+              "createdAt": "2024-10-23T15:21:59Z",
+              "updatedAt": "2024-10-23T15:21:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OaMuc",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T15:37:24Z",
+          "updatedAt": "2024-10-23T15:37:24Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "Updated text",
+              "createdAt": "2024-10-23T15:37:24Z",
+              "updatedAt": "2024-10-23T15:37:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OaNDD",
+          "commit": {
+            "abbreviatedOid": "5301944"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-23T15:37:47Z",
+          "updatedAt": "2024-10-23T15:37:47Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "Updated text",
+              "createdAt": "2024-10-23T15:37:47Z",
+              "updatedAt": "2024-10-23T15:37:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OgLF-",
+          "commit": {
+            "abbreviatedOid": "e3c2fb8"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-23T22:48:04Z",
+          "updatedAt": "2024-10-23T22:48:04Z",
+          "comments": []
         }
       ]
     },
@@ -9374,26 +9487,42 @@
       "id": "PR_kwDOJt_WwM5_NNMb",
       "title": "Update Transaction Token Service responsibility for replacement tokens #110",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/147",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Update Transaction Token Service responsibility when creating replacement tokens. Also contains minor changes for consistent language. Related https://github.com/oauth-wg/oauth-transaction-tokens/issues/110",
       "createdAt": "2024-10-20T04:26:23Z",
-      "updatedAt": "2024-10-20T04:26:24Z",
+      "updatedAt": "2024-10-23T21:05:09Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e24ef1cd3463f010e7378e4ebc8e2702fbb554a6",
       "headRepository": "ashayraut/replacement_token_tts",
       "headRefName": "main",
-      "headRefOid": "b14100d98b10c22775c0de47f7d911f2e91b87e7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "155974cd2794d02bfb5bcb9a5706d5170a66b638",
+      "closedAt": "2024-10-23T21:05:08Z",
+      "mergedAt": "2024-10-23T21:05:08Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "46a0549d85686b0f766af3f699fb85bc5fb31f0a"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6Obr0S",
+          "commit": {
+            "abbreviatedOid": "155974c"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-23T17:53:13Z",
+          "updatedAt": "2024-10-23T17:53:13Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
