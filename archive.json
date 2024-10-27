@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-24T00:16:11.099917+00:00",
+  "timestamp": "2024-10-27T00:17:35.538698+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2727,15 +2727,15 @@
       "id": "I_kwDOJt_WwM6XkZyG",
       "title": "Authentication mechanisms",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/135",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "I wonder if we can clarify the guidance in Section 7.4 a bit: \r\n\r\nFrom: It SHOULD rely on mechanisms, such as Spiffe or some other means of performing MTLS [RFC8446], to securely authenticate the requester.\r\n\r\nTo: It SHOULD rely on JWT or X.509 credentials, which may be provisioned using SPIFFE or other mechanisms, to securely authenticate the requester. \r\n\r\nThe final sentence in section 7 probably also needs a bit of clarification:\r\n\r\nIt SHOULD rely on mechanisms, such as [Spiffe], to securely authenticate the Transaction Token Service before making a Txn-Token Request. I think the requirement here should be that the Transaction Server should be authenticated to the workload using a JWT or X.509 certificate, which may be provisioned using SPIFFE or another mechanism and used with a secure protocol like MTLS or using the WIMSE service-to-service authentication mechanisms.",
       "createdAt": "2024-09-23T14:49:19Z",
-      "updatedAt": "2024-09-27T20:23:17Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-24T18:12:32Z",
+      "closedAt": "2024-10-24T18:12:32Z",
       "comments": [
         {
           "author": "gffletch",
@@ -8952,24 +8952,26 @@
       "id": "PR_kwDOJt_WwM588nqY",
       "title": "Updated Mutual Authentication Guidance",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/142",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In response to #135 \r\n\r\nUpdated section on:\r\n\r\n1. Mutual Authentication\r\n2. Security Considerations for Client Authentication\r\n3. Added security considerations for protecting the workload configuration\r\n\r\n@gffletch @tulshi ",
       "createdAt": "2024-09-27T17:17:03Z",
-      "updatedAt": "2024-10-23T22:48:04Z",
+      "updatedAt": "2024-10-24T18:12:34Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8fd7f07db2284998d698a8eedaea5a30615e83c7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-5",
-      "headRefOid": "e3c2fb8ab6932ee651c0bfa3ba377dfd20a01e14",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "9b95fcb2494c3d3ab877bd09048796be2d2a76d8",
+      "closedAt": "2024-10-24T18:12:31Z",
+      "mergedAt": "2024-10-24T18:12:31Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "c5fa3204880e9926cf6103737e3f1b70a2352c60"
+      },
       "comments": [],
       "reviews": [
         {
@@ -9352,6 +9354,52 @@
           "body": "",
           "createdAt": "2024-10-23T22:48:04Z",
           "updatedAt": "2024-10-23T22:48:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OoCsJ",
+          "commit": {
+            "abbreviatedOid": "e3c2fb8"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-10-24T14:35:14Z",
+          "updatedAt": "2024-10-24T14:35:14Z",
+          "comments": [
+            {
+              "originalPosition": 42,
+              "body": "Transaction Token Service (there's an extra 's')",
+              "createdAt": "2024-10-24T14:35:14Z",
+              "updatedAt": "2024-10-24T14:35:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OoDrk",
+          "commit": {
+            "abbreviatedOid": "e3c2fb8"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good. There is one minor typo. ",
+          "createdAt": "2024-10-24T14:36:06Z",
+          "updatedAt": "2024-10-24T14:36:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6OqHlt",
+          "commit": {
+            "abbreviatedOid": "9b95fcb"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-10-24T18:10:39Z",
+          "updatedAt": "2024-10-24T18:10:39Z",
           "comments": []
         }
       ]
