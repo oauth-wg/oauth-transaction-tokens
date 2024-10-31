@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-29T00:16:28.745091+00:00",
+  "timestamp": "2024-10-31T00:16:22.700493+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2789,7 +2789,7 @@
       "labels": [],
       "body": "I see different capitalisation of trust domain (sometimes Trust Domain). We define \"Trust Domain\", but we also use \"trust domain\" throughout the document. Should we be consistent with capitalisation? If not, what are the rules for being inconsistent? ",
       "createdAt": "2024-10-04T19:03:57Z",
-      "updatedAt": "2024-10-04T22:57:27Z",
+      "updatedAt": "2024-10-29T11:18:34Z",
       "closedAt": null,
       "comments": [
         {
@@ -2798,6 +2798,20 @@
           "body": "Yes, we should be consistent:) It seems like we'd only capitalize it if it's a proper noun? I'm very bad at English grammar rules :)",
           "createdAt": "2024-10-04T22:57:25Z",
           "updatedAt": "2024-10-04T22:57:25Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I am of the opinion that anything we have defined within the Terminology section of the spec should be capitalized, so that it is clear that we are referring to that definition.",
+          "createdAt": "2024-10-29T00:46:20Z",
+          "updatedAt": "2024-10-29T00:46:20Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I like that - it avoids ambiguity or requiring readers to be sufficiently immersed in the English language to distinguish between proper nouns etc. ",
+          "createdAt": "2024-10-29T11:18:32Z",
+          "updatedAt": "2024-10-29T11:18:32Z"
         }
       ]
     }
