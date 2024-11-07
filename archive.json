@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-05T00:15:58.071323+00:00",
+  "timestamp": "2024-11-07T00:15:56.852751+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -9583,6 +9583,53 @@
           "createdAt": "2024-10-23T17:53:13Z",
           "updatedAt": "2024-10-23T17:53:13Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 148,
+      "id": "PR_kwDOJt_WwM6A_cxO",
+      "title": "Minor changes",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/148",
+      "state": "OPEN",
+      "author": "naveencm4u1",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-11-05T23:49:39Z",
+      "updatedAt": "2024-11-06T01:54:08Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "c5fa3204880e9926cf6103737e3f1b70a2352c60",
+      "headRepository": "naveencm4u1/oauth-transaction-tokens",
+      "headRefName": "tt",
+      "headRefOid": "20b932e948a0cc240f6a612d3f9c56987fe0bdf5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6QEgv7",
+          "commit": {
+            "abbreviatedOid": "20b932e"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-06T01:53:00Z",
+          "updatedAt": "2024-11-06T01:54:08Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "This one looks grammatically incorrect.",
+              "createdAt": "2024-11-06T01:53:00Z",
+              "updatedAt": "2024-11-06T01:54:09Z"
+            }
+          ]
         }
       ]
     }
