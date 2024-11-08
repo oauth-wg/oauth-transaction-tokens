@@ -138,7 +138,7 @@ The results of these actions are unauthorized access to resources.
 
 # Overview
 Transaction Tokens (Txn-Token) are a means to mitigate damage from such attacks or spurious invocations. A valid Txn-Token indicates a valid external invocation.
-They ensure that the identity of the user or a workload that made the external request is preserved throughout subsequent workload invocations.
+They ensure that the user's identity or a workload that made the external request is preserved throughout subsequent workload invocations.
 They preserve any context such as:
 
 * Parameters of the original call
@@ -166,10 +166,10 @@ If the requesting service does not have an inbound token that it can use in its 
 ### Replacement Txn-Tokens
 A service within a call chain may choose to replace the Txn-Token. This can typically happen if the service wants to add to the context of the current Txn-Token
 
-To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.
+To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must be careful about the types of replacement requests it supports to avoid undermining the entire value of Txn-Tokens.
 
 ## Txn-Token Lifetime
-Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
+Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as a batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
 
 ## Benefits of Txn-Tokens
 Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.
@@ -292,7 +292,7 @@ Workload:
 : An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
 
 Trust Domain:
-: A collection of systems, applications, or workloads that share a common security policy. In practice this may include a  virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
+: A collection of systems, applications, or workloads that share a common security policy. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
 
 External Endpoint:
 : A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.
@@ -301,13 +301,13 @@ Call Chain:
 : A sequence of invocations that results from the invocation of an external endpoint.
 
 Transaction Token (Txn-Token):
-: A signed JWT that has a short lifetime, which provides immutable information about the user or workload, certain parameters of the call and certain contextual attributes of the call.
+: A signed JWT with a short lifetime, providing immutable information about the user or workload, certain parameters of the call, and specific contextual attributes of the call. The Txn-Token is used to authorize subsequent calls in the call chain.
 
 Authorization Context:
 : A JSON object containing a set of claims that represent the immutable context of a call chain.
 
 Transaction Token Service (Txn-Token Service):
-: A special service within the Trust Domain, which issues Txn-Tokens to requesting workloads. Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.
+: A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical Txn-Token Service.
 
 # Txn-Token Format
 A Txn-Token is a JSON Web Token {{RFC7519}} protected by a JSON Web Signature {{RFC7515}}. The following describes the required values in a Txn-Token:
@@ -370,7 +370,7 @@ The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address in
 The JSON value of the `rctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
-* `authn` The authentication method used to idenitfy the requester. Its value is a StringOrURI that uniquely identifies the method used.
+* `authn` The authentication method used to identify the requester. Its value is a StringOrURI that uniquely identifies the method used.
 * `req_wl` The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.
 
 ### Authorization Details {#authorization-details}
@@ -510,7 +510,7 @@ The self-signed JWT MAY contain other claims.
 A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The value of the `subject_token` field MUST be the BASE64URL encoded value of the JSON object as described in {{Section 5 of RFC6848}}.  The JSON object in the subject token MUST contain the following fields:
 
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
-* `exp`: The expiration time of the unsigned JSON object, which the TTS MAY use as input to determining the lifetime of the Txn-token.
+* `exp`: The expiration time of the unsigned JSON object, which the TTS MAY use as input to determine the lifetime of the Txn-token.
 
 The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.
 
@@ -591,14 +591,14 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 
 * It MUST maintain a limited, pre-configured set of authorized workloads that MAY request Txn-Tokens.
 * It MUST authenticate the requesting workload and confirm that it is included in the list of workloads authorized to request a transaction token.
-* It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
+* It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as {{SPIFFE}} or other provisioning protocols.
 * It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the requesting workload.
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.
 
 The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:
 
 * It MUST have a pre-configured location for the Transaction Token Service.
-* It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as {{SPIFFE}} or other provisioning protocols.
+* It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as {{SPIFFE}} or other provisioning protocols.
 * It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the Transaction Token Service.
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.
 
@@ -611,7 +611,7 @@ A workload that invokes another workload using HTTP and needs to present a Txn-T
 # Security Considerations {#Security}
 
 ## Txn-Token Lifetime
-A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.
+A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.
 
 Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the `refresh_token` field. A Txn-Token cannot be issued by presenting a `refresh_token`.
 
@@ -630,16 +630,16 @@ If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 To
 Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to the security of the entire transaction invocation sequence. Only Txn-Tokens issued by a trusted Transaction Token Service may be trusted, so verification of the Txn-Token signature is required. For replacement transaction tokens, not only must the JWT signature be verified but also the workload identity of the workload requesting the replacement Txn-Token.
 
 ## Scope and Purpose processing
-The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with client external to the trust domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (`scope`) of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is not unintentional increase in authorization scope.
+The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the trust domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (`scope`) of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.
 
 ## Identifying Call Chains
 A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The `txn` claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the trust domain, for the `txn` value.
 
 ## Workload Configuration Protection
-A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundency or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.
+A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundancy or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.
 
 ## Transaction token Service Authentication
-A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes senstive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transacation token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.
+A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes sensitive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transaction token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.
 
 # Privacy Considerations {#Privacy}
 
