@@ -11,20 +11,20 @@
 <meta content="
        Transaction Tokens (Txn-Tokens) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation, are preserved and available to all workloads that are invoked as part of processing such a request. Txn-Tokens also enable workloads within the trusted domain to optionally immutably assert to downstream workloads that they were invoked in the call chain of the request. 
     " name="description">
-<meta content="xml2rfc 3.23.2" name="generator">
+<meta content="xml2rfc 3.24.0" name="generator">
 <meta content="Microservices" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.23.2
+  xml2rfc 3.24.0
     Python 3.12.7
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.4
-    lxml 4.9.4
+    lxml 5.3.0
     platformdirs 4.3.6
     pycountry 22.3.5
     PyYAML 6.0.1
@@ -166,31 +166,6 @@
 }
 
 @font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: 'Cabin Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
   font-family: 'Oxygen Mono';
   font-style: normal;
   font-weight: 400;
@@ -207,6 +182,77 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   color-scheme: light dark;
   --background-color: #fff;
@@ -219,6 +265,7 @@
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
   --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
   scrollbar-color: #bbb #eee;
 }
 body {
@@ -237,8 +284,8 @@ body {
 
 /* headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Cabin Condensed", sans-serif;
-  font-weight: 600;
+  font-family: var(--font-title);
+  font-weight: 680;
   margin: 0.8em 0 0.3em;
   font-size-adjust: 0.5;
   color: var(--title-color);
@@ -646,6 +693,12 @@ sub, sup {
   padding: 0.75em 0 2em 0;
   margin-bottom: 1em;
 }
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+  }
+}
 #toc nav ul {
   margin: 0 0.5em 0 0;
   padding: 0;
@@ -1029,11 +1082,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">October 2024</td>
+<td class="right">November 2024</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 27 April 2025</td>
+<td class="center">Expires 12 May 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1099,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-24" class="published">24 October 2024</time>
+<time datetime="2024-11-08" class="published">8 November 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-27">27 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-05-12">12 May 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1104,7 +1157,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 12 May 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1366,7 +1419,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
       </h2>
 <p id="section-2-1">Transaction Tokens (Txn-Token) are a means to mitigate damage from such attacks or spurious invocations. A valid Txn-Token indicates a valid external invocation.
-They ensure that the identity of the user or a workload that made the external request is preserved throughout subsequent workload invocations.
+They ensure that the user's identity or a workload that made the external request is preserved throughout subsequent workload invocations.
 They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-2.1">
@@ -1420,7 +1473,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
 <a href="#section-2.2.2" class="section-number selfRef">2.2.2. </a><a href="#name-replacement-txn-tokens" class="section-name selfRef">Replacement Txn-Tokens</a>
           </h4>
 <p id="section-2.2.2-1">A service within a call chain may choose to replace the Txn-Token. This can typically happen if the service wants to add to the context of the current Txn-Token<a href="#section-2.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-2.2.2-2">To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.<a href="#section-2.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2.2-2">To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must be careful about the types of replacement requests it supports to avoid undermining the entire value of Txn-Tokens.<a href="#section-2.2.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1430,7 +1483,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
         <h3 id="name-txn-token-lifetime">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-txn-token-lifetime" class="section-name selfRef">Txn-Token Lifetime</a>
         </h3>
-<p id="section-2.3-1">Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as a batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="benefits-of-txn-tokens">
@@ -1619,7 +1672,7 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
         <dd class="break"></dd>
 <dt id="section-4-1.3">Trust Domain:</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.4">
-          <p id="section-4-1.4.1">A collection of systems, applications, or workloads that share a common security policy. In practice this may include a  virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.4.1">A collection of systems, applications, or workloads that share a common security policy. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.5">External Endpoint:</dt>
@@ -1634,7 +1687,7 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
         <dd class="break"></dd>
 <dt id="section-4-1.9">Transaction Token (Txn-Token):</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.10">
-          <p id="section-4-1.10.1">A signed JWT that has a short lifetime, which provides immutable information about the user or workload, certain parameters of the call and certain contextual attributes of the call.<a href="#section-4-1.10.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.10.1">A signed JWT with a short lifetime, providing immutable information about the user or workload, certain parameters of the call, and specific contextual attributes of the call. The Txn-Token is used to authorize subsequent calls in the call chain.<a href="#section-4-1.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.11">Authorization Context:</dt>
@@ -1644,7 +1697,7 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
         <dd class="break"></dd>
 <dt id="section-4-1.13">Transaction Token Service (Txn-Token Service):</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.14">
-          <p id="section-4-1.14.1">A special service within the Trust Domain, which issues Txn-Tokens to requesting workloads. Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-4-1.14.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.14.1">A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-4-1.14.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1771,7 +1824,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
               <p id="section-5.2.2-3.1.1"><code>req_ip</code> The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction<a href="#section-5.2.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.2.2-3.2">
-              <p id="section-5.2.2-3.2.1"><code>authn</code> The authentication method used to idenitfy the requester. Its value is a StringOrURI that uniquely identifies the method used.<a href="#section-5.2.2-3.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-3.2.1"><code>authn</code> The authentication method used to identify the requester. Its value is a StringOrURI that uniquely identifies the method used.<a href="#section-5.2.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.2.2-3.3">
               <p id="section-5.2.2-3.3.1"><code>req_wl</code> The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.<a href="#section-5.2.2-3.3.1" class="pilcrow">¶</a></p>
@@ -2015,7 +2068,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
               <p id="section-7.2.2-2.1.1"><code>sub</code>: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the <code>sub</code> value in the Txn-Token issued in the response to this request.<a href="#section-7.2.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.2-2.2">
-              <p id="section-7.2.2-2.2.1"><code>exp</code>: The expiration time of the unsigned JSON object, which the TTS MAY use as input to determining the lifetime of the Txn-token.<a href="#section-7.2.2-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.2-2.2.1"><code>exp</code>: The expiration time of the unsigned JSON object, which the TTS MAY use as input to determine the lifetime of the Txn-token.<a href="#section-7.2.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-7.2.2-3">The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.<a href="#section-7.2.2-3" class="pilcrow">¶</a></p>
@@ -2150,7 +2203,7 @@ Cache-Control: no-store
             <p id="section-7.6-3.2.1">It MUST authenticate the requesting workload and confirm that it is included in the list of workloads authorized to request a transaction token.<a href="#section-7.6-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-3.3">
-            <p id="section-7.6-3.3.1">It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-3.3.1" class="pilcrow">¶</a></p>
+            <p id="section-7.6-3.3.1">It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-3.4">
             <p id="section-7.6-3.4.1">It SHOULD use X.509 credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or a JWT protected by TLS at the transport layer, to securely authenticate the requesting workload.<a href="#section-7.6-3.4.1" class="pilcrow">¶</a></p>
@@ -2165,7 +2218,7 @@ Cache-Control: no-store
             <p id="section-7.6-5.1.1">It MUST have a pre-configured location for the Transaction Token Service.<a href="#section-7.6-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-5.2">
-            <p id="section-7.6-5.2.1">It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisiond using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.6-5.2.1">It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-5.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.6-5.3">
             <p id="section-7.6-5.3.1">It SHOULD use X.509 credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or a JWT protected by TLS at the transport layer, to securely authenticate the Transaction Token Service.<a href="#section-7.6-5.3.1" class="pilcrow">¶</a></p>
@@ -2204,7 +2257,7 @@ Cache-Control: no-store
         <h3 id="name-txn-token-lifetime-2">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-txn-token-lifetime-2" class="section-name selfRef">Txn-Token Lifetime</a>
         </h3>
-<p id="section-9.1-1">A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the <code>refresh_token</code> field. A Txn-Token cannot be issued by presenting a <code>refresh_token</code>.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
 <p id="section-9.1-3">The <code>expires_in</code> and <code>scope</code> fields of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> are also not used in Txn-Token responses. The <code>expires_in</code> is not required since the issued token has an <code>exp</code> field, which indicates the token lifetime. The <code>scope</code> field is omitted from the response in favor of the <code>purp</code> claim in the Txn-Token.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 </section>
@@ -2246,7 +2299,7 @@ Cache-Control: no-store
         <h3 id="name-scope-and-purpose-processin">
 <a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-scope-and-purpose-processin" class="section-name selfRef">Scope and Purpose processing</a>
         </h3>
-<p id="section-9.6-1">The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with client external to the trust domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (<code>scope</code>) of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is not unintentional increase in authorization scope.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the trust domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (<code>scope</code>) of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="identifying-call-chains">
@@ -2262,7 +2315,7 @@ Cache-Control: no-store
         <h3 id="name-workload-configuration-prot">
 <a href="#section-9.8" class="section-number selfRef">9.8. </a><a href="#name-workload-configuration-prot" class="section-name selfRef">Workload Configuration Protection</a>
         </h3>
-<p id="section-9.8-1">A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundency or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
+<p id="section-9.8-1">A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundancy or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="transaction-token-service-authentication">
@@ -2270,7 +2323,7 @@ Cache-Control: no-store
         <h3 id="name-transaction-token-service-a">
 <a href="#section-9.9" class="section-number selfRef">9.9. </a><a href="#name-transaction-token-service-a" class="section-name selfRef">Transaction token Service Authentication</a>
         </h3>
-<p id="section-9.9-1">A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes senstive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transacation token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.<a href="#section-9.9-1" class="pilcrow">¶</a></p>
+<p id="section-9.9-1">A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes sensitive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transaction token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.<a href="#section-9.9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
