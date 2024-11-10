@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-07T00:15:56.852751+00:00",
+  "timestamp": "2024-11-10T00:17:19.860172+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -231,7 +231,7 @@
         },
         {
           "author": "naveencm4u1",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Will it not cause security issues If we keep the tokens active for a longer time in a batch job where someone internal can access those tokens?",
           "createdAt": "2023-07-07T19:02:05Z",
           "updatedAt": "2023-07-07T19:02:05Z"
@@ -374,7 +374,7 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/21",
       "state": "CLOSED",
       "author": "naveencm4u1",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I assume the token is sent in the header. Do we have any recommendations for the header name?",
@@ -391,7 +391,7 @@
         },
         {
           "author": "naveencm4u1",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "@gffletch It is mainly in the transition phase. In our case, we want to pass both Access Token and Transaction Token until all the downstream are ready.",
           "createdAt": "2023-09-05T20:35:56Z",
           "updatedAt": "2023-09-05T20:35:56Z"
@@ -2594,7 +2594,7 @@
       "labels": [],
       "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?\r\n\r\n@tulshi and @gffletch ",
       "createdAt": "2024-09-23T14:20:49Z",
-      "updatedAt": "2024-10-21T20:56:06Z",
+      "updatedAt": "2024-11-09T07:42:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -2734,7 +2734,7 @@
       "labels": [],
       "body": "I wonder if we can clarify the guidance in Section 7.4 a bit: \r\n\r\nFrom: It SHOULD rely on mechanisms, such as Spiffe or some other means of performing MTLS [RFC8446], to securely authenticate the requester.\r\n\r\nTo: It SHOULD rely on JWT or X.509 credentials, which may be provisioned using SPIFFE or other mechanisms, to securely authenticate the requester. \r\n\r\nThe final sentence in section 7 probably also needs a bit of clarification:\r\n\r\nIt SHOULD rely on mechanisms, such as [Spiffe], to securely authenticate the Transaction Token Service before making a Txn-Token Request. I think the requirement here should be that the Transaction Server should be authenticated to the workload using a JWT or X.509 certificate, which may be provisioned using SPIFFE or another mechanism and used with a secure protocol like MTLS or using the WIMSE service-to-service authentication mechanisms.",
       "createdAt": "2024-09-23T14:49:19Z",
-      "updatedAt": "2024-10-24T18:12:32Z",
+      "updatedAt": "2024-11-09T07:42:35Z",
       "closedAt": "2024-10-24T18:12:32Z",
       "comments": [
         {
@@ -3332,7 +3332,7 @@
             "abbreviatedOid": "701790f"
           },
           "author": "naveencm4u1",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-08-17T06:34:33Z",
@@ -3522,7 +3522,7 @@
             "abbreviatedOid": "aabcdca"
           },
           "author": "naveencm4u1",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2023-09-25T17:37:37Z",
@@ -4026,7 +4026,7 @@
             "abbreviatedOid": "2eb2536"
           },
           "author": "naveencm4u1",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2023-11-29T02:21:39Z",
@@ -4410,7 +4410,7 @@
             "abbreviatedOid": "fa68598"
           },
           "author": "naveencm4u1",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-12-18T02:00:28Z",
@@ -9430,7 +9430,7 @@
       "labels": [],
       "body": "Addresses issue #113 - clarifying the value for `subject_token_type` when requesting a replacement Txn-Token",
       "createdAt": "2024-09-27T20:21:07Z",
-      "updatedAt": "2024-10-02T23:39:43Z",
+      "updatedAt": "2024-11-08T17:12:01Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d238f18e16364f12206c5ee1ac0001498b5a3822",
@@ -9591,24 +9591,26 @@
       "id": "PR_kwDOJt_WwM6A_cxO",
       "title": "Minor changes",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/148",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "naveencm4u1",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-11-05T23:49:39Z",
-      "updatedAt": "2024-11-06T01:54:08Z",
+      "updatedAt": "2024-11-08T18:30:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "c5fa3204880e9926cf6103737e3f1b70a2352c60",
       "headRepository": "naveencm4u1/oauth-transaction-tokens",
       "headRefName": "tt",
-      "headRefOid": "20b932e948a0cc240f6a612d3f9c56987fe0bdf5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "d898e65343483bfd3509a7a8df9f0b73b6762751",
+      "closedAt": "2024-11-08T18:30:54Z",
+      "mergedAt": "2024-11-08T18:30:54Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "273060dc3b15ab6abfc0c1e81644b11da5098c18"
+      },
       "comments": [],
       "reviews": [
         {
@@ -9630,6 +9632,59 @@
               "updatedAt": "2024-11-06T01:54:09Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6QgC_e",
+          "commit": {
+            "abbreviatedOid": "20b932e"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-08T16:42:03Z",
+          "updatedAt": "2024-11-08T16:42:04Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "I agree... because Txn-Tokens is plural, help should be singluar.",
+              "createdAt": "2024-11-08T16:42:03Z",
+              "updatedAt": "2024-11-08T16:42:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6Qgv5o",
+          "commit": {
+            "abbreviatedOid": "20b932e"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2024-11-08T17:33:57Z",
+          "updatedAt": "2024-11-08T17:33:57Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "I've updated it now. Please review again.",
+              "createdAt": "2024-11-08T17:33:57Z",
+              "updatedAt": "2024-11-08T17:34:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6QhMMI",
+          "commit": {
+            "abbreviatedOid": "d898e65"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-11-08T18:30:32Z",
+          "updatedAt": "2024-11-08T18:30:32Z",
+          "comments": []
         }
       ]
     }
