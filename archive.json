@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-14T00:15:57.455331+00:00",
+  "timestamp": "2024-11-17T00:18:06.675943+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7835,7 +7835,7 @@
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7d004dd6444511ad0be17d395be56a4b1dab5e60",
-      "headRepository": "adeinega/oauth-transaction-tokens",
+      "headRepository": null,
       "headRefName": "patch-1",
       "headRefOid": "2325b94b26bfaef3712a04f084a12a33d0aaa563",
       "closedAt": "2024-07-02T21:04:06Z",
@@ -9687,6 +9687,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 149,
+      "id": "PR_kwDOJt_WwM6B9gPT",
+      "title": "Add Batch token for asynchronous long running workloads",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/149",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Batch token was discussed here at https://github.com/oauth-wg/oauth-transaction-tokens/issues/111. The PR is first draft to add batch token in RFC.",
+      "createdAt": "2024-11-14T18:47:16Z",
+      "updatedAt": "2024-11-14T18:47:16Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "273060dc3b15ab6abfc0c1e81644b11da5098c18",
+      "headRepository": "ashayraut/replacement_token_tts",
+      "headRefName": "main",
+      "headRefOid": "e9b366a281db13388238c8e19ad67896a0d3c0b1",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
