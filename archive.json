@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-21T00:16:53.110402+00:00",
+  "timestamp": "2024-11-24T00:19:19.539002+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2112,7 +2112,7 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2024-09-30T20:58:55Z",
+      "updatedAt": "2024-11-22T18:39:25Z",
       "closedAt": null,
       "comments": [
         {
@@ -2156,6 +2156,13 @@
           "body": "@gffletch You comment - \"batch token is ONLY valid at the Transaction Token Service (potentially encrypted such that ONLY the Transaction Token Service can decrypt it)\"\r\n\r\nAshay: Yes, you are right. Its' valid only in Tx token service. We can encrypt it or but won't signature just suffice?\r\n\r\n@gffletch About your comment - \"I think this 'batch token' should also be sender constrained in some way.\"\r\n\r\nAshay: The way we implemented this is by creating a unique use case id or you call it namespace. So, the problem is -> A requests a batch token which it can pass to B but B would need some permissions to get Tx token back from A's batch token. To solve it, when A onboards Tx Token issuer, it creates a use case id unique to A which is registered with Tx token issuer. Every time Tx Token issuer issues a 'batch token' to A, it will find the usecaseId and put it in batch token. If B gets batch token from A (or steals it somehow), then B will not be able to get a Tx token back from issuer. Tx token issuer maintains an allowlist against each unique usecaseId, for who is allowed to get token back for that use case it. To get token back, B has to register itself to Tx token issuer against A's usecaseId.\r\n\r\nWe call services like A, the \"batch token initiator\" and services like B \"the batch rehydrator\" as it rehydates Tx token back from batch token. \r\n\r\nEdge case - A can play both roles - initiator and rehydrator. This might lead to problem of infinite exchanges. But not sure if its a problem. It may be a problem for some use case. Tx token can also keep a counter in batch token and Tx token to ensure only finite amount of exchanges are allowed.\r\n\r\nOverall, how does the proposal sound? I think we cannot write all this into a complexity into RFC. For RFC, we can keep it simple that there can be long lived batch token and Tx token must implement some sort of access control to ensure only authorized services can convert the batch to Tx token.\r\n\r\nSupporting batch has been super important for my company and major milestone as many critical workflows are model on such event based architecture. \r\n\r\nIf everything looks good, I can create PR for it and take a stab at updating our draft.",
           "createdAt": "2024-09-05T04:11:12Z",
           "updatedAt": "2024-09-05T04:16:34Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Notes from call on: 11/22/2024\r\n\r\n- (Pieter): Maybe we need to think about expiry differently here. Rather than introducing ..., we formulate a different view about expiry\r\n- (Atul): TraTs have a freedom because they are short lived. Can we have a separate mechanism for handling long-lived transactions\r\n- (George): How do we address long lived transactions? We can say that is not TraTs, but some other mechanism, similar to the work done in the ID-Chaining. Have some sort of assertion grant that can be used to mint a new transaction token.\r\n- (Joe): What about a one-time voucher? That keeps the context across separate transactions\r\n- (Pieter): Is that just a refresh token? \r\n- (Joe): You may not be granted ...\r\n- (Ashay): How we thought about it: We never changed the definition of the TraT (it always expires quickly - short lived). The service would request a new token before the TraT expiry, which mints something else that can be used to mint a new TraT later. If the claims in the TraT need to be \"refreshed\" / modified, then the TraT service. In the issuance of the voucher, the TraT service can mark certain fields as \"updateable\". You mark the fields as refreshable in the beginning, when the TraT is being issued.\r\n- (Pieter): I want to get George's thoughts on whether the short-livedness is ...\r\n- (George): A long-lived part starts to pull in revocation, which makes things complicated. For example, if a user has consented to using certain data for marketing, and when the transaction resumes, the user has rescinded the consent. What happens then?\r\n- (Pieter) The revocation argument is good. Having a token that never expires could be very problematic.\r\n- (George): What Ashay is describing is similar to what Joe described by way of \"vouchers\". In that context, the TraTs are still short-lived, which means that we should look at this as something that is layered above TraTs\r\n- (Atul): I felt the same, but the fields need to be marked updateable at the time of TraT issuance\r\n- (George): It seems the TraT service would then need to know more than just about authorization. If say, I wanted to tokenize PII, then the TraT service would need connections to a lot of other places. This could be 3 layers down in the transaction, the workload 3 levels down now puts the voucher in the batch stream. How does the TraT service know how to refresh that data?\r\n- (Pieter): I remember we had text in section 2.3 about lifetime. You cannot extend the TraT to beyond the lifetime of the original access token, so there is an upper bound. If we start tinkering with that, we have an issue. Allowing TraTs to be refreshed are goign to have downstream effects.\r\n- (Ashay): In our implementations, it gathers context from other services before requesting a new TraT\r\n- (Atul): I was going to do the same thing.\r\n- (George): The thing that needs the TraT can get the refreshed versions of the data, and pass that in the request context object, and request the new token. From a standards perspective, we need to understand what this would mean.\r\n- (Atul): ...\r\n- (Ashay): Teams responsible for specific functions can't be responsible for rebuilding the context. So we start with everything being immutable, and it can evolve as the business needs become apparent. So by default nothing is mutable.\r\n- (Ashay): How does this work? It is going to complicate the spec, can you change an RFC?\r\n- (Atul): No\r\n- (George): We can have a separate RFC which says how we should use TraTs for batching. I do think that since we are moving toward event driven models, this is important as a capability. \r\n- (Atul): Is TraTs without batching a valuable spec (can it be used without batching?)\r\n- (George): There are a lot of use cases where TraTs can be used today (without batching).\r\n- (Joe): There's also a big push for autonomous agents, (not just batch). \r\n- (George): The agent question is very interesting, but it feels like a layer on top of TraTs\r\n- (Pieter): I think TraTs are valuable as they are today. But we will almost certainly have to do a follow on spec. Can we have a proper problem definition that we can do a write up. That's the kind of thing that opens up security issues. In section 2.3 (expiry)\r\n- (Ashay): We did implement TraTs first, but the async question came up later, and it broke things that required batch processes. A call chain will almost always include some batch processes. At the beginning of the transaction, no one knows how long it is going to last\r\n- (George):  I agree. For the API invocation use case, you can look at your SLA and make good assumptions about transaction duration, but that only covers 80% of the transactions in an enterprise. But I have a lot of questions about how you build that layering in an industry standard way. So in your example, what is coming to \"workload 3\" in is a TraT, and it needs a voucher to rebuild a TraT later, which goes on the queue. Then when \"workload 4\" picks it up, and this can happen again downstream. We need to think through all those implications, and understand what they mean. It sounds like Ashay has a lot of use cases, but we need to define a lot of use cases.\r\n- (Ashay): Since this topic is so complex, it is good for us to provide guidance.\r\n- (Ashay): Can we just add expiry to each TraT field? \r\n- (Pieter): Does this modify the expiry property of the token?\r\n- (Ashay): This is not modifying the expiry of the token. \r\n- (George): So we have the rctx, if we say nothing about it, then anyone could ..\r\n- (George): The tctx is just a JSON blob, so you could put anything you want there. So another spec could define the expiry field in that.\r\n- (Pieter): Can I ask a question? We could have a situation where the TraT has expired, but the data context hasn't expired. So there is a new concept that the data expiry is longer than TraT expiry.\r\n- (Ashay): The real-world example is user consent. So EU allows 24 hours to enforce change. If a queue takes 6 days, then the new TraT has to refresh the new consent property.\r\n- (Pieter): \r\n- (George): ",
+          "createdAt": "2024-11-22T17:06:29Z",
+          "updatedAt": "2024-11-22T18:39:25Z"
         }
       ]
     },
@@ -2315,11 +2322,13 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "The following was suggested by Justin at the IETF 120 session on TraTs:\r\nParaphrasing: Justin suggested a way to include a RAR object itself.",
       "createdAt": "2024-07-24T21:08:41Z",
-      "updatedAt": "2024-09-27T18:19:42Z",
+      "updatedAt": "2024-11-22T16:24:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -2354,12 +2363,13 @@
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
+        "gffletch",
         "tulshi"
       ],
       "labels": [],
       "body": "The following came up in the IETF 120 session about TraTs:\r\n\r\nThere was some confusion about the re-use of the claim defined in RAR",
       "createdAt": "2024-07-24T21:16:14Z",
-      "updatedAt": "2024-10-03T00:54:04Z",
+      "updatedAt": "2024-11-22T18:39:01Z",
       "closedAt": null,
       "comments": [
         {
@@ -2396,6 +2406,13 @@
           "body": "I'm good with `tctx` as that \"matches\" the request context `rctx`. We may need to add additional text to describe what is expected within the `tctx` object.",
           "createdAt": "2024-09-27T18:17:50Z",
           "updatedAt": "2024-09-27T18:17:50Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Notes from call on: 11/22/2024\r\n- We could add a statement that recommends to put the RAR data inside the tctx (non-normative)\r\n- Or we could say nothing after renaming \"azd\" to \"tctx\"\r\n- Or put normative language about \"if you're doing RAR you put the RAR data inside the tctx object\"\r\n- (Pieter): The \"azd\" claim came from RAR originally, but we don't refer to RAR now. So invent a new claim that is not azd, and say you put the RAR data here in that claim.\r\n- (George): \"tctx\" is the new name for \"azd\". Or if you want to include the RAR data, put it inside the \"tctx\"\r\n- (Aaron): It makes sense to do the normative suggestion above.\r\n- (Pieter): Can we have a 3-letter name? \r\n- (George): It's complementary to the \"rctx\" in the request. It should be complementary, whatever it is.\r\n",
+          "createdAt": "2024-11-22T16:23:15Z",
+          "updatedAt": "2024-11-22T18:39:01Z"
         }
       ]
     },
