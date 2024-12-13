@@ -355,7 +355,7 @@ JWT claims as well as defines new claims. These claims are described below:
 `purp`:
 : REQUIRED A String defining the purpose or intent of this transaction.
 
-`azd`:
+`tctx`:
 : OPTIONAL A JSON object that contains values that remain immutable throughout the call chain.
 
 `rctx`:
@@ -374,16 +374,16 @@ The JSON value of the `rctx` claim MAY include any values the Txn-Token Service 
 * `req_wl` The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.
 
 ### Authorization Details {#authorization-details}
-The Txn-Token SHOULD contain an `azd` claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.
+The Txn-Token SHOULD contain an `tctx` claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.
 
 Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.
 
-Whereas the `rctx` field contains environmental values related to the request, the `azd` field contains the actual authorizaton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `azd` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
+Whereas the `rctx` field contains environmental values related to the request, the `tctx` field contains the actual authorizaton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `tctx` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
 
-The following is a non-normative example of an `azd` claim:
+The following is a non-normative example of an `tctx` claim:
 
 ~~~ json
-"azd": {
+"tctx": {
   "action": "BUY", // parameter of external call
   "ticker": "MSFT", // parameter of external call
   "quantity": "100", // parameter of external call
@@ -424,7 +424,7 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
     "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
   },
   "purp" : "trade.stocks",
-  "azd": {
+  "tctx": {
     "action": "BUY", // parameter of external call
     "ticker": "MSFT", // parameter of external call
     "quantity": "100", // parameter of external call
@@ -533,7 +533,7 @@ The Transaction Token Service MUST evaluate the value specified in the `scope` p
 
 If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the `rctx` object as the `req_wl` claim.
 
-If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `azd` object as authorized by the Transaction Token Service authorization policy for the requesting client.
+If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the Transaction Token Service authorization policy for the requesting client.
 
 The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.
 
@@ -675,7 +675,7 @@ This specification registers the following token type identifiers to the "OAuth 
 
 ## JWT Claims Registry Contents
 
-* Claim Name: `azd`
+* Claim Name: `tctx`
   * Claim Description: The authorization context details
   * Change Controller: IETF
   * Specification Document: Section {{txn-token-claims}} of this specification
