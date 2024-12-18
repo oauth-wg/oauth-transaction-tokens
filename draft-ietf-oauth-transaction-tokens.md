@@ -373,7 +373,7 @@ The JSON value of the `rctx` claim MAY include any values the Txn-Token Service 
 * `authn` The authentication method used to identify the requester. Its value is a StringOrURI that uniquely identifies the method used.
 * `req_wl` The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.
 
-### Authorization Details {#authorization-details}
+### Transaction Context {#transaction-context}
 The Txn-Token SHOULD contain an `tctx` claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.
 
 Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.
@@ -466,7 +466,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 The following additional parameters MAY be present in a Txn-Token Request:
 
 * `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.
-* `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads.
+* `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
 
 The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.
 
@@ -644,7 +644,7 @@ A workload may accidently send a transaction token request to a service that is 
 # Privacy Considerations {#Privacy}
 
 ## Obfuscation of Personal Information
-Some `rctx` claims may be considered personal information in some jurisdictions
+Some `rctx` and `tctx` claims may be considered personal information in some jurisdictions
 and if so their values need to be obfuscated. For example, originating IP address
 (`req_ip`) is often considered personal information and in that case must be
 protected through some obfuscation method (e.g. salted SHA256).
@@ -676,7 +676,7 @@ This specification registers the following token type identifiers to the "OAuth 
 ## JWT Claims Registry Contents
 
 * Claim Name: `tctx`
-  * Claim Description: The authorization context details
+  * Claim Description: The transaction authorization details
   * Change Controller: IETF
   * Specification Document: Section {{txn-token-claims}} of this specification
 
