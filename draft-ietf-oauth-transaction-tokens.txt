@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 12 May 2025                                         Capital One
+Expires: 2 July 2025                                         Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                         8 November 2024
+                                                        29 December 2024
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 May 2025.
+   This Internet-Draft will expire on 2 July 2025.
 
 Copyright Notice
 
@@ -88,7 +88,7 @@ Table of Contents
      5.2.  JWT Body Claims
        5.2.1.  Purpose claim
        5.2.2.  Requester Context
-       5.2.3.  Authorization Details
+       5.2.3.  Transaction Context
        5.2.4.  Example
    6.  Txn-Token Service
    7.  Requesting Txn-Tokens
@@ -471,7 +471,7 @@ Table of Contents
    purp:  REQUIRED A String defining the purpose or intent of this
       transaction.
 
-   azd:  OPTIONAL A JSON object that contains values that remain
+   tctx:  OPTIONAL A JSON object that contains values that remain
       immutable throughout the call chain.
 
    rctx:  OPTIONAL A JSON object that describes the environmental
@@ -517,9 +517,9 @@ Table of Contents
       that have requested Txn-Tokens as part of the transaction
       processing.
 
-5.2.3.  Authorization Details
+5.2.3.  Transaction Context
 
-   The Txn-Token SHOULD contain an azd claim.  The value of this claim
+   The Txn-Token SHOULD contain an tctx claim.  The value of this claim
    is a JSON object that contains name/value pairs (wherein the value
    could itself be an object), which together assert the details that
    remain immutable through the call-chain where this Txn-Token is used.
@@ -529,16 +529,16 @@ Table of Contents
    context.
 
    Whereas the rctx field contains environmental values related to the
-   request, the azd field contains the actual authorizaton details that
+   request, the tctx field contains the actual authorizaton details that
    are determined by the TTS.  These values are used by services using
    the Txn-Token to reliably obtain specific parameters needed to
-   perform their work.  The content of the azd field is determined by
+   perform their work.  The content of the tctx field is determined by
    the Txn-Token Service and they may be computed internally or from
    parameters it receives from the service that requests the Txn-Token.
 
-   The following is a non-normative example of an azd claim:
+   The following is a non-normative example of an tctx claim:
 
-   "azd": {
+   "tctx": {
      "action": "BUY", // parameter of external call
      "ticker": "MSFT", // parameter of external call
      "quantity": "100", // parameter of external call
@@ -589,7 +589,7 @@ Table of Contents
        "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
      },
      "purp" : "trade.stocks",
-     "azd": {
+     "tctx": {
        "action": "BUY", // parameter of external call
        "ticker": "MSFT", // parameter of external call
        "quantity": "100", // parameter of external call
@@ -687,7 +687,8 @@ Table of Contents
    *  request_details OPTIONAL.  This parameter contains a base64url
       encoded JSON object which represents additional details of the
       transaction that MUST remain immutable throughout the processing
-      of the transaction by multiple workloads.
+      of the transaction by multiple workloads.  The Transaction Token
+      Service uses this information to construct the tctx claim.
 
    The requesting workload MUST authenticate its identity to the
    Transaction Token Service.  The exact client authentication mechanism
@@ -822,7 +823,7 @@ Table of Contents
 
    If a request_details parameter is present in the Txn-Token Request,
    then the Transaction Token Service SHOULD propagate the data from the
-   request_details object into the claims in the azd object as
+   request_details object into the claims in the tctx object as
    authorized by the Transaction Token Service authorization policy for
    the requesting client.
 
@@ -1084,8 +1085,8 @@ Table of Contents
 
 10.1.  Obfuscation of Personal Information
 
-   Some rctx claims may be considered personal information in some
-   jurisdictions and if so their values need to be obfuscated.  For
+   Some rctx and tctx claims may be considered personal information in
+   some jurisdictions and if so their values need to be obfuscated.  For
    example, originating IP address (req_ip) is often considered personal
    information and in that case must be protected through some
    obfuscation method (e.g. salted SHA256).
@@ -1142,9 +1143,9 @@ Table of Contents
 
 11.2.  JWT Claims Registry Contents
 
-   *  Claim Name: azd
+   *  Claim Name: tctx
 
-      -  Claim Description: The authorization context details
+      -  Claim Description: The transaction authorization details
 
       -  Change Controller: IETF
 
