@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-12-29T00:18:05.836827+00:00",
+  "timestamp": "2024-12-31T00:16:17.799933+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -9736,26 +9736,42 @@
       "id": "PR_kwDOJt_WwM6FpZqe",
       "title": "Rename azd issue #119",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/150",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Renamed the `azd` claim to `tctx` and cleaned up some wording. This addresses issue #119. I did not add any non-normative text regarding how to use RAR.",
       "createdAt": "2024-12-18T13:12:20Z",
-      "updatedAt": "2024-12-18T13:12:21Z",
+      "updatedAt": "2024-12-29T07:13:36Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "273060dc3b15ab6abfc0c1e81644b11da5098c18",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "rename-azd-119",
       "headRefOid": "ad97c325ec00aaeeb273d3eaf372391750fff387",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2024-12-29T07:13:35Z",
+      "mergedAt": "2024-12-29T07:13:35Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "83f285756a7ec1670a3d52804ab1a8c2a3bd6f10"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6WfsxF",
+          "commit": {
+            "abbreviatedOid": "ad97c32"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2024-12-29T07:13:28Z",
+          "updatedAt": "2024-12-29T07:13:28Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
