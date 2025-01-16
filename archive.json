@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-12T00:18:19.194684+00:00",
+  "timestamp": "2025-01-16T00:16:02.414174+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -67,6 +67,11 @@
       "name": "IETF120-discuss",
       "description": "",
       "color": "f9d0c4"
+    },
+    {
+      "name": "pre-last-call",
+      "description": "Issues that need to be addressed before we go for last call",
+      "color": "5319e7"
     }
   ],
   "issues": [
@@ -1605,11 +1610,12 @@
         "gffletch"
       ],
       "labels": [
-        "IETF120-discuss"
+        "IETF120-discuss",
+        "pre-last-call"
       ],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)\r\nextensibility: please say explicitly that arbitrary claims may be added to the \"azd\" (and \"rctx\"?) objects. There is no IANA registry for either. Note that having 3 predefined attributes complicates the situation a bit - what happens if we want a 4th one? Also mention that any additional attributes are local to the trust domain.",
       "createdAt": "2024-03-26T00:55:37Z",
-      "updatedAt": "2024-06-21T18:10:46Z",
+      "updatedAt": "2025-01-15T15:02:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -1796,11 +1802,12 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "IETF120-discuss"
+        "IETF120-discuss",
+        "pre-last-call"
       ],
       "body": "Should we add to the spec a mechanism for a client to discover if the AS has support for the transaction token profile of the token-exchange endpoint? Or do we need to define a new .well-known location for the Transaction Token Service?",
       "createdAt": "2024-05-17T16:57:32Z",
-      "updatedAt": "2024-06-14T16:19:08Z",
+      "updatedAt": "2025-01-15T15:01:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -1899,10 +1906,12 @@
       "author": "adeinega",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "I'm sorry if I miss anything but why does this spec put so much emphasize on \"external\" invocations?\r\n> Transaction Tokens (Txn-Tokens) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation\r\n\r\nand\r\n> A valid Txn-Token indicates a valid external invocation\r\n\r\nand in many other places. This somehow limits the set of use cases where Txn Token tokens can be applied. ServiceA can make a m2m call to ServiceB in an asynchronous way, say because of some task in its scheduler, etc.\r\n\r\nI would suggest shortening \"external invocations to \"invocations\".",
       "createdAt": "2024-06-27T23:50:56Z",
-      "updatedAt": "2024-07-04T16:05:44Z",
+      "updatedAt": "2025-01-14T19:00:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -1982,10 +1991,12 @@
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
       "createdAt": "2024-07-13T06:10:04Z",
-      "updatedAt": "2024-07-18T07:06:05Z",
+      "updatedAt": "2025-01-15T14:58:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -2022,6 +2033,13 @@
           "body": "I don't think a separate draft should be necessary. I suggest to give some recommendation within the current draft (security consideration section).\r\n\r\nTime spent on token validation by workloads should be considered, but I don't think we should deviate too much from RFC7518 for example. Otherwise we make it more difficult for implementers and interop.\r\n\r\nWhat every deployment needs to consider is that there will be a lot more TraTs being issued than Access Tokens (ATs). One AT, which is valid for maybe an hour can be used in thousands of requests to resource servers which will each create new TraTs. This can have an impact on performance as well as available key space and collision probabilities.\r\n\r\nRe key rotation and availability of signature key material: This aspect is already adressed by standards we rely upon. I don't think that there is need for any specifics. Naturally \"kid\" should be used as well as making validation keys available before they are being used. Workloads should fetch key sets on demand if they encounter a kid they don't know.\r\n",
           "createdAt": "2024-07-18T07:06:04Z",
           "updatedAt": "2024-07-18T07:06:04Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Maybe update Security Considerations with recommendations for optimizing TraT crypto toward validation rather than issuance?",
+          "createdAt": "2025-01-15T14:58:07Z",
+          "updatedAt": "2025-01-15T14:58:07Z"
         }
       ]
     },
@@ -2030,15 +2048,15 @@
       "id": "I_kwDOJt_WwM6Pc8IA",
       "title": "Tx token lifetime guidance missing for replacement token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/110",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "There should be guidance for token lifetime of replacement token. A replacement token can have lifetime of whatever is left in the original token that was used to replacement or someone will keep using replacement token feature to keep increasing lifetime of the original incoming token. ",
       "createdAt": "2024-07-13T06:12:47Z",
-      "updatedAt": "2024-10-20T04:40:56Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-14T18:56:46Z",
+      "closedAt": "2025-01-14T18:56:45Z",
       "comments": [
         {
           "author": "arndt-s",
@@ -2112,7 +2130,7 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2024-11-22T18:39:25Z",
+      "updatedAt": "2025-01-15T14:53:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -2163,6 +2181,13 @@
           "body": "Notes from call on: 11/22/2024\r\n\r\n- (Pieter): Maybe we need to think about expiry differently here. Rather than introducing ..., we formulate a different view about expiry\r\n- (Atul): TraTs have a freedom because they are short lived. Can we have a separate mechanism for handling long-lived transactions\r\n- (George): How do we address long lived transactions? We can say that is not TraTs, but some other mechanism, similar to the work done in the ID-Chaining. Have some sort of assertion grant that can be used to mint a new transaction token.\r\n- (Joe): What about a one-time voucher? That keeps the context across separate transactions\r\n- (Pieter): Is that just a refresh token? \r\n- (Joe): You may not be granted ...\r\n- (Ashay): How we thought about it: We never changed the definition of the TraT (it always expires quickly - short lived). The service would request a new token before the TraT expiry, which mints something else that can be used to mint a new TraT later. If the claims in the TraT need to be \"refreshed\" / modified, then the TraT service. In the issuance of the voucher, the TraT service can mark certain fields as \"updateable\". You mark the fields as refreshable in the beginning, when the TraT is being issued.\r\n- (Pieter): I want to get George's thoughts on whether the short-livedness is ...\r\n- (George): A long-lived part starts to pull in revocation, which makes things complicated. For example, if a user has consented to using certain data for marketing, and when the transaction resumes, the user has rescinded the consent. What happens then?\r\n- (Pieter) The revocation argument is good. Having a token that never expires could be very problematic.\r\n- (George): What Ashay is describing is similar to what Joe described by way of \"vouchers\". In that context, the TraTs are still short-lived, which means that we should look at this as something that is layered above TraTs\r\n- (Atul): I felt the same, but the fields need to be marked updateable at the time of TraT issuance\r\n- (George): It seems the TraT service would then need to know more than just about authorization. If say, I wanted to tokenize PII, then the TraT service would need connections to a lot of other places. This could be 3 layers down in the transaction, the workload 3 levels down now puts the voucher in the batch stream. How does the TraT service know how to refresh that data?\r\n- (Pieter): I remember we had text in section 2.3 about lifetime. You cannot extend the TraT to beyond the lifetime of the original access token, so there is an upper bound. If we start tinkering with that, we have an issue. Allowing TraTs to be refreshed are goign to have downstream effects.\r\n- (Ashay): In our implementations, it gathers context from other services before requesting a new TraT\r\n- (Atul): I was going to do the same thing.\r\n- (George): The thing that needs the TraT can get the refreshed versions of the data, and pass that in the request context object, and request the new token. From a standards perspective, we need to understand what this would mean.\r\n- (Atul): ...\r\n- (Ashay): Teams responsible for specific functions can't be responsible for rebuilding the context. So we start with everything being immutable, and it can evolve as the business needs become apparent. So by default nothing is mutable.\r\n- (Ashay): How does this work? It is going to complicate the spec, can you change an RFC?\r\n- (Atul): No\r\n- (George): We can have a separate RFC which says how we should use TraTs for batching. I do think that since we are moving toward event driven models, this is important as a capability. \r\n- (Atul): Is TraTs without batching a valuable spec (can it be used without batching?)\r\n- (George): There are a lot of use cases where TraTs can be used today (without batching).\r\n- (Joe): There's also a big push for autonomous agents, (not just batch). \r\n- (George): The agent question is very interesting, but it feels like a layer on top of TraTs\r\n- (Pieter): I think TraTs are valuable as they are today. But we will almost certainly have to do a follow on spec. Can we have a proper problem definition that we can do a write up. That's the kind of thing that opens up security issues. In section 2.3 (expiry)\r\n- (Ashay): We did implement TraTs first, but the async question came up later, and it broke things that required batch processes. A call chain will almost always include some batch processes. At the beginning of the transaction, no one knows how long it is going to last\r\n- (George):  I agree. For the API invocation use case, you can look at your SLA and make good assumptions about transaction duration, but that only covers 80% of the transactions in an enterprise. But I have a lot of questions about how you build that layering in an industry standard way. So in your example, what is coming to \"workload 3\" in is a TraT, and it needs a voucher to rebuild a TraT later, which goes on the queue. Then when \"workload 4\" picks it up, and this can happen again downstream. We need to think through all those implications, and understand what they mean. It sounds like Ashay has a lot of use cases, but we need to define a lot of use cases.\r\n- (Ashay): Since this topic is so complex, it is good for us to provide guidance.\r\n- (Ashay): Can we just add expiry to each TraT field? \r\n- (Pieter): Does this modify the expiry property of the token?\r\n- (Ashay): This is not modifying the expiry of the token. \r\n- (George): So we have the rctx, if we say nothing about it, then anyone could ..\r\n- (George): The tctx is just a JSON blob, so you could put anything you want there. So another spec could define the expiry field in that.\r\n- (Pieter): Can I ask a question? We could have a situation where the TraT has expired, but the data context hasn't expired. So there is a new concept that the data expiry is longer than TraT expiry.\r\n- (Ashay): The real-world example is user consent. So EU allows 24 hours to enforce change. If a queue takes 6 days, then the new TraT has to refresh the new consent property.\r\n- (Pieter): \r\n- (George): ",
           "createdAt": "2024-11-22T17:06:29Z",
           "updatedAt": "2024-11-22T18:39:25Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think there is general agreement that we put batch and stream usage of Transaction Tokens into a different specification. Do we need to do one final check with the list?",
+          "createdAt": "2025-01-15T14:53:10Z",
+          "updatedAt": "2025-01-15T14:53:10Z"
         }
       ]
     },
@@ -2175,10 +2200,12 @@
       "author": "Sakurann",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "so that people can easily review what has changed between the versions. thank you!",
       "createdAt": "2024-07-21T10:20:42Z",
-      "updatedAt": "2024-07-21T10:20:42Z",
+      "updatedAt": "2025-01-14T18:55:57Z",
       "closedAt": null,
       "comments": []
     },
@@ -2242,7 +2269,7 @@
       "labels": [],
       "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
       "createdAt": "2024-07-22T21:16:50Z",
-      "updatedAt": "2024-10-04T17:24:20Z",
+      "updatedAt": "2025-01-15T14:51:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -2293,6 +2320,13 @@
           "body": "I've worked in environments earlier where the name \"scope\" in internal tokens caused enormous confusion with OAuth scopes from external systems.",
           "createdAt": "2024-10-04T17:24:19Z",
           "updatedAt": "2024-10-04T17:24:19Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm not sure we need to do anything here. The input `scope` value (either explicitly or from the input token) can be put in the `tctx` claim and used by downstream services. The spec does not prevent what @obfuscoder has implemented.",
+          "createdAt": "2025-01-15T14:51:57Z",
+          "updatedAt": "2025-01-15T14:51:57Z"
         }
       ]
     },
@@ -2325,10 +2359,12 @@
       "assignees": [
         "gffletch"
       ],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "The following was suggested by Justin at the IETF 120 session on TraTs:\r\nParaphrasing: Justin suggested a way to include a RAR object itself.",
       "createdAt": "2024-07-24T21:08:41Z",
-      "updatedAt": "2024-11-22T16:24:28Z",
+      "updatedAt": "2025-01-15T14:46:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -2351,6 +2387,13 @@
           "body": "@jricher are you suggesting that we call out that if you want to put a RAR object inside the `tctx` that you add the `authorization_details` claim at the top level of the `tctx`? I wouldn't want the `authorization_details` claim at the top-level of the TraT.",
           "createdAt": "2024-09-27T18:19:42Z",
           "updatedAt": "2024-09-27T18:19:42Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm ok closing this if we don't get any feed back. It might be good to check on the list one more time. I'm not convinced we need to add any verbiage to cover this use case.",
+          "createdAt": "2025-01-15T14:46:36Z",
+          "updatedAt": "2025-01-15T14:46:36Z"
         }
       ]
     },
@@ -2359,7 +2402,7 @@
       "id": "I_kwDOJt_WwM6Qv9ND",
       "title": "Azd claim name conflict with RAR",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/119",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2369,8 +2412,8 @@
       "labels": [],
       "body": "The following came up in the IETF 120 session about TraTs:\r\n\r\nThere was some confusion about the re-use of the claim defined in RAR",
       "createdAt": "2024-07-24T21:16:14Z",
-      "updatedAt": "2024-11-22T18:39:01Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-14T18:53:02Z",
+      "closedAt": "2025-01-14T18:53:02Z",
       "comments": [
         {
           "author": "tulshi",
@@ -2608,10 +2651,12 @@
         "tulshi",
         "PieterKas"
       ],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?\r\n\r\n@tulshi and @gffletch ",
       "createdAt": "2024-09-23T14:20:49Z",
-      "updatedAt": "2024-11-09T07:42:26Z",
+      "updatedAt": "2025-01-15T14:41:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -2634,6 +2679,13 @@
           "body": "I agree. Within a single trust domain, this is probably less of an issue. ",
           "createdAt": "2024-10-21T20:56:04Z",
           "updatedAt": "2024-10-21T20:56:04Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So I was have a conversation the other day about authorization and the topic of Transaction Tokens came up. One of the interesting discussion points was whether the authorization model is consistent throughout the life of the transaction token. For example, maybe the data tier doesn't know about users when it comes to enforcing authorization policy. Maybe that is done through fine-grained entitlements. That keeps the data tier from needing to reach into the user authorization store to determine which data the user can access. Or maybe there is a authorization layer closer to the edge that will redact data the user isn't allowed to see.\r\n\r\nIn either of these cases, should it be possible to get a replacement transaction token that doesn't have a `sub` but does have the list of data tier entitlements that are authorized for this particular request.",
+          "createdAt": "2025-01-15T14:41:29Z",
+          "updatedAt": "2025-01-15T14:41:29Z"
         }
       ]
     },
@@ -2803,10 +2855,12 @@
         "gffletch",
         "tulshi"
       ],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "I see different capitalisation of trust domain (sometimes Trust Domain). We define \"Trust Domain\", but we also use \"trust domain\" throughout the document. Should we be consistent with capitalisation? If not, what are the rules for being inconsistent? ",
       "createdAt": "2024-10-04T19:03:57Z",
-      "updatedAt": "2024-10-29T11:18:34Z",
+      "updatedAt": "2025-01-14T18:52:32Z",
       "closedAt": null,
       "comments": [
         {
