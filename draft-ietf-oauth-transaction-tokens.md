@@ -335,13 +335,13 @@ The transaction token body follows the JWT format and includes existing
 JWT claims as well as defines new claims. These claims are described below:
 
 `iss`:
-: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single trust domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
+: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
 
 `iat`:
 : REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
 
 `aud`:
-: REQUIRED This claim, defined in {{RFC7519}}, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain to prevent the Txn-Token from being accepted outside it's current trust domain.
+: REQUIRED This claim, defined in {{RFC7519}}, identifies the Trust Domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the Trust Domain to prevent the Txn-Token from being accepted outside it's current Trust Domain.
 
 `exp`:
 : REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
@@ -350,7 +350,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}.
 
 `sub`:
-: REQUIRED A unique identifier for the subject within the context of the `aud` trust domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
+: REQUIRED A unique identifier for the subject within the context of the `aud` Trust Domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
 
 `purp`:
 : REQUIRED A String defining the purpose or intent of this transaction.
@@ -362,7 +362,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
 ### Purpose claim {#purp-claim}
-The `purp` claim captures the exact purpose of this particular transaction. This is often much narrower than a scope value issued to an external client. This is due to the fact that in most cases, the authorization model within the trust domain is quite different than the authorization model used with clients external to the trust domain. To that end, it is intentional to separate the concept of scope (often fairly coarse-grained) used with external clients from the purpose of the transaction used within the trust domain. How a given deployment represents the authorization model within the trust domain is out of scope for this specification.
+The `purp` claim captures the exact purpose of this particular transaction. This is often much narrower than a scope value issued to an external client. This is due to the fact that in most cases, the authorization model within the Trust Domain is quite different than the authorization model used with clients external to the Trust Domain. To that end, it is intentional to separate the concept of scope (often fairly coarse-grained) used with external clients from the purpose of the transaction used within the Trust Domain. How a given deployment represents the authorization model within the Trust Domain is out of scope for this specification.
 
 ### Requester Context {#requester-context}
 The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.
@@ -451,7 +451,7 @@ A workload requesting a Txn-Token must provide the Transaction Token Service wit
 To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endpoint with the following parameters:
 
 * `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`.
-* `audience` REQUIRED. The value MUST be set to the trust domain name.
+* `audience` REQUIRED. The value MUST be set to the Trust Domain name.
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn_token`
 * `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This MAY be:
@@ -517,11 +517,11 @@ The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
 
-Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the trust domain defined by the `aud` claim.
+Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
 
 The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
 
-The Transaction Token Service MUST set the `aud` claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct `aud` value for this request.
+The Transaction Token Service MUST set the `aud` claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple Trust Domains, then it MUST determine the correct `aud` value for this request.
 
 The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any `exp` value present in the `subject_token` parameter of the Txn-Token Request in determining the `exp` value of the resulting Txn-Token.
 
@@ -630,10 +630,10 @@ If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 To
 Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to the security of the entire transaction invocation sequence. Only Txn-Tokens issued by a trusted Transaction Token Service may be trusted, so verification of the Txn-Token signature is required. For replacement transaction tokens, not only must the JWT signature be verified but also the workload identity of the workload requesting the replacement Txn-Token.
 
 ## Scope and Purpose processing
-The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the trust domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (`scope`) of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.
+The authorization model within a Trust Domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (`scope`) of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.
 
 ## Identifying Call Chains
-A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The `txn` claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the trust domain, for the `txn` value.
+A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The `txn` claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the Trust Domain, for the `txn` value.
 
 ## Workload Configuration Protection
 A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundancy or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.
