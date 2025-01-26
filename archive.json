@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-23T00:16:01.884117+00:00",
+  "timestamp": "2025-01-26T00:15:49.238931+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1603,7 +1603,7 @@
       "id": "I_kwDOJt_WwM6DjIjw",
       "title": "Extensibility of `azd` and `rctx`",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/80",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1615,8 +1615,8 @@
       ],
       "body": "From Yaron's [feedback email](https://mailarchive.ietf.org/arch/msg/oauth/qPxczdlhrkWbAu6eD8VmMmqRZj8/)\r\nextensibility: please say explicitly that arbitrary claims may be added to the \"azd\" (and \"rctx\"?) objects. There is no IANA registry for either. Note that having 3 predefined attributes complicates the situation a bit - what happens if we want a 4th one? Also mention that any additional attributes are local to the trust domain.",
       "createdAt": "2024-03-26T00:55:37Z",
-      "updatedAt": "2025-01-15T15:02:40Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-23T17:29:01Z",
+      "closedAt": "2025-01-23T17:28:59Z",
       "comments": [
         {
           "author": "tulshi",
@@ -1645,6 +1645,13 @@
           "body": "I look forward to discussing this in Vancouver",
           "createdAt": "2024-06-21T18:10:45Z",
           "updatedAt": "2024-06-21T18:10:45Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussed between George, Pieter and I and we thought this is not necessary.",
+          "createdAt": "2025-01-23T17:28:59Z",
+          "updatedAt": "2025-01-23T17:28:59Z"
         }
       ]
     },
@@ -1800,14 +1807,16 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [
         "IETF120-discuss",
         "pre-last-call"
       ],
       "body": "Should we add to the spec a mechanism for a client to discover if the AS has support for the transaction token profile of the token-exchange endpoint? Or do we need to define a new .well-known location for the Transaction Token Service?",
       "createdAt": "2024-05-17T16:57:32Z",
-      "updatedAt": "2025-01-15T15:01:46Z",
+      "updatedAt": "2025-01-23T17:25:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -1816,6 +1825,13 @@
           "body": "Notes from call on 06-14-24\r\n- (George) Discovery by an external client may not be useful, but for internal clients, it might be important. We could chain it out of the AS, because we would expect services to know where the AS is.\r\n- (Atul) Can we do a 401 response with the location of the TTS?\r\n- (Pieter) Agree that external clients don't need to discover the TTS. Discovery is useful for internal clients. Can we do resource metadata?\r\n- (George) One way is to add a new URL to the AS metadata. We should discuss this in Vancouver\r\n- (Atul, Pieter) Can we use OPRM?\r\n- (Pieter) The flow is going to be different because it assumes OAuth Access tokens\r\n",
           "createdAt": "2024-06-14T16:19:07Z",
           "updatedAt": "2024-06-14T16:19:07Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editor's call 2025-01-23:\n* Not necessary to define a discovery method. \n* Add a section to the Security Considerations section",
+          "createdAt": "2025-01-23T17:25:32Z",
+          "updatedAt": "2025-01-23T17:25:32Z"
         }
       ]
     },
@@ -1905,13 +1921,15 @@
       "state": "OPEN",
       "author": "adeinega",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [
         "pre-last-call"
       ],
       "body": "I'm sorry if I miss anything but why does this spec put so much emphasize on \"external\" invocations?\r\n> Transaction Tokens (Txn-Tokens) enable workloads in a trusted domain to ensure that user identity and authorization context of an external programmatic request, such as an API invocation\r\n\r\nand\r\n> A valid Txn-Token indicates a valid external invocation\r\n\r\nand in many other places. This somehow limits the set of use cases where Txn Token tokens can be applied. ServiceA can make a m2m call to ServiceB in an asynchronous way, say because of some task in its scheduler, etc.\r\n\r\nI would suggest shortening \"external invocations to \"invocations\".",
       "createdAt": "2024-06-27T23:50:56Z",
-      "updatedAt": "2025-01-14T19:00:48Z",
+      "updatedAt": "2025-01-23T17:21:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -1920,6 +1938,13 @@
           "body": "What about explicitly calling out in the overview that both external and internal use cases are supported by this specifications? Support for internal use cases is called out in the section around the use of self-signed tokens and the definition associated with the `subject_token` parameter. However, I agree it's not called out as an equal use case.",
           "createdAt": "2024-07-04T16:05:43Z",
           "updatedAt": "2024-07-04T16:05:43Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "By \"external\" I meant external to the trust domain, BTW",
+          "createdAt": "2025-01-23T17:04:06Z",
+          "updatedAt": "2025-01-23T17:04:06Z"
         }
       ]
     },
@@ -1990,13 +2015,15 @@
       "state": "OPEN",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [
         "pre-last-call"
       ],
       "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
       "createdAt": "2024-07-13T06:10:04Z",
-      "updatedAt": "2025-01-15T14:58:14Z",
+      "updatedAt": "2025-01-23T17:19:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -2199,13 +2226,15 @@
       "state": "OPEN",
       "author": "Sakurann",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [
         "pre-last-call"
       ],
       "body": "so that people can easily review what has changed between the versions. thank you!",
       "createdAt": "2024-07-21T10:20:42Z",
-      "updatedAt": "2025-01-14T18:55:57Z",
+      "updatedAt": "2025-01-23T17:16:50Z",
       "closedAt": null,
       "comments": []
     },
@@ -2262,15 +2291,15 @@
       "id": "I_kwDOJt_WwM6QeAZQ",
       "title": "Audience, scope & purpose",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/115",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "arndt-s",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "From IETF chat: \"Scope, audience and purpose claims all limit the transaction token but at different levels. I wonder if this can be simplified?\"\r\n\r\nWorkload developers that validate transaction tokens currently would need to validate all 3 of these claims just for the sake of knowing if the transaction token is acceptable in their context. Authorization decisions based on azd and rctx then come on top of that.\r\n\r\n",
       "createdAt": "2024-07-22T21:16:50Z",
-      "updatedAt": "2025-01-15T14:51:58Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-23T17:19:02Z",
+      "closedAt": "2025-01-23T17:19:02Z",
       "comments": [
         {
           "author": "gffletch",
@@ -2353,7 +2382,7 @@
       "id": "I_kwDOJt_WwM6Qv5QV",
       "title": "RAR object inside a TraT",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/118",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2364,8 +2393,8 @@
       ],
       "body": "The following was suggested by Justin at the IETF 120 session on TraTs:\r\nParaphrasing: Justin suggested a way to include a RAR object itself.",
       "createdAt": "2024-07-24T21:08:41Z",
-      "updatedAt": "2025-01-15T14:46:37Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-23T17:02:33Z",
+      "closedAt": "2025-01-23T17:02:33Z",
       "comments": [
         {
           "author": "gffletch",
@@ -2643,7 +2672,7 @@
       "id": "I_kwDOJt_WwM6XkFrD",
       "title": "Can a sub_id change?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/131",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2656,8 +2685,8 @@
       ],
       "body": "Is a sub_id considered constant throughout the transaction, or can this change over time. If it does change, how should the \"old sub_id\" be recorded? As part of the azd claim? Should we add information to that effect?\r\n\r\n@tulshi and @gffletch ",
       "createdAt": "2024-09-23T14:20:49Z",
-      "updatedAt": "2025-01-15T14:41:48Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-23T17:16:04Z",
+      "closedAt": "2025-01-23T17:16:03Z",
       "comments": [
         {
           "author": "gffletch",
@@ -2686,6 +2715,13 @@
           "body": "So I was have a conversation the other day about authorization and the topic of Transaction Tokens came up. One of the interesting discussion points was whether the authorization model is consistent throughout the life of the transaction token. For example, maybe the data tier doesn't know about users when it comes to enforcing authorization policy. Maybe that is done through fine-grained entitlements. That keeps the data tier from needing to reach into the user authorization store to determine which data the user can access. Or maybe there is a authorization layer closer to the edge that will redact data the user isn't allowed to see.\r\n\r\nIn either of these cases, should it be possible to get a replacement transaction token that doesn't have a `sub` but does have the list of data tier entitlements that are authorized for this particular request.",
           "createdAt": "2025-01-15T14:41:29Z",
           "updatedAt": "2025-01-15T14:41:29Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "George and I discussed this and I feel that the sub_id is a core value of the Transaction Token, which assures the user identity throughout the call chain. Changing that would be dangerous. We have therefore agreed to close this issue.",
+          "createdAt": "2025-01-23T17:16:03Z",
+          "updatedAt": "2025-01-23T17:16:03Z"
         }
       ]
     },
@@ -2852,7 +2888,6 @@
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
-        "gffletch",
         "tulshi"
       ],
       "labels": [
@@ -2860,7 +2895,7 @@
       ],
       "body": "I see different capitalisation of trust domain (sometimes Trust Domain). We define \"Trust Domain\", but we also use \"trust domain\" throughout the document. Should we be consistent with capitalisation? If not, what are the rules for being inconsistent? ",
       "createdAt": "2024-10-04T19:03:57Z",
-      "updatedAt": "2025-01-14T18:52:32Z",
+      "updatedAt": "2025-01-23T17:10:51Z",
       "closedAt": null,
       "comments": [
         {
@@ -9826,6 +9861,60 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 151,
+      "id": "PR_kwDOJt_WwM6IzIYJ",
+      "title": "changed all references to Trust Domain (capitalized)",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/151",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-23T18:08:28Z",
+      "updatedAt": "2025-01-23T18:48:21Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5316d5746659848a9587986e78b80c5c0d184168",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "terminology-cleanup",
+      "headRefOid": "3bd865b58684de9d0925b8fc3c2562e5653072e4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 152,
+      "id": "PR_kwDOJt_WwM6IzXNi",
+      "title": "Fixed upload-artifact version.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/152",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-01-23T18:43:41Z",
+      "updatedAt": "2025-01-23T18:46:34Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "83f285756a7ec1670a3d52804ab1a8c2a3bd6f10",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-build",
+      "headRefOid": "ce4f835eaac612155e85f5fab6dcf72df6da77bd",
+      "closedAt": "2025-01-23T18:46:33Z",
+      "mergedAt": "2025-01-23T18:46:33Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "5316d5746659848a9587986e78b80c5c0d184168"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
