@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 3 July 2025                                         Capital One
+Expires: 4 August 2025                                       Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                        30 December 2024
+                                                         31 January 2025
 
 
                            Transaction Tokens
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 July 2025.
+   This Internet-Draft will expire on 4 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -113,8 +113,9 @@ Table of Contents
      9.5.  Replacement Tokens
      9.6.  Scope and Purpose processing
      9.7.  Identifying Call Chains
-     9.8.  Workload Configuration Protection
-     9.9.  Transaction token Service Authentication
+     9.8.  Transaction Token Service Discovery
+     9.9.  Workload Configuration Protection
+     9.10. Transaction Token Service Authentication
    10. Privacy Considerations
      10.1.  Obfuscation of Personal Information
      10.2.  Logging
@@ -1058,7 +1059,25 @@ Table of Contents
    transactions.  It is therefore strongly RECOMMENDED to use an
    identifier, unique within the trust domain, for the txn value.
 
-9.8.  Workload Configuration Protection
+9.8.  Transaction Token Service Discovery
+
+   A workload may use a variety of mechanisms to determine the
+   Transaction Token Service it should interact with.  Workloads should
+   only retrieve configuration information indicating which Transaction
+   Token Service it should interact with from a trusted location to
+   minimize the risk of a threat actor inserting configuration
+   information pointing to a Transaction Token Service under it's
+   control, which it may use to collect Access Tokens sent to it as part
+   of the Txn-Token Request message.  The workload should authenticate
+   the service providing the configuration information and verify the
+   integrity of the information to prevent a threat actor from inserting
+   configuration information for a Trust Domain Service under its
+   control.  The wokrload may use TLS to authenticate the end-point and
+   protect the request at the transport layer, and may use additional
+   application layer signatures or message authentication codes to
+   detect tampering with the configuration information.
+
+9.9.  Workload Configuration Protection
 
    A workload may be configured to access more than one instance of a
    Transaction Token Service to ensure redundancy or reduce latency for
@@ -1068,7 +1087,7 @@ Table of Contents
    attack or degrade the performance of a system by removing an instance
    of a Transaction Token Service from the workload configuration.
 
-9.9.  Transaction token Service Authentication
+9.10.  Transaction Token Service Authentication
 
    A workload may accidently send a transaction token request to a
    service that is not a Transaction Token Service, or an attacker may
