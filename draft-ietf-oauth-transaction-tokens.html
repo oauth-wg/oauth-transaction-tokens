@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 27 July 2025</td>
+<td class="center">Expires 4 August 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-01-23" class="published">23 January 2025</time>
+<time datetime="2025-01-31" class="published">31 January 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-07-27">27 July 2025</time></dd>
+<dd class="expires"><time datetime="2025-08-04">4 August 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 July 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 August 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1719,7 +1719,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
           <dt id="section-5.2-2.1">
 <code>iss</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">OPTIONAL The <code>iss</code> claim as defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> is not required as Txn-Tokens are bound to a single trust domain as defined by the <code>aud</code> claim and often the signing keys are known. The <code>iss</code> claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.2.1">OPTIONAL The <code>iss</code> claim as defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> is not required as Txn-Tokens are bound to a single Trust Domain as defined by the <code>aud</code> claim and often the signing keys are known. The <code>iss</code> claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.3">
@@ -1731,7 +1731,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.5">
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.6">
-            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, identifies the trust domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the trust domain to prevent the Txn-Token from being accepted outside it's current trust domain.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, identifies the Trust Domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the Trust Domain to prevent the Txn-Token from being accepted outside it's current Trust Domain.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.7">
@@ -1749,7 +1749,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.11">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.12">
-            <p id="section-5.2-2.12.1">REQUIRED A unique identifier for the subject within the context of the <code>aud</code> trust domain. Unlike OpenID Connect, the <code>sub</code> claim is NOT associated with the <code>iss</code> claim.<a href="#section-5.2-2.12.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.12.1">REQUIRED A unique identifier for the subject within the context of the <code>aud</code> Trust Domain. Unlike OpenID Connect, the <code>sub</code> claim is NOT associated with the <code>iss</code> claim.<a href="#section-5.2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.13">
@@ -1776,7 +1776,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
           <h4 id="name-purpose-claim">
 <a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-purpose-claim" class="section-name selfRef">Purpose claim</a>
           </h4>
-<p id="section-5.2.1-1">The <code>purp</code> claim captures the exact purpose of this particular transaction. This is often much narrower than a scope value issued to an external client. This is due to the fact that in most cases, the authorization model within the trust domain is quite different than the authorization model used with clients external to the trust domain. To that end, it is intentional to separate the concept of scope (often fairly coarse-grained) used with external clients from the purpose of the transaction used within the trust domain. How a given deployment represents the authorization model within the trust domain is out of scope for this specification.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-1">The <code>purp</code> claim captures the exact purpose of this particular transaction. This is often much narrower than a scope value issued to an external client. This is due to the fact that in most cases, the authorization model within the Trust Domain is quite different than the authorization model used with clients external to the Trust Domain. To that end, it is intentional to separate the concept of scope (often fairly coarse-grained) used with external clients from the purpose of the transaction used within the Trust Domain. How a given deployment represents the authorization model within the Trust Domain is out of scope for this specification.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="requester-context">
@@ -1913,7 +1913,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
             <p id="section-7.1-3.1.1"><code>grant_type</code> REQUIRED. The value MUST be set to <code>urn:ietf:params:oauth:grant-type:token-exchange</code>.<a href="#section-7.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.2">
-            <p id="section-7.1-3.2.1"><code>audience</code> REQUIRED. The value MUST be set to the trust domain name.<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.2.1"><code>audience</code> REQUIRED. The value MUST be set to the Trust Domain name.<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.3">
             <p id="section-7.1-3.3.1"><code>scope</code> REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.<a href="#section-7.1-3.3.1" class="pilcrow">¶</a></p>
@@ -2049,9 +2049,9 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-txn-token-request-processin" class="section-name selfRef">Txn-Token Request Processing</a>
         </h3>
 <p id="section-7.3-1">When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">Next, the Transaction Token Service MUST validate the <code>subject_token</code> and determine the value to specify as the <code>sub</code> of the issued Txn-Token. The Txn-Token Service MUST ensure the <code>sub</code> value is unique within the trust domain defined by the <code>aud</code> claim.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">Next, the Transaction Token Service MUST validate the <code>subject_token</code> and determine the value to specify as the <code>sub</code> of the issued Txn-Token. The Txn-Token Service MUST ensure the <code>sub</code> value is unique within the Trust Domain defined by the <code>aud</code> claim.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <p id="section-7.3-3">The Transaction Token Service MUST set the <code>iat</code> claim to the time of issuance of the Txn-Token.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<p id="section-7.3-4">The Transaction Token Service MUST set the <code>aud</code> claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple trust domains, then it MUST determine the correct <code>aud</code> value for this request.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">The Transaction Token Service MUST set the <code>aud</code> claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple Trust Domains, then it MUST determine the correct <code>aud</code> value for this request.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <p id="section-7.3-5">The Transaction Token Service MUST set the <code>exp</code> claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any <code>exp</code> value present in the <code>subject_token</code> parameter of the Txn-Token Request in determining the <code>exp</code> value of the resulting Txn-Token.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
 <p id="section-7.3-6">The Transaction Token Service MUST set the <code>txn</code> claim to a unique ID specific to this transaction.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
 <p id="section-7.3-7">The Transaction Token Service MAY set the <code>iss</code> claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.<a href="#section-7.3-7" class="pilcrow">¶</a></p>
@@ -2266,7 +2266,7 @@ Cache-Control: no-store
         <h3 id="name-scope-and-purpose-processin">
 <a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-scope-and-purpose-processin" class="section-name selfRef">Scope and Purpose processing</a>
         </h3>
-<p id="section-9.6-1">The authorization model within a trust domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the trust domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (<code>scope</code>) of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">The authorization model within a Trust Domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (<code>scope</code>) of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="identifying-call-chains">
@@ -2274,7 +2274,7 @@ Cache-Control: no-store
         <h3 id="name-identifying-call-chains">
 <a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-identifying-call-chains" class="section-name selfRef">Identifying Call Chains</a>
         </h3>
-<p id="section-9.7-1">A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The <code>txn</code> claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the trust domain, for the <code>txn</code> value.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
+<p id="section-9.7-1">A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The <code>txn</code> claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the Trust Domain, for the <code>txn</code> value.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="workload-configuration-protection">
