@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T00:15:39.935116+00:00",
+  "timestamp": "2025-02-02T00:17:06.504966+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2023,7 +2023,7 @@
       ],
       "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
       "createdAt": "2024-07-13T06:10:04Z",
-      "updatedAt": "2025-01-23T17:19:55Z",
+      "updatedAt": "2025-01-31T15:30:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -2067,6 +2067,13 @@
           "body": "Maybe update Security Considerations with recommendations for optimizing TraT crypto toward validation rather than issuance?",
           "createdAt": "2025-01-15T14:58:07Z",
           "updatedAt": "2025-01-15T14:58:07Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This issue references two topics:\n\n1. Key rotation\n2. The cost of performing verification.\n\nOn (1), there is ample guidance in the OAuth RFCs that we can reference. is there anything new or specific we want to addd that is not in the OAuth drafts already?\n\nFor (2), I am not convinced that there are substantially more cryptographic operations. If a set of microservices was just passing Access Tokens, it would still be parsing and verifying the signatures on those. Now it is verifying signatures on transaction tokens instead. Although there might be a small increase, it may not be an order of magnitude (unless access tokens was passed around and not verified, which may be true for TraTs as well). I would also hesitate to provide guidance on which cryptographic algorithms to use, especially as new post quantum algorithms are going to be around. \n\nSome thoughts:\n\n(1) Add a section on key rotation and reference existing RFCs (e.g. key rotation should be performed according to guidelines in RFC.... and RFC....)\n(2) Don't make any recommendations on crypto algorithms.",
+          "createdAt": "2025-01-31T15:30:16Z",
+          "updatedAt": "2025-01-31T15:30:16Z"
         }
       ]
     },
@@ -2884,7 +2891,7 @@
       "id": "I_kwDOJt_WwM6ZAw-k",
       "title": "Trust Doman vs trust domain",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/145",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2895,8 +2902,8 @@
       ],
       "body": "I see different capitalisation of trust domain (sometimes Trust Domain). We define \"Trust Domain\", but we also use \"trust domain\" throughout the document. Should we be consistent with capitalisation? If not, what are the rules for being inconsistent? ",
       "createdAt": "2024-10-04T19:03:57Z",
-      "updatedAt": "2025-01-23T17:10:51Z",
-      "closedAt": null,
+      "updatedAt": "2025-01-31T17:28:50Z",
+      "closedAt": "2025-01-31T17:28:50Z",
       "comments": [
         {
           "author": "gffletch",
@@ -9867,26 +9874,55 @@
       "id": "PR_kwDOJt_WwM6IzIYJ",
       "title": "changed all references to Trust Domain (capitalized)",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/151",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-01-23T18:08:28Z",
-      "updatedAt": "2025-01-23T18:48:21Z",
+      "updatedAt": "2025-01-31T17:28:52Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5316d5746659848a9587986e78b80c5c0d184168",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "terminology-cleanup",
       "headRefOid": "3bd865b58684de9d0925b8fc3c2562e5653072e4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-01-31T17:28:49Z",
+      "mergedAt": "2025-01-31T17:28:49Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "c80325f89cdab78a441c091d9490954524b1d78f"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6aMW6B",
+          "commit": {
+            "abbreviatedOid": "3bd865b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me.",
+          "createdAt": "2025-01-31T14:26:15Z",
+          "updatedAt": "2025-01-31T14:26:15Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6aMnmK",
+          "commit": {
+            "abbreviatedOid": "3bd865b"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good",
+          "createdAt": "2025-01-31T14:54:15Z",
+          "updatedAt": "2025-01-31T14:54:15Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 152,
@@ -9915,6 +9951,86 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 153,
+      "id": "PR_kwDOJt_WwM6Jp1HY",
+      "title": "Transaction token Discovery Security Considerations",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/153",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Security Considerations for Transaction Token Discovery (#95 )",
+      "createdAt": "2025-01-31T15:02:47Z",
+      "updatedAt": "2025-01-31T21:40:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5316d5746659848a9587986e78b80c5c0d184168",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "d29dc4d10d081d16b7ee62aca291dea6149e0248",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6aMxKm",
+          "commit": {
+            "abbreviatedOid": "d29dc4d"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-31T15:10:49Z",
+          "updatedAt": "2025-01-31T15:10:50Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Typo -> wokrload",
+              "createdAt": "2025-01-31T15:10:49Z",
+              "updatedAt": "2025-01-31T15:10:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6aMxcJ",
+          "commit": {
+            "abbreviatedOid": "d29dc4d"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Looks good. Just the one typo :) ",
+          "createdAt": "2025-01-31T15:11:14Z",
+          "updatedAt": "2025-01-31T15:11:14Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6aQJxU",
+          "commit": {
+            "abbreviatedOid": "d29dc4d"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-01-31T21:40:06Z",
+          "updatedAt": "2025-01-31T21:40:06Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Can we say \"should use TLS\" or \"must use TLS\" instead of \"may use TLS\"?",
+              "createdAt": "2025-01-31T21:40:06Z",
+              "updatedAt": "2025-01-31T21:40:06Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
