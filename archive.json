@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-02T00:17:06.504966+00:00",
+  "timestamp": "2025-02-04T00:15:55.924393+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2927,6 +2927,22 @@
           "updatedAt": "2024-10-29T11:18:32Z"
         }
       ]
+    },
+    {
+      "number": 154,
+      "id": "I_kwDOJt_WwM6ole9U",
+      "title": "\"Internal microservice\" -> workload",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/154",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hannes, Joe Salowey and Jaroslav of Wimse pointed out that we are using the term \"internal microservice\" in the diagram, but calling it \"workload\" in the rest of the spec. We should review and see if renaming the item in the diagram to \"workload\" makes sense.",
+      "createdAt": "2025-02-03T19:56:13Z",
+      "updatedAt": "2025-02-03T19:56:13Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -9964,7 +9980,7 @@
       "labels": [],
       "body": "Security Considerations for Transaction Token Discovery (#95 )",
       "createdAt": "2025-01-31T15:02:47Z",
-      "updatedAt": "2025-01-31T21:40:06Z",
+      "updatedAt": "2025-02-03T22:56:34Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5316d5746659848a9587986e78b80c5c0d184168",
@@ -10011,7 +10027,7 @@
           "comments": []
         },
         {
-          "id": "PRR_kwDOJt_WwM6aQJxU",
+          "id": "PRR_kwDOJt_WwM6adGDa",
           "commit": {
             "abbreviatedOid": "d29dc4d"
           },
@@ -10019,14 +10035,14 @@
           "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
-          "createdAt": "2025-01-31T21:40:06Z",
-          "updatedAt": "2025-01-31T21:40:06Z",
+          "createdAt": "2025-02-03T22:52:58Z",
+          "updatedAt": "2025-02-03T22:53:04Z",
           "comments": [
             {
               "originalPosition": 5,
               "body": "Can we say \"should use TLS\" or \"must use TLS\" instead of \"may use TLS\"?",
-              "createdAt": "2025-01-31T21:40:06Z",
-              "updatedAt": "2025-01-31T21:40:06Z"
+              "createdAt": "2025-02-03T22:52:58Z",
+              "updatedAt": "2025-02-03T22:53:04Z"
             }
           ]
         }
