@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 4 August 2025                                       Capital One
+Expires: 17 August 2025                                      Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                         31 January 2025
+                                                        13 February 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 August 2025.
+   This Internet-Draft will expire on 17 August 2025.
 
 Copyright Notice
 
@@ -113,8 +113,9 @@ Table of Contents
      9.5.  Replacement Tokens
      9.6.  Scope and Purpose processing
      9.7.  Identifying Call Chains
-     9.8.  Workload Configuration Protection
-     9.9.  Transaction token Service Authentication
+     9.8.  Transaction Token Service Discovery
+     9.9.  Workload Configuration Protection
+     9.10. Transaction Token Service Authentication
    10. Privacy Considerations
      10.1.  Obfuscation of Personal Information
      10.2.  Logging
@@ -1039,8 +1040,8 @@ Table of Contents
 9.6.  Scope and Purpose processing
 
    The authorization model within a Trust Domain boundary is most often
-   quite different from the authorization model (e.g.  OAuth scopes)
-   used with clients external to the Trust Domain.  This makes managing
+   quite different from the authorization model (e.g. OAuth scopes) used
+   with clients external to the Trust Domain.  This makes managing
    unintentional scope increase a critical aspect of the Transaction
    Token Service.  The TTS MUST ensure that the requested purpose
    (scope) of the Txn-Token is equal or less than the scope(s)
@@ -1058,7 +1059,26 @@ Table of Contents
    transactions.  It is therefore strongly RECOMMENDED to use an
    identifier, unique within the Trust Domain, for the txn value.
 
-9.8.  Workload Configuration Protection
+9.8.  Transaction Token Service Discovery
+
+   A workload may use various mechanisms to determine which Transaction
+   Token Service to interact with.  Workloads MUST retrieve
+   configuration information from a trusted source to minimize the risk
+   of a threat actor providing malicious configuration data that points
+   to a Transaction Token Service under it's control.  Such a service
+   could be used to collect Access Tokens sent as part of the
+   Transaction Token Request message.
+
+   To mitigate this risk, workloads SHOULD authenticate the service
+   providing the configuration information and verify the integrity of
+   the configuration information.  This ensures that no unauthorized
+   entity can insert or alter configuration data.  The workload SHOULD
+   use Transport Layer Security (TLS) to authenticate the endpoint and
+   secure the communication channel.  Additionally, application-layer
+   signatures or message authentication codes MAY be used to detect any
+   tampering with the configuration information.
+
+9.9.  Workload Configuration Protection
 
    A workload may be configured to access more than one instance of a
    Transaction Token Service to ensure redundancy or reduce latency for
@@ -1068,7 +1088,7 @@ Table of Contents
    attack or degrade the performance of a system by removing an instance
    of a Transaction Token Service from the workload configuration.
 
-9.9.  Transaction token Service Authentication
+9.10.  Transaction Token Service Authentication
 
    A workload may accidently send a transaction token request to a
    service that is not a Transaction Token Service, or an attacker may
