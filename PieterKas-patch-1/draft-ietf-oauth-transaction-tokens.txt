@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 4 August 2025                                       Capital One
+Expires: 17 August 2025                                      Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                         31 January 2025
+                                                        13 February 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 August 2025.
+   This Internet-Draft will expire on 17 August 2025.
 
 Copyright Notice
 
@@ -1040,8 +1040,8 @@ Table of Contents
 9.6.  Scope and Purpose processing
 
    The authorization model within a trust domain boundary is most often
-   quite different from the authorization model (e.g.  OAuth scopes)
-   used with clients external to the trust domain.  This makes managing
+   quite different from the authorization model (e.g. OAuth scopes) used
+   with clients external to the trust domain.  This makes managing
    unintentional scope increase a critical aspect of the Transaction
    Token Service.  The TTS MUST ensure that the requested purpose
    (scope) of the Txn-Token is equal or less than the scope(s)
@@ -1072,7 +1072,7 @@ Table of Contents
    the service providing the configuration information and verify the
    integrity of the information to prevent a threat actor from inserting
    configuration information for a Trust Domain Service under its
-   control.  The wokrload may use TLS to authenticate the end-point and
+   control.  The workload may use TLS to authenticate the end-point and
    protect the request at the transport layer, and may use additional
    application layer signatures or message authentication codes to
    detect tampering with the configuration information.
