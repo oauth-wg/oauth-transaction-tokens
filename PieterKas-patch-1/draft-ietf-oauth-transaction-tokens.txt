@@ -1072,11 +1072,11 @@ Table of Contents
    To mitigate this risk, workloads SHOULD authenticate the service
    providing the configuration information and verify the integrity of
    the configuration information.  This ensures that no unauthorized
-   entity can insert or alter configuration data.  The workload
-   SHOULDuse Transport Layer Security (TLS) to authenticate the endpoint
-   and secure the communication channel.  Additionally, application-
-   layer signatures or message authentication codes MAY be used to
-   detect any tampering with the configuration information.
+   entity can insert or alter configuration data.  The workload SHOULD
+   use Transport Layer Security (TLS) to authenticate the endpoint and
+   secure the communication channel.  Additionally, application-layer
+   signatures or message authentication codes MAY be used to detect any
+   tampering with the configuration information.
 
 9.9.  Workload Configuration Protection
 
