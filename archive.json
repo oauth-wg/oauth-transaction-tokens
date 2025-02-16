@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-13T00:16:08.011737+00:00",
+  "timestamp": "2025-02-16T00:18:04.418135+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -9973,24 +9973,26 @@
       "id": "PR_kwDOJt_WwM6Jp1HY",
       "title": "Transaction token Discovery Security Considerations",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/153",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Security Considerations for Transaction Token Discovery (#95 )",
       "createdAt": "2025-01-31T15:02:47Z",
-      "updatedAt": "2025-02-03T22:56:34Z",
+      "updatedAt": "2025-02-13T22:49:50Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5316d5746659848a9587986e78b80c5c0d184168",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
-      "headRefOid": "d29dc4d10d081d16b7ee62aca291dea6149e0248",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "9296b02a0084f9c9f69c86cb30813395e9136f1a",
+      "closedAt": "2025-02-13T22:49:48Z",
+      "mergedAt": "2025-02-13T22:49:48Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "fd62e528427bf2ebe2b839bb46a1ee5775ef231b"
+      },
       "comments": [],
       "reviews": [
         {
@@ -10045,6 +10047,112 @@
               "updatedAt": "2025-02-03T22:53:04Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6b3afc",
+          "commit": {
+            "abbreviatedOid": "d29dc4d"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-13T13:28:18Z",
+          "updatedAt": "2025-02-13T13:28:18Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Fixed.",
+              "createdAt": "2025-02-13T13:28:18Z",
+              "updatedAt": "2025-02-13T13:28:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6b3jEA",
+          "commit": {
+            "abbreviatedOid": "d29dc4d"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-13T13:41:13Z",
+          "updatedAt": "2025-02-13T13:41:13Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Made some changes (including a SHOULd for TLS). I also changed to normative (capitalised) language.\r\n",
+              "createdAt": "2025-02-13T13:41:13Z",
+              "updatedAt": "2025-02-13T13:41:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6b60Jb",
+          "commit": {
+            "abbreviatedOid": "9fb756f"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-13T18:20:55Z",
+          "updatedAt": "2025-02-13T18:20:56Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "SHOULDuse -> SHOULD use",
+              "createdAt": "2025-02-13T18:20:56Z",
+              "updatedAt": "2025-02-13T18:20:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6b60RH",
+          "commit": {
+            "abbreviatedOid": "9fb756f"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-13T18:21:12Z",
+          "updatedAt": "2025-02-13T18:21:12Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6b7qjx",
+          "commit": {
+            "abbreviatedOid": "9fb756f"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-13T20:07:47Z",
+          "updatedAt": "2025-02-13T20:07:47Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Fixed.",
+              "createdAt": "2025-02-13T20:07:47Z",
+              "updatedAt": "2025-02-13T20:07:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6b8u3r",
+          "commit": {
+            "abbreviatedOid": "9296b02"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-13T22:49:41Z",
+          "updatedAt": "2025-02-13T22:49:41Z",
+          "comments": []
         }
       ]
     }
