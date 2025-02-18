@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-16T00:18:04.418135+00:00",
+  "timestamp": "2025-02-18T00:16:06.230112+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1264,7 +1264,7 @@
       "labels": [],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
       "createdAt": "2024-01-15T08:11:42Z",
-      "updatedAt": "2024-03-22T16:47:00Z",
+      "updatedAt": "2025-02-17T10:07:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -1308,6 +1308,13 @@
           "body": "Indeed, the spec does not say anything about whether and how the TTS is validating the txn token before issuing a replacement txn-token. So presenting an already expired txn-token can be accepted based on the authenticated client, purpose and scope. After all, it can be a specifically defined policy.\r\n\r\nI recommend that we at least acknowledge this case in the spec and give guidance when to use it. As we also have the case of not presenting any token when requesting a txn-token (see #53), I think that as long as a workload is in possession of a txn-token - even if it is expired - we should recommend to present it when requesting replacement txn-tokens. It should be the decision of the TTS whether to accept the expired txn-token and not of the workload (the workload could just take the subject from the expired token and present it as the subject_token to the TTS).\r\n\r\nOne additional aspect came to our attention. There are actually two cases for expired txn-tokens:\r\n\r\n1. The exp claim says it is expired, but the signature is still valid\r\n2. The signature is not valid (anymore) as the key used to sign the token is not available anymore\r\n\r\nDepending on how frequently a TTS is rotating its key material, the second case might occur for such long running processes like deleting account data several weeks after the customer has cancelled their contract. For instance our TTS implementation is rotating the keys daily. Only the next, current and previous signing keys are provided to workloads (via JWKS uri). Even if a workload is not able to verify the signature of a txn-token it received several weeks ago, the TTS might still be able to keep the old key material for a longer period so that it can at least validate the signature of those txn-tokens.\r\n",
           "createdAt": "2024-03-22T16:46:59Z",
           "updatedAt": "2024-03-22T16:46:59Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Should this issue be consolided together with #111 ",
+          "createdAt": "2025-02-17T10:07:56Z",
+          "updatedAt": "2025-02-17T10:07:56Z"
         }
       ]
     },
@@ -2164,7 +2171,7 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2025-01-15T14:53:11Z",
+      "updatedAt": "2025-02-17T10:06:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -2222,6 +2229,13 @@
           "body": "I think there is general agreement that we put batch and stream usage of Transaction Tokens into a different specification. Do we need to do one final check with the list?",
           "createdAt": "2025-01-15T14:53:10Z",
           "updatedAt": "2025-01-15T14:53:10Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sorry to comment that late. I somehow missed the last updates. I should note that as we started to implement transaction tokens within our system environment we soon hit the road block of internal services which wanted to enforce transaction tokens when being called that this could not be done as those services where not only called by frontend systems with authenticated users, but also by batch processes or delayed process workers (typical when working with event driven processing, like Kafka). This hurdle resulted in us delaying the entire rollout of transaction tokens and we wanted to wait for the issue to be solved within the IETF draft before trying to cook something by ourselves.\n\nWe still consider batch processing and delayed processing as an essential part of transaction tokens and feel that it will essentially be incomplete or of less use when being left out. That said, if it helps to get this spec from its draft state to its final state sooner, it can help. We hope that the new spec addressing batching/long running processes will get worked on rather sooner than later to fill that gap and I try to contribute as much as possible.",
+          "createdAt": "2025-02-17T10:04:09Z",
+          "updatedAt": "2025-02-17T10:06:28Z"
         }
       ]
     },
