@@ -168,8 +168,14 @@ A service within a call chain may choose to replace the Txn-Token. This can typi
 
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must exercise caution in what kinds of replacement requests it supports so as to not negate the entire value of Txn-Tokens.
 
+## Batch Txn-Tokens
+
+A service within a call chain may start asynchronous flows by invoking a workflow, or sending a message in queue or starting a batch job. Asynchronous flows may take minutes, hours or days to complete depending on the business use case. The service cannot pass Txn-Token to downstream as the asynchronous flow could outlive the lifetime of the Txn-Token. In such cases, the service can call Txn-Token Service to exchange a valid Txn-Token for a long lived Batch Txn-Token. Then use the Batch Txn-Token to invoke downstream asynchronous workload. At later point of time, when asynchronous workflow requires to call an internal service, resembling a synchronous flow, the workload can use the Batch Txn-Token to call Txn-Token service and request a valid short lived Txn-Token. The workload will then use the Txn-Token to call another internal service. A Batch Txn-Token MUST be encrypted and only Txn-Token Service MUST be able to decrypt a Batch Txn-Token. A validating party will not be able to decrypt the Batch Txn-Token. During exchange of a Batch Txn-Token to Txn-Token, Txn-Token service MUST only add those claims back which are still valid at that issuance time. 
+
+In order for Txn-Token Service to be able to issue a valid token in exchange for a Batch Txn-Token, it must be store the claims in the Txn-Token that was first used to generate a Batch Txn-Token. Txn-Token Service can choose to store claims in the Batch Txn-Token itself or separately in a persisent store and add a unique identifier in the Batch Txn-Token that points to the claims in the storage.
+
 ## Txn-Token Lifetime
-Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
+Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as an batch or offline task is involved, it can use a Batch Txn-Token or separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.
 
 ## Benefits of Txn-Tokens
 Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.
@@ -202,7 +208,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
                  o
                │   ▲
                │   │
-          ┌────▼───┴─────┐
+          ┌────▼───┴──-──┐
           │              │
           │   Internal   │
           │ Microservice │
@@ -277,6 +283,81 @@ In the diagram above, steps 1-5 are the same as in {{basic-flow}}
 8. The service that requested the Replacement Txn-Token uses that Txn-Token for downstream call authorization
 9. Responses are provided to callers based on successful authorization by the invoked microservices
 10. External client is provided a response to the external invocation
+
+### Batch Txn-Token Flow
+
+An intermediate service may decide to obtain a Batch Txn-Token from the Txn-Token service to initiate asynchronous flow and later use the token to obtain Txn-Token. These flows are described below in {{fig-arch-async-flow}}
+
+~~~ ascii-art
+
+     1    ┌──────────────┐    2      ┌──────────────┐
+─────────▶│              ├───────────▶              │
+          │   External   │           │              │
+     10   │   Endpoint   │    3      │              │
+◀─────────┤              ◀───────────│              │
+          └────┬───▲─────┘           │              │
+               │   │                 │              │
+             4 │   │ 9               │              │
+          ┌────▼───┴─────┐           │              │
+          │              │           │              │
+          │   Internal   │           │              │
+          │ Microservice │           │              │
+          │              │           │              │
+          └────┬───▲─────┘           │  Txn-Token   │
+               │   │                 │   Service    │
+               ▼   │                 │              │
+                 o                   │              │
+             5   o    9              │              │
+               │ o ▲                 │              │
+               │   │                 │              ├──────────────┐
+               │   │                 │              │              │
+          ┌────▼───┴─────┐    6      │              │              │
+          │              ├───────────▶              ◀────────┐     │
+          │              │           │              │        │     │
+          │              ◀───────────               │        │     │
+          │              │     7     │              │        │     │
+          │   Internal   │           └──────────────┘     11 │     │12
+          │ Microservice │           ┌──────────────┐        │     │ 
+          │              │     8     │              │        │     │
+          │              ├───────────▶              │        │     │
+          │              │           │              ├────────┘     │
+          │              │           │              │              │
+          │              │           │   Workflow   │              │
+          │              │           │              ◀──────────────┘
+          │              │           │              │
+          └──────────────┘           │              │
+                                     │              │
+                                     └────┬───▲─────┘
+                                          │   │
+                                          ▼   │
+                                            o
+                                       13   o   14
+                                            o
+                                          │   ▲                   
+                                          │   │                        
+                                     ┌────▼───┴─────┐
+                                     │              │
+                                     │   Internal   │
+                                     │ Microservice │
+                                     │              │
+                                     └──────────────┘
+~~~
+{: #fig-arch-async-flow title="Batch Txn-Token Flow"}
+
+In the diagram above, steps 1-5 are the same as in {{basic-flow}}
+
+{:start="6"}
+
+6. An intermediate service determines that it needs to start a workflow. Once workflow is started successfully, then it can respond back to incoming request. The workflow will then can run for longer duration. The intermediate service needs to obtain a Batch Txn-Token to pass to the workflow as the workflow execution will outlive Txn-Token lifetime. It requests a Batch Txn-Token from the Txn-Token Service. It passes the incoming Txn-Token in the request, along with any additional context it needs to send the Txn-Token Service.
+7. The Txn-Token Service responds with a Batch Txn-Token
+8. The service that requested the Batch Txn-Token uses that Batch Txn-Token for invoking workflow
+9.  Responses are provided to callers based on successful authorization by the invoked microservices
+10. External client is provided a response to the external invocation
+11. The workflow passes the incoming Batch Txn-Token to the Txn-Token Service and requests a Txn-Token whenever it needs to call another internal services
+12. Txn-Token Service responds with valid Txn-Token
+13. The workflow passes the Txn-Token to another internal service
+14. The internal provides response to the workflow based on successful authorization and workflow completes based on such successful responses from all invoked microservices.
+
 
 # Notational Conventions
 
