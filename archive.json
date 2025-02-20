@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-18T00:16:06.230112+00:00",
+  "timestamp": "2025-02-20T00:16:20.916471+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2171,7 +2171,7 @@
       "labels": [],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2025-02-17T10:06:28Z",
+      "updatedAt": "2025-02-19T00:04:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -2236,6 +2236,13 @@
           "body": "Sorry to comment that late. I somehow missed the last updates. I should note that as we started to implement transaction tokens within our system environment we soon hit the road block of internal services which wanted to enforce transaction tokens when being called that this could not be done as those services where not only called by frontend systems with authenticated users, but also by batch processes or delayed process workers (typical when working with event driven processing, like Kafka). This hurdle resulted in us delaying the entire rollout of transaction tokens and we wanted to wait for the issue to be solved within the IETF draft before trying to cook something by ourselves.\n\nWe still consider batch processing and delayed processing as an essential part of transaction tokens and feel that it will essentially be incomplete or of less use when being left out. That said, if it helps to get this spec from its draft state to its final state sooner, it can help. We hope that the new spec addressing batching/long running processes will get worked on rather sooner than later to fill that gap and I try to contribute as much as possible.",
           "createdAt": "2025-02-17T10:04:09Z",
           "updatedAt": "2025-02-17T10:06:28Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "All great points @obfuscoder which I was also highlighting in last meeting. Our company built solution for batch processing because many critical workflows are part of it. However, I also ack that there are components in batch processing that require lot more deep dive and hence new spec makes sense. For example, refreshing token contents when batch token is exchanged,  access controlling who can exchange batch tokens, lifetime of batch token itself, and more.\n\nI would be happy to contribute whatever we learnt in the new draft. By the way, I attempted modifying current draft as well to include batching which makes me think, it will be good to be separate. \n\nBut you can still take a look https://github.com/oauth-wg/oauth-transaction-tokens/pull/149 here on what I was thinking about it. ",
+          "createdAt": "2025-02-19T00:04:39Z",
+          "updatedAt": "2025-02-19T00:04:39Z"
         }
       ]
     },
