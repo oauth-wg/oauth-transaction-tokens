@@ -646,6 +646,9 @@ A workload may be configured to access more than one instance of a Transaction T
 ## Transaction Token Service Authentication
 A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes sensitive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transaction token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.
 
+## Transaction Token Service Key Rotation
+The Transaction Token Service may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of {{OpenIdConnect}}.
+
 # Privacy Considerations {#Privacy}
 
 ## Obfuscation of Personal Information
