@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 17 August 2025                                      Capital One
+Expires: 2 September 2025                                    Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                        13 February 2025
+                                                            1 March 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 August 2025.
+   This Internet-Draft will expire on 2 September 2025.
 
 Copyright Notice
 
@@ -116,6 +116,7 @@ Table of Contents
      9.8.  Transaction Token Service Discovery
      9.9.  Workload Configuration Protection
      9.10. Transaction Token Service Authentication
+     9.11. Transaction Token Service Key Rotation
    10. Privacy Considerations
      10.1.  Obfuscation of Personal Information
      10.2.  Logging
@@ -1100,6 +1101,12 @@ Table of Contents
    authenticates the Transaction Token Service and only contact
    instances of the Transaction Token Service that is authorized to
    issue transaction tokens.
+
+9.11.  Transaction Token Service Key Rotation
+
+   The Transaction Token Service may need to rotate signing keys.  When
+   doing so, it MAY adopt the key rotation practices in Section 10.1.1
+   of [OpenIdConnect].
 
 10.  Privacy Considerations
 
