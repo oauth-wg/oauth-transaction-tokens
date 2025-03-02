@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-02-27T00:16:50.944779+00:00",
+  "timestamp": "2025-03-02T00:18:11.222614+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -1811,7 +1811,7 @@
       "id": "I_kwDOJt_WwM6JSD9m",
       "title": "Define discovery metadata for support of the Transaction Token functionality",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/95",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1823,8 +1823,8 @@
       ],
       "body": "Should we add to the spec a mechanism for a client to discover if the AS has support for the transaction token profile of the token-exchange endpoint? Or do we need to define a new .well-known location for the Transaction Token Service?",
       "createdAt": "2024-05-17T16:57:32Z",
-      "updatedAt": "2025-01-23T17:25:38Z",
-      "closedAt": null,
+      "updatedAt": "2025-02-28T15:10:11Z",
+      "closedAt": "2025-02-28T15:10:11Z",
       "comments": [
         {
           "author": "tulshi",
@@ -2019,7 +2019,7 @@
       "id": "I_kwDOJt_WwM6Pc75O",
       "title": "Key rotation guidance",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/109",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2030,8 +2030,8 @@
       ],
       "body": "Key rotation is interesting. If you rotate key at time T1 and Tx token services starts to issue tokens with new key at same time, we have to callout that it should do it at T1+X where X is the SLA for ensuring all services that validate signature will receive the new public key to verify signature. Keys can be shared out of band. One idea is to generate two pairs and two corresponding public keys will be available with services all the time. Tx Token service will have two private pairs available. Lets say PrvtKey-1 and PrvtKey-2 are with issuers. PrvtKey-1 should be used from T1 to T1+24hrs and Key-2 from T1+24 to T1+48hrs. When Tx token switches from Key-1 to 2, it doesn't have to worry about some service not having public key for key-2 to validate the token. This way key synchronization is out of band + key rotation happens frequently which keeps key rotation machinery well-tested. Generally there is no need to rotate key every 24hrs so we can choose to relax that but even if we have to force rotate key then we have to make sure force rotated key (i.e new key pair) should be used to mint tokens only when we can guarantee that those tokens can be validated.",
       "createdAt": "2024-07-13T06:10:04Z",
-      "updatedAt": "2025-01-31T15:30:17Z",
-      "closedAt": null,
+      "updatedAt": "2025-03-01T20:34:41Z",
+      "closedAt": "2025-03-01T20:34:41Z",
       "comments": [
         {
           "author": "arndt-s",
@@ -2081,6 +2081,13 @@
           "body": "This issue references two topics:\n\n1. Key rotation\n2. The cost of performing verification.\n\nOn (1), there is ample guidance in the OAuth RFCs that we can reference. is there anything new or specific we want to addd that is not in the OAuth drafts already?\n\nFor (2), I am not convinced that there are substantially more cryptographic operations. If a set of microservices was just passing Access Tokens, it would still be parsing and verifying the signatures on those. Now it is verifying signatures on transaction tokens instead. Although there might be a small increase, it may not be an order of magnitude (unless access tokens was passed around and not verified, which may be true for TraTs as well). I would also hesitate to provide guidance on which cryptographic algorithms to use, especially as new post quantum algorithms are going to be around. \n\nSome thoughts:\n\n(1) Add a section on key rotation and reference existing RFCs (e.g. key rotation should be performed according to guidelines in RFC.... and RFC....)\n(2) Don't make any recommendations on crypto algorithms.",
           "createdAt": "2025-01-31T15:30:16Z",
           "updatedAt": "2025-01-31T15:30:16Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After discussing key rotation with folks at OSW2025 and reading through existing OAuth drafts and OpenID Connect drafts I don't believe we should give more specific guidance than what is already established and only reference OpenID Connect, which already provides guidance on key rotation. See PR #156",
+          "createdAt": "2025-03-01T18:03:33Z",
+          "updatedAt": "2025-03-01T18:03:33Z"
         }
       ]
     },
@@ -2962,6 +2969,22 @@
       "body": "Hannes, Joe Salowey and Jaroslav of Wimse pointed out that we are using the term \"internal microservice\" in the diagram, but calling it \"workload\" in the rest of the spec. We should review and see if renaming the item in the diagram to \"workload\" makes sense.",
       "createdAt": "2025-02-03T19:56:13Z",
       "updatedAt": "2025-02-03T19:56:13Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 155,
+      "id": "I_kwDOJt_WwM6sFq3f",
+      "title": "Transaction Token Lifetime",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/155",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on conversations at OSW 2025, there was a proposal to remove the restriction of limiting the transaction token lifetime to be less than the access token. The proposal based on conversations with George is to move it into the security considerations and remove the constraint.\n\nTopic for discussion at IETF 122",
+      "createdAt": "2025-02-28T13:33:26Z",
+      "updatedAt": "2025-02-28T15:07:28Z",
       "closedAt": null,
       "comments": []
     }
@@ -10173,6 +10196,48 @@
           "body": "",
           "createdAt": "2025-02-13T22:49:41Z",
           "updatedAt": "2025-02-13T22:49:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 156,
+      "id": "PR_kwDOJt_WwM6NCmGG",
+      "title": "Security Considerations: Key Rotation",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/156",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #109",
+      "createdAt": "2025-03-01T18:01:19Z",
+      "updatedAt": "2025-03-01T20:33:50Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "fd62e528427bf2ebe2b839bb46a1ee5775ef231b",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "95e12199d09afea784ee84e1ca4849b0600b5e44",
+      "closedAt": "2025-03-01T20:33:49Z",
+      "mergedAt": "2025-03-01T20:33:49Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "06258cdc6cab4cfb0e5b400e3dde4918db962429"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6eGxfG",
+          "commit": {
+            "abbreviatedOid": "95e1219"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-01T20:33:43Z",
+          "updatedAt": "2025-03-01T20:33:43Z",
           "comments": []
         }
       ]
