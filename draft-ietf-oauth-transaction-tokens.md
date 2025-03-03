@@ -734,6 +734,22 @@ The header name `Txn-Token` is proposed to be added to the HTTP Field Name Regis
 
 # Acknowledgements {#Acknowledgements}
 {: numbered="false"}
+The authors would like to thank the contributors and the OAuth working group members who gave valuable input to this draft.
+
+# Document History
+{: numbered="false"}
+[[ To be removed from final specification ]]
+
+## Since Draft 04
+{: numbered="false"}
+* [Language improvements](https://github.com/oauth-wg/oauth-transaction-tokens/pull/148)
+* [Renamed azd claim to tctx claim](https://github.com/oauth-wg/oauth-transaction-tokens/pull/150)
+* [Fixed terminology captialization](https://github.com/oauth-wg/oauth-transaction-tokens/pull/151)
+* [Clarified Transaction Token Service discovery](https://github.com/oauth-wg/oauth-transaction-tokens/pull/153)
+* [Added key rotation guidance](https://github.com/oauth-wg/oauth-transaction-tokens/pull/156)
+* [Clarified text around external vs internal invocation](https://github.com/oauth-wg/oauth-transaction-tokens/pull/157)
+
+
 
 
 
