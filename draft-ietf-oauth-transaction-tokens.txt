@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 2 September 2025                                    Capital One
+Expires: 4 September 2025                                    Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                            1 March 2025
+                                                            3 March 2025
 
 
                            Transaction Tokens
@@ -21,8 +21,9 @@ Abstract
    programmatic request, such as an API invocation, are preserved and
    available to all workloads that are invoked as part of processing
    such a request.  Txn-Tokens also enable workloads within the trusted
-   domain to optionally immutably assert to downstream workloads that
-   they were invoked in the call chain of the request.
+   domain to initiate transactions with protected user identity an
+   authorization context throughout the call chain of the workloads
+   required to complete the request.
 
 About This Document
 
@@ -52,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2025.
+   This Internet-Draft will expire on 4 September 2025.
 
 Copyright Notice
 
@@ -146,8 +147,8 @@ Table of Contents
    insiders or software errors can cause any or all of the following
    unauthorized actions:
 
-   *  Invocations of workloads in the network without any external
-      invocation being present
+   *  Invocations of workloads in the network without any explicit
+      transaction invocation (external or internal) being present
 
    *  Arbitrary user impersonation
 
@@ -159,9 +160,13 @@ Table of Contents
 
    Transaction Tokens (Txn-Token) are a means to mitigate damage from
    such attacks or spurious invocations.  A valid Txn-Token indicates a
-   valid external invocation.  They ensure that the user's identity or a
-   workload that made the external request is preserved throughout
-   subsequent workload invocations.  They preserve any context such as:
+   valid transaction invocation.  Note that while many transactions are
+   initiated via an external event (e.g. internet facing API invocation)
+   other transactions are initiated from within the trusted domain.
+   Transaction tokens apply to both externally triggered and internally
+   invoked transactions and ensure that the user's identity or a
+   workload that made the request is preserved throughout subsequent
+   workload invocations.  They preserve any context such as:
 
    *  Parameters of the original call
 
@@ -173,8 +178,8 @@ Table of Contents
 
    Cryptographically protected Txn-Tokens ensure that downstream
    workloads cannot make unauthorized modifications to such information,
-   and cannot make spurious calls without the presence of an external
-   trigger.
+   and cannot make spurious calls without the presence of an
+   intentionally invoked transaction.
 
 2.1.  What are Transaction Tokens?
 
@@ -190,15 +195,17 @@ Table of Contents
 
    Txn-Tokens are typically created when a workload is invoked using an
    endpoint that is externally visible, and is authorized using a
-   separate mechanism, such as an OAuth [RFC6749] access token or an
-   OpenID Connect [OpenIdConnect] ID token.  This workload then performs
-   an OAuth 2.0 Token Exchange [RFC8693] to obtain a Txn-Token.  To do
-   this, it invokes a special Token Service (the Txn-Token Service) and
-   provides context that is sufficient for it to generate a Txn-Token.
-   The context information provided to the Txn-Token Service MAY
-   include:
+   separate mechanism, such as an OAuth [RFC6749] access token.  This
+   workload then performs an OAuth 2.0 Token Exchange [RFC8693] to
+   obtain a Txn-Token.  To do this, it invokes a special Token Service
+   (the Txn-Token Service) and provides context that is sufficient for
+   it to generate a Txn-Token.  The context information provided to the
+   Txn-Token Service MAY include:
 
    *  The external authorization token (e.g., the OAuth access token)
+
+   *  An internally generated JWT representing the subject of the
+      request
 
    *  Parameters that are required to be bound for the duration of this
       call
