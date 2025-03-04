@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T00:18:11.222614+00:00",
+  "timestamp": "2025-03-04T00:16:59.347577+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10241,6 +10241,96 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 157,
+      "id": "PR_kwDOJt_WwM6NLGpL",
+      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/157",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated abstract and overview section to be more explicit about supporting internally initiated transacations.",
+      "createdAt": "2025-03-03T15:56:21Z",
+      "updatedAt": "2025-03-03T18:14:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "06258cdc6cab4cfb0e5b400e3dde4918db962429",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "internal-use-case",
+      "headRefOid": "e4f9a2f0e574b0d71538a111071fda625fadda1d",
+      "closedAt": "2025-03-03T18:14:06Z",
+      "mergedAt": "2025-03-03T18:14:06Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "a2ee5c86adf0bab164c6af5503b3d55f1eb7578a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6eOUlp",
+          "commit": {
+            "abbreviatedOid": "e4f9a2f"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-03-03T15:57:34Z",
+          "updatedAt": "2025-03-03T15:57:34Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "I removed the reference to the OpenID Connect id_token as it shouldn't be used for authorization. ",
+              "createdAt": "2025-03-03T15:57:34Z",
+              "updatedAt": "2025-03-03T15:57:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6ePlOJ",
+          "commit": {
+            "abbreviatedOid": "e4f9a2f"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-03T18:13:59Z",
+          "updatedAt": "2025-03-03T18:13:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 158,
+      "id": "PR_kwDOJt_WwM6NMUi3",
+      "title": "added document history",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/158",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-03T18:32:24Z",
+      "updatedAt": "2025-03-03T18:59:46Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "a2ee5c86adf0bab164c6af5503b3d55f1eb7578a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "add-doc-history",
+      "headRefOid": "e48c65a0d39b9ff92d44033a9d47e54edc8041d8",
+      "closedAt": "2025-03-03T18:59:44Z",
+      "mergedAt": "2025-03-03T18:59:44Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "6b637afd16f4f79b4b78f23d5053ab7676eaf755"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
