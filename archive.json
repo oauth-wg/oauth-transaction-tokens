@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-04T00:16:59.347577+00:00",
+  "timestamp": "2025-03-06T00:17:11.802486+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2980,13 +2980,23 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "Based on conversations at OSW 2025, there was a proposal to remove the restriction of limiting the transaction token lifetime to be less than the access token. The proposal based on conversations with George is to move it into the security considerations and remove the constraint.\n\nTopic for discussion at IETF 122",
       "createdAt": "2025-02-28T13:33:26Z",
-      "updatedAt": "2025-02-28T15:07:28Z",
+      "updatedAt": "2025-03-04T15:19:18Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm ok with leaving the current wording and changing it from a MUST to a SHOULD (meaning the transaction token lifetime SHOULD NOT extend beyond the lifetime of the access token). And then also adding a section to the Security Considerations from when it may be ok to extend beyond the lifetime of the authorization token.\n\nI'm happy to take this work... I think I can get to it this week.",
+          "createdAt": "2025-03-04T15:18:13Z",
+          "updatedAt": "2025-03-04T15:18:13Z"
+        }
+      ]
     }
   ],
   "pulls": [
