@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-09T00:15:25.824120+00:00",
+  "timestamp": "2025-03-11T00:17:07.288264+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2986,7 +2986,7 @@
       "labels": [],
       "body": "Based on conversations at OSW 2025, there was a proposal to remove the restriction of limiting the transaction token lifetime to be less than the access token. The proposal based on conversations with George is to move it into the security considerations and remove the constraint.\n\nTopic for discussion at IETF 122",
       "createdAt": "2025-02-28T13:33:26Z",
-      "updatedAt": "2025-03-04T15:19:18Z",
+      "updatedAt": "2025-03-10T09:15:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -2995,6 +2995,13 @@
           "body": "I'm ok with leaving the current wording and changing it from a MUST to a SHOULD (meaning the transaction token lifetime SHOULD NOT extend beyond the lifetime of the access token). And then also adding a section to the Security Considerations from when it may be ok to extend beyond the lifetime of the authorization token.\n\nI'm happy to take this work... I think I can get to it this week.",
           "createdAt": "2025-03-04T15:18:13Z",
           "updatedAt": "2025-03-04T15:18:13Z"
+        },
+        {
+          "author": "FrodeI",
+          "authorAssociation": "NONE",
+          "body": "Hello, I raised this question at the OSW (and thank you for a good discussion). I understand the concern that the use case for transaction tokens are for a single operation only, and as such long lifetimes does not make sense and will only increase the security risk. However the lifetime of the access token is commonly understood to specify when the operation can be started (though as far as I can tell, RFC6749 actually doesn't say much on this). Many applications however have operations exposed through APIs that take several seconds or even minutes to complete. The client can not be expected to always know how long an operation will take to complete, and can only be reasonably sure that the access token it's presenting when invoking the operation is valid. For operations where multiple internal services are involved, where some services uses Replacement Txn-Token flow as described in section 2.5.2 of the draft, the result may also be that some internal services succeed in requesting transaction tokens, while later steps fail because the original access token is now expired.\n\nI think text in section 9.1 addresses this well, but I would suggest that 2.3 does not bind the transaction token lifetime to the access token lifetime at all, and omit the second sentence in that section completely.",
+          "createdAt": "2025-03-10T09:15:45Z",
+          "updatedAt": "2025-03-10T09:15:45Z"
         }
       ]
     }
