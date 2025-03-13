@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-11T00:17:07.288264+00:00",
+  "timestamp": "2025-03-13T00:17:26.327545+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3004,6 +3004,22 @@
           "updatedAt": "2025-03-10T09:15:45Z"
         }
       ]
+    },
+    {
+      "number": 159,
+      "id": "I_kwDOJt_WwM6tqZOp",
+      "title": "IANA considerations",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/159",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Dear Authors,\n\nBefore the IETF meeting, we check working group agendas for documents with IANA-related issues. Notes about this document:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-05\n\nRFC 9651 added a column called \u201cStructured Type\u201d to the HTTP Field Name registry. Should we leave that field blank for the new entries in Section 11.4? See\n\nhttps://www.iana.org/assignments/http-fields.\n\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us next to the RFC Editor's table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@iana.org](mailto:iana@iana.org).\n\nFor more information about IANA Considerations section requirements, please see\n\nhttps://www.iana.org/help/protocol-registration\n\nBest regards,\n\nAmanda Baber\nIANA Operations Manager",
+      "createdAt": "2025-03-12T11:04:35Z",
+      "updatedAt": "2025-03-12T11:04:35Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
