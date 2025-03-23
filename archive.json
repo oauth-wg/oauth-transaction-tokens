@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-20T00:16:57.271990+00:00",
+  "timestamp": "2025-03-23T00:19:06.128762+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10364,6 +10364,90 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 160,
+      "id": "PR_kwDOJt_WwM6PZR7i",
+      "title": "Re-wrote abstract",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/160",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As the spec has matured and evolved, I would like to suggest the following abstract to replace the original one.",
+      "createdAt": "2025-03-20T05:10:32Z",
+      "updatedAt": "2025-03-21T03:16:53Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "6b637afd16f4f79b4b78f23d5053ab7676eaf755",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "e6cdb82f2f3a5061525e3b6a2015e27cccdca433",
+      "closedAt": "2025-03-21T03:16:51Z",
+      "mergedAt": "2025-03-21T03:16:51Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "8185a14eec8678ed7e12884a40d55d0efb50c4fe"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6hNUUy",
+          "commit": {
+            "abbreviatedOid": "e6cdb82"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-21T03:16:46Z",
+          "updatedAt": "2025-03-21T03:16:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 161,
+      "id": "PR_kwDOJt_WwM6PjSHS",
+      "title": "Editorial updates",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/161",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "typo",
+      "createdAt": "2025-03-21T02:33:54Z",
+      "updatedAt": "2025-03-21T03:15:56Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "6b637afd16f4f79b4b78f23d5053ab7676eaf755",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-2",
+      "headRefOid": "7a0708b84bd3fb5955a2c02abc21e42591b74e90",
+      "closedAt": "2025-03-21T03:15:55Z",
+      "mergedAt": "2025-03-21T03:15:55Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "6958829fcd56b27752c86178011b6f41a58938f6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6hNUJ5",
+          "commit": {
+            "abbreviatedOid": "7a0708b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-21T03:15:49Z",
+          "updatedAt": "2025-03-21T03:15:49Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
