@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 22 September 2025                                   Capital One
+Expires: 27 September 2025                                   Capital One
                                                             P. Kasselman
                                                                    SPIRL
-                                                           21 March 2025
+                                                           26 March 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 September 2025.
+   This Internet-Draft will expire on 27 September 2025.
 
 Copyright Notice
 
@@ -1253,7 +1253,7 @@ Table of Contents
 
    *  Application Usage: Any application supporting the use of JWTs
 
-   *  Frabment Identifier Consideration: N/A.
+   *  Fragment Identifier Consideration: N/A.
 
    *  Restrictions on Usage: Any application supporting the use of JWTs
 
