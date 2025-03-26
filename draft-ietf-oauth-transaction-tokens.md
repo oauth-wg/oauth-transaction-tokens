@@ -715,7 +715,7 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Interoperability Considerations: Transaction Tokens inherit all interoperability properties of JWTs.
 * Published Specification: this document (when published)
 * Application Usage: Any application supporting the use of JWTs
-* Frabment Identifier Consideration: N/A.
+* Fragment Identifier Consideration: N/A.
 * Restrictions on Usage: Any application supporting the use of JWTs
 * Intended Usage: Common
 * Contact Person: Atul Tulshibagwale
