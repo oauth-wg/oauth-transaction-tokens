@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-25T00:17:40.389146+00:00",
+  "timestamp": "2025-03-27T00:17:12.621078+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2986,7 +2986,7 @@
       "labels": [],
       "body": "Based on conversations at OSW 2025, there was a proposal to remove the restriction of limiting the transaction token lifetime to be less than the access token. The proposal based on conversations with George is to move it into the security considerations and remove the constraint.\n\nTopic for discussion at IETF 122",
       "createdAt": "2025-02-28T13:33:26Z",
-      "updatedAt": "2025-03-10T09:15:46Z",
+      "updatedAt": "2025-03-26T16:47:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -3002,6 +3002,13 @@
           "body": "Hello, I raised this question at the OSW (and thank you for a good discussion). I understand the concern that the use case for transaction tokens are for a single operation only, and as such long lifetimes does not make sense and will only increase the security risk. However the lifetime of the access token is commonly understood to specify when the operation can be started (though as far as I can tell, RFC6749 actually doesn't say much on this). Many applications however have operations exposed through APIs that take several seconds or even minutes to complete. The client can not be expected to always know how long an operation will take to complete, and can only be reasonably sure that the access token it's presenting when invoking the operation is valid. For operations where multiple internal services are involved, where some services uses Replacement Txn-Token flow as described in section 2.5.2 of the draft, the result may also be that some internal services succeed in requesting transaction tokens, while later steps fail because the original access token is now expired.\n\nI think text in section 9.1 addresses this well, but I would suggest that 2.3 does not bind the transaction token lifetime to the access token lifetime at all, and omit the second sentence in that section completely.",
           "createdAt": "2025-03-10T09:15:45Z",
           "updatedAt": "2025-03-10T09:15:45Z"
+        },
+        {
+          "author": "pdvrieze",
+          "authorAssociation": "NONE",
+          "body": "I have been doing research on a similar problem (in the context of process management software). Here the transaction serves also as a tag. But significantly, it would be possible to revoke the transaction by the initiating system. If further security is required it would be preferable to limit the tokens to a single audience, but allow the delegating (resource) service to exchange its own token for one it can use as client (while retaining the transaction information/tag).\n\n",
+          "createdAt": "2025-03-26T16:47:11Z",
+          "updatedAt": "2025-03-26T16:47:11Z"
         }
       ]
     },
@@ -3018,6 +3025,54 @@
       "body": "Dear Authors,\n\nBefore the IETF meeting, we check working group agendas for documents with IANA-related issues. Notes about this document:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-05\n\nRFC 9651 added a column called \u201cStructured Type\u201d to the HTTP Field Name registry. Should we leave that field blank for the new entries in Section 11.4? See\n\nhttps://www.iana.org/assignments/http-fields.\n\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us next to the RFC Editor's table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@iana.org](mailto:iana@iana.org).\n\nFor more information about IANA Considerations section requirements, please see\n\nhttps://www.iana.org/help/protocol-registration\n\nBest regards,\n\nAmanda Baber\nIANA Operations Manager",
       "createdAt": "2025-03-12T11:04:35Z",
       "updatedAt": "2025-03-12T11:04:35Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 162,
+      "id": "I_kwDOJt_WwM6vs8VU",
+      "title": "Requester Context - req_ip",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/162",
+      "state": "OPEN",
+      "author": "dhs-BI",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Reviewing the -05 draft, section 5.2.2 identifies the `req_ip` as the IP of the originating user.  However, the bullets identify `req_ip` as belonging to the \"end-user or robotic process...\".  I find this to be ambiguous about what the `req_ip` represents.  This is further complicated by the fact that the user's IP address may not be available to the call stack because the request has been proxied through one or more devices, obfuscating the user's original IP address.\n\nI have two questions:\n\n1. Can the language around the `req_ip` be tightened up to make it clear that it is either the IP of the end user when issued in exchange for an AT, and it represents the workload's IP when the workload is requesting a replacement txn_token?  The context of a txn_token `req_wl` will make it clear that the `req_ip` is the client (iff `req_wl` is a single element), or the calling workload (iff `req_wl` is > 1 element).\n2. Can we add an imperative that the ```req_ip``` for the first txn_token SHOULD NOT be the IP of a proxy or gateway, _e.g._ by using the `X-Forwarded-For` header?\n\nIf the authors think these additions are valuable, I can write the PR.\n\n",
+      "createdAt": "2025-03-25T21:20:51Z",
+      "updatedAt": "2025-03-25T21:20:51Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 163,
+      "id": "I_kwDOJt_WwM6vtAL-",
+      "title": "Requester Context - authn",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/163",
+      "state": "OPEN",
+      "author": "dhs-BI",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In the description of the `authn` parameter of the requester context, it is described as a StringOrURI uniquely identifying the method used to authenticate.  In 5.2.3.1 there is an example that includes the context as `urn:ietd:rfc:6749`, indicating authn via OAuth.  (I'd call this authZ...) \n\nShould this be defined more concretely?  I am concerned that this is pretty open ended and may not accurately represent the authentication in use.  For example, I can see a use case where the workload needs to know that the user has used a phishing resistant authenticator to authenticate and the client has authorized access using OAuth.  In this case would the context be `urn:ietd:rfc:6749` or `prMFA` or something else entirely?  \n\nThere's an argument to be made that this may not make any difference since the tokens are all used within a single trust domain which could define whatever strings they way for the `authn` parameter.  ",
+      "createdAt": "2025-03-25T21:28:15Z",
+      "updatedAt": "2025-03-25T21:28:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 164,
+      "id": "I_kwDOJt_WwM6vtFbh",
+      "title": "Expanding scope of permitted actions",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/164",
+      "state": "OPEN",
+      "author": "dhs-BI",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Section 7.5.1 states, \"SHOULD NOT enable modification to asserted values that expand the scope of permitted actions\".  This seems overly permissive, is there a reason the sentence does not begin with \"MUST NOT\"?\n\nSection 7.5.2 appears to have what I would consider the correct verbiage in the final sentence, \"[...] MUST NOT increase the authorization surface [...]\".",
+      "createdAt": "2025-03-25T21:41:17Z",
+      "updatedAt": "2025-03-25T21:44:16Z",
       "closedAt": null,
       "comments": []
     }
@@ -10445,6 +10500,48 @@
           "body": "",
           "createdAt": "2025-03-21T03:15:49Z",
           "updatedAt": "2025-03-21T03:15:49Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 165,
+      "id": "PR_kwDOJt_WwM6QHT9s",
+      "title": "Nit: fix spelling",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/165",
+      "state": "MERGED",
+      "author": "dhs-BI",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "s/Frabment/Fragment/",
+      "createdAt": "2025-03-25T21:45:51Z",
+      "updatedAt": "2025-03-26T07:58:28Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8185a14eec8678ed7e12884a40d55d0efb50c4fe",
+      "headRepository": "dhs-BI/oauth-transaction-tokens",
+      "headRefName": "patch-1",
+      "headRefOid": "9e84473ee795fd11326597ec370cb5a9f6831577",
+      "closedAt": "2025-03-26T07:58:28Z",
+      "mergedAt": "2025-03-26T07:58:28Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "fe725caf6c4ef80e54410bbd853663cbc1eb1e9d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6h5cuT",
+          "commit": {
+            "abbreviatedOid": "9e84473"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-03-26T07:55:21Z",
+          "updatedAt": "2025-03-26T07:55:21Z",
           "comments": []
         }
       ]
