@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-30T00:19:25.680760+00:00",
+  "timestamp": "2025-04-01T00:20:13.854165+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3072,7 +3072,47 @@
       "labels": [],
       "body": "Section 7.5.1 states, \"SHOULD NOT enable modification to asserted values that expand the scope of permitted actions\".  This seems overly permissive, is there a reason the sentence does not begin with \"MUST NOT\"?\n\nSection 7.5.2 appears to have what I would consider the correct verbiage in the final sentence, \"[...] MUST NOT increase the authorization surface [...]\".",
       "createdAt": "2025-03-25T21:41:17Z",
-      "updatedAt": "2025-03-25T21:44:16Z",
+      "updatedAt": "2025-03-31T10:28:36Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "pdvrieze",
+          "authorAssociation": "NONE",
+          "body": "There is actually a use case that hits this. From a minimal permissions perspective it should be possible for the delegate service to perform actions that its caller cannot. However in such cases this client scoped permission can still be specified/determined on the creation of the transaction (independently it may or may not be a good idea to hide these scopes from the token).",
+          "createdAt": "2025-03-31T10:28:35Z",
+          "updatedAt": "2025-03-31T10:28:35Z"
+        }
+      ]
+    },
+    {
+      "number": 166,
+      "id": "I_kwDOJt_WwM6wh28T",
+      "title": "Modelling OnBehalfOf use cases",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/166",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "How are we thinking of modeling \"on behalf of\" use cases?\n\nAs Tx token carries the identity of the actor, a service deep down in the call chain in SOA, can verify that actor for which data is being requested, is actually signed in or not. However, often a Customer Service (CS) agent is the actor that is initiating a request on behalf of the customer, then in such cases, identity of the CS agent is definitely captured but not the identity of the real customer, who's data is going to be accessed as part of the request. Does the real customerId/customerInfo suppose to go in tctx field?\n\nI'm thinking if we should model this more explicitly to say there is optional OnBehalfOf field that represents that actor that triggered request is acting on behalf of someone else. Tx token issuer will need a way to assert that actor is really working with that customer or not but that is something the company/domain owners have to setup. e.g. if there is authoritative service that contains mapping of CS Agent -> Customers, they are working with, then Tx token issuer could call that service and pull the information and add the customer.",
+      "createdAt": "2025-03-31T21:55:07Z",
+      "updatedAt": "2025-03-31T21:55:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 167,
+      "id": "I_kwDOJt_WwM6wh4mz",
+      "title": "Introducing a concept of authoritative context provider",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/167",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Tx Token Issuer is going to connect with some authoritative service in order to get data to add in 'tctx' field. Our RFC draft says \"Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context\".  But there is guidance around how Tx Token can get this information. Often it will require to connect some service. It should make sure that - the other service is verified, the channel to connect to that service is secure. Also Tx token needs a clear contract between TxToken->Context Provider so that its clear what TxToken can pass to Context Provider and what it will expect in return.\n\nOn that we also have to think failure modes. If there are many context providers and one of them don't respond, then will TxToken continue generating tctx field with whatever data is available or completely fail token issuance request. It will be mostly left to implementation but RFC provides no guidance.",
+      "createdAt": "2025-03-31T21:59:46Z",
+      "updatedAt": "2025-03-31T21:59:46Z",
       "closedAt": null,
       "comments": []
     }
