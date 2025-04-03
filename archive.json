@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T00:20:13.854165+00:00",
+  "timestamp": "2025-04-03T00:17:28.940875+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3113,6 +3113,22 @@
       "body": "Tx Token Issuer is going to connect with some authoritative service in order to get data to add in 'tctx' field. Our RFC draft says \"Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context\".  But there is guidance around how Tx Token can get this information. Often it will require to connect some service. It should make sure that - the other service is verified, the channel to connect to that service is secure. Also Tx token needs a clear contract between TxToken->Context Provider so that its clear what TxToken can pass to Context Provider and what it will expect in return.\n\nOn that we also have to think failure modes. If there are many context providers and one of them don't respond, then will TxToken continue generating tctx field with whatever data is available or completely fail token issuance request. It will be mostly left to implementation but RFC provides no guidance.",
       "createdAt": "2025-03-31T21:59:46Z",
       "updatedAt": "2025-03-31T21:59:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 168,
+      "id": "I_kwDOJt_WwM6wzyxc",
+      "title": "Using transaction tokens as sole mean of auth",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/168",
+      "state": "OPEN",
+      "author": "arndt-s",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "I am going over a potential deployment of transaction tokens and a thought came into my mind: \"Can I use Trats as a sole mean of authentication\".\n\nFrom what I remember our conversations the idea was always that transaction tokens would always be used in conjunction with workload authentication. I think we should add wording to section 8 Using Txn-Tokens to clarify this topic. Also, can they be used in conjunction with Access Tokens? Are there certain aspects/claims that need to match to be accepted?\n\nIn case we indeed want to allow txn tokens to be used as a sole authentication I'm pretty sure there's some security considerations to derive from that.",
+      "createdAt": "2025-04-02T13:16:23Z",
+      "updatedAt": "2025-04-02T13:17:08Z",
       "closedAt": null,
       "comments": []
     }
