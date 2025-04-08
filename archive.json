@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-06T00:19:02.288243+00:00",
+  "timestamp": "2025-04-08T00:17:29.169231+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10073,7 +10073,7 @@
       "labels": [],
       "body": "Batch token was discussed here at https://github.com/oauth-wg/oauth-transaction-tokens/issues/111. The PR is first draft to add batch token in RFC.",
       "createdAt": "2024-11-14T18:47:16Z",
-      "updatedAt": "2024-11-14T18:47:16Z",
+      "updatedAt": "2025-04-06T18:28:30Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "273060dc3b15ab6abfc0c1e81644b11da5098c18",
@@ -10085,7 +10085,34 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6joJYw",
+          "commit": {
+            "abbreviatedOid": "e9b366a"
+          },
+          "author": "pdvrieze",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "There are some further considerations, including requiring service/client authentication, revocation and (potentially) binding the batch token to be created/used by the same service.",
+          "createdAt": "2025-04-06T18:24:03Z",
+          "updatedAt": "2025-04-06T18:28:30Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "This would effectively function as a refresh token. Having an opaque (random) value (not encrypted) would be sufficient (encrypted token could also work).\r\n\r\nIt would be important to require that the service must authenticate itself to acquire the batch token, and that the batch token should be bound to the originating service. For a long-lived token it would also be important to define invalidation semantics (e.g. based upon the `Txn-Id`).\r\n\r\nAn alternative approach would be to allow Txn-Token refreshing with service identity.",
+              "createdAt": "2025-04-06T18:24:03Z",
+              "updatedAt": "2025-04-06T18:28:30Z"
+            },
+            {
+              "originalPosition": 95,
+              "body": "Would it not be the responsibility of the workflow system to acquire/exchange the batch token? If the service creating the batch token is not the same as the one using it to create further tokens, there may be opportunities for breaches. At the very least the workflow/receiver would not be able to verify the batch token validity.",
+              "createdAt": "2025-04-06T18:27:08Z",
+              "updatedAt": "2025-04-06T18:28:30Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 150,
