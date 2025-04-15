@@ -28,8 +28,8 @@ author:
 
 - ins: G. Fletcher
   name: George Fletcher
-  org: Capital One
-  email: george.fletcher@capitalone.com
+  org: Practical Identity LLC
+  email: george@practicalidentity.com
 
 - ins: P. Kasselman
   name: Pieter Kasselman
