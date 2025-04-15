@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 27 September 2025                                   Capital One
+Expires: 17 October 2025                          Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                           26 March 2025
+                                                           15 April 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 September 2025.
+   This Internet-Draft will expire on 17 October 2025.
 
 Copyright Notice
 
@@ -1438,8 +1438,8 @@ Authors' Addresses
 
 
    George Fletcher
-   Capital One
-   Email: george.fletcher@capitalone.com
+   Practical Identity LLC
+   Email: george@practicalidentity.com
 
 
    Pieter Kasselman
