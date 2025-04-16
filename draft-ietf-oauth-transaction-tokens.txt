@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 17 October 2025                          Practical Identity LLC
+Expires: 18 October 2025                          Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                           15 April 2025
+                                                           16 April 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 October 2025.
+   This Internet-Draft will expire on 18 October 2025.
 
 Copyright Notice
 
@@ -244,10 +244,14 @@ Table of Contents
    of an external invocation.  Except in the case where the request is
    made using a self-signed JWT, if the token or other credential
    presented to the Txn-Token service when requesting a Txn-Token has an
-   expiration time, then the Txn-Token MUST NOT exceed the lifetime of
-   the originally presented token or credential.  If a long-running
-   process such as a batch or offline task is involved, it can use a
-   separate mechanism to perform the external invocation, but the
+   expiration time, then the Txn-Token Service MUST NOT issue a Txn-
+   Token if the expiration time has passed.  The lifetime of the Txn-
+   Token itself MAY exceed the expiration time of the presented token.
+   The expectation is that since Txn-Tokens are short lived and are
+   authorizing a specific transaction, extending beyond the lifetime of
+   the presented expiration time is not a security risk.  If a long-
+   running process such as a batch or offline task is involved, it can
+   use a separate mechanism to perform the external invocation, but the
    resulting Txn-Token is still short-lived.
 
 2.4.  Benefits of Txn-Tokens
