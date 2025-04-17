@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-08T00:17:29.169231+00:00",
+  "timestamp": "2025-04-17T00:17:56.233417+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10126,7 +10126,7 @@
       "labels": [],
       "body": "Renamed the `azd` claim to `tctx` and cleaned up some wording. This addresses issue #119. I did not add any non-normative text regarding how to use RAR.",
       "createdAt": "2024-12-18T13:12:20Z",
-      "updatedAt": "2024-12-29T07:13:36Z",
+      "updatedAt": "2025-04-15T15:42:21Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "273060dc3b15ab6abfc0c1e81644b11da5098c18",
@@ -10681,6 +10681,110 @@
           "body": "",
           "createdAt": "2025-03-26T07:55:21Z",
           "updatedAt": "2025-03-26T07:55:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 170,
+      "id": "PR_kwDOJt_WwM6SseKf",
+      "title": "Adressing issue #155 txn-token lifetime",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/170",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added text to relax the requirement for txn-token expiry to be within the window defined by say the presented access token.",
+      "createdAt": "2025-04-15T15:54:41Z",
+      "updatedAt": "2025-04-16T18:08:43Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "fe725caf6c4ef80e54410bbd853663cbc1eb1e9d",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "trat-lifetime",
+      "headRefOid": "28c890cba1afb9c6929c104e3b881f6eda21ad8b",
+      "closedAt": "2025-04-16T18:08:43Z",
+      "mergedAt": "2025-04-16T18:08:43Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "ff1964967b9f09917c0c81b80c7942b3f66b3336"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6lFIUM",
+          "commit": {
+            "abbreviatedOid": "28c890c"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-15T19:40:33Z",
+          "updatedAt": "2025-04-15T19:40:33Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "should we put a \"therefore\" or \"so\" after the \"are authorizing a specific transaction, \"?",
+              "createdAt": "2025-04-15T19:40:33Z",
+              "updatedAt": "2025-04-15T19:40:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6lTuoT",
+          "commit": {
+            "abbreviatedOid": "28c890c"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-16T18:08:36Z",
+          "updatedAt": "2025-04-16T18:08:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 171,
+      "id": "PR_kwDOJt_WwM6Ssfwc",
+      "title": "Updated my author info",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/171",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated my org and email in formation.",
+      "createdAt": "2025-04-15T15:57:33Z",
+      "updatedAt": "2025-04-15T19:38:51Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "fe725caf6c4ef80e54410bbd853663cbc1eb1e9d",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "update-author-info",
+      "headRefOid": "3f047ada363215c71f806b1515a54e9daa96e01e",
+      "closedAt": "2025-04-15T19:38:51Z",
+      "mergedAt": "2025-04-15T19:38:51Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "7ab7c9968eab21c798e947c6a71637ccf6b149ad"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6lFG0T",
+          "commit": {
+            "abbreviatedOid": "3f047ad"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-15T19:38:43Z",
+          "updatedAt": "2025-04-15T19:38:43Z",
           "comments": []
         }
       ]
