@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-17T00:17:56.233417+00:00",
+  "timestamp": "2025-04-27T00:19:43.793221+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2988,7 +2988,7 @@
       ],
       "body": "Based on conversations at OSW 2025, there was a proposal to remove the restriction of limiting the transaction token lifetime to be less than the access token. The proposal based on conversations with George is to move it into the security considerations and remove the constraint.\n\nTopic for discussion at IETF 122",
       "createdAt": "2025-02-28T13:33:26Z",
-      "updatedAt": "2025-04-04T15:06:50Z",
+      "updatedAt": "2025-04-24T10:46:15Z",
       "closedAt": null,
       "comments": [
         {
@@ -3011,6 +3011,20 @@
           "body": "I have been doing research on a similar problem (in the context of process management software). Here the transaction serves also as a tag. But significantly, it would be possible to revoke the transaction by the initiating system. If further security is required it would be preferable to limit the tokens to a single audience, but allow the delegating (resource) service to exchange its own token for one it can use as client (while retaining the transaction information/tag).\n\n",
           "createdAt": "2025-03-26T16:47:11Z",
           "updatedAt": "2025-03-26T16:47:11Z"
+        },
+        {
+          "author": "DecoreyA",
+          "authorAssociation": "NONE",
+          "body": "I'm ok with leaving the current wording and changing it from BY ORDER a MUST to a SHOULD (meaning the transaction token lifetime SHOULD NOT extend beyond the lifetime of the access token). And then also adding a section to the Security Considerations from when it may be ok to extend beyond the lifetime of the authorization token.\n\nI'm happy to take this work... I think I can get to it this week.",
+          "createdAt": "2025-04-24T10:01:22Z",
+          "updatedAt": "2025-04-24T10:01:22Z"
+        },
+        {
+          "author": "pdvrieze",
+          "authorAssociation": "NONE",
+          "body": "@DecoreyA The question is more whether it should be limited to the lifetime of the access token or an underlying authorization. This is made harder by the assumption that refresh tokens do not per se have a lifetime (but can be invalidated any time). In other words, is there a way to \"renew\" the transaction token as long as the underlying authorization is still valid (also noting that some authorizations can be organizational, not by a \"user\").",
+          "createdAt": "2025-04-24T10:46:14Z",
+          "updatedAt": "2025-04-24T10:46:14Z"
         }
       ]
     },
