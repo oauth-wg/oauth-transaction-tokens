@@ -11,21 +11,21 @@
 <meta content="
        Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external programmatic requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures. 
     " name="description">
-<meta content="xml2rfc 3.28.0" name="generator">
+<meta content="xml2rfc 3.28.1" name="generator">
 <meta content="Microservices" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.0
-    Python 3.12.9
+  xml2rfc 3.28.1
+    Python 3.12.10
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.0
-    platformdirs 4.3.6
+    platformdirs 4.3.7
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.3
@@ -1049,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">March 2025</td>
+<td class="right">April 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 21 September 2025</td>
+<td class="center">Expires 30 October 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-20" class="published">20 March 2025</time>
+<time datetime="2025-04-28" class="published">28 April 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-21">21 September 2025</time></dd>
+<dd class="expires"><time datetime="2025-10-30">30 October 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1080,7 +1080,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div class="author">
       <div class="author-name">G. Fletcher</div>
-<div class="org">Capital One</div>
+<div class="org">Practical Identity LLC</div>
 </div>
 <div class="author">
       <div class="author-name">P. Kasselman</div>
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 21 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 October 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1312,6 +1312,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.11">
                 <p id="section-toc.1-1.9.2.11.1"><a href="#section-9.11" class="auto internal xref">9.11</a>. <a href="#name-transaction-token-service-k" class="internal xref">Transaction Token Service Key Rotation</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.12">
+                <p id="section-toc.1-1.9.2.12.1"><a href="#section-9.12" class="auto internal xref">9.12</a>. <a href="#name-transaction-tokens-are-not-" class="internal xref">Transaction Tokens Are Not Authentication Credentials</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
@@ -1466,7 +1469,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
         <h3 id="name-txn-token-lifetime">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-txn-token-lifetime" class="section-name selfRef">Txn-Token Lifetime</a>
         </h3>
-<p id="section-2.3-1">Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token MUST NOT exceed the lifetime of the originally presented token or credential. If a long-running process such as a batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external invocation. Except in the case where the request is made using a self-signed JWT, if the token or other credential presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, it can use a separate mechanism to perform the external invocation, but the resulting Txn-Token is still short-lived.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="benefits-of-txn-tokens">
@@ -1907,7 +1910,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
       <h2 id="name-txn-token-service">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-txn-token-service" class="section-name selfRef">Txn-Token Service</a>
       </h2>
-<p id="section-6-1">A Txn-Token Service defines a profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> endpoint that can respond to Txn-Token issuance requests. This profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> specification MUST be used to obtain Txn-Tokens. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">A Txn-Token Service implements a profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> endpoint that can respond to Txn-Token issuance requests. This profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> specification MUST be used to obtain Txn-Tokens. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2326,6 +2329,14 @@ Cache-Control: no-store
 <p id="section-9.11-1">The Transaction Token Service may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of <span>[<a href="#OpenIdConnect" class="cite xref">OpenIdConnect</a>]</span>.<a href="#section-9.11-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="transaction-tokens-are-not-authentication-credentials">
+<section id="section-9.12">
+        <h3 id="name-transaction-tokens-are-not-">
+<a href="#section-9.12" class="section-number selfRef">9.12. </a><a href="#name-transaction-tokens-are-not-" class="section-name selfRef">Transaction Tokens Are Not Authentication Credentials</a>
+        </h3>
+<p id="section-9.12-1">A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in [Mutual Authentication of the Txn-Token Request]{Mutual-Authentication-of-the-Txn-Token-Request}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this speicification.<a href="#section-9.12-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="Privacy">
@@ -2517,7 +2528,7 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
             <p id="section-11.3-2.10.1">Application Usage: Any application supporting the use of JWTs<a href="#section-11.3-2.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-2.11">
-            <p id="section-11.3-2.11.1">Frabment Identifier Consideration: N/A.<a href="#section-11.3-2.11.1" class="pilcrow">¶</a></p>
+            <p id="section-11.3-2.11.1">Fragment Identifier Consideration: N/A.<a href="#section-11.3-2.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-2.12">
             <p id="section-11.3-2.12.1">Restrictions on Usage: Any application supporting the use of JWTs<a href="#section-11.3-2.12.1" class="pilcrow">¶</a></p>
@@ -2765,10 +2776,10 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 </address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">George Fletcher</span></div>
-<div dir="auto" class="left"><span class="org">Capital One</span></div>
+<div dir="auto" class="left"><span class="org">Practical Identity LLC</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:george.fletcher@capitalone.com" class="email">george.fletcher@capitalone.com</a>
+<a href="mailto:george@practicalidentity.com" class="email">george@practicalidentity.com</a>
 </div>
 </address>
 <address class="vcard">
