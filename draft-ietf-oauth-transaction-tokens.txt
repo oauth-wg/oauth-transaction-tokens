@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 18 October 2025                          Practical Identity LLC
+Expires: 30 October 2025                          Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                           16 April 2025
+                                                           28 April 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 October 2025.
+   This Internet-Draft will expire on 30 October 2025.
 
 Copyright Notice
 
@@ -117,6 +117,7 @@ Table of Contents
      9.9.  Workload Configuration Protection
      9.10. Transaction Token Service Authentication
      9.11. Transaction Token Service Key Rotation
+     9.12. Transaction Tokens Are Not Authentication Credentials
    10. Privacy Considerations
      10.1.  Obfuscation of Personal Information
      10.2.  Logging
@@ -1119,6 +1120,18 @@ Table of Contents
    The Transaction Token Service may need to rotate signing keys.  When
    doing so, it MAY adopt the key rotation practices in Section 10.1.1
    of [OpenIdConnect].
+
+9.12.  Transaction Tokens Are Not Authentication Credentials
+
+   A workload MUST NOT use a transaction token to authenticate itself to
+   another workload, service or the transaction token service.
+   Transaction tokens represents information relevant to authorization
+   decisions and are not workload identity credentials.  Authentication
+   between the workload and the transaction token service is described
+   in [Mutual Authentication of the Txn-Token Request]{Mutual-
+   Authentication-of-the-Txn-Token-Request}. The mechanisms used by
+   workloads to authenticate to other workloads, services or system
+   components is out of scope of this speicification.
 
 10.  Privacy Considerations
 
