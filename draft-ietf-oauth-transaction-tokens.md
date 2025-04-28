@@ -647,6 +647,9 @@ A workload may accidently send a transaction token request to a service that is 
 ## Transaction Token Service Key Rotation
 The Transaction Token Service may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of {{OpenIdConnect}}.
 
+## Transaction Tokens Are Not Authentication Credentials
+A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in [Mutual Authentication of the Txn-Token Request]{Mutual-Authentication-of-the-Txn-Token-Request}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this speicification.
+
 # Privacy Considerations {#Privacy}
 
 ## Obfuscation of Personal Information
