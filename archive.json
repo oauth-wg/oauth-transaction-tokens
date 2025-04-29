@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-27T00:19:43.793221+00:00",
+  "timestamp": "2025-04-29T00:18:22.303296+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3102,7 +3102,7 @@
       "labels": [],
       "body": "Section 7.5.1 states, \"SHOULD NOT enable modification to asserted values that expand the scope of permitted actions\".  This seems overly permissive, is there a reason the sentence does not begin with \"MUST NOT\"?\n\nSection 7.5.2 appears to have what I would consider the correct verbiage in the final sentence, \"[...] MUST NOT increase the authorization surface [...]\".",
       "createdAt": "2025-03-25T21:41:17Z",
-      "updatedAt": "2025-04-05T19:58:16Z",
+      "updatedAt": "2025-04-28T11:11:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -3125,6 +3125,13 @@
           "body": "@PieterKas What I am thinking of is (in the context of services called by a process engine) the following:\n- Take 4 services A, B, C, and D (and call sequences: A\u2192B, B\u2192C, C\u2192D) and corresponding tokens\n  - A\u2192B : T1\n  - B\u2192C : T2\n  - C\u2192D: T3\n- A is the initiating service that starts the transaction (for example a process engine).\n- Updates to `D` are sensitive, and `B` should not be trusted to directly invoke `D` (it has no need to either - minimal permissions)\n- In such a case it would be an option to have the following permission model\n- T1:\n  - permits A access to B with a given scope (client and audience could be bound)\n  - permits B to exchange T1 for T2 (with the pre-specified permissions):\n    - permit direct access by B to C for the specified scope\n    - permit exchange by C for a new token (T3):\n      - C is permitted to access D (with given scope)\n- T2:\n  - permits B access to C with a given scope (client and audience could be bound)\n  - permits C to exchange T2 for T3:\n    - C is permitted to access D (with given scope)\n- T3:\n  - permits C to access D\n\nIf we consider that token exchange is designed to alter the security context and permissions (including client bound tokens - e.g. DPoP) then it makes sense to allow for specifying (in some way this is therefore still narrowing) permissions for a service lower in the invocation chain. As to context, imagine that service B is an external service, or closed source software with limited trustworthiness (Service C can perform the appropriate checks before invoking D).",
           "createdAt": "2025-04-05T19:58:14Z",
           "updatedAt": "2025-04-05T19:58:14Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@pdvrieze we should distinguish between access required to complete the transaction (all of which was consented to up-front on transaction initiation) and what individual workloads may be permitted to do while executing the transaction. \n\nFor the flow you describe, trasnaction tokens can be used to downscope and perhaps even limit scope for individual workloads, but at no point should the overall scope of access be increased from that what is originally granted. \n\nI believe transaction tokens already support the scenario you describe, although the details of that flow would be implementation specific. ",
+          "createdAt": "2025-04-28T11:11:54Z",
+          "updatedAt": "2025-04-28T11:11:54Z"
         }
       ]
     },
@@ -10799,6 +10806,96 @@
           "body": "",
           "createdAt": "2025-04-15T19:38:43Z",
           "updatedAt": "2025-04-15T19:38:43Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 172,
+      "id": "PR_kwDOJt_WwM6UJfUh",
+      "title": "Transaction tokens are not authentication creds",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/172",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #168",
+      "createdAt": "2025-04-28T11:03:32Z",
+      "updatedAt": "2025-04-28T17:33:53Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "ff1964967b9f09917c0c81b80c7942b3f66b3336",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "f034d31bde291f4acf668290d810b6c277f4a842",
+      "closedAt": "2025-04-28T17:33:51Z",
+      "mergedAt": "2025-04-28T17:33:51Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "1cb25a08a082052f9246e46d38cde2fbd9e2de9d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6m5o6N",
+          "commit": {
+            "abbreviatedOid": "f034d31"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-28T17:33:46Z",
+          "updatedAt": "2025-04-28T17:33:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 173,
+      "id": "PR_kwDOJt_WwM6UJmHm",
+      "title": "Strengthen prohibition on expanding scope",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/173",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Update to be consistent in prohibition of extending the scope of an Access Token. See issue #164",
+      "createdAt": "2025-04-28T11:16:31Z",
+      "updatedAt": "2025-04-28T17:09:01Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "ff1964967b9f09917c0c81b80c7942b3f66b3336",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-2",
+      "headRefOid": "0ca245cfd07b2c20f6fb15cdf5639aee0be4fce2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I've approved it. @gffletch are you good with this one word change?",
+          "createdAt": "2025-04-28T17:09:00Z",
+          "updatedAt": "2025-04-28T17:09:00Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6m5YGF",
+          "commit": {
+            "abbreviatedOid": "0ca245c"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-04-28T17:08:33Z",
+          "updatedAt": "2025-04-28T17:08:33Z",
           "comments": []
         }
       ]
