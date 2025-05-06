@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-29T00:18:22.303296+00:00",
+  "timestamp": "2025-05-06T00:18:30.806325+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3208,6 +3208,30 @@
       "updatedAt": "2025-04-03T10:31:45Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 174,
+      "id": "I_kwDOJt_WwM61NgpD",
+      "title": "Classification of Txn tokens in an RBAC architecture",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/174",
+      "state": "OPEN",
+      "author": "salvisbh",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "We see in the proposal for transaction tokens the aim of establishing a badge that identifies the originating user throughout the workload call chain. In large business solutions, it is common practice to use functional roles for access control in addition to attributes of the originating user. In the proposal, we find no indication of how Txn-tokens interact with RBAC concepts.\n\nIs it legitimate to supplement the optional rctx claim with roles? In our view, however, roles cannot be tailored in such scenario for the workload in question. We would rather see a variant in which the Txn-token service provides for a userinfo endpoint, via which a workload can obtain the functional roles in addition to further attributes of the subject context. Or are roles of the originating subject completely out-of-scope in the context of Txn tokens?\n\nHas the Working Group given any thought to this issue?\n\nThank you for a clarification. It helps us to correctly position Txn-tokens within our security architecture.",
+      "createdAt": "2025-05-05T16:44:56Z",
+      "updatedAt": "2025-05-05T19:01:11Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi,\r\n\r\nThis is a very interesting question. I would probably recommend extending the `tctx` JSON object to contain additional constraints of the transaction. The `tctx` claim is intended to be extended for specific deployments. \r\n\r\nAn important consideration is understand how the roles assigned to the subject affect the `purp` claim of the transaction token. I can envision scenarios where the roles have a much broader scope than the narrow purpose of this specific transaction. \r\n\r\nFinally, I\u2019m not sure the TTS is the correct service to ask for \u2018userinfo\u2019 attributes. I\u2019d instead recommend using a PDP that can pull that data from a Policy Information Point (PIP) as part of the dynamic authorization for the given workload. The \u201cPDP\u201d can be a sidecar to reduce latency issues.\r\n\r\nThanks,\r\nGeorge\r\n\r\nGeorge Fletcher\r\nIdentity Standards Architect\r\nPractical Identity LLC\r\n\r\n\r\n\r\n> On May 5, 2025, at 12:45\u202fPM, salvisbh ***@***.***> wrote:\r\n> \r\n> \r\n> salvisbh\r\n>  created an issue \r\n> (oauth-wg/oauth-transaction-tokens#174)\r\n>  <https://github.com/oauth-wg/oauth-transaction-tokens/issues/174>\r\n> We see in the proposal for transaction tokens the aim of establishing a badge that identifies the originating user throughout the workload call chain. In large business solutions, it is common practice to use functional roles for access control in addition to attributes of the originating user. In the proposal, we find no indication of how Txn-tokens interact with RBAC concepts.\r\n> \r\n> Is it legitimate to supplement the optional rctx claim with roles? In our view, however, roles cannot be tailored in such scenario for the workload in question. We would rather see a variant in which the Txn-token service provides for a userinfo endpoint, via which a workload can obtain the functional roles in addition to further attributes of the subject context. Or are roles of the originating subject completely out-of-scope in the context of Txn tokens?\r\n> \r\n> Has the Working Group given any thought to this issue?\r\n> \r\n> Thank you for a clarification. It helps us to correctly position Txn-tokens within our security architecture.\r\n> \r\n> \u2014\r\n> Reply to this email directly, view it on GitHub <https://github.com/oauth-wg/oauth-transaction-tokens/issues/174>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAFXOYJ37X4MXKYL4WY7RK3246IR3AVCNFSM6AAAAAB4PCWQNSVHI2DSMVQWIX3LMV43ASLTON2WKOZTGA2DAMRRG43DMNY>.\r\n> You are receiving this because you are subscribed to this thread.\r\n> \r\n\r\n",
+          "createdAt": "2025-05-05T19:01:10Z",
+          "updatedAt": "2025-05-05T19:01:10Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -10857,24 +10881,26 @@
       "id": "PR_kwDOJt_WwM6UJmHm",
       "title": "Strengthen prohibition on expanding scope",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/173",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Update to be consistent in prohibition of extending the scope of an Access Token. See issue #164",
       "createdAt": "2025-04-28T11:16:31Z",
-      "updatedAt": "2025-04-28T17:09:01Z",
+      "updatedAt": "2025-05-05T16:39:21Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "ff1964967b9f09917c0c81b80c7942b3f66b3336",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-2",
       "headRefOid": "0ca245cfd07b2c20f6fb15cdf5639aee0be4fce2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-05-05T16:39:20Z",
+      "mergedAt": "2025-05-05T16:39:20Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "ef795d5315b2dc29d395dac8c777661d7793ae07"
+      },
       "comments": [
         {
           "author": "tulshi",
@@ -10882,6 +10908,13 @@
           "body": "I've approved it. @gffletch are you good with this one word change?",
           "createdAt": "2025-04-28T17:09:00Z",
           "updatedAt": "2025-04-28T17:09:00Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm happy to approve it. I seem to remember there being some concern that enforcing `MUST NOT` may not always be possible and hence we should use `SHOULD NOT`. That said, we can change it and see if anyone has comments or concerns.",
+          "createdAt": "2025-05-05T16:35:16Z",
+          "updatedAt": "2025-05-05T16:35:16Z"
         }
       ],
       "reviews": [
