@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-06T00:18:30.806325+00:00",
+  "timestamp": "2025-05-08T00:18:51.822917+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3232,6 +3232,22 @@
           "updatedAt": "2025-05-05T19:01:10Z"
         }
       ]
+    },
+    {
+      "number": 175,
+      "id": "I_kwDOJt_WwM61XRyt",
+      "title": "Allow Proof-of-Possession (cnf claim) for Txn-Tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/175",
+      "state": "OPEN",
+      "author": "dagdagdag83",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "My company is designing a new architecture for cloud inter-service security and we've realized a potentially powerful combination.\n\nThis is in relation to the WIMSE architecture. If you issue x.509 certificates as your Workload Identity Credentials (WIC), you can further use these certificates as input to a flow that supports mTLS client authentication (RFC8705), which will result in a certificate-bound token. Effectively though this token will be workload-bound because the WIC is bound to your workload identity.\nSimilarly you can do an application-level \"dPoP-like\" flow to get any tokens bounds to that key pair.\n\nI argue that Txn-Tokens should allow, and mention, the possibility of using \"cnf\" claim as specified in RFC7800 to bind Txn-Tokens to workloads. This specification is already heavily aligned with WIMSE and makes ample mention of workloads. Of course this specification doesn't need to go into details of how this can relate to WIMSE or other patterns, it can just allow for the possibility and briefly mention it's use case.",
+      "createdAt": "2025-05-06T13:04:07Z",
+      "updatedAt": "2025-05-06T13:05:43Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
