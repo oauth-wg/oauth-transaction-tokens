@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-08T00:18:51.822917+00:00",
+  "timestamp": "2025-05-11T00:20:13.140453+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3221,7 +3221,7 @@
       "labels": [],
       "body": "We see in the proposal for transaction tokens the aim of establishing a badge that identifies the originating user throughout the workload call chain. In large business solutions, it is common practice to use functional roles for access control in addition to attributes of the originating user. In the proposal, we find no indication of how Txn-tokens interact with RBAC concepts.\n\nIs it legitimate to supplement the optional rctx claim with roles? In our view, however, roles cannot be tailored in such scenario for the workload in question. We would rather see a variant in which the Txn-token service provides for a userinfo endpoint, via which a workload can obtain the functional roles in addition to further attributes of the subject context. Or are roles of the originating subject completely out-of-scope in the context of Txn tokens?\n\nHas the Working Group given any thought to this issue?\n\nThank you for a clarification. It helps us to correctly position Txn-tokens within our security architecture.",
       "createdAt": "2025-05-05T16:44:56Z",
-      "updatedAt": "2025-05-05T19:01:11Z",
+      "updatedAt": "2025-05-09T09:27:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -3230,6 +3230,13 @@
           "body": "Hi,\r\n\r\nThis is a very interesting question. I would probably recommend extending the `tctx` JSON object to contain additional constraints of the transaction. The `tctx` claim is intended to be extended for specific deployments. \r\n\r\nAn important consideration is understand how the roles assigned to the subject affect the `purp` claim of the transaction token. I can envision scenarios where the roles have a much broader scope than the narrow purpose of this specific transaction. \r\n\r\nFinally, I\u2019m not sure the TTS is the correct service to ask for \u2018userinfo\u2019 attributes. I\u2019d instead recommend using a PDP that can pull that data from a Policy Information Point (PIP) as part of the dynamic authorization for the given workload. The \u201cPDP\u201d can be a sidecar to reduce latency issues.\r\n\r\nThanks,\r\nGeorge\r\n\r\nGeorge Fletcher\r\nIdentity Standards Architect\r\nPractical Identity LLC\r\n\r\n\r\n\r\n> On May 5, 2025, at 12:45\u202fPM, salvisbh ***@***.***> wrote:\r\n> \r\n> \r\n> salvisbh\r\n>  created an issue \r\n> (oauth-wg/oauth-transaction-tokens#174)\r\n>  <https://github.com/oauth-wg/oauth-transaction-tokens/issues/174>\r\n> We see in the proposal for transaction tokens the aim of establishing a badge that identifies the originating user throughout the workload call chain. In large business solutions, it is common practice to use functional roles for access control in addition to attributes of the originating user. In the proposal, we find no indication of how Txn-tokens interact with RBAC concepts.\r\n> \r\n> Is it legitimate to supplement the optional rctx claim with roles? In our view, however, roles cannot be tailored in such scenario for the workload in question. We would rather see a variant in which the Txn-token service provides for a userinfo endpoint, via which a workload can obtain the functional roles in addition to further attributes of the subject context. Or are roles of the originating subject completely out-of-scope in the context of Txn tokens?\r\n> \r\n> Has the Working Group given any thought to this issue?\r\n> \r\n> Thank you for a clarification. It helps us to correctly position Txn-tokens within our security architecture.\r\n> \r\n> \u2014\r\n> Reply to this email directly, view it on GitHub <https://github.com/oauth-wg/oauth-transaction-tokens/issues/174>, or unsubscribe <https://github.com/notifications/unsubscribe-auth/AAFXOYJ37X4MXKYL4WY7RK3246IR3AVCNFSM6AAAAAB4PCWQNSVHI2DSMVQWIX3LMV43ASLTON2WKOZTGA2DAMRRG43DMNY>.\r\n> You are receiving this because you are subscribed to this thread.\r\n> \r\n\r\n",
           "createdAt": "2025-05-05T19:01:10Z",
           "updatedAt": "2025-05-05T19:01:10Z"
+        },
+        {
+          "author": "salvisbh",
+          "authorAssociation": "NONE",
+          "body": "Hello George\nThank you for your explanations. For me, these make sense and help us with our architectural picture. I draw the following conclusion:\n\n- The Txn Token is a token that records the transaction context for a specific transaction of a specific subject\n- The Txn Token can be expanded with new insights during further processing\n- The Txn token can be used as input to the Policy Decision Point (PDP) to prepare the correct information for the specific transaction context so that the Policy Enforcement Point (PEP), or in our case a workload, can enforce with this PDP-Result the correct permissions in RBAC and ABAC. This means that, as a rule, a Txn will not contain any role claims.\n\nFrom my point of view, the story may be closed.",
+          "createdAt": "2025-05-09T09:27:11Z",
+          "updatedAt": "2025-05-09T09:27:11Z"
         }
       ]
     },
