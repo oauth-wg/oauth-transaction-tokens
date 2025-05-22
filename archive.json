@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-11T00:20:13.140453+00:00",
+  "timestamp": "2025-05-22T00:18:37.997795+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10952,6 +10952,46 @@
           "body": "",
           "createdAt": "2025-04-28T17:08:33Z",
           "updatedAt": "2025-04-28T17:08:33Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 176,
+      "id": "PR_kwDOJt_WwM6XIXPT",
+      "title": "added structured type to HTTP header",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/176",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-21T22:03:42Z",
+      "updatedAt": "2025-05-21T22:17:03Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "ef795d5315b2dc29d395dac8c777661d7793ae07",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "iana-structure",
+      "headRefOid": "0168b9002dba04438822dfc734088b394043bd7d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6qbNQq",
+          "commit": {
+            "abbreviatedOid": "0168b90"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-05-21T22:17:03Z",
+          "updatedAt": "2025-05-21T22:17:03Z",
           "comments": []
         }
       ]
