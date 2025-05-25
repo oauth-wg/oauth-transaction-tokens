@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-22T00:18:37.997795+00:00",
+  "timestamp": "2025-05-25T00:21:06.296364+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10968,7 +10968,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-21T22:03:42Z",
-      "updatedAt": "2025-05-21T22:17:03Z",
+      "updatedAt": "2025-05-23T21:32:26Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "ef795d5315b2dc29d395dac8c777661d7793ae07",
@@ -10993,6 +10993,26 @@
           "createdAt": "2025-05-21T22:17:03Z",
           "updatedAt": "2025-05-21T22:17:03Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6q0DSG",
+          "commit": {
+            "abbreviatedOid": "0168b90"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-23T21:32:26Z",
+          "updatedAt": "2025-05-23T21:32:26Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "Honestly, per https://www.rfc-editor.org/rfc/rfc9651.html#name-tokens Token doesn't seem like a good fit.",
+              "createdAt": "2025-05-23T21:32:26Z",
+              "updatedAt": "2025-05-23T21:32:26Z"
+            }
+          ]
         }
       ]
     }
