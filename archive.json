@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-25T00:21:06.296364+00:00",
+  "timestamp": "2025-05-29T00:18:50.664340+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10968,7 +10968,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-21T22:03:42Z",
-      "updatedAt": "2025-05-23T21:32:26Z",
+      "updatedAt": "2025-05-28T18:10:03Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "ef795d5315b2dc29d395dac8c777661d7793ae07",
@@ -11011,6 +11011,46 @@
               "body": "Honestly, per https://www.rfc-editor.org/rfc/rfc9651.html#name-tokens Token doesn't seem like a good fit.",
               "createdAt": "2025-05-23T21:32:26Z",
               "updatedAt": "2025-05-23T21:32:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6rLRTz",
+          "commit": {
+            "abbreviatedOid": "0168b90"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-27T16:57:16Z",
+          "updatedAt": "2025-05-27T16:57:16Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "Hmm. I'm not sure I follow. I thought the Txn-Token header value, which will always be a JWT, will be of type `Token`. What would you suggest instead?",
+              "createdAt": "2025-05-27T16:57:16Z",
+              "updatedAt": "2025-05-27T16:57:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6rbEcY",
+          "commit": {
+            "abbreviatedOid": "0168b90"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-28T18:10:03Z",
+          "updatedAt": "2025-05-28T18:10:03Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "the \"Tokens are short textual words that begin with an alphabetic character or \"*\"\" and \"new fields are encouraged to use Strings\" bits from https://www.rfc-editor.org/rfc/rfc9651.html#name-tokens and \"Tokens are short textual identifiers\" from https://www.rfc-editor.org/rfc/rfc9110.html#name-tokens suggest to me that, while the allowed characters happen to work out, the intent doesn't really match up. ",
+              "createdAt": "2025-05-28T18:10:03Z",
+              "updatedAt": "2025-05-28T18:10:04Z"
             }
           ]
         }
