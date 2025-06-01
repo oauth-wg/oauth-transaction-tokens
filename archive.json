@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-29T00:18:50.664340+00:00",
+  "timestamp": "2025-06-01T00:23:47.977306+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10968,18 +10968,26 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-21T22:03:42Z",
-      "updatedAt": "2025-05-28T18:10:03Z",
+      "updatedAt": "2025-05-30T16:16:15Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "ef795d5315b2dc29d395dac8c777661d7793ae07",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "iana-structure",
-      "headRefOid": "0168b9002dba04438822dfc734088b394043bd7d",
+      "headRefOid": "f24445a2bdf2446b8ceee4d07a424c2113e12cdd",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "![Screenshot 2025-05-30 at 9 49 52\u202fAM](https://github.com/user-attachments/assets/d003b4e4-6a42-4dff-bc56-2bf593d47a51)\r\nJust to clarify, I did **not** recommend String. I don't know that you want to quote the value, do you? I have not used Structured Field Values in anything I've worked on to carry a JWT because there's not AFAICT a good type for it. Maybe it's a question that should be taken to the HTTP WG. ",
+          "createdAt": "2025-05-30T16:16:14Z",
+          "updatedAt": "2025-05-30T16:16:14Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM6qbNQq",
