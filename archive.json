@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-08T00:21:23.479170+00:00",
+  "timestamp": "2025-06-22T00:21:17.866444+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3093,17 +3093,17 @@
       "id": "I_kwDOJt_WwM6vtFbh",
       "title": "Expanding scope of permitted actions",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/164",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dhs-BI",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [
         "PieterKas"
       ],
       "labels": [],
       "body": "Section 7.5.1 states, \"SHOULD NOT enable modification to asserted values that expand the scope of permitted actions\".  This seems overly permissive, is there a reason the sentence does not begin with \"MUST NOT\"?\n\nSection 7.5.2 appears to have what I would consider the correct verbiage in the final sentence, \"[...] MUST NOT increase the authorization surface [...]\".",
       "createdAt": "2025-03-25T21:41:17Z",
-      "updatedAt": "2025-04-28T11:11:54Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-20T11:04:32Z",
+      "closedAt": "2025-06-20T11:04:32Z",
       "comments": [
         {
           "author": "pdvrieze",
@@ -3172,7 +3172,7 @@
       "id": "I_kwDOJt_WwM6wzyxc",
       "title": "Using transaction tokens as sole mean of auth",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/168",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "arndt-s",
       "authorAssociation": "MEMBER",
       "assignees": [
@@ -3181,8 +3181,8 @@
       "labels": [],
       "body": "I am going over a potential deployment of transaction tokens and a thought came into my mind: \"Can I use Trats as a sole mean of authentication\".\n\nFrom what I remember our conversations the idea was always that transaction tokens would always be used in conjunction with workload authentication. I think we should add wording to section 8 Using Txn-Tokens to clarify this topic. Also, can they be used in conjunction with Access Tokens? Are there certain aspects/claims that need to match to be accepted?\n\nIn case we indeed want to allow txn tokens to be used as a sole authentication I'm pretty sure there's some security considerations to derive from that.",
       "createdAt": "2025-04-02T13:16:23Z",
-      "updatedAt": "2025-04-04T15:21:57Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-20T11:03:36Z",
+      "closedAt": "2025-06-20T11:03:36Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -3253,6 +3253,22 @@
       "body": "My company is designing a new architecture for cloud inter-service security and we've realized a potentially powerful combination.\n\nThis is in relation to the WIMSE architecture. If you issue x.509 certificates as your Workload Identity Credentials (WIC), you can further use these certificates as input to a flow that supports mTLS client authentication (RFC8705), which will result in a certificate-bound token. Effectively though this token will be workload-bound because the WIC is bound to your workload identity.\nSimilarly you can do an application-level \"dPoP-like\" flow to get any tokens bounds to that key pair.\n\nI argue that Txn-Tokens should allow, and mention, the possibility of using \"cnf\" claim as specified in RFC7800 to bind Txn-Tokens to workloads. This specification is already heavily aligned with WIMSE and makes ample mention of workloads. Of course this specification doesn't need to go into details of how this can relate to WIMSE or other patterns, it can just allow for the possibility and briefly mention it's use case.",
       "createdAt": "2025-05-06T13:04:07Z",
       "updatedAt": "2025-05-06T13:05:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 178,
+      "id": "I_kwDOJt_WwM68hgY3",
+      "title": "Consider replacing Scope with Purpose",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/178",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From the mailing list:\n\nhttps://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/\n\n[OAUTH-WG] Tx-Token Purpose vs Scope\nJoe DeCock <joe@duendesoftware.com> Thu, 19 June 2025 22:44 UTC[Show header](https://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/#)\n\nHello OAuth working group,\n\nI've been reading the transaction tokens draft with great interest. I think\nit's solving an important problem and largely I like what I'm seeing in the\ndraft. However, I think that the way that scope and purpose are\ndifferentiated can be improved to make the specification easier to\nunderstand, easier to implement, and improve interoperability.\n\nThe way that the purpose is described and contrasted with OAuth scopes in\nsection 5.2.1 makes good sense to me.\n\nThe purp claim captures the exact purpose of this particular transaction.\n> This is often much narrower than a scope value issued to an external\n> client. This is due to the fact that in most cases, the authorization model\n> within the Trust Domain is quite different than the authorization model\n> used with clients external to the Trust Domain. To that end, it is\n> intentional to separate the concept of scope (often fairly coarse-grained)\n> used with external clients from the purpose of the transaction used within\n> the Trust Domain. How a given deployment represents the authorization model\n> within the Trust Domain is out of scope for this specification.\n\n\nBut in the txn-token request (Section 7.1), the purpose of the transaction\ntoken is sent as the scope parameter. I think that has the potential to be\nconfusing, because the two concepts are meant to be distinct. In my\nexperience, non-identity experts often struggle with the existing concepts\nof scopes, claims, and roles. Reusing the scope parameter with purpose\nsemantics is likely going to be a cause for confusion.\n\nSection 9.6 muddies the distinction between scope and purpose further:\n\nThe TTS MUST ensure that the requested purpose (scope) of the Txn-Token is\n> equal or less than the scope(s) identified in the subject_token. This is\n> also true of requesting a replacement Txn-Token. The TTS MUST ensure there\n> is no unintentional increase in authorization scope.\n\n\nIt's not clear to me what the equal to or less than language exactly means,\nbut it's certainly very suggestive, perhaps in a way that isn't good. To\nme, it makes it sound like a purpose is a part of a scope, or that there's\na relationship where certain scopes authorize certain purposes. It seems to\nme that while the decision to issue a transaction token should take the\nscope of the subject token into account, it potentially would also care\nabout other claims of the subject token, the calling client, the request\ncontext, the request details, or the txn token service's policy.\n\nMy suggestions are to\n1. Invent a new \"purpose\" parameter used to request transaction tokens so\nthat tx-token requests do not re-use scope or set it all,\n2. Clarify the intentions of the \"equal or less than\" language in section\n9.6, and\n3. Consider language explicitly stating that transaction tokens MUST NOT\ncontain a scope claim.\n\nThe token exchange spec says that scope is optional, so I would simply\nmandate that in a transaction token exchange, scope is not used.\n\nThinking about how I or others would likely implement this, it seems likely\nthat validating the purpose parameter as well as the configuration and\npolicy related to it would be a separate system from scope processing in\nthe AS. So, from an implementation point of view, adding the new parameter\nwould probably simplify the implementation at the AS. The new semantics and\nparameters that are associated with the transaction token call would mean\nthat the client/initiating workload would already have to write some new\ncode. While existing libraries exist that know how to do token exchange in\ngeneral, the specifics of transaction tokens are still going to require\nsome implementation work. A new purpose parameter wouldn't add\nsignificantly to that.\n\nLanguage to ban scopes from transaction tokens would simply be there to\nre-inforce what the specification is already (not) doing. It helps with\ninteroperability to make sure that the TTS never does include a scope, in\ncase a tx-token was ever misused. Of course we have the typ header to\ndifferentiate the tokens, but leaving the scope out helps prevent their\nmisuse by older JWT libraries that don't know to validate the typ. And in\nany case, it seems that not including the scope is the intention in this\ndraft.\n\n\nCheers,\nJoe DeCock",
+      "createdAt": "2025-06-20T11:02:30Z",
+      "updatedAt": "2025-06-20T11:02:30Z",
       "closedAt": null,
       "comments": []
     }
