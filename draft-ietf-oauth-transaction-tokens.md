@@ -725,10 +725,10 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Contact Person: Atul Tulshibagwale
 
 ## HTTP Header
-The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}} as a Structured Header Field {{RFC9651}}. Its value MUST be a String (Section 3.3.3 of {{RFC9651}}) This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry:
+The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}} as a Structured Header Field {{RFC9651}}. Its value MUST be a String (Section 3.3.3 of {{RFC9651}}) This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry. Note the value of the Type field is intended to be left empty:
 
 * Field Name: Txn-Token
-* Type: String
+* Type: 
 * Status: permanent
 * Specification Document: Section {{txn-token-http-header}} of this document
 * Comment: The `Authorization` header cannot be used for Txn-tokens because that may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.
