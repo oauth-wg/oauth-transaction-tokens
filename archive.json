@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-22T00:21:17.866444+00:00",
+  "timestamp": "2025-06-24T00:19:26.683036+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -10984,13 +10984,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-05-21T22:03:42Z",
-      "updatedAt": "2025-05-30T16:16:15Z",
+      "updatedAt": "2025-06-23T19:27:46Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "ef795d5315b2dc29d395dac8c777661d7793ae07",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "iana-structure",
-      "headRefOid": "f24445a2bdf2446b8ceee4d07a424c2113e12cdd",
+      "headRefOid": "cc55a1633e05ee640e12fda3e5b3187a4d1f996f",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
