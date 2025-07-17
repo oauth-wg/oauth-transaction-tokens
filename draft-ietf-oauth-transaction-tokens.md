@@ -741,12 +741,18 @@ The authors would like to thank the contributors and the OAuth working group mem
 {: numbered="false"}
 [[ To be removed from final specification ]]
 
+## Since Draft 05
+{:numbered="false"}
+* [Strengthened prohibition on expanding TraT scope](https://github.com/oauth-wg/oauth-transaction-tokens/pull/173)
+* [Clarified that TraTs can exceed request token lifetime, but cannot use expired tokens in request](https://github.com/oauth-wg/oauth-transaction-tokens/pull/170)
+* [Improved abstract for clarity](https://github.com/oauth-wg/oauth-transaction-tokens/pull/160)
+
 ## Since Draft 04
 {: numbered="false"}
+* [Clarified Transaction Token Service discovery](https://github.com/oauth-wg/oauth-transaction-tokens/pull/153)
 * [Language improvements](https://github.com/oauth-wg/oauth-transaction-tokens/pull/148)
 * [Renamed azd claim to tctx claim](https://github.com/oauth-wg/oauth-transaction-tokens/pull/150)
 * [Fixed terminology captialization](https://github.com/oauth-wg/oauth-transaction-tokens/pull/151)
-* [Clarified Transaction Token Service discovery](https://github.com/oauth-wg/oauth-transaction-tokens/pull/153)
 * [Added key rotation guidance](https://github.com/oauth-wg/oauth-transaction-tokens/pull/156)
 * [Clarified text around external vs internal invocation](https://github.com/oauth-wg/oauth-transaction-tokens/pull/157)
 
