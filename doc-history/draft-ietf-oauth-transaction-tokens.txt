@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 30 October 2025                          Practical Identity LLC
+Expires: 18 January 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                           28 April 2025
+                                                            17 July 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 October 2025.
+   This Internet-Draft will expire on 18 January 2026.
 
 Copyright Notice
 
@@ -131,6 +131,7 @@ Table of Contents
      12.2.  Informative References
    Acknowledgements
    Document History
+     Since Draft 05
      Since Draft 04
    Contributors
    Authors' Addresses
@@ -901,7 +902,7 @@ Table of Contents
 
    *  MAY enable additional asserted values
 
-   *  SHOULD NOT enable modification to asserted values that expand the
+   *  MUST NOT enable modification to asserted values that expand the
       scope of permitted actions
 
    *  MUST NOT modify sub and aud values of the Txn-Token in the request
@@ -1395,7 +1396,22 @@ Document History
 
    [[ To be removed from final specification ]]
 
+Since Draft 05
+
+   *  Strengthened prohibition on expanding TraT scope
+      (https://github.com/oauth-wg/oauth-transaction-tokens/pull/173)
+
+   *  Clarified that TraTs can exceed request token lifetime, but cannot
+      use expired tokens in request (https://github.com/oauth-wg/oauth-
+      transaction-tokens/pull/170)
+
+   *  Improved abstract for clarity (https://github.com/oauth-wg/oauth-
+      transaction-tokens/pull/160)
+
 Since Draft 04
+
+   *  Clarified Transaction Token Service discovery (https://github.com/
+      oauth-wg/oauth-transaction-tokens/pull/153)
 
    *  Language improvements (https://github.com/oauth-wg/oauth-
       transaction-tokens/pull/148)
@@ -1405,9 +1421,6 @@ Since Draft 04
 
    *  Fixed terminology captialization (https://github.com/oauth-wg/
       oauth-transaction-tokens/pull/151)
-
-   *  Clarified Transaction Token Service discovery (https://github.com/
-      oauth-wg/oauth-transaction-tokens/pull/153)
 
    *  Added key rotation guidance (https://github.com/oauth-wg/oauth-
       transaction-tokens/pull/156)
