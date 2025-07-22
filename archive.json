@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-20T00:22:37.505769+00:00",
+  "timestamp": "2025-07-22T00:20:44.933503+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3344,6 +3344,30 @@
           "body": "> Language to ban scopes from transaction tokens would simply be there to\n> re-inforce what the specification is already (not) doing. It helps with\n> interoperability to make sure that the TTS never does include a scope, in\n> case a tx-token was ever misused. Of course we have the typ header to\n> differentiate the tokens, but leaving the scope out helps prevent their\n> misuse by older JWT libraries that don't know to validate the typ. And in\n> any case, it seems that not including the scope is the intention in this\n> draft.\n\nOne of the tricky things with the OAuth concept of \u2019scope\u2019 is that it was never semantically defined in the original RFCs (6749,6750). That means that there are many, many different implementations on how scope is used. Some more fine-grained than others. It\u2019s possible for a deployment which only has \u201cinternal\u201d use cases (no external clients) to have a fairly complicated scope definition mechanism which would allow for scope values to actually be used with transaction tokens. Because of this wide variety of implementations, we didn\u2019t want to make any assumptions and felt using the existing parameter made more sense.",
           "createdAt": "2025-07-02T16:36:40Z",
           "updatedAt": "2025-07-02T16:36:40Z"
+        }
+      ]
+    },
+    {
+      "number": 180,
+      "id": "I_kwDOJt_WwM7BrqnT",
+      "title": "Is subject_token always Base64 URL format?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/180",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From the MCP Community chat:\n\nFrederick (ffkiv_02286) wrote\n\n```\n7.2.2.  Unsigned JSON Object Subject Token Type\n\n   A requester MAY use an unsigned JSON object as a subject_token value.\n   In that case, the requester MUST set the subject_token_type value to:\n   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the\n   subject_token field MUST be the BASE64URL encoded value of the JSON\n   object as described in Section 5 of [RFC6848].  The JSON object in\n   the subject token MUST contain the following fields:\n```\n\nit's unclear if the subject_token is always supposed to be base64url or only when unsigned. the examples show it always baser64url encoded, might be good to call out these encoding requirements in a more prominent place.\nso interpretation could be: always, or only when unencrypted",
+      "createdAt": "2025-07-21T17:21:52Z",
+      "updatedAt": "2025-07-21T20:09:29Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "fkautz",
+          "authorAssociation": "NONE",
+          "body": "Hello, this was me!\n\n`subject_token_type` is ambiguous there, (as mentioned), happy to help with finding these kinds of things. Also, once we get a few more implementations in the wild, would be good to create a plugfest to make sure they are all interoperable. Any client to any server for sure, perhaps there are server to server use cases too on reissuance or when crossing trust domain boundaries.\n\nThank you!",
+          "createdAt": "2025-07-21T20:09:29Z",
+          "updatedAt": "2025-07-21T20:09:29Z"
         }
       ]
     }
