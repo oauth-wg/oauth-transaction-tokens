@@ -1281,12 +1281,11 @@ Table of Contents
 11.4.  HTTP Header
 
    The header name Txn-Token is proposed to be added to the HTTP Field
-   Name Registry [IANA.HTTP.FieldNames] as a Structured Header Field
-   [RFC9651].  Its value MUST be a String (Section 3.3.3 of [RFC9651])
-   This header is defined in the section Section 8.1.  The following
-   entry will be proposed in the HTTP Field Name Registry.  Note this is
-   an unstructured field, therefore the value of the Type field is
-   intended to be left empty:
+   Name Registry [IANA.HTTP.FieldNames] as a Unstructured Header Field
+   [RFC9651].  This header is defined in the section Section 8.1.  The
+   following entry will be proposed in the HTTP Field Name Registry.
+   Note this is an unstructured field, therefore the value of the Type
+   field is intended to be left empty:
 
    *  Field Name: Txn-Token
 
