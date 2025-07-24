@@ -725,7 +725,7 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Contact Person: Atul Tulshibagwale
 
 ## HTTP Header
-The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}} as a Unstructured Header Field {{RFC9651}}. This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry. Note this is an unstructured field, therefore the value of the Type field is intended to be left empty:
+The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}} as an unstructured Header Field. This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry. Note because this is an unstructured field, therefore the value of the Type field is intended to be left empty:
 
 * Field Name: Txn-Token
 * Type:
