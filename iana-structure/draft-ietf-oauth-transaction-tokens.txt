@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 24 January 2026                          Practical Identity LLC
+Expires: 25 January 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                            23 July 2025
+                                                            24 July 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 January 2026.
+   This Internet-Draft will expire on 25 January 2026.
 
 Copyright Notice
 
@@ -1284,12 +1284,13 @@ Table of Contents
    Name Registry [IANA.HTTP.FieldNames] as a Structured Header Field
    [RFC9651].  Its value MUST be a String (Section 3.3.3 of [RFC9651])
    This header is defined in the section Section 8.1.  The following
-   entry will be proposed in the HTTP Field Name Registry.  Note the
-   value of the Type field is intended to be left empty:
+   entry will be proposed in the HTTP Field Name Registry.  Note this is
+   an unstructured field, therefore the value of the Type field is
+   intended to be left empty:
 
    *  Field Name: Txn-Token
 
-   *  Type: (Unstructured)
+   *  Type:
 
    *  Status: permanent
 
