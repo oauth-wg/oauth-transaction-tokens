@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 25 January 2026                          Practical Identity LLC
+Expires: 26 January 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                            24 July 2025
+                                                            25 July 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 January 2026.
+   This Internet-Draft will expire on 26 January 2026.
 
 Copyright Notice
 
@@ -1283,9 +1283,9 @@ Table of Contents
    The header name Txn-Token is proposed to be added to the HTTP Field
    Name Registry [IANA.HTTP.FieldNames] as an unstructured Header Field.
    This header is defined in the section Section 8.1.  The following
-   entry will be proposed in the HTTP Field Name Registry.  Note because
+   entry will be proposed in the HTTP Field Name Registry.  Note that
    this is an unstructured field, therefore the value of the Type field
-   is intended to be left empty:
+   is left empty:
 
    *  Field Name: Txn-Token
 
