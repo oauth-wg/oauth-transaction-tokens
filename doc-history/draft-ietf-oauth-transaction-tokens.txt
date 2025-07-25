@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 18 January 2026                          Practical Identity LLC
+Expires: 26 January 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                            17 July 2025
+                                                            25 July 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 January 2026.
+   This Internet-Draft will expire on 26 January 2026.
 
 Copyright Notice
 
@@ -1282,11 +1282,15 @@ Table of Contents
 11.4.  HTTP Header
 
    The header name Txn-Token is proposed to be added to the HTTP Field
-   Name Registry [IANA.HTTP.FieldNames].  This header is defined in the
-   section Section 8.1.  The following entry will be proposed in the
-   HTTP Field Name Registry:
+   Name Registry [IANA.HTTP.FieldNames] as an unstructured Header Field.
+   This header is defined in the section Section 8.1.  The following
+   entry will be proposed in the HTTP Field Name Registry.  Note that
+   this is an unstructured field, therefore the value of the Type field
+   is left empty:
 
    *  Field Name: Txn-Token
+
+   *  Type:
 
    *  Status: permanent
 
@@ -1363,6 +1367,10 @@ Table of Contents
               DOI 10.17487/RFC9111, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9111>.
 
+   [RFC9651]  Nottingham, M. and P. Kamp, "Structured Field Values for
+              HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
+              <https://www.rfc-editor.org/rfc/rfc9651>.
+
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
               <https://www.iana.org/assignments/http-fields/>.
@@ -1407,6 +1415,9 @@ Since Draft 05
 
    *  Improved abstract for clarity (https://github.com/oauth-wg/oauth-
       transaction-tokens/pull/160)
+
+   *  Clarified that the HTTP header Txn-Token is unstructured
+      (https://github.com/oauth-wg/oauth-transaction-tokens/pull/176)
 
 Since Draft 04
 
