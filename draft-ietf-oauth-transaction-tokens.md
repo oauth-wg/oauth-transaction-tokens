@@ -748,6 +748,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * [Strengthened prohibition on expanding TraT scope](https://github.com/oauth-wg/oauth-transaction-tokens/pull/173)
 * [Clarified that TraTs can exceed request token lifetime, but cannot use expired tokens in request](https://github.com/oauth-wg/oauth-transaction-tokens/pull/170)
 * [Improved abstract for clarity](https://github.com/oauth-wg/oauth-transaction-tokens/pull/160)
+* [Clarified that the HTTP header Txn-Token is unstructured](https://github.com/oauth-wg/oauth-transaction-tokens/pull/176)
 
 ## Since Draft 04
 {: numbered="false"}
