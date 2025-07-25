@@ -81,6 +81,7 @@ normative:
   RFC9068: # JWT Profile for OAuth 2.0 Access Tokens
   RFC9110: # HTTP
   RFC9111: # HTTP Caching
+  RFC9651: # Structured HTTP Header fields
 
   IANA.HTTP.FieldNames:
     title: HTTP Authentication Schemes
@@ -724,9 +725,10 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Contact Person: Atul Tulshibagwale
 
 ## HTTP Header
-The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}}. This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry:
+The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}} as an unstructured Header Field. This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry. Note that this is an unstructured field, therefore the value of the Type field is left empty:
 
 * Field Name: Txn-Token
+* Type:
 * Status: permanent
 * Specification Document: Section {{txn-token-http-header}} of this document
 * Comment: The `Authorization` header cannot be used for Txn-tokens because that may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.
