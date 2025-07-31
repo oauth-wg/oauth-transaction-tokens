@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-27T00:22:40.997393+00:00",
+  "timestamp": "2025-07-31T00:20:33.824451+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2265,7 +2265,7 @@
       "id": "I_kwDOJt_WwM6QUp0A",
       "title": "please add document history to the draft",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/112",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Sakurann",
       "authorAssociation": "NONE",
       "assignees": [
@@ -2276,8 +2276,8 @@
       ],
       "body": "so that people can easily review what has changed between the versions. thank you!",
       "createdAt": "2024-07-21T10:20:42Z",
-      "updatedAt": "2025-07-25T19:07:03Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-28T13:51:45Z",
+      "closedAt": "2025-07-28T13:51:45Z",
       "comments": [
         {
           "author": "tulshi",
@@ -3284,15 +3284,15 @@
       "id": "I_kwDOJt_WwM61XRyt",
       "title": "Allow Proof-of-Possession (cnf claim) for Txn-Tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/175",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dagdagdag83",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "My company is designing a new architecture for cloud inter-service security and we've realized a potentially powerful combination.\n\nThis is in relation to the WIMSE architecture. If you issue x.509 certificates as your Workload Identity Credentials (WIC), you can further use these certificates as input to a flow that supports mTLS client authentication (RFC8705), which will result in a certificate-bound token. Effectively though this token will be workload-bound because the WIC is bound to your workload identity.\nSimilarly you can do an application-level \"dPoP-like\" flow to get any tokens bounds to that key pair.\n\nI argue that Txn-Tokens should allow, and mention, the possibility of using \"cnf\" claim as specified in RFC7800 to bind Txn-Tokens to workloads. This specification is already heavily aligned with WIMSE and makes ample mention of workloads. Of course this specification doesn't need to go into details of how this can relate to WIMSE or other patterns, it can just allow for the possibility and briefly mention it's use case.",
       "createdAt": "2025-05-06T13:04:07Z",
-      "updatedAt": "2025-07-16T04:17:07Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-28T13:12:51Z",
+      "closedAt": "2025-07-28T13:12:51Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -3300,6 +3300,13 @@
           "body": "Sender constraining transaction tokens was considred early in the draft and the conclusion was that it is out of scope of this draft. It may be addressed in a future draft focused on sender constraining transaction tokens, once enough implementation experience has been gained.",
           "createdAt": "2025-07-16T04:17:07Z",
           "updatedAt": "2025-07-16T04:17:07Z"
+        },
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "NONE",
+          "body": "Okay, thanks for the info that makes sense \ud83d\udc4d ",
+          "createdAt": "2025-07-28T13:12:51Z",
+          "updatedAt": "2025-07-28T13:12:51Z"
         }
       ]
     },
@@ -3406,6 +3413,54 @@
           "updatedAt": "2025-07-21T20:09:29Z"
         }
       ]
+    },
+    {
+      "number": 182,
+      "id": "I_kwDOJt_WwM7C_iKo",
+      "title": "Requester context's req_wl field during replacement",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/182",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\nAbout req_wl in Requester Context {#requester-context}, especially during replacement, the document says \"then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.\"\n\nWhy? Can we change the language to  - claim can be array ? can we leave it to implementation owners?\n\nThere are a few reasons why I want to be careful in adding all req_wls involved - \n\n1. Size - Tx Tokens are going to flow through HTTP headers. In my company, we are careful about size of the token as it flows through HTTP headers. Some web servers block 4KB or more headers and this could be problematic in propagation. If we keep adding all workload identities, then its size will increase. (unpredictable depending on call chain depth)\n2. Token context governance - In general, its useful to only add information that could be useful for making authorization decisions, deep down the call graph. In reality, the services deep down call graph are not aware of all services in call path, so they can't really use write access policies using the req_wls anyways as it depends on what call path was taken to reach that service. Also Hyrum's law, that the more you add, the more ways, people will find to make it use of the data in different ways which may not be right.\n3. I'd recommend to keep only latest information i.e last req_wl identity and let Token issuer log the exchange details against token identifier in its log to later audit all services where replacement happened.\n\nAlso created another issue to cover about having new token id every time there is replacement token generated. https://github.com/oauth-wg/oauth-transaction-tokens/issues/183",
+      "createdAt": "2025-07-28T22:17:26Z",
+      "updatedAt": "2025-07-28T22:20:22Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 183,
+      "id": "I_kwDOJt_WwM7C_jCO",
+      "title": "New Token identifier during replacement",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/183",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "What are thoughts around issuing new Token id everytime there is a replacement token issued? I believe that way its easier to track those tokens separately. Also its not really the same token anymore after replacement so the spec I think should call out clearly that during replacement, token id should NOT be reused.",
+      "createdAt": "2025-07-28T22:20:06Z",
+      "updatedAt": "2025-07-28T22:20:06Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 184,
+      "id": "I_kwDOJt_WwM7C_77z",
+      "title": "Tx tokens in world of agents",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/184",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "With Agentic AI introduced in the service graph having access to sensitive operations and data, it's imperative to create real-time auditing and propagate associated context in the call chain. \n\nWhen human interacts with agentic systems, the systems for security purposes will be assigned permissions dynamically in a more time bound way. Deep down the call chain, it will be important to note down that \n\nAction\nWhat are your thoughts on having 'act' field in the token to show case delegation ? \nReference https://www.ietf.org/id/draft-oauth-ai-agents-on-behalf-of-user-01.html with agent in the picture, its an actor that's acting on behalf of human and its important to share that information all the way to the services in the call chain so that they take right decisions. Its useful for auditing as well. Subject in Tx token contains to remain as Human.\n\nAccess tokens issued to agents to access an application, can be used as proof to get Tx token. If the access token contains delegation chain (because it was issued as part of OAuth token exchange), then delegation ('act') can be included in the Tx token as well (related topic - maybe not include entire chain but just latest to save space in token). ",
+      "createdAt": "2025-07-28T23:43:31Z",
+      "updatedAt": "2025-07-28T23:58:58Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -11317,26 +11372,42 @@
       "id": "PR_kwDOJt_WwM6fSBWl",
       "title": "Added document history",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/179",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes: https://github.com/oauth-wg/oauth-transaction-tokens/issues/112",
       "createdAt": "2025-07-17T00:37:02Z",
-      "updatedAt": "2025-07-25T07:27:22Z",
+      "updatedAt": "2025-07-28T13:51:46Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "ebc0402586ac129c41dafe3d0cf572e9e25e7dfc",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "doc-history",
       "headRefOid": "5d8dcfe17dbc21aebb3af7ef1da5df610c59a62d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-07-28T13:51:44Z",
+      "mergedAt": "2025-07-28T13:51:44Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "7fba2a71f49fc880ca3c8dda2448715670f035c7"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM62e7Lu",
+          "commit": {
+            "abbreviatedOid": "5d8dcfe"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-28T09:35:53Z",
+          "updatedAt": "2025-07-28T09:35:53Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 181,
