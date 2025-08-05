@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-03T00:23:08.884803+00:00",
+  "timestamp": "2025-08-05T00:21:04.733855+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3322,7 +3322,7 @@
       "labels": [],
       "body": "From the mailing list:\n\nhttps://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/\n\n[OAUTH-WG] Tx-Token Purpose vs Scope\nJoe DeCock <joe@duendesoftware.com> Thu, 19 June 2025 22:44 UTC[Show header](https://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/#)\n\nHello OAuth working group,\n\nI've been reading the transaction tokens draft with great interest. I think\nit's solving an important problem and largely I like what I'm seeing in the\ndraft. However, I think that the way that scope and purpose are\ndifferentiated can be improved to make the specification easier to\nunderstand, easier to implement, and improve interoperability.\n\nThe way that the purpose is described and contrasted with OAuth scopes in\nsection 5.2.1 makes good sense to me.\n\nThe purp claim captures the exact purpose of this particular transaction.\n> This is often much narrower than a scope value issued to an external\n> client. This is due to the fact that in most cases, the authorization model\n> within the Trust Domain is quite different than the authorization model\n> used with clients external to the Trust Domain. To that end, it is\n> intentional to separate the concept of scope (often fairly coarse-grained)\n> used with external clients from the purpose of the transaction used within\n> the Trust Domain. How a given deployment represents the authorization model\n> within the Trust Domain is out of scope for this specification.\n\n\nBut in the txn-token request (Section 7.1), the purpose of the transaction\ntoken is sent as the scope parameter. I think that has the potential to be\nconfusing, because the two concepts are meant to be distinct. In my\nexperience, non-identity experts often struggle with the existing concepts\nof scopes, claims, and roles. Reusing the scope parameter with purpose\nsemantics is likely going to be a cause for confusion.\n\nSection 9.6 muddies the distinction between scope and purpose further:\n\nThe TTS MUST ensure that the requested purpose (scope) of the Txn-Token is\n> equal or less than the scope(s) identified in the subject_token. This is\n> also true of requesting a replacement Txn-Token. The TTS MUST ensure there\n> is no unintentional increase in authorization scope.\n\n\nIt's not clear to me what the equal to or less than language exactly means,\nbut it's certainly very suggestive, perhaps in a way that isn't good. To\nme, it makes it sound like a purpose is a part of a scope, or that there's\na relationship where certain scopes authorize certain purposes. It seems to\nme that while the decision to issue a transaction token should take the\nscope of the subject token into account, it potentially would also care\nabout other claims of the subject token, the calling client, the request\ncontext, the request details, or the txn token service's policy.\n\nMy suggestions are to\n1. Invent a new \"purpose\" parameter used to request transaction tokens so\nthat tx-token requests do not re-use scope or set it all,\n2. Clarify the intentions of the \"equal or less than\" language in section\n9.6, and\n3. Consider language explicitly stating that transaction tokens MUST NOT\ncontain a scope claim.\n\nThe token exchange spec says that scope is optional, so I would simply\nmandate that in a transaction token exchange, scope is not used.\n\nThinking about how I or others would likely implement this, it seems likely\nthat validating the purpose parameter as well as the configuration and\npolicy related to it would be a separate system from scope processing in\nthe AS. So, from an implementation point of view, adding the new parameter\nwould probably simplify the implementation at the AS. The new semantics and\nparameters that are associated with the transaction token call would mean\nthat the client/initiating workload would already have to write some new\ncode. While existing libraries exist that know how to do token exchange in\ngeneral, the specifics of transaction tokens are still going to require\nsome implementation work. A new purpose parameter wouldn't add\nsignificantly to that.\n\nLanguage to ban scopes from transaction tokens would simply be there to\nre-inforce what the specification is already (not) doing. It helps with\ninteroperability to make sure that the TTS never does include a scope, in\ncase a tx-token was ever misused. Of course we have the typ header to\ndifferentiate the tokens, but leaving the scope out helps prevent their\nmisuse by older JWT libraries that don't know to validate the typ. And in\nany case, it seems that not including the scope is the intention in this\ndraft.\n\n\nCheers,\nJoe DeCock",
       "createdAt": "2025-06-20T11:02:30Z",
-      "updatedAt": "2025-07-31T19:55:59Z",
+      "updatedAt": "2025-08-04T08:44:44Z",
       "closedAt": null,
       "comments": [
         {
@@ -3387,6 +3387,20 @@
           "body": "> One of the tricky things with the OAuth concept of \u2019scope\u2019 is that it was never semantically defined in the original RFCs (6749,6750). That means that there are many, many different implementations on how scope is used. Some more fine-grained than others. It\u2019s possible for a deployment which only has \u201cinternal\u201d use cases (no external clients) to have a fairly complicated scope definition mechanism which would allow for scope values to actually be used with transaction tokens. Because of this wide variety of implementations, we didn\u2019t want to make any assumptions and felt using the existing parameter made more sense.\n\nThis actually surprises me. I think if this is needed, then it probably makes sense to explain that in the draft. How does a client request a token with both scopes and a purpose? ",
           "createdAt": "2025-07-24T20:25:13Z",
           "updatedAt": "2025-07-24T20:25:13Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In our implementation of Transaction Tokens, we use the relevant scope as the purpose value. This allowed us to have a quicker deployment as the scope values where already known everywhere. Our scope values already define specific access rights to specific entity types (e.g. \"mailbox_mail_r\" for read access to mail items within a mailbox) and we found it specific enough to use the scope value as the purpose of the Txn-Token. I hope that any change to the spec does not prohibit us from doing this in the future without violating the spec.",
+          "createdAt": "2025-08-04T07:22:50Z",
+          "updatedAt": "2025-08-04T07:22:50Z"
+        },
+        {
+          "author": "pdvrieze",
+          "authorAssociation": "NONE",
+          "body": "I would say that it would be good to explicitly support rich authorization details, as in many cases the ability to specify clearly what is authorized (or even what the semantics of the authorization are) can be provided using the rich authorization details.",
+          "createdAt": "2025-08-04T08:44:44Z",
+          "updatedAt": "2025-08-04T08:44:44Z"
         }
       ]
     },
@@ -3402,7 +3416,7 @@
       "labels": [],
       "body": "From the MCP Community chat:\n\nFrederick (ffkiv_02286) wrote\n\n```\n7.2.2.  Unsigned JSON Object Subject Token Type\n\n   A requester MAY use an unsigned JSON object as a subject_token value.\n   In that case, the requester MUST set the subject_token_type value to:\n   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the\n   subject_token field MUST be the BASE64URL encoded value of the JSON\n   object as described in Section 5 of [RFC6848].  The JSON object in\n   the subject token MUST contain the following fields:\n```\n\nit's unclear if the subject_token is always supposed to be base64url or only when unsigned. the examples show it always baser64url encoded, might be good to call out these encoding requirements in a more prominent place.\nso interpretation could be: always, or only when unencrypted",
       "createdAt": "2025-07-21T17:21:52Z",
-      "updatedAt": "2025-07-21T20:09:29Z",
+      "updatedAt": "2025-08-04T08:46:29Z",
       "closedAt": null,
       "comments": [
         {
@@ -3411,6 +3425,13 @@
           "body": "Hello, this was me!\n\n`subject_token_type` is ambiguous there, (as mentioned), happy to help with finding these kinds of things. Also, once we get a few more implementations in the wild, would be good to create a plugfest to make sure they are all interoperable. Any client to any server for sure, perhaps there are server to server use cases too on reissuance or when crossing trust domain boundaries.\n\nThank you!",
           "createdAt": "2025-07-21T20:09:29Z",
           "updatedAt": "2025-07-21T20:09:29Z"
+        },
+        {
+          "author": "pdvrieze",
+          "authorAssociation": "NONE",
+          "body": "I assume that signed implies a signed JWT which is always presented in base64url encoded format anyway, but it would be good to clarify this.",
+          "createdAt": "2025-08-04T08:46:29Z",
+          "updatedAt": "2025-08-04T08:46:29Z"
         }
       ]
     },
@@ -3426,9 +3447,17 @@
       "labels": [],
       "body": "\nAbout req_wl in Requester Context {#requester-context}, especially during replacement, the document says \"then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.\"\n\nWhy? Can we change the language to  - claim can be array ? can we leave it to implementation owners?\n\nThere are a few reasons why I want to be careful in adding all req_wls involved - \n\n1. Size - Tx Tokens are going to flow through HTTP headers. In my company, we are careful about size of the token as it flows through HTTP headers. Some web servers block 4KB or more headers and this could be problematic in propagation. If we keep adding all workload identities, then its size will increase. (unpredictable depending on call chain depth)\n2. Token context governance - In general, its useful to only add information that could be useful for making authorization decisions, deep down the call graph. In reality, the services deep down call graph are not aware of all services in call path, so they can't really use write access policies using the req_wls anyways as it depends on what call path was taken to reach that service. Also Hyrum's law, that the more you add, the more ways, people will find to make it use of the data in different ways which may not be right.\n3. I'd recommend to keep only latest information i.e last req_wl identity and let Token issuer log the exchange details against token identifier in its log to later audit all services where replacement happened.\n\nAlso created another issue to cover about having new token id every time there is replacement token generated. https://github.com/oauth-wg/oauth-transaction-tokens/issues/183",
       "createdAt": "2025-07-28T22:17:26Z",
-      "updatedAt": "2025-07-28T22:20:22Z",
+      "updatedAt": "2025-08-04T07:05:31Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Having the \"chain\" embedded in the Txn-Token itself can be used by workloads to determine whether the received Txn-Token took the \"typical path\" and possibly deny the call if the chain was unexpected. If we want to avoid this usage, it is better to leave this information out.",
+          "createdAt": "2025-08-04T07:05:31Z",
+          "updatedAt": "2025-08-04T07:05:31Z"
+        }
+      ]
     },
     {
       "number": 183,
@@ -3442,9 +3471,17 @@
       "labels": [],
       "body": "What are thoughts around issuing new Token id everytime there is a replacement token issued? I believe that way its easier to track those tokens separately. Also its not really the same token anymore after replacement so the spec I think should call out clearly that during replacement, token id should NOT be reused.",
       "createdAt": "2025-07-28T22:20:06Z",
-      "updatedAt": "2025-07-28T22:20:06Z",
+      "updatedAt": "2025-08-04T07:13:04Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Are you referring to the txn attribute in the Txn-Token? This value is supposed to identify the entire call chain and the main purpose for us is to do tracing with it. In our Txn-Token implementation, we also encode the id of the original Access Token the Txn-Token was created from in another field. Replacing the txn value when replacing the Token is not what we would want as it would break tracing capabilities. We would need to retain the original txn value on top of the new txn to achieve this again and it would get worse if there where multiple replacements in the chain.",
+          "createdAt": "2025-08-04T07:12:53Z",
+          "updatedAt": "2025-08-04T07:13:04Z"
+        }
+      ]
     },
     {
       "number": 184,
@@ -10347,7 +10384,7 @@
       "labels": [],
       "body": "Batch token was discussed here at https://github.com/oauth-wg/oauth-transaction-tokens/issues/111. The PR is first draft to add batch token in RFC.",
       "createdAt": "2024-11-14T18:47:16Z",
-      "updatedAt": "2025-04-06T18:28:30Z",
+      "updatedAt": "2025-08-04T08:39:50Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "273060dc3b15ab6abfc0c1e81644b11da5098c18",
@@ -10383,6 +10420,46 @@
               "body": "Would it not be the responsibility of the workflow system to acquire/exchange the batch token? If the service creating the batch token is not the same as the one using it to create further tokens, there may be opportunities for breaches. At the very least the workflow/receiver would not be able to verify the batch token validity.",
               "createdAt": "2025-04-06T18:27:08Z",
               "updatedAt": "2025-04-06T18:28:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM63wgGt",
+          "commit": {
+            "abbreviatedOid": "e9b366a"
+          },
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-04T07:00:55Z",
+          "updatedAt": "2025-08-04T07:00:56Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Is this PR planned to make it into the final draft of the spec or will it be paused until after releasing the first draft?\r\n\r\nIn regards to a Batch Token compared to a Refresh Token: Is it planned to allow the Batch Token to be exchanged to a new Txn-Token multiple times or do we allow to exchange the Batch Token only once similar? If it is supposed to be used only once, it would have more similarities with an Authorization Code instead of a Refresh Token (although an Authorization Code is supposed to be short-lived).\r\n\r\nClient/Service authentication is indeed something which needs to be addressed. As this is currently lacking, basically any workload can exchange a Batch Token back to a Txn-Token at any given time with the help of the Txn-Token Service. Essentially, a workload can exchange a Txn-Token to a Batch Token send this Batch Token along to other entities (e.g. Kafka event queues or store in a database) and any other entity having access to that Batch Token (e.g. Kafka event processors) can get an updated Txn-Token based on the Batch Token again. When issuing the Batch Token, do we want to limit the clients which can later exchange the Batch Token back to an Txn-Token or do we trust that the implementers will reasonably protect access to Batch Tokens? In case of limiting access within this spec, we might need to encode the audience(s) which are allowed to exchange the Batch Token later.\r\n\r\nHow long will Batch Tokens be valid? I assume at maximum for how long the keys are available to the Txn-Token Service to decrypt the content of the Batch Token.\r\n",
+              "createdAt": "2025-08-04T07:00:55Z",
+              "updatedAt": "2025-08-04T07:00:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM63xozW",
+          "commit": {
+            "abbreviatedOid": "e9b366a"
+          },
+          "author": "pdvrieze",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-04T08:39:50Z",
+          "updatedAt": "2025-08-04T08:39:50Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "Having thought about this issue further I would say that a batch token would effectively translate to the recipient(s) of the token being put at a higher level of trust. Transaction tokens are intended to relate to a single transaction. If this is long-lived you effectively have a business process initiated by the original (authenticated) request that would have produced the transaction token. The short lifetime ensures that the token is not (ab)used later for accesses that are not related to the initiating action. Long lived tokens do not have this reduction in potential harm because of the short lifespan. Instead batch tokens would require explicit revocation, and even then are much more vulnerable to misuse (often just poor practice rather than malicious intent).\r\n\r\nThere are generally two ways (and the hybrid) in which the tokens can be used:\r\n- One is with an overall process coordinating the long-lived activity. In this case the coordinating service would hold the batch token and create sub-transactions as needed. This coordinating service would hold (one or multiple) transaction tokens and has a high level of trust (it is a primary attack venue due to its central role).\r\n  Kafka could perhaps take this overall coordination, but it would not fit well with its nature as pure event system\r\n- The other is chained invocations where services directly invoke their successors. When this is long lived this is effectively a hidden distributed process (anti-pattern), and a batch transaction token in such context creates a variety of heightened risks.",
+              "createdAt": "2025-08-04T08:39:50Z",
+              "updatedAt": "2025-08-04T08:39:50Z"
             }
           ]
         }
