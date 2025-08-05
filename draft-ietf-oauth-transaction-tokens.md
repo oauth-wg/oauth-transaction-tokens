@@ -190,8 +190,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
              4 v   │ 6
           +--------------+
           │              │
-          │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
                │   ^
@@ -203,8 +202,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
                v   │
           +--------------+
           │              │
-          │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
 ~~~
@@ -213,9 +211,9 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 1. External endpoint is invoked using conventional authorization mechanism such as an OAuth 2.0 Access token
 2. External endpoint provides context and incoming authorization (e.g., access token) to the Txn-Token Service
 3. Txn-Token Service mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
-4. The external endpoint initiates a call to an internal microservice and provides the Txn-Token as authorization
-5. Subsequent calls to other internal microservices use the same Txn-Token to authorize calls
-6. Responses are provided to callers based on successful authorization by the invoked microservices
+4. The external endpoint initiates a call to a workload and provides the Txn-Token as authorization
+5. Subsequent calls to other workloads use the same Txn-Token to authorize calls
+6. Responses are provided to callers based on successful authorization by the invoked workloads
 7. External client is provided a response to the external invocation
 
 ### Replacement Txn-Token Flow
@@ -234,8 +232,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
              4 v   │ 9               │              │
           +--------------+           │              │
           │              │           │              │
-          │   Internal   │           │              │
-          │ Microservice │           │              │
+          │   Workload   │           │              │
           │              │           │              │
           +--------------+           │  Txn-Token   │
                │   ^                 │   Service    │
@@ -247,8 +244,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
                v   │                 │              │
           +--------------+    6      │              │
           │              │---------->│              │
-          │   Internal   │           │              │
-          │ Microservice │    7      │              │
+          │   Workload   │    7      │              │
           │              │<----------│              │
           +--------------+           │              │
                │   ^                 │              │
@@ -260,8 +256,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
                v   │
           +--------------+
           │              │
-          │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
 ~~~
@@ -274,7 +269,7 @@ In the diagram above, steps 1-5 are the same as in {{basic-flow}}
 6. An intermediate service determines that it needs to obtain a Replacement Txn-Token. It requests a Replacement Txn-Token from the Txn-Token Service. It passes the incoming Txn-Token in the request, along with any additional context it needs to send the Txn-Token Service.
 7. The Txn-Token Service responds with a replacement Txn-Token
 8. The service that requested the Replacement Txn-Token uses that Txn-Token for downstream call authorization
-9. Responses are provided to callers based on successful authorization by the invoked microservices
+9. Responses are provided to callers based on successful authorization by the invoked workloads
 10. External client is provided a response to the external invocation
 
 # Notational Conventions
