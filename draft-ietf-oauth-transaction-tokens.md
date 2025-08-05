@@ -190,6 +190,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
              4 v   │ 6
           +--------------+
           │              │
+          │   Internal   │
           │   Workload   │
           │              │
           +--------------+
@@ -202,6 +203,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
                v   │
           +--------------+
           │              │
+          │   Internal   │
           │   Workload   │
           │              │
           +--------------+
@@ -211,8 +213,8 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 1. External endpoint is invoked using conventional authorization mechanism such as an OAuth 2.0 Access token
 2. External endpoint provides context and incoming authorization (e.g., access token) to the Txn-Token Service
 3. Txn-Token Service mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
-4. The external endpoint initiates a call to a workload and provides the Txn-Token as authorization
-5. Subsequent calls to other workloads use the same Txn-Token to authorize calls
+4. The external endpoint initiates a call to an internal workloads and provides the Txn-Token as authorization
+5. Subsequent calls to other internal workloads use the same Txn-Token to authorize calls
 6. Responses are provided to callers based on successful authorization by the invoked workloads
 7. External client is provided a response to the external invocation
 
@@ -232,6 +234,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
              4 v   │ 9               │              │
           +--------------+           │              │
           │              │           │              │
+          │   Internal   │           │              │
           │   Workload   │           │              │
           │              │           │              │
           +--------------+           │  Txn-Token   │
@@ -244,6 +247,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
                v   │                 │              │
           +--------------+    6      │              │
           │              │---------->│              │
+          │   Internal   │           │              │
           │   Workload   │    7      │              │
           │              │<----------│              │
           +--------------+           │              │
@@ -256,6 +260,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
                v   │
           +--------------+
           │              │
+          │   Internal   │
           │   Workload   │
           │              │
           +--------------+
