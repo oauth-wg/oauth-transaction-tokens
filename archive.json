@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-05T00:21:04.733855+00:00",
+  "timestamp": "2025-08-07T00:20:59.232076+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -2983,9 +2983,17 @@
       "labels": [],
       "body": "Hannes, Joe Salowey and Jaroslav of Wimse pointed out that we are using the term \"internal microservice\" in the diagram, but calling it \"workload\" in the rest of the spec. We should review and see if renaming the item in the diagram to \"workload\" makes sense.",
       "createdAt": "2025-02-03T19:56:13Z",
-      "updatedAt": "2025-02-03T19:56:13Z",
+      "updatedAt": "2025-08-05T13:06:56Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That makes sense to me. Being consistent within the spec and with other specs where this work is relevant makes sense to me.",
+          "createdAt": "2025-08-05T13:06:56Z",
+          "updatedAt": "2025-08-05T13:06:56Z"
+        }
+      ]
     },
     {
       "number": 155,
@@ -3078,14 +3086,22 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/162",
       "state": "OPEN",
       "author": "dhs-BI",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Reviewing the -05 draft, section 5.2.2 identifies the `req_ip` as the IP of the originating user.  However, the bullets identify `req_ip` as belonging to the \"end-user or robotic process...\".  I find this to be ambiguous about what the `req_ip` represents.  This is further complicated by the fact that the user's IP address may not be available to the call stack because the request has been proxied through one or more devices, obfuscating the user's original IP address.\n\nI have two questions:\n\n1. Can the language around the `req_ip` be tightened up to make it clear that it is either the IP of the end user when issued in exchange for an AT, and it represents the workload's IP when the workload is requesting a replacement txn_token?  The context of a txn_token `req_wl` will make it clear that the `req_ip` is the client (iff `req_wl` is a single element), or the calling workload (iff `req_wl` is > 1 element).\n2. Can we add an imperative that the ```req_ip``` for the first txn_token SHOULD NOT be the IP of a proxy or gateway, _e.g._ by using the `X-Forwarded-For` header?\n\nIf the authors think these additions are valuable, I can write the PR.\n\n",
       "createdAt": "2025-03-25T21:20:51Z",
-      "updatedAt": "2025-03-25T21:20:51Z",
+      "updatedAt": "2025-08-05T13:05:56Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dhs-BI  Getting the originating user IP is always a best effort endeavor. Having the value is useful in many risk calculations. Of course things like Apple Private Relay reduce some of that value. Given that the presence of the `req_ip` claim is optional in the `rctx` object (which is also optional). The implementation can determine if it has a usable enough IP to add to the context.\n\nDo you think we need clarity, either in the definition or security considerations, to address this?",
+          "createdAt": "2025-08-05T13:05:56Z",
+          "updatedAt": "2025-08-05T13:05:56Z"
+        }
+      ]
     },
     {
       "number": 163,
@@ -3170,7 +3186,7 @@
       "labels": [],
       "body": "How are we thinking of modeling \"on behalf of\" use cases?\n\nAs Tx token carries the identity of the actor, a service deep down in the call chain in SOA, can verify that actor for which data is being requested, is actually signed in or not. However, often a Customer Service (CS) agent is the actor that is initiating a request on behalf of the customer, then in such cases, identity of the CS agent is definitely captured but not the identity of the real customer, who's data is going to be accessed as part of the request. Does the real customerId/customerInfo suppose to go in tctx field?\n\nI'm thinking if we should model this more explicitly to say there is optional OnBehalfOf field that represents that actor that triggered request is acting on behalf of someone else. Tx token issuer will need a way to assert that actor is really working with that customer or not but that is something the company/domain owners have to setup. e.g. if there is authoritative service that contains mapping of CS Agent -> Customers, they are working with, then Tx token issuer could call that service and pull the information and add the customer.",
       "createdAt": "2025-03-31T21:55:07Z",
-      "updatedAt": "2025-07-16T04:27:56Z",
+      "updatedAt": "2025-08-05T12:57:43Z",
       "closedAt": null,
       "comments": [
         {
@@ -3179,6 +3195,13 @@
           "body": "On-behalf-of information can be embedded in a transaction token. The specific details of the on behalf of scenario is out of scope of this draft, but can be adressed in a different draft once the community has more experience with these kinds of flows.\n",
           "createdAt": "2025-07-16T04:27:56Z",
           "updatedAt": "2025-07-16T04:27:56Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@ashayraut is issue #184 a duplicate of this? I think both can be handled the same way. I don't believe there is anything stopping the TTS from adding an `act` claim to the Txn-token if it needs to represent the OnBehalfOf concept.\n\nI also agree with Pieter that right now there is no real consensus for how this concept should be represented in tokens so trying add it explicitly seems premature.",
+          "createdAt": "2025-08-05T12:57:43Z",
+          "updatedAt": "2025-08-05T12:57:43Z"
         }
       ]
     },
@@ -3322,7 +3345,7 @@
       "labels": [],
       "body": "From the mailing list:\n\nhttps://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/\n\n[OAUTH-WG] Tx-Token Purpose vs Scope\nJoe DeCock <joe@duendesoftware.com> Thu, 19 June 2025 22:44 UTC[Show header](https://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/#)\n\nHello OAuth working group,\n\nI've been reading the transaction tokens draft with great interest. I think\nit's solving an important problem and largely I like what I'm seeing in the\ndraft. However, I think that the way that scope and purpose are\ndifferentiated can be improved to make the specification easier to\nunderstand, easier to implement, and improve interoperability.\n\nThe way that the purpose is described and contrasted with OAuth scopes in\nsection 5.2.1 makes good sense to me.\n\nThe purp claim captures the exact purpose of this particular transaction.\n> This is often much narrower than a scope value issued to an external\n> client. This is due to the fact that in most cases, the authorization model\n> within the Trust Domain is quite different than the authorization model\n> used with clients external to the Trust Domain. To that end, it is\n> intentional to separate the concept of scope (often fairly coarse-grained)\n> used with external clients from the purpose of the transaction used within\n> the Trust Domain. How a given deployment represents the authorization model\n> within the Trust Domain is out of scope for this specification.\n\n\nBut in the txn-token request (Section 7.1), the purpose of the transaction\ntoken is sent as the scope parameter. I think that has the potential to be\nconfusing, because the two concepts are meant to be distinct. In my\nexperience, non-identity experts often struggle with the existing concepts\nof scopes, claims, and roles. Reusing the scope parameter with purpose\nsemantics is likely going to be a cause for confusion.\n\nSection 9.6 muddies the distinction between scope and purpose further:\n\nThe TTS MUST ensure that the requested purpose (scope) of the Txn-Token is\n> equal or less than the scope(s) identified in the subject_token. This is\n> also true of requesting a replacement Txn-Token. The TTS MUST ensure there\n> is no unintentional increase in authorization scope.\n\n\nIt's not clear to me what the equal to or less than language exactly means,\nbut it's certainly very suggestive, perhaps in a way that isn't good. To\nme, it makes it sound like a purpose is a part of a scope, or that there's\na relationship where certain scopes authorize certain purposes. It seems to\nme that while the decision to issue a transaction token should take the\nscope of the subject token into account, it potentially would also care\nabout other claims of the subject token, the calling client, the request\ncontext, the request details, or the txn token service's policy.\n\nMy suggestions are to\n1. Invent a new \"purpose\" parameter used to request transaction tokens so\nthat tx-token requests do not re-use scope or set it all,\n2. Clarify the intentions of the \"equal or less than\" language in section\n9.6, and\n3. Consider language explicitly stating that transaction tokens MUST NOT\ncontain a scope claim.\n\nThe token exchange spec says that scope is optional, so I would simply\nmandate that in a transaction token exchange, scope is not used.\n\nThinking about how I or others would likely implement this, it seems likely\nthat validating the purpose parameter as well as the configuration and\npolicy related to it would be a separate system from scope processing in\nthe AS. So, from an implementation point of view, adding the new parameter\nwould probably simplify the implementation at the AS. The new semantics and\nparameters that are associated with the transaction token call would mean\nthat the client/initiating workload would already have to write some new\ncode. While existing libraries exist that know how to do token exchange in\ngeneral, the specifics of transaction tokens are still going to require\nsome implementation work. A new purpose parameter wouldn't add\nsignificantly to that.\n\nLanguage to ban scopes from transaction tokens would simply be there to\nre-inforce what the specification is already (not) doing. It helps with\ninteroperability to make sure that the TTS never does include a scope, in\ncase a tx-token was ever misused. Of course we have the typ header to\ndifferentiate the tokens, but leaving the scope out helps prevent their\nmisuse by older JWT libraries that don't know to validate the typ. And in\nany case, it seems that not including the scope is the intention in this\ndraft.\n\n\nCheers,\nJoe DeCock",
       "createdAt": "2025-06-20T11:02:30Z",
-      "updatedAt": "2025-08-04T08:44:44Z",
+      "updatedAt": "2025-08-05T12:38:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -3401,6 +3424,20 @@
           "body": "I would say that it would be good to explicitly support rich authorization details, as in many cases the ability to specify clearly what is authorized (or even what the semantics of the authorization are) can be provided using the rich authorization details.",
           "createdAt": "2025-08-04T08:44:44Z",
           "updatedAt": "2025-08-04T08:44:44Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I would say that it would be good to explicitly support rich authorization details, as in many cases the ability to specify clearly what is authorized (or even what the semantics of the authorization are) can be provided using the rich authorization details.\n\nThe original intent was that RAR related objects could be passed as part of the `request_details` JSON object. If my memory is correct, `request_details` was originally `azd` specifically to allow for that context. \n\nWould it help to clarify that in the description of the parameter? The structure and format of that JSON object is out of scope for the specification.",
+          "createdAt": "2025-08-05T12:34:37Z",
+          "updatedAt": "2025-08-05T12:34:37Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > The `scope` parameter is used in the request because the spec is profiling RFC 8693 (Token Exchange) which defines the parameter. To use a different parameter would require the profile to explicitly prohibit the use of the `scope` parameter in favor of a new parameter. I understand how this can be confusing. Unfortunately, the other side is that if we keep adding new parameters and prohibit existing ones, it begs the question of whether we should be profiling RFC 8693 at all and rather defining yet another endpoint.\n> \n> 8693 defines scope as optional:\n> \n> > scope\n> > OPTIONAL. A list of space-delimited, case-sensitive strings, as defined in [Section 3.3](https://www.rfc-editor.org/rfc/rfc6749#section-3.3) of [[RFC6749](https://datatracker.ietf.org/doc/html/rfc6749)], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used. The values and associated semantics of scope are service specific and expected to be described in the relevant service documentation.\n> \n> So it seems fine to have a profile that doesn't use it.\n\nThe main point for me is that if we prohibit `scope` and define `purpose` I wonder how much we are really profiling RFC 8693 and instead defining a new endpoint. For me the real question is doing that work necessary? Is the confusion caused by the use of the `scope` parameter significant enough to require defining a new endpoint for the spec. All doable :) ",
+          "createdAt": "2025-08-05T12:38:36Z",
+          "updatedAt": "2025-08-05T12:38:36Z"
         }
       ]
     },
@@ -3416,7 +3453,7 @@
       "labels": [],
       "body": "From the MCP Community chat:\n\nFrederick (ffkiv_02286) wrote\n\n```\n7.2.2.  Unsigned JSON Object Subject Token Type\n\n   A requester MAY use an unsigned JSON object as a subject_token value.\n   In that case, the requester MUST set the subject_token_type value to:\n   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the\n   subject_token field MUST be the BASE64URL encoded value of the JSON\n   object as described in Section 5 of [RFC6848].  The JSON object in\n   the subject token MUST contain the following fields:\n```\n\nit's unclear if the subject_token is always supposed to be base64url or only when unsigned. the examples show it always baser64url encoded, might be good to call out these encoding requirements in a more prominent place.\nso interpretation could be: always, or only when unencrypted",
       "createdAt": "2025-07-21T17:21:52Z",
-      "updatedAt": "2025-08-04T08:46:29Z",
+      "updatedAt": "2025-08-05T12:51:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -3432,6 +3469,13 @@
           "body": "I assume that signed implies a signed JWT which is always presented in base64url encoded format anyway, but it would be good to clarify this.",
           "createdAt": "2025-08-04T08:46:29Z",
           "updatedAt": "2025-08-04T08:46:29Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the expectation is that the value of the parameter is in base64url form. We can make that explicit if necessary.",
+          "createdAt": "2025-08-05T12:51:48Z",
+          "updatedAt": "2025-08-05T12:51:48Z"
         }
       ]
     },
@@ -3447,7 +3491,7 @@
       "labels": [],
       "body": "\nAbout req_wl in Requester Context {#requester-context}, especially during replacement, the document says \"then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.\"\n\nWhy? Can we change the language to  - claim can be array ? can we leave it to implementation owners?\n\nThere are a few reasons why I want to be careful in adding all req_wls involved - \n\n1. Size - Tx Tokens are going to flow through HTTP headers. In my company, we are careful about size of the token as it flows through HTTP headers. Some web servers block 4KB or more headers and this could be problematic in propagation. If we keep adding all workload identities, then its size will increase. (unpredictable depending on call chain depth)\n2. Token context governance - In general, its useful to only add information that could be useful for making authorization decisions, deep down the call graph. In reality, the services deep down call graph are not aware of all services in call path, so they can't really use write access policies using the req_wls anyways as it depends on what call path was taken to reach that service. Also Hyrum's law, that the more you add, the more ways, people will find to make it use of the data in different ways which may not be right.\n3. I'd recommend to keep only latest information i.e last req_wl identity and let Token issuer log the exchange details against token identifier in its log to later audit all services where replacement happened.\n\nAlso created another issue to cover about having new token id every time there is replacement token generated. https://github.com/oauth-wg/oauth-transaction-tokens/issues/183",
       "createdAt": "2025-07-28T22:17:26Z",
-      "updatedAt": "2025-08-04T07:05:31Z",
+      "updatedAt": "2025-08-05T12:50:44Z",
       "closedAt": null,
       "comments": [
         {
@@ -3456,6 +3500,13 @@
           "body": "Having the \"chain\" embedded in the Txn-Token itself can be used by workloads to determine whether the received Txn-Token took the \"typical path\" and possibly deny the call if the chain was unexpected. If we want to avoid this usage, it is better to leave this information out.",
           "createdAt": "2025-08-04T07:05:31Z",
           "updatedAt": "2025-08-04T07:05:31Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The `req_wl` is only updated when a replacement transaction token is requested. My expectation is that replacement transactions are not requested by every node in the transaction \"path\". Hence, for any given transaction the number of entries in the array should be small.\n\n@ashayraut do you have a use cases where to complete a given transaction a large number of replacement transaction tokens are required?",
+          "createdAt": "2025-08-05T12:50:44Z",
+          "updatedAt": "2025-08-05T12:50:44Z"
         }
       ]
     },
@@ -3495,9 +3546,17 @@
       "labels": [],
       "body": "With Agentic AI introduced in the service graph having access to sensitive operations and data, it's imperative to create real-time auditing and propagate associated context in the call chain. \n\nWhen human interacts with agentic systems, the systems for security purposes will be assigned permissions dynamically in a more time bound way. Deep down the call chain, it will be important to note down that \n\nAction\nWhat are your thoughts on having 'act' field in the token to show case delegation ? \nReference https://www.ietf.org/id/draft-oauth-ai-agents-on-behalf-of-user-01.html with agent in the picture, its an actor that's acting on behalf of human and its important to share that information all the way to the services in the call chain so that they take right decisions. Its useful for auditing as well. Subject in Tx token contains to remain as Human.\n\nAccess tokens issued to agents to access an application, can be used as proof to get Tx token. If the access token contains delegation chain (because it was issued as part of OAuth token exchange), then delegation ('act') can be included in the Tx token as well (related topic - maybe not include entire chain but just latest to save space in token). ",
       "createdAt": "2025-07-28T23:43:31Z",
-      "updatedAt": "2025-07-28T23:58:58Z",
+      "updatedAt": "2025-08-05T12:44:42Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this is an extension of how to represent delegation in regards to the `sub` claim.  If the provided access token contains an `act` claim then I agree I think it should be propagated into the transaction token as it is a \"function\" of the the `sub` claim. \n\nWhether the intermediate workloads are just nodes processing the original transaction and can be obtained from a audit perspective by aggregating logs around the transaction id, or are some additional actor is an interesting question. This latter case may be a reason to request a replacement transaction token?",
+          "createdAt": "2025-08-05T12:44:42Z",
+          "updatedAt": "2025-08-05T12:44:42Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -11513,6 +11572,73 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 185,
+      "id": "PR_kwDOJt_WwM6iQz9-",
+      "title": "renamed microservice to workload",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/185",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-05T20:21:35Z",
+      "updatedAt": "2025-08-05T21:53:14Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "7fba2a71f49fc880ca3c8dda2448715670f035c7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-diagram",
+      "headRefOid": "4fa71bd40567002712069b63c9e5d54104cdf8f9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM64KDl3",
+          "commit": {
+            "abbreviatedOid": "4ef3181"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-05T20:36:13Z",
+          "updatedAt": "2025-08-05T20:36:13Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Do we want to drop the concept of \"Internal\"? I'm ok but I feel it does help with the concept of restricting transaction tokens to a single trust domain. Thoughts?",
+              "createdAt": "2025-08-05T20:36:13Z",
+              "updatedAt": "2025-08-05T20:36:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM64KEH4",
+          "commit": {
+            "abbreviatedOid": "4ef3181"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-05T20:37:10Z",
+          "updatedAt": "2025-08-05T20:37:10Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Otherwise this looks good.",
+              "createdAt": "2025-08-05T20:37:10Z",
+              "updatedAt": "2025-08-05T20:37:10Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
