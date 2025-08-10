@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-07T00:20:59.232076+00:00",
+  "timestamp": "2025-08-10T00:22:33.113168+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3091,7 +3091,7 @@
       "labels": [],
       "body": "Reviewing the -05 draft, section 5.2.2 identifies the `req_ip` as the IP of the originating user.  However, the bullets identify `req_ip` as belonging to the \"end-user or robotic process...\".  I find this to be ambiguous about what the `req_ip` represents.  This is further complicated by the fact that the user's IP address may not be available to the call stack because the request has been proxied through one or more devices, obfuscating the user's original IP address.\n\nI have two questions:\n\n1. Can the language around the `req_ip` be tightened up to make it clear that it is either the IP of the end user when issued in exchange for an AT, and it represents the workload's IP when the workload is requesting a replacement txn_token?  The context of a txn_token `req_wl` will make it clear that the `req_ip` is the client (iff `req_wl` is a single element), or the calling workload (iff `req_wl` is > 1 element).\n2. Can we add an imperative that the ```req_ip``` for the first txn_token SHOULD NOT be the IP of a proxy or gateway, _e.g._ by using the `X-Forwarded-For` header?\n\nIf the authors think these additions are valuable, I can write the PR.\n\n",
       "createdAt": "2025-03-25T21:20:51Z",
-      "updatedAt": "2025-08-05T13:05:56Z",
+      "updatedAt": "2025-08-08T17:45:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -3100,6 +3100,20 @@
           "body": "@dhs-BI  Getting the originating user IP is always a best effort endeavor. Having the value is useful in many risk calculations. Of course things like Apple Private Relay reduce some of that value. Given that the presence of the `req_ip` claim is optional in the `rctx` object (which is also optional). The implementation can determine if it has a usable enough IP to add to the context.\n\nDo you think we need clarity, either in the definition or security considerations, to address this?",
           "createdAt": "2025-08-05T13:05:56Z",
           "updatedAt": "2025-08-05T13:05:56Z"
+        },
+        {
+          "author": "deansaxe",
+          "authorAssociation": "NONE",
+          "body": "I would include some language in the doc to address the fact that the IP is a best effort guess and may not actually represent the real IP address because of proxies, etc.",
+          "createdAt": "2025-08-08T17:16:09Z",
+          "updatedAt": "2025-08-08T17:16:09Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agree, IpAddress isn't really reliable. In general, as part of governance, we have to be careful on what we add in these tokens because the tokens protect by default to entire call graph and we may not want to propagate this IpAddress everywhere. Yes, we can encrypt the value to ensure customer's ipAddress isn't exposed to entire graph but also if someone is allowed to get decryption key, still do we have clarity on how they will use this IpAddress for access control. Won't those access control rules break easily or even not scale when there are X millions of customers with Y number of devices.",
+          "createdAt": "2025-08-08T17:45:09Z",
+          "updatedAt": "2025-08-08T17:45:09Z"
         }
       ]
     },
