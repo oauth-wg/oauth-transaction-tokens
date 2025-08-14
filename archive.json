@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-10T00:22:33.113168+00:00",
+  "timestamp": "2025-08-14T00:19:28.949804+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3200,7 +3200,7 @@
       "labels": [],
       "body": "How are we thinking of modeling \"on behalf of\" use cases?\n\nAs Tx token carries the identity of the actor, a service deep down in the call chain in SOA, can verify that actor for which data is being requested, is actually signed in or not. However, often a Customer Service (CS) agent is the actor that is initiating a request on behalf of the customer, then in such cases, identity of the CS agent is definitely captured but not the identity of the real customer, who's data is going to be accessed as part of the request. Does the real customerId/customerInfo suppose to go in tctx field?\n\nI'm thinking if we should model this more explicitly to say there is optional OnBehalfOf field that represents that actor that triggered request is acting on behalf of someone else. Tx token issuer will need a way to assert that actor is really working with that customer or not but that is something the company/domain owners have to setup. e.g. if there is authoritative service that contains mapping of CS Agent -> Customers, they are working with, then Tx token issuer could call that service and pull the information and add the customer.",
       "createdAt": "2025-03-31T21:55:07Z",
-      "updatedAt": "2025-08-05T12:57:43Z",
+      "updatedAt": "2025-08-12T18:24:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -3216,6 +3216,13 @@
           "body": "@ashayraut is issue #184 a duplicate of this? I think both can be handled the same way. I don't believe there is anything stopping the TTS from adding an `act` claim to the Txn-token if it needs to represent the OnBehalfOf concept.\n\nI also agree with Pieter that right now there is no real consensus for how this concept should be represented in tokens so trying add it explicitly seems premature.",
           "createdAt": "2025-08-05T12:57:43Z",
           "updatedAt": "2025-08-05T12:57:43Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yeah the #184 is related in a way. Let me draft a proposal document on how this could potentially work based on what we are thinking for our company. We can discuss that in detail.",
+          "createdAt": "2025-08-12T18:24:24Z",
+          "updatedAt": "2025-08-12T18:24:24Z"
         }
       ]
     },
