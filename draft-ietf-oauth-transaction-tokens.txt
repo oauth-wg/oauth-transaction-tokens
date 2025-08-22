@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 29 January 2026                          Practical Identity LLC
+Expires: 23 February 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                            28 July 2025
+                                                          22 August 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 January 2026.
+   This Internet-Draft will expire on 23 February 2026.
 
 Copyright Notice
 
@@ -1462,8 +1462,8 @@ Contributors
 
 
    Arndt Schwenkschuster
-   Microsoft
-   Email: arndts@microsoft.com
+   SPIRL
+   Email: arndts.ietf@gmail.com
 
 
    Hannes Tschofenig
