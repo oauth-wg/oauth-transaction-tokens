@@ -59,8 +59,8 @@ contributor:
 
 - ins: A. Schwenkschuster
   name: Arndt Schwenkschuster
-  org: Microsoft
-  email: arndts@microsoft.com
+  organization: SPIRL
+  email: arndts.ietf@gmail.com
 
 - ins: H. Tschofenig
   name: Hannes Tschofenig
