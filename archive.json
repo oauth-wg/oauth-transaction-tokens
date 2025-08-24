@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-19T00:19:06.861661+00:00",
+  "timestamp": "2025-08-24T00:20:42.370005+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -72,6 +72,11 @@
       "name": "pre-last-call",
       "description": "Issues that need to be addressed before we go for last call",
       "color": "5319e7"
+    },
+    {
+      "name": "Out-Of-Scope",
+      "description": "topics considered out of scope for this draft, but may be considered for a follow-on draft.",
+      "color": "0d9373"
     }
   ],
   "issues": [
@@ -833,15 +838,15 @@
       "id": "I_kwDOJt_WwM52d2ec",
       "title": "Separate transaction tokens from JWT",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/50",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "jricher",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "To me, the real value here is the semantics around the payload, and less directly tied to the JWT format as its container. In particular, it seems like the payload could benefit from some of the disclosure capabilities of things like SD-JWT to allow the system to mask certain values from some parties within the trust domain.\r\n\r\nConsequently, perhaps the document should focus on the payload and semantics, or explicitly show ties to both JWT and SD-JWT (and maybe CWT and others?) from the payload definition.",
       "createdAt": "2023-11-10T12:29:35Z",
-      "updatedAt": "2024-03-22T13:28:59Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:15:22Z",
+      "closedAt": "2025-08-22T16:15:22Z",
       "comments": [
         {
           "author": "gffletch",
@@ -856,6 +861,13 @@
           "body": "Are we considering opaque token formats as an alternative as well? Those formats could not be verified (e.g. signature check) by the workloads locally, but would require incorporating Token Introspection to get the data. For performance reasons, the format should at least be defined as self contained and verifiable locally. CWT as well as (SD-)JWT would have these properties. In the IETF meeting protobuf was mentioned. As far as I know, protobuf does not have this property, so I don't see it as a fitting candidate.\r\n\r\nWe also need to consider interoperability. If the spec allowed for multiple formats (or even leaves the format out of the specification), generic libraries/frameworks to implement the protocol would need to support not just one but a lot of formats or even make the format (serialization/deserialization) pluggable. Although this might be a good idea anyway, it tends to be more complex.\r\n\r\nIn regards to selective disclosure: The purpose of the transaction token is to pass it along the transaction call chain. So if there is specific data of the original presented Access Token not to be disclosed in the transaction token, the TTS would simply not add it in the transaction token when issuing it. Although a workload can choose to exchange the transaction token for another one, the purpose was to narrow the scope to further limit the access which the new transaction token could be used for. At this point the new transaction token could contain even less information than the original transaction token. I don't think that there should be more information disclosed at this point. That's why I don't think that SD-JWTs would have an application here.\r\n\r\nOn the other hand, I do see an application for a transaction token which contains specific information for specific workloads along the call chain. I can see some similarities to Rich Authorization Requests (RAR) where there can be PII/resource identifiers in the transaction token which should only be visible to some workloads even if the transaction token is passed along through all participating workloads.\r\n",
           "createdAt": "2024-03-22T13:28:46Z",
           "updatedAt": "2024-03-22T13:28:59Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Opaque tokens and selective disclosure are advanced features that we are deferring to a future specification and leaving it out of scope for this draft.",
+          "createdAt": "2025-08-22T16:15:22Z",
+          "updatedAt": "2025-08-22T16:15:22Z"
         }
       ]
     },
@@ -1257,15 +1269,17 @@
       "id": "I_kwDOJt_WwM58ELrW",
       "title": "Long-living Access Token needed for internal batch processes/offline tasks?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/62",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "Out-Of-Scope"
+      ],
       "body": "The current spec states:\r\n\r\n\"Even for long-running \"batch\" jobs, a longer lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.\"\r\n\r\nI assume the reasoning behind this is that there would be no need to define a Txn-Token Request without an original Access Token. However, I think that creating long-living Access Tokens just for the purpose of exchanging them for short-lived Txn-Tokens and then throwing them away can be considered wasteful (energy costs). Every internally originating job would need at least two calls instead of just one to obtain the Txn-Token.\r\n\r\nKeeping those long-living Access Tokens around to re-use them for longer time is usually not useful for batch processes as those processes operate on a lot of user accounts in quick succession. Maintaining all those Access Tokens in memory is often not feasible. Neither is a storage system. I also think that using long-living Access Tokens in this scenario can add security risks. Those Access Tokens could leak and another party could use them to create Txn-Tokens or access resources the Access Token was meant for.\r\n\r\nIn our own implementation of a Txn-Service, the Txn-Service (Token Exchange) is also providing the Token endpoint and allows specific internal clients to use the Client Credentials Grant Type (mTLS client certificates) to obtain Txn-Tokens right away. The necessary input parameters are essentially a combination of the Token Request based on Client Credentials Grant and Token Exchange with a Txn-Token profile.\r\n\r\nIs it possible to extend the Txn-Token Service interface to allow Txn-Token Requests without the Access Token as input? This would essentially mean to define a Txn-Token profile for the Token endpoint in addition to the Token Exchange protocol.",
       "createdAt": "2024-01-15T08:11:42Z",
-      "updatedAt": "2025-02-17T10:07:59Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:18:46Z",
+      "closedAt": "2025-08-22T16:18:46Z",
       "comments": [
         {
           "author": "gffletch",
@@ -1315,6 +1329,13 @@
           "body": "Should this issue be consolided together with #111 ",
           "createdAt": "2025-02-17T10:07:56Z",
           "updatedAt": "2025-02-17T10:07:56Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Long running batch processes are out of scope and we will defer this to a time when we have more experience with transaction tokens.",
+          "createdAt": "2025-08-22T16:18:46Z",
+          "updatedAt": "2025-08-22T16:18:46Z"
         }
       ]
     },
@@ -1847,17 +1868,18 @@
       "id": "I_kwDOJt_WwM6JS0tW",
       "title": "Deployment models for the Transaction Token Service",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/96",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "IETF120-discuss"
+        "IETF120-discuss",
+        "Out-Of-Scope"
       ],
       "body": "This issue is to track different deployment models for the Transaction Token Service \r\n- embedded with the AS\r\n- embedded with an API GW\r\n- standalone service\r\n- ???",
       "createdAt": "2024-05-17T19:14:19Z",
-      "updatedAt": "2024-07-19T04:42:23Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:20:13Z",
+      "closedAt": "2025-08-22T16:20:13Z",
       "comments": [
         {
           "author": "gffletch",
@@ -1967,15 +1989,17 @@
       "id": "I_kwDOJt_WwM6Pc7bA",
       "title": "A dummy transaction token - useful for debugging",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/108",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "Out-Of-Scope"
+      ],
       "body": "There is no concept of placeholder or temporary token here. Sometimes the call chain breaks i.e some service in the chain doesn't propagate the token in header, either due to a bug or unexpected code change, in such case, the service that didn't receive token from caller can generate a dummy unsigned token with caller information (that missed to send token) and pass to next service.  So if A -> B -> C -> D and B misses to forward the header token, then C generates a dummy token with info about B and passes to D. This increases visibility for debugging. The service at end will find that its not real token but it can audit which service broke the call chain and can involve B directly to debug. Unsigned dummy token cannot be trusted hence MUST not be used for making authorization decision and MUST be used only for auditing/logging.",
       "createdAt": "2024-07-13T06:04:53Z",
-      "updatedAt": "2024-07-24T22:37:13Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:21:11Z",
+      "closedAt": "2025-08-22T16:21:11Z",
       "comments": [
         {
           "author": "arndt-s",
@@ -2176,17 +2200,19 @@
       "id": "I_kwDOJt_WwM6Pc8zZ",
       "title": "Batch or long running processes and extending lifetime of a token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/111",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "ashayraut"
       ],
-      "labels": [],
+      "labels": [
+        "Out-Of-Scope"
+      ],
       "body": "If we provide refresh token which is signed and contains the original token inside it, then refresh token when passed to Tx token service, then Tx token service can verify if 1) refresh token is signed with its private key, 2) the token inside will be expired but it can still read the token and verify caller's identity is associated with all the claims or not, if yes, then it can get new Tx token with same claims or it can get new token but claims that are associated to them and not the exact claims present in the token inside refresh token. Why not request new token always when batch process or workflow resumes from long pause?  Because sometimes the service might just want to use the claims of its caller (as long as its permitted to do so) rather than new token. \r\n\r\nFor example, if an internal service C is called by A and B, and C is allowed to make requests to D for tax or accounting purpose. \r\nA->C\r\nB->C\r\nC->D\r\nA is allowed to make request and request Tx token for tax purpose.\r\nB is allowed to make request and request Tx token for accounting purpose.\r\nC is allowed for both accounting and tax purpose because is a common service\r\n\r\n\r\nNow,  C simply wants to use usage claim based on who called - A or B. C can do so by passing token generated for A or B to D. But if C is a workflow that pauses for more than TTL of Tx token, then token expires and it loses all the context about claims associated with A and B. In such case, before going on long pause, C can request refresh token from Tx Token service by passing original valid token it receives. It requests this token before going into long pause. It receives refresh token which it will use when it resumes. Refresh token will have longer TTL. Tx Token can configure TTL per use case and/or per caller (e.g. C). Tx token service will include claims in the input valid token in the refresh token but the refresh token cannot be used to access data from any service. Services should ignore refresh tokens in case someone (C) tries to use it directly. C has to make an exchange and pass refresh token to TxToken issuer service to get new token to pass to D. ",
       "createdAt": "2024-07-13T06:21:17Z",
-      "updatedAt": "2025-02-19T00:04:40Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:25:49Z",
+      "closedAt": "2025-08-22T16:25:49Z",
       "comments": [
         {
           "author": "tulshi",
@@ -2257,6 +2283,13 @@
           "body": "All great points @obfuscoder which I was also highlighting in last meeting. Our company built solution for batch processing because many critical workflows are part of it. However, I also ack that there are components in batch processing that require lot more deep dive and hence new spec makes sense. For example, refreshing token contents when batch token is exchanged,  access controlling who can exchange batch tokens, lifetime of batch token itself, and more.\n\nI would be happy to contribute whatever we learnt in the new draft. By the way, I attempted modifying current draft as well to include batching which makes me think, it will be good to be separate. \n\nBut you can still take a look https://github.com/oauth-wg/oauth-transaction-tokens/pull/149 here on what I was thinking about it. ",
           "createdAt": "2025-02-19T00:04:39Z",
           "updatedAt": "2025-02-19T00:04:39Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As discussed at the interim in Dec 2024, we are deferring all batch processing until there is more experience with using transaction tokens in real world deployments with batch processing.",
+          "createdAt": "2025-08-22T16:25:49Z",
+          "updatedAt": "2025-08-22T16:25:49Z"
         }
       ]
     },
@@ -2976,15 +3009,15 @@
       "id": "I_kwDOJt_WwM6ole9U",
       "title": "\"Internal microservice\" -> workload",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/154",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Hannes, Joe Salowey and Jaroslav of Wimse pointed out that we are using the term \"internal microservice\" in the diagram, but calling it \"workload\" in the rest of the spec. We should review and see if renaming the item in the diagram to \"workload\" makes sense.",
       "createdAt": "2025-02-03T19:56:13Z",
-      "updatedAt": "2025-08-05T13:06:56Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:28:40Z",
+      "closedAt": "2025-08-22T16:28:40Z",
       "comments": [
         {
           "author": "gffletch",
@@ -3122,15 +3155,15 @@
       "id": "I_kwDOJt_WwM6vtAL-",
       "title": "Requester Context - authn",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/163",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dhs-BI",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In the description of the `authn` parameter of the requester context, it is described as a StringOrURI uniquely identifying the method used to authenticate.  In 5.2.3.1 there is an example that includes the context as `urn:ietd:rfc:6749`, indicating authn via OAuth.  (I'd call this authZ...) \n\nShould this be defined more concretely?  I am concerned that this is pretty open ended and may not accurately represent the authentication in use.  For example, I can see a use case where the workload needs to know that the user has used a phishing resistant authenticator to authenticate and the client has authorized access using OAuth.  In this case would the context be `urn:ietd:rfc:6749` or `prMFA` or something else entirely?  \n\nThere's an argument to be made that this may not make any difference since the tokens are all used within a single trust domain which could define whatever strings they way for the `authn` parameter.  ",
       "createdAt": "2025-03-25T21:28:15Z",
-      "updatedAt": "2025-07-16T04:29:47Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:31:44Z",
+      "closedAt": "2025-08-22T16:31:44Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -3193,15 +3226,17 @@
       "id": "I_kwDOJt_WwM6wh28T",
       "title": "Modelling OnBehalfOf use cases",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/166",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "Out-Of-Scope"
+      ],
       "body": "How are we thinking of modeling \"on behalf of\" use cases?\n\nAs Tx token carries the identity of the actor, a service deep down in the call chain in SOA, can verify that actor for which data is being requested, is actually signed in or not. However, often a Customer Service (CS) agent is the actor that is initiating a request on behalf of the customer, then in such cases, identity of the CS agent is definitely captured but not the identity of the real customer, who's data is going to be accessed as part of the request. Does the real customerId/customerInfo suppose to go in tctx field?\n\nI'm thinking if we should model this more explicitly to say there is optional OnBehalfOf field that represents that actor that triggered request is acting on behalf of someone else. Tx token issuer will need a way to assert that actor is really working with that customer or not but that is something the company/domain owners have to setup. e.g. if there is authoritative service that contains mapping of CS Agent -> Customers, they are working with, then Tx token issuer could call that service and pull the information and add the customer.",
       "createdAt": "2025-03-31T21:55:07Z",
-      "updatedAt": "2025-08-12T18:24:24Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:33:59Z",
+      "closedAt": "2025-08-22T16:33:59Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -3231,15 +3266,17 @@
       "id": "I_kwDOJt_WwM6wh4mz",
       "title": "Introducing a concept of authoritative context provider",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/167",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "Out-Of-Scope"
+      ],
       "body": "Tx Token Issuer is going to connect with some authoritative service in order to get data to add in 'tctx' field. Our RFC draft says \"Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context\".  But there is guidance around how Tx Token can get this information. Often it will require to connect some service. It should make sure that - the other service is verified, the channel to connect to that service is secure. Also Tx token needs a clear contract between TxToken->Context Provider so that its clear what TxToken can pass to Context Provider and what it will expect in return.\n\nOn that we also have to think failure modes. If there are many context providers and one of them don't respond, then will TxToken continue generating tctx field with whatever data is available or completely fail token issuance request. It will be mostly left to implementation but RFC provides no guidance.",
       "createdAt": "2025-03-31T21:59:46Z",
-      "updatedAt": "2025-07-16T04:23:29Z",
-      "closedAt": null,
+      "updatedAt": "2025-08-22T16:34:39Z",
+      "closedAt": "2025-08-22T16:34:39Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -3288,9 +3325,17 @@
       "labels": [],
       "body": "Just happened to notice that the current category is Informational. Not an expert but it feels much more like a standard track document to me.\n\n```yaml\nstand_alone: true\nipr: trust200902\ncat: info # Check\nsubmissiontype: IETF\narea: sec\nwg: oauth\n```",
       "createdAt": "2025-04-03T10:31:45Z",
-      "updatedAt": "2025-04-03T10:31:45Z",
+      "updatedAt": "2025-08-22T17:00:10Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "yes ",
+          "createdAt": "2025-08-22T17:00:10Z",
+          "updatedAt": "2025-08-22T17:00:10Z"
+        }
+      ]
     },
     {
       "number": 174,
@@ -3366,7 +3411,7 @@
       "labels": [],
       "body": "From the mailing list:\n\nhttps://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/\n\n[OAUTH-WG] Tx-Token Purpose vs Scope\nJoe DeCock <joe@duendesoftware.com> Thu, 19 June 2025 22:44 UTC[Show header](https://mailarchive.ietf.org/arch/msg/oauth/tOA3lQDoiij0sPi7JI2nFDNOPbA/#)\n\nHello OAuth working group,\n\nI've been reading the transaction tokens draft with great interest. I think\nit's solving an important problem and largely I like what I'm seeing in the\ndraft. However, I think that the way that scope and purpose are\ndifferentiated can be improved to make the specification easier to\nunderstand, easier to implement, and improve interoperability.\n\nThe way that the purpose is described and contrasted with OAuth scopes in\nsection 5.2.1 makes good sense to me.\n\nThe purp claim captures the exact purpose of this particular transaction.\n> This is often much narrower than a scope value issued to an external\n> client. This is due to the fact that in most cases, the authorization model\n> within the Trust Domain is quite different than the authorization model\n> used with clients external to the Trust Domain. To that end, it is\n> intentional to separate the concept of scope (often fairly coarse-grained)\n> used with external clients from the purpose of the transaction used within\n> the Trust Domain. How a given deployment represents the authorization model\n> within the Trust Domain is out of scope for this specification.\n\n\nBut in the txn-token request (Section 7.1), the purpose of the transaction\ntoken is sent as the scope parameter. I think that has the potential to be\nconfusing, because the two concepts are meant to be distinct. In my\nexperience, non-identity experts often struggle with the existing concepts\nof scopes, claims, and roles. Reusing the scope parameter with purpose\nsemantics is likely going to be a cause for confusion.\n\nSection 9.6 muddies the distinction between scope and purpose further:\n\nThe TTS MUST ensure that the requested purpose (scope) of the Txn-Token is\n> equal or less than the scope(s) identified in the subject_token. This is\n> also true of requesting a replacement Txn-Token. The TTS MUST ensure there\n> is no unintentional increase in authorization scope.\n\n\nIt's not clear to me what the equal to or less than language exactly means,\nbut it's certainly very suggestive, perhaps in a way that isn't good. To\nme, it makes it sound like a purpose is a part of a scope, or that there's\na relationship where certain scopes authorize certain purposes. It seems to\nme that while the decision to issue a transaction token should take the\nscope of the subject token into account, it potentially would also care\nabout other claims of the subject token, the calling client, the request\ncontext, the request details, or the txn token service's policy.\n\nMy suggestions are to\n1. Invent a new \"purpose\" parameter used to request transaction tokens so\nthat tx-token requests do not re-use scope or set it all,\n2. Clarify the intentions of the \"equal or less than\" language in section\n9.6, and\n3. Consider language explicitly stating that transaction tokens MUST NOT\ncontain a scope claim.\n\nThe token exchange spec says that scope is optional, so I would simply\nmandate that in a transaction token exchange, scope is not used.\n\nThinking about how I or others would likely implement this, it seems likely\nthat validating the purpose parameter as well as the configuration and\npolicy related to it would be a separate system from scope processing in\nthe AS. So, from an implementation point of view, adding the new parameter\nwould probably simplify the implementation at the AS. The new semantics and\nparameters that are associated with the transaction token call would mean\nthat the client/initiating workload would already have to write some new\ncode. While existing libraries exist that know how to do token exchange in\ngeneral, the specifics of transaction tokens are still going to require\nsome implementation work. A new purpose parameter wouldn't add\nsignificantly to that.\n\nLanguage to ban scopes from transaction tokens would simply be there to\nre-inforce what the specification is already (not) doing. It helps with\ninteroperability to make sure that the TTS never does include a scope, in\ncase a tx-token was ever misused. Of course we have the typ header to\ndifferentiate the tokens, but leaving the scope out helps prevent their\nmisuse by older JWT libraries that don't know to validate the typ. And in\nany case, it seems that not including the scope is the intention in this\ndraft.\n\n\nCheers,\nJoe DeCock",
       "createdAt": "2025-06-20T11:02:30Z",
-      "updatedAt": "2025-08-05T12:38:36Z",
+      "updatedAt": "2025-08-22T16:44:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -3459,6 +3504,13 @@
           "body": "> > The `scope` parameter is used in the request because the spec is profiling RFC 8693 (Token Exchange) which defines the parameter. To use a different parameter would require the profile to explicitly prohibit the use of the `scope` parameter in favor of a new parameter. I understand how this can be confusing. Unfortunately, the other side is that if we keep adding new parameters and prohibit existing ones, it begs the question of whether we should be profiling RFC 8693 at all and rather defining yet another endpoint.\n> \n> 8693 defines scope as optional:\n> \n> > scope\n> > OPTIONAL. A list of space-delimited, case-sensitive strings, as defined in [Section 3.3](https://www.rfc-editor.org/rfc/rfc6749#section-3.3) of [[RFC6749](https://datatracker.ietf.org/doc/html/rfc6749)], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used. The values and associated semantics of scope are service specific and expected to be described in the relevant service documentation.\n> \n> So it seems fine to have a profile that doesn't use it.\n\nThe main point for me is that if we prohibit `scope` and define `purpose` I wonder how much we are really profiling RFC 8693 and instead defining a new endpoint. For me the real question is doing that work necessary? Is the confusion caused by the use of the `scope` parameter significant enough to require defining a new endpoint for the spec. All doable :) ",
           "createdAt": "2025-08-05T12:38:36Z",
           "updatedAt": "2025-08-05T12:38:36Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the point that scopes are already defined and known within a system indicates that it may help accelerate adoption, rather than inhibit it. Practitioners may choose to define their own claims, and a follow-on specification may introduce this. For now I see more reasons to keep things as is.",
+          "createdAt": "2025-08-22T16:44:03Z",
+          "updatedAt": "2025-08-22T16:44:03Z"
         }
       ]
     },
@@ -3591,9 +3643,17 @@
       "labels": [],
       "body": "### Problem Statement\n\nAuthorization systems based on zero trust principles must rethink their approach when dealing with AI agents, as the characteristics that differentiate AI agents from traditional web services have major security implications. Unlike static web services, AI agents can act autonomously, adapt their behavior, and access or integrate with new data sources dynamically\u2014sometimes making decisions outside of their originally intended scope. This means that existing zero trust models, which tightly define permissions, verification processes, and access scopes for regular web services, may fall short when applied to adaptive, context-aware AI agents. For true zero trust security, authorization systems should treat each AI agent interaction as potentially unique, inspect agent requests with greater granularity, and continuously evaluate both intent and context\u2014not just identity. Dynamic policy enforcement, ongoing behavioral analysis, and robust audit mechanisms become critical to ensure that AI agents do not inadvertently gain unauthorized access or act outside governance boundaries, despite using the same foundational security model as for traditional web services.\n\nTransaction Tokens are a solution to propagate security context across the call graph in the form of cryptographically signed tokens. These tokens start at the front of the call chain and are propagated through all services in the call chain. Services can leverage the security context for access control and auditing. \n\nTo support AI agent applications in the service graph, Transaction Tokens need to address several challenges: where and how tokens will be generated, how context inputs are captured from agents, scoping/limiting the contexts for agents, ensuring token propagation, and updating the auditing process to capture agent identity along with original actor details.\nAgents by default must be given zero permissions and must be able to get permissions only when delegated by human user. Unsupervised with no human in loop agents could get permissions based on the task but sensitive operations should have human in loop to approve. \n\nAgents could be in different environments including developer\u2019s machine (unsafe environment) or hosted in CloudAuth with protected access.\n\n\n### Assumptions\n \nBefore jumping into solution, an assumption is being made here that OAuth will be used for agentic interactions. Agents will have no permissions of their own but will request permissions from Authorization Server (AS) with human in the loop consenting it. Agents will basically have access token that calls the human user as subject and agent as \u2018actor; representing that agent is acting on behalf of the user.\n\nFor multi-agent, another assumption is that each agent will do OAuth Token Exchange RFC 8693 for getting access token which indicates that the agent is acting on behalf of the previous agent. These access tokens will contain delegation chain information about all agent identities.\n\n### Why not initiate Transaction tokens at the agents ?  \n\nThe obvious solution to ensure Transaction token coverage across entire call chain starting from agent is to initiate Transaction token at beginning of call chain, in this case, it will be the Agentic application. The agentic application will have OAuth access token to access a resource server, but before calling resource server (or workload), it will request Transaction token using the access token. Transaction Token Issuer (TTI) will issue Tx token by validating the input access token. The input access token will have information about agent and human identity. It will also prove that agent is acting on behalf of human. \n\nChallenges with initiating token at agents : \nThere are multiple challenges in this approach. The agent to agent or agent to MCP server interaction can be long running and Transaction tokens will expire. So we have to figure out mechanism to keep Tx token refrehsed. Token propagation is another challenge over MCP/A2A and other protocols. The agents could be running in browser or relatively low secure environments such as a human user\u2019s laptop which increases the risk of exposing our bearer Transaction token.\n\n\n### Proposal: Initiate transaction tokens once agentic interaction is over. \n\nThe core idea of shifting token generation away from potentially unsafe environments and onto a trusted server is compelling. Core design principle - The proposal simplifies agent logic by shifting complexity to the trusted, centralized infrastructure\u2014the Authorization Server and the Transaction Token Issuer. \n\nLet's take this flow as an example - \n\n```\nHuman -> Agent A \u2192 MCP Server \u2192 Resource server \u2192 Internal Service (Resource Server)\n```\n\n- Human will invoke Agent. \n- Agent will take action by calling MCP Server. \n- MCP Server throws OAuth challenge 401 unauthorized. \n- Agent which is already registered with OAuth Authorization Server (AS) will request access token. \n- AS will invoke authorization code flow and ask human for consent. \n- Human approves it and then standard auth code flow starts. At the end, agent has access token that says agent is allowed to take action on behalf of subject (human). \n- MCP Server gets the access token. \n- MCP server has to call internal service now. MCP Server gets access token from agent, and then invoke OAuth Token Exchange RFC 8693 with AS and gets another access token. \n- AS verifies permissions of MCP server, access tokens and then issues access token to MCP Server. \n- This access token contains delegation chain including (human, agent, MCP Server). \n- \n- MCP Server now has access token with all delegation chain and about to call internal service. \n- This is where it should initiate Tx token by calling  Transaction Token Issuer (TTI) and passing the access token. \n- TTI will have all the necessary information to add in the Tx token using the access token as the access token has call chain information. \n- TTI must validate the access token before trusting it for generating Transaction token.\n- The generated Transaction token will have the human identity as the Subject, the first agent identity as 'act' claim. It also aligns with https://github.com/modelcontextprotocol/modelcontextprotocol/issues/214 \n\n\nAs supervised agents act on behalf of humans, its important to include their identity in the Transaction tokens. Whenever human triggers an agent, sub MUST contain human identity and there should be a new claim in the token to include identity of the agent that acts on behalf of the human user.\n\n\n```\nact: : OPTIONAL The \"act\" (actor) claim, within the context of OAuth 2.0 token exchange and JSON Web Tokens (JWTs), is defined in RFC 8693: OAuth 2.0 Token Exchange. The value will be the agent that is acting on behalf of the human user. In case the access token contains delegation chain, then it will be the first actor in 'act' field where this on behalf of flow started.\n```\n\n### Detailed explanation of the proposal\nThe core idea is that Transaction Tokens will leverage the OAuth Authorization Server-issued access tokens as proof to issue a Transaction Token. These access tokens will be issued to AI agent applications and MCP servers in the call chain. For agent-to-agent or agent-to-MCP server interactions, access tokens from agents all the way to the last MCP server/agent will carry delegation chain information. This means all identities involved up to that point will be present in these access tokens. This differs from the current service access token model where an access token from Service A to Service B is different from an access token issued by Service B to call Service C. \n\nThe advantage of this approach is that now Tx tokens aren\u2019t exposed to unsafe environments in which agents are running. If agents do have long running interactions, they will still maintain access tokens because most of the agents are supposed to be OAuth compliant. This gives Tx token RFC to be popular and get widely adopted but still not blocked on agents support Tx token. \n).\n\nFor mid-call chain use cases, \n```\nWorkload A(w/ Tx token) \u2192 MCP Server A \u2192 MCP Server B \u2192 Workload-2\n```\nwhere Transaction Token propagation through the service graph starts but agent-to-agent interaction begins, the first MCP server or agent  (MCP Server A in above example) will perform an OAuth token exchange to get onBehalfOf permissions, and the Transaction Token context could be preserved in the access token as a claim. So between MCP Server A \u2192 MCP Server B, access token is flowing but this access token was requested by MCP Server A as part of OAuth token exchange. In OAuth token exchange, MCP Server should send access token and Tx token as well to ensure access token captures the Tx token contents as claim. Before calling Workload-2, the access token can be used to get a Transaction Token at MCP Server B. TTI this time, instead of generating a token with new contexts, the preserved contexts from access token claim will be used. \n\nIn summary, access tokens will be leveraged to procure Transaction Tokens. The OAuth token exchanged access tokens contain a delegation chain of identities, and when agent interaction starts in the middle of the call chain, access tokens will preserve Transaction Token contexts to get Transaction Tokens back when service interaction begins.\n\nThis approach for Transaction Tokens depends on OAuth Authorization Server support for OAuth token exchange, registering AI applications in the OAuth Authorization Server for identities, and delegation and permission models. The approach simplifies overall Transaction Token integration in this AI agent-based service graph as Transaction Tokens don't need to implement propagation over various protocols, or worry about issuing bearer tokens in unsafe environments such as developers' machines or browsers.\n\nThe agent-side space is rapidly evolving, and by moving Transaction Token generation to the server side, integration stays simple while the OAuth Authorization Server handles the complexity. This approach assumes that all relevant protocols are or will be supporting OAuth, including agent applications. This means that agent application frameworks that support OAuth should be sufficient for AI agent apps to start development and launch, instead of integrating Transaction Tokens explicitly in their agent code and further complicating it.\n\n### Security and additional considerations\n\n- I acknowledge that while the risk of exposing a Transaction Token is removed, the risk of a compromised OAuth Access Token remains. Advocate for mTLS as a non-negotiable security measure for all inter-service communication to protect against this.\n\n- We should consider may be new, standardized claim to the oauth-transaction-tokens working group for transporting Transaction Token context within an access token. This ensures interoperability and prevents proprietary implementations.\n\n- We must mandate that all audit trails for AI agent interactions include the full delegation chain (human, agent), along with all dynamic business context used to make a decision.\n\n- \n\n",
       "createdAt": "2025-08-16T21:34:46Z",
-      "updatedAt": "2025-08-17T15:47:18Z",
+      "updatedAt": "2025-08-22T17:23:42Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi @ashayraut - thanks for opening this issue and the thoughtful write-up.\n\nI am curious, is there a specific change you were thinking of, or is this input to a broader discussion on how Transaction Tokens should be used in systems where Agentic AI is deployed?",
+          "createdAt": "2025-08-22T17:23:42Z",
+          "updatedAt": "2025-08-22T17:23:42Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -11674,6 +11734,96 @@
               "updatedAt": "2025-08-05T20:37:10Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 187,
+      "id": "PR_kwDOJt_WwM6k55Ej",
+      "title": "Delete draft-ietf-oauth-transaction-tokens-03.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/187",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "why would there be a copy of the -03 and only the -03 markdown?",
+      "createdAt": "2025-08-22T15:20:17Z",
+      "updatedAt": "2025-08-22T15:20:39Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "7fba2a71f49fc880ca3c8dda2448715670f035c7",
+      "headRepository": "bc-pi/oauth-transaction-tokens",
+      "headRefName": "patch-2",
+      "headRefOid": "3e130ebd539b65a13cb38d38f0899b28befe8235",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 188,
+      "id": "PR_kwDOJt_WwM6k6F1H",
+      "title": "Arndt moved. Jobs and countries. But the job part needs fixing here.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/188",
+      "state": "MERGED",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-22T15:41:49Z",
+      "updatedAt": "2025-08-22T18:12:30Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "7fba2a71f49fc880ca3c8dda2448715670f035c7",
+      "headRepository": "bc-pi/oauth-transaction-tokens",
+      "headRefName": "patch-3",
+      "headRefOid": "8a714f446ba65936b6b01e3d1f52e41f1aef8f06",
+      "closedAt": "2025-08-22T17:25:33Z",
+      "mergedAt": "2025-08-22T17:25:33Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "e9644ac904a56d953941c79c4518a46736f586ba"
+      },
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@arndt-s ",
+          "createdAt": "2025-08-22T15:42:09Z",
+          "updatedAt": "2025-08-22T15:42:09Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@bc-pi, who is @arndt-s ?",
+          "createdAt": "2025-08-22T17:26:09Z",
+          "updatedAt": "2025-08-22T17:26:09Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> @bc-pi, who is @arndt-s ?\r\n\r\nI think he's one of these trash pandas, right?\r\n\r\n![20190723_053438](https://github.com/user-attachments/assets/214d5a73-03a4-4b9c-8293-ff2b6437696d)\r\n\r\n",
+          "createdAt": "2025-08-22T18:12:30Z",
+          "updatedAt": "2025-08-22T18:12:30Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM67dk_0",
+          "commit": {
+            "abbreviatedOid": "8a714f4"
+          },
+          "author": "arndt-s",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "Thank you @bc-pi ",
+          "createdAt": "2025-08-22T16:18:56Z",
+          "updatedAt": "2025-08-22T16:18:56Z",
+          "comments": []
         }
       ]
     }
