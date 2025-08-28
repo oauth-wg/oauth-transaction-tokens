@@ -303,7 +303,7 @@ Transaction Token (Txn-Token):
 : A signed JWT with a short lifetime, providing immutable information about the user or workload, certain parameters of the call, and specific contextual attributes of the call. The Txn-Token is used to authorize subsequent calls in the call chain.
 
 Authorization Context:
-: A JSON object containing a set of claims that represent the immutable context of a call chain.
+: The information that represent the immutable context of a call chain. This information MAY be expressed as a JSON object containing a set of claims.
 
 Transaction Token Service (Txn-Token Service):
 : A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical Txn-Token Service.
