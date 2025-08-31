@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T00:18:13.655465+00:00",
+  "timestamp": "2025-08-31T00:20:16.805828+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3674,9 +3674,17 @@
       ],
       "body": "WGLC Feedback from @bc-pi : \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-initial-creation and 1-3 https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-basic-flow and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-service and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7 and maybe elsewhere like https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-6\nI believe it'd be worthwhile to account/allow for the case where the gateway or external endpoint that handles the invocation from the outside to itself act as the Txn-Token Service and do the \"exchange\" and issuance of the Txn-Token internally without an RFC8693 Token Exchange call.",
       "createdAt": "2025-08-26T15:00:45Z",
-      "updatedAt": "2025-08-26T15:00:45Z",
+      "updatedAt": "2025-08-28T17:46:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@bc-pi Is the idea here to allow for the general pattern of transaction tokens, without having to follow a specific protocol, so that we define both a framework/pattern and a interface to the transaction token service and by just following the pattern, you can claim support for transaction tokens? \n\nIn essence something as general as \"A gateway MAY generate a transaction token based on an access token that it received. If the exchange is made via an HTTP request to a remote server, it SHOULD follow RFC8693 as defined in this specification\"?\n\nSome questions that come to mind:\n\n1. Does the absence of such an allowance limit adoption, or would it just be done in any event?\n2. Are there interoperability concerns that arise from allowing the gateway to use alternatives to RFC8693\n\n@tulshi and @gffletch - this feels like a big change in terms of scope",
+          "createdAt": "2025-08-28T17:46:28Z",
+          "updatedAt": "2025-08-28T17:46:28Z"
+        }
+      ]
     },
     {
       "number": 190,
@@ -3746,9 +3754,17 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.10.1 \nIf \"txn\" is going to be required, and probably regardless, I think some more definition or at least rational is needed here.",
       "createdAt": "2025-08-26T16:09:03Z",
-      "updatedAt": "2025-08-26T16:09:03Z",
+      "updatedAt": "2025-08-28T18:16:39Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Transaction identifier is defined in RFC 8417 (https://www.rfc-editor.org/rfc/rfc8417). Keeping with the practice of not repeating text at the risk of redefining its meaning or some other unfortunate misinterpretation beyond what is already possible, the thinking here is to just rely on that definition. The definition also give context on the purpose of the \"txn\" claim (used for correlation purposes). See below for convenince.\n\n   \"txn\" (Transaction Identifier) Claim\n      An OPTIONAL string value that represents a unique transaction\n      identifier.  In cases in which multiple related JWTs are issued,\n      the transaction identifier claim can be used to correlate these\n      related JWTs.  Note that this claim can be used in JWTs that are\n      SETs and also in JWTs using non-SET profiles.\n\nI am hesitent of fiddling with the definition, or even trying to add rationale as it is already provided in the current defintion in RFC8417.",
+          "createdAt": "2025-08-28T18:16:39Z",
+          "updatedAt": "2025-08-28T18:16:39Z"
+        }
+      ]
     },
     {
       "number": 194,
@@ -3764,9 +3780,17 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.14.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-purpose-claim \nNot sure how to articulate this but the 'purp' claim feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-8 \nI realize this has (probably) been discussed but the need for the new purp claim is unclear to me. Or not compiling.  \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-scope-and-purpose-processin\nOkay but scope can still be used to convey scope, even if it's inside and/or more granular and/or different. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\nIt's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim. \n",
       "createdAt": "2025-08-26T16:10:36Z",
-      "updatedAt": "2025-08-26T16:32:02Z",
+      "updatedAt": "2025-08-28T18:44:03Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My mental model for the \"purp\" is that it is a kind of \"fine grained scope\" and allows the transaction server to communicate that access granted is smaller or equal to \"scope\". It is seperate from transaction context. It is a mechanism to downscope \"scope\".\n\nNot sure that helps @gffletch and @tulshi should weigh in here as well.",
+          "createdAt": "2025-08-28T18:44:03Z",
+          "updatedAt": "2025-08-28T18:44:03Z"
+        }
+      ]
     },
     {
       "number": 195,
@@ -3818,9 +3842,17 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1\nThe 'MUST remain immutable' here in the request parameter definition is rather odd and could easily be interpreted to mean something that is probably not intended. \n",
       "createdAt": "2025-08-26T16:15:49Z",
-      "updatedAt": "2025-08-26T16:15:49Z",
+      "updatedAt": "2025-08-28T19:10:20Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Interesting. I think the intent here was to say that the request_details parameter contains request details that are immutable throughout the transaction call chain. Not sure a MUST is needed. The transaction token service uses this information when it creates the txtx claim. If these are immutable claims, and they MUST be preserved, perhaps it is just better to say the transaction token service MUST include them in the tctx claim?\n\n@gffletch @tulshi - thoughts?",
+          "createdAt": "2025-08-28T18:59:21Z",
+          "updatedAt": "2025-08-28T19:10:20Z"
+        }
+      ]
     },
     {
       "number": 198,
@@ -12688,6 +12720,106 @@
           "body": "Thank you @bc-pi ",
           "createdAt": "2025-08-22T16:18:56Z",
           "updatedAt": "2025-08-22T16:18:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 237,
+      "id": "PR_kwDOJt_WwM6l2tNq",
+      "title": "Proposed change to definition of authorization context",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/237",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Proposed response to issue #192\r\n\r\n@bc-pi ",
+      "createdAt": "2025-08-28T18:06:48Z",
+      "updatedAt": "2025-08-30T12:59:38Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "04068b86d56b635133af134ad8c2b99f8dc901a7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM69AhQx",
+          "commit": {
+            "abbreviatedOid": "04068b8"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-30T12:53:45Z",
+          "updatedAt": "2025-08-30T12:53:46Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-08-30T12:53:46Z",
+              "updatedAt": "2025-08-30T12:53:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM69AhRb",
+          "commit": {
+            "abbreviatedOid": "04068b8"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-30T12:53:58Z",
+          "updatedAt": "2025-08-30T12:53:59Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-08-30T12:53:58Z",
+              "updatedAt": "2025-08-30T12:53:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM69Ahi0",
+          "commit": {
+            "abbreviatedOid": "04068b8"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-30T12:58:54Z",
+          "updatedAt": "2025-08-30T12:58:54Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "the words authorization context appear three other times in the document, before this, with lower case a and c. \r\nthis definition doesn't honestly make sense to me but before tying to figure that out i'd suggest that having it in the terminology isn't even needed  ",
+              "createdAt": "2025-08-30T12:58:54Z",
+              "updatedAt": "2025-08-30T12:58:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM69AhlX",
+          "commit": {
+            "abbreviatedOid": "04068b8"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "maybe just remove it",
+          "createdAt": "2025-08-30T12:59:38Z",
+          "updatedAt": "2025-08-30T12:59:38Z",
           "comments": []
         }
       ]
