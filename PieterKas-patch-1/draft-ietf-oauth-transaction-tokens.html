@@ -1679,9 +1679,14 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
           <p id="section-4-1.10.1">A signed JWT with a short lifetime, providing immutable information about the user or workload, certain parameters of the call, and specific contextual attributes of the call. The Txn-Token is used to authorize subsequent calls in the call chain.<a href="#section-4-1.10.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
-<dt id="section-4-1.11">Transaction Token Service (Txn-Token Service):</dt>
+<dt id="section-4-1.11"></dt>
         <dd style="margin-left: 1.5em" id="section-4-1.12">
-          <p id="section-4-1.12.1">A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-4-1.12.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.12.1">The information that represent the immutable context of a call chain. This information MAY be expressed as a JSON object containing a set of claims.<a href="#section-4-1.12.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-4-1.13">Transaction Token Service (Txn-Token Service):</dt>
+        <dd style="margin-left: 1.5em" id="section-4-1.14">
+          <p id="section-4-1.14.1">A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-4-1.14.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
