@@ -594,7 +594,7 @@ To request a replacement Txn-Token, the requester makes a Txn-Token Request as d
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
 
 ## Mutual Authentication of the Txn-Token Request
-A Transaction Token Service and requesting workload MUST authenticate each other (mutual authentication). 
+A Transaction Token Service and requesting workload MUST authenticate each other (mutual authentication).
 
 Workloads authenticate the Transaction Token Service to ensure that it does not disclose sensitive information, such as OAuth access tokens, to a rogue Transaction Token Service. A Transaction Token Service authenticates a workload to ensure it is authorized to request a transaction token.
 
@@ -603,20 +603,6 @@ Workloads SHOULD use the `https` scheme to secure the communication channel and 
 Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed JWTs in accordance with {{RFC7521}} and {{RFC7523}}.
 
 Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}} and WIMSE Workload-to-Workload Authentication {{WIMSE}}.
-
-A Txn-Token Service:
-
-* MUST authenticate the requesting workload and confirm that it is authorized to request a transaction token.
-* It SHOULD accept workload credentials such as JWTs, X.509 certificates or Workload Identity Tokens which MAY be provisioned using mechanisms such as {{SPIFFE}} or other provisioning protocols.
-* 
-* It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.
-
-The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:
-
-* It MUST have a pre-configured location for the Transaction Token Service.
-* It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as {{SPIFFE}} or other provisioning protocols.
-* It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the Transaction Token Service.
-* It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.
 
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
