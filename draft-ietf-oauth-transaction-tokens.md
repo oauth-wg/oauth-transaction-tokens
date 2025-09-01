@@ -741,6 +741,10 @@ The authors would like to thank the contributors and the OAuth working group mem
 {: numbered="false"}
 [[ To be removed from final specification ]]
 
+## Since Draft 06
+{:numbered="false"}
+* Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
+
 ## Since Draft 05
 {:numbered="false"}
 * [Strengthened prohibition on expanding TraT scope](https://github.com/oauth-wg/oauth-transaction-tokens/pull/173)
