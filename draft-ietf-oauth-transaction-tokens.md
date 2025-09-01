@@ -75,9 +75,12 @@ normative:
   RFC6848: #Base64url encoding
   RFC7519: #JWT
   RFC7515: #JWS
+  RFC7521: # Assertion Flow
+  RFC7523: # JWT Assertion Flow
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
+  RFC8705: # OAuth MTLS
   RFC9068: # JWT Profile for OAuth 2.0 Access Tokens
   RFC9110: # HTTP
   RFC9111: # HTTP Caching
