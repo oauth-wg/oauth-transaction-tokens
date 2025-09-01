@@ -594,9 +594,8 @@ A Txn-Token Service MUST ensure that it authenticates any workloads requesting T
 * It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the requesting workload.
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.
 
-The requesting workload MUST ensure that it is communicating with a legitimate Transaction Token Service. In order to do so:
+The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:
 
-* It MUST have a pre-configured location for the Transaction Token Service.
 * It SHOULD use the https scheme to secure the communication channel and authenticate the Transaction Token Service. When using https, TLS certificates MUST be checked according to {{RFC9110}}. At the time of this writing, TLS version 1.3 {{RFC8446}} is the most recent version.
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.
 
