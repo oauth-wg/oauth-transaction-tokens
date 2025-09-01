@@ -957,11 +957,8 @@ Table of Contents
    *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
       shared secrets to authenticate the requesting workloads.
 
-   The requesting workload MUST ensure that it is communicating with a
-   legitimate Transaction Token Service.  In order to do so:
-
-   *  It MUST have a pre-configured location for the Transaction Token
-      Service.
+   The requesting workload MUST ensure that it authenticates the
+   Transaction Token Service.  In order to do so:
 
    *  It SHOULD use the https scheme to secure the communication channel
       and authenticate the Transaction Token Service.  When using https,
