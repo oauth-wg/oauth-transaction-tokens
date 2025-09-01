@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 1 March 2026                             Practical Identity LLC
+Expires: 5 March 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                          28 August 2025
+                                                        1 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 March 2026.
+   This Internet-Draft will expire on 5 March 2026.
 
 Copyright Notice
 
@@ -419,10 +419,6 @@ Table of Contents
       certain parameters of the call, and specific contextual attributes
       of the call.  The Txn-Token is used to authorize subsequent calls
       in the call chain.
-
-   Authorization Context:  The information that represent the immutable
-      context of a call chain.  This information MAY be expressed as a
-      JSON object containing a set of claims.
 
    Transaction Token Service (Txn-Token Service):  A special service
       within the Trust Domain that issues Txn-Tokens to requesting
