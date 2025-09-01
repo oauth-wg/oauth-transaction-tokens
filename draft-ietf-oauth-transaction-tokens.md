@@ -113,6 +113,18 @@ normative:
     - name: Chuck Mortimore
       org: Salesforce
     date: 2014-11
+  WIMSE:
+    title: WIMSE Workload to Workload Authentication
+    target: https://www.ietf.org/archive/id/draft-ietf-wimse-s2s-protocol-06.html
+    author:
+    - name: Brian Campbell
+      org: Ping Identity
+    - name: Joe Salowey
+      org: CyberArk
+    - name: Arndt Schwenkschuster
+      org: SPIRL
+    - name: Yaron Sheffer
+      org: Intuit
 
 informative:
   SPIFFE:
@@ -445,7 +457,7 @@ Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token S
 A workload requests a Txn-Token from a Transaction Token Service using a profile of the OAuth 2.0 Token Exchange {{RFC8693}}. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange {{RFC8693}} is described below.
 
 ## Txn-Token Request {#txn-token-request}
-A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN `urn:ietf:params:oauth:token-type:txn_token` which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.
+A workload requesting a Txn-Token must authenticate to the Transaction Token Service, the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN `urn:ietf:params:oauth:token-type:txn_token` which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.
 
 To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endpoint with the following parameters:
 
@@ -466,8 +478,6 @@ The following additional parameters MAY be present in a Txn-Token Request:
 
 * `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.
 * `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
-
-The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.
 
 The figure below {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
 
@@ -514,7 +524,7 @@ A requester MAY use an unsigned JSON object as a `subject_token` value. In that 
 The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.
 
 ## Txn-Token Request Processing
-When the Transaction Token Service receives a Txn-Token Request it MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
+When the Transaction Token Service receives a Txn-Token Request it MUST authenticate the workload and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
 
 Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
 
@@ -584,14 +594,21 @@ To request a replacement Txn-Token, the requester makes a Txn-Token Request as d
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
 
 ## Mutual Authentication of the Txn-Token Request
-A workload and Transaction Token Service MUST perform mutual authentication.
+A Transaction Token Service and requesting workload MUST authenticate each other (mutual authentication). 
 
-A Txn-Token Service MUST ensure that it authenticates any workloads requesting Txn-Tokens. In order to do so:
+Workloads authenticate the Transaction Token Service to ensure that it does not disclose sensitive information, such as OAuth access tokens, to a rogue Transaction Token Service. A Transaction Token Service authenticates a workload to ensure it is authorized to request a transaction token.
 
-* It MUST maintain a limited, pre-configured set of authorized workloads that MAY request Txn-Tokens.
-* It MUST authenticate the requesting workload and confirm that it is included in the list of workloads authorized to request a transaction token.
-* It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as {{SPIFFE}} or other provisioning protocols.
-* It SHOULD use X.509 credentials in conjunction with MTLS {{RFC8446}}, or a JWT protected by TLS at the transport layer, to securely authenticate the requesting workload.
+Workloads SHOULD use the `https` scheme to secure the communication channel and authenticate the Transaction Token Service. When using `https`, TLS certificates MUST be checked according to {{RFC9110}}. At the time of this writing, TLS version 1.3 {{RFC8446}} is the most recent version
+
+Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed JWTs in accordance with {{RFC7521}} and {{RFC7523}}.
+
+Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}} and WIMSE Workload-to-Workload Authentication {{WIMSE}}.
+
+A Txn-Token Service:
+
+* MUST authenticate the requesting workload and confirm that it is authorized to request a transaction token.
+* It SHOULD accept workload credentials such as JWTs, X.509 certificates or Workload Identity Tokens which MAY be provisioned using mechanisms such as {{SPIFFE}} or other provisioning protocols.
+* 
 * It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.
 
 The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:
@@ -622,8 +639,8 @@ When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presen
 ## Subject Token Types {#sec-sub-token-types}
 A service requesting a Txn-Token SHOULD provide an incoming token if it has one that it used itself to authorize a caller, and if it directly correlates with the downstream call chain it needs the Txn-Token for. In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the details of the requester to the Txn-Token service.
 
-## Client Authentication
-If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The `actor_token` MUST authenticate the identity of the requesting workload.
+## Use of 'actor_token'
+If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` MUST authenticate the identity of the requesting workload.
 
 ## Replacement Tokens
 Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to the security of the entire transaction invocation sequence. Only Txn-Tokens issued by a trusted Transaction Token Service may be trusted, so verification of the Txn-Token signature is required. For replacement transaction tokens, not only must the JWT signature be verified but also the workload identity of the workload requesting the replacement Txn-Token.
