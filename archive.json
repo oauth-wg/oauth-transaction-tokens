@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-31T00:20:16.805828+00:00",
+  "timestamp": "2025-09-02T00:18:17.641524+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3674,7 +3674,7 @@
       ],
       "body": "WGLC Feedback from @bc-pi : \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-initial-creation and 1-3 https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-basic-flow and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-service and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7 and maybe elsewhere like https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-6\nI believe it'd be worthwhile to account/allow for the case where the gateway or external endpoint that handles the invocation from the outside to itself act as the Txn-Token Service and do the \"exchange\" and issuance of the Txn-Token internally without an RFC8693 Token Exchange call.",
       "createdAt": "2025-08-26T15:00:45Z",
-      "updatedAt": "2025-08-28T17:46:28Z",
+      "updatedAt": "2025-08-31T07:56:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -3683,6 +3683,13 @@
           "body": "@bc-pi Is the idea here to allow for the general pattern of transaction tokens, without having to follow a specific protocol, so that we define both a framework/pattern and a interface to the transaction token service and by just following the pattern, you can claim support for transaction tokens? \n\nIn essence something as general as \"A gateway MAY generate a transaction token based on an access token that it received. If the exchange is made via an HTTP request to a remote server, it SHOULD follow RFC8693 as defined in this specification\"?\n\nSome questions that come to mind:\n\n1. Does the absence of such an allowance limit adoption, or would it just be done in any event?\n2. Are there interoperability concerns that arise from allowing the gateway to use alternatives to RFC8693\n\n@tulshi and @gffletch - this feels like a big change in terms of scope",
           "createdAt": "2025-08-28T17:46:28Z",
           "updatedAt": "2025-08-28T17:46:28Z"
+        },
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "NONE",
+          "body": "I had a specific use case in mind related to this. Imagine a \"transaction\" starting from an internal service like a cronjob or even AI agent. That service should be able to ask for a txn token with having another token to exchange from? Maybe it exchange from a SVID or kubernetes token or something, but do we need to mandate that? ",
+          "createdAt": "2025-08-31T07:56:46Z",
+          "updatedAt": "2025-08-31T07:56:46Z"
         }
       ]
     },
@@ -3780,7 +3787,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.14.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-purpose-claim \nNot sure how to articulate this but the 'purp' claim feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-8 \nI realize this has (probably) been discussed but the need for the new purp claim is unclear to me. Or not compiling.  \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-scope-and-purpose-processin\nOkay but scope can still be used to convey scope, even if it's inside and/or more granular and/or different. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\nIt's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim. \n",
       "createdAt": "2025-08-26T16:10:36Z",
-      "updatedAt": "2025-08-28T18:44:03Z",
+      "updatedAt": "2025-08-31T14:08:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -3789,6 +3796,20 @@
           "body": "My mental model for the \"purp\" is that it is a kind of \"fine grained scope\" and allows the transaction server to communicate that access granted is smaller or equal to \"scope\". It is seperate from transaction context. It is a mechanism to downscope \"scope\".\n\nNot sure that helps @gffletch and @tulshi should weigh in here as well.",
           "createdAt": "2025-08-28T18:44:03Z",
           "updatedAt": "2025-08-28T18:44:03Z"
+        },
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "NONE",
+          "body": "I share the sentiment of Brian, I never quite understood the purp claim. It just smells bad. It feels redundant somehow to scope, and I never quite understood if it's more specific or more general. And I've read the draft many times.\n\nI have the feeling that purp was made to give a different claim, so that the scope(s) of any tokens in the flow doesn't get directly confused with a scope claim in transaction tokens. But it just feels different, but also to similar. Does that make sense? ",
+          "createdAt": "2025-08-31T07:51:57Z",
+          "updatedAt": "2025-08-31T07:51:57Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> My mental model for the \"purp\" is that it is a kind of \"fine grained scope\" and allows the transaction server to communicate that access granted is smaller or equal to \"scope\". It is seperate from transaction context. It is a mechanism to downscope \"scope\".\n> \n> Not sure that helps [@gffletch](https://github.com/gffletch) and [@tulshi](https://github.com/tulshi) should weigh in here as well.\n\nIt helps confirm to me what was said earlier:\n\n>  ... scope can still be used to convey scope, even if it's inside and/or more granular and/or different.",
+          "createdAt": "2025-08-31T14:08:16Z",
+          "updatedAt": "2025-08-31T14:08:16Z"
         }
       ]
     },
@@ -3868,9 +3889,24 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-6 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-mutual-authentication-of-th\nI know there's some desire to use OAuth 2.0 Token Exchange [RFC8693] without necessarily pulling in all the other features/baggage of being an full blown authorization server but I find it hard to reconcile that a requesting workload is required to authenticate, the exact client authentication mechanism is out of scope, there are quite a few exact normative requirements about client authentication mechanisms (including a MUST on pre-configured sets?!), and there's no mention or acknowledgement of the existing standardized mechanisms for client authentication to an authorization server.  Self-signed subject tokens and actor tokens seem potentially topically relevant as well.\n\nAlso\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-client-authentication \nThe first sentence is redundant with OAuth 2.0 Token Exchange itself. Sometimes restating things is worthwhile but I don't think that's the case here. \nThe second sentence with \"the actor_token MUST authenticate the identity of the requesting workload\" seems overly restrictive. What if the authentication has happened via other means and the actor_token is there to convey some other notion of delegation or something? \nThere's a lot more to \"Client Authentication\", the section name, than these two sentences. Consider something different. Or something.\n",
       "createdAt": "2025-08-26T16:18:03Z",
-      "updatedAt": "2025-08-26T16:27:23Z",
+      "updatedAt": "2025-09-01T18:36:35Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed on the need for consistency here. \n\nI think want to:\n\n1. Strongly encourage client authentication (hence the MUST - but perhaps it should be a SHOULD).\n2. Strongly discourage client secrets (secret sprawl is a huge mess)\n3. Encourage public key based methods, signed JWTs or WIMSE based authentication mechanisms (which are also public key based mechanisms).\n4. Give guidance on deployment choices etc.\n5. Avoid inventing anything new\n\n@bc-pi - any concerns with those as goals? \n\nI will work on text throughout the document to have a bit more consistency here (with a goal to say less and point to existing mechanisms wherever possible).",
+          "createdAt": "2025-09-01T16:57:02Z",
+          "updatedAt": "2025-09-01T16:57:02Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See PR #239 as an attempt to simplify and clarify. Feedback on ways to further improve it most welcome.",
+          "createdAt": "2025-09-01T18:35:36Z",
+          "updatedAt": "2025-09-01T18:36:35Z"
+        }
+      ]
     },
     {
       "number": 199,
@@ -4224,9 +4260,24 @@
       ],
       "body": "WGLC feedback from Joe Salowey\n\nSection 7.6 could reference the WIMSE WIT as workload authentication option",
       "createdAt": "2025-08-27T15:40:37Z",
-      "updatedAt": "2025-08-27T15:40:37Z",
+      "updatedAt": "2025-09-01T16:58:07Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "NONE",
+          "body": "And wimse certificate credentials too then I suppose ",
+          "createdAt": "2025-08-31T07:58:03Z",
+          "updatedAt": "2025-08-31T07:58:03Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also see issue #198 ",
+          "createdAt": "2025-09-01T16:58:06Z",
+          "updatedAt": "2025-09-01T16:58:06Z"
+        }
+      ]
     },
     {
       "number": 219,
@@ -4530,9 +4581,17 @@
       ],
       "body": "WGLC. Feedback from Dan Moore:\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-11.4-2.2.1\nthere is no value for the 'type'",
       "createdAt": "2025-08-27T16:13:03Z",
-      "updatedAt": "2025-08-27T16:13:03Z",
+      "updatedAt": "2025-08-31T14:17:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "That is explained, in a way that could maybe be improved, right above at https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-11.4-1 with the text: \n\n> Note that this is an unstructured field, therefore the value of the Type field is left empty:",
+          "createdAt": "2025-08-31T14:17:21Z",
+          "updatedAt": "2025-08-31T14:17:21Z"
+        }
+      ]
     },
     {
       "number": 236,
@@ -12736,18 +12795,26 @@
       "labels": [],
       "body": "Proposed response to issue #192\r\n\r\n@bc-pi ",
       "createdAt": "2025-08-28T18:06:48Z",
-      "updatedAt": "2025-08-30T12:59:38Z",
+      "updatedAt": "2025-09-01T16:06:50Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
-      "headRefOid": "04068b86d56b635133af134ad8c2b99f8dc901a7",
+      "headRefOid": "24c7aadd3392d363905ae6d17894772d7e3b18e8",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed that given that the definition is not used, having it formally defined seems unnecessary. \r\n\r\nalso added document history.",
+          "createdAt": "2025-09-01T15:37:48Z",
+          "updatedAt": "2025-09-01T15:37:48Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM69AhQx",
@@ -12821,6 +12888,100 @@
           "createdAt": "2025-08-30T12:59:38Z",
           "updatedAt": "2025-08-30T12:59:38Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM69MX36",
+          "commit": {
+            "abbreviatedOid": "24c7aad"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-01T16:06:50Z",
+          "updatedAt": "2025-09-01T16:06:50Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 238,
+      "id": "PR_kwDOJt_WwM6mUOHY",
+      "title": "Clarify server authentication mechanisms",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/238",
+      "state": "CLOSED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #199\r\n\r\n- Remove erroneous reference to using JWT for server authentication. Describe use of https and need to verify certificates as defined in RFC 9110.",
+      "createdAt": "2025-09-01T16:22:33Z",
+      "updatedAt": "2025-09-01T18:18:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-2",
+      "headRefOid": "fd171c2d70cb1ac7212f3062583036a511333156",
+      "closedAt": "2025-09-01T18:18:06Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Deleting this PR in favour of a more structured approach to client authentication.",
+          "createdAt": "2025-09-01T18:18:06Z",
+          "updatedAt": "2025-09-01T18:18:06Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 239,
+      "id": "PR_kwDOJt_WwM6mU_BW",
+      "title": "Clarify authentication requriements",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/239",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Attempt at simplifying both client and server authentication requirements throughout the draft (see #198, #198 and #218)",
+      "createdAt": "2025-09-01T18:17:23Z",
+      "updatedAt": "2025-09-01T20:05:28Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-3",
+      "headRefOid": "1a5cae75099ed7678ec75ddcb315a918648b2965",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM69NhLB",
+          "commit": {
+            "abbreviatedOid": "1a5cae7"
+          },
+          "author": "yaronf",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-01T20:05:27Z",
+          "updatedAt": "2025-09-01T20:05:28Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "```suggestion\nWorkloads authenticate the Transaction Token Service to ensure that they do not disclose sensitive information, such as OAuth access tokens, to a rogue Transaction Token Service. A Transaction Token Service authenticates a workload to ensure the workload is authorized to request a transaction token.\n```",
+              "createdAt": "2025-09-01T20:05:28Z",
+              "updatedAt": "2025-09-01T20:05:28Z"
+            }
+          ]
         }
       ]
     }
