@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 5 March 2026                             Practical Identity LLC
+Expires: 6 March 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                        1 September 2025
+                                                        2 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2026.
+   This Internet-Draft will expire on 6 March 2026.
 
 Copyright Notice
 
@@ -932,7 +932,7 @@ Table of Contents
    each other (mutual authentication).
 
    Workloads authenticate the Transaction Token Service to ensure that
-   it does not disclose sensitive information, such as OAuth access
+   they do not disclose sensitive information, such as OAuth access
    tokens, to a rogue Transaction Token Service.  A Transaction Token
    Service authenticates a workload to ensure the workload is authorized
    to request a transaction token.
