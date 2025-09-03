@@ -218,7 +218,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 6. Responses are provided to callers based on successful authorization by the invoked microservices
 7. External client is provided a response to the external invocation
 
-### Replacement Txn-Token Flow
+### Replacement Txn-Token Flow {#replacement-flow}
 
 An intermediate service may decide to obtain a replacement Txn-Token from the Txn-Token service. That flow is described below in {{fig-arch-replacement}}
 
@@ -276,6 +276,54 @@ In the diagram above, steps 1-5 are the same as in {{basic-flow}}
 8. The service that requested the Replacement Txn-Token uses that Txn-Token for downstream call authorization
 9. Responses are provided to callers based on successful authorization by the invoked microservices
 10. External client is provided a response to the external invocation
+
+### Internally Initiated Txn-Token Flow
+
+An internal microservice may need to initiate a transaction on behalf of a user as part of a scheduled task or in reaction to a specific condition
+
+~~~ ascii-art
+
+        1 ┌──────────────┐    2      ┌──────────────┐
+          │              ├───────────▶              │
+          │   Internal   │           │  Txn-Token   │
+          │ Microservice │    3      │   Service    │
+          ┤              ◀───────────│              │
+          └────┬───▲─────┘           └──────────────┘
+               │   │
+             4 │   │ 6
+          ┌────▼───┴─────┐
+          │              │
+          │   Internal   │
+          │ Microservice │
+          │              │
+          └────┬───▲─────┘
+               │   │
+               ▼   │
+                 o
+             5   o    6
+               │ o ▲
+               │   │
+               │   │
+          ┌────▼───┴─────┐
+          │              |
+          │   Internal   │
+          │ Microservice │
+          │              |
+          └──────────────┘
+
+~~~
+{: #fig-arch-internal title="Internally Initiated Txn-Token Flow"}
+
+In the diagram above, steps 5-6 are the same as in {{basic-flow}}.  The flow can also be used to replace steps 1-4 in the {{replacement-flow}}}
+
+{:start="1"}
+
+1. A microservice determines that it needs to initiate a request on behalf of a user in response to a scheduled timer or other trigger.
+2. The internal microservice authenticates to the token service and makes a request for a Txn-Token. The request contains information about the transaction along with optional additional authorization credentials
+3. Txn-Token Service authorizes the requester and then mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
+4. The originating microservice then contacts another internal microservice and provides the Txn-Token as authorization
+
+
 
 # Notational Conventions
 
