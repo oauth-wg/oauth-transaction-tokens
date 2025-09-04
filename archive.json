@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-02T00:18:17.641524+00:00",
+  "timestamp": "2025-09-04T00:17:16.621051+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3787,7 +3787,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.14.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-purpose-claim \nNot sure how to articulate this but the 'purp' claim feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-8 \nI realize this has (probably) been discussed but the need for the new purp claim is unclear to me. Or not compiling.  \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-scope-and-purpose-processin\nOkay but scope can still be used to convey scope, even if it's inside and/or more granular and/or different. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\nIt's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim. \n",
       "createdAt": "2025-08-26T16:10:36Z",
-      "updatedAt": "2025-08-31T14:08:16Z",
+      "updatedAt": "2025-09-03T17:40:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -3810,6 +3810,41 @@
           "body": "> My mental model for the \"purp\" is that it is a kind of \"fine grained scope\" and allows the transaction server to communicate that access granted is smaller or equal to \"scope\". It is seperate from transaction context. It is a mechanism to downscope \"scope\".\n> \n> Not sure that helps [@gffletch](https://github.com/gffletch) and [@tulshi](https://github.com/tulshi) should weigh in here as well.\n\nIt helps confirm to me what was said earlier:\n\n>  ... scope can still be used to convey scope, even if it's inside and/or more granular and/or different.",
           "createdAt": "2025-08-31T14:08:16Z",
           "updatedAt": "2025-08-31T14:08:16Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I feel having a different name (i.e., \"purp\"), instead of the \"scope\" helps distinguish between the OAuth scope of an inbound token versus the similarly useful field of the TraT.",
+          "createdAt": "2025-09-02T19:49:26Z",
+          "updatedAt": "2025-09-02T19:49:26Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Having different names also removes the temptation to just copy \"scope\" from the access token straight over to \"scope\" in the transaction token without considering scope reduction. For me the idea was always about the opportunity to more narrowly scope the transaction token. \n\nPerhaps some of the confusion can be adressed by naming to make the relationship between scope and purpose more clear?\n\nInstead of \"purp', would one of the following be less confusing?\n\n1. txn_scope\n2. sub_scope\n3. txn_token_scope\n\nAnother idea:\n\nLooking at section 7.1, something that might add to the confusion is that we re-use the \"scope\" parameter in the request, but it we require this to be the purpose of the trasnaction (which deviates/overrides the token exchange definition) maybe we need to add a \"purp\" parameter to token exchange request?\n\nHow RFC 8693 refers to the \"scope\" parameter:\n\nscope\nOPTIONAL. A list of space-delimited, case-sensitive strings, as defined in [Section 3.3](https://www.rfc-editor.org/rfc/rfc6749#section-3.3) of [[RFC6749](https://datatracker.ietf.org/doc/html/rfc6749)], that allow the client to specify the desired scope of the requested security token in the context of the service or resource where the token will be used. The values and associated semantics of scope are service specific and expected to be described in the relevant service documentation.\n\nHow transaction tokens refers to the \"scope\" parameter:\n\nscope REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.\n\nI recall that we did not want to add anything new in terms of parameters, but perhaps adding a parameter called \"purp\" (or one of the ether terms) will help bring clarity?",
+          "createdAt": "2025-09-03T14:49:41Z",
+          "updatedAt": "2025-09-03T14:49:41Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I see I'd previously had a typo/misspelling where I wrote the word \"compiling\" but I meant \"compelling\". I don't find the rational for this \"purp\" claim to be compelling. ",
+          "createdAt": "2025-09-03T16:59:03Z",
+          "updatedAt": "2025-09-03T17:20:44Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@bc-pi - in the absence of a \"purp\" claim, how would you suggest  scope is further reduced from the original scope?",
+          "createdAt": "2025-09-03T17:04:23Z",
+          "updatedAt": "2025-09-03T17:04:23Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> I see I'd previously had a typo/misspelling where I wrote the word \"compiling\" but I meant \"compelling\". I don't find the rational for this \"purp\" claim to be compelling.\n\nDo you see any disadvantages to having it (even if you don't think it's very useful)?",
+          "createdAt": "2025-09-03T17:40:53Z",
+          "updatedAt": "2025-09-03T17:40:53Z"
         }
       ]
     },
@@ -4152,9 +4187,17 @@
       ],
       "body": "Feedback from Joe Salowey\n\nSection 2.5 - I think we should have an internally initiated example.  I'll work on some text to use in a PR, unless that would not be welcome.\n",
       "createdAt": "2025-08-27T15:34:21Z",
-      "updatedAt": "2025-08-27T15:34:38Z",
+      "updatedAt": "2025-09-03T17:42:02Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "jsalowey",
+          "authorAssociation": "NONE",
+          "body": "Created pull request.  There are probably a few other places int he document that would need update.  Will contribute those under separate PR.",
+          "createdAt": "2025-09-03T17:42:02Z",
+          "updatedAt": "2025-09-03T17:42:02Z"
+        }
+      ]
     },
     {
       "number": 213,
@@ -12795,7 +12838,7 @@
       "labels": [],
       "body": "Proposed response to issue #192\r\n\r\n@bc-pi ",
       "createdAt": "2025-08-28T18:06:48Z",
-      "updatedAt": "2025-09-01T16:06:50Z",
+      "updatedAt": "2025-09-03T22:44:34Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
@@ -12901,6 +12944,19 @@
           "createdAt": "2025-09-01T16:06:50Z",
           "updatedAt": "2025-09-01T16:06:50Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM69tXoE",
+          "commit": {
+            "abbreviatedOid": "24c7aad"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-03T22:44:34Z",
+          "updatedAt": "2025-09-03T22:44:34Z",
+          "comments": []
         }
       ]
     },
@@ -12950,13 +13006,13 @@
       "labels": [],
       "body": "Attempt at simplifying both client and server authentication requirements throughout the draft (see #198, #198 and #218)",
       "createdAt": "2025-09-01T18:17:23Z",
-      "updatedAt": "2025-09-01T20:05:28Z",
+      "updatedAt": "2025-09-02T12:46:30Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
-      "headRefOid": "1a5cae75099ed7678ec75ddcb315a918648b2965",
+      "headRefOid": "a2ce1ab0d668aa32128a6028c79cb0165aaa255d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -12982,8 +13038,54 @@
               "updatedAt": "2025-09-01T20:05:28Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM69U-lr",
+          "commit": {
+            "abbreviatedOid": "1a5cae7"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-02T12:46:25Z",
+          "updatedAt": "2025-09-02T12:46:25Z",
+          "comments": [
+            {
+              "originalPosition": 67,
+              "body": "Thanks @yaronf ",
+              "createdAt": "2025-09-02T12:46:25Z",
+              "updatedAt": "2025-09-02T12:46:25Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 240,
+      "id": "PR_kwDOJt_WwM6msoiC",
+      "title": "added internal flow",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/240",
+      "state": "OPEN",
+      "author": "jsalowey",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Addresses Issue #212 ",
+      "createdAt": "2025-09-03T17:40:58Z",
+      "updatedAt": "2025-09-03T17:42:35Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
+      "headRepository": "jsalowey/oauth-transaction-tokens",
+      "headRefName": "internal-example",
+      "headRefOid": "3f515a76c50914dbb10b439e4c067c3b34b37680",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
