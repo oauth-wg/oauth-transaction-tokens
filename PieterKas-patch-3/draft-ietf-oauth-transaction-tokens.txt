@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 6 March 2026                             Practical Identity LLC
+Expires: 8 March 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                        2 September 2025
+                                                        4 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 March 2026.
+   This Internet-Draft will expire on 8 March 2026.
 
 Copyright Notice
 
@@ -929,13 +929,12 @@ Table of Contents
 7.6.  Mutual Authentication of the Txn-Token Request
 
    A Transaction Token Service and requesting workload MUST authenticate
-   each other (mutual authentication).
-
-   Workloads authenticate the Transaction Token Service to ensure that
-   they do not disclose sensitive information, such as OAuth access
-   tokens, to a rogue Transaction Token Service.  A Transaction Token
-   Service authenticates a workload to ensure the workload is authorized
-   to request a transaction token.
+   each other (mutual authentication).  Workloads MUST authenticate the
+   Transaction Token Service to ensure that they do not disclose
+   sensitive information, such as OAuth access tokens, to a rogue
+   Transaction Token Service.  A Transaction Token Service MUST
+   authenticate a workload to ensure the workload is authorized to
+   request a transaction token.
 
    Workloads SHOULD use the https scheme to secure the communication
    channel and authenticate the Transaction Token Service.  When using
