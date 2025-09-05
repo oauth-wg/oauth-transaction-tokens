@@ -744,6 +744,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 ## Since Draft 06
 {:numbered="false"}
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
+* Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235
 
 ## Since Draft 05
 {:numbered="false"}
