@@ -723,7 +723,7 @@ The following entry will be proposed using the IANA Media Type registration {{IA
 * Contact Person: Atul Tulshibagwale
 
 ## HTTP Header
-The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}} as an unstructured Header Field. This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry. Note that this is an unstructured field, therefore the value of the Type field is left empty:
+The header name `Txn-Token` is proposed to be added to the HTTP Field Name Registry {{IANA.HTTP.FieldNames}} as an unstructured Header Field. This header is defined in the section {{txn-token-http-header}}. The following entry will be proposed in the HTTP Field Name Registry. Note that this is an unstructured field, therefore the value of the Type field is left empty as shown in the example below:
 
 * Field Name: Txn-Token
 * Type:
@@ -744,6 +744,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 ## Since Draft 06
 {:numbered="false"}
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
+* Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235
 
 ## Since Draft 05
 {:numbered="false"}
