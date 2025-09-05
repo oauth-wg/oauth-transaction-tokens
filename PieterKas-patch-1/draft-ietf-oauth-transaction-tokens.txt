@@ -1408,6 +1408,9 @@ Since Draft 06
       Authorization Context (https://github.com/oauth-wg/oauth-
       transaction-tokens/issues/192)
 
+   *  Clarify text on use of empty parameter: https://github.com/oauth-
+      wg/oauth-transaction-tokens/issues/235
+
 Since Draft 05
 
    *  Strengthened prohibition on expanding TraT scope
