@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-04T00:17:16.621051+00:00",
+  "timestamp": "2025-09-07T00:19:17.261388+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3719,13 +3719,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "WGLC feedback from @bc-pi \n\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-lifetime \n\"Except in the case where the request is made using a self-signed JWT\" - why this exception? \n",
       "createdAt": "2025-08-26T16:06:14Z",
-      "updatedAt": "2025-08-26T16:06:14Z",
+      "updatedAt": "2025-09-04T18:01:18Z",
       "closedAt": null,
       "comments": []
     },
@@ -3787,7 +3789,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.14.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-purpose-claim \nNot sure how to articulate this but the 'purp' claim feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-8 \nI realize this has (probably) been discussed but the need for the new purp claim is unclear to me. Or not compiling.  \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-scope-and-purpose-processin\nOkay but scope can still be used to convey scope, even if it's inside and/or more granular and/or different. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\nIt's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim. \n",
       "createdAt": "2025-08-26T16:10:36Z",
-      "updatedAt": "2025-09-03T17:40:53Z",
+      "updatedAt": "2025-09-05T16:16:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -3845,6 +3847,34 @@
           "body": "> I see I'd previously had a typo/misspelling where I wrote the word \"compiling\" but I meant \"compelling\". I don't find the rational for this \"purp\" claim to be compelling.\n\nDo you see any disadvantages to having it (even if you don't think it's very useful)?",
           "createdAt": "2025-09-03T17:40:53Z",
           "updatedAt": "2025-09-03T17:40:53Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> [@bc-pi](https://github.com/bc-pi) - in the absence of a \"purp\" claim, how would you suggest scope is further reduced from the original scope?\n\nWhy can't you just say that the scope in the transaction token conveys the specific access needed for the transaction at hand? That might be reduced from the original scope. It might be a single string value. It might be an \"internal\" scope value. There might not even be an original scope. It's probably related to or derived from the scope parameter of the exchange request. I guess what I'm trying to say is that I don't see a compelling reason to define a new thing here. ",
+          "createdAt": "2025-09-04T22:53:06Z",
+          "updatedAt": "2025-09-04T22:53:06Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> > I see I'd previously had a typo/misspelling where I wrote the word \"compiling\" but I meant \"compelling\". I don't find the rational for this \"purp\" claim to be compelling.\n> \n> Do you see any disadvantages to having it (even if you don't think it's very useful)?\n\nYes",
+          "createdAt": "2025-09-04T22:53:20Z",
+          "updatedAt": "2025-09-04T22:53:20Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > > I see I'd previously had a typo/misspelling where I wrote the word \"compiling\" but I meant \"compelling\". I don't find the rational for this \"purp\" claim to be compelling.\n> > \n> > \n> > Do you see any disadvantages to having it (even if you don't think it's very useful)?\n> \n> Yes\n\n:) OK. Let me restate my question. What are the disadvantages of having a \"purp\" claim in the TraT?",
+          "createdAt": "2025-09-05T00:05:19Z",
+          "updatedAt": "2025-09-05T00:05:19Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I know @gffletch is working on this, but here are my thoughts:\n\nThe `purp` claim is named differently from the similarly used `scope` claim in OAuth access tokens because:\n\n1. OAuth access token scopes are permissions granted to an OAuth client in order to access resources (after receiving consent from the user in most cases). This is different from the `purp` of a Transaction Token, which specifies permissions for the specific transaction. It does not include user consent, and it is decoupled from what the OAuth client may have access to as a result of the `scope` in the incoming OAuth access token (if one is present).\n2. Using the same term `scope` for two different domains as described above can cause confusion among users who often have to deal with both systems - those that use/issue OAuth access tokens, and those that use/issue Transaction Tokens\n3. The `purp` claim is expected to contain finer grained permissions than a `scope` in an OAuth access token. This is because a specific set of permissions may be approved (automatically by relevant policy components) for the short duration of that Transaction Token, and such approval is codified in the `purp`, whereas the `scope` in a long-lived OAuth access token may represent all possible permissions a user may require over the lifetime of that access token.\n",
+          "createdAt": "2025-09-05T16:16:13Z",
+          "updatedAt": "2025-09-05T16:16:13Z"
         }
       ]
     },
@@ -4011,9 +4041,17 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.4-3\nMUST NOT on expires_in and scope here seems unnecessary and limiting, no? With some reconciling of scope and purp, as alluded to previously, scope could be useful to know without digging into the Txn-Token. And expires_in is RECOMMENDED RFC8693 \n\nAlso see:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-9.1-3 \nAs the comment above, I disagree with this. Discussing scope and purp in \"Txn-Token Lifetime\" is also kinda odd.",
       "createdAt": "2025-08-26T16:25:25Z",
-      "updatedAt": "2025-08-26T16:26:19Z",
+      "updatedAt": "2025-09-04T18:31:47Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Text from RFC https://www.rfc-editor.org/rfc/rfc8693\n\nexpires_in\nRECOMMENDED. The validity lifetime, in seconds, of the token issued by the authorization server. Oftentimes, the client will not have the inclination or capability to inspect the content of the token, and this parameter provides a consistent and token-type-agnostic indication of how long the token can be expected to be valid. For example, the value 1800 denotes that the token will expire in thirty minutes from the time the response was generated.\n\nFrom the text in the draft, I think the intent here was that \"expires_in\" is not needed since the transaction token already contains expiry info.\n\nI feel omitting expires_in was meant to simplify the implementation, but perhaps the better thing to do here is to be silent on \"expires_in\" so we don't end up overriding a RECOMMENDED in the original spec. \n\nAgteed on discussing scope and purpose in this section is out of place.\n\n@gffletch and @tulshi - thoughts?",
+          "createdAt": "2025-09-04T18:31:47Z",
+          "updatedAt": "2025-09-04T18:31:47Z"
+        }
+      ]
     },
     {
       "number": 203,
@@ -4588,9 +4626,17 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-transaction-token-service-d\nit references workloads need to figure out \"which Transaction Token Service\" to use. But I thought there was only one logical TTS, so why would a workload have to choose between these?\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-6-2 and it is implied that workloads live in one trust domain here: https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-4-1.2.1\nWhat am I missing? \n",
       "createdAt": "2025-08-27T16:09:35Z",
-      "updatedAt": "2025-08-27T16:09:35Z",
+      "updatedAt": "2025-09-05T10:35:37Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There is only one logical trust domain service, but that does not mean that there is only one physical service, or that it is located at the same location. There may be multiple instances in multiple locations for resiliency and performance reasons.  Perhaps clarification that this is for a specific instance might help.",
+          "createdAt": "2025-09-05T10:35:37Z",
+          "updatedAt": "2025-09-05T10:35:37Z"
+        }
+      ]
     },
     {
       "number": 234,
@@ -4606,9 +4652,17 @@
       ],
       "body": "WGLC. Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.8-2\nsays workloads should authenticate to a config service, but https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.6-1 says client MUST perform mutual authetication with the TTS. Why not require it for the configuration that leads the workload to the TTS?\n",
       "createdAt": "2025-08-27T16:10:41Z",
-      "updatedAt": "2025-08-27T16:10:41Z",
+      "updatedAt": "2025-09-05T10:31:05Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The security considerations is focused on protecting the client from downloading or obtaining configuration data that may have been manipulated by an attacker to point the client to an untrustworthy transaction token service. It is also conceivable that configuration discovery points may need to be accessible by unauthenticated clients (e.g. if it is co-located with metadata discovery for client, resource or authorisation server metadata). It is also unclear what attacks would be mitigated by enforcing client authentication for configuration discovery. Hence I am inclined to leave the text as is, as it is unclear what the benefit would be and there may be downsides that impact deployments.\n\n@tulshi @gffletch - thoughts?",
+          "createdAt": "2025-09-05T10:31:05Z",
+          "updatedAt": "2025-09-05T10:31:05Z"
+        }
+      ]
     },
     {
       "number": 235,
@@ -4651,6 +4705,22 @@
       "body": "At https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2-3 I would change:\n---\nCryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an intentionally invoked transaction.\n->\nCryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls.\n---\nseems that you can either have a spurious call or have an \"intentionally invoked transaction\", not both, so the \"without\" clause is not needed.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-2.1.1 I'd suggest combining these two bullet points:\n---\n- The external authorization token (e.g., the OAuth access token)\n- An internally generated JWT representing the subject of the request\n-> \n- The external authorization token (e.g., the OAuth access token) or an internally generated JWT representing the subject of the request\n---\nBecause it seems like these are mutually exclusive ( per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-4 )\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.2-2 I would link to the relevant security section? https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-replacement-tokens \n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.3 would change the wording slightly for readability.\n---\n\"order of minutes, e.g., 5 minutes\"\n->\n\"on the order of minutes, e.g., 5 minutes\"\n---\n\nIn the second chart, https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.5.2-3\nwouldn't it be clearer to just repeat the same steps? Or is the \"same as above\" pattern better/typical? I couldn't find examples of RFCs that have closely related charts.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.2.1 I think this is cleare:\n---\n\"The iss claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.\"\n->\n\"The iss claim MUST be used in cases where the signing keys are not predetermined. The iss claim MUST be used when the Txn-Token Service signs each Txn-Token with a unique key.\"\n---\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.12.1 you could link to the OpenID Connect spec, as you do further below.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.14.1\n- why is String capitalized?\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-purpose-claim is purp designed to be human readable, machine parseable or both (or left undefined and we can use any value)?\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-requester-context\n---\nthis MAY include the IP address information of the originating user\"\n->\nthis MAY include the IP address information of the originating request\"\n---\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.2-3.1.1 the req_ip description needs a period for consistency\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.2-3.1.1 I would remove \"robotic\". Not sure what it adds.\n\n\nWould change call-chain to Call Chain and call chain to Call Chain, since you define that term. saw this multiple times.\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.3-1\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.1-1\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-creating-replacement-txn-to\n\n\nSection 5.2.3.1 applies to the rctx claim, not the tctx, and should be numbered 5.2.2.1\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.2.1.1 would change:\n---\nAn inbound token received by an API Gateway\n-> \nA token received by an external endpoint\n---\nSeems more in keeping with the nomenclature used elsewhere in the doc.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.4-2.2.1 I would change:\n---\nThe following values defined in [RFC8693] MUST be included in the Txn-Token Response:\n->\nThe following values defined in [RFC8693] MUST be included in a successful Txn-Token Response:\n---\nI got confused by the error sentence before this sentence, so adding a clarifying \"successful\" phrase would be helpful.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-creating-replacement-txn-to\nThe draft says \"A workload within a call chain may request the Transaction Token Service to replace a Txn-Token.\"\nawkward phrasing. Maybe \n\"When part of a Call Chain needs a new transaction token, it can make a request to the Transaction Token Service to replace the current one.\"\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.5.1-2.6.1 there's a missing 'a':\n---\n\"MUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token\"\n->\n\"MUST NOT issue a replacement Txn-Token with lifetime exceeding the lifetime of the originally presented token\"\n---\nAlso should check for proper casing of Txn-Token throughout the doc.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-8-1 I would change:\n---\nNote that the standard HTTP Authorization header MUST NOT be used because that may be used by the workloads to communicate channel authorization.\n->\nThe Authorization HTTP header MUST NOT be used because that may be used by the workloads for other purposes.\n---\nI have no idea what channel authorization is, but I think it is enough for implementers to know they MUST NOT use that header.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.1-1 should we uppercase the SHOULD?\n---\nEven for long-running \"batch\" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint.\n->\nEven for long-running \"batch\" jobs, a longer-lived access token SHOULD be used to initiate the request to the batch endpoint.\n---\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-replacement-tokens it is unclear to me whether these sentences are related to the workload or the TTS or both? Seems like the first is the workload and the latter two tasks are for the TTS, but I'm not sure.\n\nI would either use TTS everywhere or I'd expand it. There's a mix of TTS, Transaction Token Service, and Txn-Token Service.\n\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.10-1 would change:\n---\nthe workload must ensure that it authenticates\n->\nthe workload MUST ensure that it authenticates\n---\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.12\nthere is a busted link: \"Mutual Authentication of the Txn-Token Request\"\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-10.2 would clarify/use MUST:\n---\nComplete Txn-Tokens must not be logged verbatim.\n->\nComplete Txn-Tokens MUST not be logged verbatim.\n---\n\n\n",
       "createdAt": "2025-08-27T16:22:27Z",
       "updatedAt": "2025-08-27T16:22:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 243,
+      "id": "I_kwDOJt_WwM7J5or0",
+      "title": "Consistency Pass Needed",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/243",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to do a pass to be consistent about the use of acronymns, abbreviations and full text. For example, Transaction token Service is represented as Txn-Token-Service, TTS or Transaction Token Service in various places. Same for transaction token.\n\nI have cone to have a strong preference for writing the fill term rather than using abbreviations in lots of pplaces as the abbreviations may be unfamiliar or may have different meanings to readers (unless they read the whole thing carefully). Personal preference aside, consistency is important, so we just need to pick an approach and stick to it.",
+      "createdAt": "2025-09-05T12:07:28Z",
+      "updatedAt": "2025-09-05T12:07:28Z",
       "closedAt": null,
       "comments": []
     }
@@ -12831,24 +12901,26 @@
       "id": "PR_kwDOJt_WwM6l2tNq",
       "title": "Proposed change to definition of authorization context",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/237",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Proposed response to issue #192\r\n\r\n@bc-pi ",
       "createdAt": "2025-08-28T18:06:48Z",
-      "updatedAt": "2025-09-03T22:44:34Z",
+      "updatedAt": "2025-09-05T10:17:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "24c7aadd3392d363905ae6d17894772d7e3b18e8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-05T10:17:20Z",
+      "mergedAt": "2025-09-05T10:17:20Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "484aa9df88ffa82a17d32524fe233bee059744f5"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -13006,13 +13078,13 @@
       "labels": [],
       "body": "Attempt at simplifying both client and server authentication requirements throughout the draft (see #198, #198 and #218)",
       "createdAt": "2025-09-01T18:17:23Z",
-      "updatedAt": "2025-09-02T12:46:30Z",
+      "updatedAt": "2025-09-05T19:32:28Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
-      "headRefOid": "a2ce1ab0d668aa32128a6028c79cb0165aaa255d",
+      "headRefOid": "1a66e11e92595bc89da34a52c48917cc162aa83d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13058,6 +13130,64 @@
               "updatedAt": "2025-09-02T12:46:25Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-KgU_",
+          "commit": {
+            "abbreviatedOid": "1a66e11"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-05T18:37:49Z",
+          "updatedAt": "2025-09-05T18:49:57Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "```suggestion\r\n```",
+              "createdAt": "2025-09-05T18:37:49Z",
+              "updatedAt": "2025-09-05T18:49:57Z"
+            },
+            {
+              "originalPosition": 28,
+              "body": "is there reason to not use the `I-D.ietf-wimse-s2s-protocol` style notation that (hopefully) pulls in a lot of this automatically? \r\n\r\nalso using the name of the WG for one doc from that WG doesn't seem quite right \r\n\r\n```suggestion\r\n```",
+              "createdAt": "2025-09-05T18:46:06Z",
+              "updatedAt": "2025-09-05T18:49:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-KoVR",
+          "commit": {
+            "abbreviatedOid": "1a66e11"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "thanks @PieterKas, I think this is moving in the right direction. I've got some suggestions - mostly tooling syntax stuff and a few (hopefully) minor things. ",
+          "createdAt": "2025-09-05T18:51:48Z",
+          "updatedAt": "2025-09-05T18:58:43Z",
+          "comments": [
+            {
+              "originalPosition": 82,
+              "body": "related to previous comment on `WIMSE: ...` above \r\n```suggestion\r\nExamples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}} and WIMSE Workload-to-Workload Authentication {{?I-D.ietf-wimse-s2s-protocol}}.\r\n```",
+              "createdAt": "2025-09-05T18:51:48Z",
+              "updatedAt": "2025-09-05T18:58:43Z"
+            },
+            {
+              "originalPosition": 93,
+              "body": "does it have to? wouldn't this preclude the `actor_token` being used in conjunction with some other form of authentication? \r\n\r\n```suggestion\r\nIf using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` can authenticate the identity of the requesting workload.\r\n```",
+              "createdAt": "2025-09-05T18:54:03Z",
+              "updatedAt": "2025-09-05T18:58:43Z"
+            },
+            {
+              "originalPosition": 76,
+              "body": "```suggestion\r\nWorkloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed client authentication JWTs in accordance with {{RFC7523}}.\r\n```",
+              "createdAt": "2025-09-05T18:55:02Z",
+              "updatedAt": "2025-09-05T18:58:43Z"
+            }
+          ]
         }
       ]
     },
@@ -13073,13 +13203,115 @@
       "labels": [],
       "body": "Addresses Issue #212 ",
       "createdAt": "2025-09-03T17:40:58Z",
-      "updatedAt": "2025-09-03T17:42:35Z",
+      "updatedAt": "2025-09-05T18:35:59Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
       "headRepository": "jsalowey/oauth-transaction-tokens",
       "headRefName": "internal-example",
       "headRefOid": "3f515a76c50914dbb10b439e4c067c3b34b37680",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "As far as I understand things, PR #185 \"renamed microservice to workload\" is moving away from using the term \r\n\"microservice\" so this PR might want to avoid reintroducing it. ",
+          "createdAt": "2025-09-05T18:35:58Z",
+          "updatedAt": "2025-09-05T18:35:58Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM697xLG",
+          "commit": {
+            "abbreviatedOid": "3f515a7"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-04T18:15:10Z",
+          "updatedAt": "2025-09-04T18:15:10Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "@jsalowey - I wonder if we can clarify the \"on behalf of a user\" a little bit? Is there an interactive flow with a user here, or does this cover a case where a user is not involved, but we want the transaction token to be issued in the context of a specific users data (how would the microservice know which users data)?",
+              "createdAt": "2025-09-04T18:15:10Z",
+              "updatedAt": "2025-09-04T18:15:10Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 241,
+      "id": "PR_kwDOJt_WwM6nBUin",
+      "title": "Clarify why the Type: field is empty",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/241",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #235",
+      "createdAt": "2025-09-05T10:20:09Z",
+      "updatedAt": "2025-09-05T18:37:20Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "1caa940f95a3f7cb2ac190ce50f64d322c91f78b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6-KgFS",
+          "commit": {
+            "abbreviatedOid": "1caa940"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-05T18:37:20Z",
+          "updatedAt": "2025-09-05T18:37:20Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "example? ",
+              "createdAt": "2025-09-05T18:37:20Z",
+              "updatedAt": "2025-09-05T18:37:20Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 242,
+      "id": "PR_kwDOJt_WwM6nBl2v",
+      "title": "Multiple TTS Instances",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/242",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Provide context on why there may be more than one instance of a TTS - see #233",
+      "createdAt": "2025-09-05T10:50:18Z",
+      "updatedAt": "2025-09-05T10:50:32Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "dda9f625c2f229455a4727ab1f7c3ee513d12d6a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
