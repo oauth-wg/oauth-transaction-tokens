@@ -603,7 +603,7 @@ Workloads SHOULD use the `https` scheme to secure the communication channel and 
 
 Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed JWTs in accordance with {{RFC7521}} and {{RFC7523}}.
 
-Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}} and WIMSE Workload-to-Workload Authentication {{WIMSE}}.
+Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}} and WIMSE Workload-to-Workload Authentication {{?I-D.ietf-wimse-s2s-protocol}}.
 
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
