@@ -115,18 +115,6 @@ normative:
     - name: Chuck Mortimore
       org: Salesforce
     date: 2014-11
-  WIMSE:
-    title: WIMSE Workload to Workload Authentication
-    target: https://www.ietf.org/archive/id/draft-ietf-wimse-s2s-protocol-06.html
-    author:
-    - name: Brian Campbell
-      org: Ping Identity
-    - name: Joe Salowey
-      org: CyberArk
-    - name: Arndt Schwenkschuster
-      org: SPIRL
-    - name: Yaron Sheffer
-      org: Intuit
 
 informative:
   SPIFFE:
