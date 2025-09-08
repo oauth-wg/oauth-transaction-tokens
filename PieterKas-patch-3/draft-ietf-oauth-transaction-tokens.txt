@@ -1378,11 +1378,6 @@ Table of Contents
               errata set 2", November 2014,
               <https://openid.net/specs/openid-connect-core-1_0.html>.
 
-   [WIMSE]    Campbell, B., Salowey, J., Schwenkschuster, A., and Y.
-              Sheffer, "WIMSE Workload to Workload Authentication",
-              n.d., <https://www.ietf.org/archive/id/draft-ietf-wimse-
-              s2s-protocol-06.html>.
-
 12.2.  Informative References
 
    [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
