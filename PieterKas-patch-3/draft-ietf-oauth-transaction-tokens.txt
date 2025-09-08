@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 8 March 2026                             Practical Identity LLC
+Expires: 12 March 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                        4 September 2025
+                                                        8 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 March 2026.
+   This Internet-Draft will expire on 12 March 2026.
 
 Copyright Notice
 
@@ -949,7 +949,7 @@ Table of Contents
    Examples of public-key based authentication include those defined in
    OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound
    Access Tokens [RFC8705] and WIMSE Workload-to-Workload Authentication
-   [WIMSE].
+   [I-D.ietf-wimse-s2s-protocol].
 
 8.  Using Txn-Tokens
 
@@ -1393,6 +1393,14 @@ Table of Contents
    [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
+
+   [I-D.ietf-wimse-s2s-protocol]
+              Campbell, B., Salowey, J. A., Schwenkschuster, A., and Y.
+              Sheffer, "WIMSE Workload to Workload Authentication", Work
+              in Progress, Internet-Draft, draft-ietf-wimse-s2s-
+              protocol-06, 4 July 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              s2s-protocol-06>.
 
 Acknowledgements
 
