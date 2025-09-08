@@ -601,7 +601,7 @@ A Transaction Token Service and requesting workload MUST authenticate each other
 
 Workloads SHOULD use the `https` scheme to secure the communication channel and authenticate the Transaction Token Service. When using `https`, TLS certificates MUST be checked according to {{RFC9110}}. At the time of this writing, TLS version 1.3 {{RFC8446}} is the most recent version
 
-Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed JWTs in accordance with {{RFC7521}} and {{RFC7523}}.
+Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed client authentication JWTs in accordance with {{RFC7523}}.
 
 Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}} and WIMSE Workload-to-Workload Authentication {{?I-D.ietf-wimse-s2s-protocol}}.
 
