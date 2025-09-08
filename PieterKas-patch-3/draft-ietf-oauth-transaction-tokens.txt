@@ -943,8 +943,8 @@ Table of Contents
    recent version
 
    Workloads SHOULD authenticate to a Transaction Token Server using
-   asymmetric (public-key based) methods or signed JWTs in accordance
-   with [RFC7521] and [RFC7523].
+   asymmetric (public-key based) methods or signed client authentication
+   JWTs in accordance with [RFC7523].
 
    Examples of public-key based authentication include those defined in
    OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound
