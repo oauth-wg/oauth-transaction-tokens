@@ -1074,13 +1074,13 @@ Table of Contents
 
 9.8.  Transaction Token Service Discovery
 
-   A workload may use various mechanisms to determine which Transaction
-   Token Service to interact with.  Workloads MUST retrieve
-   configuration information from a trusted source to minimize the risk
-   of a threat actor providing malicious configuration data that points
-   to a Transaction Token Service under it's control.  Such a service
-   could be used to collect Access Tokens sent as part of the
-   Transaction Token Request message.
+   A workload may use various mechanisms to determine which instance of
+   a Transaction Token Service to interact with.  Workloads MUST
+   retrieve configuration information from a trusted source to minimize
+   the risk of a threat actor providing malicious configuration data
+   that points to an instance of a Transaction Token Service under it's
+   control.  Such a service could be used to collect Access Tokens sent
+   as part of the Transaction Token Request message.
 
    To mitigate this risk, workloads SHOULD authenticate the service
    providing the configuration information and verify the integrity of
@@ -1093,13 +1093,16 @@ Table of Contents
 
 9.9.  Workload Configuration Protection
 
-   A workload may be configured to access more than one instance of a
-   Transaction Token Service to ensure redundancy or reduce latency for
-   transaction token requests.  The workload configuration should be
-   protected against unauthorized addition or removal of Transaction
-   Token Service instances.  An attacker may perform a denial of service
-   attack or degrade the performance of a system by removing an instance
-   of a Transaction Token Service from the workload configuration.
+   A deployment may include multiple instances of a Transaction Token
+   Service to improve resiliency, reduce latency and enhance
+   scalability.  A workload may be configured to access more than one
+   instance of a Transaction Token Service to ensure reliability or
+   reduce latency for transaction token requests.  The workload
+   configuration should be protected against unauthorized addition or
+   removal of Transaction Token Service instances.  An attacker may
+   perform a denial of service attack or degrade the performance of a
+   system by removing an instance of a Transaction Token Service from
+   the workload configuration.
 
 9.10.  Transaction Token Service Authentication
 
@@ -1407,6 +1410,10 @@ Since Draft 06
    *  Remove definition of Authorization Context Be more specific on
       Authorization Context (https://github.com/oauth-wg/oauth-
       transaction-tokens/issues/192)
+
+   *  Clarify that workloads should ensure it is communicating with a
+      legitimate instance of a transaction token service
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
 
 Since Draft 05
 
