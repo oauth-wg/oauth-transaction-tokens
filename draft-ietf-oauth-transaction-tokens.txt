@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 9 March 2026                             Practical Identity LLC
+Expires: 13 March 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                        5 September 2025
+                                                        9 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 March 2026.
+   This Internet-Draft will expire on 13 March 2026.
 
 Copyright Notice
 
@@ -920,7 +920,7 @@ Table of Contents
    subject_token_type parameter to the value
    urn:ietf:params:oauth:token-type:txn_token.  The scope value in the
    replacement request, if different from that in the original Txn-
-   Token, MUST NOT increase the authorization surface beyond that of the
+   Token, MUST NOT increase the granted authorization beyond that of the
    original Txn-Token.
 
 7.5.3.  Replacement Txn-Token Response
