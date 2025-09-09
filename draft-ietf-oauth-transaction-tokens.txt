@@ -987,7 +987,7 @@ Table of Contents
    A workload that invokes another workload using HTTP and needs to
    present a Txn-Token to the invoked workload MUST use the HTTP Header
    Txn-Token to communicate the Txn-Token.  The value of this header
-   MUST be the JWT that represents the Txn-Token.
+   MUST be the Txn-Token.
 
 9.  Security Considerations
 
