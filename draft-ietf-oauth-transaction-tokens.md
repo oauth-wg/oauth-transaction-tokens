@@ -576,7 +576,7 @@ When issuing replacement Txn-Tokens, a Txn-Token Service:
 * MUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
 
 ### Replacement Txn-Token Request
-To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter and sets the `subject_token_type` parameter to the value `urn:ietf:params:oauth:token-type:txn_token`. The `scope` value in the replacement request, if different from that in the original Txn-Token, MUST NOT increase the authorization surface beyond that of the original Txn-Token.
+To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter and sets the `subject_token_type` parameter to the value `urn:ietf:params:oauth:token-type:txn_token`. The `scope` value in the replacement request, if different from that in the original Txn-Token, MUST NOT increase the granted authorization beyond that of the original Txn-Token.
 
 ### Replacement Txn-Token Response
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
