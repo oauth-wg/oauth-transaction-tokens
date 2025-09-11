@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-09T00:18:17.864682+00:00",
+  "timestamp": "2025-09-11T00:17:43.644719+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3797,7 +3797,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.14.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-purpose-claim \nNot sure how to articulate this but the 'purp' claim feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-8 \nI realize this has (probably) been discussed but the need for the new purp claim is unclear to me. Or not compiling.  \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-scope-and-purpose-processin\nOkay but scope can still be used to convey scope, even if it's inside and/or more granular and/or different. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\nIt's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim. \n",
       "createdAt": "2025-08-26T16:10:36Z",
-      "updatedAt": "2025-09-05T16:16:14Z",
+      "updatedAt": "2025-09-10T18:51:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -3883,6 +3883,34 @@
           "body": "I know @gffletch is working on this, but here are my thoughts:\n\nThe `purp` claim is named differently from the similarly used `scope` claim in OAuth access tokens because:\n\n1. OAuth access token scopes are permissions granted to an OAuth client in order to access resources (after receiving consent from the user in most cases). This is different from the `purp` of a Transaction Token, which specifies permissions for the specific transaction. It does not include user consent, and it is decoupled from what the OAuth client may have access to as a result of the `scope` in the incoming OAuth access token (if one is present).\n2. Using the same term `scope` for two different domains as described above can cause confusion among users who often have to deal with both systems - those that use/issue OAuth access tokens, and those that use/issue Transaction Tokens\n3. The `purp` claim is expected to contain finer grained permissions than a `scope` in an OAuth access token. This is because a specific set of permissions may be approved (automatically by relevant policy components) for the short duration of that Transaction Token, and such approval is codified in the `purp`, whereas the `scope` in a long-lived OAuth access token may represent all possible permissions a user may require over the lifetime of that access token.\n",
           "createdAt": "2025-09-05T16:16:13Z",
           "updatedAt": "2025-09-05T16:16:13Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I can empathize somewhat with @aaronpk, @tulshi and maybe @gffletch expressing concern the other day around the concept of scope being a difficult concept to grasp that is oft-misapplied in practice (trying to paraphrase and hope I don't misrepresent). And the pain of trying to explain how scope should be used and what distinctions *might* exist in internal use. I do not, however, think that trying to invent a new claim like this improves the situation. Rather, I believe that it'd exacerbate confusion. No doubt others might draw different conclusions, but I read #178 as evidence of confusion compounding. https://github.com/oauth-wg/oauth-transaction-tokens/issues/194#issuecomment-3258927820 also reads that way to me.",
+          "createdAt": "2025-09-10T00:50:15Z",
+          "updatedAt": "2025-09-10T00:51:36Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\n> It's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim.\n\nThis was meant to be a humorous and thinly veiled threat that I, as one of the Designated Experts[sic], would object to the `purp` claim registration as a way of subtly suggesting that addressing concerns sooner in the document lifecycle process would be beneficial for everyone. Doesn't seem like the humor landed though and the threat/advise seems to have been too veiled. ",
+          "createdAt": "2025-09-10T01:01:34Z",
+          "updatedAt": "2025-09-10T01:01:34Z"
+        },
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "NONE",
+          "body": "I have another observation: isn't the Transaction Context (tctx claim) intended to down-scope and specify the authorization context of the transaction token - doesn't this sound awfully lot like a scope just in a different format?\n\nWhat I suggest is that we could refine the tctx claim, maybe make the section about it more explicit in the draft, then it could entirely replace the purp claim?\n\nTake this normative example:\n```\n\"purp\" : \"trade.stocks\",\n  \"tctx\": {\n    \"action\": \"BUY\", // parameter of external call\n    \"ticker\": \"MSFT\", // parameter of external call\n    \"quantity\": \"100\", // parameter of external call\n    \"customer_type\": { ... }\n  }\n```\nWhy do you need `\"purp\" : \"trade.stocks\"* ` in the first place? can't the action instead be more specific like `\"action\": \"trade.stocks.buy\" or \"stocks.buy\"`? \n\nI just wonder if that would be more elegant?",
+          "createdAt": "2025-09-10T08:33:58Z",
+          "updatedAt": "2025-09-10T08:33:58Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "yeah indeed @dagdagdag83, that is kinda part of what I was hinting at when I wrote this in the [original message](https://mailarchive.ietf.org/arch/msg/oauth/rGqrvjNps203khsaUHXd_00dGX4/) copied to https://github.com/oauth-wg/oauth-transaction-tokens/issues/194#issue-3356293671 and here:\n\n> ... feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also.\n\n\n",
+          "createdAt": "2025-09-10T18:47:55Z",
+          "updatedAt": "2025-09-10T18:51:27Z"
         }
       ]
     },
@@ -12794,24 +12822,26 @@
       "id": "PR_kwDOJt_WwM6iQz9-",
       "title": "renamed microservice to workload",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/185",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-08-05T20:21:35Z",
-      "updatedAt": "2025-09-08T10:10:19Z",
+      "updatedAt": "2025-09-09T23:09:49Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7fba2a71f49fc880ca3c8dda2448715670f035c7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-diagram",
       "headRefOid": "4fa71bd40567002712069b63c9e5d54104cdf8f9",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-09T23:09:48Z",
+      "mergedAt": "2025-09-09T23:09:48Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "050c97cb0f525e020daca40384c1c9adc0b6ed7d"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12894,26 +12924,42 @@
       "id": "PR_kwDOJt_WwM6k55Ej",
       "title": "Delete draft-ietf-oauth-transaction-tokens-03.md",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/187",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "bc-pi",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "why would there be a copy of the -03 and only the -03 markdown?",
       "createdAt": "2025-08-22T15:20:17Z",
-      "updatedAt": "2025-08-22T15:20:39Z",
+      "updatedAt": "2025-09-09T23:09:07Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7fba2a71f49fc880ca3c8dda2448715670f035c7",
       "headRepository": "bc-pi/oauth-transaction-tokens",
       "headRefName": "patch-2",
       "headRefOid": "3e130ebd539b65a13cb38d38f0899b28befe8235",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-09T23:09:07Z",
+      "mergedAt": "2025-09-09T23:09:07Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "23b3aef178b7b736b145c7ee9525cfb32e46aba2"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6-9Ive",
+          "commit": {
+            "abbreviatedOid": "3e130eb"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-09T23:09:01Z",
+          "updatedAt": "2025-09-09T23:09:01Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 188,
@@ -13161,7 +13207,7 @@
       "labels": [],
       "body": "Attempt at simplifying both client and server authentication requirements throughout the draft (see #198, #198 and #218)",
       "createdAt": "2025-09-01T18:17:23Z",
-      "updatedAt": "2025-09-08T10:50:06Z",
+      "updatedAt": "2025-09-10T17:50:45Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
@@ -13319,6 +13365,146 @@
               "updatedAt": "2025-09-08T10:17:33Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-9IWL",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T23:08:38Z",
+          "updatedAt": "2025-09-09T23:08:39Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "Is this a \"MAY\"?",
+              "createdAt": "2025-09-09T23:08:38Z",
+              "updatedAt": "2025-09-09T23:08:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-9lJZ",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T23:59:41Z",
+          "updatedAt": "2025-09-09T23:59:41Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "I don't think RFC 9110 is right for checking tls certificates. Also need a period. \r\n```suggestion\r\nWorkloads SHOULD use the `https` scheme to secure the communication channel and authenticate the Transaction Token Service. When using `https`, TLS certificates MUST be validated according to {{RFC6125}}. At the time of this writing, TLS version 1.3 {{RFC8446}} is the most recent version.\r\n```",
+              "createdAt": "2025-09-09T23:59:41Z",
+              "updatedAt": "2025-09-10T00:00:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-9lyL",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-10T00:01:08Z",
+          "updatedAt": "2025-09-10T00:01:09Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "no",
+              "createdAt": "2025-09-10T00:01:08Z",
+              "updatedAt": "2025-09-10T00:01:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-9tVZ",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-10T00:22:05Z",
+          "updatedAt": "2025-09-10T00:22:06Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "\"the Txn-Tokens\" sounds not quite right to my eyes \r\n```suggestion\r\nWhen the Transaction Token Service receives a Txn-Token Request it MUST authenticate the workload and determine if that workload is authorized to obtain Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.\r\n```",
+              "createdAt": "2025-09-10T00:22:06Z",
+              "updatedAt": "2025-09-10T00:22:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6_JY8P",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-10T16:24:32Z",
+          "updatedAt": "2025-09-10T16:24:33Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "@bc-pi - I was trying to be consistent with OAuth 2.1: https://www.ietf.org/archive/id/draft-ietf-oauth-v2-1-13.html#name-communication-security\r\n\r\n\"When using https, TLS certificates MUST be checked according to [[RFC9110](https://www.ietf.org/archive/id/draft-ietf-oauth-v2-1-13.html#RFC9110)].\"\r\n\r\nRFC 9110 does refer to RFC6125 for cert validation...",
+              "createdAt": "2025-09-10T16:24:33Z",
+              "updatedAt": "2025-09-10T16:24:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6_KYph",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-10T17:32:03Z",
+          "updatedAt": "2025-09-10T17:32:04Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "I would have had the same feedback for @aaronpk and his OAuth 2.1 coauthors (but really only Aaron b/c AFAICT he's the only one really contributing to 2.1) but admittedly I did miss the RFC6125 cert validation stuff in the nearly 200 pages of RFC9100. Apologies there. \r\n\r\nPerhaps just a bit more specific reference (I think/hope this syntax is correct)? \r\n\r\n```suggestion\r\nWorkloads SHOULD use the `https` scheme to secure the communication channel and authenticate the Transaction Token Service. When using `https`, TLS certificates MUST be checked according to {{Section 4.3.4 of RFC9110}}. At the time of this writing, TLS version 1.3 {{RFC8446}} is the most recent version.\r\n```\r\n\r\nIgnoring that I just noticed again that RFC6125 has been obsoleted by RFC 9525. But maybe pointing at 9110 can enable just continuing to ignore that.",
+              "createdAt": "2025-09-10T17:32:03Z",
+              "updatedAt": "2025-09-10T17:33:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6_KnhB",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-10T17:50:45Z",
+          "updatedAt": "2025-09-10T17:50:45Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "AI helped articulate the not quite rightness \r\n<img width=\"644\" height=\"683\" alt=\"Screenshot 2025-09-10 at 11 50 03\u202fAM\" src=\"https://github.com/user-attachments/assets/32e10613-5976-4cf7-ac2e-64c1cc667e07\" />\r\n\r\n",
+              "createdAt": "2025-09-10T17:50:45Z",
+              "updatedAt": "2025-09-10T17:50:45Z"
+            }
+          ]
         }
       ]
     },
@@ -13436,7 +13622,7 @@
       "labels": [],
       "body": "See issue #235",
       "createdAt": "2025-09-05T10:20:09Z",
-      "updatedAt": "2025-09-08T10:06:30Z",
+      "updatedAt": "2025-09-09T23:05:44Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
@@ -13468,6 +13654,19 @@
               "updatedAt": "2025-09-05T18:37:20Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-9Fv9",
+          "commit": {
+            "abbreviatedOid": "dcfa7b7"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-09T23:05:44Z",
+          "updatedAt": "2025-09-09T23:05:44Z",
+          "comments": []
         }
       ]
     },
@@ -13476,26 +13675,42 @@
       "id": "PR_kwDOJt_WwM6nBl2v",
       "title": "Multiple TTS Instances",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/242",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Provide context on why there may be more than one instance of a TTS - see #233",
       "createdAt": "2025-09-05T10:50:18Z",
-      "updatedAt": "2025-09-05T10:50:32Z",
+      "updatedAt": "2025-09-09T23:10:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-4",
       "headRefOid": "dda9f625c2f229455a4727ab1f7c3ee513d12d6a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-09T23:10:21Z",
+      "mergedAt": "2025-09-09T23:10:21Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "cac3e729aa97a03a71b0553dce5d4d851338b40a"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6-9FFH",
+          "commit": {
+            "abbreviatedOid": "dda9f62"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-09T23:05:03Z",
+          "updatedAt": "2025-09-09T23:05:03Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 244,
@@ -13509,7 +13724,7 @@
       "labels": [],
       "body": "Meant to address issue #208 to include additional text about internally initiated requests",
       "createdAt": "2025-09-07T19:08:02Z",
-      "updatedAt": "2025-09-07T19:08:03Z",
+      "updatedAt": "2025-09-09T23:03:31Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
@@ -13521,31 +13736,67 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM6-9Cmv",
+          "commit": {
+            "abbreviatedOid": "9aeebae"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-09T23:02:52Z",
+          "updatedAt": "2025-09-09T23:02:52Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\nIf the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.\r\n```",
+              "createdAt": "2025-09-09T23:02:52Z",
+              "updatedAt": "2025-09-09T23:02:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM6-9Da6",
+          "commit": {
+            "abbreviatedOid": "9aeebae"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-09T23:03:31Z",
+          "updatedAt": "2025-09-09T23:03:31Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 245,
       "id": "PR_kwDOJt_WwM6nWna5",
       "title": "Delete \"represenntation\"",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/245",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See Issue #230 \r\n\r\nIt may be that the entire sentence can be deleted, although in its current form it does reinforce that the Transaction token MUST be included.",
       "createdAt": "2025-09-08T10:31:47Z",
-      "updatedAt": "2025-09-08T18:01:50Z",
+      "updatedAt": "2025-09-09T23:00:28Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-5",
       "headRefOid": "7758a175a1dbca6bd987a1f3a0cf7cf1061eb505",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-09T23:00:26Z",
+      "mergedAt": "2025-09-09T23:00:26Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "c74b986e8d8cfd3f590c4fd9937bab717a7609d8"
+      },
       "comments": [],
       "reviews": [
         {
@@ -13568,24 +13819,26 @@
       "id": "PR_kwDOJt_WwM6nWsP9",
       "title": "Remove \"surface\" to describe extend of authorization",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/246",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See Issue #229",
       "createdAt": "2025-09-08T10:38:15Z",
-      "updatedAt": "2025-09-08T18:01:30Z",
+      "updatedAt": "2025-09-09T23:00:13Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-6",
       "headRefOid": "86b587fd84e1325b851c0c919f831fd4b382c0ba",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-09T23:00:12Z",
+      "mergedAt": "2025-09-09T23:00:12Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "e68d76e682b0816fbacd4e8234eec131da26fd2e"
+      },
       "comments": [],
       "reviews": [
         {
