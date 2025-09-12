@@ -514,7 +514,7 @@ A requester MAY use an unsigned JSON object as a `subject_token` value. In that 
 The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.
 
 ## Txn-Token Request Processing
-When the Transaction Token Service receives a Txn-Token Request it MUST authenticate the workload and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
+When the Transaction Token Service receives a Txn-Token Request it MUST authenticate the workload and determine if that workload is authorized to obtain Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
 
 Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
 
