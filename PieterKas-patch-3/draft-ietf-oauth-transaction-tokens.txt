@@ -794,7 +794,7 @@ Table of Contents
 
    When the Transaction Token Service receives a Txn-Token Request it
    MUST authenticate the workload and determine if that workload is
-   authorized to obtain the Txn-Tokens with the requested values.  The
+   authorized to obtain Txn-Tokens with the requested values.  The
    authorization policy for determining such issuance is out of scope
    for this specification.
 
