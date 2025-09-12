@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 12 March 2026                            Practical Identity LLC
+Expires: 16 March 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                        8 September 2025
+                                                       12 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 March 2026.
+   This Internet-Draft will expire on 16 March 2026.
 
 Copyright Notice
 
@@ -938,9 +938,9 @@ Table of Contents
 
    Workloads SHOULD use the https scheme to secure the communication
    channel and authenticate the Transaction Token Service.  When using
-   https, TLS certificates MUST be checked according to [RFC9110].  At
-   the time of this writing, TLS version 1.3 [RFC8446] is the most
-   recent version
+   https, TLS certificates MUST be checked according to Section 4.3.4 of
+   [RFC9110].  At the time of this writing, TLS version 1.3 [RFC8446] is
+   the most recent version.
 
    Workloads SHOULD authenticate to a Transaction Token Server using
    asymmetric (public-key based) methods or signed client authentication
