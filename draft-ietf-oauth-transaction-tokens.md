@@ -367,8 +367,8 @@ The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address in
 The JSON value of the `rctx` claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction
-* `authn` The authentication method used to identify the requester. Its value is a StringOrURI that uniquely identifies the method used.
-* `req_wl` The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.
+* `authn` The authentication method used to identify the requester. Its value is a string that uniquely identifies the method used.
+* `req_wl` The requesting workload. A string that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of string representing the different workloads that have requested Txn-Tokens as part of the transaction processing.
 
 ### Transaction Context {#transaction-context}
 The Txn-Token SHOULD contain an `tctx` claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.
@@ -393,7 +393,7 @@ The following is a non-normative example of an `tctx` claim:
 
 #### Requesting Workload Identifier
 
-It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. By default, the `req_wl` is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a StringOrURI. If there is more than a single value, then `req_wl` will be represented by an array of StringOrURIs.
+It is useful to be able to track the set of workloads that have requested a Txn-Token. The `req_wl` claim allows for tracking this information even through requests for a replacement Txn-Token. By default, the `req_wl` is a string representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a string. If there is more than a single value, then `req_wl` will be represented by an array of strings.
 
 ~~~ json
 {
