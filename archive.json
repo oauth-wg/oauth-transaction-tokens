@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-14T00:18:58.022172+00:00",
+  "timestamp": "2025-09-16T00:17:20.956576+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3707,9 +3707,17 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-replacement-txn-tokens et al. \nI'm going to (again maybe?) question whether the replacement concept is really needed? I know, I know, somebody has a use case. There's *always* a use case. But is it worth it? Does it add to or detract from the overall concept and quality of the document?  \n",
       "createdAt": "2025-08-26T16:04:49Z",
-      "updatedAt": "2025-08-26T16:04:49Z",
+      "updatedAt": "2025-09-15T11:53:59Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, there is a use case  - @gffletch often cites the example where the risk management server may want to add some information to the tctx for example.\n\nTaking into account the nature of the protocol, there is nothing that prevents a transaction token from being specified as an input to the transaction token service. The intent here, as I recall, is to give some guidance on what happens when a transaction token is used as an input, rather than leaving it undefined, given that this is a something that some implementations will probably want to do.\n\nIn some ways you can just say \"this is just another transaction token request\" but without guidance on processing rules etc, it may be all too easy to create a problem b not respecting validity periods, limiting who can request a replacement token, or changes in the transaction identifier.",
+          "createdAt": "2025-09-15T11:53:59Z",
+          "updatedAt": "2025-09-15T11:53:59Z"
+        }
+      ]
     },
     {
       "number": 191,
@@ -3771,7 +3779,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.10.1 \nIf \"txn\" is going to be required, and probably regardless, I think some more definition or at least rational is needed here.",
       "createdAt": "2025-08-26T16:09:03Z",
-      "updatedAt": "2025-09-11T12:06:45Z",
+      "updatedAt": "2025-09-15T11:58:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -3794,6 +3802,13 @@
           "body": "> During token replacement, are we recommending to keep the same \"txn\" ?\n\nI'd think that is more of a strict requirement than a recommendation. And to the extent that's not evident from the draft, I'd argue the question underscores the point I'd tried to convey during the review. Maybe that particular point will become moot with #190 but regardless I think the current treatment of \"txn\" in this context leaves too much to the imagination. As one example, are multiple requests from the outside with the same session identifier or access token expected/allowed/required/forbidden to have the same \"txn\" value? \n ",
           "createdAt": "2025-09-11T12:06:45Z",
           "updatedAt": "2025-09-11T12:06:45Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@ashayraut - yes \"txn\" must remain the same thoughout the transaction to simplify tracking and auditability. I will create a PR to clarify the need for it to remain the same.",
+          "createdAt": "2025-09-15T11:58:56Z",
+          "updatedAt": "2025-09-15T11:58:56Z"
         }
       ]
     },
@@ -3805,13 +3820,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.14.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-purpose-claim \nNot sure how to articulate this but the 'purp' claim feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-8 \nI realize this has (probably) been discussed but the need for the new purp claim is unclear to me. Or not compiling.  \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-scope-and-purpose-processin\nOkay but scope can still be used to convey scope, even if it's inside and/or more granular and/or different. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\nIt's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim. \n",
       "createdAt": "2025-08-26T16:10:36Z",
-      "updatedAt": "2025-09-12T14:32:22Z",
+      "updatedAt": "2025-09-15T16:32:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -3932,6 +3949,34 @@
           "body": "@gffletch as you continue to work on this - the above idea from @dagdagdag83 is an interesting one - what if donwscoping is achived through tctx alone, or do you think tctx is more about the cntextual information to complete the trasnaction, rather than scoping information?",
           "createdAt": "2025-09-12T14:32:22Z",
           "updatedAt": "2025-09-12T14:32:22Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Isn't this the same as authorization_details from RAR which is essentially a fine grained scope for the access token? This looks to me as if you suggest to introduce a RAR-like authorization_details when issuing a Txn-Token. What if the Access Token already has authorization_details?",
+          "createdAt": "2025-09-15T07:34:07Z",
+          "updatedAt": "2025-09-15T07:34:07Z"
+        },
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "NONE",
+          "body": "I don't think this would introduce something new, we already have tctx claim. I'm suggesting we clarify what tctx is, and consider if purp is redundant. ",
+          "createdAt": "2025-09-15T08:59:10Z",
+          "updatedAt": "2025-09-15T08:59:10Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> What if the Access Token already has authorization_details?\n\nThose can be included in the transaction token, along with other information that may be specific to the transaction (but perhaps not included in the access token). \n\nThe interesting question is whether tctx can replace 'purp'.",
+          "createdAt": "2025-09-15T10:09:51Z",
+          "updatedAt": "2025-09-15T10:09:51Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A couple of thoughts:\n1. Brian's points about authorization deployment models being as individual as the deployment (I hope I'm not putting words in your mouth @bc-pi ) makes a ton of sense. While having a much finer grained internal authorization model may be better from a security model, it doesn't mean that is commonly deployed. Transaction tokens should work for all authorization deployment models.\n2. I envisioned the transaction context to be more about making parameters of the requests immutable. This could include RAR details and we do call that out. But maybe there is not enough practice to codify \"best practice\" is a way that would make it possible for tooling to be built. My thinking is that if each transaction token service constructs its own form of a transaction token, then special code is needed to process those tokens and moving to a new transaction token service product likely means a lot of change within the infrastructure. Do we think there is a way we can make it easier for tooling to be built for processing transaction tokens?\n\nAt the moment, I'm leaning toward leaving the separate claim in the transaction token but calling it `scope` instead of `purp` and adding text to clarify that the value of the transaction token `scope` claim is up to the transaction token service and does not need to make the scope requested nor the scope value in the access_token if supplied.\n\nFurther removing the `scope` claim from the transaction token can happen in a future PR if the WG believes the `tcxt` claim is sufficient.",
+          "createdAt": "2025-09-15T16:32:48Z",
+          "updatedAt": "2025-09-15T16:32:48Z"
         }
       ]
     },
@@ -4493,7 +4538,7 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.3-3\n\"the tctx field contains the actual authorizaton details that are determined by the TTS. \"\nWeird to me that this is so crucial, but is not a MUST in the request, (per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.16.1 ) . What are the scenarios where the TTS would not provide a tctx field?\n",
       "createdAt": "2025-08-27T15:52:03Z",
-      "updatedAt": "2025-09-11T04:22:28Z",
+      "updatedAt": "2025-09-15T13:25:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -4502,6 +4547,13 @@
           "body": "\nI have question on same section so adding it here.\nIn same section  - \"The content of the tctx field is determined by the Txn-Token Service\"\n\nHow? The example in the draft is about buying MSFT 100 shares. How does Tx Token Service even know anything about Transaction ? Tx Token issuer pretty much will have to then rely on this information to come as part of token request itself and simply add it to the token. ",
           "createdAt": "2025-09-11T04:22:28Z",
           "updatedAt": "2025-09-11T04:22:28Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The current draft has the \"purp\" claim, which may be used to downscope, so tctx may not always be needed. It is an interesting question about whether it should be a MUST if we decide to move away from a \"purp\" claim (@gffletch and @tulshi - something to keep in mind).\n\nRegarding the capabilities of the transaction server, it depends on the implementation and the overall architecture. As an initial transaction token, the tctx information may simply come from parameters passed. The decision about whether to honour those paramaters may be done further down the call chain (e.g. a risk management service may evaluate the transaction volume). Another service may check the amount against the funds available and another may do compliance checks against the users account. Some of these checks may be done by the transaction token service itself. It depends on the deployment an implementation. The main thing here is to ensure that these parameters/information is bound to the transaction and protecting the integrity of the transaction information throughout the call chain.",
+          "createdAt": "2025-09-15T13:25:39Z",
+          "updatedAt": "2025-09-15T13:25:39Z"
         }
       ]
     },
@@ -4835,9 +4887,17 @@
       "labels": [],
       "body": "We need to do a pass to be consistent about the use of acronymns, abbreviations and full text. For example, Transaction token Service is represented as Txn-Token-Service, TTS or Transaction Token Service in various places. Same for transaction token.\n\nI have cone to have a strong preference for writing the fill term rather than using abbreviations in lots of pplaces as the abbreviations may be unfamiliar or may have different meanings to readers (unless they read the whole thing carefully). Personal preference aside, consistency is important, so we just need to pick an approach and stick to it.",
       "createdAt": "2025-09-05T12:07:28Z",
-      "updatedAt": "2025-09-05T12:07:28Z",
+      "updatedAt": "2025-09-15T16:19:17Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "+1 for full text",
+          "createdAt": "2025-09-15T16:19:17Z",
+          "updatedAt": "2025-09-15T16:19:17Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -13244,7 +13304,7 @@
       "labels": [],
       "body": "Attempt at simplifying both client and server authentication requirements throughout the draft (see #198, #198 and #218)",
       "createdAt": "2025-09-01T18:17:23Z",
-      "updatedAt": "2025-09-12T14:06:25Z",
+      "updatedAt": "2025-09-15T18:00:50Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
@@ -13582,6 +13642,26 @@
               "updatedAt": "2025-09-12T14:06:25Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ARMMm",
+          "commit": {
+            "abbreviatedOid": "abc7fee"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T18:00:50Z",
+          "updatedAt": "2025-09-15T18:00:50Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "I also am curious. If the `actor_token` does not identify the identity of the requesting workload then it seems that its use is not for the purpose of client authentication which was the original reason for including the text at all.",
+              "createdAt": "2025-09-15T18:00:50Z",
+              "updatedAt": "2025-09-15T18:00:50Z"
+            }
+          ]
         }
       ]
     },
@@ -13597,7 +13677,7 @@
       "labels": [],
       "body": "Addresses Issue #212 ",
       "createdAt": "2025-09-03T17:40:58Z",
-      "updatedAt": "2025-09-07T19:31:23Z",
+      "updatedAt": "2025-09-15T17:55:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
@@ -13682,6 +13762,26 @@
               "body": "```suggestion\r\n\r\n        1 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510    2      \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\r\n          \u2502              \u251c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u25b6              \u2502\r\n          \u2502   Internal   \u2502           \u2502  Txn-Token   \u2502\r\n          \u2502   Workload   \u2502    3      \u2502   Service    \u2502\r\n          \u2524              \u25c0\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2502              \u2502\r\n          \u2514\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u25b2\u2500\u2500\u2500\u2500\u2500\u2518           \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\r\n               \u2502   \u2502\r\n             4 \u2502   \u2502 6\r\n          \u250c\u2500\u2500\u2500\u2500\u25bc\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2510\r\n          \u2502              \u2502\r\n          \u2502   Internal   \u2502\r\n          \u2502   Workload   \u2502\r\n          \u2502              \u2502\r\n          \u2514\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u25b2\u2500\u2500\u2500\u2500\u2500\u2518\r\n               \u2502   \u2502\r\n               \u25bc   \u2502\r\n                 o\r\n             5   o    6\r\n               \u2502 o \u25b2\r\n               \u2502   \u2502\r\n               \u2502   \u2502\r\n          \u250c\u2500\u2500\u2500\u2500\u25bc\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2510\r\n          \u2502              |\r\n          \u2502   Internal   \u2502\r\n          \u2502   Workload   \u2502\r\n          \u2502              |\r\n          \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\r\n\r\n```",
               "createdAt": "2025-09-07T19:28:58Z",
               "updatedAt": "2025-09-07T19:29:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ARHsH",
+          "commit": {
+            "abbreviatedOid": "3f515a7"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T17:55:54Z",
+          "updatedAt": "2025-09-15T17:55:54Z",
+          "comments": [
+            {
+              "originalPosition": 15,
+              "body": "@jsalowey I like this text. \r\n\r\nA use case that I know of in an email processing system is accepting inbound email. The workload needs the transaction token. The subject of the transaction token may be the email address or the GUID of the user who owns that email address.\r\n\r\nI'm not sure in the above use case the user is being impersonated so maybe we tweak that wording?",
+              "createdAt": "2025-09-15T17:55:54Z",
+              "updatedAt": "2025-09-15T17:55:55Z"
             }
           ]
         }
@@ -13801,7 +13901,7 @@
       "labels": [],
       "body": "Meant to address issue #208 to include additional text about internally initiated requests",
       "createdAt": "2025-09-07T19:08:02Z",
-      "updatedAt": "2025-09-09T23:03:31Z",
+      "updatedAt": "2025-09-15T17:49:33Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
@@ -13846,6 +13946,66 @@
           "createdAt": "2025-09-09T23:03:31Z",
           "updatedAt": "2025-09-09T23:03:31Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7AQ8NC",
+          "commit": {
+            "abbreviatedOid": "9aeebae"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T17:40:43Z",
+          "updatedAt": "2025-09-15T17:40:43Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Two things...\r\n1. Do we require the subject_token to be a signed JWT if not a token issued externally?\r\n2. I would suggest the following:\r\n\r\nIf the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it may generate a self-signed JWT and pass that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating an internal request for itself or on behalf of a user of the system.\r\n\r\nI don't think scheduled internal requests are the primary use cases (e.g. inbound email delivery).",
+              "createdAt": "2025-09-15T17:40:43Z",
+              "updatedAt": "2025-09-15T17:40:43Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ARBEM",
+          "commit": {
+            "abbreviatedOid": "9aeebae"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T17:46:10Z",
+          "updatedAt": "2025-09-15T17:46:11Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\nTxn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.\r\n```",
+              "createdAt": "2025-09-15T17:46:11Z",
+              "updatedAt": "2025-09-15T17:46:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ARDTy",
+          "commit": {
+            "abbreviatedOid": "9aeebae"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T17:49:33Z",
+          "updatedAt": "2025-09-15T17:49:33Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "My PR also addresses this text so we will have a merge conflict. Not sure which one is better to merge first. \r\n\r\nThis is the text I have in the PR:\r\n\r\nScope claim {#scope-claim}\r\nThe scope claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the Transaction Token Service as representative of the authorization model defined by the trust domain. The value may contain a syntax and structure much different from and represent an intent much narrower than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is out of scope for this specification.",
+              "createdAt": "2025-09-15T17:49:33Z",
+              "updatedAt": "2025-09-15T17:49:33Z"
+            }
+          ]
         }
       ]
     },
@@ -13945,7 +14105,7 @@
       "labels": [],
       "body": "See issue #228 \r\n\r\nIn addition, the \"request_context\" is optional, so making it a SHOULD be included feels like maybe it is not optional. Instead the PR proposes language that says it is \"RECOMMENDED\".\r\n\r\n@tulshi @gffletch - please review.",
       "createdAt": "2025-09-08T10:47:25Z",
-      "updatedAt": "2025-09-08T17:59:11Z",
+      "updatedAt": "2025-09-15T17:34:20Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
@@ -13977,6 +14137,106 @@
               "updatedAt": "2025-09-08T17:59:11Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7AQ3py",
+          "commit": {
+            "abbreviatedOid": "b031088"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-15T17:34:20Z",
+          "updatedAt": "2025-09-15T17:34:20Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Or if we prefer RECOMMENDED \r\n\r\nThe following additional parameters are RECOMMENDED to be present in a Txn-Token Request:\r\n\r\nThis implies that both are equally recommended. If one is \"more recommended\" than the other then we should stay with the structure that Pieter as in this PR.",
+              "createdAt": "2025-09-15T17:34:20Z",
+              "updatedAt": "2025-09-15T17:34:20Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 248,
+      "id": "PR_kwDOJt_WwM6okJUb",
+      "title": "Fix typo",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/248",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-09-15T06:58:15Z",
+      "updatedAt": "2025-09-15T17:28:34Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "obfuscoder-patch-1",
+      "headRefOid": "a5d4df39609d8d6b35228adcf198a0df1bfbf8b4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7AQz5t",
+          "commit": {
+            "abbreviatedOid": "a5d4df3"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-15T17:28:34Z",
+          "updatedAt": "2025-09-15T17:28:34Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 249,
+      "id": "PR_kwDOJt_WwM6orqBE",
+      "title": "Removal of `purp` claim",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/249",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on conversations and issue comments in issues #178 and #194, this PR renames the `purp` claim in the Transaction Token to `scope`. Clarifying text has been added to make it clear that the value of the `scope` claim in the Transaction Token does NOT need to be the same value requested or present in a provided access_token. \r\n\r\nPlease review for clarity of the added text.\r\n\r\nI also removed the IANA registry for 'purp'.",
+      "createdAt": "2025-09-15T17:08:57Z",
+      "updatedAt": "2025-09-15T18:45:57Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "scope_194",
+      "headRefOid": "1ee80efa5c575006e113db8d301d35153aef047a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7ARt8O",
+          "commit": {
+            "abbreviatedOid": "1ee80ef"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-15T18:45:57Z",
+          "updatedAt": "2025-09-15T18:45:57Z",
+          "comments": []
         }
       ]
     }
