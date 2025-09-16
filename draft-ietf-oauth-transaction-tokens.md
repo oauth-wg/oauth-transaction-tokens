@@ -629,7 +629,7 @@ Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to 
 ## Scope and Purpose processing
 The authorization model within a Trust Domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (`scope`) of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.
 
-## Identifying a Transaction Throughout a Call Chain
+## Unique Transaction Identifier
 A transaction token conveys user identity and authorization context across workloads in a call chain. The `txn` claim is a unique identifier that, when logged by the Transaction Token Service and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain.
 
 ## Transaction Token Service Discovery
