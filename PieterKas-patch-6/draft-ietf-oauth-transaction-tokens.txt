@@ -1407,7 +1407,9 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]]
+   [[ To be removed from final specification ]] * Include token theft as
+   a threat to be mitigated Consider information disclosure as a benefit
+   (https://github.com/oauth-wg/oauth-transaction-tokens/issues/207)
 
 Since Draft 06
 
