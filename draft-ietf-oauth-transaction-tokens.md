@@ -129,9 +129,10 @@ Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user iden
 
 Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
 
-* Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present
-* Arbitrary user impersonation
-* Parameter modification or augmentation
+* Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present.
+* Arbitrary user impersonation.
+* Parameter modification or augmentation.
+* Theft of tokens, such as OAuth access tokens, used to call external interfaces and passed to internal workloads to convey authorization context.
 
 The results of these actions are unauthorized access to resources.
 
