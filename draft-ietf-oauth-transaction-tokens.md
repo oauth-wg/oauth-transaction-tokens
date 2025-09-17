@@ -740,6 +740,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 # Document History
 {: numbered="false"}
 [[ To be removed from final specification ]]
+* Replace StringOrURI with string [Relace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
 
 ## Since Draft 06
 {:numbered="false"}
