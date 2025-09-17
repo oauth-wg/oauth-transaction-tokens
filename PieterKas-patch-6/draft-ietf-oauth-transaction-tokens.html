@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 12 March 2026</td>
+<td class="center">Expires 21 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-08" class="published">8 September 2025</time>
+<time datetime="2025-09-17" class="published">17 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-03-12">12 March 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-21">21 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1391,13 +1391,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-1-1">Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:<a href="#section-1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-2.1">
-          <p id="section-1-2.1.1">Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.1.1">Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present.<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-2.2">
-          <p id="section-1-2.2.1">Arbitrary user impersonation<a href="#section-1-2.2.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.2.1">Arbitrary user impersonation.<a href="#section-1-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-2.3">
-          <p id="section-1-2.3.1">Parameter modification or augmentation<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.3.1">Parameter modification or augmentation.<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-2.4">
+          <p id="section-1-2.4.1">Theft of tokens, such as OAuth access tokens, used to call external interfaces and passed to internal workloads to convey authorization context.<a href="#section-1-2.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-3">The results of these actions are unauthorized access to resources.<a href="#section-1-3" class="pilcrow">¶</a></p>
@@ -1512,7 +1515,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           +--------------+
           │              │
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
                │   ^
@@ -1525,7 +1528,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           +--------------+
           │              │
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
 </pre>
@@ -1545,13 +1548,13 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
               <p id="section-2.5.1-3.3.1">Txn-Token Service mints a Txn-Token that provides immutable context for the transaction and returns it to the requester<a href="#section-2.5.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-2.5.1-3.4">
-              <p id="section-2.5.1-3.4.1">The external endpoint initiates a call to an internal microservice and provides the Txn-Token as authorization<a href="#section-2.5.1-3.4.1" class="pilcrow">¶</a></p>
+              <p id="section-2.5.1-3.4.1">The external endpoint initiates a call to an internal workloads and provides the Txn-Token as authorization<a href="#section-2.5.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-2.5.1-3.5">
-              <p id="section-2.5.1-3.5.1">Subsequent calls to other internal microservices use the same Txn-Token to authorize calls<a href="#section-2.5.1-3.5.1" class="pilcrow">¶</a></p>
+              <p id="section-2.5.1-3.5.1">Subsequent calls to other internal workloads use the same Txn-Token to authorize calls<a href="#section-2.5.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-2.5.1-3.6">
-              <p id="section-2.5.1-3.6.1">Responses are provided to callers based on successful authorization by the invoked microservices<a href="#section-2.5.1-3.6.1" class="pilcrow">¶</a></p>
+              <p id="section-2.5.1-3.6.1">Responses are provided to callers based on successful authorization by the invoked workloads<a href="#section-2.5.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-2.5.1-3.7">
               <p id="section-2.5.1-3.7.1">External client is provided a response to the external invocation<a href="#section-2.5.1-3.7.1" class="pilcrow">¶</a></p>
@@ -1580,7 +1583,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           +--------------+           │              │
           │              │           │              │
           │   Internal   │           │              │
-          │ Microservice │           │              │
+          │   Workload   │           │              │
           │              │           │              │
           +--------------+           │  Txn-Token   │
                │   ^                 │   Service    │
@@ -1593,7 +1596,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           +--------------+    6      │              │
           │              │----------&gt;│              │
           │   Internal   │           │              │
-          │ Microservice │    7      │              │
+          │   Workload   │    7      │              │
           │              │&lt;----------│              │
           +--------------+           │              │
                │   ^                 │              │
@@ -1606,7 +1609,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           +--------------+
           │              │
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
 </pre>
@@ -1627,7 +1630,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
               <p id="section-2.5.2-4.3.1">The service that requested the Replacement Txn-Token uses that Txn-Token for downstream call authorization<a href="#section-2.5.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-2.5.2-4.4">
-              <p id="section-2.5.2-4.4.1">Responses are provided to callers based on successful authorization by the invoked microservices<a href="#section-2.5.2-4.4.1" class="pilcrow">¶</a></p>
+              <p id="section-2.5.2-4.4.1">Responses are provided to callers based on successful authorization by the invoked workloads<a href="#section-2.5.2-4.4.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-2.5.2-4.5">
               <p id="section-2.5.2-4.5.1">External client is provided a response to the external invocation<a href="#section-2.5.2-4.5.1" class="pilcrow">¶</a></p>
@@ -2229,7 +2232,7 @@ Cache-Control: no-store
         <h3 id="name-txn-token-http-header">
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-txn-token-http-header" class="section-name selfRef">Txn-Token HTTP Header</a>
         </h3>
-<p id="section-8.1-1">A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header <code>Txn-Token</code> to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-1">A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header <code>Txn-Token</code> to communicate the Txn-Token. The value of this header MUST be the Txn-Token.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2302,7 +2305,7 @@ Cache-Control: no-store
         <h3 id="name-transaction-token-service-d">
 <a href="#section-9.8" class="section-number selfRef">9.8. </a><a href="#name-transaction-token-service-d" class="section-name selfRef">Transaction Token Service Discovery</a>
         </h3>
-<p id="section-9.8-1">A workload may use various mechanisms to determine which Transaction Token Service to interact with. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to a Transaction Token Service under it's control. Such a service could be used to collect Access Tokens sent as part of the Transaction Token Request message.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
+<p id="section-9.8-1">A workload may use various mechanisms to determine which instance of a Transaction Token Service to interact with. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to an instance of a Transaction Token Service under it's control. Such a service could be used to collect Access Tokens sent as part of the Transaction Token Request message.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
 <p id="section-9.8-2">To mitigate this risk, workloads SHOULD authenticate the service providing the configuration information and verify the integrity of the configuration information. This ensures that no unauthorized entity can insert or alter configuration data. The workload SHOULD use Transport Layer Security (TLS) to authenticate the endpoint and secure the communication channel. Additionally, application-layer signatures or message authentication codes MAY be used to detect any tampering with the configuration information.<a href="#section-9.8-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2311,7 +2314,7 @@ Cache-Control: no-store
         <h3 id="name-workload-configuration-prot">
 <a href="#section-9.9" class="section-number selfRef">9.9. </a><a href="#name-workload-configuration-prot" class="section-name selfRef">Workload Configuration Protection</a>
         </h3>
-<p id="section-9.9-1">A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundancy or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.<a href="#section-9.9-1" class="pilcrow">¶</a></p>
+<p id="section-9.9-1">A deployment may include multiple instances of a Transaction Token Service to improve resiliency, reduce latency and enhance scalability. A workload may be configured to access more than one instance of a Transaction Token Service to ensure reliability or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.<a href="#section-9.9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="transaction-token-service-authentication">
@@ -2693,6 +2696,9 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
             <p id="appendix-B.1-1.1.1">Remove definition of Authorization Context <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/192">Be more specific on Authorization Context</a><a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.2">
+            <p id="appendix-B.1-1.2.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
