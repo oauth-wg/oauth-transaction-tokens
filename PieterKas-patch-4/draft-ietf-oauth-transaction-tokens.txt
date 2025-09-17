@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 20 March 2026                            Practical Identity LLC
+Expires: 21 March 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       16 September 2025
+                                                       17 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 March 2026.
+   This Internet-Draft will expire on 21 March 2026.
 
 Copyright Notice
 
@@ -1400,7 +1400,9 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]]
+   [[ To be removed from final specification ]] * Replace StringOrURI
+   with string Relace StringOrURI with String (https://github.com/oauth-
+   wg/oauth-transaction-tokens/issues/195)
 
 Since Draft 06
 
