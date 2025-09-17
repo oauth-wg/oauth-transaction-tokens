@@ -740,6 +740,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 # Document History
 {: numbered="false"}
 [[ To be removed from final specification ]]
+* Remove contradiction in "request_details" description and simpliffy normative langugage [Clarify claim usage](https://github.com/oauth-wg/oauth-transaction-tokens/issues/228).
 
 ## Since Draft 06
 {:numbered="false"}
