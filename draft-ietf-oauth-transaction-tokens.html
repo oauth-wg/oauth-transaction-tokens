@@ -1298,7 +1298,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-scope-and-purpose-processin" class="internal xref">Scope and Purpose processing</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.7">
-                <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-identifying-call-chains" class="internal xref">Identifying Call Chains</a></p>
+                <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-unique-transaction-identifi" class="internal xref">Unique Transaction Identifier</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.8">
                 <p id="section-toc.1-1.9.2.8.1"><a href="#section-9.8" class="auto internal xref">9.8</a>.  <a href="#name-transaction-token-service-d" class="internal xref">Transaction Token Service Discovery</a></p>
@@ -2292,12 +2292,12 @@ Cache-Control: no-store
 <p id="section-9.6-1">The authorization model within a Trust Domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (<code>scope</code>) of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="identifying-call-chains">
+<div id="unique-transaction-identifier">
 <section id="section-9.7">
-        <h3 id="name-identifying-call-chains">
-<a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-identifying-call-chains" class="section-name selfRef">Identifying Call Chains</a>
+        <h3 id="name-unique-transaction-identifi">
+<a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-unique-transaction-identifi" class="section-name selfRef">Unique Transaction Identifier</a>
         </h3>
-<p id="section-9.7-1">A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The <code>txn</code> claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the Trust Domain, for the <code>txn</code> value.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
+<p id="section-9.7-1">A transaction token conveys user identity and authorization context across workloads in a call chain. The <code>txn</code> claim is a unique identifier that, when logged by the Transaction Token Service and workloads, enables discovery and auditing of successful and failed transactions. The <code>txn</code> value SHOULD be unique within the Trust Domain.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="transaction-token-service-discovery">
@@ -2700,6 +2700,9 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 </li>
           <li class="normal" id="appendix-B.1-1.2">
             <p id="appendix-B.1-1.2.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.3">
+            <p id="appendix-B.1-1.3.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
