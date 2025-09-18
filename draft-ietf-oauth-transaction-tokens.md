@@ -286,7 +286,7 @@ An internal workload may need to initiate a transaction not on the basis of a cu
         1 ┌──────────────┐    2      ┌──────────────┐
           │              ├───────────▶              │
           │   Internal   │           │  Txn-Token   │
-          │ Microservice │    3      │   Service    │
+          │   Workload   │    3      │   Service    │
           ┤              ◀───────────│              │
           └────┬───▲─────┘           └──────────────┘
                │   │
@@ -294,7 +294,7 @@ An internal workload may need to initiate a transaction not on the basis of a cu
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           └────┬───▲─────┘
                │   │
@@ -307,7 +307,7 @@ An internal workload may need to initiate a transaction not on the basis of a cu
           ┌────▼───┴─────┐
           │              |
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              |
           └──────────────┘
 
