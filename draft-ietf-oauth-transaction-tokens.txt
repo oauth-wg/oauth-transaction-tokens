@@ -230,7 +230,10 @@ Table of Contents
    If the requesting service does not have an inbound token that it can
    use in its request to the Txn-Token Service, it generates a self-
    signed JWT and passes that in the request in place of the external
-   authorization token.
+   authorization token.  This can be the case when the external
+   authentication does not use an access token or when the requesting
+   service is initiating a scheduled internal request on for itself or
+   on behalf of a user of the system.
 
 2.2.2.  Replacement Txn-Tokens
 
@@ -248,18 +251,18 @@ Table of Contents
 
    Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5
    minutes), and as a result MAY be used only for the expected duration
-   of an external invocation.  Except in the case where the request is
-   made using a self-signed JWT, if the token or other credential
-   presented to the Txn-Token service when requesting a Txn-Token has an
-   expiration time, then the Txn-Token Service MUST NOT issue a Txn-
-   Token if the expiration time has passed.  The lifetime of the Txn-
-   Token itself MAY exceed the expiration time of the presented token.
-   The expectation is that since Txn-Tokens are short lived and are
-   authorizing a specific transaction, extending beyond the lifetime of
-   the presented expiration time is not a security risk.  If a long-
-   running process such as a batch or offline task is involved, it can
-   use a separate mechanism to perform the external invocation, but the
-   resulting Txn-Token is still short-lived.
+   of an external or internal invocation.  If the token or other
+   credential (e.g. self-signed JWT) presented to the Txn-Token service
+   when requesting a Txn-Token has an expiration time, then the Txn-
+   Token Service MUST NOT issue a Txn-Token if the expiration time has
+   passed.  The lifetime of the Txn-Token itself MAY exceed the
+   expiration time of the presented token.  The expectation is that
+   since Txn-Tokens are short lived and are authorizing a specific
+   transaction, extending beyond the lifetime of the presented
+   expiration time is not a security risk.  If a long-running process
+   such as a batch or offline task is involved, the mechanism used to
+   perform the external or internal invocation still results in a short-
+   lived Txn-Token.
 
 2.4.  Benefits of Txn-Tokens
 
@@ -506,7 +509,9 @@ Table of Contents
    scope (often fairly coarse-grained) used with external clients from
    the purpose of the transaction used within the Trust Domain.  How a
    given deployment represents the authorization model within the Trust
-   Domain is out of scope for this specification.
+   Domain is out of scope for this specification.  Likewise, for
+   internal clients the scope of the purpose claim is chosen to provide
+   the least amount of privilege to accomplish the requested task.
 
 5.2.2.  Requester Context
 
@@ -520,8 +525,10 @@ Table of Contents
    on the Txn-Token.  The following claims are defined so that if they
    are included, they have the following meaning:
 
-   *  req_ip The IP address of the requester.  This MAY be the end-user
-      or a robotic process that requested the Transaction
+   *  req_ip The IP address of the external requester.  This MAY be the
+      end-user or a robotic process that requested the Transaction.  In
+      the case of an internal request it may contain the IP address of
+      the requesting workload.
 
    *  authn The authentication method used to identify the requester.
       Its value is a StringOrURI that uniquely identifies the method
@@ -554,7 +561,8 @@ Table of Contents
    the Txn-Token Service and they may be computed internally or from
    parameters it receives from the service that requests the Txn-Token.
 
-   The following is a non-normative example of an tctx claim:
+   The following is a non-normative example of an tctx claim initiated
+   by an external call:
 
    "tctx": {
      "action": "BUY", // parameter of external call
@@ -582,10 +590,13 @@ Table of Contents
    single value, then req_wl will be represented by an array of
    StringOrURIs.
 
+   The following is a non-normative example of an rctx claim initiated
+   by an external call:
+
    {
        "rctx": {
          "req_ip": "69.151.72.123", // env context of external call
-         "authn": "urn:ietf:rfc:6749", // env context of the external call
+         "authn": "urn:ietf:rfc:6749", // env context of external call
          "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
        }
    }
@@ -593,7 +604,7 @@ Table of Contents
 5.2.4.  Example
 
    The figure below Figure 4 shows a non-normative example of the JWT
-   body of a Txn-Token:
+   body of a Txn-Token initiated by an external call:
 
    {
      "iat": 1686536226,
@@ -619,6 +630,10 @@ Table of Contents
    }
 
                      Figure 4: Example: Txn-Token Body
+
+   A Txn-Token from an internal request would look much the same except
+   the rctx and tctx field claims would be populated with information
+   from the initiating workloads request.
 
 6.  Txn-Token Service
 
