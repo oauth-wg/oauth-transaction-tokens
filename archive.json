@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-16T00:17:20.956576+00:00",
+  "timestamp": "2025-09-18T00:17:03.034688+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -80,6 +80,11 @@
     },
     {
       "name": "WGLC Feedback",
+      "description": null,
+      "color": "aaaaaa"
+    },
+    {
+      "name": "WGLC Discuss",
       "description": null,
       "color": "aaaaaa"
     }
@@ -3648,7 +3653,7 @@
       "labels": [],
       "body": "### Problem Statement\n\nAuthorization systems based on zero trust principles must rethink their approach when dealing with AI agents, as the characteristics that differentiate AI agents from traditional web services have major security implications. Unlike static web services, AI agents can act autonomously, adapt their behavior, and access or integrate with new data sources dynamically\u2014sometimes making decisions outside of their originally intended scope. This means that existing zero trust models, which tightly define permissions, verification processes, and access scopes for regular web services, may fall short when applied to adaptive, context-aware AI agents. For true zero trust security, authorization systems should treat each AI agent interaction as potentially unique, inspect agent requests with greater granularity, and continuously evaluate both intent and context\u2014not just identity. Dynamic policy enforcement, ongoing behavioral analysis, and robust audit mechanisms become critical to ensure that AI agents do not inadvertently gain unauthorized access or act outside governance boundaries, despite using the same foundational security model as for traditional web services.\n\nTransaction Tokens are a solution to propagate security context across the call graph in the form of cryptographically signed tokens. These tokens start at the front of the call chain and are propagated through all services in the call chain. Services can leverage the security context for access control and auditing. \n\nTo support AI agent applications in the service graph, Transaction Tokens need to address several challenges: where and how tokens will be generated, how context inputs are captured from agents, scoping/limiting the contexts for agents, ensuring token propagation, and updating the auditing process to capture agent identity along with original actor details.\nAgents by default must be given zero permissions and must be able to get permissions only when delegated by human user. Unsupervised with no human in loop agents could get permissions based on the task but sensitive operations should have human in loop to approve. \n\nAgents could be in different environments including developer\u2019s machine (unsafe environment) or hosted in CloudAuth with protected access.\n\n\n### Assumptions\n \nBefore jumping into solution, an assumption is being made here that OAuth will be used for agentic interactions. Agents will have no permissions of their own but will request permissions from Authorization Server (AS) with human in the loop consenting it. Agents will basically have access token that calls the human user as subject and agent as \u2018actor; representing that agent is acting on behalf of the user.\n\nFor multi-agent, another assumption is that each agent will do OAuth Token Exchange RFC 8693 for getting access token which indicates that the agent is acting on behalf of the previous agent. These access tokens will contain delegation chain information about all agent identities.\n\n### Why not initiate Transaction tokens at the agents ?  \n\nThe obvious solution to ensure Transaction token coverage across entire call chain starting from agent is to initiate Transaction token at beginning of call chain, in this case, it will be the Agentic application. The agentic application will have OAuth access token to access a resource server, but before calling resource server (or workload), it will request Transaction token using the access token. Transaction Token Issuer (TTI) will issue Tx token by validating the input access token. The input access token will have information about agent and human identity. It will also prove that agent is acting on behalf of human. \n\nChallenges with initiating token at agents : \nThere are multiple challenges in this approach. The agent to agent or agent to MCP server interaction can be long running and Transaction tokens will expire. So we have to figure out mechanism to keep Tx token refrehsed. Token propagation is another challenge over MCP/A2A and other protocols. The agents could be running in browser or relatively low secure environments such as a human user\u2019s laptop which increases the risk of exposing our bearer Transaction token.\n\n\n### Proposal: Initiate transaction tokens once agentic interaction is over. \n\nThe core idea of shifting token generation away from potentially unsafe environments and onto a trusted server is compelling. Core design principle - The proposal simplifies agent logic by shifting complexity to the trusted, centralized infrastructure\u2014the Authorization Server and the Transaction Token Issuer. \n\nLet's take this flow as an example - \n\n```\nHuman -> Agent A \u2192 MCP Server \u2192 Resource server \u2192 Internal Service (Resource Server)\n```\n\n- Human will invoke Agent. \n- Agent will take action by calling MCP Server. \n- MCP Server throws OAuth challenge 401 unauthorized. \n- Agent which is already registered with OAuth Authorization Server (AS) will request access token. \n- AS will invoke authorization code flow and ask human for consent. \n- Human approves it and then standard auth code flow starts. At the end, agent has access token that says agent is allowed to take action on behalf of subject (human). \n- MCP Server gets the access token. \n- MCP server has to call internal service now. MCP Server gets access token from agent, and then invoke OAuth Token Exchange RFC 8693 with AS and gets another access token. \n- AS verifies permissions of MCP server, access tokens and then issues access token to MCP Server. \n- This access token contains delegation chain including (human, agent, MCP Server). \n- \n- MCP Server now has access token with all delegation chain and about to call internal service. \n- This is where it should initiate Tx token by calling  Transaction Token Issuer (TTI) and passing the access token. \n- TTI will have all the necessary information to add in the Tx token using the access token as the access token has call chain information. \n- TTI must validate the access token before trusting it for generating Transaction token.\n- The generated Transaction token will have the human identity as the Subject, the first agent identity as 'act' claim. It also aligns with https://github.com/modelcontextprotocol/modelcontextprotocol/issues/214 \n\n\nAs supervised agents act on behalf of humans, its important to include their identity in the Transaction tokens. Whenever human triggers an agent, sub MUST contain human identity and there should be a new claim in the token to include identity of the agent that acts on behalf of the human user.\n\n\n```\nact: : OPTIONAL The \"act\" (actor) claim, within the context of OAuth 2.0 token exchange and JSON Web Tokens (JWTs), is defined in RFC 8693: OAuth 2.0 Token Exchange. The value will be the agent that is acting on behalf of the human user. In case the access token contains delegation chain, then it will be the first actor in 'act' field where this on behalf of flow started.\n```\n\n### Detailed explanation of the proposal\nThe core idea is that Transaction Tokens will leverage the OAuth Authorization Server-issued access tokens as proof to issue a Transaction Token. These access tokens will be issued to AI agent applications and MCP servers in the call chain. For agent-to-agent or agent-to-MCP server interactions, access tokens from agents all the way to the last MCP server/agent will carry delegation chain information. This means all identities involved up to that point will be present in these access tokens. This differs from the current service access token model where an access token from Service A to Service B is different from an access token issued by Service B to call Service C. \n\nThe advantage of this approach is that now Tx tokens aren\u2019t exposed to unsafe environments in which agents are running. If agents do have long running interactions, they will still maintain access tokens because most of the agents are supposed to be OAuth compliant. This gives Tx token RFC to be popular and get widely adopted but still not blocked on agents support Tx token. \n).\n\nFor mid-call chain use cases, \n```\nWorkload A(w/ Tx token) \u2192 MCP Server A \u2192 MCP Server B \u2192 Workload-2\n```\nwhere Transaction Token propagation through the service graph starts but agent-to-agent interaction begins, the first MCP server or agent  (MCP Server A in above example) will perform an OAuth token exchange to get onBehalfOf permissions, and the Transaction Token context could be preserved in the access token as a claim. So between MCP Server A \u2192 MCP Server B, access token is flowing but this access token was requested by MCP Server A as part of OAuth token exchange. In OAuth token exchange, MCP Server should send access token and Tx token as well to ensure access token captures the Tx token contents as claim. Before calling Workload-2, the access token can be used to get a Transaction Token at MCP Server B. TTI this time, instead of generating a token with new contexts, the preserved contexts from access token claim will be used. \n\nIn summary, access tokens will be leveraged to procure Transaction Tokens. The OAuth token exchanged access tokens contain a delegation chain of identities, and when agent interaction starts in the middle of the call chain, access tokens will preserve Transaction Token contexts to get Transaction Tokens back when service interaction begins.\n\nThis approach for Transaction Tokens depends on OAuth Authorization Server support for OAuth token exchange, registering AI applications in the OAuth Authorization Server for identities, and delegation and permission models. The approach simplifies overall Transaction Token integration in this AI agent-based service graph as Transaction Tokens don't need to implement propagation over various protocols, or worry about issuing bearer tokens in unsafe environments such as developers' machines or browsers.\n\nThe agent-side space is rapidly evolving, and by moving Transaction Token generation to the server side, integration stays simple while the OAuth Authorization Server handles the complexity. This approach assumes that all relevant protocols are or will be supporting OAuth, including agent applications. This means that agent application frameworks that support OAuth should be sufficient for AI agent apps to start development and launch, instead of integrating Transaction Tokens explicitly in their agent code and further complicating it.\n\n### Security and additional considerations\n\n- I acknowledge that while the risk of exposing a Transaction Token is removed, the risk of a compromised OAuth Access Token remains. Advocate for mTLS as a non-negotiable security measure for all inter-service communication to protect against this.\n\n- We should consider may be new, standardized claim to the oauth-transaction-tokens working group for transporting Transaction Token context within an access token. This ensures interoperability and prevents proprietary implementations.\n\n- We must mandate that all audit trails for AI agent interactions include the full delegation chain (human, agent), along with all dynamic business context used to make a decision.\n\n- \n\n",
       "createdAt": "2025-08-16T21:34:46Z",
-      "updatedAt": "2025-08-22T17:23:42Z",
+      "updatedAt": "2025-09-16T22:14:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -3657,6 +3662,13 @@
           "body": "Hi @ashayraut - thanks for opening this issue and the thoughtful write-up.\n\nI am curious, is there a specific change you were thinking of, or is this input to a broader discussion on how Transaction Tokens should be used in systems where Agentic AI is deployed?",
           "createdAt": "2025-08-22T17:23:42Z",
           "updatedAt": "2025-08-22T17:23:42Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I had discussion with @tulshi around this topic as well.\n\n Following topics were discussed \n- high level discussion on Agentic use cases and use cases for having agent identity in the Transaction Token and its value.\n- There is value of adding some sort of identification or indicator that tells that agent is in involved. Standard fields to indicate that will be valuable. \n- We also discussed some use cases from downstream services that receive Tx token and might want to either prompt user for more details or deny request based on that agentic AI application involved. For example, use case such as setPassword API can never be invoked if Agent is involved or use MCP elicitation sort of model to prompt user back and ask for password.\n\n\nNext steps - Create (action for me) a separate draft that references to this Tx token draft and addresses Transaction Token for Agentic AI applications in the service graph.",
+          "createdAt": "2025-09-16T22:09:58Z",
+          "updatedAt": "2025-09-16T22:14:05Z"
         }
       ]
     },
@@ -3670,11 +3682,12 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "WGLC Feedback"
+        "WGLC Feedback",
+        "WGLC Discuss"
       ],
       "body": "WGLC Feedback from @bc-pi : \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-initial-creation and 1-3 https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-basic-flow and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-service and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7 and maybe elsewhere like https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-6\nI believe it'd be worthwhile to account/allow for the case where the gateway or external endpoint that handles the invocation from the outside to itself act as the Txn-Token Service and do the \"exchange\" and issuance of the Txn-Token internally without an RFC8693 Token Exchange call.",
       "createdAt": "2025-08-26T15:00:45Z",
-      "updatedAt": "2025-08-31T07:56:46Z",
+      "updatedAt": "2025-09-16T12:49:29Z",
       "closedAt": null,
       "comments": [
         {
@@ -3690,6 +3703,20 @@
           "body": "I had a specific use case in mind related to this. Imagine a \"transaction\" starting from an internal service like a cronjob or even AI agent. That service should be able to ask for a txn token with having another token to exchange from? Maybe it exchange from a SVID or kubernetes token or something, but do we need to mandate that? ",
           "createdAt": "2025-08-31T07:56:46Z",
           "updatedAt": "2025-08-31T07:56:46Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dagdagdag83 - for that use case, I would suggest using an unsigned JSON Object (section 7.3) or a self signed object (section 7.2).\n\nI think this is separate from @bc-pi suggestion, which is to allow transaction topkens to be issued, even when not using the protocol described in this draft.",
+          "createdAt": "2025-09-16T11:07:12Z",
+          "updatedAt": "2025-09-16T11:07:12Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So, the way I interpret this is that what if the Gateway and the Transaction Token Service are part of the same application. In that context, we don't need the definition of the TTS API. As long as the Gateway gets the transaction token in the correct format, it can be used in the protocol. A bit like the wording that got added to the identity-chaining doc.\n\nI do agree we need to determine if we just want to add a sentence that allows for this but doesn't spec it. Or if we need to add more spec text to describe how it would work.",
+          "createdAt": "2025-09-16T12:49:28Z",
+          "updatedAt": "2025-09-16T12:49:28Z"
         }
       ]
     },
@@ -3752,7 +3779,7 @@
       "id": "I_kwDOJt_WwM7IDNBe",
       "title": "Be more specific on Authorization Context",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/192",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -3761,8 +3788,8 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-4-1.12.1 \nAuthorization Context, to me anyway, seems like too general of a concept/thing to \"define\" as a \"JSON object\".\n",
       "createdAt": "2025-08-26T16:07:29Z",
-      "updatedAt": "2025-08-26T16:07:29Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-17T11:35:06Z",
+      "closedAt": "2025-09-17T11:35:06Z",
       "comments": []
     },
     {
@@ -3828,7 +3855,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.14.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-purpose-claim \nNot sure how to articulate this but the 'purp' claim feels simultaneously too narrow and too general to be meaningfully useful. Particularly for being required. And with the tctx claim also. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-8 \nI realize this has (probably) been discussed but the need for the new purp claim is unclear to me. Or not compiling.  \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-scope-and-purpose-processin\nOkay but scope can still be used to convey scope, even if it's inside and/or more granular and/or different. \n\nAlso:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-11.2-1.3.1\nIt's not impossible that one of the Designated Experts[sic] for this registry will have thoughts similar to those expressed herein about the purp claim. \n",
       "createdAt": "2025-08-26T16:10:36Z",
-      "updatedAt": "2025-09-15T16:32:48Z",
+      "updatedAt": "2025-09-16T08:54:02Z",
       "closedAt": null,
       "comments": [
         {
@@ -3977,6 +4004,13 @@
           "body": "A couple of thoughts:\n1. Brian's points about authorization deployment models being as individual as the deployment (I hope I'm not putting words in your mouth @bc-pi ) makes a ton of sense. While having a much finer grained internal authorization model may be better from a security model, it doesn't mean that is commonly deployed. Transaction tokens should work for all authorization deployment models.\n2. I envisioned the transaction context to be more about making parameters of the requests immutable. This could include RAR details and we do call that out. But maybe there is not enough practice to codify \"best practice\" is a way that would make it possible for tooling to be built. My thinking is that if each transaction token service constructs its own form of a transaction token, then special code is needed to process those tokens and moving to a new transaction token service product likely means a lot of change within the infrastructure. Do we think there is a way we can make it easier for tooling to be built for processing transaction tokens?\n\nAt the moment, I'm leaning toward leaving the separate claim in the transaction token but calling it `scope` instead of `purp` and adding text to clarify that the value of the transaction token `scope` claim is up to the transaction token service and does not need to make the scope requested nor the scope value in the access_token if supplied.\n\nFurther removing the `scope` claim from the transaction token can happen in a future PR if the WG believes the `tcxt` claim is sufficient.",
           "createdAt": "2025-09-15T16:32:48Z",
           "updatedAt": "2025-09-15T16:32:48Z"
+        },
+        {
+          "author": "dagdagdag83",
+          "authorAssociation": "NONE",
+          "body": "@gffletch I think that's a good compromise. I volunteer to create the issue for integrating purp/scope into ctcx \ud83d\udc4d\nEven if it doesn't come to fruition, I think it'll be an interesting discussion we should have. ",
+          "createdAt": "2025-09-16T08:54:02Z",
+          "updatedAt": "2025-09-16T08:54:02Z"
         }
       ]
     },
@@ -3994,9 +4028,17 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2.2 and a few places \nI'm not sure the StringOrURI data type has proven to be real useful. Just say it's a string. Or a URI, if that's needed. But the conditional must be a URI if it has a colon thing isn't something to propagate IMHO. StringOrURI also isn't properly defined or referenced, which wouldn't be an issue if you stop using it. \n",
       "createdAt": "2025-08-26T16:11:49Z",
-      "updatedAt": "2025-08-26T16:11:49Z",
+      "updatedAt": "2025-09-16T11:30:22Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Proposing the use of string in the PR as it seems to be the most generic and still allows for URIs to be expressed.",
+          "createdAt": "2025-09-16T11:30:22Z",
+          "updatedAt": "2025-09-16T11:30:22Z"
+        }
+      ]
     },
     {
       "number": 196,
@@ -4006,15 +4048,25 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.1.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.2.2-1\nIs there actual reason to have these parameters base64url/BASE64URL (which is definitely not defined in RFC6848 \"Specifying Civic Address Extensions in the Presence Information Data Format Location Object (PIDF-LO)\") encoded? Some other work out of this WG, like R[AR]FC9396, has utilized application/x-www-form-urlencoded for JSON without issue (that I'm aware of anyway). \n",
       "createdAt": "2025-08-26T16:13:38Z",
-      "updatedAt": "2025-08-26T16:13:38Z",
+      "updatedAt": "2025-09-16T11:48:02Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi - I think you may have written the original text here - can you take a look?",
+          "createdAt": "2025-09-16T11:47:48Z",
+          "updatedAt": "2025-09-16T11:47:48Z"
+        }
+      ]
     },
     {
       "number": 197,
@@ -4026,11 +4078,12 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "WGLC Feedback"
+        "WGLC Feedback",
+        "WGLC Discuss"
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1\nThe 'MUST remain immutable' here in the request parameter definition is rather odd and could easily be interpreted to mean something that is probably not intended. \n",
       "createdAt": "2025-08-26T16:15:49Z",
-      "updatedAt": "2025-08-28T19:10:20Z",
+      "updatedAt": "2025-09-16T11:44:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -4121,13 +4174,22 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "WGLC Feedback"
+        "WGLC Feedback",
+        "WGLC Discuss"
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.2.2-2.2.1 \nAn expiration time on content that is not integrity protected doesn't seem like a good thing for a whole variety of reasons.  ",
       "createdAt": "2025-08-26T16:22:24Z",
-      "updatedAt": "2025-08-26T16:22:24Z",
+      "updatedAt": "2025-09-16T11:58:32Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@bc-pi - can you say more about the concerns (e.g. is the concern that an attacker may modify the exp claim and get a very long lived transaction token, or one at the upper bounds of what the transaction token server will issue, or are there other concersn as well? ",
+          "createdAt": "2025-09-16T11:58:32Z",
+          "updatedAt": "2025-09-16T11:58:32Z"
+        }
+      ]
     },
     {
       "number": 202,
@@ -4199,13 +4261,23 @@
       "state": "OPEN",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "From OAuth RFC, we know that scope is a list of strings (space-separated) where each string (a.k.a. scope-token) represents a separate access granted with the Access Token. The order of the scope-tokens does not matter. They are not related.  (See https://www.rfc-editor.org/rfc/rfc6749#section-3.3). Resource servers may only require one particular scope-token to be present while ignoring all the others.\n\nI understand that the purpose of the Txn-Token is rather unique. It defines the specific operation to be performed. Yet, the transaction token draft also defines this value as a list of space-separated strings. My current understanding is that those strings are actually related and that the order is important contrary to how scope for Access Tokens works. I think the purpose value should not be seen as a list of strings, but rather seen in its entirety as a unique value defining the overall operation being performed. So I think it may cause confusion if we actually allowed space in the purpose value as implementers might assume the content is interpreted similar to scope.",
       "createdAt": "2025-08-27T07:19:57Z",
-      "updatedAt": "2025-08-27T07:19:57Z",
+      "updatedAt": "2025-09-16T12:53:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This again gets to the authorization model within the trust domain. Do all workloads receiving the transaction token understand all single-value purpose strings (now `scope`) or are they looking for something more narrow that applies to the specific workload? Maybe we could recommend just using one value? but I think it depends on how the authorization model works in the trust domain whether multiple are needed or not. This is why the Transaction Token Service is authoritative for the value(s) in that claim.\n\nOne of the hard parts of defining transaction tokens is the lack of consistent deployed authorization models :)",
+          "createdAt": "2025-09-16T12:53:55Z",
+          "updatedAt": "2025-09-16T12:53:55Z"
+        }
+      ]
     },
     {
       "number": 206,
@@ -4237,9 +4309,17 @@
       ],
       "body": "WGLC Feedback from Joe Salowey\n\nShould section 1 mention information disclosure. One of the issues that transaction tokens address is that it separates out the external and internal domains so that externally presented credentials (access tokens) are not used internally and therefore not vulnerable to disclosure within the internal domain.\n",
       "createdAt": "2025-08-27T15:10:09Z",
-      "updatedAt": "2025-08-27T15:25:02Z",
+      "updatedAt": "2025-09-17T11:52:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@jsalowey",
+          "createdAt": "2025-09-17T11:52:21Z",
+          "updatedAt": "2025-09-17T11:52:21Z"
+        }
+      ]
     },
     {
       "number": 208,
@@ -14105,13 +14185,13 @@
       "labels": [],
       "body": "See issue #228 \r\n\r\nIn addition, the \"request_context\" is optional, so making it a SHOULD be included feels like maybe it is not optional. Instead the PR proposes language that says it is \"RECOMMENDED\".\r\n\r\n@tulshi @gffletch - please review.",
       "createdAt": "2025-09-08T10:47:25Z",
-      "updatedAt": "2025-09-15T17:34:20Z",
+      "updatedAt": "2025-09-17T11:28:37Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-7",
-      "headRefOid": "b031088c5dee030c0cafe8dbc303e2bd0fd4bf9a",
+      "headRefOid": "e31c5591405e58d07483a71d46a3d3dca6528e88",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -14155,6 +14235,106 @@
               "body": "Or if we prefer RECOMMENDED \r\n\r\nThe following additional parameters are RECOMMENDED to be present in a Txn-Token Request:\r\n\r\nThis implies that both are equally recommended. If one is \"more recommended\" than the other then we should stay with the structure that Pieter as in this PR.",
               "createdAt": "2025-09-15T17:34:20Z",
               "updatedAt": "2025-09-15T17:34:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7AeKwt",
+          "commit": {
+            "abbreviatedOid": "b031088"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-16T10:40:17Z",
+          "updatedAt": "2025-09-16T10:40:17Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The issue that Dan flagged was that the text said that how the transaction token service uses the transaction token is out of scope, but later we actually define how it is used. The goal of this PR was to get rid of the contradiction without changing in the normative requirement (RECOMMENDED and SHOULD have equal levels of compulsion as I understand it). ",
+              "createdAt": "2025-09-16T10:40:17Z",
+              "updatedAt": "2025-09-16T10:40:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7AgfJW",
+          "commit": {
+            "abbreviatedOid": "b031088"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-16T12:26:22Z",
+          "updatedAt": "2025-09-16T12:26:22Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Do we want `request_details` to also be SHOULD/RECOMMENDED? or just `request_context`. I'm good with the removal of the other text.",
+              "createdAt": "2025-09-16T12:26:22Z",
+              "updatedAt": "2025-09-16T12:26:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Awg7I",
+          "commit": {
+            "abbreviatedOid": "b031088"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T11:19:29Z",
+          "updatedAt": "2025-09-17T11:19:29Z",
+          "comments": [
+            {
+              "originalPosition": 2,
+              "body": "```suggestion\r\nThe following additional parameters are RECOMMENDED to be present in a Txn-Token Request:",
+              "createdAt": "2025-09-17T11:19:29Z",
+              "updatedAt": "2025-09-17T11:19:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Awhkn",
+          "commit": {
+            "abbreviatedOid": "b031088"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T11:20:18Z",
+          "updatedAt": "2025-09-17T11:20:19Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n* `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction.",
+              "createdAt": "2025-09-17T11:20:18Z",
+              "updatedAt": "2025-09-17T11:20:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Awiol",
+          "commit": {
+            "abbreviatedOid": "b031088"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T11:21:37Z",
+          "updatedAt": "2025-09-17T11:21:38Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "@gffletch - after trying a few options, I think your earlier suggestion makes sense to move the normative language out of the parameter description (and also getting rid of the contradiction).",
+              "createdAt": "2025-09-17T11:21:37Z",
+              "updatedAt": "2025-09-17T11:21:38Z"
             }
           ]
         }
@@ -14212,18 +14392,26 @@
       "labels": [],
       "body": "Based on conversations and issue comments in issues #178 and #194, this PR renames the `purp` claim in the Transaction Token to `scope`. Clarifying text has been added to make it clear that the value of the `scope` claim in the Transaction Token does NOT need to be the same value requested or present in a provided access_token. \r\n\r\nPlease review for clarity of the added text.\r\n\r\nI also removed the IANA registry for 'purp'.",
       "createdAt": "2025-09-15T17:08:57Z",
-      "updatedAt": "2025-09-15T18:45:57Z",
+      "updatedAt": "2025-09-16T13:00:59Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "scope_194",
-      "headRefOid": "1ee80efa5c575006e113db8d301d35153aef047a",
+      "headRefOid": "45e07e2eb300f8820fa95c987c3016851f650afc",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@PieterKas thanks for the suggestions (accepted).",
+          "createdAt": "2025-09-16T12:39:37Z",
+          "updatedAt": "2025-09-16T12:39:37Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7ARt8O",
@@ -14237,8 +14425,194 @@
           "createdAt": "2025-09-15T18:45:57Z",
           "updatedAt": "2025-09-15T18:45:57Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Ael-e",
+          "commit": {
+            "abbreviatedOid": "1ee80ef"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-16T10:58:57Z",
+          "updatedAt": "2025-09-16T10:58:57Z",
+          "comments": [
+            {
+              "originalPosition": 17,
+              "body": "I worry that this text may be misinterpreted to redefine the \"scope\" claim. How about:\r\n\r\n```suggestion\r\n`scope`:\r\n: REQUIRED A JSON string as defined in {{RFC8693}}. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token. ",
+              "createdAt": "2025-09-16T10:58:57Z",
+              "updatedAt": "2025-09-16T10:58:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7AhCLa",
+          "commit": {
+            "abbreviatedOid": "45e07e2"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-16T13:00:21Z",
+          "updatedAt": "2025-09-16T13:00:21Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "```suggestion\r\n: REQUIRED Thee scope claim is defined in {{RFC8693}}. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token.",
+              "createdAt": "2025-09-16T13:00:21Z",
+              "updatedAt": "2025-09-16T13:00:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7AhCyI",
+          "commit": {
+            "abbreviatedOid": "45e07e2"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-16T13:00:58Z",
+          "updatedAt": "2025-09-16T13:00:59Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion",
+              "createdAt": "2025-09-16T13:00:58Z",
+              "updatedAt": "2025-09-16T13:00:59Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 250,
+      "id": "PR_kwDOJt_WwM6o10Zn",
+      "title": "Replace StringOrURI with string",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/250",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See #195 - opting to replace with strings, rather than URIs.",
+      "createdAt": "2025-09-16T11:27:24Z",
+      "updatedAt": "2025-09-17T21:02:35Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "423fcc056cb2a2acb4fab9c98ceeb71d3d5ea651",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7AhAlA",
+          "commit": {
+            "abbreviatedOid": "cb194ec"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-16T12:58:49Z",
+          "updatedAt": "2025-09-16T12:58:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7A5Xx6",
+          "commit": {
+            "abbreviatedOid": "423fcc0"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-17T21:02:35Z",
+          "updatedAt": "2025-09-17T21:02:35Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "need (i think) another line or this renders funny but also shouldn't this go under \"Since Draft 06\"?\r\n\r\n<img width=\"660\" height=\"190\" alt=\"Screenshot 2025-09-17 at 2 58 46\u202fPM\" src=\"https://github.com/user-attachments/assets/01c6165e-f286-40c4-b4c1-d6bfbc928301\" />",
+              "createdAt": "2025-09-17T21:02:35Z",
+              "updatedAt": "2025-09-17T21:02:35Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 251,
+      "id": "PR_kwDOJt_WwM6o2a_V",
+      "title": "Clarify Transaction token role in Call Chain",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/251",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Seee issue #203",
+      "createdAt": "2025-09-16T12:13:10Z",
+      "updatedAt": "2025-09-16T12:55:56Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-5",
+      "headRefOid": "cf5b692e38c7e66b8092e6dedb9e8ae5909afafd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7Ag9k0",
+          "commit": {
+            "abbreviatedOid": "cf5b692"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-16T12:55:56Z",
+          "updatedAt": "2025-09-16T12:55:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 252,
+      "id": "PR_kwDOJt_WwM6pDq2a",
+      "title": "Adding token theft as a threat that is mitigated",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/252",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #207",
+      "createdAt": "2025-09-17T11:47:26Z",
+      "updatedAt": "2025-09-17T11:49:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-6",
+      "headRefOid": "247c8b1746cdbb87047bc550623a31e48bc7be40",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
