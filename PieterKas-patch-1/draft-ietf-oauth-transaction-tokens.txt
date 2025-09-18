@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 12 March 2026                            Practical Identity LLC
+Expires: 22 March 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                        8 September 2025
+                                                       18 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 March 2026.
+   This Internet-Draft will expire on 22 March 2026.
 
 Copyright Notice
 
@@ -282,7 +282,7 @@ Table of Contents
              +--------------+
              │              │
              │   Internal   │
-             │ Microservice │
+             │   Workload   │
              │              │
              +--------------+
                   │   ^
@@ -295,7 +295,7 @@ Table of Contents
              +--------------+
              │              │
              │   Internal   │
-             │ Microservice │
+             │   Workload   │
              │              │
              +--------------+
 
@@ -310,14 +310,14 @@ Table of Contents
    3.  Txn-Token Service mints a Txn-Token that provides immutable
        context for the transaction and returns it to the requester
 
-   4.  The external endpoint initiates a call to an internal
-       microservice and provides the Txn-Token as authorization
+   4.  The external endpoint initiates a call to an internal workloads
+       and provides the Txn-Token as authorization
 
-   5.  Subsequent calls to other internal microservices use the same
-       Txn-Token to authorize calls
+   5.  Subsequent calls to other internal workloads use the same Txn-
+       Token to authorize calls
 
    6.  Responses are provided to callers based on successful
-       authorization by the invoked microservices
+       authorization by the invoked workloads
 
    7.  External client is provided a response to the external invocation
 
@@ -337,7 +337,7 @@ Table of Contents
              +--------------+           │              │
              │              │           │              │
              │   Internal   │           │              │
-             │ Microservice │           │              │
+             │   Workload   │           │              │
              │              │           │              │
              +--------------+           │  Txn-Token   │
                   │   ^                 │   Service    │
@@ -350,7 +350,7 @@ Table of Contents
              +--------------+    6      │              │
              │              │---------->│              │
              │   Internal   │           │              │
-             │ Microservice │    7      │              │
+             │   Workload   │    7      │              │
              │              │<----------│              │
              +--------------+           │              │
                   │   ^                 │              │
@@ -363,7 +363,7 @@ Table of Contents
              +--------------+
              │              │
              │   Internal   │
-             │ Microservice │
+             │   Workload   │
              │              │
              +--------------+
 
@@ -383,7 +383,7 @@ Table of Contents
        Txn-Token for downstream call authorization
 
    9.  Responses are provided to callers based on successful
-       authorization by the invoked microservices
+       authorization by the invoked workloads
 
    10. External client is provided a response to the external invocation
 
@@ -920,7 +920,7 @@ Table of Contents
    subject_token_type parameter to the value
    urn:ietf:params:oauth:token-type:txn_token.  The scope value in the
    replacement request, if different from that in the original Txn-
-   Token, MUST NOT increase the authorization surface beyond that of the
+   Token, MUST NOT increase the granted authorization beyond that of the
    original Txn-Token.
 
 7.5.3.  Replacement Txn-Token Response
@@ -987,7 +987,7 @@ Table of Contents
    A workload that invokes another workload using HTTP and needs to
    present a Txn-Token to the invoked workload MUST use the HTTP Header
    Txn-Token to communicate the Txn-Token.  The value of this header
-   MUST be the JWT that represents the Txn-Token.
+   MUST be the Txn-Token.
 
 9.  Security Considerations
 
@@ -1074,13 +1074,13 @@ Table of Contents
 
 9.8.  Transaction Token Service Discovery
 
-   A workload may use various mechanisms to determine which Transaction
-   Token Service to interact with.  Workloads MUST retrieve
-   configuration information from a trusted source to minimize the risk
-   of a threat actor providing malicious configuration data that points
-   to a Transaction Token Service under it's control.  Such a service
-   could be used to collect Access Tokens sent as part of the
-   Transaction Token Request message.
+   A workload may use various mechanisms to determine which instance of
+   a Transaction Token Service to interact with.  Workloads MUST
+   retrieve configuration information from a trusted source to minimize
+   the risk of a threat actor providing malicious configuration data
+   that points to an instance of a Transaction Token Service under it's
+   control.  Such a service could be used to collect Access Tokens sent
+   as part of the Transaction Token Request message.
 
    To mitigate this risk, workloads SHOULD authenticate the service
    providing the configuration information and verify the integrity of
@@ -1093,13 +1093,16 @@ Table of Contents
 
 9.9.  Workload Configuration Protection
 
-   A workload may be configured to access more than one instance of a
-   Transaction Token Service to ensure redundancy or reduce latency for
-   transaction token requests.  The workload configuration should be
-   protected against unauthorized addition or removal of Transaction
-   Token Service instances.  An attacker may perform a denial of service
-   attack or degrade the performance of a system by removing an instance
-   of a Transaction Token Service from the workload configuration.
+   A deployment may include multiple instances of a Transaction Token
+   Service to improve resiliency, reduce latency and enhance
+   scalability.  A workload may be configured to access more than one
+   instance of a Transaction Token Service to ensure reliability or
+   reduce latency for transaction token requests.  The workload
+   configuration should be protected against unauthorized addition or
+   removal of Transaction Token Service instances.  An attacker may
+   perform a denial of service attack or degrade the performance of a
+   system by removing an instance of a Transaction Token Service from
+   the workload configuration.
 
 9.10.  Transaction Token Service Authentication
 
@@ -1410,6 +1413,10 @@ Since Draft 06
 
    *  Clarify text on use of empty parameter: https://github.com/oauth-
       wg/oauth-transaction-tokens/issues/235
+
+   *  Clarify that workloads should ensure it is communicating with a
+      legitimate instance of a transaction token service
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
 
 Since Draft 05
 
