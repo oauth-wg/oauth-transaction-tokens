@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 21 March 2026                            Practical Identity LLC
+Expires: 22 March 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       17 September 2025
+                                                       18 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 March 2026.
+   This Internet-Draft will expire on 22 March 2026.
 
 Copyright Notice
 
@@ -152,11 +152,15 @@ Table of Contents
    unauthorized actions:
 
    *  Invocations of workloads in the network without any explicit
-      transaction invocation (external or internal) being present
+      transaction invocation (external or internal) being present.
 
-   *  Arbitrary user impersonation
+   *  Arbitrary user impersonation.
 
-   *  Parameter modification or augmentation
+   *  Parameter modification or augmentation.
+
+   *  Theft of tokens, such as OAuth access tokens, used to call
+      external interfaces and passed to internal workloads to convey
+      authorization context.
 
    The results of these actions are unauthorized access to resources.
 
@@ -1130,7 +1134,7 @@ Table of Contents
    in [Mutual Authentication of the Txn-Token Request]{Mutual-
    Authentication-of-the-Txn-Token-Request}. The mechanisms used by
    workloads to authenticate to other workloads, services or system
-   components is out of scope of this speicification.
+   components is out of scope of this specification.
 
 10.  Privacy Considerations
 
@@ -1400,11 +1404,16 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]] * Replace StringOrURI
-   with string Relace StringOrURI with String (https://github.com/oauth-
-   wg/oauth-transaction-tokens/issues/195)
+   [[ To be removed from final specification ]]
 
 Since Draft 06
+
+   *  Replace StringOrURI with string Relace StringOrURI with String
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
+
+   *  Include token theft as a threat to be mitigated Consider
+      information disclosure as a benefit (https://github.com/oauth-wg/
+      oauth-transaction-tokens/issues/207)
 
    *  Remove definition of Authorization Context Be more specific on
       Authorization Context (https://github.com/oauth-wg/oauth-
