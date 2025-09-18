@@ -191,7 +191,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
           +--------------+
           │              │
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
                │   ^
@@ -204,7 +204,7 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
           +--------------+
           │              │
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
 ~~~
@@ -213,9 +213,9 @@ Txn-Tokens help prevent spurious invocations by ensuring that a workload receivi
 1. External endpoint is invoked using conventional authorization mechanism such as an OAuth 2.0 Access token
 2. External endpoint provides context and incoming authorization (e.g., access token) to the Txn-Token Service
 3. Txn-Token Service mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
-4. The external endpoint initiates a call to an internal microservice and provides the Txn-Token as authorization
-5. Subsequent calls to other internal microservices use the same Txn-Token to authorize calls
-6. Responses are provided to callers based on successful authorization by the invoked microservices
+4. The external endpoint initiates a call to an internal workloads and provides the Txn-Token as authorization
+5. Subsequent calls to other internal workloads use the same Txn-Token to authorize calls
+6. Responses are provided to callers based on successful authorization by the invoked workloads
 7. External client is provided a response to the external invocation
 
 ### Replacement Txn-Token Flow
@@ -235,7 +235,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
           +--------------+           │              │
           │              │           │              │
           │   Internal   │           │              │
-          │ Microservice │           │              │
+          │   Workload   │           │              │
           │              │           │              │
           +--------------+           │  Txn-Token   │
                │   ^                 │   Service    │
@@ -248,7 +248,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
           +--------------+    6      │              │
           │              │---------->│              │
           │   Internal   │           │              │
-          │ Microservice │    7      │              │
+          │   Workload   │    7      │              │
           │              │<----------│              │
           +--------------+           │              │
                │   ^                 │              │
@@ -261,7 +261,7 @@ An intermediate service may decide to obtain a replacement Txn-Token from the Tx
           +--------------+
           │              │
           │   Internal   │
-          │ Microservice │
+          │   Workload   │
           │              │
           +--------------+
 ~~~
@@ -274,7 +274,7 @@ In the diagram above, steps 1-5 are the same as in {{basic-flow}}
 6. An intermediate service determines that it needs to obtain a Replacement Txn-Token. It requests a Replacement Txn-Token from the Txn-Token Service. It passes the incoming Txn-Token in the request, along with any additional context it needs to send the Txn-Token Service.
 7. The Txn-Token Service responds with a replacement Txn-Token
 8. The service that requested the Replacement Txn-Token uses that Txn-Token for downstream call authorization
-9. Responses are provided to callers based on successful authorization by the invoked microservices
+9. Responses are provided to callers based on successful authorization by the invoked workloads
 10. External client is provided a response to the external invocation
 
 # Notational Conventions
@@ -576,7 +576,7 @@ When issuing replacement Txn-Tokens, a Txn-Token Service:
 * MUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
 
 ### Replacement Txn-Token Request
-To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter and sets the `subject_token_type` parameter to the value `urn:ietf:params:oauth:token-type:txn_token`. The `scope` value in the replacement request, if different from that in the original Txn-Token, MUST NOT increase the authorization surface beyond that of the original Txn-Token.
+To request a replacement Txn-Token, the requester makes a Txn-Token Request as described in {{txn-token-request}} but includes the Txn-Token to be replaced as the value of the `subject_token` parameter and sets the `subject_token_type` parameter to the value `urn:ietf:params:oauth:token-type:txn_token`. The `scope` value in the replacement request, if different from that in the original Txn-Token, MUST NOT increase the granted authorization beyond that of the original Txn-Token.
 
 ### Replacement Txn-Token Response
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
@@ -603,7 +603,7 @@ The requesting workload MUST ensure that it authenticates the Transaction Token 
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads to communicate channel authorization.
 
 ## Txn-Token HTTP Header {#txn-token-http-header}
-A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token. The value of this header MUST be the JWT that represents the Txn-Token.
+A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token. The value of this header MUST be the Txn-Token.
 
 # Security Considerations {#Security}
 
@@ -633,12 +633,12 @@ The authorization model within a Trust Domain boundary is most often quite diffe
 A Txn-token typically represents the call-chain of workloads necessary to complete a logical function initiated by an external or internal workload. The `txn` claim in the Txn-token provides a unique identifier that when logged by the TTS and each subsequent workload can provide both discovery and auditability of successful and failed transactions. It is therefore strongly RECOMMENDED to use an identifier, unique within the Trust Domain, for the `txn` value.
 
 ## Transaction Token Service Discovery
-A workload may use various mechanisms to determine which Transaction Token Service to interact with. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to a Transaction Token Service under it's control. Such a service could be used to collect Access Tokens sent as part of the Transaction Token Request message.
+A workload may use various mechanisms to determine which instance of a Transaction Token Service to interact with. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to an instance of a Transaction Token Service under it's control. Such a service could be used to collect Access Tokens sent as part of the Transaction Token Request message.
 
 To mitigate this risk, workloads SHOULD authenticate the service providing the configuration information and verify the integrity of the configuration information. This ensures that no unauthorized entity can insert or alter configuration data. The workload SHOULD use Transport Layer Security (TLS) to authenticate the endpoint and secure the communication channel. Additionally, application-layer signatures or message authentication codes MAY be used to detect any tampering with the configuration information.
 
 ## Workload Configuration Protection
-A workload may be configured to access more than one instance of a Transaction Token Service to ensure redundancy or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.
+A deployment may include multiple instances of a Transaction Token Service to improve resiliency, reduce latency and enhance scalability. A workload may be configured to access more than one instance of a Transaction Token Service to ensure reliability or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of Transaction Token Service instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a Transaction Token Service from the workload configuration.
 
 ## Transaction Token Service Authentication
 A workload may accidently send a transaction token request to a service that is not a Transaction Token Service, or an attacker may attempt to impersonate a Transaction Token Service in order to gain access to transaction token requests which includes sensitive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transaction token request, the workload must ensure that it authenticates the Transaction Token Service and only contact instances of the Transaction Token Service that is authorized to issue transaction tokens.
@@ -745,6 +745,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 {:numbered="false"}
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
 * Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235
+* Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
 
 ## Since Draft 05
 {:numbered="false"}
