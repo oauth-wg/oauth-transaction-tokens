@@ -1391,13 +1391,16 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-1-1">Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:<a href="#section-1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-2.1">
-          <p id="section-1-2.1.1">Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.1.1">Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present.<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-2.2">
-          <p id="section-1-2.2.1">Arbitrary user impersonation<a href="#section-1-2.2.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.2.1">Arbitrary user impersonation.<a href="#section-1-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-2.3">
-          <p id="section-1-2.3.1">Parameter modification or augmentation<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.3.1">Parameter modification or augmentation.<a href="#section-1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-1-2.4">
+          <p id="section-1-2.4.1">Theft of tokens, such as OAuth access tokens, used to call external interfaces and passed to internal workloads to convey authorization context.<a href="#section-1-2.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-1-3">The results of these actions are unauthorized access to resources.<a href="#section-1-3" class="pilcrow">¶</a></p>
@@ -2684,7 +2687,8 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
       <h2 id="name-document-history">
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-B-1">[[ To be removed from final specification ]]<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">[[ To be removed from final specification ]]
+* Include token theft as a threat to be mitigated <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/207">Consider information disclosure as a benefit</a><a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <div id="since-draft-06">
 <section id="appendix-B.1">
         <h3 id="name-since-draft-06">

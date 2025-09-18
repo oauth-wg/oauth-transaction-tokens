@@ -152,11 +152,15 @@ Table of Contents
    unauthorized actions:
 
    *  Invocations of workloads in the network without any explicit
-      transaction invocation (external or internal) being present
+      transaction invocation (external or internal) being present.
 
-   *  Arbitrary user impersonation
+   *  Arbitrary user impersonation.
 
-   *  Parameter modification or augmentation
+   *  Parameter modification or augmentation.
+
+   *  Theft of tokens, such as OAuth access tokens, used to call
+      external interfaces and passed to internal workloads to convey
+      authorization context.
 
    The results of these actions are unauthorized access to resources.
 
@@ -1403,7 +1407,9 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]]
+   [[ To be removed from final specification ]] * Include token theft as
+   a threat to be mitigated Consider information disclosure as a benefit
+   (https://github.com/oauth-wg/oauth-transaction-tokens/issues/207)
 
 Since Draft 06
 
