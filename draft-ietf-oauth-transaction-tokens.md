@@ -129,9 +129,10 @@ Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user iden
 
 Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
 
-* Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present
-* Arbitrary user impersonation
-* Parameter modification or augmentation
+* Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present.
+* Arbitrary user impersonation.
+* Parameter modification or augmentation.
+* Theft of tokens, such as OAuth access tokens, used to call external interfaces and passed to internal workloads to convey authorization context.
 
 The results of these actions are unauthorized access to resources.
 
@@ -647,7 +648,7 @@ A workload may accidently send a transaction token request to a service that is 
 The Transaction Token Service may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of {{OpenIdConnect}}.
 
 ## Transaction Tokens Are Not Authentication Credentials
-A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in [Mutual Authentication of the Txn-Token Request]{Mutual-Authentication-of-the-Txn-Token-Request}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this speicification.
+A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in [Mutual Authentication of the Txn-Token Request]{Mutual-Authentication-of-the-Txn-Token-Request}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.
 
 # Privacy Considerations {#Privacy}
 
@@ -740,10 +741,11 @@ The authors would like to thank the contributors and the OAuth working group mem
 # Document History
 {: numbered="false"}
 [[ To be removed from final specification ]]
-* Replace StringOrURI with string [Relace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
 
 ## Since Draft 06
 {:numbered="false"}
+* Replace StringOrURI with string [Relace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
+* Include token theft as a threat to be mitigated [Consider information disclosure as a benefit](https://github.com/oauth-wg/oauth-transaction-tokens/issues/207)
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
 * Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
 
