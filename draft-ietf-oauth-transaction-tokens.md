@@ -279,7 +279,7 @@ In the diagram above, steps 1-5 are the same as in {{basic-flow}}
 
 ### Internally Initiated Txn-Token Flow
 
-An internal microservice may need to initiate a transaction on behalf of a user as part of a scheduled task or in reaction to a specific condition
+An internal workload may need to initiate a transaction not on the basis of a current external request, but as part of a scheduled task or in reaction to a specific condition. The transaction may be requested on behalf of the identity of the requesting workload or as an impersonation on behalf of a specific user chosen based on information accessible to the workload.
 
 ~~~ ascii-art
 
