@@ -151,7 +151,9 @@ Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of 
 ## Creating Txn-Tokens
 
 ### Initial Creation
-Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} access token. This workload then performs an OAuth 2.0 Token Exchange {{RFC8693}} to obtain a Txn-Token. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:
+Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} access token. The externally visible endpoint exchanges the received token for a transaction token before sending it to the workload. The transaction token may be obtained through a local interface, or it may be requested from a remote server.
+
+If the transaction token request is made via HTTP to a remote server, it SHOULD use RFC8693 as described in this specification. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:
 
 * The external authorization token (e.g., the OAuth access token)
 * An internally generated JWT representing the subject of the request
@@ -743,8 +745,9 @@ The authors would like to thank the contributors and the OAuth working group mem
 
 ## Since Draft 06
 {:numbered="false"}
-* Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
-* Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
+* Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192).
+* Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233).
+* Allow other mechanisms for obtaining transaction tokens that does not use RFC8693 (https://github.com/oauth-wg/oauth-transaction-tokens/issues/189).
 
 ## Since Draft 05
 {:numbered="false"}
