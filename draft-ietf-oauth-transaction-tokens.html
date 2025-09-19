@@ -1053,7 +1053,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 22 March 2026</td>
+<td class="center">Expires 23 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-18" class="published">18 September 2025</time>
+<time datetime="2025-09-19" class="published">19 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-03-22">22 March 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-23">23 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1811,13 +1811,13 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <p id="section-5.2.2-2">The JSON value of the <code>rctx</code> claim MAY include any values the Txn-Token Service determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.2.2-3.1">
-              <p id="section-5.2.2-3.1.1"><code>req_ip</code> The IP address of the external requester. This MAY be the end-user or a robotic process that requested the Transaction. In the case of an internal request it may contain the IP address of the requesting workload.<a href="#section-5.2.2-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-3.1.1"><code>req_ip</code> The IP address of the requester. This MAY be the end-user or a robotic process that requested the Transaction<a href="#section-5.2.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.2.2-3.2">
-              <p id="section-5.2.2-3.2.1"><code>authn</code> The authentication method used to identify the requester. Its value is a StringOrURI that uniquely identifies the method used.<a href="#section-5.2.2-3.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-3.2.1"><code>authn</code> The authentication method used to identify the requester. Its value is a string that uniquely identifies the method used.<a href="#section-5.2.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.2.2-3.3">
-              <p id="section-5.2.2-3.3.1"><code>req_wl</code> The requesting workload. A StringOrURI that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of StringOrURIs representing the different workloads that have requested Txn-Tokens as part of the transaction processing.<a href="#section-5.2.2-3.3.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.2-3.3.1"><code>req_wl</code> The requesting workload. A string that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token. If a replacement Txn-Token has been requested, then this claim will be an array of string representing the different workloads that have requested Txn-Tokens as part of the transaction processing.<a href="#section-5.2.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -1849,7 +1849,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
             <h5 id="name-requesting-workload-identif">
 <a href="#section-5.2.3.1" class="section-number selfRef">5.2.3.1. </a><a href="#name-requesting-workload-identif" class="section-name selfRef">Requesting Workload Identifier</a>
             </h5>
-<p id="section-5.2.3.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default, the <code>req_wl</code> is a StringOrURI representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a StringOrURI. If there is more than a single value, then <code>req_wl</code> will be represented by an array of StringOrURIs.<a href="#section-5.2.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3.1-1">It is useful to be able to track the set of workloads that have requested a Txn-Token. The <code>req_wl</code> claim allows for tracking this information even through requests for a replacement Txn-Token. By default, the <code>req_wl</code> is a string representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the <code>req_wl</code> claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the <code>req_wl</code> will be a string. If there is more than a single value, then <code>req_wl</code> will be represented by an array of strings.<a href="#section-5.2.3.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.3.1-2">The following is a non-normative example of an <code>rctx</code> claim initiated by an external call:<a href="#section-5.2.3.1-2" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-5.2.3.1-3">
 <pre>
@@ -2689,8 +2689,7 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
       <h2 id="name-document-history">
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-B-1">[[ To be removed from final specification ]]
-* Include token theft as a threat to be mitigated <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/207">Consider information disclosure as a benefit</a><a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">[[ To be removed from final specification ]]<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <div id="since-draft-06">
 <section id="appendix-B.1">
         <h3 id="name-since-draft-06">
@@ -2698,13 +2697,19 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
-            <p id="appendix-B.1-1.1.1">Remove definition of Authorization Context <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/192">Be more specific on Authorization Context</a><a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.1.1">Replace StringOrURI with string <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/195">Relace StringOrURI with String</a><a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Include token theft as a threat to be mitigated <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/207">Consider information disclosure as a benefit</a><a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Remove definition of Authorization Context <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/192">Be more specific on Authorization Context</a><a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.4">
+            <p id="appendix-B.1-1.4.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
