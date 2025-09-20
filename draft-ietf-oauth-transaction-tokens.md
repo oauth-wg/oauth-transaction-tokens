@@ -353,7 +353,6 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A unique identifier for the subject within the context of the `aud` Trust Domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
 
 `scope`:
-`scope`:
 : REQUIRED A JSON string as defined in {{RFC8693}}. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token.
 
 `tctx`:
