@@ -362,7 +362,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
 ### Scope claim {#scope-claim}
-The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the Transaction Token Service as representative of the authorization model defined by the Trust Domain. The value may contain a syntax and structure different from, and represent an intent  narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is out of scope for this specification.
+The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the Transaction Token Service as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
 
 ### Requester Context {#requester-context}
 The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating user, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.
