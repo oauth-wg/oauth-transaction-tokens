@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-18T00:17:03.034688+00:00",
+  "timestamp": "2025-09-21T00:19:41.640178+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3687,7 +3687,7 @@
       ],
       "body": "WGLC Feedback from @bc-pi : \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-initial-creation and 1-3 https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-basic-flow and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-service and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7 and maybe elsewhere like https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-6\nI believe it'd be worthwhile to account/allow for the case where the gateway or external endpoint that handles the invocation from the outside to itself act as the Txn-Token Service and do the \"exchange\" and issuance of the Txn-Token internally without an RFC8693 Token Exchange call.",
       "createdAt": "2025-08-26T15:00:45Z",
-      "updatedAt": "2025-09-16T12:49:29Z",
+      "updatedAt": "2025-09-18T11:26:50Z",
       "closedAt": null,
       "comments": [
         {
@@ -3717,6 +3717,13 @@
           "body": "So, the way I interpret this is that what if the Gateway and the Transaction Token Service are part of the same application. In that context, we don't need the definition of the TTS API. As long as the Gateway gets the transaction token in the correct format, it can be used in the protocol. A bit like the wording that got added to the identity-chaining doc.\n\nI do agree we need to determine if we just want to add a sentence that allows for this but doesn't spec it. Or if we need to add more spec text to describe how it would work.",
           "createdAt": "2025-09-16T12:49:28Z",
           "updatedAt": "2025-09-16T12:49:28Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would like to keep the spec changes here to a minimum - no more than a sentence or two that acts as an escape hatch. Something like:\n\n\"A gateway MAY generate a transaction token based on an access token that it received. If the exchange is made via an HTTP request to a remote server, it SHOULD follow RFC8693 as defined in this specification\"\n\nI think this should be early in the document, perhaps before we get into describing how the transaction token request would look like. Perhaps in the Initial Token Creation section.\n\n\"Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} access token. The externally visible endpoint exchanges the externally supplied token for a transaction token before sending it to the workload. The transaction token may be obtained through a local interface, or it may be requested from a remote service. \n\nIf the transaction token request is made via HTTP to a remote server, it SHOULD use RFC8693 as described in this specification. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:\n\nI will create a PR for review.",
+          "createdAt": "2025-09-18T11:26:50Z",
+          "updatedAt": "2025-09-18T11:26:50Z"
         }
       ]
     },
@@ -4179,7 +4186,7 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.2.2-2.2.1 \nAn expiration time on content that is not integrity protected doesn't seem like a good thing for a whole variety of reasons.  ",
       "createdAt": "2025-08-26T16:22:24Z",
-      "updatedAt": "2025-09-16T11:58:32Z",
+      "updatedAt": "2025-09-19T18:28:02Z",
       "closedAt": null,
       "comments": [
         {
@@ -4188,6 +4195,13 @@
           "body": "@bc-pi - can you say more about the concerns (e.g. is the concern that an attacker may modify the exp claim and get a very long lived transaction token, or one at the upper bounds of what the transaction token server will issue, or are there other concersn as well? ",
           "createdAt": "2025-09-16T11:58:32Z",
           "updatedAt": "2025-09-16T11:58:32Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "really my concern is about having something that is not a security construct but looks very much like a security construct ",
+          "createdAt": "2025-09-19T18:28:02Z",
+          "updatedAt": "2025-09-19T18:28:02Z"
         }
       ]
     },
@@ -4222,7 +4236,7 @@
       "id": "I_kwDOJt_WwM7IDdmZ",
       "title": "Clarify Transaction token in context of Call Chain",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/203",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4231,8 +4245,8 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-identifying-call-chains\nI would argue that a Txn-token typically does not represent the call-chain and any useful advice about the txn claim that follows that opening is lost (to me anyway) in thinking about the erroneous statement. \n",
       "createdAt": "2025-08-26T16:30:01Z",
-      "updatedAt": "2025-08-26T16:30:01Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-18T18:35:22Z",
+      "closedAt": "2025-09-18T18:35:22Z",
       "comments": []
     },
     {
@@ -4300,7 +4314,7 @@
       "id": "I_kwDOJt_WwM7IQduX",
       "title": "Consider information disclosure as a benefit",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/207",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4309,8 +4323,8 @@
       ],
       "body": "WGLC Feedback from Joe Salowey\n\nShould section 1 mention information disclosure. One of the issues that transaction tokens address is that it separates out the external and internal domains so that externally presented credentials (access tokens) are not used internally and therefore not vulnerable to disclosure within the internal domain.\n",
       "createdAt": "2025-08-27T15:10:09Z",
-      "updatedAt": "2025-09-17T11:52:21Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-18T18:34:43Z",
+      "closedAt": "2025-09-18T18:34:43Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4451,9 +4465,17 @@
       ],
       "body": "WGLC Feedback from Joe Salowey\n\nSection 7.3 - does the validation of a self signed JWT require any signature validation or is it treated as a unsigned object by the authorization server?\n",
       "createdAt": "2025-08-27T15:36:26Z",
-      "updatedAt": "2025-08-27T15:36:26Z",
+      "updatedAt": "2025-09-18T11:00:21Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "If there is a signature on the self-signed JWT, I believe it should be verified. The terminology is not specific on this, so will add language to that effect.",
+          "createdAt": "2025-09-18T11:00:20Z",
+          "updatedAt": "2025-09-18T11:00:20Z"
+        }
+      ]
     },
     {
       "number": 215,
@@ -4505,7 +4527,7 @@
       ],
       "body": "WGLC feedback from Joe Salowey\n\nSection 7.5.1 I can see value in the replacement token allowing for the lifetime of the JWT to be extended.  Sometimes a transaction may take longer than expected.  IF the token lifetime can be refreshed beyond the original time then the transaction can succeed.  THis also seems better than trying to issue tokens with lifetimes that are longer than necessary for most transactions.  In this case the IAT claim could still reflect the original token issue time so the token service can enforce a strict lifetime. \n",
       "createdAt": "2025-08-27T15:39:40Z",
-      "updatedAt": "2025-09-11T04:12:59Z",
+      "updatedAt": "2025-09-20T17:18:48Z",
       "closedAt": null,
       "comments": [
         {
@@ -4514,6 +4536,20 @@
           "body": "Agree that issue token with higher lifetime is a non-starter. What stops a service from using the replacement API multiple times to abuse the proposal and doing it multiple times ? Also the threats that apply to higher lifetime at original token are applicable to a service in middle of call chain requesting higher lifetime. I believe the TxToken always must issue token with fixed TTL. Keep things simple at Tx Token. It can be configurable on Tx Token where certain allowlisted approved services are able to get higher TTL but then its up to the implementation of Tx token where it wants to maintain a mapping of ServiceName->TTL. But do you think it should be a recommendation in the RFC ? \n",
           "createdAt": "2025-09-11T04:12:59Z",
           "updatedAt": "2025-09-11T04:12:59Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My perspective here is that allowing token lifetimes to be extended is a security risk - it effectively introduces a kind of \"refresh token\" that can be kept active indefinitely, which then introduces revocation semantics as a mitigation. \n\n\n@gffletch, @tulshi - thoughts?",
+          "createdAt": "2025-09-19T11:14:35Z",
+          "updatedAt": "2025-09-19T11:14:35Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think this gets to the authorization model around replacement transaction tokens. The Transaction Token Service is still authoritative for whether a replacement transaction token may even be issued. The Transaction Token Service should validate whether the requesting service is authorized to request a replacement transaction token, whether the requesting workload is authorized to request the narrower scope, and if valid, define the time validity of the issued replacement transaction token. I'm not sure we can control this within the spec. Generally, I'd say that the replacement transaction token SHOULD NOT extend beyond the lifetime of the original transaction token. \n\nOne compensating thought would be to move the original `iat` and `exp` into the request context in some manner so that the original times are not lost.",
+          "createdAt": "2025-09-20T17:18:48Z",
+          "updatedAt": "2025-09-20T17:18:48Z"
         }
       ]
     },
@@ -4758,7 +4794,7 @@
       "id": "I_kwDOJt_WwM7IRNEZ",
       "title": "Consider \"Authorization surface\"",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/229",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4767,8 +4803,8 @@
       ],
       "body": "WGLC. Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.5.2-1\n\nThe draft says \"The scope value in the replacement request, if different from that in the original Txn-Token, MUST NOT increase the authorization surface beyond that of the original Txn-Token.\"\n\"authorization surface\" is kinda vague, but I suppose it leaves some flexibility up to the Transaction Token Service (to determine that a different read-only scope is decreasing the surface when a read-write scope was requested, for example). \n",
       "createdAt": "2025-08-27T16:03:33Z",
-      "updatedAt": "2025-09-08T10:34:15Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-18T18:33:34Z",
+      "closedAt": "2025-09-18T18:33:34Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4784,7 +4820,7 @@
       "id": "I_kwDOJt_WwM7IRO1R",
       "title": "Clarify \"JWT Representation\"",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/230",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4795,8 +4831,8 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-8.1\nThe value of this header MUST be the JWT that represents the Txn-Token.\nthis was a bit vague, because I didn't think the JWT represented the Txn-Token, I thought it *was* the Txn-Token. I suppose this means there's no 'Bearer' or other prefix?\n\nAlso, can we get a sample call here::\n\nPOST /internal-microservice/endpoint HTTP 1.1\nTxn-Token: ey...\n",
       "createdAt": "2025-08-27T16:05:35Z",
-      "updatedAt": "2025-09-08T10:28:40Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-18T18:36:57Z",
+      "closedAt": "2025-09-18T18:36:57Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4864,7 +4900,7 @@
       "id": "I_kwDOJt_WwM7IRSd1",
       "title": "Logical vs Physical TTS",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/233",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4873,8 +4909,8 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-transaction-token-service-d\nit references workloads need to figure out \"which Transaction Token Service\" to use. But I thought there was only one logical TTS, so why would a workload have to choose between these?\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-6-2 and it is implied that workloads live in one trust domain here: https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-4-1.2.1\nWhat am I missing? \n",
       "createdAt": "2025-08-27T16:09:35Z",
-      "updatedAt": "2025-09-05T10:35:37Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-18T18:37:52Z",
+      "closedAt": "2025-09-18T18:37:52Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -11857,21 +11893,21 @@
       "id": "PR_kwDOJt_WwM6B9gPT",
       "title": "Add Batch token for asynchronous long running workloads",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/149",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Batch token was discussed here at https://github.com/oauth-wg/oauth-transaction-tokens/issues/111. The PR is first draft to add batch token in RFC.",
       "createdAt": "2024-11-14T18:47:16Z",
-      "updatedAt": "2025-08-04T08:39:50Z",
+      "updatedAt": "2025-09-20T21:47:41Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "273060dc3b15ab6abfc0c1e81644b11da5098c18",
-      "headRepository": "ashayraut/replacement_token_tts",
+      "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
+      "headRepository": null,
       "headRefName": "main",
-      "headRefOid": "e9b366a281db13388238c8e19ad67896a0d3c0b1",
-      "closedAt": null,
+      "headRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
+      "closedAt": "2025-09-20T21:47:40Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -13752,18 +13788,18 @@
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/240",
       "state": "OPEN",
       "author": "jsalowey",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Addresses Issue #212 ",
       "createdAt": "2025-09-03T17:40:58Z",
-      "updatedAt": "2025-09-15T17:55:54Z",
+      "updatedAt": "2025-09-20T17:19:34Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
       "headRepository": "jsalowey/oauth-transaction-tokens",
       "headRefName": "internal-example",
-      "headRefOid": "3f515a76c50914dbb10b439e4c067c3b34b37680",
+      "headRefOid": "060e7f5415707b6317bbf15f8746543d4aa72ce1",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13778,7 +13814,7 @@
         },
         {
           "author": "jsalowey",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> As far as I understand things, PR #185 \"renamed microservice to workload\" is moving away from using the term \"microservice\" so this PR might want to avoid reintroducing it.\r\n\r\nI see there is a PR with the change.  Proposed suggestion to update figure",
           "createdAt": "2025-09-07T19:25:18Z",
           "updatedAt": "2025-09-07T19:31:23Z"
@@ -13811,7 +13847,7 @@
             "abbreviatedOid": "3f515a7"
           },
           "author": "jsalowey",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-09-07T19:20:15Z",
@@ -13831,7 +13867,7 @@
             "abbreviatedOid": "3f515a7"
           },
           "author": "jsalowey",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2025-09-07T19:28:58Z",
@@ -13864,6 +13900,19 @@
               "updatedAt": "2025-09-15T17:55:55Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BqfEC",
+          "commit": {
+            "abbreviatedOid": "060e7f5"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-20T17:19:34Z",
+          "updatedAt": "2025-09-20T17:19:34Z",
+          "comments": []
         }
       ]
     },
@@ -13879,13 +13928,13 @@
       "labels": [],
       "body": "See issue #235",
       "createdAt": "2025-09-05T10:20:09Z",
-      "updatedAt": "2025-09-09T23:05:44Z",
+      "updatedAt": "2025-09-18T18:14:15Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
-      "headRefOid": "dcfa7b72b8fcfb79d811983ffde743161e43078f",
+      "headRefOid": "8b8f2deb8164b8e1eb515e7886f37f67110227bb",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13923,6 +13972,19 @@
           "body": "",
           "createdAt": "2025-09-09T23:05:44Z",
           "updatedAt": "2025-09-09T23:05:44Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BMzZf",
+          "commit": {
+            "abbreviatedOid": "8b8f2de"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T18:14:15Z",
+          "updatedAt": "2025-09-18T18:14:15Z",
           "comments": []
         }
       ]
@@ -13974,24 +14036,26 @@
       "id": "PR_kwDOJt_WwM6nRDs7",
       "title": "considerations for internal requests",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/244",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "jsalowey",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Meant to address issue #208 to include additional text about internally initiated requests",
       "createdAt": "2025-09-07T19:08:02Z",
-      "updatedAt": "2025-09-15T17:49:33Z",
+      "updatedAt": "2025-09-18T18:31:03Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
       "headRepository": "jsalowey/oauth-transaction-tokens",
       "headRefName": "internal-request",
-      "headRefOid": "9aeebaef8e4c3e2d41eb3f22e4a4444851003b15",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "f583931012b26a04bbad97a722a989e9c9b5a4f4",
+      "closedAt": "2025-09-18T18:31:03Z",
+      "mergedAt": "2025-09-18T18:31:03Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "ee75f7df2d3f1b1d4eaedb4e5e9b05e568bda3f9"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14084,6 +14148,39 @@
               "body": "My PR also addresses this text so we will have a merge conflict. Not sure which one is better to merge first. \r\n\r\nThis is the text I have in the PR:\r\n\r\nScope claim {#scope-claim}\r\nThe scope claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the Transaction Token Service as representative of the authorization model defined by the trust domain. The value may contain a syntax and structure much different from and represent an intent much narrower than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is out of scope for this specification.",
               "createdAt": "2025-09-15T17:49:33Z",
               "updatedAt": "2025-09-15T17:49:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BNENh",
+          "commit": {
+            "abbreviatedOid": "f583931"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T18:29:56Z",
+          "updatedAt": "2025-09-18T18:29:56Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BNFRK",
+          "commit": {
+            "abbreviatedOid": "9aeebae"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-18T18:30:54Z",
+          "updatedAt": "2025-09-18T18:30:54Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "@gffletch We are merging this before your PR, because there is more work remaining on your PR. When you make a new commit, could you please remove this language (relating to purpose) in your PR? You might have to do this again even if you have already done it since this PR will get merged before yours.",
+              "createdAt": "2025-09-18T18:30:54Z",
+              "updatedAt": "2025-09-18T18:30:54Z"
             }
           ]
         }
@@ -14345,24 +14442,26 @@
       "id": "PR_kwDOJt_WwM6okJUb",
       "title": "Fix typo",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/248",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-09-15T06:58:15Z",
-      "updatedAt": "2025-09-15T17:28:34Z",
+      "updatedAt": "2025-09-18T18:15:02Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "obfuscoder-patch-1",
       "headRefOid": "a5d4df39609d8d6b35228adcf198a0df1bfbf8b4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-18T18:15:00Z",
+      "mergedAt": "2025-09-18T18:15:00Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "ab65b071fc9bb32ef6932794f43b31b36a1348fe"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14376,6 +14475,19 @@
           "body": "",
           "createdAt": "2025-09-15T17:28:34Z",
           "updatedAt": "2025-09-15T17:28:34Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BM0EI",
+          "commit": {
+            "abbreviatedOid": "a5d4df3"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T18:14:53Z",
+          "updatedAt": "2025-09-18T18:14:53Z",
           "comments": []
         }
       ]
@@ -14392,13 +14504,13 @@
       "labels": [],
       "body": "Based on conversations and issue comments in issues #178 and #194, this PR renames the `purp` claim in the Transaction Token to `scope`. Clarifying text has been added to make it clear that the value of the `scope` claim in the Transaction Token does NOT need to be the same value requested or present in a provided access_token. \r\n\r\nPlease review for clarity of the added text.\r\n\r\nI also removed the IANA registry for 'purp'.",
       "createdAt": "2025-09-15T17:08:57Z",
-      "updatedAt": "2025-09-16T13:00:59Z",
+      "updatedAt": "2025-09-20T17:04:17Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "scope_194",
-      "headRefOid": "45e07e2eb300f8820fa95c987c3016851f650afc",
+      "headRefOid": "efdf7c47b117b454ffdd34487e8cca0c905144b9",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -14410,6 +14522,13 @@
           "body": "@PieterKas thanks for the suggestions (accepted).",
           "createdAt": "2025-09-16T12:39:37Z",
           "updatedAt": "2025-09-16T12:39:37Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thank you all so much for your review. Suggestions accepted and committed. @PieterKas , @bc-pi can you please verfiy?",
+          "createdAt": "2025-09-20T17:01:47Z",
+          "updatedAt": "2025-09-20T17:02:38Z"
         }
       ],
       "reviews": [
@@ -14460,9 +14579,9 @@
           "comments": [
             {
               "originalPosition": 18,
-              "body": "```suggestion\r\n: REQUIRED Thee scope claim is defined in {{RFC8693}}. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token.",
+              "body": "```suggestion\r\n: REQUIRED The scope claim is defined in {{RFC8693}}. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token.",
               "createdAt": "2025-09-16T13:00:21Z",
-              "updatedAt": "2025-09-16T13:00:22Z"
+              "updatedAt": "2025-09-18T10:41:41Z"
             }
           ]
         },
@@ -14485,6 +14604,66 @@
               "updatedAt": "2025-09-16T13:00:59Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BgS-C",
+          "commit": {
+            "abbreviatedOid": "45e07e2"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-19T18:42:45Z",
+          "updatedAt": "2025-09-19T18:42:45Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "I took me a min to realize that \"\\`scope\\`:\" appears twice on consecutive lines (355 and 356 at the time of writing), after which this suggested deletion makes perfect sense ",
+              "createdAt": "2025-09-19T18:42:45Z",
+              "updatedAt": "2025-09-19T18:42:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BgWon",
+          "commit": {
+            "abbreviatedOid": "45e07e2"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-19T18:45:44Z",
+          "updatedAt": "2025-09-19T18:45:44Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "you should even be able to ref the specific section like this:\r\n```suggestion\r\n: REQUIRED The scope claim is defined in {{Section 4.2 of RFC8693}}. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token.\r\n```",
+              "createdAt": "2025-09-19T18:45:44Z",
+              "updatedAt": "2025-09-19T18:45:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BgnRJ",
+          "commit": {
+            "abbreviatedOid": "45e07e2"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-19T18:57:33Z",
+          "updatedAt": "2025-09-19T18:57:33Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "the syntax and structure shouldn't be different - it's still a  JSON string containing a space-separated list - but the semantics/meaning and actual value might be different. Also tying to not use the word scope with a different meaning in this paragraph. semantics, right? \r\n\r\n```suggestion\r\nThe `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the Transaction Token Service as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.\r\n```",
+              "createdAt": "2025-09-19T18:57:33Z",
+              "updatedAt": "2025-09-19T18:57:33Z"
+            }
+          ]
         }
       ]
     },
@@ -14493,24 +14672,26 @@
       "id": "PR_kwDOJt_WwM6o10Zn",
       "title": "Replace StringOrURI with string",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/250",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See #195 - opting to replace with strings, rather than URIs.",
       "createdAt": "2025-09-16T11:27:24Z",
-      "updatedAt": "2025-09-17T21:02:35Z",
+      "updatedAt": "2025-09-19T17:13:11Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "baseRefOid": "ee75f7df2d3f1b1d4eaedb4e5e9b05e568bda3f9",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-4",
-      "headRefOid": "423fcc056cb2a2acb4fab9c98ceeb71d3d5ea651",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "630db7eb75b639c89dadef95d791703451e7335b",
+      "closedAt": "2025-09-19T17:13:10Z",
+      "mergedAt": "2025-09-19T17:13:09Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14545,6 +14726,71 @@
               "updatedAt": "2025-09-17T21:02:35Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BM1-9",
+          "commit": {
+            "abbreviatedOid": "423fcc0"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T18:16:50Z",
+          "updatedAt": "2025-09-18T18:16:50Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BM4xZ",
+          "commit": {
+            "abbreviatedOid": "76e1186"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T18:19:32Z",
+          "updatedAt": "2025-09-18T18:19:32Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BN35o",
+          "commit": {
+            "abbreviatedOid": "76e1186"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T19:14:43Z",
+          "updatedAt": "2025-09-18T19:14:43Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BY-WI",
+          "commit": {
+            "abbreviatedOid": "630db7e"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-19T12:00:20Z",
+          "updatedAt": "2025-09-19T12:00:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BeltD",
+          "commit": {
+            "abbreviatedOid": "630db7e"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-19T17:13:03Z",
+          "updatedAt": "2025-09-19T17:13:03Z",
+          "comments": []
         }
       ]
     },
@@ -14553,24 +14799,26 @@
       "id": "PR_kwDOJt_WwM6o2a_V",
       "title": "Clarify Transaction token role in Call Chain",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/251",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Seee issue #203",
       "createdAt": "2025-09-16T12:13:10Z",
-      "updatedAt": "2025-09-16T12:55:56Z",
+      "updatedAt": "2025-09-18T18:24:19Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-5",
-      "headRefOid": "cf5b692e38c7e66b8092e6dedb9e8ae5909afafd",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "f2f4c506e44b264b4c614e5dcce978af8d5aa9e1",
+      "closedAt": "2025-09-18T18:24:17Z",
+      "mergedAt": "2025-09-18T18:24:17Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "8ae281244c26a794e7d1a7b1adf320f3e5882f65"
+      },
       "comments": [],
       "reviews": [
         {
@@ -14585,6 +14833,19 @@
           "createdAt": "2025-09-16T12:55:56Z",
           "updatedAt": "2025-09-16T12:55:56Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BM9QY",
+          "commit": {
+            "abbreviatedOid": "f2f4c50"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T18:23:58Z",
+          "updatedAt": "2025-09-18T18:23:58Z",
+          "comments": []
         }
       ]
     },
@@ -14593,26 +14854,136 @@
       "id": "PR_kwDOJt_WwM6pDq2a",
       "title": "Adding token theft as a threat that is mitigated",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/252",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #207",
       "createdAt": "2025-09-17T11:47:26Z",
-      "updatedAt": "2025-09-17T11:49:10Z",
+      "updatedAt": "2025-09-18T18:16:03Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-6",
       "headRefOid": "247c8b1746cdbb87047bc550623a31e48bc7be40",
+      "closedAt": "2025-09-18T18:16:02Z",
+      "mergedAt": "2025-09-18T18:16:02Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "73d321c21f5a3cfeddd03215bf995d76445d0421"
+      },
+      "comments": [
+        {
+          "author": "jsalowey",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This looks good to me.  ",
+          "createdAt": "2025-09-18T03:11:24Z",
+          "updatedAt": "2025-09-18T03:11:24Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi - please take a look and approve/merge unless something needs to be added.",
+          "createdAt": "2025-09-18T10:47:28Z",
+          "updatedAt": "2025-09-18T10:47:28Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7A8oH1",
+          "commit": {
+            "abbreviatedOid": "247c8b1"
+          },
+          "author": "jsalowey",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "CHanges look good",
+          "createdAt": "2025-09-18T03:12:11Z",
+          "updatedAt": "2025-09-18T03:12:11Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7BM1EK",
+          "commit": {
+            "abbreviatedOid": "247c8b1"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-18T18:15:54Z",
+          "updatedAt": "2025-09-18T18:15:54Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 253,
+      "id": "PR_kwDOJt_WwM6pRBcq",
+      "title": "Clarify need to validate the signature on signed subject tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/253",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See #214",
+      "createdAt": "2025-09-18T11:13:03Z",
+      "updatedAt": "2025-09-18T11:13:03Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-8",
+      "headRefOid": "07e0e7fbd6101ec3d7665e68b4f397fac638fe1a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 254,
+      "id": "PR_kwDOJt_WwM6pRTdb",
+      "title": "Allow for alternatives to RFC8693",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/254",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See #189",
+      "createdAt": "2025-09-18T11:35:06Z",
+      "updatedAt": "2025-09-19T18:31:45Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-9",
+      "headRefOid": "dd84b43f042867f129d14d754b527ec3fb6ecbd9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7BgGkN",
+          "commit": {
+            "abbreviatedOid": "dd84b43"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-19T18:31:45Z",
+          "updatedAt": "2025-09-19T18:31:45Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
