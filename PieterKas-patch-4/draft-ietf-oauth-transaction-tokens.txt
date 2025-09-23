@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 23 March 2026                            Practical Identity LLC
+Expires: 27 March 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       19 September 2025
+                                                       23 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 March 2026.
+   This Internet-Draft will expire on 27 March 2026.
 
 Copyright Notice
 
@@ -799,9 +799,6 @@ Table of Contents
    *  sub: The subject for whom the Txn-Token is being requested.  The
       Txn-Token Service SHALL use this value in determining the sub
       value in the Txn-Token issued in the response to this request.
-
-   *  exp: The expiration time of the unsigned JSON object, which the
-      TTS MAY use as input to determine the lifetime of the Txn-token.
 
    The unsigned JSON object MAY contain other fields, and the Txn-Token
    Service MAY consider them when generating the Txn-Token.
