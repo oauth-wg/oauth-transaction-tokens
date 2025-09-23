@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-21T00:19:41.640178+00:00",
+  "timestamp": "2025-09-23T00:17:51.473917+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4186,7 +4186,7 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.2.2-2.2.1 \nAn expiration time on content that is not integrity protected doesn't seem like a good thing for a whole variety of reasons.  ",
       "createdAt": "2025-08-26T16:22:24Z",
-      "updatedAt": "2025-09-19T18:28:02Z",
+      "updatedAt": "2025-09-22T15:17:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -4202,6 +4202,20 @@
           "body": "really my concern is about having something that is not a security construct but looks very much like a security construct ",
           "createdAt": "2025-09-19T18:28:02Z",
           "updatedAt": "2025-09-19T18:28:02Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A bit like alg:none I suppose...?\n\nI think it is fine to remove it - the idea was to allow the workload to signal a preferred expiry time, but perhaps better to not have that defined in case it causes confusion (decision about expiry time is ultimately up to the transaction token service anyway).",
+          "createdAt": "2025-09-22T14:18:30Z",
+          "updatedAt": "2025-09-22T14:18:30Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> A bit like alg:none I suppose...?\n\nnot that bad but yes \n\n> I think it is fine to remove it - the idea was to allow the workload to signal a preferred expiry time,\n\nthen perhaps \"preferred_expiry_time\" or \"requested_time_to_live_please_and_thank_you\" or something \n\n> but perhaps better to not have that defined in case it causes confusion (decision about expiry time is ultimately up to the transaction token service anyway).\n\nperhaps better to not have it unless there's a compelling need \n\n\n\n",
+          "createdAt": "2025-09-22T15:17:26Z",
+          "updatedAt": "2025-09-22T15:17:26Z"
         }
       ]
     },
@@ -4527,7 +4541,7 @@
       ],
       "body": "WGLC feedback from Joe Salowey\n\nSection 7.5.1 I can see value in the replacement token allowing for the lifetime of the JWT to be extended.  Sometimes a transaction may take longer than expected.  IF the token lifetime can be refreshed beyond the original time then the transaction can succeed.  THis also seems better than trying to issue tokens with lifetimes that are longer than necessary for most transactions.  In this case the IAT claim could still reflect the original token issue time so the token service can enforce a strict lifetime. \n",
       "createdAt": "2025-08-27T15:39:40Z",
-      "updatedAt": "2025-09-20T17:18:48Z",
+      "updatedAt": "2025-09-22T14:21:42Z",
       "closedAt": null,
       "comments": [
         {
@@ -4550,6 +4564,13 @@
           "body": "I think this gets to the authorization model around replacement transaction tokens. The Transaction Token Service is still authoritative for whether a replacement transaction token may even be issued. The Transaction Token Service should validate whether the requesting service is authorized to request a replacement transaction token, whether the requesting workload is authorized to request the narrower scope, and if valid, define the time validity of the issued replacement transaction token. I'm not sure we can control this within the spec. Generally, I'd say that the replacement transaction token SHOULD NOT extend beyond the lifetime of the original transaction token. \n\nOne compensating thought would be to move the original `iat` and `exp` into the request context in some manner so that the original times are not lost.",
           "createdAt": "2025-09-20T17:18:48Z",
           "updatedAt": "2025-09-20T17:18:48Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Should moving iat and exp into request details be something that we define in the specification?",
+          "createdAt": "2025-09-22T14:21:42Z",
+          "updatedAt": "2025-09-22T14:21:42Z"
         }
       ]
     },
@@ -14504,7 +14525,7 @@
       "labels": [],
       "body": "Based on conversations and issue comments in issues #178 and #194, this PR renames the `purp` claim in the Transaction Token to `scope`. Clarifying text has been added to make it clear that the value of the `scope` claim in the Transaction Token does NOT need to be the same value requested or present in a provided access_token. \r\n\r\nPlease review for clarity of the added text.\r\n\r\nI also removed the IANA registry for 'purp'.",
       "createdAt": "2025-09-15T17:08:57Z",
-      "updatedAt": "2025-09-20T17:04:17Z",
+      "updatedAt": "2025-09-22T14:59:50Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
@@ -14664,6 +14685,59 @@
               "updatedAt": "2025-09-19T18:57:33Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7B6jL2",
+          "commit": {
+            "abbreviatedOid": "efdf7c4"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-22T14:57:19Z",
+          "updatedAt": "2025-09-22T14:57:19Z",
+          "comments": [
+            {
+              "originalPosition": 55,
+              "body": "this whole line should just be removed but that can be deferred to #202 ",
+              "createdAt": "2025-09-22T14:57:19Z",
+              "updatedAt": "2025-09-22T14:57:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7B6lry",
+          "commit": {
+            "abbreviatedOid": "efdf7c4"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-22T14:58:59Z",
+          "updatedAt": "2025-09-22T14:58:59Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "```suggestion\r\nThe authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The Transaction Token Service MUST ensure that the requested `scope` of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The Transaction Token Service MUST ensure there is no unintentional privilege escalation in authorization scope.\r\n```",
+              "createdAt": "2025-09-22T14:58:59Z",
+              "updatedAt": "2025-09-22T14:58:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7B6m8l",
+          "commit": {
+            "abbreviatedOid": "efdf7c4"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-22T14:59:50Z",
+          "updatedAt": "2025-09-22T14:59:50Z",
+          "comments": []
         }
       ]
     },
@@ -14957,18 +15031,26 @@
       "labels": [],
       "body": "See #189",
       "createdAt": "2025-09-18T11:35:06Z",
-      "updatedAt": "2025-09-19T18:31:45Z",
+      "updatedAt": "2025-09-22T14:29:45Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "cac3e729aa97a03a71b0553dce5d4d851338b40a",
+      "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-9",
-      "headRefOid": "dd84b43f042867f129d14d754b527ec3fb6ecbd9",
+      "headRefOid": "46127526d2883f70a5d77af61858254534df53fd",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi or @gffletch - I resolved coonflict - please approve and I can merge.",
+          "createdAt": "2025-09-22T14:29:45Z",
+          "updatedAt": "2025-09-22T14:29:45Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7BgGkN",
