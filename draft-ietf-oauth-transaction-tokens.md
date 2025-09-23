@@ -751,6 +751,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
 * Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
 * Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
+* Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
 
 ## Since Draft 05
 {:numbered="false"}
