@@ -1438,6 +1438,9 @@ Since Draft 06
    *  Clarify role of transaction tokens in call chain
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
 
+   *  Revise normative langugage for enforcement of token expiry
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)
+
 Since Draft 05
 
    *  Strengthened prohibition on expanding TraT scope
