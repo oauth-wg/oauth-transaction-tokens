@@ -2613,7 +2613,7 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
         <h3 id="name-http-header">
 <a href="#section-11.4" class="section-number selfRef">11.4. </a><a href="#name-http-header" class="section-name selfRef">HTTP Header</a>
         </h3>
-<p id="section-11.4-1">The header name <code>Txn-Token</code> is proposed to be added to the HTTP Field Name Registry <span>[<a href="#IANA.HTTP.FieldNames" class="cite xref">IANA.HTTP.FieldNames</a>]</span> as an unstructured Header Field. This header is defined in the section <a href="#txn-token-http-header" class="auto internal xref">Section 8.1</a>. The following entry will be proposed in the HTTP Field Name Registry. Note that this is an unstructured field, therefore the value of the Type field is left empty:<a href="#section-11.4-1" class="pilcrow">¶</a></p>
+<p id="section-11.4-1">The header name <code>Txn-Token</code> is proposed to be added to the HTTP Field Name Registry <span>[<a href="#IANA.HTTP.FieldNames" class="cite xref">IANA.HTTP.FieldNames</a>]</span> as an unstructured Header Field. This header is defined in the section <a href="#txn-token-http-header" class="auto internal xref">Section 8.1</a>. The following entry will be proposed in the HTTP Field Name Registry. Note that this is an unstructured field, therefore the value of the Type field is left empty as shown below:<a href="#section-11.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.4-2.1">
             <p id="section-11.4-2.1.1">Field Name: Txn-Token<a href="#section-11.4-2.1.1" class="pilcrow">¶</a></p>
@@ -2766,13 +2766,16 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
             <p id="appendix-B.1-1.3.1">Remove definition of Authorization Context <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/192">Be more specific on Authorization Context</a><a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.5.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.6.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.7">
+            <p id="appendix-B.1-1.7.1">Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
