@@ -73,6 +73,7 @@ Table of Contents
    1.  Introduction
    2.  Overview
      2.1.  What are Transaction Tokens?
+       2.1.1.  Authorization Context
      2.2.  Creating Txn-Tokens
        2.2.1.  Initial Creation
        2.2.2.  Replacement Txn-Tokens
@@ -86,7 +87,7 @@ Table of Contents
    5.  Txn-Token Format
      5.1.  JWT Header
      5.2.  JWT Body Claims
-       5.2.1.  Purpose claim
+       5.2.1.  Scope claim
        5.2.2.  Requester Context
        5.2.3.  Transaction Context
        5.2.4.  Example
@@ -111,7 +112,7 @@ Table of Contents
      9.3.  Subject Token Types
      9.4.  Client Authentication
      9.5.  Replacement Tokens
-     9.6.  Scope and Purpose processing
+     9.6.  Scope Processing
      9.7.  Unique Transaction Identifier
      9.8.  Transaction Token Service Discovery
      9.9.  Workload Configuration Protection
@@ -196,6 +197,13 @@ Table of Contents
    The authorization context provides information expected to remain
    constant during the execution of a call chain as it passes through
    multiple workloads.
+
+2.1.1.  Authorization Context
+
+   A key aspect of the authorization context is the intent or purpose of
+   the transaction, which should be as narrowly defined as possible for
+   the given deployment.  A narrowly scoped transaction token reduces
+   the attack surface of captured and replayed transaction tokens.
 
 2.2.  Creating Txn-Tokens
 
@@ -489,8 +497,10 @@ Table of Contents
       of the aud Trust Domain.  Unlike OpenID Connect, the sub claim is
       NOT associated with the iss claim.
 
-   purp:  REQUIRED A String defining the purpose or intent of this
-      transaction.
+   scope:  REQUIRED The scope claim is defined in Section 4.2 of
+      [RFC8693].  Note that the value of this claim is determined by the
+      Transaction Token Service and is not required to match the
+      requested scope nor the scope in any supplied external token.
 
    tctx:  OPTIONAL A JSON object that contains values that remain
       immutable throughout the call chain.
@@ -498,20 +508,16 @@ Table of Contents
    rctx:  OPTIONAL A JSON object that describes the environmental
       context of the requested transaction.
 
-5.2.1.  Purpose claim
+5.2.1.  Scope claim
 
-   The purp claim captures the exact purpose of this particular
-   transaction.  This is often much narrower than a scope value issued
-   to an external client.  This is due to the fact that in most cases,
-   the authorization model within the Trust Domain is quite different
-   than the authorization model used with clients external to the Trust
-   Domain.  To that end, it is intentional to separate the concept of
-   scope (often fairly coarse-grained) used with external clients from
-   the purpose of the transaction used within the Trust Domain.  How a
+   The scope claim captures, as narrowly as possible, the purpose of
+   this particular transaction.  The values used for this claim are
+   defined by the Transaction Token Service as representative of the
+   authorization model defined by the Trust Domain.  The value may be
+   literately and semantically different from, and represent an intent
+   narrower, than a scope value issued to an external client.  How a
    given deployment represents the authorization model within the Trust
-   Domain is out of scope for this specification.  Likewise, for
-   internal clients the scope of the purpose claim is chosen to provide
-   the least amount of privilege to accomplish the requested task.
+   Domain is at its discretion and not prescribed by this specification.
 
 5.2.2.  Requester Context
 
@@ -612,7 +618,7 @@ Table of Contents
        "authn": "urn:ietf:rfc:6749", // env context of the external call
        "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
      },
-     "purp" : "trade.stocks",
+     "scope" : "trade.stocks",
      "tctx": {
        "action": "BUY", // parameter of external call
        "ticker": "MSFT", // parameter of external call
@@ -837,8 +843,11 @@ Table of Contents
    MUST be omitted if not set.
 
    The Transaction Token Service MUST evaluate the value specified in
-   the scope parameter of the request to determine the purp claim of the
-   issued Txn-Token.
+   the scope parameter of the request to determine the scope claim of
+   the issued Txn-Token.  The value of this claim, as issued by the
+   Transaction Token Service, does not need to match the requested scope
+   value as the Txn-Token scope claim represents the intent or purpose
+   of the transaction within the Trust Domain.
 
    If a request_context parameter is present in the Txn-Token Request,
    the data SHOULD be added to the rctx object of the Txn-Token.  In
@@ -1017,12 +1026,9 @@ Table of Contents
    Txn-Token service does not contain the refresh_token field.  A Txn-
    Token cannot be issued by presenting a refresh_token.
 
-   The expires_in and scope fields of the OAuth 2.0 Token Exchange
-   specification [RFC8693] are also not used in Txn-Token responses.
-   The expires_in is not required since the issued token has an exp
-   field, which indicates the token lifetime.  The scope field is
-   omitted from the response in favor of the purp claim in the Txn-
-   Token.
+   The expires_in field of the OAuth 2.0 Token Exchange specification
+   [RFC8693] is not used in Txn-Token responses since the issued token
+   has an exp field, which indicates the token lifetime.
 
 9.2.  Access Tokens
 
@@ -1061,17 +1067,18 @@ Table of Contents
    signature be verified but also the workload identity of the workload
    requesting the replacement Txn-Token.
 
-9.6.  Scope and Purpose processing
+9.6.  Scope Processing
 
-   The authorization model within a Trust Domain boundary is most often
-   quite different from the authorization model (e.g. OAuth scopes) used
-   with clients external to the Trust Domain.  This makes managing
+   The authorization model within a Trust Domain boundary may be quite
+   different from the authorization model (e.g. OAuth scopes) used with
+   clients external to the Trust Domain.  This makes managing
    unintentional scope increase a critical aspect of the Transaction
-   Token Service.  The TTS MUST ensure that the requested purpose
-   (scope) of the Txn-Token is equal or less than the scope(s)
+   Token Service.  The Transaction Token Service MUST ensure that the
+   requested scope of the Txn-Token is equal or less than the scope(s)
    identified in the subject_token.  This is also true of requesting a
-   replacement Txn-Token.  The TTS MUST ensure there is no unintentional
-   increase in authorization scope.
+   replacement Txn-Token.  The Transaction Token Service MUST ensure
+   there is no unintentional privilege escalation in authorization
+   scope.
 
 9.7.  Unique Transaction Identifier
 
@@ -1223,15 +1230,6 @@ Table of Contents
       -  Change Controller: IETF
 
       -  Specification Document: Section Section 5.2.2 of this
-         specification
-
-   *  Claim Name: purp
-
-      -  Claim Description: The purpose of the transaction
-
-      -  Change Controller: IETF
-
-      -  Specification Document: Section Section 5.2 of this
          specification
 
 11.3.  IANA Media Type Registration Contents

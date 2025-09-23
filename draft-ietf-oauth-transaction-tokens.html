@@ -1161,12 +1161,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
                 <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-what-are-transaction-tokens" class="internal xref">What are Transaction Tokens?</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
+                    <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="auto internal xref">2.1.1</a>.  <a href="#name-authorization-context" class="internal xref">Authorization Context</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
                 <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-creating-txn-tokens" class="internal xref">Creating Txn-Tokens</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2.2.1">
-                    <p id="section-toc.1-1.2.2.2.2.1.1" class="keepWithNext"><a href="#section-2.2.1" class="auto internal xref">2.2.1</a>.  <a href="#name-initial-creation" class="internal xref">Initial Creation</a></p>
+                    <p id="section-toc.1-1.2.2.2.2.1.1"><a href="#section-2.2.1" class="auto internal xref">2.2.1</a>.  <a href="#name-initial-creation" class="internal xref">Initial Creation</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2.2.2">
                     <p id="section-toc.1-1.2.2.2.2.2.1"><a href="#section-2.2.2" class="auto internal xref">2.2.2</a>.  <a href="#name-replacement-txn-tokens" class="internal xref">Replacement Txn-Tokens</a></p>
@@ -1208,7 +1213,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-jwt-body-claims" class="internal xref">JWT Body Claims</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
-                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-purpose-claim" class="internal xref">Purpose claim</a></p>
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-scope-claim" class="internal xref">Scope claim</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
                     <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-requester-context" class="internal xref">Requester Context</a></p>
@@ -1295,7 +1300,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="auto internal xref">9.5</a>.  <a href="#name-replacement-tokens" class="internal xref">Replacement Tokens</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.6">
-                <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-scope-and-purpose-processin" class="internal xref">Scope and Purpose processing</a></p>
+                <p id="section-toc.1-1.9.2.6.1"><a href="#section-9.6" class="auto internal xref">9.6</a>.  <a href="#name-scope-processing" class="internal xref">Scope Processing</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.7">
                 <p id="section-toc.1-1.9.2.7.1"><a href="#section-9.7" class="auto internal xref">9.7</a>.  <a href="#name-unique-transaction-identifi" class="internal xref">Unique Transaction Identifier</a></p>
@@ -1431,6 +1436,14 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-what-are-transaction-tokens" class="section-name selfRef">What are Transaction Tokens?</a>
         </h3>
 <p id="section-2.1-1">Txn-Tokens are short-lived, signed JWTs <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call chain as it passes through multiple workloads.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<div id="authorization-context">
+<section id="section-2.1.1">
+          <h4 id="name-authorization-context">
+<a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-authorization-context" class="section-name selfRef">Authorization Context</a>
+          </h4>
+<p id="section-2.1.1-1">A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="creating-txn-tokens">
@@ -1776,9 +1789,9 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.13">
-<code>purp</code>:</dt>
+<code>scope</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.14">
-            <p id="section-5.2-2.14.1">REQUIRED A String defining the purpose or intent of this transaction.<a href="#section-5.2-2.14.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.14.1">REQUIRED The scope claim is defined in <span><a href="https://rfc-editor.org/rfc/rfc8693#section-4.2" class="relref">Section 4.2</a> of [<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token.<a href="#section-5.2-2.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.15">
@@ -1794,12 +1807,12 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 </dd>
         <dd class="break"></dd>
 </dl>
-<div id="purp-claim">
+<div id="scope-claim">
 <section id="section-5.2.1">
-          <h4 id="name-purpose-claim">
-<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-purpose-claim" class="section-name selfRef">Purpose claim</a>
+          <h4 id="name-scope-claim">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-scope-claim" class="section-name selfRef">Scope claim</a>
           </h4>
-<p id="section-5.2.1-1">The <code>purp</code> claim captures the exact purpose of this particular transaction. This is often much narrower than a scope value issued to an external client. This is due to the fact that in most cases, the authorization model within the Trust Domain is quite different than the authorization model used with clients external to the Trust Domain. To that end, it is intentional to separate the concept of scope (often fairly coarse-grained) used with external clients from the purpose of the transaction used within the Trust Domain. How a given deployment represents the authorization model within the Trust Domain is out of scope for this specification. Likewise, for internal clients the scope of the purpose claim is chosen to provide the least amount of privilege to accomplish the requested task.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-1">The <code>scope</code> claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the Transaction Token Service as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="requester-context">
@@ -1887,7 +1900,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
     "authn": "urn:ietf:rfc:6749", // env context of the external call
     "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
   },
-  "purp" : "trade.stocks",
+  "scope" : "trade.stocks",
   "tctx": {
     "action": "BUY", // parameter of external call
     "ticker": "MSFT", // parameter of external call
@@ -2077,7 +2090,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 <p id="section-7.3-5">The Transaction Token Service MUST set the <code>exp</code> claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any <code>exp</code> value present in the <code>subject_token</code> parameter of the Txn-Token Request in determining the <code>exp</code> value of the resulting Txn-Token.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
 <p id="section-7.3-6">The Transaction Token Service MUST set the <code>txn</code> claim to a unique ID specific to this transaction.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
 <p id="section-7.3-7">The Transaction Token Service MAY set the <code>iss</code> claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.<a href="#section-7.3-7" class="pilcrow">¶</a></p>
-<p id="section-7.3-8">The Transaction Token Service MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>purp</code> claim of the issued Txn-Token.<a href="#section-7.3-8" class="pilcrow">¶</a></p>
+<p id="section-7.3-8">The Transaction Token Service MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token. The value of this claim, as issued by the Transaction Token Service, does not need to match the requested <code>scope</code> value as the Txn-Token <code>scope</code> claim represents the intent or purpose of the transaction within the Trust Domain.<a href="#section-7.3-8" class="pilcrow">¶</a></p>
 <p id="section-7.3-9">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the <code>rctx</code> object as the <code>req_wl</code> claim.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
 <p id="section-7.3-10">If a <code>request_details</code> parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the <code>request_details</code> object into the claims in the <code>tctx</code> object as authorized by the Transaction Token Service authorization policy for the requesting client.<a href="#section-7.3-10" class="pilcrow">¶</a></p>
 <p id="section-7.3-11">The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.<a href="#section-7.3-11" class="pilcrow">¶</a></p>
@@ -2248,7 +2261,7 @@ Cache-Control: no-store
         </h3>
 <p id="section-9.1-1">A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the <code>refresh_token</code> field. A Txn-Token cannot be issued by presenting a <code>refresh_token</code>.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
-<p id="section-9.1-3">The <code>expires_in</code> and <code>scope</code> fields of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> are also not used in Txn-Token responses. The <code>expires_in</code> is not required since the issued token has an <code>exp</code> field, which indicates the token lifetime. The <code>scope</code> field is omitted from the response in favor of the <code>purp</code> claim in the Txn-Token.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+<p id="section-9.1-3">The <code>expires_in</code> field of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> is not used in Txn-Token responses since the issued token has an <code>exp</code> field, which indicates the token lifetime.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="access-tokens">
@@ -2283,12 +2296,12 @@ Cache-Control: no-store
 <p id="section-9.5-1">Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to the security of the entire transaction invocation sequence. Only Txn-Tokens issued by a trusted Transaction Token Service may be trusted, so verification of the Txn-Token signature is required. For replacement transaction tokens, not only must the JWT signature be verified but also the workload identity of the workload requesting the replacement Txn-Token.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="scope-and-purpose-processing">
+<div id="scope-processing">
 <section id="section-9.6">
-        <h3 id="name-scope-and-purpose-processin">
-<a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-scope-and-purpose-processin" class="section-name selfRef">Scope and Purpose processing</a>
+        <h3 id="name-scope-processing">
+<a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-scope-processing" class="section-name selfRef">Scope Processing</a>
         </h3>
-<p id="section-9.6-1">The authorization model within a Trust Domain boundary is most often quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The TTS MUST ensure that the requested purpose (<code>scope</code>) of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>. This is also true of requesting a replacement Txn-Token. The TTS MUST ensure there is no unintentional increase in authorization scope.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The Transaction Token Service MUST ensure that the requested <code>scope</code> of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>. This is also true of requesting a replacement Txn-Token. The Transaction Token Service MUST ensure there is no unintentional privilege escalation in authorization scope.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="unique-transaction-identifier">
@@ -2456,20 +2469,6 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 </li>
               <li class="normal" id="section-11.2-1.2.2.3">
                 <p id="section-11.2-1.2.2.3.1">Specification Document: Section <a href="#requester-context" class="auto internal xref">Section 5.2.2</a> of this specification<a href="#section-11.2-1.2.2.3.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-11.2-1.3">
-            <p id="section-11.2-1.3.1">Claim Name: <code>purp</code><a href="#section-11.2-1.3.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-11.2-1.3.2.1">
-                <p id="section-11.2-1.3.2.1.1">Claim Description: The purpose of the transaction<a href="#section-11.2-1.3.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-11.2-1.3.2.2">
-                <p id="section-11.2-1.3.2.2.1">Change Controller: IETF<a href="#section-11.2-1.3.2.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-11.2-1.3.2.3">
-                <p id="section-11.2-1.3.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> of this specification<a href="#section-11.2-1.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
