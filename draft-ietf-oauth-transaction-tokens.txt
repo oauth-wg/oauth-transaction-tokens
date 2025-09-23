@@ -82,6 +82,7 @@ Table of Contents
      2.5.  Txn-Token Issuance and Usage Flows
        2.5.1.  Basic Flow
        2.5.2.  Replacement Txn-Token Flow
+       2.5.3.  Internally Initiated Txn-Token Flow
    3.  Notational Conventions
    4.  Terminology
    5.  Txn-Token Format
@@ -402,6 +403,64 @@ Table of Contents
 
    10. External client is provided a response to the external invocation
 
+2.5.3.  Internally Initiated Txn-Token Flow
+
+   An internal workload may need to initiate a transaction not on the
+   basis of a current external request, but as part of a scheduled task
+   or in reaction to a specific condition.  The transaction may be
+   requested on behalf of the identity of the requesting workload or as
+   an impersonation on behalf of a specific user chosen based on
+   information accessible to the workload.
+
+           1 ┌──────────────┐    2      ┌──────────────┐
+             │              ├───────────▶              │
+             │   Internal   │           │  Txn-Token   │
+             │   Workload   │    3      │   Service    │
+             ┤              ◀───────────│              │
+             └────┬───▲─────┘           └──────────────┘
+                  │   │
+                4 │   │ 6
+             ┌────▼───┴─────┐
+             │              │
+             │   Internal   │
+             │   Workload   │
+             │              │
+             └────┬───▲─────┘
+                  │   │
+                  ▼   │
+                    o
+                5   o    6
+                  │ o ▲
+                  │   │
+                  │   │
+             ┌────▼───┴─────┐
+             │              |
+             │   Internal   │
+             │   Workload   │
+             │              |
+             └──────────────┘
+
+               Figure 3: Internally Initiated Txn-Token Flow
+
+   In the diagram above, steps 5-6 are the same as in Section 2.5.1.
+   The flow can also be used to replace steps 1-4 in the Section 2.5.2}
+
+   1.  A microservice determines that it needs to initiate a request on
+       behalf of a user in response to a scheduled timer or other
+       trigger.
+
+   2.  The internal microservice authenticates to the token service and
+       makes a request for a Txn-Token.  The request contains
+       information about the transaction along with optional additional
+       authorization credentials
+
+   3.  Txn-Token Service authorizes the requester and then mints a Txn-
+       Token that provides immutable context for the transaction and
+       returns it to the requester
+
+   4.  The originating microservice then contacts another internal
+       microservice and provides the Txn-Token as authorization
+
 3.  Notational Conventions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -457,7 +516,7 @@ Table of Contents
    *  Key rotation of the signing key SHOULD be supported through the
       use of a kid Header Parameter.
 
-   Figure 3 is a non-normative example of the JWT Header of a Txn-Token
+   Figure 4 is a non-normative example of the JWT Header of a Txn-Token
 
    {
        "typ": "txntoken+jwt",
@@ -465,7 +524,7 @@ Table of Contents
        "kid": "identifier-to-key"
    }
 
-                    Figure 3: Example: Txn-Token Header
+                    Figure 4: Example: Txn-Token Header
 
 5.2.  JWT Body Claims
 
@@ -604,7 +663,7 @@ Table of Contents
 
 5.2.4.  Example
 
-   The figure below Figure 4 shows a non-normative example of the JWT
+   The figure below Figure 5 shows a non-normative example of the JWT
    body of a Txn-Token initiated by an external call:
 
    {
@@ -630,7 +689,7 @@ Table of Contents
      }
    }
 
-                     Figure 4: Example: Txn-Token Body
+                     Figure 5: Example: Txn-Token Body
 
    A Txn-Token from an internal request would look much the same except
    the rctx and tctx field claims would be populated with information
@@ -728,7 +787,7 @@ Table of Contents
    Transaction Token Service.  The exact client authentication mechanism
    used is outside the scope of this specification.
 
-   The figure below Figure 5 shows a non-normative example of a Txn-
+   The figure below Figure 6 shows a non-normative example of a Txn-
    Token Request.
 
    POST /txn-token-service/token_endpoint HTTP 1.1
@@ -743,7 +802,7 @@ Table of Contents
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
    &request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
 
-                    Figure 5: Example: Txn-Token Request
+                    Figure 6: Example: Txn-Token Request
 
 7.2.  Subject Token Types
 
@@ -883,7 +942,7 @@ Table of Contents
    The Txn-Token Response MUST NOT include the values expires_in,
    refresh_token and scope
 
-   Figure 6 shows a non-normative example of a Txn-Token Response.
+   Figure 7 shows a non-normative example of a Txn-Token Response.
 
    HTTP/1.1 200 OK
    Content-Type: application/json
@@ -895,7 +954,7 @@ Table of Contents
      "access_token": "eyJCI6IjllciJ9...Qedw6rx"
    }
 
-                   Figure 6: Example: Txn-Token Response
+                   Figure 7: Example: Txn-Token Response
 
 7.5.  Creating Replacement Txn-Tokens
 

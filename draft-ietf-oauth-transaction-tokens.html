@@ -1193,6 +1193,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5.2.2">
                     <p id="section-toc.1-1.2.2.5.2.2.1"><a href="#section-2.5.2" class="auto internal xref">2.5.2</a>.  <a href="#name-replacement-txn-token-flow" class="internal xref">Replacement Txn-Token Flow</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.5.2.3">
+                    <p id="section-toc.1-1.2.2.5.2.3.1"><a href="#section-2.5.3" class="auto internal xref">2.5.3</a>.  <a href="#name-internally-initiated-txn-to" class="internal xref">Internally Initiated Txn-Token Flow</a></p>
+</li>
                 </ul>
 </li>
             </ul>
@@ -1575,7 +1578,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           </ol>
 </section>
 </div>
-<div id="replacement-txn-token-flow">
+<div id="replacement-flow">
 <section id="section-2.5.2">
           <h4 id="name-replacement-txn-token-flow">
 <a href="#section-2.5.2" class="section-number selfRef">2.5.2. </a><a href="#name-replacement-txn-token-flow" class="section-name selfRef">Replacement Txn-Token Flow</a>
@@ -1647,6 +1650,67 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
 </li>
             <li id="section-2.5.2-4.5">
               <p id="section-2.5.2-4.5.1">External client is provided a response to the external invocation<a href="#section-2.5.2-4.5.1" class="pilcrow">¶</a></p>
+</li>
+          </ol>
+</section>
+</div>
+<div id="internally-initiated-txn-token-flow">
+<section id="section-2.5.3">
+          <h4 id="name-internally-initiated-txn-to">
+<a href="#section-2.5.3" class="section-number selfRef">2.5.3. </a><a href="#name-internally-initiated-txn-to" class="section-name selfRef">Internally Initiated Txn-Token Flow</a>
+          </h4>
+<p id="section-2.5.3-1">An internal workload may need to initiate a transaction not on the basis of a current external request, but as part of a scheduled task or in reaction to a specific condition. The transaction may be requested on behalf of the identity of the requesting workload or as an impersonation on behalf of a specific user chosen based on information accessible to the workload.<a href="#section-2.5.3-1" class="pilcrow">¶</a></p>
+<span id="name-internally-initiated-txn-tok"></span><div id="fig-arch-internal">
+<figure id="figure-3">
+            <div class="alignLeft art-ascii-art art-text artwork" id="section-2.5.3-2.1">
+<pre>
+        1 ┌──────────────┐    2      ┌──────────────┐
+          │              ├───────────▶              │
+          │   Internal   │           │  Txn-Token   │
+          │   Workload   │    3      │   Service    │
+          ┤              ◀───────────│              │
+          └────┬───▲─────┘           └──────────────┘
+               │   │
+             4 │   │ 6
+          ┌────▼───┴─────┐
+          │              │
+          │   Internal   │
+          │   Workload   │
+          │              │
+          └────┬───▲─────┘
+               │   │
+               ▼   │
+                 o
+             5   o    6
+               │ o ▲
+               │   │
+               │   │
+          ┌────▼───┴─────┐
+          │              |
+          │   Internal   │
+          │   Workload   │
+          │              |
+          └──────────────┘
+
+</pre>
+</div>
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<a href="#name-internally-initiated-txn-tok" class="selfRef">Internally Initiated Txn-Token Flow</a>
+            </figcaption></figure>
+</div>
+<p id="section-2.5.3-3">In the diagram above, steps 5-6 are the same as in <a href="#basic-flow" class="auto internal xref">Section 2.5.1</a>.  The flow can also be used to replace steps 1-4 in the <a href="#replacement-flow" class="auto internal xref">Section 2.5.2</a>}<a href="#section-2.5.3-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.5.3-4">
+<li id="section-2.5.3-4.1">
+              <p id="section-2.5.3-4.1.1">A microservice determines that it needs to initiate a request on behalf of a user in response to a scheduled timer or other trigger.<a href="#section-2.5.3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-2.5.3-4.2">
+              <p id="section-2.5.3-4.2.1">The internal microservice authenticates to the token service and makes a request for a Txn-Token. The request contains information about the transaction along with optional additional authorization credentials<a href="#section-2.5.3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-2.5.3-4.3">
+              <p id="section-2.5.3-4.3.1">Txn-Token Service authorizes the requester and then mints a Txn-Token that provides immutable context for the transaction and returns it to the requester<a href="#section-2.5.3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-2.5.3-4.4">
+              <p id="section-2.5.3-4.4.1">The originating microservice then contacts another internal microservice and provides the Txn-Token as authorization<a href="#section-2.5.3-4.4.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -1726,9 +1790,9 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
             <p id="section-5.1-2.2.1">Key rotation of the signing key SHOULD be supported through the use of a <code>kid</code> Header Parameter.<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.1-3"><a href="#figtxtokenheader" class="auto internal xref">Figure 3</a> is a non-normative example of the JWT Header of a Txn-Token<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-3"><a href="#figtxtokenheader" class="auto internal xref">Figure 4</a> is a non-normative example of the JWT Header of a Txn-Token<a href="#section-5.1-3" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-header"></span><div id="figtxtokenheader">
-<figure id="figure-3">
+<figure id="figure-4">
           <div class="lang-json sourcecode" id="section-5.1-4.1">
 <pre>
 {
@@ -1738,7 +1802,7 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
 }
 </pre>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-example-txn-token-header" class="selfRef">Example: Txn-Token Header</a>
           </figcaption></figure>
 </div>
@@ -1884,9 +1948,9 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
           <h4 id="name-example">
 <a href="#section-5.2.4" class="section-number selfRef">5.2.4. </a><a href="#name-example" class="section-name selfRef">Example</a>
           </h4>
-<p id="section-5.2.4-1">The figure below <a href="#figleaftxtokenbody" class="auto internal xref">Figure 4</a> shows a non-normative example of the JWT body of a Txn-Token initiated by an external call:<a href="#section-5.2.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-1">The figure below <a href="#figleaftxtokenbody" class="auto internal xref">Figure 5</a> shows a non-normative example of the JWT body of a Txn-Token initiated by an external call:<a href="#section-5.2.4-1" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-body"></span><div id="figleaftxtokenbody">
-<figure id="figure-4">
+<figure id="figure-5">
             <div class="lang-json sourcecode" id="section-5.2.4-2.1">
 <pre>
 {
@@ -1913,7 +1977,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 }
 </pre>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
 <a href="#name-example-txn-token-body" class="selfRef">Example: Txn-Token Body</a>
             </figcaption></figure>
 </div>
@@ -1992,9 +2056,9 @@ The type of the <code>subject_token</code> field is identified by <code>subject_
 </li>
         </ul>
 <p id="section-7.1-6">The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
-<p id="section-7.1-7">The figure below <a href="#figtxtokenrequest" class="auto internal xref">Figure 5</a> shows a non-normative example of a Txn-Token Request.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
+<p id="section-7.1-7">The figure below <a href="#figtxtokenrequest" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Request.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-request"></span><div id="figtxtokenrequest">
-<figure id="figure-5">
+<figure id="figure-6">
           <div class="lang-http sourcecode" id="section-7.1-8.1">
 <pre>
 POST /txn-token-service/token_endpoint HTTP 1.1
@@ -2010,7 +2074,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 &amp;request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
 </pre>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
 <a href="#name-example-txn-token-request" class="selfRef">Example: Txn-Token Request</a>
           </figcaption></figure>
 </div>
@@ -2114,9 +2178,9 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 </li>
         </ul>
 <p id="section-7.4-3">The Txn-Token Response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-7.4-3" class="pilcrow">¶</a></p>
-<p id="section-7.4-4"><a href="#figtxtokenresponse" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Response.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
+<p id="section-7.4-4"><a href="#figtxtokenresponse" class="auto internal xref">Figure 7</a> shows a non-normative example of a Txn-Token Response.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-response"></span><div id="figtxtokenresponse">
-<figure id="figure-6">
+<figure id="figure-7">
           <div class="lang-http sourcecode" id="section-7.4-5.1">
 <pre>
 HTTP/1.1 200 OK
@@ -2130,7 +2194,7 @@ Cache-Control: no-store
 }
 </pre>
 </div>
-<figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
+<figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
 <a href="#name-example-txn-token-response" class="selfRef">Example: Txn-Token Response</a>
           </figcaption></figure>
 </div>
