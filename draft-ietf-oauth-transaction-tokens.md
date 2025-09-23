@@ -511,7 +511,6 @@ The self-signed JWT MAY contain other claims.
 A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The value of the `subject_token` field MUST be the BASE64URL encoded value of the JSON object as described in {{Section 5 of RFC6848}}.  The JSON object in the subject token MUST contain the following fields:
 
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
-* `exp`: The expiration time of the unsigned JSON object, which the TTS MAY use as input to determine the lifetime of the Txn-token.
 
 The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.
 
