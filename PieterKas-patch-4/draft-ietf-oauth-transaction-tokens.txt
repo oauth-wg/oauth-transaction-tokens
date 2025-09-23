@@ -1435,6 +1435,9 @@ Since Draft 06
    *  Clarify role of transaction tokens in call chain
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
 
+   *  Remove exp field from unsigend token (https://github.com/oauth-wg/
+      oauth-transaction-tokens/issues/201)
+
 Since Draft 05
 
    *  Strengthened prohibition on expanding TraT scope
