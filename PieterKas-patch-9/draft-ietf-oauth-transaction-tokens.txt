@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 26 March 2026                            Practical Identity LLC
+Expires: 2 April 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       22 September 2025
+                                                       29 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 March 2026.
+   This Internet-Draft will expire on 2 April 2026.
 
 Copyright Notice
 
@@ -210,7 +210,7 @@ Table of Contents
    may be requested from a remote server.
 
    If the transaction token request is made via HTTP to a remote server,
-   it SHOULD use [RFC8693] as described in this specification.  To do
+   it MUST use [RFC8693] as described in this specification.  To do
    this, it invokes a special Token Service (the Txn-Token Service) and
    provides context that is sufficient for it to generate a Txn-Token.
    The context information provided to the Txn-Token Service MAY
