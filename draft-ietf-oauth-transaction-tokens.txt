@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 27 March 2026                            Practical Identity LLC
+Expires: 2 April 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       23 September 2025
+                                                       29 September 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 March 2026.
+   This Internet-Draft will expire on 2 April 2026.
 
 Copyright Notice
 
@@ -259,7 +259,7 @@ Table of Contents
 2.3.  Txn-Token Lifetime
 
    Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5
-   minutes), and as a result MAY be used only for the expected duration
+   minutes), and as a result MUST be used only for the expected duration
    of an external or internal invocation.  If the token or other
    credential (e.g. self-signed JWT) presented to the Txn-Token service
    when requesting a Txn-Token has an expiration time, then the Txn-
@@ -1494,6 +1494,9 @@ Since Draft 06
 
    *  Clarify role of transaction tokens in call chain
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
+
+   *  Revise normative langugage for enforcement of token expiry
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)
 
    *  Remove exp field from unsigend token (https://github.com/oauth-wg/
       oauth-transaction-tokens/issues/201)
