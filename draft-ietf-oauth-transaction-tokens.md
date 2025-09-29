@@ -172,7 +172,7 @@ A service within a call chain may choose to replace the Txn-Token. This can typi
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must be careful about the types of replacement requests it supports to avoid undermining the entire value of Txn-Tokens.
 
 ## Txn-Token Lifetime
-Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.
+Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.
 
 ## Benefits of Txn-Tokens
 Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.
@@ -798,6 +798,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235
 * Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
 * Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
+* Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)
 * Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
 
 ## Since Draft 05
