@@ -638,12 +638,12 @@ Table of Contents
 
 6.  Txn-Token Service
 
-   A Txn-Token Service SHOULD use [RFC8693] as described in this
-   specification if it issues transaction tokens in response to HTTP
-   requests.  The unique properties of the Txn-Token requests and
-   responses are described below.  The Txn-Token Service MAY optionally
-   support other OAuth 2.0 endpoints and features, but that is not a
-   requirement for it to be a Txn-Token Service.
+   A Txn-Token Service uses [RFC8693] as described in this specification
+   if it issues transaction tokens in response to HTTP requests.  The
+   unique properties of the Txn-Token requests and responses are
+   described below.  The Txn-Token Service MAY optionally support other
+   OAuth 2.0 endpoints and features, but that is not a requirement for
+   it to be a Txn-Token Service.
 
    Each Trust Domain that uses Txn-Tokens MUST have exactly one logical
    Txn-Token Service.
