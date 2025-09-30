@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-25T00:17:47.690884+00:00",
+  "timestamp": "2025-09-30T00:18:01.350699+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -15203,13 +15203,13 @@
       "labels": [],
       "body": "See #189",
       "createdAt": "2025-09-18T11:35:06Z",
-      "updatedAt": "2025-09-23T22:50:41Z",
+      "updatedAt": "2025-09-29T19:23:24Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-9",
-      "headRefOid": "46127526d2883f70a5d77af61858254534df53fd",
+      "headRefOid": "98fff35f6b6d1a4a9922c995d7cafd6aecd0673c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -15369,6 +15369,145 @@
               "updatedAt": "2025-09-23T22:50:41Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7DeREh",
+          "commit": {
+            "abbreviatedOid": "4612752"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-29T12:22:53Z",
+          "updatedAt": "2025-09-29T12:22:53Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Accepted suggested changes - marking as resolved.",
+              "createdAt": "2025-09-29T12:22:53Z",
+              "updatedAt": "2025-09-29T12:22:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7DjPcG",
+          "commit": {
+            "abbreviatedOid": "98fff35"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-29T16:44:54Z",
+          "updatedAt": "2025-09-29T16:47:37Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "We need to update this language to take care of the case where there is no external authorization token. The part of the sentence \"...exchanges the authorization token for a transaction token\" reads like you assume there will always be an external authorization token",
+              "createdAt": "2025-09-29T16:44:54Z",
+              "updatedAt": "2025-09-29T16:47:37Z"
+            },
+            {
+              "originalPosition": 7,
+              "body": "This too feels a bit problematic. Even an internal call for replacing a transaction token could be over HTTP. I guess we always assumed there will be RFC8693, but I am wondering under what circumstances we should permit other means of requesting TraTs.",
+              "createdAt": "2025-09-29T16:46:57Z",
+              "updatedAt": "2025-09-29T16:47:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7DjjpA",
+          "commit": {
+            "abbreviatedOid": "98fff35"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-29T17:11:05Z",
+          "updatedAt": "2025-09-29T17:11:05Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "I originally had this as a SHOULD, but @gffletch and @bc-pi suggested a MUST here is better, so we are prescriptive when HTTP is used. We can change back to SHOULD, but would be good to align on this with the earlier review.",
+              "createdAt": "2025-09-29T17:11:05Z",
+              "updatedAt": "2025-09-29T17:11:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Djl2U",
+          "commit": {
+            "abbreviatedOid": "98fff35"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-29T17:13:17Z",
+          "updatedAt": "2025-09-29T17:13:17Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "@tulshi I think if you have no token, you send a selff-signed token, or even an unsigned token. Perhaps we just change the \"authorisation token\" to \"token\"?",
+              "createdAt": "2025-09-29T17:13:17Z",
+              "updatedAt": "2025-09-29T17:13:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Dlng3",
+          "commit": {
+            "abbreviatedOid": "98fff35"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-29T19:17:52Z",
+          "updatedAt": "2025-09-29T19:17:52Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "This whole paragraph is couched with \"typically\" to start with, \"Txn-Tokens are typically created ... \" so I don't think the case where there is no external authorization token is being precluded. ",
+              "createdAt": "2025-09-29T19:17:52Z",
+              "updatedAt": "2025-09-29T19:17:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Dlq4P",
+          "commit": {
+            "abbreviatedOid": "98fff35"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-29T19:22:18Z",
+          "updatedAt": "2025-09-29T19:22:18Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7DlsFU",
+          "commit": {
+            "abbreviatedOid": "98fff35"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-29T19:23:23Z",
+          "updatedAt": "2025-09-29T19:23:24Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "MUST seems right ",
+              "createdAt": "2025-09-29T19:23:23Z",
+              "updatedAt": "2025-09-29T19:23:24Z"
+            }
+          ]
         }
       ]
     },
@@ -15432,24 +15571,26 @@
       "id": "PR_kwDOJt_WwM6qEUR4",
       "title": "MUST instead of MAY on transaction lifetime",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/256",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See #210",
       "createdAt": "2025-09-23T12:54:53Z",
-      "updatedAt": "2025-09-24T15:01:48Z",
+      "updatedAt": "2025-09-29T15:25:14Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e998a30fee2c437a424d8bd1884e57eceb35ecf9",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-5",
       "headRefOid": "bc5e7f6b84a98aebee16f78c6d43548b11d46095",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-29T15:25:13Z",
+      "mergedAt": "2025-09-29T15:25:13Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "ba4d9e4426673f59abeeddfc8366abc1d15fc516"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15463,6 +15604,19 @@
           "body": "",
           "createdAt": "2025-09-23T17:58:20Z",
           "updatedAt": "2025-09-23T17:58:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Dh8Bt",
+          "commit": {
+            "abbreviatedOid": "bc5e7f6"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-09-29T15:24:44Z",
+          "updatedAt": "2025-09-29T15:24:44Z",
           "comments": []
         }
       ]
