@@ -964,7 +964,7 @@ Table of Contents
    Workloads MAY request replacement Txn-Tokens in order to change (add
    to, remove or modify) the asserted values within a Txn-Token.
 
-   The values of the sub and aud claims MUST remain unchanged in a
+   The values of the txn, sub and aud claims MUST remain unchanged in a
    replacement Txn-Token.  If the claim rctx is present in the original
    Txn-Token, then it MUST be present and unchanged in the replacement
    Txn-Token except for the req_wl claim which MUST be updated to
@@ -1503,6 +1503,9 @@ Since Draft 06
 
    *  Change document category from informational to standards track
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)
+
+   *  Clarify that txnshould remain unchanged when included in a
+      replacement transaction token.
 
 Since Draft 05
 

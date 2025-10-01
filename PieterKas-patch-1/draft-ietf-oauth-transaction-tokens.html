@@ -2207,7 +2207,7 @@ Cache-Control: no-store
         </h3>
 <p id="section-7.5-1">A workload within a call chain may request the Transaction Token Service to replace a Txn-Token.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
 <p id="section-7.5-2">Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
-<p id="section-7.5-3">The values of the <code>sub</code> and <code>aud</code> claims MUST remain unchanged in a replacement Txn-Token. If the claim <code>rctx</code> is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the <code>req_wl</code> claim which MUST be updated to include the requesting workload identifier.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+<p id="section-7.5-3">The values of the <code>txn</code>, <code>sub</code> and <code>aud</code> claims MUST remain unchanged in a replacement Txn-Token. If the claim <code>rctx</code> is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the <code>req_wl</code> claim which MUST be updated to include the requesting workload identifier.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
 <div id="txn-token-service-responsibilities">
 <section id="section-7.5.1">
           <h4 id="name-txn-token-service-responsib">
@@ -2782,6 +2782,9 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 </li>
           <li class="normal" id="appendix-B.1-1.9">
             <p id="appendix-B.1-1.9.1">Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.10">
+            <p id="appendix-B.1-1.10.1">Clarify that <code>txn</code>should remain unchanged when included in a replacement transaction token.<a href="#appendix-B.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
