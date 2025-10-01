@@ -694,7 +694,7 @@ Table of Contents
 
    *  request_context OPTIONAL.  This parameter contains a base64url
       encoded JSON object which represents the context of this
-      transaction.  Use of this parameter is RECOMMENDED.
+      transaction.
 
    *  request_details OPTIONAL.  This parameter contains a base64url
       encoded JSON object which represents additional details of the
