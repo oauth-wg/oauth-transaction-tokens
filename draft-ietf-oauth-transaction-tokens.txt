@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 2 April 2026                             Practical Identity LLC
+Expires: 4 April 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       29 September 2025
+                                                          1 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 April 2026.
+   This Internet-Draft will expire on 4 April 2026.
 
 Copyright Notice
 
@@ -964,7 +964,7 @@ Table of Contents
    Workloads MAY request replacement Txn-Tokens in order to change (add
    to, remove or modify) the asserted values within a Txn-Token.
 
-   The values of the sub and aud claims MUST remain unchanged in a
+   The values of the txn, sub and aud claims MUST remain unchanged in a
    replacement Txn-Token.  If the claim rctx is present in the original
    Txn-Token, then it MUST be present and unchanged in the replacement
    Txn-Token except for the req_wl claim which MUST be updated to
@@ -1500,6 +1500,9 @@ Since Draft 06
 
    *  Remove exp field from unsigend token (https://github.com/oauth-wg/
       oauth-transaction-tokens/issues/201)
+
+   *  Clarify that txnshould remain unchanged when included in a
+      replacement transaction token.
 
 Since Draft 05
 
