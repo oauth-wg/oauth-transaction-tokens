@@ -1501,6 +1501,9 @@ Since Draft 06
    *  Remove exp field from unsigend token (https://github.com/oauth-wg/
       oauth-transaction-tokens/issues/201)
 
+   *  Clarify that txnshould remain unchanged when included in a
+      replacement transaction token.
+
 Since Draft 05
 
    *  Strengthened prohibition on expanding TraT scope
