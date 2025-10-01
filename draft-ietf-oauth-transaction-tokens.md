@@ -462,7 +462,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 
 The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
 
-* `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. Use of this parameter is RECOMMENDED.
+* `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction.
 * `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
 
 The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.
