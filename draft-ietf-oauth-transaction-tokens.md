@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-cat: info # Check
+cat: std # Check
 submissiontype: IETF
 area: sec
 wg: oauth
@@ -800,6 +800,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
 * Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)
 * Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
+* Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)
 
 ## Since Draft 05
 {:numbered="false"}
