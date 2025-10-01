@@ -460,7 +460,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
   The type of the `subject_token` field is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
 
-The following additional parameters MAY be present in a Txn-Token Request:
+The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
 
 * `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. Use of this parameter is RECOMMENDED.
 * `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
