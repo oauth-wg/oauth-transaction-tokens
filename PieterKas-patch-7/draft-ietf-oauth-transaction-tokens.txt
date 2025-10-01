@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 21 March 2026                            Practical Identity LLC
+Expires: 4 April 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       17 September 2025
+                                                          1 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 March 2026.
+   This Internet-Draft will expire on 4 April 2026.
 
 Copyright Notice
 
@@ -689,8 +689,8 @@ Table of Contents
    *  subject_token_type REQUIRED.  The value MUST indicate the type of
       the token or value present in the subject_token parameter
 
-   The following additional parameters MAY be present in a Txn-Token
-   Request:
+   The following additional parameters are RECOMMENDED to be present in
+   a Txn-Token Request:
 
    *  request_context OPTIONAL.  This parameter contains a base64url
       encoded JSON object which represents the context of this
