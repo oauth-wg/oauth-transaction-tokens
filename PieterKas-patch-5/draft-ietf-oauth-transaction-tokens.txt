@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 28 March 2026                            Practical Identity LLC
+Expires: 4 April 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       24 September 2025
+                                                          1 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 March 2026.
+   This Internet-Draft will expire on 4 April 2026.
 
 Copyright Notice
 
@@ -939,8 +939,7 @@ Table of Contents
    *  The issued_token_type value MUST bet set to
       urn:ietf:params:oauth:token-type:txn_token
 
-   The Txn-Token Response MUST NOT include the values expires_in,
-   refresh_token and scope
+   The Txn-Token Response MUST NOT include the refresh_token value.
 
    Figure 7 shows a non-normative example of a Txn-Token Response.
 
@@ -1084,10 +1083,6 @@ Table of Contents
    Because Txn-Tokens are short-lived, the Txn-Token response from the
    Txn-Token service does not contain the refresh_token field.  A Txn-
    Token cannot be issued by presenting a refresh_token.
-
-   The expires_in field of the OAuth 2.0 Token Exchange specification
-   [RFC8693] is not used in Txn-Token responses since the issued token
-   has an exp field, which indicates the token lifetime.
 
 9.2.  Access Tokens
 
