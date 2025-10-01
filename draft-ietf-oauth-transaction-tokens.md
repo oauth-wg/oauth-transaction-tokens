@@ -617,7 +617,7 @@ A workload within a call chain may request the Transaction Token Service to repl
 
 Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.
 
-The values of the `sub` and `aud` claims MUST remain unchanged in a replacement Txn-Token. If the claim `rctx` is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the `req_wl` claim which MUST be updated to include the requesting workload identifier.
+The values of the `txn`, `sub` and `aud` claims MUST remain unchanged in a replacement Txn-Token. If the claim `rctx` is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the `req_wl` claim which MUST be updated to include the requesting workload identifier.
 
 ### Txn-Token Service Responsibilities
 When issuing replacement Txn-Tokens, a Txn-Token Service:
@@ -800,6 +800,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
 * Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)
 * Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
+* Clarify that `txn`should remain unchanged when included in a replacement transaction token.
 
 ## Since Draft 05
 {:numbered="false"}
