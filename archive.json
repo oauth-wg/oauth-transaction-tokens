@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-30T00:18:01.350699+00:00",
+  "timestamp": "2025-10-02T00:16:52.556573+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3811,7 +3811,7 @@
       "id": "I_kwDOJt_WwM7IDOMU",
       "title": "Rationale for 'txn' being REQUIRED",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/193",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -3820,8 +3820,8 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.10.1 \nIf \"txn\" is going to be required, and probably regardless, I think some more definition or at least rational is needed here.",
       "createdAt": "2025-08-26T16:09:03Z",
-      "updatedAt": "2025-09-15T11:58:56Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-01T18:53:20Z",
+      "closedAt": "2025-10-01T18:53:20Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4174,9 +4174,17 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-http-header\nThe \"txn-token\" header [field] should maybe also be constrained to a single value and is request only? Maybe some other things too that might be desirable for an HTTP header field definition. YMMV but there will likely be questions with its registration. \n",
       "createdAt": "2025-08-26T16:20:29Z",
-      "updatedAt": "2025-08-26T16:20:29Z",
+      "updatedAt": "2025-10-01T13:15:29Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi, @gffletch - can you take a look?",
+          "createdAt": "2025-10-01T13:15:29Z",
+          "updatedAt": "2025-10-01T13:15:29Z"
+        }
+      ]
     },
     {
       "number": 201,
@@ -4328,7 +4336,7 @@
       "labels": [],
       "body": "An Access Token can contain multiple scope-tokens where only one or two may be required to call a specific API gateway endpoint. The API gateway endpoint validates whether a specific scope-value is present in the presented Access Token before performing the operation. The Txn-Token-Service is being presented with this AccessToken and the scope request parameter defines the purpose of the Txn-Token to be issued. I wonder if it would make sense to use the scope request parameter to let the Txn-Token-Service know what particular scope-token of the presented Access Token was granting the access to the API gateway endpoint and use another request parameter (purp) to actually define the purpose of the Txn-Token.\n\nThis would allow the Txn-Token request to be a profile of Token Exchange while clearly separating scope and purpose request parameters.\n\nExample:\n\n- Client presents AT with scope \"mail storage addressbook\" which essentially grants access to the different API gateways of those respective systems.\n- The API gateway for mail receives this AT and validates that the AT contains the scope-token \"mail\".\n- The mail API gateway is requesting a Txn-Token with the purpose of sending a mail. The purpose value \"send-mail\" is being requested. To signal the Txn-Token-Service which scope-token was validated at the API gateway, the Txn-Token request contains the value \"mail\" in the scope parameter and the value \"send-mail\" will be in the \"purp\" request parameter.\n- The Txn-Token-Service can now validate if the \"scope\" request parameter is actually contained within the AT and it can determine whether the requested purpose is derivable from the specific scope value.\n",
       "createdAt": "2025-08-27T07:42:57Z",
-      "updatedAt": "2025-09-23T17:56:15Z",
+      "updatedAt": "2025-10-01T12:51:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -4337,6 +4345,13 @@
           "body": "This use case makes sense from an authorization perspective. However, this also gets to the point that pretty much every deployment has it's own unique authorization model.  I'm not sure how we cover all possibilities.\n\nIs it acceptable to only define the `scope` parameter and let specific deployments extend to say include an extra parameter that is unique to that authorization model (i.e. for this case add an implementation defined `purp` claim).\n\nI could also see just setting the `scope` parameter to `send-mail` and then ensuring the TTS has the authorization validation logic to ensure the access token contains the `mail` scope as one of the specified scopes.",
           "createdAt": "2025-09-23T17:56:15Z",
           "updatedAt": "2025-09-23T17:56:15Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "With the replacement of \"purp\" with \"scope\", can we close this issue?",
+          "createdAt": "2025-10-01T12:51:06Z",
+          "updatedAt": "2025-10-01T12:51:06Z"
         }
       ]
     },
@@ -4407,7 +4422,7 @@
       "id": "I_kwDOJt_WwM7IQx3S",
       "title": "Revise Normative Langugage",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/210",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4416,8 +4431,8 @@
       ],
       "body": "WGLC feedback from Joe Salowey\n\nsection 2.3 In the following sentence \"and as a result MAY be used only for the expected duration of an external invocation.\" the \"MAY\" seems incorrect as it doesn't add anything to the requirement.  It should be \"MUST\". \n",
       "createdAt": "2025-08-27T15:32:16Z",
-      "updatedAt": "2025-08-27T15:32:16Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-01T10:05:37Z",
+      "closedAt": "2025-10-01T10:05:37Z",
       "comments": []
     },
     {
@@ -14339,13 +14354,13 @@
       "labels": [],
       "body": "See issue #228 \r\n\r\nIn addition, the \"request_context\" is optional, so making it a SHOULD be included feels like maybe it is not optional. Instead the PR proposes language that says it is \"RECOMMENDED\".\r\n\r\n@tulshi @gffletch - please review.",
       "createdAt": "2025-09-08T10:47:25Z",
-      "updatedAt": "2025-09-17T11:28:37Z",
+      "updatedAt": "2025-10-01T12:49:18Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-7",
-      "headRefOid": "e31c5591405e58d07483a71d46a3d3dca6528e88",
+      "headRefOid": "e3a5e73504bb3ecb6981bbe136dba0cdaf24da33",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -14489,6 +14504,26 @@
               "body": "@gffletch - after trying a few options, I think your earlier suggestion makes sense to move the normative language out of the parameter description (and also getting rid of the contradiction).",
               "createdAt": "2025-09-17T11:21:37Z",
               "updatedAt": "2025-09-17T11:21:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ECYqF",
+          "commit": {
+            "abbreviatedOid": "b031088"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-01T12:49:12Z",
+          "updatedAt": "2025-10-01T12:49:12Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "They should be treated the same.",
+              "createdAt": "2025-10-01T12:49:12Z",
+              "updatedAt": "2025-10-01T12:49:12Z"
             }
           ]
         }
@@ -15203,7 +15238,7 @@
       "labels": [],
       "body": "See #189",
       "createdAt": "2025-09-18T11:35:06Z",
-      "updatedAt": "2025-09-29T19:23:24Z",
+      "updatedAt": "2025-09-30T10:56:45Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
@@ -15620,6 +15655,114 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 257,
+      "id": "PR_kwDOJt_WwM6rjRLZ",
+      "title": "Change to Standards Track from Informational",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/257",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See #169",
+      "createdAt": "2025-10-01T12:58:39Z",
+      "updatedAt": "2025-10-01T18:54:38Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "81df1cda3d9a97d286ae59da1672083ba670593b",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "69bc6263d5a5322c248984821f642cdc75473185",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7EC6iF",
+          "commit": {
+            "abbreviatedOid": "faf0c6b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-01T13:19:05Z",
+          "updatedAt": "2025-10-01T13:19:05Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 258,
+      "id": "PR_kwDOJt_WwM6rjbhg",
+      "title": "`txn` remains unchanged in a replacement transaction token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/258",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Seee #193",
+      "createdAt": "2025-10-01T13:10:22Z",
+      "updatedAt": "2025-10-01T13:18:43Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "ba4d9e4426673f59abeeddfc8366abc1d15fc516",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "8913f8fc3b4344308ba1d216c82f686c69c4400e",
+      "closedAt": "2025-10-01T13:18:41Z",
+      "mergedAt": "2025-10-01T13:18:41Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "81df1cda3d9a97d286ae59da1672083ba670593b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7EC6ED",
+          "commit": {
+            "abbreviatedOid": "8913f8f"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-01T13:18:33Z",
+          "updatedAt": "2025-10-01T13:18:34Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 259,
+      "id": "PR_kwDOJt_WwM6rjlRF",
+      "title": "Remove prohibition on returning expires_in and scope",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/259",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See #202",
+      "createdAt": "2025-10-01T13:21:35Z",
+      "updatedAt": "2025-10-01T13:21:58Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "81df1cda3d9a97d286ae59da1672083ba670593b",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-5",
+      "headRefOid": "82931f8ae8e24ba70b43e196f18d9e41ebb66215",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
