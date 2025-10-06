@@ -2178,7 +2178,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
             <p id="section-7.4-2.3.1">The <code>issued_token_type</code> value MUST bet set to <code>urn:ietf:params:oauth:token-type:txn_token</code><a href="#section-7.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.4-3">The Txn-Token Response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">The Txn-Token Response MUST NOT include the <code>refresh_token</code> value.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
 <p id="section-7.4-4"><a href="#figtxtokenresponse" class="auto internal xref">Figure 7</a> shows a non-normative example of a Txn-Token Response.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-response"></span><div id="figtxtokenresponse">
 <figure id="figure-7">
@@ -2326,7 +2326,6 @@ Cache-Control: no-store
         </h3>
 <p id="section-9.1-1">A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the <code>refresh_token</code> field. A Txn-Token cannot be issued by presenting a <code>refresh_token</code>.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
-<p id="section-9.1-3">The <code>expires_in</code> field of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> is not used in Txn-Token responses since the issued token has an <code>exp</code> field, which indicates the token lifetime.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="access-tokens">

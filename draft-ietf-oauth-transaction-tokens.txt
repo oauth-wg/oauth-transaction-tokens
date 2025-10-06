@@ -944,8 +944,7 @@ Table of Contents
    *  The issued_token_type value MUST bet set to
       urn:ietf:params:oauth:token-type:txn_token
 
-   The Txn-Token Response MUST NOT include the values expires_in,
-   refresh_token and scope
+   The Txn-Token Response MUST NOT include the refresh_token value.
 
    Figure 7 shows a non-normative example of a Txn-Token Response.
 
@@ -1089,10 +1088,6 @@ Table of Contents
    Because Txn-Tokens are short-lived, the Txn-Token response from the
    Txn-Token service does not contain the refresh_token field.  A Txn-
    Token cannot be issued by presenting a refresh_token.
-
-   The expires_in field of the OAuth 2.0 Token Exchange specification
-   [RFC8693] is not used in Txn-Token responses since the issued token
-   has an exp field, which indicates the token lifetime.
 
 9.2.  Access Tokens
 
