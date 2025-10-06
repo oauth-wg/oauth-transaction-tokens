@@ -597,7 +597,7 @@ A successful response to a Txn-Token Request by a Transaction Token Service is c
 * The `access_token` value MUST be the Txn-Token JWT
 * The `issued_token_type` value MUST bet set to `urn:ietf:params:oauth:token-type:txn_token`
 
-The Txn-Token Response MUST NOT include the values `expires_in`, `refresh_token` and `scope`
+The Txn-Token Response MUST NOT include the `refresh_token` value.
 
 {{figtxtokenresponse}} shows a non-normative example of a Txn-Token Response.
 
@@ -667,8 +667,6 @@ A workload that invokes another workload using HTTP and needs to present a Txn-T
 A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.
 
 Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the `refresh_token` field. A Txn-Token cannot be issued by presenting a `refresh_token`.
-
-The `expires_in` field of the OAuth 2.0 Token Exchange specification {{RFC8693}} is not used in Txn-Token responses since the issued token has an `exp` field, which indicates the token lifetime.
 
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
