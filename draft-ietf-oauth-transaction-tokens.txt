@@ -4,11 +4,11 @@
 
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
-Intended status: Informational                               G. Fletcher
-Expires: 4 April 2026                             Practical Identity LLC
+Intended status: Standards Track                             G. Fletcher
+Expires: 9 April 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                          1 October 2025
+                                                          6 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 April 2026.
+   This Internet-Draft will expire on 9 April 2026.
 
 Copyright Notice
 
@@ -1500,6 +1500,9 @@ Since Draft 06
 
    *  Remove exp field from unsigend token (https://github.com/oauth-wg/
       oauth-transaction-tokens/issues/201)
+
+   *  Change document category from informational to standards track
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)
 
    *  Clarify that txnshould remain unchanged when included in a
       replacement transaction token.
