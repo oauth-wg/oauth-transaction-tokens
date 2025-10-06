@@ -1459,23 +1459,24 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           <h4 id="name-initial-creation">
 <a href="#section-2.2.1" class="section-number selfRef">2.2.1. </a><a href="#name-initial-creation" class="section-name selfRef">Initial Creation</a>
           </h4>
-<p id="section-2.2.1-1">Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> access token. This workload then performs an OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> to obtain a Txn-Token. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-1">Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> access token. The externally visible endpoint exchanges the external authorization token for a transaction token before sending it to the workload. The transaction token may be obtained through a local interface, or it may be requested from a remote server.<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-2">If the transaction token request is made via HTTP to a remote server, it MUST use <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> as described in this specification. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:<a href="#section-2.2.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.2.1-2.1">
-              <p id="section-2.2.1-2.1.1">The external authorization token (e.g., the OAuth access token)<a href="#section-2.2.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.2.1-3.1">
+              <p id="section-2.2.1-3.1.1">The external authorization token (e.g., the OAuth access token)<a href="#section-2.2.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-2.2.1-2.2">
-              <p id="section-2.2.1-2.2.1">An internally generated JWT representing the subject of the request<a href="#section-2.2.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-2.2.1-3.2">
+              <p id="section-2.2.1-3.2.1">An internally generated JWT representing the subject of the request<a href="#section-2.2.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-2.2.1-2.3">
-              <p id="section-2.2.1-2.3.1">Parameters that are required to be bound for the duration of this call<a href="#section-2.2.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-2.2.1-3.3">
+              <p id="section-2.2.1-3.3.1">Parameters that are required to be bound for the duration of this call<a href="#section-2.2.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-2.2.1-2.4">
-              <p id="section-2.2.1-2.4.1">Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token<a href="#section-2.2.1-2.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-2.2.1-3.4">
+              <p id="section-2.2.1-3.4.1">Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token<a href="#section-2.2.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-2.2.1-3">The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
-<p id="section-2.2.1-4">If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.<a href="#section-2.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-4">The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.<a href="#section-2.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-5">If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.<a href="#section-2.2.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="replacement-txn-tokens">
@@ -1993,7 +1994,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
       <h2 id="name-txn-token-service">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-txn-token-service" class="section-name selfRef">Txn-Token Service</a>
       </h2>
-<p id="section-6-1">A Txn-Token Service implements a profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> endpoint that can respond to Txn-Token issuance requests. This profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> specification MUST be used to obtain Txn-Tokens. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">A Txn-Token Service uses <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> as described in this specification if it issues transaction tokens in response to HTTP requests. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2002,7 +2003,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
       <h2 id="name-requesting-txn-tokens">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-requesting-txn-tokens" class="section-name selfRef">Requesting Txn-Tokens</a>
       </h2>
-<p id="section-7-1">A workload requests a Txn-Token from a Transaction Token Service using a profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> is described below.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">A workload requests a Txn-Token from a Transaction Token Service. If the transaction token request is made via HTTP to a remote server, it MUST use <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> as described in this specification. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> is described below.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <div id="txn-token-request">
 <section id="section-7.1">
         <h3 id="name-txn-token-request">
