@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-05T00:19:49.394536+00:00",
+  "timestamp": "2025-10-07T00:18:11.863379+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -15231,24 +15231,26 @@
       "id": "PR_kwDOJt_WwM6pRTdb",
       "title": "Allow for alternatives to RFC8693",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/254",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See #189",
       "createdAt": "2025-09-18T11:35:06Z",
-      "updatedAt": "2025-10-03T12:08:48Z",
+      "updatedAt": "2025-10-06T23:40:29Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-9",
       "headRefOid": "98fff35f6b6d1a4a9922c995d7cafd6aecd0673c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-10-06T23:40:27Z",
+      "mergedAt": "2025-10-06T23:40:27Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "f02bdaf999f4e2cfc5ea2897ab08d0333e181b87"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -15563,6 +15565,19 @@
               "updatedAt": "2025-10-03T12:08:48Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7FKejK",
+          "commit": {
+            "abbreviatedOid": "98fff35"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-06T23:40:21Z",
+          "updatedAt": "2025-10-06T23:40:21Z",
+          "comments": []
         }
       ]
     },
@@ -15681,24 +15696,26 @@
       "id": "PR_kwDOJt_WwM6rjRLZ",
       "title": "Change to Standards Track from Informational",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/257",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See #169",
       "createdAt": "2025-10-01T12:58:39Z",
-      "updatedAt": "2025-10-03T20:46:16Z",
+      "updatedAt": "2025-10-06T23:37:58Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "81df1cda3d9a97d286ae59da1672083ba670593b",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "69bc6263d5a5322c248984821f642cdc75473185",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-10-06T23:37:56Z",
+      "mergedAt": "2025-10-06T23:37:56Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "438026f64ba074570262e4a0588ab23cc276f343"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15725,6 +15742,19 @@
           "body": "",
           "createdAt": "2025-10-03T20:46:16Z",
           "updatedAt": "2025-10-03T20:46:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7FKdy5",
+          "commit": {
+            "abbreviatedOid": "69bc626"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-06T23:37:51Z",
+          "updatedAt": "2025-10-06T23:37:51Z",
           "comments": []
         }
       ]
@@ -15776,26 +15806,42 @@
       "id": "PR_kwDOJt_WwM6rjlRF",
       "title": "Remove prohibition on returning expires_in and scope",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/259",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See #202",
       "createdAt": "2025-10-01T13:21:35Z",
-      "updatedAt": "2025-10-01T13:21:58Z",
+      "updatedAt": "2025-10-06T23:41:46Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "81df1cda3d9a97d286ae59da1672083ba670593b",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-5",
       "headRefOid": "82931f8ae8e24ba70b43e196f18d9e41ebb66215",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-10-06T23:41:44Z",
+      "mergedAt": "2025-10-06T23:41:44Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "521e1296e5aaf0220ad0372de42d58aa0aadeac2"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7FKe83",
+          "commit": {
+            "abbreviatedOid": "82931f8"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-06T23:41:39Z",
+          "updatedAt": "2025-10-06T23:41:39Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
