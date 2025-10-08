@@ -906,7 +906,7 @@ Table of Contents
       This claim MUST be omitted if not set.
 
    *  The Transaction Token Service MUST evaluate the value specified in
-      the scope parameter of the request to determine the purp claim of
+      the scope parameter of the request to determine the scope claim of
       the issued Txn-Token.
 
    *  If a request_context parameter is present in the Txn-Token

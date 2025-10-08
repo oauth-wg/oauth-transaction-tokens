@@ -2174,7 +2174,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
             <p id="section-7.3-2.8.1">The Transaction Token Service MAY set the <code>iss</code> claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.<a href="#section-7.3-2.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-2.9">
-            <p id="section-7.3-2.9.1">The Transaction Token Service MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>purp</code> claim of the issued Txn-Token.<a href="#section-7.3-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-2.9.1">The Transaction Token Service MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token.<a href="#section-7.3-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-2.10">
             <p id="section-7.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the <code>rctx</code> object as the <code>req_wl</code> claim.<a href="#section-7.3-2.10.1" class="pilcrow">¶</a></p>
