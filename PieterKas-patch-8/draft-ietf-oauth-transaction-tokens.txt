@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Informational                               G. Fletcher
-Expires: 27 March 2026                            Practical Identity LLC
+Expires: 11 April 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                                    SPIRL
-                                                       23 September 2025
+                                                          8 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 March 2026.
+   This Internet-Draft will expire on 11 April 2026.
 
 Copyright Notice
 
@@ -874,7 +874,7 @@ Table of Contents
 
    *  MUST validate the requesting workload client authentication and
       determine if that workload is authorized to obtain the Txn-Tokens
-      with the requested values.  The authorization policy for
+      with the requested value(s).  The authorization policy for
       determining such issuance is out of scope for this specification.
 
    *  Next, the Transaction Token Service MUST validate the
