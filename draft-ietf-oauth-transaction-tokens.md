@@ -568,7 +568,7 @@ The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY
 ## Txn-Token Request Processing
 When the Transaction Token Service receives a Txn-Token Request it:
 
-* MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
+* MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested value(s). The authorization policy for determining such issuance is out of scope for this specification.
 * Next, the Transaction Token Service MUST validate the `subject_token`, including verifying the signature, if it is signed.
 * The Txn-Token Service determines the value to specify as the `sub` of the Txn-Token and MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
 * The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
