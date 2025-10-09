@@ -122,14 +122,14 @@ informative:
     - org: Cloud Native Computing Foundation
 
 --- abstract
-Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external programmatic requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.
+Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.
 --- middle
 
 # Introduction
 
-Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
+Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
 
-* Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present.
+* Invocations of workloads in the network without any explicit transaction invocation being present.
 * Arbitrary user impersonation.
 * Parameter modification or augmentation.
 * Theft of tokens, such as OAuth access tokens, used to call external interfaces and passed to internal workloads to convey authorization context.
@@ -137,12 +137,12 @@ Modern computing architectures often use multiple independently running componen
 The results of these actions are unauthorized access to resources.
 
 # Overview
-Transaction Tokens (Txn-Token) are a means to mitigate damage from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet facing API invocation) other transactions are initiated from within the trusted domain. Transaction tokens apply to both externally triggered and internally invoked transactions and ensure that the user's identity or a workload that made the request is preserved throughout subsequent workload invocations.
+Transaction Tokens (Txn-Token) reduce the risks from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet facing API invocation) other transactions are initiated from within the trusted domain. Transaction tokens apply to both externally triggered and internally invoked transactions and ensure that the user's identity or a workload that made the request is preserved throughout subsequent workload invocations.
 They preserve any context such as:
 
 * Parameters of the original call
 * Environmental factors, such as IP address of the original caller
-* Any computed context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.
+* Any context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.
 
 Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an intentionally invoked transaction.
 
@@ -174,10 +174,10 @@ A service within a call chain may choose to replace the Txn-Token. This can typi
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must be careful about the types of replacement requests it supports to avoid undermining the entire value of Txn-Tokens.
 
 ## Txn-Token Lifetime
-Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.
+Txn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.
 
 ## Benefits of Txn-Tokens
-Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.
+Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call.
 
 ## Txn-Token Issuance and Usage Flows
 
@@ -401,7 +401,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}.
 
 `sub`:
-: REQUIRED A unique identifier for the subject within the context of the `aud` Trust Domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
+: REQUIRED A unique identifier for the subject within the context of the `aud` Trust Domain.
 
 `scope`:
 : REQUIRED The scope claim is defined in {{Section 4.2 of RFC8693}}. Note that the value of this claim is determined by the Transaction Token Service and is not required to match the requested scope nor the scope in any supplied external token.
@@ -429,7 +429,7 @@ The Txn-Token SHOULD contain an `tctx` claim. The value of this claim is a JSON 
 
 Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.
 
-Whereas the `rctx` field contains environmental values related to the request, the `tctx` field contains the actual authorizaton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `tctx` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
+Whereas the `rctx` field contains environmental values related to the request, the `tctx` field contains the actual authorizaton details that are determined by the Txn-Token Service. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the `tctx` field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.
 
 The following is a non-normative example of an `tctx` claim initiated by an external call:
 
@@ -580,7 +580,7 @@ The Transaction Token Service MUST set the `exp` claim to the expiry time of the
 
 The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 
-The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.
+The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. 
 
 The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token. The value of this claim, as issued by the Transaction Token Service, does not need to match the requested `scope` value as the Txn-Token `scope` claim represents the intent or purpose of the transaction within the Trust Domain.
 
@@ -701,7 +701,7 @@ A workload may accidently send a transaction token request to a service that is 
 The Transaction Token Service may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of {{OpenIdConnect}}.
 
 ## Transaction Tokens Are Not Authentication Credentials
-A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in [Mutual Authentication of the Txn-Token Request]{Mutual-Authentication-of-the-Txn-Token-Request}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.
+A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in {{Mutual-Authentication-of-the-Txn-Token-Request}}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.
 
 # Privacy Considerations {#Privacy}
 
@@ -745,7 +745,7 @@ This specification registers the following token type identifiers to the "OAuth 
 * Claim Name: `rctx`
   * Claim Description: The requester context
   * Change Controller: IETF
-  * Specification Document: Section {{requester-context}} of this specification
+  * Specification Document: Section {{txn-token-claims}} of this specification
 
 ## IANA Media Type Registration Contents
 The following entry will be proposed using the IANA Media Type registration {{IANA.MediaTypes}} form.
@@ -802,6 +802,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
 * Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)
 * Clarify that `txn`should remain unchanged when included in a replacement transaction token.
+* Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)
 
 ## Since Draft 05
 {:numbered="false"}
