@@ -637,7 +637,7 @@ To request a replacement Txn-Token, the requester makes a Txn-Token Request as d
 ### Replacement Txn-Token Response
 A successful response by the Txn-Token Service to a Replacement Txn-Token Request is a Txn-Token Response as described in {{txn-token-response}}
 
-## Mutual Authentication of the Txn-Token Request
+## Mutual Authentication of the Txn-Token Request {#Mutual-Authentication}
 A workload and Transaction Token Service MUST perform mutual authentication.
 
 A Txn-Token Service MUST ensure that it authenticates any workloads requesting Txn-Tokens. In order to do so:
@@ -701,7 +701,7 @@ A workload may accidently send a transaction token request to a service that is 
 The Transaction Token Service may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of {{OpenIdConnect}}.
 
 ## Transaction Tokens Are Not Authentication Credentials
-A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in {{Mutual-Authentication-of-the-Txn-Token-Request}}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.
+A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in {{Mutual-Authentication}}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.
 
 # Privacy Considerations {#Privacy}
 
