@@ -580,7 +580,7 @@ The Transaction Token Service MUST set the `exp` claim to the expiry time of the
 
 The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 
-The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. 
+The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token.
 
 The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token. The value of this claim, as issued by the Transaction Token Service, does not need to match the requested `scope` value as the Txn-Token `scope` claim represents the intent or purpose of the transaction within the Trust Domain.
 
