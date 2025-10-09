@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-07T00:18:11.863379+00:00",
+  "timestamp": "2025-10-09T00:17:42.516223+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3532,11 +3532,13 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "From the MCP Community chat:\n\nFrederick (ffkiv_02286) wrote\n\n```\n7.2.2.  Unsigned JSON Object Subject Token Type\n\n   A requester MAY use an unsigned JSON object as a subject_token value.\n   In that case, the requester MUST set the subject_token_type value to:\n   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the\n   subject_token field MUST be the BASE64URL encoded value of the JSON\n   object as described in Section 5 of [RFC6848].  The JSON object in\n   the subject token MUST contain the following fields:\n```\n\nit's unclear if the subject_token is always supposed to be base64url or only when unsigned. the examples show it always baser64url encoded, might be good to call out these encoding requirements in a more prominent place.\nso interpretation could be: always, or only when unencrypted",
       "createdAt": "2025-07-21T17:21:52Z",
-      "updatedAt": "2025-08-05T12:51:48Z",
+      "updatedAt": "2025-10-08T23:29:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -3559,6 +3561,13 @@
           "body": "I think the expectation is that the value of the parameter is in base64url form. We can make that explicit if necessary.",
           "createdAt": "2025-08-05T12:51:48Z",
           "updatedAt": "2025-08-05T12:51:48Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch can you propose a PR for this change?",
+          "createdAt": "2025-10-08T23:29:26Z",
+          "updatedAt": "2025-10-08T23:29:26Z"
         }
       ]
     },
@@ -3684,7 +3693,7 @@
       "id": "I_kwDOJt_WwM7ICN7s",
       "title": "Allow Gateways to issue Tx-token to self without using RFC8693",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/189",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -3694,8 +3703,8 @@
       ],
       "body": "WGLC Feedback from @bc-pi : \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-initial-creation and 1-3 https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-basic-flow and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-service and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7 and maybe elsewhere like https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-6\nI believe it'd be worthwhile to account/allow for the case where the gateway or external endpoint that handles the invocation from the outside to itself act as the Txn-Token Service and do the \"exchange\" and issuance of the Txn-Token internally without an RFC8693 Token Exchange call.",
       "createdAt": "2025-08-26T15:00:45Z",
-      "updatedAt": "2025-09-18T11:26:50Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-08T23:30:37Z",
+      "closedAt": "2025-10-08T23:30:37Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4114,7 +4123,7 @@
       "id": "I_kwDOJt_WwM7IDVG8",
       "title": "Client Authentication Mechanisms",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/198",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4123,8 +4132,8 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-6 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-mutual-authentication-of-th\nI know there's some desire to use OAuth 2.0 Token Exchange [RFC8693] without necessarily pulling in all the other features/baggage of being an full blown authorization server but I find it hard to reconcile that a requesting workload is required to authenticate, the exact client authentication mechanism is out of scope, there are quite a few exact normative requirements about client authentication mechanisms (including a MUST on pre-configured sets?!), and there's no mention or acknowledgement of the existing standardized mechanisms for client authentication to an authorization server.  Self-signed subject tokens and actor tokens seem potentially topically relevant as well.\n\nAlso\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-client-authentication \nThe first sentence is redundant with OAuth 2.0 Token Exchange itself. Sometimes restating things is worthwhile but I don't think that's the case here. \nThe second sentence with \"the actor_token MUST authenticate the identity of the requesting workload\" seems overly restrictive. What if the authentication has happened via other means and the actor_token is there to convey some other notion of delegation or something? \nThere's a lot more to \"Client Authentication\", the section name, than these two sentences. Consider something different. Or something.\n",
       "createdAt": "2025-08-26T16:18:03Z",
-      "updatedAt": "2025-09-01T18:36:35Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-08T23:31:18Z",
+      "closedAt": "2025-10-08T23:31:18Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4147,7 +4156,7 @@
       "id": "I_kwDOJt_WwM7IDVuQ",
       "title": "Server Authentication Clarification",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/199",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4156,8 +4165,8 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.6-4 \nSome of the bullets suggest authentication of the server via JWT, which is probably not a good idea here (or anywhere?). \n",
       "createdAt": "2025-08-26T16:18:56Z",
-      "updatedAt": "2025-08-26T16:19:06Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-08T23:31:35Z",
+      "closedAt": "2025-10-08T23:31:35Z",
       "comments": []
     },
     {
@@ -4168,13 +4177,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-http-header\nThe \"txn-token\" header [field] should maybe also be constrained to a single value and is request only? Maybe some other things too that might be desirable for an HTTP header field definition. YMMV but there will likely be questions with its registration. \n",
       "createdAt": "2025-08-26T16:20:29Z",
-      "updatedAt": "2025-10-01T13:15:29Z",
+      "updatedAt": "2025-10-08T23:33:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -4239,7 +4250,7 @@
       "id": "I_kwDOJt_WwM7IDaAj",
       "title": "Consider allowing \"expires_in\" parameter",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/202",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4248,8 +4259,8 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.4-3\nMUST NOT on expires_in and scope here seems unnecessary and limiting, no? With some reconciling of scope and purp, as alluded to previously, scope could be useful to know without digging into the Txn-Token. And expires_in is RECOMMENDED RFC8693 \n\nAlso see:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-9.1-3 \nAs the comment above, I disagree with this. Discussing scope and purp in \"Txn-Token Lifetime\" is also kinda odd.",
       "createdAt": "2025-08-26T16:25:25Z",
-      "updatedAt": "2025-09-04T18:31:47Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-08T23:32:54Z",
+      "closedAt": "2025-10-08T23:32:54Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4310,7 +4321,7 @@
       "labels": [],
       "body": "From OAuth RFC, we know that scope is a list of strings (space-separated) where each string (a.k.a. scope-token) represents a separate access granted with the Access Token. The order of the scope-tokens does not matter. They are not related.  (See https://www.rfc-editor.org/rfc/rfc6749#section-3.3). Resource servers may only require one particular scope-token to be present while ignoring all the others.\n\nI understand that the purpose of the Txn-Token is rather unique. It defines the specific operation to be performed. Yet, the transaction token draft also defines this value as a list of space-separated strings. My current understanding is that those strings are actually related and that the order is important contrary to how scope for Access Tokens works. I think the purpose value should not be seen as a list of strings, but rather seen in its entirety as a unique value defining the overall operation being performed. So I think it may cause confusion if we actually allowed space in the purpose value as implementers might assume the content is interpreted similar to scope.",
       "createdAt": "2025-08-27T07:19:57Z",
-      "updatedAt": "2025-09-16T12:53:55Z",
+      "updatedAt": "2025-10-09T00:17:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -4319,6 +4330,13 @@
           "body": "This again gets to the authorization model within the trust domain. Do all workloads receiving the transaction token understand all single-value purpose strings (now `scope`) or are they looking for something more narrow that applies to the specific workload? Maybe we could recommend just using one value? but I think it depends on how the authorization model works in the trust domain whether multiple are needed or not. This is why the Transaction Token Service is authoritative for the value(s) in that claim.\n\nOne of the hard parts of defining transaction tokens is the lack of consistent deployed authorization models :)",
           "createdAt": "2025-09-16T12:53:55Z",
           "updatedAt": "2025-09-16T12:53:55Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch - from your response, I think there is no change needed - the transaction token service authoritative for the values of the claim - and that is also deployment specific?",
+          "createdAt": "2025-10-09T00:17:36Z",
+          "updatedAt": "2025-10-09T00:17:36Z"
         }
       ]
     },
@@ -5082,6 +5100,22 @@
           "updatedAt": "2025-09-15T16:19:17Z"
         }
       ]
+    },
+    {
+      "number": 260,
+      "id": "I_kwDOJt_WwM7Qc1_C",
+      "title": "Review Acknowledgements Section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/260",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-acknowledgements\n\nI do appreciate the Contributors section below (and being in it) but I suspect it is missing some people that could/should be listed here in the Acknowledgements. But if Acknowledgments is only going to thank \"the contributors and the OAuth working group members\" then maybe just remove it?",
+      "createdAt": "2025-10-09T00:06:03Z",
+      "updatedAt": "2025-10-09T00:06:03Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -15111,13 +15145,13 @@
       "labels": [],
       "body": "See #214",
       "createdAt": "2025-09-18T11:13:03Z",
-      "updatedAt": "2025-09-23T18:13:30Z",
+      "updatedAt": "2025-10-08T23:25:41Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "e998a30fee2c437a424d8bd1884e57eceb35ecf9",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-8",
-      "headRefOid": "5adb8cc198470c3efe8e53fcec64088c80d1941a",
+      "headRefOid": "be59dd7967f00f8ae149cd466736ce1d36bd5086",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -15221,6 +15255,46 @@
               "body": "Is adding the requesting workload a SHOULD because we don't want to be too prescriptive? My preference would be to make this a MUST.",
               "createdAt": "2025-09-23T18:13:30Z",
               "updatedAt": "2025-09-23T18:13:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7FsiVR",
+          "commit": {
+            "abbreviatedOid": "0fa48dc"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-08T23:22:17Z",
+          "updatedAt": "2025-10-08T23:22:18Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "@gffletch - it is up to the transaction token service to determine the \"sub\" claim. The way in which that is interpreted is domain specific. ",
+              "createdAt": "2025-10-08T23:22:17Z",
+              "updatedAt": "2025-10-08T23:22:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7FsjZe",
+          "commit": {
+            "abbreviatedOid": "be59dd7"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-08T23:25:41Z",
+          "updatedAt": "2025-10-08T23:25:41Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "@gffletch This PR was about making it clear that the signature should be validated (the additional text is just re-formatting). Perhaps @tulshi can add context on why the original text had a SHOULD vs MUST.",
+              "createdAt": "2025-10-08T23:25:41Z",
+              "updatedAt": "2025-10-08T23:25:41Z"
             }
           ]
         }
@@ -15842,6 +15916,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 261,
+      "id": "PR_kwDOJt_WwM6sy7sE",
+      "title": "Editorial updates",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/261",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See #204",
+      "createdAt": "2025-10-09T00:07:33Z",
+      "updatedAt": "2025-10-09T00:13:51Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "521e1296e5aaf0220ad0372de42d58aa0aadeac2",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "da23bdb0f7c787a90cfb7cd3282f7cb3fa4edd95",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
