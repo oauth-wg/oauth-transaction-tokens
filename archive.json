@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-09T00:17:42.516223+00:00",
+  "timestamp": "2025-10-12T00:18:54.045705+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4312,7 +4312,7 @@
       "id": "I_kwDOJt_WwM7IK8IM",
       "title": "purpose containing multiple space-delimited strings",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/205",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4321,8 +4321,8 @@
       "labels": [],
       "body": "From OAuth RFC, we know that scope is a list of strings (space-separated) where each string (a.k.a. scope-token) represents a separate access granted with the Access Token. The order of the scope-tokens does not matter. They are not related.  (See https://www.rfc-editor.org/rfc/rfc6749#section-3.3). Resource servers may only require one particular scope-token to be present while ignoring all the others.\n\nI understand that the purpose of the Txn-Token is rather unique. It defines the specific operation to be performed. Yet, the transaction token draft also defines this value as a list of space-separated strings. My current understanding is that those strings are actually related and that the order is important contrary to how scope for Access Tokens works. I think the purpose value should not be seen as a list of strings, but rather seen in its entirety as a unique value defining the overall operation being performed. So I think it may cause confusion if we actually allowed space in the purpose value as implementers might assume the content is interpreted similar to scope.",
       "createdAt": "2025-08-27T07:19:57Z",
-      "updatedAt": "2025-10-09T00:17:36Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-10T06:22:44Z",
+      "closedAt": "2025-10-10T06:22:44Z",
       "comments": [
         {
           "author": "gffletch",
@@ -4337,6 +4337,20 @@
           "body": "@gffletch - from your response, I think there is no change needed - the transaction token service authoritative for the values of the claim - and that is also deployment specific?",
           "createdAt": "2025-10-09T00:17:36Z",
           "updatedAt": "2025-10-09T00:17:36Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@obfuscoder I don't believe the order is important in the new \"scope\" claim of the transaction token. I believe the best option is to not make the claim ordered in any way. I plan to close this ticket in the next couple of days. Let us know if you think a spec wording change is needed.",
+          "createdAt": "2025-10-09T20:46:34Z",
+          "updatedAt": "2025-10-09T20:46:34Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "With the latest update to scope the meaning is more clear and I also agree that it is now less likely that the importance of order is assumed. I'll close the issue.",
+          "createdAt": "2025-10-10T06:22:44Z",
+          "updatedAt": "2025-10-10T06:22:44Z"
         }
       ]
     },
@@ -4345,7 +4359,7 @@
       "id": "I_kwDOJt_WwM7ILOWP",
       "title": "Relation of purpose to scope validated at API gateway",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/206",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4354,8 +4368,8 @@
       "labels": [],
       "body": "An Access Token can contain multiple scope-tokens where only one or two may be required to call a specific API gateway endpoint. The API gateway endpoint validates whether a specific scope-value is present in the presented Access Token before performing the operation. The Txn-Token-Service is being presented with this AccessToken and the scope request parameter defines the purpose of the Txn-Token to be issued. I wonder if it would make sense to use the scope request parameter to let the Txn-Token-Service know what particular scope-token of the presented Access Token was granting the access to the API gateway endpoint and use another request parameter (purp) to actually define the purpose of the Txn-Token.\n\nThis would allow the Txn-Token request to be a profile of Token Exchange while clearly separating scope and purpose request parameters.\n\nExample:\n\n- Client presents AT with scope \"mail storage addressbook\" which essentially grants access to the different API gateways of those respective systems.\n- The API gateway for mail receives this AT and validates that the AT contains the scope-token \"mail\".\n- The mail API gateway is requesting a Txn-Token with the purpose of sending a mail. The purpose value \"send-mail\" is being requested. To signal the Txn-Token-Service which scope-token was validated at the API gateway, the Txn-Token request contains the value \"mail\" in the scope parameter and the value \"send-mail\" will be in the \"purp\" request parameter.\n- The Txn-Token-Service can now validate if the \"scope\" request parameter is actually contained within the AT and it can determine whether the requested purpose is derivable from the specific scope value.\n",
       "createdAt": "2025-08-27T07:42:57Z",
-      "updatedAt": "2025-10-03T12:09:34Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-10T06:27:03Z",
+      "closedAt": "2025-10-10T06:27:03Z",
       "comments": [
         {
           "author": "gffletch",
@@ -4370,6 +4384,20 @@
           "body": "@gffletch With the replacement of \"purp\" with \"scope\", can we close this issue?",
           "createdAt": "2025-10-01T12:51:06Z",
           "updatedAt": "2025-10-03T12:09:34Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@obfuscoder are you good with my response? I'm planning to close this issue in the next couple of days.",
+          "createdAt": "2025-10-09T20:42:52Z",
+          "updatedAt": "2025-10-09T20:42:52Z"
+        },
+        {
+          "author": "obfuscoder",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Replacing purp with scope makes the possible relation / narrowing down of scope more straightforward. There is no need to explain the obvious anymore. Thank you. Closing.",
+          "createdAt": "2025-10-10T06:27:03Z",
+          "updatedAt": "2025-10-10T06:27:03Z"
         }
       ]
     },
@@ -5114,6 +5142,46 @@
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-acknowledgements\n\nI do appreciate the Contributors section below (and being in it) but I suspect it is missing some people that could/should be listed here in the Acknowledgements. But if Acknowledgments is only going to thank \"the contributors and the OAuth working group members\" then maybe just remove it?",
       "createdAt": "2025-10-09T00:06:03Z",
       "updatedAt": "2025-10-09T00:06:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 262,
+      "id": "I_kwDOJt_WwM7QwFO9",
+      "title": "018874576",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/262",
+      "state": "CLOSED",
+      "author": "pinesoelin6-lab",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-10T10:25:05Z",
+      "updatedAt": "2025-10-10T10:26:05Z",
+      "closedAt": "2025-10-10T10:25:15Z",
+      "comments": [
+        {
+          "author": "pinesoelin6-lab",
+          "authorAssociation": "NONE",
+          "body": "Hihi",
+          "createdAt": "2025-10-10T10:26:05Z",
+          "updatedAt": "2025-10-10T10:26:05Z"
+        }
+      ]
+    },
+    {
+      "number": 263,
+      "id": "I_kwDOJt_WwM7QwJtn",
+      "title": "18 287 4576",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/263",
+      "state": "OPEN",
+      "author": "pinesoelin6-lab",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-10T10:29:58Z",
+      "updatedAt": "2025-10-10T10:29:58Z",
       "closedAt": null,
       "comments": []
     }
@@ -15922,26 +15990,42 @@
       "id": "PR_kwDOJt_WwM6sy7sE",
       "title": "Editorial updates",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/261",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See #204",
       "createdAt": "2025-10-09T00:07:33Z",
-      "updatedAt": "2025-10-09T00:13:51Z",
+      "updatedAt": "2025-10-09T02:02:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "521e1296e5aaf0220ad0372de42d58aa0aadeac2",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "da23bdb0f7c787a90cfb7cd3282f7cb3fa4edd95",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-10-09T02:02:20Z",
+      "mergedAt": "2025-10-09T02:02:19Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "4443aedd222b04f9fdd0a6ff2ca20a03bc1f3be6"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7FtSjw",
+          "commit": {
+            "abbreviatedOid": "da23bdb"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-09T02:02:13Z",
+          "updatedAt": "2025-10-09T02:02:13Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
