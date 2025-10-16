@@ -33,8 +33,8 @@ author:
 
 - ins: P. Kasselman
   name: Pieter Kasselman
-  org: SPIRL
-  email: pieter@spirl.com
+  org: Defakto Security
+  email: pieter@defakto.security
 
 contributor:
 - ins: K. Burgin
@@ -59,7 +59,7 @@ contributor:
 
 - ins: A. Schwenkschuster
   name: Arndt Schwenkschuster
-  organization: SPIRL
+  organization: Defakto Security
   email: arndts.ietf@gmail.com
 
 - ins: H. Tschofenig
