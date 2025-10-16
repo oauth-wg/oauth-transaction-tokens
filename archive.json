@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-12T00:18:54.045705+00:00",
+  "timestamp": "2025-10-16T00:18:45.769607+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -16026,6 +16026,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 264,
+      "id": "PR_kwDOJt_WwM6t5lZb",
+      "title": "Update affiliation",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/264",
+      "state": "OPEN",
+      "author": "arndt-s",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Update affiliation of Pieter & Arndt",
+      "createdAt": "2025-10-15T14:24:05Z",
+      "updatedAt": "2025-10-15T14:24:11Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "4443aedd222b04f9fdd0a6ff2ca20a03bc1f3be6",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "arndt/update_affiliation",
+      "headRefOid": "94db52b050f894e6ddd7b16e5d61372d6ac3a80f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
