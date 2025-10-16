@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 12 April 2026                            Practical Identity LLC
+Expires: 19 April 2026                            Practical Identity LLC
                                                             P. Kasselman
-                                                                   SPIRL
-                                                          9 October 2025
+                                                        Defakto Security
+                                                         16 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 April 2026.
+   This Internet-Draft will expire on 19 April 2026.
 
 Copyright Notice
 
@@ -1564,7 +1564,7 @@ Contributors
 
 
    Arndt Schwenkschuster
-   SPIRL
+   Defakto Security
    Email: arndts.ietf@gmail.com
 
 
@@ -1586,5 +1586,5 @@ Authors' Addresses
 
 
    Pieter Kasselman
-   SPIRL
-   Email: pieter@spirl.com
+   Defakto Security
+   Email: pieter@defakto.security
