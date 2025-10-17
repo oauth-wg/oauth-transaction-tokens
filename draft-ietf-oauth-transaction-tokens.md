@@ -392,7 +392,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
 
 `aud`:
-: REQUIRED This claim, defined in {{RFC7519}}, identifies the Trust Domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the Trust Domain to prevent the Txn-Token from being accepted outside it's current Trust Domain.
+: REQUIRED This claim, defined in {{RFC7519}}, MUST identify the Trust Domain in which the Txn-Token is valid. A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the `aud` claim.
 
 `exp`:
 : REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
