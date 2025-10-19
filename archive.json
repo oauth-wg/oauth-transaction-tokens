@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-16T00:18:45.769607+00:00",
+  "timestamp": "2025-10-19T00:20:34.386020+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4294,7 +4294,7 @@
       "id": "I_kwDOJt_WwM7IDf41",
       "title": "WGLC feedback from Brian - Editorial",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/204",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4303,8 +4303,8 @@
       ],
       "body": "WGLC Feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#!\nInformational doesn't seem like the appropriate intended status.\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-abstract-1\nI guess at some level all requests are programmatic but the use of the word here seems unnecessary or limiting depending on one's interpretation of it. \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-2 \nThere are some pretty bold claims made in these sections that I'd suggest could be tempered a bit. The transaction token construct can help an architecture achieve an improved security posture but to say that they ensure these properties is IMO overstating things. \n\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-lifetime \n\"(order of minutes, e.g., 5 minutes)\" doesn't read well to my eye. Maybe \"(on the order of minutes or less)\" or maybe just drop the parenthetical. \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-benefits-of-txn-tokens\nI had a difficult time comprehending this. Consider rewording. Or removing, it seems a bit out of place too.\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2-2.12.1\nI find it odd to talk about things that this thing is not. I'd suggest dropping the OpenID Connect stuff here.\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-5.2.3-3 \nTTS is just used out of the blue here. Expand on first use or even just use the name throughout. \n\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.2.1-2.1.1\nThere's a SHALL here towards the content of an optional thing, which is maybe implying more than is intended. \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.3-7\nI would not include text like \"This claim MUST be omitted if not set.\" \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-transaction-tokens-are-not-\n\"Transaction tokens represents\" typo and \"[Mutual Authentication of the Txn-Token Request]{Mutual-Authentication-of-the-Txn-Token-Request}\" some kind of tooling mishap. \nDo you want to include an informational reference to https://datatracker.ietf.org/doc/draft-ietf-wimse-s2s-protocol/ here as a maybe a helpful pointer to an aspiring standard that might be of value in this context?  (full disclosure that I'm listed as a co-author on that and one of the co-authors of the draft in question is co-chair of the other WG but I do think it'd be a useful pointer despite the nepotism) \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-9.8 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-9.10 seem like they could maybe be combined?\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-jwt-claims-registry-content\nOne or more of those Designated Experts[sic] might also wonder about a seeming inconsistency in referenced sections in the Specification Document fields. \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-acknowledgements \nI do appreciate the Contributors section below (and being in it) but I suspect it is missing some people that could/should be listed here in the Acknowledgements. But if Acknowledgments is only going to thank \"the contributors and the OAuth working group members\" then maybe just remove it? \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-document-history\nI know that \"Document History\" will be \"removed from final specification\" but the draft revisions do stick around with that content. The very partial history and use of an acronym not used anywhere else in the document here give a kind of off putting vibe. \nSpeaking of partial history, is there reason why the datatracker history doesn't associate with https://datatracker.ietf.org/doc/draft-tulshibagwale-oauth-transaction-tokens/ ? ",
       "createdAt": "2025-08-26T16:33:28Z",
-      "updatedAt": "2025-08-26T16:33:28Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-16T15:11:47Z",
+      "closedAt": "2025-10-16T15:11:47Z",
       "comments": []
     },
     {
@@ -4432,7 +4432,7 @@
       "id": "I_kwDOJt_WwM7IQuTK",
       "title": "Expand on use case in section 2.2.1",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/208",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4441,8 +4441,8 @@
       ],
       "body": "WGLCFeedback from Joe Salowey\n\nSection 2.2.1 first paragraph talks about \"Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible\" . While I realize that this sentence leaves room for other cases such as when the request is internal.  I think the document could do more to discuss this use case as it seems it would be important in most systems.  Perhaps adding a short discussion in this section (perhaps in the last paragraph of this section) and in a few other relevant sections would be good.  I'll try to get a list or PR together, but it will not be this week, \n",
       "createdAt": "2025-08-27T15:28:28Z",
-      "updatedAt": "2025-08-27T15:28:28Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-16T15:14:51Z",
+      "closedAt": "2025-10-16T15:14:51Z",
       "comments": []
     },
     {
@@ -4732,9 +4732,17 @@
       ],
       "body": "WGLC. Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.6.1 I'm confused about the aud claim, particularly the second sentence.\n---\n\"This identifier MUST uniquely identify the Trust Domain to prevent the Txn-Token from being accepted outside it's current Trust Domain.\"\n---\nThis seems confusing to me. Who is making sure that this uniquely identifies the Trust Domain? This implies a larger coordinating entity (presumably a company but maybe not) that is an implicit assumption. What is an example of a unique identifier that would meet this requirement?\n",
       "createdAt": "2025-08-27T15:48:44Z",
-      "updatedAt": "2025-08-27T15:48:44Z",
+      "updatedAt": "2025-10-17T10:58:20Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The transaction token claims, including the \"aud\" claim is set by the transaction token service. This specification does not attempt to define any identifier schemes, as this is deployment specific. The intent of this sentence is to assert that transaction tokens are only valid within the trust domain in which they were issued, and should not be used outside that trust domain. Added clarifying text.",
+          "createdAt": "2025-10-17T10:58:20Z",
+          "updatedAt": "2025-10-17T10:58:20Z"
+        }
+      ]
     },
     {
       "number": 221,
@@ -4750,9 +4758,17 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.2-3.3.1\nI'm confused about the difference between sub and req_wl, especially for jobs that are kicked off internally.\nIs it tied to the end user (as is typical with JWTs)? If so, may be worth calling out when it is first mentioned.\n",
       "createdAt": "2025-08-27T15:50:45Z",
-      "updatedAt": "2025-08-27T15:50:45Z",
+      "updatedAt": "2025-10-17T11:23:23Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch and @tulshi - would love your thoughts on this.\n\nMy mental model for req_wl is that it is any identifier (e.g. a SPIFFE ID or a DNS name - whatever you may want to use) for the original workload, and any subsequent workloads that request a replacement transaction token. \n\nThis identifer is determined by the system, not by the transaction token service. The transaction token service assigns its own identifier as a \"sub\" claim. The sub claim and the req_wl claim may be the same (and things are easier when they are from a forensic/chaining tracing perspective), but pragmatically, it seems reasonable to leave \"sub\" assignment to the transaction token service.\n\nWe can add text to clarify this, but first want to confirm the mental model.",
+          "createdAt": "2025-10-17T11:23:23Z",
+          "updatedAt": "2025-10-17T11:23:23Z"
+        }
+      ]
     },
     {
       "number": 222,
@@ -4768,7 +4784,7 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.3-3\n\"the tctx field contains the actual authorizaton details that are determined by the TTS. \"\nWeird to me that this is so crucial, but is not a MUST in the request, (per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.16.1 ) . What are the scenarios where the TTS would not provide a tctx field?\n",
       "createdAt": "2025-08-27T15:52:03Z",
-      "updatedAt": "2025-09-15T13:25:39Z",
+      "updatedAt": "2025-10-17T11:48:06Z",
       "closedAt": null,
       "comments": [
         {
@@ -4784,6 +4800,13 @@
           "body": "The current draft has the \"purp\" claim, which may be used to downscope, so tctx may not always be needed. It is an interesting question about whether it should be a MUST if we decide to move away from a \"purp\" claim (@gffletch and @tulshi - something to keep in mind).\n\nRegarding the capabilities of the transaction server, it depends on the implementation and the overall architecture. As an initial transaction token, the tctx information may simply come from parameters passed. The decision about whether to honour those paramaters may be done further down the call chain (e.g. a risk management service may evaluate the transaction volume). Another service may check the amount against the funds available and another may do compliance checks against the users account. Some of these checks may be done by the transaction token service itself. It depends on the deployment an implementation. The main thing here is to ensure that these parameters/information is bound to the transaction and protecting the integrity of the transaction information throughout the call chain.",
           "createdAt": "2025-09-15T13:25:39Z",
           "updatedAt": "2025-09-15T13:25:39Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In terms of normative langugage, tctx is a SHOULD - this allows for cases where there is no additional context to include, or where it is sufficient to only rely on scope (previously purp)\n\n@gffletch and @tulshi - your thoughts on this?",
+          "createdAt": "2025-10-17T11:48:05Z",
+          "updatedAt": "2025-10-17T11:48:05Z"
         }
       ]
     },
@@ -4801,9 +4824,17 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.2.1\nis the `audience` parameter the same as the `aud` claim in section 5.2? It appears related but different based on the non-normative examples? This is the only mention of the term \"Trust Domain name\" in the entire document so I'm confused as to what goes there.\n",
       "createdAt": "2025-08-27T15:53:13Z",
-      "updatedAt": "2025-08-27T15:53:13Z",
+      "updatedAt": "2025-10-17T11:54:23Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi - can you take a look at examples in Figure 4 and Figure 5 and comment on whether those two values for \"aud\" and \"audience\" should be the same (this may be related to some sort of encoding rules for what is allowed in claims vs not).",
+          "createdAt": "2025-10-17T11:54:23Z",
+          "updatedAt": "2025-10-17T11:54:23Z"
+        }
+      ]
     },
     {
       "number": 224,
@@ -5174,15 +5205,15 @@
       "id": "I_kwDOJt_WwM7QwJtn",
       "title": "18 287 4576",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/263",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "pinesoelin6-lab",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-10-10T10:29:58Z",
-      "updatedAt": "2025-10-10T10:29:58Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-16T15:11:13Z",
+      "closedAt": "2025-10-16T15:11:13Z",
       "comments": []
     }
   ],
@@ -13590,13 +13621,13 @@
       "labels": [],
       "body": "Attempt at simplifying both client and server authentication requirements throughout the draft (see #198, #198 and #218)",
       "createdAt": "2025-09-01T18:17:23Z",
-      "updatedAt": "2025-09-23T12:11:11Z",
+      "updatedAt": "2025-10-16T14:01:43Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "e9644ac904a56d953941c79c4518a46736f586ba",
+      "baseRefOid": "7a3099a56cca3a6e4ecbed3b41c9f36aabca5aec",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
-      "headRefOid": "abc7fee1a0217d4814a6e558ced876fcdf123402",
+      "headRefOid": "48f623f979dc528ff85774dc2553568a8b9a133d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -16032,26 +16063,84 @@
       "id": "PR_kwDOJt_WwM6t5lZb",
       "title": "Update affiliation",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/264",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "arndt-s",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Update affiliation of Pieter & Arndt",
       "createdAt": "2025-10-15T14:24:05Z",
-      "updatedAt": "2025-10-15T14:24:11Z",
+      "updatedAt": "2025-10-16T13:49:59Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "4443aedd222b04f9fdd0a6ff2ca20a03bc1f3be6",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "arndt/update_affiliation",
       "headRefOid": "94db52b050f894e6ddd7b16e5d61372d6ac3a80f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-10-16T13:49:57Z",
+      "mergedAt": "2025-10-16T13:49:57Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "7a3099a56cca3a6e4ecbed3b41c9f36aabca5aec"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7HYCg8",
+          "commit": {
+            "abbreviatedOid": "94db52b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-16T13:49:51Z",
+          "updatedAt": "2025-10-16T13:49:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 265,
+      "id": "PR_kwDOJt_WwM6uRdTg",
+      "title": "Update 'aud' claim description for Txn-Token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/265",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarified the requirement for the 'aud' claim in the Txn-Token. See issue #220",
+      "createdAt": "2025-10-17T10:13:52Z",
+      "updatedAt": "2025-10-18T16:18:28Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "7a3099a56cca3a6e4ecbed3b41c9f36aabca5aec",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "790b6868149a0ab0a824b208b2dfe8149bc3c36c",
+      "closedAt": "2025-10-18T16:18:27Z",
+      "mergedAt": "2025-10-18T16:18:26Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "f5881a6d011e6cfa65557b1b7efcf4fbb5ef6dea"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7H5I7l",
+          "commit": {
+            "abbreviatedOid": "790b686"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-10-18T16:18:10Z",
+          "updatedAt": "2025-10-18T16:18:11Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
