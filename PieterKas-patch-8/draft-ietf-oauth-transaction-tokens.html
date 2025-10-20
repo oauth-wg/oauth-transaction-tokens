@@ -9,27 +9,26 @@
 <meta content="George Fletcher" name="author">
 <meta content="Pieter Kasselman" name="author">
 <meta content="
-       Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external programmatic requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures. 
+       Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures. 
     " name="description">
-<meta content="xml2rfc 3.30.2" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="Microservices" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.2
-    Python 3.12.11
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.4.0
+    platformdirs 4.5.0
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.5
-    setuptools 80.9.0
     wcwidth 0.2.14
 -->
 <link href="draft-ietf-oauth-transaction-tokens.xml" rel="alternate" type="application/rfc+xml">
@@ -1053,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 11 April 2026</td>
+<td class="center">Expires 23 April 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-08" class="published">8 October 2025</time>
+<time datetime="2025-10-20" class="published">20 October 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
-<dd class="intended-status">Informational</dd>
+<dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-11">11 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-04-23">23 April 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1084,7 +1083,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </div>
 <div class="author">
       <div class="author-name">P. Kasselman</div>
-<div class="org">SPIRL</div>
+<div class="org">Defakto Security</div>
 </div>
 </dd>
 </dl>
@@ -1092,7 +1091,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Transaction Tokens</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external programmatic requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1124,7 +1123,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1396,10 +1395,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through externally visible interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-1">Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:<a href="#section-1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-1-2.1">
-          <p id="section-1-2.1.1">Invocations of workloads in the network without any explicit transaction invocation (external or internal) being present.<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
+          <p id="section-1-2.1.1">Invocations of workloads in the network without any explicit transaction invocation being present.<a href="#section-1-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-1-2.2">
           <p id="section-1-2.2.1">Arbitrary user impersonation.<a href="#section-1-2.2.1" class="pilcrow">¶</a></p>
@@ -1419,7 +1418,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-overview">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
       </h2>
-<p id="section-2-1">Transaction Tokens (Txn-Token) are a means to mitigate damage from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet facing API invocation) other transactions are initiated from within the trusted domain. Transaction tokens apply to both externally triggered and internally invoked transactions and ensure that the user's identity or a workload that made the request is preserved throughout subsequent workload invocations.
+<p id="section-2-1">Transaction Tokens (Txn-Token) reduce the risks from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet facing API invocation) other transactions are initiated from within the trusted domain. Transaction tokens apply to both externally triggered and internally invoked transactions and ensure that the user's identity or a workload that made the request is preserved throughout subsequent workload invocations.
 They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-2.1">
@@ -1429,7 +1428,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           <p id="section-2-2.2.1">Environmental factors, such as IP address of the original caller<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-2-2.3">
-          <p id="section-2-2.3.1">Any computed context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.<a href="#section-2-2.3.1" class="pilcrow">¶</a></p>
+          <p id="section-2-2.3.1">Any context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.<a href="#section-2-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-2-3">Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an intentionally invoked transaction.<a href="#section-2-3" class="pilcrow">¶</a></p>
@@ -1459,23 +1458,24 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           <h4 id="name-initial-creation">
 <a href="#section-2.2.1" class="section-number selfRef">2.2.1. </a><a href="#name-initial-creation" class="section-name selfRef">Initial Creation</a>
           </h4>
-<p id="section-2.2.1-1">Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> access token. This workload then performs an OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> to obtain a Txn-Token. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-1">Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> access token. The externally visible endpoint exchanges the external authorization token for a transaction token before sending it to the workload. The transaction token may be obtained through a local interface, or it may be requested from a remote server.<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-2">If the transaction token request is made via HTTP to a remote server, it MUST use <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> as described in this specification. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:<a href="#section-2.2.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.2.1-2.1">
-              <p id="section-2.2.1-2.1.1">The external authorization token (e.g., the OAuth access token)<a href="#section-2.2.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-2.2.1-3.1">
+              <p id="section-2.2.1-3.1.1">The external authorization token (e.g., the OAuth access token)<a href="#section-2.2.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-2.2.1-2.2">
-              <p id="section-2.2.1-2.2.1">An internally generated JWT representing the subject of the request<a href="#section-2.2.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-2.2.1-3.2">
+              <p id="section-2.2.1-3.2.1">An internally generated JWT representing the subject of the request<a href="#section-2.2.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-2.2.1-2.3">
-              <p id="section-2.2.1-2.3.1">Parameters that are required to be bound for the duration of this call<a href="#section-2.2.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-2.2.1-3.3">
+              <p id="section-2.2.1-3.3.1">Parameters that are required to be bound for the duration of this call<a href="#section-2.2.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-2.2.1-2.4">
-              <p id="section-2.2.1-2.4.1">Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token<a href="#section-2.2.1-2.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-2.2.1-3.4">
+              <p id="section-2.2.1-3.4.1">Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token<a href="#section-2.2.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-2.2.1-3">The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
-<p id="section-2.2.1-4">If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.<a href="#section-2.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-4">The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.<a href="#section-2.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-5">If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.<a href="#section-2.2.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="replacement-txn-tokens">
@@ -1494,7 +1494,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
         <h3 id="name-txn-token-lifetime">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-txn-token-lifetime" class="section-name selfRef">Txn-Token Lifetime</a>
         </h3>
-<p id="section-2.3-1">Txn-Tokens are expected to be short-lived (order of minutes, e.g., 5 minutes), and as a result MAY be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">Txn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the Txn-Token service when requesting a Txn-Token has an expiration time, then the Txn-Token Service MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="benefits-of-txn-tokens">
@@ -1502,7 +1502,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
         <h3 id="name-benefits-of-txn-tokens">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-benefits-of-txn-tokens" class="section-name selfRef">Benefits of Txn-Tokens</a>
         </h3>
-<p id="section-2.4-1">Txn-Tokens help prevent spurious invocations by ensuring that a workload receiving an invocation can independently verify the user or workload on whose behalf an external call was made and any context relevant to the processing of the call.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-1">Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="txn-token-issuance-and-usage-flows">
@@ -1831,7 +1831,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.5">
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.6">
-            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, identifies the Trust Domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the Trust Domain to prevent the Txn-Token from being accepted outside it's current Trust Domain.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, MUST identify the Trust Domain in which the Txn-Token is valid. A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the <code>aud</code> claim.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.7">
@@ -1849,7 +1849,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.11">
 <code>sub</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.12">
-            <p id="section-5.2-2.12.1">REQUIRED A unique identifier for the subject within the context of the <code>aud</code> Trust Domain. Unlike OpenID Connect, the <code>sub</code> claim is NOT associated with the <code>iss</code> claim.<a href="#section-5.2-2.12.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.12.1">REQUIRED A unique identifier for the subject within the context of the <code>aud</code> Trust Domain.<a href="#section-5.2-2.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.13">
@@ -1906,7 +1906,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
           </h4>
 <p id="section-5.2.3-1">The Txn-Token SHOULD contain an <code>tctx</code> claim. The value of this claim is a JSON object that contains name/value pairs (wherein the value could itself be an object), which together assert the details that remain immutable through the call-chain where this Txn-Token is used.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.3-2">Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
-<p id="section-5.2.3-3">Whereas the <code>rctx</code> field contains environmental values related to the request, the <code>tctx</code> field contains the actual authorizaton details that are determined by the TTS. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the <code>tctx</code> field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">Whereas the <code>rctx</code> field contains environmental values related to the request, the <code>tctx</code> field contains the actual authorizaton details that are determined by the Txn-Token Service. These values are used by services using the Txn-Token to reliably obtain specific parameters needed to perform their work. The content of the <code>tctx</code> field is determined by the Txn-Token Service and they may be computed internally or from parameters it receives from the service that requests the Txn-Token.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
 <p id="section-5.2.3-4">The following is a non-normative example of an <code>tctx</code> claim initiated by an external call:<a href="#section-5.2.3-4" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-5.2.3-5">
 <pre>
@@ -1993,7 +1993,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
       <h2 id="name-txn-token-service">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-txn-token-service" class="section-name selfRef">Txn-Token Service</a>
       </h2>
-<p id="section-6-1">A Txn-Token Service implements a profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> endpoint that can respond to Txn-Token issuance requests. This profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> specification MUST be used to obtain Txn-Tokens. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">A Txn-Token Service uses <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> as described in this specification if it issues transaction tokens in response to HTTP requests. The unique properties of the Txn-Token requests and responses are described below. The Txn-Token Service MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a Txn-Token Service.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">Each Trust Domain that uses Txn-Tokens MUST have exactly one logical Txn-Token Service.<a href="#section-6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2002,7 +2002,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
       <h2 id="name-requesting-txn-tokens">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-requesting-txn-tokens" class="section-name selfRef">Requesting Txn-Tokens</a>
       </h2>
-<p id="section-7-1">A workload requests a Txn-Token from a Transaction Token Service using a profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> is described below.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">A workload requests a Txn-Token from a Transaction Token Service. If the transaction token request is made via HTTP to a remote server, it MUST use <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> as described in this specification. Txn-Tokens may be requested for both externally originating or internally originating requests. The profile describes how required and optional context can be provided to the Transaction Token Service in order for the Txn-Token to be issued. The request to obtain a Txn-Token using this method is called a Txn-Token Request, and a successful response is called a Txn-Token Response. The Txn-Token profile of the OAuth 2.0 Token Exchange <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> is described below.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <div id="txn-token-request">
 <section id="section-7.1">
         <h3 id="name-txn-token-request">
@@ -2203,7 +2203,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
             <p id="section-7.4-2.3.1">The <code>issued_token_type</code> value MUST bet set to <code>urn:ietf:params:oauth:token-type:txn_token</code><a href="#section-7.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.4-3">The Txn-Token Response MUST NOT include the values <code>expires_in</code>, <code>refresh_token</code> and <code>scope</code><a href="#section-7.4-3" class="pilcrow">¶</a></p>
+<p id="section-7.4-3">The Txn-Token Response MUST NOT include the <code>refresh_token</code> value.<a href="#section-7.4-3" class="pilcrow">¶</a></p>
 <p id="section-7.4-4"><a href="#figtxtokenresponse" class="auto internal xref">Figure 7</a> shows a non-normative example of a Txn-Token Response.<a href="#section-7.4-4" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-response"></span><div id="figtxtokenresponse">
 <figure id="figure-7">
@@ -2233,7 +2233,7 @@ Cache-Control: no-store
         </h3>
 <p id="section-7.5-1">A workload within a call chain may request the Transaction Token Service to replace a Txn-Token.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
 <p id="section-7.5-2">Workloads MAY request replacement Txn-Tokens in order to change (add to, remove or modify) the asserted values within a Txn-Token.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
-<p id="section-7.5-3">The values of the <code>sub</code> and <code>aud</code> claims MUST remain unchanged in a replacement Txn-Token. If the claim <code>rctx</code> is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the <code>req_wl</code> claim which MUST be updated to include the requesting workload identifier.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
+<p id="section-7.5-3">The values of the <code>txn</code>, <code>sub</code> and <code>aud</code> claims MUST remain unchanged in a replacement Txn-Token. If the claim <code>rctx</code> is present in the original Txn-Token, then it MUST be present and unchanged in the replacement Txn-Token except for the <code>req_wl</code> claim which MUST be updated to include the requesting workload identifier.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
 <div id="txn-token-service-responsibilities">
 <section id="section-7.5.1">
           <h4 id="name-txn-token-service-responsib">
@@ -2280,7 +2280,7 @@ Cache-Control: no-store
 </div>
 </section>
 </div>
-<div id="mutual-authentication-of-the-txn-token-request">
+<div id="Mutual-Authentication">
 <section id="section-7.6">
         <h3 id="name-mutual-authentication-of-th">
 <a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-mutual-authentication-of-th" class="section-name selfRef">Mutual Authentication of the Txn-Token Request</a>
@@ -2351,7 +2351,6 @@ Cache-Control: no-store
         </h3>
 <p id="section-9.1-1">A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the <code>refresh_token</code> field. A Txn-Token cannot be issued by presenting a <code>refresh_token</code>.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
-<p id="section-9.1-3">The <code>expires_in</code> field of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span> is not used in Txn-Token responses since the issued token has an <code>exp</code> field, which indicates the token lifetime.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="access-tokens">
@@ -2440,7 +2439,7 @@ Cache-Control: no-store
         <h3 id="name-transaction-tokens-are-not-">
 <a href="#section-9.12" class="section-number selfRef">9.12. </a><a href="#name-transaction-tokens-are-not-" class="section-name selfRef">Transaction Tokens Are Not Authentication Credentials</a>
         </h3>
-<p id="section-9.12-1">A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in [Mutual Authentication of the Txn-Token Request]{Mutual-Authentication-of-the-Txn-Token-Request}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.<a href="#section-9.12-1" class="pilcrow">¶</a></p>
+<p id="section-9.12-1">A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the transaction token service. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the transaction token service is described in <a href="#Mutual-Authentication" class="auto internal xref">Section 7.6</a>. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.<a href="#section-9.12-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2558,7 +2557,7 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
                 <p id="section-11.2-1.2.2.2.1">Change Controller: IETF<a href="#section-11.2-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-11.2-1.2.2.3">
-                <p id="section-11.2-1.2.2.3.1">Specification Document: Section <a href="#requester-context" class="auto internal xref">Section 5.2.2</a> of this specification<a href="#section-11.2-1.2.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-11.2-1.2.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 5.2</a> of this specification<a href="#section-11.2-1.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -2804,7 +2803,19 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
             <p id="appendix-B.1-1.7.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.8">
-            <p id="appendix-B.1-1.8.1">Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.8.1">Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.9">
+            <p id="appendix-B.1-1.9.1">Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.10">
+            <p id="appendix-B.1-1.10.1">Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)<a href="#appendix-B.1-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.11">
+            <p id="appendix-B.1-1.11.1">Clarify that <code>txn</code>should remain unchanged when included in a replacement transaction token.<a href="#appendix-B.1-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.12">
+            <p id="appendix-B.1-1.12.1">Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)<a href="#appendix-B.1-1.12.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2898,7 +2909,7 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 </address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Arndt Schwenkschuster</span></div>
-<div dir="auto" class="left"><span class="org">SPIRL</span></div>
+<div dir="auto" class="left"><span class="org">Defakto Security</span></div>
 <div class="email">
 <span>Email:</span>
 <a href="mailto:arndts.ietf@gmail.com" class="email">arndts.ietf@gmail.com</a>
@@ -2937,10 +2948,10 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 </address>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Pieter Kasselman</span></div>
-<div dir="auto" class="left"><span class="org">SPIRL</span></div>
+<div dir="auto" class="left"><span class="org">Defakto Security</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:pieter@spirl.com" class="email">pieter@spirl.com</a>
+<a href="mailto:pieter@defakto.security" class="email">pieter@defakto.security</a>
 </div>
 </address>
 </section>
