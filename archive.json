@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-19T00:20:34.386020+00:00",
+  "timestamp": "2025-10-21T00:18:29.510371+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -13621,7 +13621,7 @@
       "labels": [],
       "body": "Attempt at simplifying both client and server authentication requirements throughout the draft (see #198, #198 and #218)",
       "createdAt": "2025-09-01T18:17:23Z",
-      "updatedAt": "2025-10-16T14:01:43Z",
+      "updatedAt": "2025-10-19T18:48:57Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7a3099a56cca3a6e4ecbed3b41c9f36aabca5aec",
@@ -13977,6 +13977,26 @@
               "body": "I also am curious. If the `actor_token` does not identify the identity of the requesting workload then it seems that its use is not for the purpose of client authentication which was the original reason for including the text at all.",
               "createdAt": "2025-09-15T18:00:50Z",
               "updatedAt": "2025-09-15T18:00:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7H85eW",
+          "commit": {
+            "abbreviatedOid": "28dce73"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-19T18:48:57Z",
+          "updatedAt": "2025-10-19T18:48:57Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "from #198 and email that begat it, this is my comment about this text that I don't think this change fully addresses.\r\n\r\n> https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-client-authentication\r\nThe first sentence is redundant with OAuth 2.0 Token Exchange itself. Sometimes restating things is worthwhile but I don't think that's the case here.\r\nThe second sentence with \"the actor_token MUST authenticate the identity of the requesting workload\" seems overly restrictive. What if the authentication has happened via other means and the actor_token is there to convey some other notion of delegation or something?\r\nThere's a lot more to \"Client Authentication\", the section name, than these two sentences. Consider something different. Or something.\r\n\r\n\r\nmy preference of \"can\" vs a big MUST/MAY here is just about not (over)using the RFC2119 keywords when they don't really do anything useful  \r\n",
+              "createdAt": "2025-10-19T18:48:57Z",
+              "updatedAt": "2025-10-19T18:48:57Z"
             }
           ]
         }
@@ -15244,13 +15264,13 @@
       "labels": [],
       "body": "See #214",
       "createdAt": "2025-09-18T11:13:03Z",
-      "updatedAt": "2025-10-08T23:25:41Z",
+      "updatedAt": "2025-10-20T14:36:44Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "e998a30fee2c437a424d8bd1884e57eceb35ecf9",
+      "baseRefOid": "f5881a6d011e6cfa65557b1b7efcf4fbb5ef6dea",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-8",
-      "headRefOid": "be59dd7967f00f8ae149cd466736ce1d36bd5086",
+      "headRefOid": "4d21d29e508b1e31badd0df24b61b7b40e3ccb7a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
