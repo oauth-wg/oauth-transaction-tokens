@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-21T00:18:29.510371+00:00",
+  "timestamp": "2025-10-28T00:18:02.391413+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -5179,7 +5179,7 @@
     {
       "number": 262,
       "id": "I_kwDOJt_WwM7QwFO9",
-      "title": "018874576",
+      "title": "0182874576",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/262",
       "state": "CLOSED",
       "author": "pinesoelin6-lab",
@@ -5188,7 +5188,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-10-10T10:25:05Z",
-      "updatedAt": "2025-10-10T10:26:05Z",
+      "updatedAt": "2025-10-27T09:02:23Z",
       "closedAt": "2025-10-10T10:25:15Z",
       "comments": [
         {
@@ -5214,6 +5214,38 @@
       "createdAt": "2025-10-10T10:29:58Z",
       "updatedAt": "2025-10-16T15:11:13Z",
       "closedAt": "2025-10-16T15:11:13Z",
+      "comments": []
+    },
+    {
+      "number": 266,
+      "id": "I_kwDOJt_WwM7T8GU7",
+      "title": "0182874576",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/266",
+      "state": "OPEN",
+      "author": "pinesoelin6-lab",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "1. ### \n\n[ ] \n\n> [\n\n[Alliance_Bank_CC_Cardholder_Agreement.pdf](https://github.com/user-attachments/files/23160503/Alliance_Bank_CC_Cardholder_Agreement.pdf)\n\n](url)",
+      "createdAt": "2025-10-27T09:03:27Z",
+      "updatedAt": "2025-10-27T09:03:27Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 267,
+      "id": "I_kwDOJt_WwM7T8GjU",
+      "title": "PineSoeLin",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/267",
+      "state": "OPEN",
+      "author": "pinesoelin6-lab",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-27T09:03:40Z",
+      "updatedAt": "2025-10-27T09:03:40Z",
+      "closedAt": null,
       "comments": []
     }
   ],
