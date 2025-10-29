@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 21 April 2026                            Practical Identity LLC
+Expires: 2 May 2026                               Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         18 October 2025
+                                                         29 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 April 2026.
+   This Internet-Draft will expire on 2 May 2026.
 
 Copyright Notice
 
@@ -111,7 +111,7 @@ Table of Contents
      9.1.  Txn-Token Lifetime
      9.2.  Access Tokens
      9.3.  Subject Token Types
-     9.4.  Client Authentication
+     9.4.  Use of 'actor_token'
      9.5.  Replacement Tokens
      9.6.  Scope Processing
      9.7.  Unique Transaction Identifier
@@ -726,7 +726,7 @@ Table of Contents
 
 7.1.  Txn-Token Request
 
-   A workload requesting a Txn-Token must provide the Transaction Token
+   A workload requesting a Txn-Token provides the Transaction Token
    Service with proof of its identity (client authentication), the
    purpose of the Txn-Token and optionally any additional context
    relating to the transaction being performed.  Most of these elements
@@ -785,10 +785,6 @@ Table of Contents
       transaction that MUST remain immutable throughout the processing
       of the transaction by multiple workloads.  The Transaction Token
       Service uses this information to construct the tctx claim.
-
-   The requesting workload MUST authenticate its identity to the
-   Transaction Token Service.  The exact client authentication mechanism
-   used is outside the scope of this specification.
 
    The figure below Figure 6 shows a non-normative example of a Txn-
    Token Request.
@@ -874,10 +870,10 @@ Table of Contents
 7.3.  Txn-Token Request Processing
 
    When the Transaction Token Service receives a Txn-Token Request it
-   MUST validate the requesting workload client authentication and
-   determine if that workload is authorized to obtain the Txn-Tokens
-   with the requested values.  The authorization policy for determining
-   such issuance is out of scope for this specification.
+   MUST authenticate the workload and determine if that workload is
+   authorized to obtain Txn-Tokens with the requested values.  The
+   authorization policy for determining such issuance is out of scope
+   for this specification.
 
    Next, the Transaction Token Service MUST validate the subject_token
    and determine the value to specify as the sub of the issued Txn-
@@ -1010,46 +1006,28 @@ Table of Contents
 
 7.6.  Mutual Authentication of the Txn-Token Request
 
-   A workload and Transaction Token Service MUST perform mutual
-   authentication.
+   A Transaction Token Service and requesting workload MUST authenticate
+   each other (mutual authentication).  Workloads MUST authenticate the
+   Transaction Token Service to ensure that they do not disclose
+   sensitive information, such as OAuth access tokens, to a rogue
+   Transaction Token Service.  A Transaction Token Service MUST
+   authenticate a workload to ensure the workload is authorized to
+   request a transaction token.
 
-   A Txn-Token Service MUST ensure that it authenticates any workloads
-   requesting Txn-Tokens.  In order to do so:
+   Workloads SHOULD use the https scheme to secure the communication
+   channel and authenticate the Transaction Token Service.  When using
+   https, TLS certificates MUST be checked according to Section 4.3.4 of
+   [RFC9110].  At the time of this writing, TLS version 1.3 [RFC8446] is
+   the most recent version.
 
-   *  It MUST maintain a limited, pre-configured set of authorized
-      workloads that MAY request Txn-Tokens.
+   Workloads SHOULD authenticate to a Transaction Token Server using
+   asymmetric (public-key based) methods or signed client authentication
+   JWTs in accordance with [RFC7523].
 
-   *  It MUST authenticate the requesting workload and confirm that it
-      is included in the list of workloads authorized to request a
-      transaction token.
-
-   *  It SHOULD accept workload credentials such as JWTs or X.509
-      certificates which MAY be provisioned using mechanisms such as
-      [SPIFFE] or other provisioning protocols.
-
-   *  It SHOULD use X.509 credentials in conjunction with MTLS
-      [RFC8446], or a JWT protected by TLS at the transport layer, to
-      securely authenticate the requesting workload.
-
-   *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
-      shared secrets to authenticate the requesting workloads.
-
-   The requesting workload MUST ensure that it authenticates the
-   Transaction Token Service.  In order to do so:
-
-   *  It MUST have a pre-configured location for the Transaction Token
-      Service.
-
-   *  It SHOULD accept Transaction Token Service credentials such as
-      JWTs or X.509 certificates which MAY be provisioned using
-      mechanisms such as [SPIFFE] or other provisioning protocols.
-
-   *  It SHOULD use X.509 credentials in conjunction with MTLS
-      [RFC8446], or a JWT protected by TLS at the transport layer, to
-      securely authenticate the Transaction Token Service.
-
-   *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
-      shared secrets to authenticate the Transaction Token Service.
+   Examples of public-key based authentication include those defined in
+   OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound
+   Access Tokens [RFC8705] and WIMSE Workload-to-Workload Authentication
+   [I-D.ietf-wimse-s2s-protocol].
 
 8.  Using Txn-Tokens
 
@@ -1106,12 +1084,12 @@ Table of Contents
    or any other format to represent the details of the requester to the
    Txn-Token service.
 
-9.4.  Client Authentication
+9.4.  Use of 'actor_token'
 
    If using the actor_token and actor_token_type parameters of the OAuth
-   2.0 Token Exchange specification, both parameters MUST be present in
-   the request.  The actor_token MUST authenticate the identity of the
-   requesting workload.
+   2.0 Token Exchange specification [RFC8693], both parameters MUST be
+   present in the request.  The actor_token can authenticate the
+   identity of the requesting workload.
 
 9.5.  Replacement Tokens
 
@@ -1403,6 +1381,11 @@ Table of Contents
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/rfc/rfc7515>.
 
+   [RFC7523]  Jones, M., Campbell, B., and C. Mortimore, "JSON Web Token
+              (JWT) Profile for OAuth 2.0 Client Authentication and
+              Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
+              2015, <https://www.rfc-editor.org/rfc/rfc7523>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -1416,6 +1399,12 @@ Table of Contents
               "Security Event Token (SET)", RFC 8417,
               DOI 10.17487/RFC8417, July 2018,
               <https://www.rfc-editor.org/rfc/rfc8417>.
+
+   [RFC8705]  Campbell, B., Bradley, J., Sakimura, N., and T.
+              Lodderstedt, "OAuth 2.0 Mutual-TLS Client Authentication
+              and Certificate-Bound Access Tokens", RFC 8705,
+              DOI 10.17487/RFC8705, February 2020,
+              <https://www.rfc-editor.org/rfc/rfc8705>.
 
    [RFC9068]  Bertocci, V., "JSON Web Token (JWT) Profile for OAuth 2.0
               Access Tokens", RFC 9068, DOI 10.17487/RFC9068, October
@@ -1458,6 +1447,14 @@ Table of Contents
    [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
+
+   [I-D.ietf-wimse-s2s-protocol]
+              Campbell, B., Salowey, J. A., Schwenkschuster, A., and Y.
+              Sheffer, "WIMSE Workload-to-Workload Authentication", Work
+              in Progress, Internet-Draft, draft-ietf-wimse-s2s-
+              protocol-07, 16 October 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              s2s-protocol-07>.
 
 Acknowledgements
 
