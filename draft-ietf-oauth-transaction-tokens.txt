@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 2 May 2026                               Practical Identity LLC
+Expires: 3 May 2026                               Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         29 October 2025
+                                                         30 October 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 May 2026.
+   This Internet-Draft will expire on 3 May 2026.
 
 Copyright Notice
 
@@ -771,14 +771,12 @@ Table of Contents
    *  subject_token_type REQUIRED.  The value MUST indicate the type of
       the token or value present in the subject_token parameter
 
-   The following additional parameters MAY be present in a Txn-Token
-   Request:
+   The following additional parameters are RECOMMENDED to be present in
+   a Txn-Token Request:
 
    *  request_context OPTIONAL.  This parameter contains a base64url
       encoded JSON object which represents the context of this
-      transaction.  The parameter SHOULD be present and how the
-      Transaction Token Service uses this parameter is out of scope for
-      this specification.
+      transaction.
 
    *  request_details OPTIONAL.  This parameter contains a base64url
       encoded JSON object which represents additional details of the
@@ -1463,7 +1461,10 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]]
+   [[ To be removed from final specification ]] * Remove contradiction
+   in "request_details" description and simpliffy normative langugage
+   Clarify claim usage (https://github.com/oauth-wg/oauth-transaction-
+   tokens/issues/228).
 
 Since Draft 06
 
