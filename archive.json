@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-30T00:19:20.447692+00:00",
+  "timestamp": "2025-11-02T00:20:24.243070+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3328,15 +3328,15 @@
       "id": "I_kwDOJt_WwM6w-PrV",
       "title": "Intended status: informational",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/169",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "arndt-s",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Just happened to notice that the current category is Informational. Not an expert but it feels much more like a standard track document to me.\n\n```yaml\nstand_alone: true\nipr: trust200902\ncat: info # Check\nsubmissiontype: IETF\narea: sec\nwg: oauth\n```",
       "createdAt": "2025-04-03T10:31:45Z",
-      "updatedAt": "2025-08-22T17:00:10Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-30T15:28:10Z",
+      "closedAt": "2025-10-30T15:28:10Z",
       "comments": [
         {
           "author": "bc-pi",
@@ -3538,7 +3538,7 @@
       "labels": [],
       "body": "From the MCP Community chat:\n\nFrederick (ffkiv_02286) wrote\n\n```\n7.2.2.  Unsigned JSON Object Subject Token Type\n\n   A requester MAY use an unsigned JSON object as a subject_token value.\n   In that case, the requester MUST set the subject_token_type value to:\n   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the\n   subject_token field MUST be the BASE64URL encoded value of the JSON\n   object as described in Section 5 of [RFC6848].  The JSON object in\n   the subject token MUST contain the following fields:\n```\n\nit's unclear if the subject_token is always supposed to be base64url or only when unsigned. the examples show it always baser64url encoded, might be good to call out these encoding requirements in a more prominent place.\nso interpretation could be: always, or only when unencrypted",
       "createdAt": "2025-07-21T17:21:52Z",
-      "updatedAt": "2025-10-08T23:29:26Z",
+      "updatedAt": "2025-10-31T15:39:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -3568,6 +3568,13 @@
           "body": "@gffletch can you propose a PR for this change?",
           "createdAt": "2025-10-08T23:29:26Z",
           "updatedAt": "2025-10-08T23:29:26Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also see https://github.com/oauth-wg/oauth-transaction-tokens/issues/196",
+          "createdAt": "2025-10-31T15:39:39Z",
+          "updatedAt": "2025-10-31T15:39:39Z"
         }
       ]
     },
@@ -4080,7 +4087,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.1.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.2.2-1\nIs there actual reason to have these parameters base64url/BASE64URL (which is definitely not defined in RFC6848 \"Specifying Civic Address Extensions in the Presence Information Data Format Location Object (PIDF-LO)\") encoded? Some other work out of this WG, like R[AR]FC9396, has utilized application/x-www-form-urlencoded for JSON without issue (that I'm aware of anyway). \n",
       "createdAt": "2025-08-26T16:13:38Z",
-      "updatedAt": "2025-09-16T11:48:02Z",
+      "updatedAt": "2025-10-31T15:53:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -4089,6 +4096,34 @@
           "body": "@tulshi - I think you may have written the original text here - can you take a look?",
           "createdAt": "2025-09-16T11:47:48Z",
           "updatedAt": "2025-09-16T11:47:48Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks, it should be RFC4648. I can update it, but the higher level question about why Base64url encoding: I assumed since JWTs do that, it is something that is required to send JSON over HTTP requests / responses. We can switch to the RARFC format if you think that's better.",
+          "createdAt": "2025-10-30T19:17:24Z",
+          "updatedAt": "2025-10-30T19:17:24Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I am not expert on encoding schemes - @bc-pi - based on your comments it appears the guidance here is to align with the way RAR did this for consistency?",
+          "createdAt": "2025-10-31T12:13:31Z",
+          "updatedAt": "2025-10-31T12:13:31Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also see https://github.com/oauth-wg/oauth-transaction-tokens/issues/180",
+          "createdAt": "2025-10-31T15:39:20Z",
+          "updatedAt": "2025-10-31T15:39:20Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "On the 10/31 call determined to not require base64url encoding and just use the application/x-www-form-urlencoded format.",
+          "createdAt": "2025-10-31T15:53:24Z",
+          "updatedAt": "2025-10-31T15:53:24Z"
         }
       ]
     },
@@ -4947,7 +4982,7 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.2.1-2.1.1\nThe draft says \"The Txn-Token Service SHALL use this value in determining the req_wl value in the Txn-Token issued in response to this request.\"\n*determining* is doing a lot of work here. Is it the exact value or some derivative? If a derivative, what is the process? Same comment for sub claim just below.\n",
       "createdAt": "2025-08-27T15:59:43Z",
-      "updatedAt": "2025-10-29T23:29:52Z",
+      "updatedAt": "2025-10-30T15:08:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -4956,6 +4991,13 @@
           "body": "The implementation of each TTS might be different, and so \"determining\" might mean something different depending on the implementation. I don't know if we can specify it here.\n\n@PieterKas @gffletch thoughts?",
           "createdAt": "2025-10-29T23:29:52Z",
           "updatedAt": "2025-10-29T23:29:52Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My sense of this is that it is an implementation issue, not something we should specify. Different implementations and deployments will have different needs.",
+          "createdAt": "2025-10-30T15:08:12Z",
+          "updatedAt": "2025-10-30T15:08:12Z"
         }
       ]
     },
@@ -4983,7 +5025,7 @@
       "id": "I_kwDOJt_WwM7IRLZP",
       "title": "Clarify claim usage",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/228",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4992,8 +5034,8 @@
       ],
       "body": "WGLC Feedback from. Dan Moore\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-5.1.1 the draft says how the Transaction Token Service uses the \"request_context\" claim is out of scope, but in https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.3-9 it says to add it to the rctx claim. I'm confused, isn't that specifying how the claim is used?\n",
       "createdAt": "2025-08-27T16:01:38Z",
-      "updatedAt": "2025-09-08T10:42:00Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-30T13:42:44Z",
+      "closedAt": "2025-10-30T13:42:44Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -5216,7 +5258,7 @@
       ],
       "body": "At https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2-3 I would change:\n---\nCryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an intentionally invoked transaction.\n->\nCryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls.\n---\nseems that you can either have a spurious call or have an \"intentionally invoked transaction\", not both, so the \"without\" clause is not needed.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-2.1.1 I'd suggest combining these two bullet points:\n---\n- The external authorization token (e.g., the OAuth access token)\n- An internally generated JWT representing the subject of the request\n-> \n- The external authorization token (e.g., the OAuth access token) or an internally generated JWT representing the subject of the request\n---\nBecause it seems like these are mutually exclusive ( per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-4 )\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.2-2 I would link to the relevant security section? https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-replacement-tokens \n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.3 would change the wording slightly for readability.\n---\n\"order of minutes, e.g., 5 minutes\"\n->\n\"on the order of minutes, e.g., 5 minutes\"\n---\n\nIn the second chart, https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.5.2-3\nwouldn't it be clearer to just repeat the same steps? Or is the \"same as above\" pattern better/typical? I couldn't find examples of RFCs that have closely related charts.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.2.1 I think this is cleare:\n---\n\"The iss claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.\"\n->\n\"The iss claim MUST be used in cases where the signing keys are not predetermined. The iss claim MUST be used when the Txn-Token Service signs each Txn-Token with a unique key.\"\n---\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.12.1 you could link to the OpenID Connect spec, as you do further below.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.14.1\n- why is String capitalized?\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-purpose-claim is purp designed to be human readable, machine parseable or both (or left undefined and we can use any value)?\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-requester-context\n---\nthis MAY include the IP address information of the originating user\"\n->\nthis MAY include the IP address information of the originating request\"\n---\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.2-3.1.1 the req_ip description needs a period for consistency\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.2-3.1.1 I would remove \"robotic\". Not sure what it adds.\n\n\nWould change call-chain to Call Chain and call chain to Call Chain, since you define that term. saw this multiple times.\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.3-1\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.1-1\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-creating-replacement-txn-to\n\n\nSection 5.2.3.1 applies to the rctx claim, not the tctx, and should be numbered 5.2.2.1\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.2.1.1 would change:\n---\nAn inbound token received by an API Gateway\n-> \nA token received by an external endpoint\n---\nSeems more in keeping with the nomenclature used elsewhere in the doc.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.4-2.2.1 I would change:\n---\nThe following values defined in [RFC8693] MUST be included in the Txn-Token Response:\n->\nThe following values defined in [RFC8693] MUST be included in a successful Txn-Token Response:\n---\nI got confused by the error sentence before this sentence, so adding a clarifying \"successful\" phrase would be helpful.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-creating-replacement-txn-to\nThe draft says \"A workload within a call chain may request the Transaction Token Service to replace a Txn-Token.\"\nawkward phrasing. Maybe \n\"When part of a Call Chain needs a new transaction token, it can make a request to the Transaction Token Service to replace the current one.\"\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.5.1-2.6.1 there's a missing 'a':\n---\n\"MUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token\"\n->\n\"MUST NOT issue a replacement Txn-Token with lifetime exceeding the lifetime of the originally presented token\"\n---\nAlso should check for proper casing of Txn-Token throughout the doc.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-8-1 I would change:\n---\nNote that the standard HTTP Authorization header MUST NOT be used because that may be used by the workloads to communicate channel authorization.\n->\nThe Authorization HTTP header MUST NOT be used because that may be used by the workloads for other purposes.\n---\nI have no idea what channel authorization is, but I think it is enough for implementers to know they MUST NOT use that header.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.1-1 should we uppercase the SHOULD?\n---\nEven for long-running \"batch\" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint.\n->\nEven for long-running \"batch\" jobs, a longer-lived access token SHOULD be used to initiate the request to the batch endpoint.\n---\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-replacement-tokens it is unclear to me whether these sentences are related to the workload or the TTS or both? Seems like the first is the workload and the latter two tasks are for the TTS, but I'm not sure.\n\nI would either use TTS everywhere or I'd expand it. There's a mix of TTS, Transaction Token Service, and Txn-Token Service.\n\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.10-1 would change:\n---\nthe workload must ensure that it authenticates\n->\nthe workload MUST ensure that it authenticates\n---\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.12\nthere is a busted link: \"Mutual Authentication of the Txn-Token Request\"\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-10.2 would clarify/use MUST:\n---\nComplete Txn-Tokens must not be logged verbatim.\n->\nComplete Txn-Tokens MUST not be logged verbatim.\n---\n\n\n",
       "createdAt": "2025-08-27T16:22:27Z",
-      "updatedAt": "2025-10-29T23:19:36Z",
+      "updatedAt": "2025-10-30T15:05:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -5225,6 +5267,13 @@
           "body": "@PieterKas I see you created separate issues for feedback from Dan Moore. Is this all covered in those issues? If so, we should close this issue.",
           "createdAt": "2025-10-29T23:19:36Z",
           "updatedAt": "2025-10-29T23:19:36Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "No - these are editorial in nature. I broke it out from the other comments that I felt required some discussion",
+          "createdAt": "2025-10-30T15:05:58Z",
+          "updatedAt": "2025-10-30T15:05:58Z"
         }
       ]
     },
@@ -5313,15 +5362,15 @@
       "id": "I_kwDOJt_WwM7T8GU7",
       "title": "0182874576",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/266",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "pinesoelin6-lab",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "1. ### \n\n[ ] \n\n> [\n\n[Alliance_Bank_CC_Cardholder_Agreement.pdf](https://github.com/user-attachments/files/23160503/Alliance_Bank_CC_Cardholder_Agreement.pdf)\n\n](url)",
       "createdAt": "2025-10-27T09:03:27Z",
-      "updatedAt": "2025-10-27T09:03:27Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-30T17:46:50Z",
+      "closedAt": "2025-10-30T17:46:50Z",
       "comments": []
     },
     {
@@ -5329,16 +5378,42 @@
       "id": "I_kwDOJt_WwM7T8GjU",
       "title": "PineSoeLin",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/267",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "pinesoelin6-lab",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-10-27T09:03:40Z",
-      "updatedAt": "2025-10-27T09:03:40Z",
-      "closedAt": null,
+      "updatedAt": "2025-10-30T17:47:05Z",
+      "closedAt": "2025-10-30T17:47:05Z",
       "comments": []
+    },
+    {
+      "number": 268,
+      "id": "I_kwDOJt_WwM7U1jSi",
+      "title": "Clarify request_context normative language",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/268",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tulshi"
+      ],
+      "labels": [],
+      "body": "From https://github.com/oauth-wg/oauth-transaction-tokens/pull/253\n\n@gffletch and @tulshi opened a discussion about the normative language used regarding the request_detailt and rctx claim. This was orthogonal to the original issue being adressed. to avoid having a PR open for a long time when the issue being raised is not related to the issue in the PR, this issue wass created instead. Screenshot of discussion below:\n\n<img width=\"827\" height=\"832\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/524de217-960a-4665-85fa-f2fdc65f0ad2\" />",
+      "createdAt": "2025-10-30T13:30:51Z",
+      "updatedAt": "2025-10-30T13:42:06Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding the discussion on this I believe there are two orthogonal discussion points:\n\n@gffletch - you raised the question on whether the worklod idenitifier normative langugage needs to be stronger. Our latest language on authentication is that it is a MUST, sso that information has to be available. However, rctx is an optional claim, and so, any MUST (and arguably the SHOULD as well) is conditional on rctx ebing included. We may want to state that conditionality explicitly. e.g. if we decide it is a MUST, we need langugage like, \"if the rctx claim is included, the workload identifier MUST be included as the req_wl claim).\n\n@tulshi - I think the question you raise is separate from what George raised. I agree with your perspective that request_context is one of the inputs, but should not be the only input to determining rctx content. Enriching that with out-of-band information drawn from some back-end management service seems likely and plausible. If we remove the SHOULD, we may want to add langugage that suggest backend enrichment may be an option.",
+          "createdAt": "2025-10-30T13:42:06Z",
+          "updatedAt": "2025-10-30T13:42:06Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -14652,24 +14727,26 @@
       "id": "PR_kwDOJt_WwM6nWy94",
       "title": "Clarify \"request_context\"",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/247",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #228 \r\n\r\nIn addition, the \"request_context\" is optional, so making it a SHOULD be included feels like maybe it is not optional. Instead the PR proposes language that says it is \"RECOMMENDED\".\r\n\r\n@tulshi @gffletch - please review.",
       "createdAt": "2025-09-08T10:47:25Z",
-      "updatedAt": "2025-10-29T19:55:12Z",
+      "updatedAt": "2025-10-30T13:42:44Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "484aa9df88ffa82a17d32524fe233bee059744f5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-7",
       "headRefOid": "e3a5e73504bb3ecb6981bbe136dba0cdaf24da33",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-10-30T13:42:43Z",
+      "mergedAt": "2025-10-30T13:42:43Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "706a508cd8bf506ba8957be4bf6cf903842793b2"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15429,7 +15506,7 @@
       "labels": [],
       "body": "See #214",
       "createdAt": "2025-09-18T11:13:03Z",
-      "updatedAt": "2025-10-29T19:53:45Z",
+      "updatedAt": "2025-10-30T13:24:40Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "f5881a6d011e6cfa65557b1b7efcf4fbb5ef6dea",
@@ -15599,6 +15676,26 @@
               "body": "I had a different opinion of the `rctx` content in the TraT. I feel the TTS should take the `request_context` into consideration, but really use its own logic to arrive at the content of the `rctx` field in the TraT. So, I'd rather be silent in the spec rather than use either \"SHOULD\" or \"MUST\" regarding this.\n\nMy logic is that the requester may send it a number of different things in the `request_context`, and the TTS may decide to use only a subset of it, or may need to process the values for internal consumption before putting it into `rctx`.\n\nThoughts?",
               "createdAt": "2025-10-29T19:53:45Z",
               "updatedAt": "2025-10-29T19:53:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Koeh2",
+          "commit": {
+            "abbreviatedOid": "4d21d29"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-10-30T13:24:40Z",
+          "updatedAt": "2025-10-30T13:24:40Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "@tulshi, @gffletch This PR was about making it clear that the signature should be verified - the rest was formatting...\r\n\r\nHowever, if we want to discuss rctx content (which is not the subject of this PR, but clearly a valid thing to discuss), perhaps we can merge this and open a separate issue and discuss request_context and tctx there instead? \r\n\r\nMy preference is to contain the PR to the issue it was meant to address (clarifying that the signatture needs to be verified).\r\n\r\n",
+              "createdAt": "2025-10-30T13:24:40Z",
+              "updatedAt": "2025-10-30T13:25:13Z"
             }
           ]
         }
@@ -16346,6 +16443,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 269,
+      "id": "PR_kwDOJt_WwM6wsDUB",
+      "title": "Specify Txn-Token is only in Request and always has one token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/269",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-10-30T18:58:29Z",
+      "updatedAt": "2025-10-30T18:58:29Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "706a508cd8bf506ba8957be4bf6cf903842793b2",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "header-update",
+      "headRefOid": "f8511a83905a6637faf802fd582a84e94e27f43a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
