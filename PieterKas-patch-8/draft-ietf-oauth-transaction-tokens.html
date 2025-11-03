@@ -1048,11 +1048,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">October 2025</td>
+<td class="right">November 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 23 April 2026</td>
+<td class="center">Expires 7 May 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-20" class="published">20 October 2025</time>
+<time datetime="2025-11-03" class="published">3 November 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-23">23 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-05-07">7 May 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1296,7 +1296,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-subject-token-types-2" class="internal xref">Subject Token Types</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.4">
-                <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="auto internal xref">9.4</a>.  <a href="#name-client-authentication" class="internal xref">Client Authentication</a></p>
+                <p id="section-toc.1-1.9.2.4.1"><a href="#section-9.4" class="auto internal xref">9.4</a>.  <a href="#name-use-of-actor_token" class="internal xref">Use of 'actor_token'</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.5">
                 <p id="section-toc.1-1.9.2.5.1"><a href="#section-9.5" class="auto internal xref">9.5</a>.  <a href="#name-replacement-tokens" class="internal xref">Replacement Tokens</a></p>
@@ -2008,7 +2008,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
         <h3 id="name-txn-token-request">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-txn-token-request" class="section-name selfRef">Txn-Token Request</a>
         </h3>
-<p id="section-7.1-1">A workload requesting a Txn-Token must provide the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN <code>urn:ietf:params:oauth:token-type:txn_token</code> which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">A workload requesting a Txn-Token provides the Transaction Token Service with proof of its identity (client authentication), the purpose of the Txn-Token and optionally any additional context relating to the transaction being performed. Most of these elements are provided by the OAuth 2.0 Token Exchange specification and the rest are defined as new parameters. Additionally, this profile defines a new token type URN <code>urn:ietf:params:oauth:token-type:txn_token</code> which is used by the requesting workload to identify that it is requesting the Txn-Token Response to contain a Txn-Token.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">To request a Txn-Token the workload invokes the OAuth 2.0 <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span> token endpoint with the following parameters:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-3.1">
@@ -2046,20 +2046,19 @@ The type of the <code>subject_token</code> field is identified by <code>subject_
             <p id="section-7.1-3.6.1"><code>subject_token_type</code> REQUIRED. The value MUST indicate the type of the token or value present in the <code>subject_token</code> parameter<a href="#section-7.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.1-4">The following additional parameters MAY be present in a Txn-Token Request:<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-5.1">
-            <p id="section-7.1-5.1.1"><code>request_context</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.<a href="#section-7.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-5.1.1"><code>request_context</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction.<a href="#section-7.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-5.2">
             <p id="section-7.1-5.2.1"><code>request_details</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the <code>tctx</code> claim.<a href="#section-7.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.1-6">The requesting workload MUST authenticate its identity to the Transaction Token Service. The exact client authentication mechanism used is outside the scope of this specification.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
-<p id="section-7.1-7">The figure below <a href="#figtxtokenrequest" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Request.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
+<p id="section-7.1-6">The figure below <a href="#figtxtokenrequest" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Request.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-request"></span><div id="figtxtokenrequest">
 <figure id="figure-6">
-          <div class="lang-http sourcecode" id="section-7.1-8.1">
+          <div class="lang-http sourcecode" id="section-7.1-7.1">
 <pre>
 POST /txn-token-service/token_endpoint HTTP 1.1
 Host: txn-token-service.trust-domain.example
@@ -2285,40 +2284,10 @@ Cache-Control: no-store
         <h3 id="name-mutual-authentication-of-th">
 <a href="#section-7.6" class="section-number selfRef">7.6. </a><a href="#name-mutual-authentication-of-th" class="section-name selfRef">Mutual Authentication of the Txn-Token Request</a>
         </h3>
-<p id="section-7.6-1">A workload and Transaction Token Service MUST perform mutual authentication.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
-<p id="section-7.6-2">A Txn-Token Service MUST ensure that it authenticates any workloads requesting Txn-Tokens. In order to do so:<a href="#section-7.6-2" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.6-3.1">
-            <p id="section-7.6-3.1.1">It MUST maintain a limited, pre-configured set of authorized workloads that MAY request Txn-Tokens.<a href="#section-7.6-3.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-3.2">
-            <p id="section-7.6-3.2.1">It MUST authenticate the requesting workload and confirm that it is included in the list of workloads authorized to request a transaction token.<a href="#section-7.6-3.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-3.3">
-            <p id="section-7.6-3.3.1">It SHOULD accept workload credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-3.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-3.4">
-            <p id="section-7.6-3.4.1">It SHOULD use X.509 credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or a JWT protected by TLS at the transport layer, to securely authenticate the requesting workload.<a href="#section-7.6-3.4.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-3.5">
-            <p id="section-7.6-3.5.1">It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the requesting workloads.<a href="#section-7.6-3.5.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-7.6-4">The requesting workload MUST ensure that it authenticates the Transaction Token Service. In order to do so:<a href="#section-7.6-4" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-7.6-5.1">
-            <p id="section-7.6-5.1.1">It MUST have a pre-configured location for the Transaction Token Service.<a href="#section-7.6-5.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-5.2">
-            <p id="section-7.6-5.2.1">It SHOULD accept Transaction Token Service credentials such as JWTs or X.509 certificates which MAY be provisioned using mechanisms such as <span>[<a href="#SPIFFE" class="cite xref">SPIFFE</a>]</span> or other provisioning protocols.<a href="#section-7.6-5.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-5.3">
-            <p id="section-7.6-5.3.1">It SHOULD use X.509 credentials in conjunction with MTLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, or a JWT protected by TLS at the transport layer, to securely authenticate the Transaction Token Service.<a href="#section-7.6-5.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-7.6-5.4">
-            <p id="section-7.6-5.4.1">It SHOULD NOT rely on insecure mechanisms, such as long-lived shared secrets to authenticate the Transaction Token Service.<a href="#section-7.6-5.4.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
+<p id="section-7.6-1">A Transaction Token Service and requesting workload MUST authenticate each other (mutual authentication). Workloads MUST authenticate the Transaction Token Service to ensure that they do not disclose sensitive information, such as OAuth access tokens, to a rogue Transaction Token Service. A Transaction Token Service MUST authenticate a workload to ensure the workload is authorized to request a transaction token.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.6-2">Workloads SHOULD use the <code>https</code> scheme to secure the communication channel and authenticate the Transaction Token Service. When using <code>https</code>, TLS certificates MUST be checked according to <span><a href="https://rfc-editor.org/rfc/rfc9110#section-4.3.4" class="relref">Section 4.3.4</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>. At the time of this writing, TLS version 1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> is the most recent version.<a href="#section-7.6-2" class="pilcrow">¶</a></p>
+<p id="section-7.6-3">Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed client authentication JWTs in accordance with <span>[<a href="#RFC7523" class="cite xref">RFC7523</a>]</span>.<a href="#section-7.6-3" class="pilcrow">¶</a></p>
+<p id="section-7.6-4">Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens <span>[<a href="#RFC8705" class="cite xref">RFC8705</a>]</span> and WIMSE Workload-to-Workload Authentication <span>[<a href="#I-D.ietf-wimse-s2s-protocol" class="cite xref">I-D.ietf-wimse-s2s-protocol</a>]</span>.<a href="#section-7.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2369,12 +2338,12 @@ Cache-Control: no-store
 <p id="section-9.3-1">A service requesting a Txn-Token SHOULD provide an incoming token if it has one that it used itself to authorize a caller, and if it directly correlates with the downstream call chain it needs the Txn-Token for. In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the details of the requester to the Txn-Token service.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="client-authentication">
+<div id="use-of-actortoken">
 <section id="section-9.4">
-        <h3 id="name-client-authentication">
-<a href="#section-9.4" class="section-number selfRef">9.4. </a><a href="#name-client-authentication" class="section-name selfRef">Client Authentication</a>
+        <h3 id="name-use-of-actor_token">
+<a href="#section-9.4" class="section-number selfRef">9.4. </a><a href="#name-use-of-actor_token" class="section-name selfRef">Use of 'actor_token'</a>
         </h3>
-<p id="section-9.4-1">If using the <code>actor_token</code> and <code>actor_token_type</code> parameters of the OAuth 2.0 Token Exchange specification, both parameters MUST be present in the request. The <code>actor_token</code> MUST authenticate the identity of the requesting workload.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
+<p id="section-9.4-1">If using the <code>actor_token</code> and <code>actor_token_type</code> parameters of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>, both parameters MUST be present in the request. The <code>actor_token</code> can authenticate the identity of the requesting workload.<a href="#section-9.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="replacement-tokens">
@@ -2699,6 +2668,10 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Signature (JWS)"</span>, <span class="seriesInfo">RFC 7515</span>, <span class="seriesInfo">DOI 10.17487/RFC7515</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7515">https://www.rfc-editor.org/rfc/rfc7515</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7523">[RFC7523]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">C. Mortimore</span>, <span class="refTitle">"JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants"</span>, <span class="seriesInfo">RFC 7523</span>, <span class="seriesInfo">DOI 10.17487/RFC7523</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7523">https://www.rfc-editor.org/rfc/rfc7523</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
@@ -2710,6 +2683,10 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 <dt id="RFC8417">[RFC8417]</dt>
         <dd>
 <span class="refAuthor">Hunt, P., Ed.</span>, <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Denniss, W.</span>, and <span class="refAuthor">M. Ansari</span>, <span class="refTitle">"Security Event Token (SET)"</span>, <span class="seriesInfo">RFC 8417</span>, <span class="seriesInfo">DOI 10.17487/RFC8417</span>, <time datetime="2018-07" class="refDate">July 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8417">https://www.rfc-editor.org/rfc/rfc8417</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8705">[RFC8705]</dt>
+        <dd>
+<span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Bradley, J.</span>, <span class="refAuthor">Sakimura, N.</span>, and <span class="refAuthor">T. Lodderstedt</span>, <span class="refTitle">"OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens"</span>, <span class="seriesInfo">RFC 8705</span>, <span class="seriesInfo">DOI 10.17487/RFC8705</span>, <time datetime="2020-02" class="refDate">February 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8705">https://www.rfc-editor.org/rfc/rfc8705</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9068">[RFC9068]</dt>
         <dd>
@@ -2753,8 +2730,12 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
         </h3>
 <dl class="references">
 <dt id="SPIFFE">[SPIFFE]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Cloud Native Computing Foundation</span>, <span class="refTitle">"Secure Production Identity Framework for Everyone"</span>, <span>n.d.</span>, <span>&lt;<a href="https://spiffe.io/docs/latest/spiffe-about/overview/">https://spiffe.io/docs/latest/spiffe-about/overview/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-wimse-s2s-protocol">[I-D.ietf-wimse-s2s-protocol]</dt>
+      <dd>
+<span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Salowey, J. A.</span>, <span class="refAuthor">Schwenkschuster, A.</span>, and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-s2s-protocol-07</span>, <time datetime="2025-10-16" class="refDate">16 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-s2s-protocol-07">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-s2s-protocol-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2774,7 +2755,8 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
       <h2 id="name-document-history">
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-B-1">[[ To be removed from final specification ]]<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">[[ To be removed from final specification ]]
+* Remove contradiction in "request_details" description and simpliffy normative langugage <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/228">Clarify claim usage</a>.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <div id="since-draft-06">
 <section id="appendix-B.1">
         <h3 id="name-since-draft-06">
