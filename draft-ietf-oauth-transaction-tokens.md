@@ -568,25 +568,19 @@ A requester MAY use an unsigned JSON object as a `subject_token` value. In that 
 The unsigned JSON object MAY contain other fields, and the Txn-Token Service MAY consider them when generating the Txn-Token.
 
 ## Txn-Token Request Processing
-When the Transaction Token Service receives a Txn-Token Request it MUST authenticate the workload and determine if that workload is authorized to obtain Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.
+When the Transaction Token Service receives a Txn-Token Request it:
 
-Next, the Transaction Token Service MUST validate the `subject_token` and determine the value to specify as the `sub` of the issued Txn-Token. The Txn-Token Service MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
-
-The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
-
-The Transaction Token Service MUST set the `aud` claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple Trust Domains, then it MUST determine the correct `aud` value for this request.
-
-The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any `exp` value present in the `subject_token` parameter of the Txn-Token Request in determining the `exp` value of the resulting Txn-Token.
-
-The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
-
-The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token.
-
-The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token. The value of this claim, as issued by the Transaction Token Service, does not need to match the requested `scope` value as the Txn-Token `scope` claim represents the intent or purpose of the transaction within the Trust Domain.
-
-If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the `rctx` object as the `req_wl` claim.
-
-If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the Transaction Token Service authorization policy for the requesting client.
+* MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested value(s). The authorization policy for determining such issuance is out of scope for this specification.
+* Next, the Transaction Token Service MUST validate the `subject_token`, including verifying the signature, if it is signed.
+* The Txn-Token Service determines the value to specify as the `sub` of the Txn-Token and MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
+* The Transaction Token Service MUST set the `iat` claim to the time of issuance of the Txn-Token.
+* The Transaction Token Service MUST set the `aud` claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple Trust Domains, then it MUST determine the correct `aud` value for this request.
+* The Transaction Token Service MUST set the `exp` claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any `exp` value present in the `subject_token` parameter of the Txn-Token Request in determining the `exp` value of the resulting Txn-Token.
+* The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
+* The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.
+* The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token.
+* If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the `rctx` object as the `req_wl` claim.
+* If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the Transaction Token Service authorization policy for the requesting client.
 
 The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.
 
@@ -789,6 +783,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
 * Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235
 * Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
+* Clarify need to validate signature on subject_token if it is signed.
 * Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
 * Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)
 * Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
