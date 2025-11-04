@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-02T00:20:24.243070+00:00",
+  "timestamp": "2025-11-04T00:18:27.947249+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4217,7 +4217,7 @@
       "id": "I_kwDOJt_WwM7IDWwl",
       "title": "Constrain txn-token header field to a single value",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/200",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4228,8 +4228,8 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-http-header\nThe \"txn-token\" header [field] should maybe also be constrained to a single value and is request only? Maybe some other things too that might be desirable for an HTTP header field definition. YMMV but there will likely be questions with its registration. \n",
       "createdAt": "2025-08-26T16:20:29Z",
-      "updatedAt": "2025-10-08T23:33:32Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-03T19:56:47Z",
+      "closedAt": "2025-11-03T19:56:47Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -15499,24 +15499,26 @@
       "id": "PR_kwDOJt_WwM6pRBcq",
       "title": "Clarify need to validate the signature on signed subject tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/253",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See #214",
       "createdAt": "2025-09-18T11:13:03Z",
-      "updatedAt": "2025-10-30T13:24:40Z",
+      "updatedAt": "2025-11-03T19:52:19Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "f5881a6d011e6cfa65557b1b7efcf4fbb5ef6dea",
+      "baseRefOid": "706a508cd8bf506ba8957be4bf6cf903842793b2",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-8",
-      "headRefOid": "4d21d29e508b1e31badd0df24b61b7b40e3ccb7a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b5b85eab90dcbb0ba1a09beec585f0a5f231d8c3",
+      "closedAt": "2025-11-03T19:52:17Z",
+      "mergedAt": "2025-11-03T19:52:17Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "b8cfe12809c14ab1eb6c51f76a9c951eb04414ec"
+      },
       "comments": [],
       "reviews": [
         {
@@ -15698,6 +15700,19 @@
               "updatedAt": "2025-10-30T13:25:13Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7LZp-m",
+          "commit": {
+            "abbreviatedOid": "b5b85ea"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-03T19:06:42Z",
+          "updatedAt": "2025-11-03T19:06:42Z",
+          "comments": []
         }
       ]
     },
@@ -16449,26 +16464,42 @@
       "id": "PR_kwDOJt_WwM6wsDUB",
       "title": "Specify Txn-Token is only in Request and always has one token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/269",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-10-30T18:58:29Z",
-      "updatedAt": "2025-10-30T18:58:29Z",
+      "updatedAt": "2025-11-03T19:56:48Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "706a508cd8bf506ba8957be4bf6cf903842793b2",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "header-update",
       "headRefOid": "f8511a83905a6637faf802fd582a84e94e27f43a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-03T19:56:46Z",
+      "mergedAt": "2025-11-03T19:56:46Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "1ce68a13fb4fe66ce05e99e53d58f49cfb1cc17e"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7LaTsm",
+          "commit": {
+            "abbreviatedOid": "f8511a8"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-03T19:53:16Z",
+          "updatedAt": "2025-11-03T19:53:16Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
