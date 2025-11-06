@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-04T00:18:27.947249+00:00",
+  "timestamp": "2025-11-06T00:18:44.436402+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -5414,6 +5414,22 @@
           "updatedAt": "2025-10-30T13:42:06Z"
         }
       ]
+    },
+    {
+      "number": 270,
+      "id": "I_kwDOJt_WwM7VySyg",
+      "title": "Lack in normative language for workloads to validate Txn-Tokens and authorization context",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/270",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There is a lot of normative language about the interface for the Txn-Token-Service. However, I am missing normative language for how a workload should validate the authorization context represented by the Txn-Token. For instance:\n\n- MUST validate signature of JWT, exp, iat claims (with appropriate slack for clock skew)\n- MUST validate that scope allows requested operation\n- MUST validate aud claim (although at least for this there is a \"A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the aud claim.\" yet workload is not explicitly mentioned)\n- MUST validate tctx if present\n- MUST pass along the Txn-Token in outgoing calls belonging to the same transaction\n\nWas this maybe left out intentionally? I do understand that it may be necessary to make some of this language conditional to support different configurations/deployments. For instance there may be cases where some workloads may opt for employing Token Introspection to validate Txn-Tokens instead of doing it locally (which is by the way not mentioned at all in the current draft).",
+      "createdAt": "2025-11-04T14:00:31Z",
+      "updatedAt": "2025-11-04T14:00:31Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -16497,6 +16513,59 @@
           "body": "",
           "createdAt": "2025-11-03T19:53:16Z",
           "updatedAt": "2025-11-03T19:53:16Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 271,
+      "id": "PR_kwDOJt_WwM6xgkZh",
+      "title": "Remove the need for base64url encoding",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/271",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated parameters to use JSON objects instead of base64url encoding and made editorial changes. Addresses issues #180 and #196.\r\n\r\nI also updated the example to show a urlencoded `request_context` parameter.",
+      "createdAt": "2025-11-04T22:02:01Z",
+      "updatedAt": "2025-11-04T22:51:53Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "1ce68a13fb4fe66ce05e99e53d58f49cfb1cc17e",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "base64url",
+      "headRefOid": "da8fe714e2a951e43367f7576410d819282d6716",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7LxyPH",
+          "commit": {
+            "abbreviatedOid": "da8fe71"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-04T22:25:07Z",
+          "updatedAt": "2025-11-04T22:25:07Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Lx_QI",
+          "commit": {
+            "abbreviatedOid": "da8fe71"
+          },
+          "author": "naveencm4u1",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-04T22:51:53Z",
+          "updatedAt": "2025-11-04T22:51:53Z",
           "comments": []
         }
       ]
