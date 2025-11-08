@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 7 May 2026                               Practical Identity LLC
+Expires: 12 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         3 November 2025
+                                                         8 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 May 2026.
+   This Internet-Draft will expire on 12 May 2026.
 
 Copyright Notice
 
@@ -774,18 +774,20 @@ Table of Contents
    The following additional parameters are RECOMMENDED to be present in
    a Txn-Token Request:
 
-   *  request_context OPTIONAL.  This parameter contains a base64url
-      encoded JSON object which represents the context of this
-      transaction.
+   *  request_context OPTIONAL.  This parameter contains a JSON object
+      which represents the context of this transaction.
 
-   *  request_details OPTIONAL.  This parameter contains a base64url
-      encoded JSON object which represents additional details of the
-      transaction that MUST remain immutable throughout the processing
-      of the transaction by multiple workloads.  The Transaction Token
-      Service uses this information to construct the tctx claim.
+   *  request_details OPTIONAL.  This parameter contains a JSON object
+      which represents additional details of the transaction that MUST
+      remain immutable throughout the processing of the transaction by
+      multiple workloads.  The Transaction Token Service uses this
+      information to construct the tctx claim.
+
+   All parameters are encoded using the "application/x-www-form-
+   urlencoded" format per Appendix B of [RFC6749].
 
    The figure below Figure 6 shows a non-normative example of a Txn-
-   Token Request.
+   Token Request.  Line breaks added for readability.
 
    POST /txn-token-service/token_endpoint HTTP 1.1
    Host: txn-token-service.trust-domain.example
@@ -797,7 +799,11 @@ Table of Contents
    &scope=finance.watchlist.add
    &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-   &request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
+   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
+   %2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
+   %3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
+   %20%20%20%22req_wl%22%3A%20%5B%20%22apigateway.trust-domain.example%22%2C%20
+   %22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
 
                     Figure 6: Example: Txn-Token Request
 
@@ -853,9 +859,7 @@ Table of Contents
 
    A requester MAY use an unsigned JSON object as a subject_token value.
    In that case, the requester MUST set the subject_token_type value to:
-   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the
-   subject_token field MUST be the BASE64URL encoded value of the JSON
-   object as described in Section 5 of [RFC6848].  The JSON object in
+   urn:ietf:params:oauth:token-type:unsigned_json.  The JSON object in
    the subject token MUST contain the following fields:
 
    *  sub: The subject for whom the Txn-Token is being requested.  The
@@ -1508,6 +1512,10 @@ Since Draft 06
 
    *  Editorial updates (https://github.com/oauth-wg/oauth-transaction-
       tokens/issues/204)
+
+   *  Removed the requirement to encode parameters in based64url format
+
+   *  Rename the purpose claim to scope
 
 Since Draft 05
 
