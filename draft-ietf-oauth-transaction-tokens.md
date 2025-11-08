@@ -521,10 +521,12 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 
 The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
 
-* `request_context` OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction.
-* `request_details` OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
+* `request_context` OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.
+* `request_details` OPTIONAL. This parameter contains a JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
 
-The figure below {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request.
+All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of {{RFC6749}}.
+
+The figure below {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request. Line breaks added for readability.
 
 ~~~ http
 POST /txn-token-service/token_endpoint HTTP 1.1
@@ -537,7 +539,11 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 &scope=finance.watchlist.add
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-&request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
+&request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
+%2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
+%3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
+%20%20%20%22req_wl%22%3A%20%5B%20%22apigateway.trust-domain.example%22%2C%20
+%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
@@ -561,7 +567,7 @@ A requester MAY use a self-signed JWT as a `subject_token` value. In that case, 
 The self-signed JWT MAY contain other claims.
 
 ### Unsigned JSON Object Subject Token Type {#unsigned-json-subject-token-type}
-A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The value of the `subject_token` field MUST be the BASE64URL encoded value of the JSON object as described in {{Section 5 of RFC6848}}.  The JSON object in the subject token MUST contain the following fields:
+A requester MAY use an unsigned JSON object as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:unsigned_json`. The JSON object in the subject token MUST contain the following fields:
 
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
 
@@ -790,6 +796,8 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)
 * Clarify that `txn`should remain unchanged when included in a replacement transaction token.
 * Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)
+* Removed the requirement to encode parameters in based64url format
+* Rename the `purpose` claim to `scope`
 
 ## Since Draft 05
 {:numbered="false"}
