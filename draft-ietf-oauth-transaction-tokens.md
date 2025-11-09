@@ -562,7 +562,7 @@ A requester MAY use a self-signed JWT as a `subject_token` value. In that case, 
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
 * `aud`: The unique identifier of the Txn-Token Service. The Txn-Token Service SHALL verify that this value matches its own unique identifier.
 * `iat`: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens with an `iat` value that is unreasonably far in the past or future.
-* `exp`: The expiration time for the JWT. {{#Lifetime}} provides guidance on setting the expiry of a Txn-Token.
+* `exp`: The expiration time for the JWT. {{lifetime}} provides guidance on setting the expiry of a Txn-Token.
 
 The self-signed JWT MAY contain other claims.
 
@@ -654,7 +654,7 @@ A workload that invokes another workload using HTTP and needs to present a Txn-T
 
 # Security Considerations {#Security}
 
-## Txn-Token Lifetime {#Lifetime}
+## Txn-Token Lifetime {#lifetime}
 A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.
 
 Because Txn-Tokens are short-lived, the Txn-Token response from the Txn-Token service does not contain the `refresh_token` field. A Txn-Token cannot be issued by presenting a `refresh_token`.
