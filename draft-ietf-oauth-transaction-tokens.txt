@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 12 May 2026                              Practical Identity LLC
+Expires: 13 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         8 November 2025
+                                                         9 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 May 2026.
+   This Internet-Draft will expire on 13 May 2026.
 
 Copyright Notice
 
@@ -752,8 +752,10 @@ Table of Contents
    *  requested_token_type REQUIRED.  The value MUST be
       urn:ietf:params:oauth:token-type:txn_token
 
-   *  subject_token REQUIRED.  The value MUST represent the subject of
-      the transaction.  This MAY be:
+   *  subject_token REQUIRED.  The value MUST contain a token that
+      represent the subject of the transaction.  The manner in which the
+      subject is represented in the subject_token depends on the
+      subject_token_type.  The subject_token MAY be:
 
       -  An inbound token received by an API Gateway
 
