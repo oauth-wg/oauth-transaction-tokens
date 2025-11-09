@@ -2124,7 +2124,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
               <p id="section-7.2.1-2.4.1"><code>iat</code>: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens with an <code>iat</code> value that is unreasonably far in the past or future.<a href="#section-7.2.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-2.5">
-              <p id="section-7.2.1-2.5.1"><code>exp</code>: The expiration time for the JWT. This should be a very short duration (order of seconds) in order to prevent any abuse of the JWT.<a href="#section-7.2.1-2.5.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.1-2.5.1"><code>exp</code>: The expiration time for the JWT. <a href="#lifetime" class="auto internal xref">Section 9.1</a> provides guidance on setting the expiry of a Txn-Token.<a href="#section-7.2.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-7.2.1-3">The self-signed JWT MAY contain other claims.<a href="#section-7.2.1-3" class="pilcrow">¶</a></p>
@@ -2318,7 +2318,7 @@ Cache-Control: no-store
       <h2 id="name-security-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<div id="txn-token-lifetime-1">
+<div id="lifetime">
 <section id="section-9.1">
         <h3 id="name-txn-token-lifetime-2">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-txn-token-lifetime-2" class="section-name selfRef">Txn-Token Lifetime</a>

@@ -851,9 +851,8 @@ Table of Contents
       the Txn-Token Service may reject self-signed tokens with an iat
       value that is unreasonably far in the past or future.
 
-   *  exp: The expiration time for the JWT.  This should be a very short
-      duration (order of seconds) in order to prevent any abuse of the
-      JWT.
+   *  exp: The expiration time for the JWT.  Section 9.1 provides
+      guidance on setting the expiry of a Txn-Token.
 
    The self-signed JWT MAY contain other claims.
 
