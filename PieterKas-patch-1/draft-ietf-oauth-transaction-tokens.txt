@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 20 April 2026                            Practical Identity LLC
+Expires: 13 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         17 October 2025
+                                                         9 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 April 2026.
+   This Internet-Draft will expire on 13 May 2026.
 
 Copyright Notice
 
@@ -111,7 +111,7 @@ Table of Contents
      9.1.  Txn-Token Lifetime
      9.2.  Access Tokens
      9.3.  Subject Token Types
-     9.4.  Client Authentication
+     9.4.  Use of 'actor_token'
      9.5.  Replacement Tokens
      9.6.  Scope Processing
      9.7.  Unique Transaction Identifier
@@ -726,7 +726,7 @@ Table of Contents
 
 7.1.  Txn-Token Request
 
-   A workload requesting a Txn-Token must provide the Transaction Token
+   A workload requesting a Txn-Token provides the Transaction Token
    Service with proof of its identity (client authentication), the
    purpose of the Txn-Token and optionally any additional context
    relating to the transaction being performed.  Most of these elements
@@ -771,27 +771,23 @@ Table of Contents
    *  subject_token_type REQUIRED.  The value MUST indicate the type of
       the token or value present in the subject_token parameter
 
-   The following additional parameters MAY be present in a Txn-Token
-   Request:
+   The following additional parameters are RECOMMENDED to be present in
+   a Txn-Token Request:
 
-   *  request_context OPTIONAL.  This parameter contains a base64url
-      encoded JSON object which represents the context of this
-      transaction.  The parameter SHOULD be present and how the
-      Transaction Token Service uses this parameter is out of scope for
-      this specification.
+   *  request_context OPTIONAL.  This parameter contains a JSON object
+      which represents the context of this transaction.
 
-   *  request_details OPTIONAL.  This parameter contains a base64url
-      encoded JSON object which represents additional details of the
-      transaction that MUST remain immutable throughout the processing
-      of the transaction by multiple workloads.  The Transaction Token
-      Service uses this information to construct the tctx claim.
+   *  request_details OPTIONAL.  This parameter contains a JSON object
+      which represents additional details of the transaction that MUST
+      remain immutable throughout the processing of the transaction by
+      multiple workloads.  The Transaction Token Service uses this
+      information to construct the tctx claim.
 
-   The requesting workload MUST authenticate its identity to the
-   Transaction Token Service.  The exact client authentication mechanism
-   used is outside the scope of this specification.
+   All parameters are encoded using the "application/x-www-form-
+   urlencoded" format per Appendix B of [RFC6749].
 
    The figure below Figure 6 shows a non-normative example of a Txn-
-   Token Request.
+   Token Request.  Line breaks added for readability.
 
    POST /txn-token-service/token_endpoint HTTP 1.1
    Host: txn-token-service.trust-domain.example
@@ -803,7 +799,11 @@ Table of Contents
    &scope=finance.watchlist.add
    &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-   &request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
+   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
+   %2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
+   %3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
+   %20%20%20%22req_wl%22%3A%20%5B%20%22apigateway.trust-domain.example%22%2C%20
+   %22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
 
                     Figure 6: Example: Txn-Token Request
 
@@ -849,9 +849,8 @@ Table of Contents
       the Txn-Token Service may reject self-signed tokens with an iat
       value that is unreasonably far in the past or future.
 
-   *  exp: The expiration time for the JWT.  This should be a very short
-      duration (order of seconds) in order to prevent any abuse of the
-      JWT.
+   *  exp: The expiration time for the JWT.  Section 9.1 provides
+      guidance on setting the expiry of a Txn-Token.
 
    The self-signed JWT MAY contain other claims.
 
@@ -859,9 +858,7 @@ Table of Contents
 
    A requester MAY use an unsigned JSON object as a subject_token value.
    In that case, the requester MUST set the subject_token_type value to:
-   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the
-   subject_token field MUST be the BASE64URL encoded value of the JSON
-   object as described in Section 5 of [RFC6848].  The JSON object in
+   urn:ietf:params:oauth:token-type:unsigned_json.  The JSON object in
    the subject token MUST contain the following fields:
 
    *  sub: The subject for whom the Txn-Token is being requested.  The
@@ -873,54 +870,56 @@ Table of Contents
 
 7.3.  Txn-Token Request Processing
 
-   When the Transaction Token Service receives a Txn-Token Request it
-   MUST validate the requesting workload client authentication and
-   determine if that workload is authorized to obtain the Txn-Tokens
-   with the requested values.  The authorization policy for determining
-   such issuance is out of scope for this specification.
+   When the Transaction Token Service receives a Txn-Token Request it:
 
-   Next, the Transaction Token Service MUST validate the subject_token
-   and determine the value to specify as the sub of the issued Txn-
-   Token.  The Txn-Token Service MUST ensure the sub value is unique
-   within the Trust Domain defined by the aud claim.
+   *  MUST validate the requesting workload client authentication and
+      determine if that workload is authorized to obtain the Txn-Tokens
+      with the requested value(s).  The authorization policy for
+      determining such issuance is out of scope for this specification.
 
-   The Transaction Token Service MUST set the iat claim to the time of
-   issuance of the Txn-Token.
+   *  Next, the Transaction Token Service MUST validate the
+      subject_token, including verifying the signature, if it is signed.
 
-   The Transaction Token Service MUST set the aud claim to an identifier
-   representing the Trust Domain of the Transaction Token Service.  If
-   the Transaction Token Service supports multiple Trust Domains, then
-   it MUST determine the correct aud value for this request.
+   *  The Txn-Token Service determines the value to specify as the sub
+      of the Txn-Token and MUST ensure the sub value is unique within
+      the Trust Domain defined by the aud claim.
 
-   The Transaction Token Service MUST set the exp claim to the expiry
-   time of the Txn-Token.  The Txn-Token Service MAY consider any exp
-   value present in the subject_token parameter of the Txn-Token Request
-   in determining the exp value of the resulting Txn-Token.
+   *  The Transaction Token Service MUST set the iat claim to the time
+      of issuance of the Txn-Token.
 
-   The Transaction Token Service MUST set the txn claim to a unique ID
-   specific to this transaction.
+   *  The Transaction Token Service MUST set the aud claim to an
+      identifier representing the Trust Domain of the Transaction Token
+      Service.  If the Transaction Token Service supports multiple Trust
+      Domains, then it MUST determine the correct aud value for this
+      request.
 
-   The Transaction Token Service MAY set the iss claim of the Txn-Token
-   to a value defining the entity that signed the Txn-Token.
+   *  The Transaction Token Service MUST set the exp claim to the expiry
+      time of the Txn-Token.  The Txn-Token Service MAY consider any exp
+      value present in the subject_token parameter of the Txn-Token
+      Request in determining the exp value of the resulting Txn-Token.
 
-   The Transaction Token Service MUST evaluate the value specified in
-   the scope parameter of the request to determine the scope claim of
-   the issued Txn-Token.  The value of this claim, as issued by the
-   Transaction Token Service, does not need to match the requested scope
-   value as the Txn-Token scope claim represents the intent or purpose
-   of the transaction within the Trust Domain.
+   *  The Transaction Token Service MUST set the txn claim to a unique
+      ID specific to this transaction.
 
-   If a request_context parameter is present in the Txn-Token Request,
-   the data SHOULD be added to the rctx object of the Txn-Token.  In
-   addition, the Transaction Token Service SHOULD add the authenticated
-   requesting workload identifier in the rctx object as the req_wl
-   claim.
+   *  The Transaction Token Service MAY set the iss claim of the Txn-
+      Token to a value defining the entity that signed the Txn-Token.
+      This claim MUST be omitted if not set.
 
-   If a request_details parameter is present in the Txn-Token Request,
-   then the Transaction Token Service SHOULD propagate the data from the
-   request_details object into the claims in the tctx object as
-   authorized by the Transaction Token Service authorization policy for
-   the requesting client.
+   *  The Transaction Token Service MUST evaluate the value specified in
+      the scope parameter of the request to determine the scope claim of
+      the issued Txn-Token.
+
+   *  If a request_context parameter is present in the Txn-Token
+      Request, the data SHOULD be added to the rctx object of the Txn-
+      Token.  In addition, the Transaction Token Service SHOULD add the
+      authenticated requesting workload identifier in the rctx object as
+      the req_wl claim.
+
+   *  If a request_details parameter is present in the Txn-Token
+      Request, then the Transaction Token Service SHOULD propagate the
+      data from the request_details object into the claims in the tctx
+      object as authorized by the Transaction Token Service
+      authorization policy for the requesting client.
 
    The Transaction Token Service MAY provide additional processing and
    verification that is outside the scope of this specification.
@@ -1010,46 +1009,28 @@ Table of Contents
 
 7.6.  Mutual Authentication of the Txn-Token Request
 
-   A workload and Transaction Token Service MUST perform mutual
-   authentication.
+   A Transaction Token Service and requesting workload MUST authenticate
+   each other (mutual authentication).  Workloads MUST authenticate the
+   Transaction Token Service to ensure that they do not disclose
+   sensitive information, such as OAuth access tokens, to a rogue
+   Transaction Token Service.  A Transaction Token Service MUST
+   authenticate a workload to ensure the workload is authorized to
+   request a transaction token.
 
-   A Txn-Token Service MUST ensure that it authenticates any workloads
-   requesting Txn-Tokens.  In order to do so:
+   Workloads SHOULD use the https scheme to secure the communication
+   channel and authenticate the Transaction Token Service.  When using
+   https, TLS certificates MUST be checked according to Section 4.3.4 of
+   [RFC9110].  At the time of this writing, TLS version 1.3 [RFC8446] is
+   the most recent version.
 
-   *  It MUST maintain a limited, pre-configured set of authorized
-      workloads that MAY request Txn-Tokens.
+   Workloads SHOULD authenticate to a Transaction Token Server using
+   asymmetric (public-key based) methods or signed client authentication
+   JWTs in accordance with [RFC7523].
 
-   *  It MUST authenticate the requesting workload and confirm that it
-      is included in the list of workloads authorized to request a
-      transaction token.
-
-   *  It SHOULD accept workload credentials such as JWTs or X.509
-      certificates which MAY be provisioned using mechanisms such as
-      [SPIFFE] or other provisioning protocols.
-
-   *  It SHOULD use X.509 credentials in conjunction with MTLS
-      [RFC8446], or a JWT protected by TLS at the transport layer, to
-      securely authenticate the requesting workload.
-
-   *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
-      shared secrets to authenticate the requesting workloads.
-
-   The requesting workload MUST ensure that it authenticates the
-   Transaction Token Service.  In order to do so:
-
-   *  It MUST have a pre-configured location for the Transaction Token
-      Service.
-
-   *  It SHOULD accept Transaction Token Service credentials such as
-      JWTs or X.509 certificates which MAY be provisioned using
-      mechanisms such as [SPIFFE] or other provisioning protocols.
-
-   *  It SHOULD use X.509 credentials in conjunction with MTLS
-      [RFC8446], or a JWT protected by TLS at the transport layer, to
-      securely authenticate the Transaction Token Service.
-
-   *  It SHOULD NOT rely on insecure mechanisms, such as long-lived
-      shared secrets to authenticate the Transaction Token Service.
+   Examples of public-key based authentication include those defined in
+   OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound
+   Access Tokens [RFC8705] and WIMSE Workload-to-Workload Authentication
+   [I-D.ietf-wimse-s2s-protocol].
 
 8.  Using Txn-Tokens
 
@@ -1066,8 +1047,8 @@ Table of Contents
 
    A workload that invokes another workload using HTTP and needs to
    present a Txn-Token to the invoked workload MUST use the HTTP Header
-   Txn-Token to communicate the Txn-Token.  The value of this header
-   MUST be the Txn-Token.
+   Txn-Token to communicate the Txn-Token in the HTTP Request.  The
+   value of this header MUST be exactly one Txn-Token.
 
 9.  Security Considerations
 
@@ -1106,12 +1087,12 @@ Table of Contents
    or any other format to represent the details of the requester to the
    Txn-Token service.
 
-9.4.  Client Authentication
+9.4.  Use of 'actor_token'
 
    If using the actor_token and actor_token_type parameters of the OAuth
-   2.0 Token Exchange specification, both parameters MUST be present in
-   the request.  The actor_token MUST authenticate the identity of the
-   requesting workload.
+   2.0 Token Exchange specification [RFC8693], both parameters MUST be
+   present in the request.  The actor_token can authenticate the
+   identity of the requesting workload.
 
 9.5.  Replacement Tokens
 
@@ -1403,6 +1384,11 @@ Table of Contents
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/rfc/rfc7515>.
 
+   [RFC7523]  Jones, M., Campbell, B., and C. Mortimore, "JSON Web Token
+              (JWT) Profile for OAuth 2.0 Client Authentication and
+              Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
+              2015, <https://www.rfc-editor.org/rfc/rfc7523>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -1416,6 +1402,12 @@ Table of Contents
               "Security Event Token (SET)", RFC 8417,
               DOI 10.17487/RFC8417, July 2018,
               <https://www.rfc-editor.org/rfc/rfc8417>.
+
+   [RFC8705]  Campbell, B., Bradley, J., Sakimura, N., and T.
+              Lodderstedt, "OAuth 2.0 Mutual-TLS Client Authentication
+              and Certificate-Bound Access Tokens", RFC 8705,
+              DOI 10.17487/RFC8705, February 2020,
+              <https://www.rfc-editor.org/rfc/rfc8705>.
 
    [RFC9068]  Bertocci, V., "JSON Web Token (JWT) Profile for OAuth 2.0
               Access Tokens", RFC 9068, DOI 10.17487/RFC9068, October
@@ -1459,6 +1451,14 @@ Table of Contents
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
 
+   [I-D.ietf-wimse-s2s-protocol]
+              Campbell, B., Salowey, J. A., Schwenkschuster, A., and Y.
+              Sheffer, "WIMSE Workload-to-Workload Authentication", Work
+              in Progress, Internet-Draft, draft-ietf-wimse-s2s-
+              protocol-07, 16 October 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              s2s-protocol-07>.
+
 Acknowledgements
 
    The authors would like to thank the contributors and the OAuth
@@ -1466,7 +1466,10 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]]
+   [[ To be removed from final specification ]] * Remove contradiction
+   in "request_details" description and simpliffy normative langugage
+   Clarify claim usage (https://github.com/oauth-wg/oauth-transaction-
+   tokens/issues/228).
 
 Since Draft 06
 
@@ -1488,6 +1491,9 @@ Since Draft 06
       legitimate instance of a transaction token service
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)
 
+   *  Clarify need to validate signature on subject_token if it is
+      signed.
+
    *  Clarify role of transaction tokens in call chain
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
 
@@ -1505,6 +1511,10 @@ Since Draft 06
 
    *  Editorial updates (https://github.com/oauth-wg/oauth-transaction-
       tokens/issues/204)
+
+   *  Removed the requirement to encode parameters in based64url format
+
+   *  Rename the purpose claim to scope
 
 Since Draft 05
 
