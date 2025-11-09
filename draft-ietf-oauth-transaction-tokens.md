@@ -510,7 +510,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name.
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
 * `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn_token`
-* `subject_token` REQUIRED. The value MUST represent the subject of the transaction. This MAY be:
+* `subject_token` REQUIRED. The value MUST contain a token that represent the subject of the transaction. The manner in which the subject is represented in the `subject_token` depends on the `subject_token_type`. The `subject_token` MAY be:
   - An inbound token received by an API Gateway
   - A self-signed JWT constructed by a workload initiating a transaction
   - An unsigned JSON object constructed by a workload initiating a transaction
