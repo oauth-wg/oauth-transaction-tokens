@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-06T00:18:44.436402+00:00",
+  "timestamp": "2025-11-09T00:20:35.587645+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3529,7 +3529,7 @@
       "id": "I_kwDOJt_WwM7BrqnT",
       "title": "Is subject_token always Base64 URL format?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/180",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3538,8 +3538,8 @@
       "labels": [],
       "body": "From the MCP Community chat:\n\nFrederick (ffkiv_02286) wrote\n\n```\n7.2.2.  Unsigned JSON Object Subject Token Type\n\n   A requester MAY use an unsigned JSON object as a subject_token value.\n   In that case, the requester MUST set the subject_token_type value to:\n   urn:ietf:params:oauth:token-type:unsigned_json.  The value of the\n   subject_token field MUST be the BASE64URL encoded value of the JSON\n   object as described in Section 5 of [RFC6848].  The JSON object in\n   the subject token MUST contain the following fields:\n```\n\nit's unclear if the subject_token is always supposed to be base64url or only when unsigned. the examples show it always baser64url encoded, might be good to call out these encoding requirements in a more prominent place.\nso interpretation could be: always, or only when unencrypted",
       "createdAt": "2025-07-21T17:21:52Z",
-      "updatedAt": "2025-10-31T15:39:40Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-08T23:50:44Z",
+      "closedAt": "2025-11-08T23:50:44Z",
       "comments": [
         {
           "author": "fkautz",
@@ -3755,7 +3755,7 @@
       "id": "I_kwDOJt_WwM7IDLGs",
       "title": "Do we need ReplacementTx-Tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/190",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -3765,8 +3765,8 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-replacement-txn-tokens et al. \nI'm going to (again maybe?) question whether the replacement concept is really needed? I know, I know, somebody has a use case. There's *always* a use case. But is it worth it? Does it add to or detract from the overall concept and quality of the document?  \n",
       "createdAt": "2025-08-26T16:04:49Z",
-      "updatedAt": "2025-10-29T23:55:36Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-08T23:34:07Z",
+      "closedAt": "2025-11-08T23:34:07Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -3774,6 +3774,13 @@
           "body": "Yes, there is a use case  - @gffletch often cites the example where the risk management server may want to add some information to the tctx for example.\n\nTaking into account the nature of the protocol, there is nothing that prevents a transaction token from being specified as an input to the transaction token service. The intent here, as I recall, is to give some guidance on what happens when a transaction token is used as an input, rather than leaving it undefined, given that this is a something that some implementations will probably want to do.\n\nIn some ways you can just say \"this is just another transaction token request\" but without guidance on processing rules etc, it may be all too easy to create a problem b not respecting validity periods, limiting who can request a replacement token, or changes in the transaction identifier.",
           "createdAt": "2025-09-15T11:53:59Z",
           "updatedAt": "2025-09-15T11:53:59Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See issue #272 , which is the outcome of this discussion.",
+          "createdAt": "2025-11-08T23:34:07Z",
+          "updatedAt": "2025-11-08T23:34:07Z"
         }
       ]
     },
@@ -4076,7 +4083,7 @@
       "id": "I_kwDOJt_WwM7IDR7G",
       "title": "BASE64URL Parameter Encoding",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/196",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4087,8 +4094,8 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.1.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1 and https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.2.2-1\nIs there actual reason to have these parameters base64url/BASE64URL (which is definitely not defined in RFC6848 \"Specifying Civic Address Extensions in the Presence Information Data Format Location Object (PIDF-LO)\") encoded? Some other work out of this WG, like R[AR]FC9396, has utilized application/x-www-form-urlencoded for JSON without issue (that I'm aware of anyway). \n",
       "createdAt": "2025-08-26T16:13:38Z",
-      "updatedAt": "2025-10-31T15:53:24Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-08T23:50:44Z",
+      "closedAt": "2025-11-08T23:50:44Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4635,7 +4642,7 @@
       "id": "I_kwDOJt_WwM7IQ2FV",
       "title": "Request context validation",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/215",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4645,9 +4652,17 @@
       ],
       "body": "WGLC feedback from Joe Salowey\n\nSection 7.3 the request context probably should undergo some validation/authorization to make sure the caller is authorized to set specific values. \n",
       "createdAt": "2025-08-27T15:37:11Z",
-      "updatedAt": "2025-10-29T23:56:00Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-11-08T21:40:12Z",
+      "closedAt": "2025-11-08T21:40:11Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "At IETF 124, we brought this up with a recommendation to not have any validation semantics in the draft. No one in the audience objected to this statement, so closing this issue. Please reopen if you think this needs to be worked on.",
+          "createdAt": "2025-11-08T21:40:11Z",
+          "updatedAt": "2025-11-08T21:40:11Z"
+        }
+      ]
     },
     {
       "number": 216,
@@ -4681,7 +4696,7 @@
       "id": "I_kwDOJt_WwM7IQ4Hn",
       "title": "Transaction token Lifetime extension",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/217",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4691,8 +4706,8 @@
       ],
       "body": "WGLC feedback from Joe Salowey\n\nSection 7.5.1 I can see value in the replacement token allowing for the lifetime of the JWT to be extended.  Sometimes a transaction may take longer than expected.  IF the token lifetime can be refreshed beyond the original time then the transaction can succeed.  THis also seems better than trying to issue tokens with lifetimes that are longer than necessary for most transactions.  In this case the IAT claim could still reflect the original token issue time so the token service can enforce a strict lifetime. \n",
       "createdAt": "2025-08-27T15:39:40Z",
-      "updatedAt": "2025-10-29T23:56:15Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-08T21:41:29Z",
+      "closedAt": "2025-11-08T21:41:29Z",
       "comments": [
         {
           "author": "ashayraut",
@@ -4728,6 +4743,13 @@
           "body": "Also, we may want to clarify some text here to make it clear that extension may not go beyond the original transaction token lifetime.\n\nMUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token -> MUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented transactions token\n\nNote that we do allow the original transaction token to have a longer lifetime than the subject_token..... (see https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-lifetime).",
           "createdAt": "2025-09-23T12:31:00Z",
           "updatedAt": "2025-09-23T12:31:00Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This issue is now obsolete, and replaced by the issue #273 as per discussion in IETF 124.",
+          "createdAt": "2025-11-08T21:41:29Z",
+          "updatedAt": "2025-11-08T21:41:29Z"
         }
       ]
     },
@@ -4973,7 +4995,7 @@
       "id": "I_kwDOJt_WwM7IRJyo",
       "title": "Clarify \"determining\"",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/226",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4982,8 +5004,8 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.2.1-2.1.1\nThe draft says \"The Txn-Token Service SHALL use this value in determining the req_wl value in the Txn-Token issued in response to this request.\"\n*determining* is doing a lot of work here. Is it the exact value or some derivative? If a derivative, what is the process? Same comment for sub claim just below.\n",
       "createdAt": "2025-08-27T15:59:43Z",
-      "updatedAt": "2025-10-30T15:08:12Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-08T21:38:03Z",
+      "closedAt": "2025-11-08T21:38:03Z",
       "comments": [
         {
           "author": "tulshi",
@@ -4998,6 +5020,13 @@
           "body": "My sense of this is that it is an implementation issue, not something we should specify. Different implementations and deployments will have different needs.",
           "createdAt": "2025-10-30T15:08:12Z",
           "updatedAt": "2025-10-30T15:08:12Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this as @PieterKas and I agree that this doesn't need to be in the spec (it should be an implementation consideration).",
+          "createdAt": "2025-11-08T21:38:03Z",
+          "updatedAt": "2025-11-08T21:38:03Z"
         }
       ]
     },
@@ -5016,9 +5045,17 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.2.1-2.5.1\nThe draft says \"This should be a very short duration (order of seconds) in order to prevent any abuse of the JWT.\"\nshould \"this should\" be \"this SHOULD\" or \"this MUST\"? (capitalized)\n",
       "createdAt": "2025-08-27T16:00:35Z",
-      "updatedAt": "2025-10-29T23:28:26Z",
+      "updatedAt": "2025-11-08T23:56:41Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't think we can make this a normative SHOULD (order of seconds is not something that is very precise). The intent of this langugage is to communicate that JWTs are short lived credentials. There is already a section on Transaction Token Lifetime. Perhaps this is something that is better expressed in security considerations, or just referenced in that section (also, this text suggests seconds, other text in the document suggest minutes).",
+          "createdAt": "2025-11-08T23:53:42Z",
+          "updatedAt": "2025-11-08T23:56:41Z"
+        }
+      ]
     },
     {
       "number": 228,
@@ -5428,6 +5465,60 @@
       "body": "There is a lot of normative language about the interface for the Txn-Token-Service. However, I am missing normative language for how a workload should validate the authorization context represented by the Txn-Token. For instance:\n\n- MUST validate signature of JWT, exp, iat claims (with appropriate slack for clock skew)\n- MUST validate that scope allows requested operation\n- MUST validate aud claim (although at least for this there is a \"A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the aud claim.\" yet workload is not explicitly mentioned)\n- MUST validate tctx if present\n- MUST pass along the Txn-Token in outgoing calls belonging to the same transaction\n\nWas this maybe left out intentionally? I do understand that it may be necessary to make some of this language conditional to support different configurations/deployments. For instance there may be cases where some workloads may opt for employing Token Introspection to validate Txn-Tokens instead of doing it locally (which is by the way not mentioned at all in the current draft).",
       "createdAt": "2025-11-04T14:00:31Z",
       "updatedAt": "2025-11-04T14:00:31Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 272,
+      "id": "I_kwDOJt_WwM7W0RYm",
+      "title": "Replacement flow needs to be replaced",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/272",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "help wanted",
+        "WGLC Feedback"
+      ],
+      "body": "At IETF 124, there was feedback that the replacement flow should be removed from the main text of the draft and put into the security considerations section.\n",
+      "createdAt": "2025-11-08T21:34:45Z",
+      "updatedAt": "2025-11-08T21:34:45Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 273,
+      "id": "I_kwDOJt_WwM7W0SGt",
+      "title": "Replacement token lifetime extension warning",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/273",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "help wanted",
+        "WGLC Feedback"
+      ],
+      "body": "As per the discussion in IETF 124: \nAs mentioned in issue #272 , the replacement flow should be moved to the security considerations section. The lifetime of the replaced tokens may exceed the lifetime of the original token, there should be text in the security considerations section that warns about the effects of doing this.\n",
+      "createdAt": "2025-11-08T21:36:36Z",
+      "updatedAt": "2025-11-08T21:36:36Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 277,
+      "id": "I_kwDOJt_WwM7W1BoJ",
+      "title": "Update Transaction Token Lifetime Guidance",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/277",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently we do not allow transaction tokens to exceed the lifetime of the original access token, Consequently we advise that Access tokens be longer lived. Now that we allow for extension of transaction token lifetimes, we need to revise this guidance.",
+      "createdAt": "2025-11-09T00:10:12Z",
+      "updatedAt": "2025-11-09T00:10:12Z",
       "closedAt": null,
       "comments": []
     }
@@ -16522,24 +16613,26 @@
       "id": "PR_kwDOJt_WwM6xgkZh",
       "title": "Remove the need for base64url encoding",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/271",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Updated parameters to use JSON objects instead of base64url encoding and made editorial changes. Addresses issues #180 and #196.\r\n\r\nI also updated the example to show a urlencoded `request_context` parameter.",
       "createdAt": "2025-11-04T22:02:01Z",
-      "updatedAt": "2025-11-04T22:51:53Z",
+      "updatedAt": "2025-11-08T23:50:43Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "1ce68a13fb4fe66ce05e99e53d58f49cfb1cc17e",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "base64url",
       "headRefOid": "da8fe714e2a951e43367f7576410d819282d6716",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-08T23:50:43Z",
+      "mergedAt": "2025-11-08T23:50:43Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "18c12746d9ee633ece6dc7cbba6cbb9f2cd7ab9e"
+      },
       "comments": [],
       "reviews": [
         {
@@ -16566,6 +16659,168 @@
           "body": "",
           "createdAt": "2025-11-04T22:51:53Z",
           "updatedAt": "2025-11-04T22:51:53Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7M-137",
+          "commit": {
+            "abbreviatedOid": "da8fe71"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-08T23:50:25Z",
+          "updatedAt": "2025-11-08T23:50:25Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 274,
+      "id": "PR_kwDOJt_WwM6yVf3_",
+      "title": "Fix reference to Base64 encoding RFC",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/274",
+      "state": "CLOSED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-08T23:40:55Z",
+      "updatedAt": "2025-11-08T23:54:53Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "1ce68a13fb4fe66ce05e99e53d58f49cfb1cc17e",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-encoding-text",
+      "headRefOid": "01ac665a764cf529b49debbf8eb1ffb23abf4362",
+      "closedAt": "2025-11-08T23:54:53Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Updated the additional references.",
+          "createdAt": "2025-11-08T23:48:10Z",
+          "updatedAt": "2025-11-08T23:48:10Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conflicts with updated main, so closing this one. I'll create another PR for this.",
+          "createdAt": "2025-11-08T23:54:53Z",
+          "updatedAt": "2025-11-08T23:54:53Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7M-1i_",
+          "commit": {
+            "abbreviatedOid": "01ac665"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-08T23:49:02Z",
+          "updatedAt": "2025-11-08T23:49:02Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 275,
+      "id": "PR_kwDOJt_WwM6yVjo1",
+      "title": "remove (incorrect) ref to Base64 RFC",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/275",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-08T23:56:52Z",
+      "updatedAt": "2025-11-08T23:57:05Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "18c12746d9ee633ece6dc7cbba6cbb9f2cd7ab9e",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-base64-rfc-ref",
+      "headRefOid": "ab8d05ebab42390ff2a1b68cbb50543358d839cb",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 276,
+      "id": "PR_kwDOJt_WwM6yVmpU",
+      "title": "Revise self-signed Txn-Token expiration guidance",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/276",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #227",
+      "createdAt": "2025-11-09T00:07:43Z",
+      "updatedAt": "2025-11-09T00:08:17Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "18c12746d9ee633ece6dc7cbba6cbb9f2cd7ab9e",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "be844d3bf5a75e78b276e0d6b959dd80188c966f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 278,
+      "id": "PR_kwDOJt_WwM6yVpMD",
+      "title": "subject_token clarification",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/278",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarify that the way a subject is represented in a token is specific to the subject token type. See issue #225",
+      "createdAt": "2025-11-09T00:17:28Z",
+      "updatedAt": "2025-11-09T00:18:36Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "18c12746d9ee633ece6dc7cbba6cbb9f2cd7ab9e",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-3",
+      "headRefOid": "0ecd1194d2ab99e8e0a91ed2a9622e203156867b",
+      "closedAt": "2025-11-09T00:18:35Z",
+      "mergedAt": "2025-11-09T00:18:35Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "12c51cbe1d979551847126b41351b1a860276f75"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7M-7pI",
+          "commit": {
+            "abbreviatedOid": "0ecd119"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-09T00:18:28Z",
+          "updatedAt": "2025-11-09T00:18:28Z",
           "comments": []
         }
       ]
