@@ -11,25 +11,24 @@
 <meta content="
        Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the call chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures. 
     " name="description">
-<meta content="xml2rfc 3.30.2" name="generator">
+<meta content="xml2rfc 3.31.0" name="generator">
 <meta content="Microservices" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.2
-    Python 3.12.11
+  xml2rfc 3.31.0
+    Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.4.0
+    platformdirs 4.5.0
     pycountry 24.6.1
     PyYAML 6.0.2
     requests 2.32.5
-    setuptools 80.9.0
     wcwidth 0.2.14
 -->
 <link href="draft-ietf-oauth-transaction-tokens.xml" rel="alternate" type="application/rfc+xml">
@@ -1049,11 +1048,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">October 2025</td>
+<td class="right">November 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 19 April 2026</td>
+<td class="center">Expires 13 May 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-10-16" class="published">16 October 2025</time>
+<time datetime="2025-11-09" class="published">9 November 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-04-19">19 April 2026</time></dd>
+<dd class="expires"><time datetime="2026-05-13">13 May 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1123,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 April 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 13 May 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1832,7 +1831,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-5.2-2.5">
 <code>aud</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-5.2-2.6">
-            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, identifies the Trust Domain in which the Txn-Token is valid.  This identifier MUST uniquely identify the Trust Domain to prevent the Txn-Token from being accepted outside it's current Trust Domain.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-5.2-2.6.1">REQUIRED This claim, defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, MUST identify the Trust Domain in which the Txn-Token is valid. A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the <code>aud</code> claim.<a href="#section-5.2-2.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-5.2-2.7">
@@ -2025,7 +2024,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
             <p id="section-7.1-3.4.1"><code>requested_token_type</code> REQUIRED. The value MUST be <code>urn:ietf:params:oauth:token-type:txn_token</code><a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.5">
-            <p id="section-7.1-3.5.1"><code>subject_token</code> REQUIRED. The value MUST represent the subject of the transaction. This MAY be:<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.5.1"><code>subject_token</code> REQUIRED. The value MUST contain a token that represent the subject of the transaction. The manner in which the subject is represented in the <code>subject_token</code> depends on the <code>subject_token_type</code>. The <code>subject_token</code> MAY be:<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-3.5.2.1">
                 <p id="section-7.1-3.5.2.1.1">An inbound token received by an API Gateway<a href="#section-7.1-3.5.2.1.1" class="pilcrow">¶</a></p>
@@ -2047,19 +2046,20 @@ The type of the <code>subject_token</code> field is identified by <code>subject_
             <p id="section-7.1-3.6.1"><code>subject_token_type</code> REQUIRED. The value MUST indicate the type of the token or value present in the <code>subject_token</code> parameter<a href="#section-7.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.1-4">The following additional parameters MAY be present in a Txn-Token Request:<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-5.1">
-            <p id="section-7.1-5.1.1"><code>request_context</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents the context of this transaction. The parameter SHOULD be present and how the Transaction Token Service uses this parameter is out of scope for this specification.<a href="#section-7.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-5.1.1"><code>request_context</code> OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.<a href="#section-7.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-5.2">
-            <p id="section-7.1-5.2.1"><code>request_details</code> OPTIONAL. This parameter contains a base64url encoded JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the <code>tctx</code> claim.<a href="#section-7.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-5.2.1"><code>request_details</code> OPTIONAL. This parameter contains a JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the <code>tctx</code> claim.<a href="#section-7.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.1-6">The figure below <a href="#figtxtokenrequest" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Request.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+<p id="section-7.1-6">All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+<p id="section-7.1-7">The figure below <a href="#figtxtokenrequest" class="auto internal xref">Figure 6</a> shows a non-normative example of a Txn-Token Request. Line breaks added for readability.<a href="#section-7.1-7" class="pilcrow">¶</a></p>
 <span id="name-example-txn-token-request"></span><div id="figtxtokenrequest">
 <figure id="figure-6">
-          <div class="lang-http sourcecode" id="section-7.1-7.1">
+          <div class="lang-http sourcecode" id="section-7.1-8.1">
 <pre>
 POST /txn-token-service/token_endpoint HTTP 1.1
 Host: txn-token-service.trust-domain.example
@@ -2071,7 +2071,11 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 &amp;scope=finance.watchlist.add
 &amp;subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &amp;subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-&amp;request_context=eyAiaXBfYWRkcmVzcyI6ICIxMjcuMC4wLjEiLCAiY2xpZW50IjogIm1vYmlsZS1hcHAiLCAiY2xpZW50X3ZlcnNpb24iOiAidjExIiB9
+&amp;request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
+%2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
+%3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
+%20%20%20%22req_wl%22%3A%20%5B%20%22apigateway.trust-domain.example%22%2C%20
+%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
 </pre>
 </div>
 <figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
@@ -2131,7 +2135,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
           <h4 id="name-unsigned-json-object-subjec">
 <a href="#section-7.2.2" class="section-number selfRef">7.2.2. </a><a href="#name-unsigned-json-object-subjec" class="section-name selfRef">Unsigned JSON Object Subject Token Type</a>
           </h4>
-<p id="section-7.2.2-1">A requester MAY use an unsigned JSON object as a <code>subject_token</code> value. In that case, the requester MUST set the <code>subject_token_type</code> value to: <code>urn:ietf:params:oauth:token-type:unsigned_json</code>. The value of the <code>subject_token</code> field MUST be the BASE64URL encoded value of the JSON object as described in <span><a href="https://rfc-editor.org/rfc/rfc6848#section-5" class="relref">Section 5</a> of [<a href="#RFC6848" class="cite xref">RFC6848</a>]</span>.  The JSON object in the subject token MUST contain the following fields:<a href="#section-7.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2.2-1">A requester MAY use an unsigned JSON object as a <code>subject_token</code> value. In that case, the requester MUST set the <code>subject_token_type</code> value to: <code>urn:ietf:params:oauth:token-type:unsigned_json</code>. The JSON object in the subject token MUST contain the following fields:<a href="#section-7.2.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2.2-2.1">
               <p id="section-7.2.2-2.1.1"><code>sub</code>: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the <code>sub</code> value in the Txn-Token issued in the response to this request.<a href="#section-7.2.2-2.1.1" class="pilcrow">¶</a></p>
@@ -2147,17 +2151,43 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
         <h3 id="name-txn-token-request-processin">
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-txn-token-request-processin" class="section-name selfRef">Txn-Token Request Processing</a>
         </h3>
-<p id="section-7.3-1">When the Transaction Token Service receives a Txn-Token Request it MUST authenticate the workload and determine if that workload is authorized to obtain Txn-Tokens with the requested values. The authorization policy for determining such issuance is out of scope for this specification.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">Next, the Transaction Token Service MUST validate the <code>subject_token</code> and determine the value to specify as the <code>sub</code> of the issued Txn-Token. The Txn-Token Service MUST ensure the <code>sub</code> value is unique within the Trust Domain defined by the <code>aud</code> claim.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
-<p id="section-7.3-3">The Transaction Token Service MUST set the <code>iat</code> claim to the time of issuance of the Txn-Token.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<p id="section-7.3-4">The Transaction Token Service MUST set the <code>aud</code> claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple Trust Domains, then it MUST determine the correct <code>aud</code> value for this request.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
-<p id="section-7.3-5">The Transaction Token Service MUST set the <code>exp</code> claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any <code>exp</code> value present in the <code>subject_token</code> parameter of the Txn-Token Request in determining the <code>exp</code> value of the resulting Txn-Token.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
-<p id="section-7.3-6">The Transaction Token Service MUST set the <code>txn</code> claim to a unique ID specific to this transaction.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
-<p id="section-7.3-7">The Transaction Token Service MAY set the <code>iss</code> claim of the Txn-Token to a value defining the entity that signed the Txn-Token.<a href="#section-7.3-7" class="pilcrow">¶</a></p>
-<p id="section-7.3-8">The Transaction Token Service MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token. The value of this claim, as issued by the Transaction Token Service, does not need to match the requested <code>scope</code> value as the Txn-Token <code>scope</code> claim represents the intent or purpose of the transaction within the Trust Domain.<a href="#section-7.3-8" class="pilcrow">¶</a></p>
-<p id="section-7.3-9">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the <code>rctx</code> object as the <code>req_wl</code> claim.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
-<p id="section-7.3-10">If a <code>request_details</code> parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the <code>request_details</code> object into the claims in the <code>tctx</code> object as authorized by the Transaction Token Service authorization policy for the requesting client.<a href="#section-7.3-10" class="pilcrow">¶</a></p>
-<p id="section-7.3-11">The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.<a href="#section-7.3-11" class="pilcrow">¶</a></p>
+<p id="section-7.3-1">When the Transaction Token Service receives a Txn-Token Request it:<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.3-2.1">
+            <p id="section-7.3-2.1.1">MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested value(s). The authorization policy for determining such issuance is out of scope for this specification.<a href="#section-7.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.2">
+            <p id="section-7.3-2.2.1">Next, the Transaction Token Service MUST validate the <code>subject_token</code>, including verifying the signature, if it is signed.<a href="#section-7.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.3">
+            <p id="section-7.3-2.3.1">The Txn-Token Service determines the value to specify as the <code>sub</code> of the Txn-Token and MUST ensure the <code>sub</code> value is unique within the Trust Domain defined by the <code>aud</code> claim.<a href="#section-7.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.4">
+            <p id="section-7.3-2.4.1">The Transaction Token Service MUST set the <code>iat</code> claim to the time of issuance of the Txn-Token.<a href="#section-7.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.5">
+            <p id="section-7.3-2.5.1">The Transaction Token Service MUST set the <code>aud</code> claim to an identifier representing the Trust Domain of the Transaction Token Service. If the Transaction Token Service supports multiple Trust Domains, then it MUST determine the correct <code>aud</code> value for this request.<a href="#section-7.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.6">
+            <p id="section-7.3-2.6.1">The Transaction Token Service MUST set the <code>exp</code> claim to the expiry time of the Txn-Token. The Txn-Token Service MAY consider any <code>exp</code> value present in the <code>subject_token</code> parameter of the Txn-Token Request in determining the <code>exp</code> value of the resulting Txn-Token.<a href="#section-7.3-2.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.7">
+            <p id="section-7.3-2.7.1">The Transaction Token Service MUST set the <code>txn</code> claim to a unique ID specific to this transaction.<a href="#section-7.3-2.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.8">
+            <p id="section-7.3-2.8.1">The Transaction Token Service MAY set the <code>iss</code> claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.<a href="#section-7.3-2.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.9">
+            <p id="section-7.3-2.9.1">The Transaction Token Service MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token.<a href="#section-7.3-2.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.10">
+            <p id="section-7.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the <code>rctx</code> object as the <code>req_wl</code> claim.<a href="#section-7.3-2.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.3-2.11">
+            <p id="section-7.3-2.11.1">If a <code>request_details</code> parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the <code>request_details</code> object into the claims in the <code>tctx</code> object as authorized by the Transaction Token Service authorization policy for the requesting client.<a href="#section-7.3-2.11.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.3-3">The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="txn-token-response">
@@ -2278,7 +2308,7 @@ Cache-Control: no-store
         <h3 id="name-txn-token-http-header">
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-txn-token-http-header" class="section-name selfRef">Txn-Token HTTP Header</a>
         </h3>
-<p id="section-8.1-1">A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header <code>Txn-Token</code> to communicate the Txn-Token. The value of this header MUST be the Txn-Token.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-8.1-1">A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header <code>Txn-Token</code> to communicate the Txn-Token in the HTTP Request. The value of this header MUST be exactly one Txn-Token.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2730,7 +2760,8 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
       <h2 id="name-document-history">
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-B-1">[[ To be removed from final specification ]]<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<p id="appendix-B-1">[[ To be removed from final specification ]]
+* Remove contradiction in "request_details" description and simpliffy normative langugage <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/228">Clarify claim usage</a>.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
 <div id="since-draft-06">
 <section id="appendix-B.1">
         <h3 id="name-since-draft-06">
@@ -2753,22 +2784,31 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
             <p id="appendix-B.1-1.5.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.6.1">Clarify need to validate signature on subject_token if it is signed.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.7">
-            <p id="appendix-B.1-1.7.1">Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.7.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.8">
-            <p id="appendix-B.1-1.8.1">Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.8.1">Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.9">
-            <p id="appendix-B.1-1.9.1">Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.9.1">Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.10">
-            <p id="appendix-B.1-1.10.1">Clarify that <code>txn</code>should remain unchanged when included in a replacement transaction token.<a href="#appendix-B.1-1.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.10.1">Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)<a href="#appendix-B.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.11">
-            <p id="appendix-B.1-1.11.1">Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)<a href="#appendix-B.1-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.11.1">Clarify that <code>txn</code>should remain unchanged when included in a replacement transaction token.<a href="#appendix-B.1-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.12">
+            <p id="appendix-B.1-1.12.1">Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)<a href="#appendix-B.1-1.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.13">
+            <p id="appendix-B.1-1.13.1">Removed the requirement to encode parameters in based64url format<a href="#appendix-B.1-1.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.14">
+            <p id="appendix-B.1-1.14.1">Rename the <code>purpose</code> claim to <code>scope</code><a href="#appendix-B.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
