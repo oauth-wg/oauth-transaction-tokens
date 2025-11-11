@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-09T00:20:35.587645+00:00",
+  "timestamp": "2025-11-11T00:19:21.637524+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -5476,16 +5476,25 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [
-        "help wanted",
         "WGLC Feedback"
       ],
       "body": "At IETF 124, there was feedback that the replacement flow should be removed from the main text of the draft and put into the security considerations section.\n",
       "createdAt": "2025-11-08T21:34:45Z",
-      "updatedAt": "2025-11-08T21:34:45Z",
+      "updatedAt": "2025-11-09T00:30:20Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "As I was working on this issue, I found out language in [Section 5.2.2](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-requester-context) regarding `req_wl`, which will need to be updated. I'm proposing we use a comma separated string of workload identifiers for specifying the replacement path. Alternatively, we can keep the `req_wl` the same, and in future when we specify replacement, we create a new field that denotes the replacement path. Thoughts? @PieterKas @gffletch ",
+          "createdAt": "2025-11-09T00:30:20Z",
+          "updatedAt": "2025-11-09T00:30:20Z"
+        }
+      ]
     },
     {
       "number": 273,
@@ -5495,16 +5504,25 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [
-        "help wanted",
         "WGLC Feedback"
       ],
       "body": "As per the discussion in IETF 124: \nAs mentioned in issue #272 , the replacement flow should be moved to the security considerations section. The lifetime of the replaced tokens may exceed the lifetime of the original token, there should be text in the security considerations section that warns about the effects of doing this.\n",
       "createdAt": "2025-11-08T21:36:36Z",
-      "updatedAt": "2025-11-08T21:36:36Z",
+      "updatedAt": "2025-11-10T09:08:31Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "naveencm4u1",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I agree with this approach. After the internal review, we decided not to extend the expiry of the replacement token, as doing so could lead to potential misuse through repeated extension requests.",
+          "createdAt": "2025-11-10T09:08:30Z",
+          "updatedAt": "2025-11-10T09:08:30Z"
+        }
+      ]
     },
     {
       "number": 277,
@@ -16762,26 +16780,42 @@
       "id": "PR_kwDOJt_WwM6yVmpU",
       "title": "Revise self-signed Txn-Token expiration guidance",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/276",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #227",
       "createdAt": "2025-11-09T00:07:43Z",
-      "updatedAt": "2025-11-09T00:08:17Z",
+      "updatedAt": "2025-11-09T00:25:20Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "18c12746d9ee633ece6dc7cbba6cbb9f2cd7ab9e",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
-      "headRefOid": "be844d3bf5a75e78b276e0d6b959dd80188c966f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "6f0b8591379d9a1ddf14343bc9fa92288cf780e5",
+      "closedAt": "2025-11-09T00:25:19Z",
+      "mergedAt": "2025-11-09T00:25:19Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "0c0730411ed4e7592c0367037e2048e85c3418ae"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7M-9FR",
+          "commit": {
+            "abbreviatedOid": "6f0b859"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-09T00:25:12Z",
+          "updatedAt": "2025-11-09T00:25:12Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 278,
