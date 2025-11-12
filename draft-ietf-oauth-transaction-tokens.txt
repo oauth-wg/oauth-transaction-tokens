@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 13 May 2026                              Practical Identity LLC
+Expires: 16 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         9 November 2025
+                                                        12 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 May 2026.
+   This Internet-Draft will expire on 16 May 2026.
 
 Copyright Notice
 
@@ -1371,12 +1371,6 @@ Table of Contents
    [RFC6749]  Hardt, D., Ed., "The OAuth 2.0 Authorization Framework",
               RFC 6749, DOI 10.17487/RFC6749, October 2012,
               <https://www.rfc-editor.org/rfc/rfc6749>.
-
-   [RFC6848]  Winterbottom, J., Thomson, M., Barnes, R., Rosen, B., and
-              R. George, "Specifying Civic Address Extensions in the
-              Presence Information Data Format Location Object (PIDF-
-              LO)", RFC 6848, DOI 10.17487/RFC6848, January 2013,
-              <https://www.rfc-editor.org/rfc/rfc6848>.
 
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
