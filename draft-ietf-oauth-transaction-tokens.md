@@ -72,7 +72,6 @@ normative:
   RFC3986: # URI
   RFC8446: # TLS
   RFC6749: #OAuth
-  RFC6848: #Base64url encoding
   RFC7519: #JWT
   RFC7515: #JWS
   RFC7523: # JWT Assertion Flow
