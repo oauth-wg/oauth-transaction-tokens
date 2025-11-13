@@ -346,6 +346,9 @@ JWT claims as well as defines new claims. These claims are described below:
 `rctx`:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
+`req_wl`:
+: REQUIRED. A StringOrURI value that identifies the workload that requested the Txn-Token.
+
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the Transaction Token Service as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
 
@@ -390,10 +393,6 @@ The following is a non-normative example of an `tctx` claim initiated by an exte
   }
 }
 ~~~
-
-#### Requesting Workload Identifier
-
-It is useful to be able to track the set of workloads that have requested a Txn-Token. By default, the `req_wl` is a string representing the original workload entity that requested the Txn-Token. However, if a workload within the path of servicing the transaction requests a replacement Txn-Token, then the Transaction Token Service will append the new requesting workload as a subsequent array element in the `req_wl` claim. This provides a "pathing" mechanism to track which services have requested replacement Txn-Tokens. If there is only a single value the `req_wl` will be a string. If there is more than a single value, then `req_wl` will be represented by an array of strings.
 
 ### Example
 The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT body of a Txn-Token initiated by an external call:
@@ -577,11 +576,8 @@ A service requesting a Txn-Token SHOULD provide an incoming token if it has one 
 ## Use of 'actor_token'
 If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` can authenticate the identity of the requesting workload.
 
-## Replacement Tokens
-Validation of a replacement Txn-Token, as well as any Txn-Token, is critical to the security of the entire transaction invocation sequence. Only Txn-Tokens issued by a trusted Transaction Token Service may be trusted, so verification of the Txn-Token signature is required. For replacement transaction tokens, not only must the JWT signature be verified but also the workload identity of the workload requesting the replacement Txn-Token.
-
 ## Scope Processing
-The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The Transaction Token Service MUST ensure that the requested `scope` of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`. This is also true of requesting a replacement Txn-Token. The Transaction Token Service MUST ensure there is no unintentional privilege escalation in authorization scope.
+The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the Transaction Token Service. The Transaction Token Service MUST ensure that the requested `scope` of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`.
 
 ## Unique Transaction Identifier
 A transaction token conveys user identity and authorization context across workloads in a call chain. The `txn` claim is a unique identifier that, when logged by the Transaction Token Service and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain.
@@ -606,7 +602,7 @@ A workload MUST NOT use a transaction token to authenticate itself to another wo
 ## Replacing Transaction Tokens
 A service within a call chain may choose to replace the Txn-Token. This can typically happen if the service wants to change (add to, remove, or modify) the context of the current Txn-Token
 
-To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request. The Txn-Token service must be careful about the types of replacement requests it supports to avoid undermining the entire value of Txn-Tokens.
+To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request.
 
 ### Txn-Token Service Responsibilities
 A Txn-Token Service MUST exercise caution when issugin replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:
@@ -723,6 +719,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)
 * Removed the requirement to encode parameters in based64url format
 * Rename the `purpose` claim to `scope`
+* Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.
 
 ## Since Draft 05
 {:numbered="false"}
