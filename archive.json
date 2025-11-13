@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-11T00:19:21.637524+00:00",
+  "timestamp": "2025-11-13T00:19:02.779004+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3134,7 +3134,7 @@
       "labels": [],
       "body": "Reviewing the -05 draft, section 5.2.2 identifies the `req_ip` as the IP of the originating user.  However, the bullets identify `req_ip` as belonging to the \"end-user or robotic process...\".  I find this to be ambiguous about what the `req_ip` represents.  This is further complicated by the fact that the user's IP address may not be available to the call stack because the request has been proxied through one or more devices, obfuscating the user's original IP address.\n\nI have two questions:\n\n1. Can the language around the `req_ip` be tightened up to make it clear that it is either the IP of the end user when issued in exchange for an AT, and it represents the workload's IP when the workload is requesting a replacement txn_token?  The context of a txn_token `req_wl` will make it clear that the `req_ip` is the client (iff `req_wl` is a single element), or the calling workload (iff `req_wl` is > 1 element).\n2. Can we add an imperative that the ```req_ip``` for the first txn_token SHOULD NOT be the IP of a proxy or gateway, _e.g._ by using the `X-Forwarded-For` header?\n\nIf the authors think these additions are valuable, I can write the PR.\n\n",
       "createdAt": "2025-03-25T21:20:51Z",
-      "updatedAt": "2025-08-08T17:45:09Z",
+      "updatedAt": "2025-11-12T18:06:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -3157,6 +3157,13 @@
           "body": "Agree, IpAddress isn't really reliable. In general, as part of governance, we have to be careful on what we add in these tokens because the tokens protect by default to entire call graph and we may not want to propagate this IpAddress everywhere. Yes, we can encrypt the value to ensure customer's ipAddress isn't exposed to entire graph but also if someone is allowed to get decryption key, still do we have clarity on how they will use this IpAddress for access control. Won't those access control rules break easily or even not scale when there are X millions of customers with Y number of devices.",
           "createdAt": "2025-08-08T17:45:09Z",
           "updatedAt": "2025-08-08T17:45:09Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The purpose of the `rctx` object is to provide useful information to downstream workloads to inform any local authorization/risk decisions at the workload. To that end, `req_ip` can be a valuable claim albeit with some privacy implications. \n\nOutside of the requesting workload, I'm wondering if there is significant value is defining other claim names or just allowing the deployment to use whatever names they want for their specific requirements.\n\nThoughts?",
+          "createdAt": "2025-11-12T18:06:10Z",
+          "updatedAt": "2025-11-12T18:06:10Z"
         }
       ]
     },
@@ -3621,7 +3628,7 @@
       "labels": [],
       "body": "What are thoughts around issuing new Token id everytime there is a replacement token issued? I believe that way its easier to track those tokens separately. Also its not really the same token anymore after replacement so the spec I think should call out clearly that during replacement, token id should NOT be reused.",
       "createdAt": "2025-07-28T22:20:06Z",
-      "updatedAt": "2025-09-23T18:56:56Z",
+      "updatedAt": "2025-11-12T18:14:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -3637,6 +3644,20 @@
           "body": "Ack but you also need a way to know context was replaced. Technically issuer can log replacement and issuance actions on its end against a the identifier and then trace replacements too. ",
           "createdAt": "2025-09-23T18:56:56Z",
           "updatedAt": "2025-09-23T18:56:56Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I tend to agree that the `txn` claim should stay consistent throughout the necessary calls to complete the transaction. If a replacement transaction token is issued, could the Transaction Token Service not add an additional claim for the replacement transaction token and then systems could log one or both identifiers?",
+          "createdAt": "2025-11-12T18:12:49Z",
+          "updatedAt": "2025-11-12T18:12:49Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also, based on IETF 124 discussions, replacement transaction tokens are being moved to security considerations and not specifically specified with the expectation that we can do another spec for them in the future. \n\nWhat would be useful at this point is to collect deployed use cases where replacement transaction tokens are being used.",
+          "createdAt": "2025-11-12T18:14:13Z",
+          "updatedAt": "2025-11-12T18:14:13Z"
         }
       ]
     },
@@ -4149,7 +4170,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1\nThe 'MUST remain immutable' here in the request parameter definition is rather odd and could easily be interpreted to mean something that is probably not intended. \n",
       "createdAt": "2025-08-26T16:15:49Z",
-      "updatedAt": "2025-10-29T23:53:44Z",
+      "updatedAt": "2025-11-11T21:51:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -4165,6 +4186,13 @@
           "body": "I agree with @PieterKas ",
           "createdAt": "2025-10-29T23:53:29Z",
           "updatedAt": "2025-10-29T23:53:29Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What about...\n\nThis parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the Transaction Token Service. The Transaction Token Service uses this data along with other data to construct the `tcxt` JSON object (if required). \n\n",
+          "createdAt": "2025-11-11T21:51:03Z",
+          "updatedAt": "2025-11-11T21:51:03Z"
         }
       ]
     },
@@ -4885,7 +4913,7 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.3-3\n\"the tctx field contains the actual authorizaton details that are determined by the TTS. \"\nWeird to me that this is so crucial, but is not a MUST in the request, (per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.16.1 ) . What are the scenarios where the TTS would not provide a tctx field?\n",
       "createdAt": "2025-08-27T15:52:03Z",
-      "updatedAt": "2025-10-29T23:37:57Z",
+      "updatedAt": "2025-11-11T21:09:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -4915,6 +4943,13 @@
           "body": "I think it needs to be a SHOULD. This will help in trivial cases, where the `scope` is sufficient and not `tctx` value is required.",
           "createdAt": "2025-10-29T23:37:57Z",
           "updatedAt": "2025-10-29T23:37:57Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree it should be a SHOULD. There could be some authorization deployments where no `tcxt` is needed.\n\nAs for where the data comes from, it can come from the `subject_token` and the `request_details` JSON object if specified.",
+          "createdAt": "2025-11-11T21:09:11Z",
+          "updatedAt": "2025-11-11T21:09:11Z"
         }
       ]
     },
@@ -4967,9 +5002,17 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.2.4.1\nI thought we were always promised an access token or a self-signed JWT. per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-4 . Maybe 2.2.1 needs to be updated?\n",
       "createdAt": "2025-08-27T15:57:05Z",
-      "updatedAt": "2025-10-29T23:32:38Z",
+      "updatedAt": "2025-11-11T12:34:00Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, I think we need to update section 2.2.1. I don't think we should prohibit someone setting the `subject_token_type` to `urn:....:email-address` and then setting the `subject_token` to `alice@example.com`. Forcing deployments to use an unsigned JSON object for this seems like extra work.\n\nThoughts?",
+          "createdAt": "2025-11-11T12:34:00Z",
+          "updatedAt": "2025-11-11T12:34:00Z"
+        }
+      ]
     },
     {
       "number": 225,
@@ -4986,9 +5029,45 @@
       ],
       "body": "WGLC Feedback from Dan Moore \n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.1\nit is unclear to me what the subject of the transaction is? That didn't get defined above, would be nice to have it defined.\n",
       "createdAt": "2025-08-27T15:58:18Z",
-      "updatedAt": "2025-10-29T23:30:53Z",
+      "updatedAt": "2025-11-12T18:38:46Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Currently the section 5.2 defines the `sub` claim as:\n\nsub:\nREQUIRED A unique identifier for the subject within the context of the `aud` Trust Domain. Unlike OpenID Connect, the sub claim is NOT associated with the iss claim.\n\nMaybe...\n\nThe `sub` represent the principal of the transaction as defined by RFC 7519 section 4.1.2. The value MUST be unique within the context of the `aud` Trust Domain. Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.",
+          "createdAt": "2025-11-11T22:05:09Z",
+          "updatedAt": "2025-11-11T22:05:09Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm working on a PR for this issue",
+          "createdAt": "2025-11-11T22:56:17Z",
+          "updatedAt": "2025-11-11T22:56:17Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch - there was a PR for this prior to IETF 124 that got merged (see issue history for the PR). I don't think we still need a PR for this?",
+          "createdAt": "2025-11-12T13:42:42Z",
+          "updatedAt": "2025-11-12T13:42:42Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Well\u2026 I updated my fork to the main branch of the spec and didn\u2019t feel like the description had the detail that Joe was requesting. We can reject the PR if desired.",
+          "createdAt": "2025-11-12T16:45:05Z",
+          "updatedAt": "2025-11-12T16:45:05Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Do you mean Dan, or is there a similar issue that Joe raised?",
+          "createdAt": "2025-11-12T18:38:46Z",
+          "updatedAt": "2025-11-12T18:38:46Z"
+        }
+      ]
     },
     {
       "number": 226,
@@ -5045,7 +5124,7 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.2.1-2.5.1\nThe draft says \"This should be a very short duration (order of seconds) in order to prevent any abuse of the JWT.\"\nshould \"this should\" be \"this SHOULD\" or \"this MUST\"? (capitalized)\n",
       "createdAt": "2025-08-27T16:00:35Z",
-      "updatedAt": "2025-11-08T23:56:41Z",
+      "updatedAt": "2025-11-12T13:24:50Z",
       "closedAt": null,
       "comments": [
         {
@@ -5054,6 +5133,20 @@
           "body": "I don't think we can make this a normative SHOULD (order of seconds is not something that is very precise). The intent of this langugage is to communicate that JWTs are short lived credentials. There is already a section on Transaction Token Lifetime. Perhaps this is something that is better expressed in security considerations, or just referenced in that section (also, this text suggests seconds, other text in the document suggest minutes).",
           "createdAt": "2025-11-08T23:53:42Z",
           "updatedAt": "2025-11-08T23:56:41Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What is the best practice for things that go into Security Considerations vs inline in the text. My concern is that not everyone will read the Security Considerations section. Maybe we can put an explicit reference to the Security Consideration section inline so that more people are inclined to read what's written there?\n\nThe lifetime of the self-signed JWT is an important determination in the security model of the deployment. Please see section XXX for more guidance.\n\nOr something like that?",
+          "createdAt": "2025-11-11T12:12:40Z",
+          "updatedAt": "2025-11-11T12:12:40Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes - that is how we did it in another draft (identity chaining maybe?). Making explicit referenc to security considerations where we can then go into more depth is a good path in my view.",
+          "createdAt": "2025-11-12T13:24:50Z",
+          "updatedAt": "2025-11-12T13:24:50Z"
         }
       ]
     },
@@ -5440,7 +5533,7 @@
       "labels": [],
       "body": "From https://github.com/oauth-wg/oauth-transaction-tokens/pull/253\n\n@gffletch and @tulshi opened a discussion about the normative language used regarding the request_detailt and rctx claim. This was orthogonal to the original issue being adressed. to avoid having a PR open for a long time when the issue being raised is not related to the issue in the PR, this issue wass created instead. Screenshot of discussion below:\n\n<img width=\"827\" height=\"832\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/524de217-960a-4665-85fa-f2fdc65f0ad2\" />",
       "createdAt": "2025-10-30T13:30:51Z",
-      "updatedAt": "2025-10-30T13:42:06Z",
+      "updatedAt": "2025-11-12T22:48:34Z",
       "closedAt": null,
       "comments": [
         {
@@ -5449,6 +5542,34 @@
           "body": "Regarding the discussion on this I believe there are two orthogonal discussion points:\n\n@gffletch - you raised the question on whether the worklod idenitifier normative langugage needs to be stronger. Our latest language on authentication is that it is a MUST, sso that information has to be available. However, rctx is an optional claim, and so, any MUST (and arguably the SHOULD as well) is conditional on rctx ebing included. We may want to state that conditionality explicitly. e.g. if we decide it is a MUST, we need langugage like, \"if the rctx claim is included, the workload identifier MUST be included as the req_wl claim).\n\n@tulshi - I think the question you raise is separate from what George raised. I agree with your perspective that request_context is one of the inputs, but should not be the only input to determining rctx content. Enriching that with out-of-band information drawn from some back-end management service seems likely and plausible. If we remove the SHOULD, we may want to add langugage that suggest backend enrichment may be an option.",
           "createdAt": "2025-10-30T13:42:06Z",
           "updatedAt": "2025-10-30T13:42:06Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think from an authorization perspective, knowing the workload that requested the transaction token is likely very important. As in, \"I don't accept transaction tokens unless they were requested by these N workloads\". That doesn't make it a MUST, but maybe there is more guidance we should add in that vein?\n\nWe already of text that says that the TTS is authoritative for the authorization of TraTs within the trust domain.\n\nMaybe something like...\n\nThe TTS is a critical component of the enablement of the authorization model in a given deployment. To that end, the TTS is responsible to ensuring any issued transaction tokens have all the necessary claims to allow downstream systems to implement the required authorization policy. Authorization models and deployment implementation details are out of scope for this specification.",
+          "createdAt": "2025-11-11T12:23:43Z",
+          "updatedAt": "2025-11-11T12:23:43Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> The TTS is a critical component of the enablement of the authorization model in a given deployment. To that end, the TTS is responsible to ensuring any issued transaction tokens have all the necessary claims to allow downstream systems to implement the required authorization policy.\n\nThis feels unnecessary. If the TTS does not do this, authorisation will fail and it gets fixed as a configuration update. Including language like this spirals into \"how does the TTS know what all the authorisation condition are?\".\n\nThere are two thing to add:\n\nClarify the conditionality of the normative language: e.g. If the rctx claim is included, the workload identifier MUST be included as the req_wl claim. \nClarify the ability of the TTS to enrich this information based on backend enrichment.\n\n",
+          "createdAt": "2025-11-12T13:36:34Z",
+          "updatedAt": "2025-11-12T13:36:34Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regarding the `req_wl` I don\u2019t know that that claim MUST come from the `rctx`. Since client authentication is required, the TTS could specify the `req_wl` from the client authentication even if no `rctx` is specified.\n\nWhile I agree that from a pure spec perspective, other guidance isn\u2019t required, I do worry about developers not understanding what the purpose or intent of specific claims are and how those relate to the security of the deployment. While we can\u2019t guarantee secure deployments via spec writing, I do think we should provide reasonable guidance. Maybe this could be in a security consideration?\n\nGenerally, what goes into the `rctx` and what claims that object contains is up to the TTS regardless of what was supplied to the TTS. If that isn\u2019t clear, then that\u2019s the first think to clarify.",
+          "createdAt": "2025-11-12T17:45:13Z",
+          "updatedAt": "2025-11-12T17:45:13Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Regarding the req_wl I don\u2019t know that that claim MUST come from the rctx. Since client authentication is required, the TTS could specify the req_wl from the client authentication even if no rctx is specified.\n\nI am not sure I follow - are you saying the req_wl is not expected to be included in rctx? The examples all use it as included in the rctx and the text defines req_wl in the context of rctx.\n\n",
+          "createdAt": "2025-11-12T22:48:34Z",
+          "updatedAt": "2025-11-12T22:48:34Z"
         }
       ]
     },
@@ -5464,9 +5585,31 @@
       "labels": [],
       "body": "There is a lot of normative language about the interface for the Txn-Token-Service. However, I am missing normative language for how a workload should validate the authorization context represented by the Txn-Token. For instance:\n\n- MUST validate signature of JWT, exp, iat claims (with appropriate slack for clock skew)\n- MUST validate that scope allows requested operation\n- MUST validate aud claim (although at least for this there is a \"A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the aud claim.\" yet workload is not explicitly mentioned)\n- MUST validate tctx if present\n- MUST pass along the Txn-Token in outgoing calls belonging to the same transaction\n\nWas this maybe left out intentionally? I do understand that it may be necessary to make some of this language conditional to support different configurations/deployments. For instance there may be cases where some workloads may opt for employing Token Introspection to validate Txn-Tokens instead of doing it locally (which is by the way not mentioned at all in the current draft).",
       "createdAt": "2025-11-04T14:00:31Z",
-      "updatedAt": "2025-11-04T14:00:31Z",
+      "updatedAt": "2025-11-12T17:47:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So I think the authorization rules are left out intentionally (e.g. what to do with the scope claim) as that can be very deployment specific. \n\nHowever, I do think there are some good hygiene processing of transaction tokens that could be added.\n* Validate signature and expiry\n* Validate the `aud` claim matches\n* Pass the transaction token on any outbound call related to this transaction\n\n@PieterKas, @tulshi Thoughts?",
+          "createdAt": "2025-11-11T12:16:07Z",
+          "updatedAt": "2025-11-11T12:16:07Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree. I also think we have been adding a bit of information like that based on other WGLC feedback over the last month or two.",
+          "createdAt": "2025-11-12T13:27:07Z",
+          "updatedAt": "2025-11-12T13:27:07Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So should we add a section to section 8 on transaction token request processing to be explicit about this guidance?",
+          "createdAt": "2025-11-12T17:47:25Z",
+          "updatedAt": "2025-11-12T17:47:25Z"
+        }
+      ]
     },
     {
       "number": 272,
@@ -5484,7 +5627,7 @@
       ],
       "body": "At IETF 124, there was feedback that the replacement flow should be removed from the main text of the draft and put into the security considerations section.\n",
       "createdAt": "2025-11-08T21:34:45Z",
-      "updatedAt": "2025-11-09T00:30:20Z",
+      "updatedAt": "2025-11-11T12:02:44Z",
       "closedAt": null,
       "comments": [
         {
@@ -5493,6 +5636,13 @@
           "body": "As I was working on this issue, I found out language in [Section 5.2.2](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-requester-context) regarding `req_wl`, which will need to be updated. I'm proposing we use a comma separated string of workload identifiers for specifying the replacement path. Alternatively, we can keep the `req_wl` the same, and in future when we specify replacement, we create a new field that denotes the replacement path. Thoughts? @PieterKas @gffletch ",
           "createdAt": "2025-11-09T00:30:20Z",
           "updatedAt": "2025-11-09T00:30:20Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree we need to update the text. I think the intent was to effectively have a path of workloads that requested the transaction token. \n\nIf we are moving the replacement token concept to the security considerations section are we basically saying that it may be possible for a workload that receives a transaction token to request a replacement transaction token and the specification for how that works is out of scope for this document and may be defined in a future specification?\n\nIf so, then maybe we should define the `req_wl` as just a StringOrURI and let the future specification extend it to be an array? Another option would be to rename `req_wl` to something like `orig_wl` and then the rest of the path could be put in a new claim defined by the later spec. This of course is a breaking change.",
+          "createdAt": "2025-11-11T12:02:44Z",
+          "updatedAt": "2025-11-11T12:02:44Z"
         }
       ]
     },
@@ -5512,7 +5662,7 @@
       ],
       "body": "As per the discussion in IETF 124: \nAs mentioned in issue #272 , the replacement flow should be moved to the security considerations section. The lifetime of the replaced tokens may exceed the lifetime of the original token, there should be text in the security considerations section that warns about the effects of doing this.\n",
       "createdAt": "2025-11-08T21:36:36Z",
-      "updatedAt": "2025-11-10T09:08:31Z",
+      "updatedAt": "2025-11-11T01:47:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -5521,6 +5671,13 @@
           "body": "I agree with this approach. After the internal review, we decided not to extend the expiry of the replacement token, as doing so could lead to potential misuse through repeated extension requests.",
           "createdAt": "2025-11-10T09:08:30Z",
           "updatedAt": "2025-11-10T09:08:30Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@naveencm4u1 , thanks for your insight.",
+          "createdAt": "2025-11-11T01:47:52Z",
+          "updatedAt": "2025-11-11T01:47:52Z"
         }
       ]
     },
@@ -5536,9 +5693,38 @@
       "labels": [],
       "body": "Currently we do not allow transaction tokens to exceed the lifetime of the original access token, Consequently we advise that Access tokens be longer lived. Now that we allow for extension of transaction token lifetimes, we need to revise this guidance.",
       "createdAt": "2025-11-09T00:10:12Z",
-      "updatedAt": "2025-11-09T00:10:12Z",
+      "updatedAt": "2025-11-12T22:39:56Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Are we allowing extension of transaction token lifetimes? Or stating that the Transaction Token Server is authoritative to issue a transaction token that MAY extend beyond the lifetime of the token specified as the `subject_token`?\n\nI agree we shouldn't be encouraging longer access token lifetimes. Those lifetimes should be based on the security model of the clients to which they are issued. For example, a sender-constrained from a trusted mobile app could be much longer than access tokens issued to SPA loaded into a context that is iffy. ",
+          "createdAt": "2025-11-11T17:16:54Z",
+          "updatedAt": "2025-11-11T17:16:54Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Are we allowing extension of transaction token lifetimes? \n\nYes, I believe this is what came out of IETF 124 discussions\n\nWE need to drop the advise on longer access token lifetimes.",
+          "createdAt": "2025-11-12T13:39:52Z",
+          "updatedAt": "2025-11-12T13:39:52Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we should change the wording so it\u2019s not so much \u201cextending\u201d but rather issuing an appropriate lifetime for the transaction token that MAY extend beyond the lifetime of the input subject_token. That might help clarify the situation.\n\nIf the TTS gets a request where the access_token is still valid but will likely expire before the transaction completes, then it should be the TTS\u2019s decision as to whether to issue the transaction token or not based on the specific deployed authorization model.",
+          "createdAt": "2025-11-12T17:37:32Z",
+          "updatedAt": "2025-11-12T17:37:32Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We will allow extension of transaction token lifetimes. In essence, I think we are looking at langugage along the lines of \"the transaction token lifetime is subject to the policy of the transaction token service\" followed by security considerations type discussion on the risks of allowing it to be extended and perhaps some mitigations like limiting the number of times it may be extended and so on.",
+          "createdAt": "2025-11-12T22:39:56Z",
+          "updatedAt": "2025-11-12T22:39:56Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -12873,7 +13059,7 @@
       "labels": [],
       "body": "Updated abstract and overview section to be more explicit about supporting internally initiated transacations.",
       "createdAt": "2025-03-03T15:56:21Z",
-      "updatedAt": "2025-03-03T18:14:06Z",
+      "updatedAt": "2025-11-12T17:54:42Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "06258cdc6cab4cfb0e5b400e3dde4918db962429",
@@ -13089,7 +13275,7 @@
       "labels": [],
       "body": "Added text to relax the requirement for txn-token expiry to be within the window defined by say the presented access token.",
       "createdAt": "2025-04-15T15:54:41Z",
-      "updatedAt": "2025-04-16T18:08:43Z",
+      "updatedAt": "2025-11-12T17:54:40Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "fe725caf6c4ef80e54410bbd853663cbc1eb1e9d",
@@ -13151,7 +13337,7 @@
       "labels": [],
       "body": "Updated my org and email in formation.",
       "createdAt": "2025-04-15T15:57:33Z",
-      "updatedAt": "2025-04-15T19:38:51Z",
+      "updatedAt": "2025-11-12T17:54:37Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "fe725caf6c4ef80e54410bbd853663cbc1eb1e9d",
@@ -15116,7 +15302,7 @@
       "labels": [],
       "body": "Based on conversations and issue comments in issues #178 and #194, this PR renames the `purp` claim in the Transaction Token to `scope`. Clarifying text has been added to make it clear that the value of the `scope` claim in the Transaction Token does NOT need to be the same value requested or present in a provided access_token. \r\n\r\nPlease review for clarity of the added text.\r\n\r\nI also removed the IANA registry for 'purp'.",
       "createdAt": "2025-09-15T17:08:57Z",
-      "updatedAt": "2025-09-23T17:36:06Z",
+      "updatedAt": "2025-11-12T17:54:34Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "9118a06f59ca61d28c0b37a9b7e15f982de1911c",
@@ -16638,7 +16824,7 @@
       "labels": [],
       "body": "Updated parameters to use JSON objects instead of base64url encoding and made editorial changes. Addresses issues #180 and #196.\r\n\r\nI also updated the example to show a urlencoded `request_context` parameter.",
       "createdAt": "2025-11-04T22:02:01Z",
-      "updatedAt": "2025-11-08T23:50:43Z",
+      "updatedAt": "2025-11-12T17:54:32Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "1ce68a13fb4fe66ce05e99e53d58f49cfb1cc17e",
@@ -16754,26 +16940,42 @@
       "id": "PR_kwDOJt_WwM6yVjo1",
       "title": "remove (incorrect) ref to Base64 RFC",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/275",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-11-08T23:56:52Z",
-      "updatedAt": "2025-11-08T23:57:05Z",
+      "updatedAt": "2025-11-12T17:51:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "18c12746d9ee633ece6dc7cbba6cbb9f2cd7ab9e",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-base64-rfc-ref",
       "headRefOid": "ab8d05ebab42390ff2a1b68cbb50543358d839cb",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-12T17:51:20Z",
+      "mergedAt": "2025-11-12T17:51:20Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "2a91adbb80938825053a9df0ec442c77848f0f82"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7N6sin",
+          "commit": {
+            "abbreviatedOid": "ab8d05e"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2025-11-12T17:50:33Z",
+          "updatedAt": "2025-11-12T17:50:33Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 276,
@@ -16856,6 +17058,53 @@
           "createdAt": "2025-11-09T00:18:28Z",
           "updatedAt": "2025-11-09T00:18:28Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 279,
+      "id": "PR_kwDOJt_WwM6zBhFG",
+      "title": "Improve `sub` claim description in transaction tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/279",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Enhanced the description of the `sub` claim to clarify its uniqueness and association with the `aud` Trust Domain. This addresses issue #225.",
+      "createdAt": "2025-11-12T16:41:57Z",
+      "updatedAt": "2025-11-12T18:36:37Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "0c0730411ed4e7592c0367037e2048e85c3418ae",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "Sub-description",
+      "headRefOid": "395038110655cc28603e05d928a0a5df686f01ed",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7N7cCj",
+          "commit": {
+            "abbreviatedOid": "3950381"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-12T18:36:37Z",
+          "updatedAt": "2025-11-12T18:36:37Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "> Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.\r\n\r\nWe got comments in WGLC about the appropriateness fo describing wht something is not. Is there a specific reason to call this out here (I have a recollection of removing a similar sentence earlier)?",
+              "createdAt": "2025-11-12T18:36:37Z",
+              "updatedAt": "2025-11-12T18:36:37Z"
+            }
+          ]
         }
       ]
     }
