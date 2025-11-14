@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 16 May 2026                              Practical Identity LLC
+Expires: 18 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        12 November 2025
+                                                        14 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 May 2026.
+   This Internet-Draft will expire on 18 May 2026.
 
 Copyright Notice
 
@@ -606,6 +606,17 @@ Table of Contents
       an array of string representing the different workloads that have
       requested Txn-Tokens as part of the transaction processing.
 
+   The following is a non-normative example of an rctx claim initiated
+   by an external call:
+
+   {
+       "rctx": {
+         "req_ip": "69.151.72.123", // env context of external call
+         "authn": "urn:ietf:rfc:6749", // env context of external call
+         "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+       }
+   }
+
 5.2.3.  Transaction Context
 
    The Txn-Token SHOULD contain an tctx claim.  The value of this claim
@@ -653,17 +664,6 @@ Table of Contents
    have requested replacement Txn-Tokens.  If there is only a single
    value the req_wl will be a string.  If there is more than a single
    value, then req_wl will be represented by an array of strings.
-
-   The following is a non-normative example of an rctx claim initiated
-   by an external call:
-
-   {
-       "rctx": {
-         "req_ip": "69.151.72.123", // env context of external call
-         "authn": "urn:ietf:rfc:6749", // env context of external call
-         "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
-       }
-   }
 
 5.2.4.  Example
 
