@@ -257,7 +257,7 @@ An internal workload may need to initiate a transaction not on the basis of a cu
 ~~~
 {: #fig-arch-internal title="Internally Initiated Txn-Token Flow"}
 
-In the diagram above, steps 5-6 are the same as in {{basic-flow}}. 
+In the diagram above, steps 5-6 are the same as in {{basic-flow}}.
 
 {:start="1"}
 
