@@ -185,11 +185,11 @@ Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload
      1    +--------------+    2      +--------------+
 --------->│              │---------->│              │
           │   External   │           │  Txn-Token   │
-     7    │   Endpoint   │    3      │   Service    │
+     8    │   Endpoint   │    3      │   Service    │
 <---------│              │<----------│              │
           +--------------+           +--------------+
                │   ^
-             4 v   │ 6
+             4 v   │ 7
           +--------------+
           │              │
           │   Internal   │
@@ -233,7 +233,7 @@ An internal workload may need to initiate a transaction not on the basis of a cu
           ┤              ◀───────────│              │
           └────┬───▲─────┘           └──────────────┘
                │   │
-             4 │   │ 6
+             4 │   │ 7
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
