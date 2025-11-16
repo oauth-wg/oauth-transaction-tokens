@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-13T00:19:02.779004+00:00",
+  "timestamp": "2025-11-16T00:20:33.067711+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -5029,7 +5029,7 @@
       ],
       "body": "WGLC Feedback from Dan Moore \n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.1\nit is unclear to me what the subject of the transaction is? That didn't get defined above, would be nice to have it defined.\n",
       "createdAt": "2025-08-27T15:58:18Z",
-      "updatedAt": "2025-11-12T18:38:46Z",
+      "updatedAt": "2025-11-13T01:32:08Z",
       "closedAt": null,
       "comments": [
         {
@@ -5066,6 +5066,13 @@
           "body": "Do you mean Dan, or is there a similar issue that Joe raised?",
           "createdAt": "2025-11-12T18:38:46Z",
           "updatedAt": "2025-11-12T18:38:46Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I guess this proves I shouldn't do updates from my iPad while on vacation. Yes, it was this issue so Dan :) ",
+          "createdAt": "2025-11-13T01:32:08Z",
+          "updatedAt": "2025-11-13T01:32:08Z"
         }
       ]
     },
@@ -5533,7 +5540,7 @@
       "labels": [],
       "body": "From https://github.com/oauth-wg/oauth-transaction-tokens/pull/253\n\n@gffletch and @tulshi opened a discussion about the normative language used regarding the request_detailt and rctx claim. This was orthogonal to the original issue being adressed. to avoid having a PR open for a long time when the issue being raised is not related to the issue in the PR, this issue wass created instead. Screenshot of discussion below:\n\n<img width=\"827\" height=\"832\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/524de217-960a-4665-85fa-f2fdc65f0ad2\" />",
       "createdAt": "2025-10-30T13:30:51Z",
-      "updatedAt": "2025-11-12T22:48:34Z",
+      "updatedAt": "2025-11-13T01:30:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -5570,6 +5577,13 @@
           "body": "> Regarding the req_wl I don\u2019t know that that claim MUST come from the rctx. Since client authentication is required, the TTS could specify the req_wl from the client authentication even if no rctx is specified.\n\nI am not sure I follow - are you saying the req_wl is not expected to be included in rctx? The examples all use it as included in the rctx and the text defines req_wl in the context of rctx.\n\n",
           "createdAt": "2025-11-12T22:48:34Z",
           "updatedAt": "2025-11-12T22:48:34Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Sorry, that is my fault. I was thinking that the `req_wl` doesn't need to be specified in request details object. I'm sorry for the confusion.\n\nYes, the `req_wl` should be available in the `rctx` object regardless of how the TTS determines the value. :)",
+          "createdAt": "2025-11-13T01:30:13Z",
+          "updatedAt": "2025-11-13T01:30:13Z"
         }
       ]
     },
@@ -5616,7 +5630,7 @@
       "id": "I_kwDOJt_WwM7W0RYm",
       "title": "Replacement flow needs to be replaced",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/272",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5627,8 +5641,8 @@
       ],
       "body": "At IETF 124, there was feedback that the replacement flow should be removed from the main text of the draft and put into the security considerations section.\n",
       "createdAt": "2025-11-08T21:34:45Z",
-      "updatedAt": "2025-11-11T12:02:44Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-14T22:20:23Z",
+      "closedAt": "2025-11-14T22:20:23Z",
       "comments": [
         {
           "author": "tulshi",
@@ -5643,6 +5657,20 @@
           "body": "I agree we need to update the text. I think the intent was to effectively have a path of workloads that requested the transaction token. \n\nIf we are moving the replacement token concept to the security considerations section are we basically saying that it may be possible for a workload that receives a transaction token to request a replacement transaction token and the specification for how that works is out of scope for this document and may be defined in a future specification?\n\nIf so, then maybe we should define the `req_wl` as just a StringOrURI and let the future specification extend it to be an array? Another option would be to rename `req_wl` to something like `orig_wl` and then the rest of the path could be put in a new claim defined by the later spec. This of course is a breaking change.",
           "createdAt": "2025-11-11T12:02:44Z",
           "updatedAt": "2025-11-11T12:02:44Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @gffletch , I was thinking of going the other way: The current draft should not refer to replacement at all in the main body of the draft, and \"req_wl\" should always be a a StringOrURI. In a future draft where we define replacement, we can add another field such as \"rr_wls\" (replacement requester workloads), which can be an array. Since I think you will be OK with this approach, I'll go ahead and write it this way in my PR.",
+          "createdAt": "2025-11-13T22:03:02Z",
+          "updatedAt": "2025-11-13T22:03:02Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "e",
+          "createdAt": "2025-11-14T22:20:23Z",
+          "updatedAt": "2025-11-14T22:20:23Z"
         }
       ]
     },
@@ -5651,7 +5679,7 @@
       "id": "I_kwDOJt_WwM7W0SGt",
       "title": "Replacement token lifetime extension warning",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/273",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5662,8 +5690,8 @@
       ],
       "body": "As per the discussion in IETF 124: \nAs mentioned in issue #272 , the replacement flow should be moved to the security considerations section. The lifetime of the replaced tokens may exceed the lifetime of the original token, there should be text in the security considerations section that warns about the effects of doing this.\n",
       "createdAt": "2025-11-08T21:36:36Z",
-      "updatedAt": "2025-11-11T01:47:52Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-14T22:21:04Z",
+      "closedAt": "2025-11-14T22:21:04Z",
       "comments": [
         {
           "author": "naveencm4u1",
@@ -17073,13 +17101,13 @@
       "labels": [],
       "body": "Enhanced the description of the `sub` claim to clarify its uniqueness and association with the `aud` Trust Domain. This addresses issue #225.",
       "createdAt": "2025-11-12T16:41:57Z",
-      "updatedAt": "2025-11-12T18:36:37Z",
+      "updatedAt": "2025-11-14T17:13:43Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "0c0730411ed4e7592c0367037e2048e85c3418ae",
+      "baseRefOid": "2a91adbb80938825053a9df0ec442c77848f0f82",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "Sub-description",
-      "headRefOid": "395038110655cc28603e05d928a0a5df686f01ed",
+      "headRefOid": "2551ddba9d5879d30065b4051c4e6229ba6805dc",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -17105,6 +17133,210 @@
               "updatedAt": "2025-11-12T18:36:37Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7OB2BW",
+          "commit": {
+            "abbreviatedOid": "3950381"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-13T01:36:36Z",
+          "updatedAt": "2025-11-13T01:36:36Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "That clause was added after the long discussion about how the `aud` claim defines the trust domain and the context in which the `sub` identifier is unique. I think it's helpful because the default from an OpenID perspective is that `sub` is only guaranteed to be unique within the context of the `iss` claim. If developers bring this perspective to the implementation it may cause issues. I suppose that statement could be moved to a \"security considerations\" section instead of inline. However, that line is not new to the definition. It is currently in draft-04 and to my knowledge there wasn't a comment to remove it.",
+              "createdAt": "2025-11-13T01:36:36Z",
+              "updatedAt": "2025-11-13T01:36:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7OC79h",
+          "commit": {
+            "abbreviatedOid": "3950381"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-13T02:45:08Z",
+          "updatedAt": "2025-11-13T02:45:09Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Hmmm.... somehow I have a memory of it being objected to, yet have no proof....\r\n\r\nOK, perhaps something like this\r\n\r\n```suggestion\r\nNote: Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.",
+              "createdAt": "2025-11-13T02:45:08Z",
+              "updatedAt": "2025-11-13T02:45:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ORLf4",
+          "commit": {
+            "abbreviatedOid": "3950381"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-13T16:21:03Z",
+          "updatedAt": "2025-11-13T16:21:04Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "The GitHub app on my iPad makes that suggestion look like it removes the REQUIRED and other description of what the `sub` claim is and just leaves the note. I'm fine labeling the comment as a note, but I think the rest of the description of the `sub` claim should remain. My apologies if that is what you are suggesting as well... it's just hard for me to tell:)",
+              "createdAt": "2025-11-13T16:21:03Z",
+              "updatedAt": "2025-11-13T16:21:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7OWiMU",
+          "commit": {
+            "abbreviatedOid": "3950381"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-13T22:48:28Z",
+          "updatedAt": "2025-11-13T22:48:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I support adding the \"Note:\" prefix to the sentence that starts with \"Unlike OpenID Connect...\"",
+              "createdAt": "2025-11-13T22:48:28Z",
+              "updatedAt": "2025-11-13T22:48:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7OlW2O",
+          "commit": {
+            "abbreviatedOid": "3950381"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-14T17:06:32Z",
+          "updatedAt": "2025-11-14T17:06:32Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "@gffletch - yeah, I did not mean to remove the REQUIRED section. Perhaps better for you to just make the change in the PR rather than chancing it with the committing the suggestion.",
+              "createdAt": "2025-11-14T17:06:32Z",
+              "updatedAt": "2025-11-14T17:06:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Olc5e",
+          "commit": {
+            "abbreviatedOid": "2551ddb"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-14T17:13:43Z",
+          "updatedAt": "2025-11-14T17:13:43Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I've updated the PR (I think) with your suggested change @PieterKas.",
+              "createdAt": "2025-11-14T17:13:43Z",
+              "updatedAt": "2025-11-14T17:13:43Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 280,
+      "id": "PR_kwDOJt_WwM6zUl7y",
+      "title": "moved the rctx example to the proper section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/280",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-13T22:10:22Z",
+      "updatedAt": "2025-11-14T20:07:41Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "2a91adbb80938825053a9df0ec442c77848f0f82",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-rctx-example",
+      "headRefOid": "e5dff452a50a531e20291e8345adcf5ca1080adb",
+      "closedAt": "2025-11-14T20:07:39Z",
+      "mergedAt": "2025-11-14T20:07:39Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "a35dcaa817fd2b10aec5899b21620399fd839844"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7OlWgu",
+          "commit": {
+            "abbreviatedOid": "e5dff45"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "There is more language here about replacement transaction tokens. I'm assuming you'll clean that up in the other PR.",
+          "createdAt": "2025-11-14T17:06:07Z",
+          "updatedAt": "2025-11-14T17:06:08Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 281,
+      "id": "PR_kwDOJt_WwM6zVQ61",
+      "title": "Replace replacement flow",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/281",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-13T23:13:41Z",
+      "updatedAt": "2025-11-14T20:18:50Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "a35dcaa817fd2b10aec5899b21620399fd839844",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "replace-replacement-flow",
+      "headRefOid": "9200018c2a2a932452eaac17a29347c4f20838c6",
+      "closedAt": "2025-11-14T20:18:49Z",
+      "mergedAt": "2025-11-14T20:18:49Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "8938a8b0beb086e5084292ead17d29240e7cfca3"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7OlguB",
+          "commit": {
+            "abbreviatedOid": "90c1266"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I think this looks good. I suggest we merge it to allow other PRs to continue as we will likely need to do a final read-through pass once we've addressed all the WGLC feedback and can pick up inconsistencies then (or as we see them).",
+          "createdAt": "2025-11-14T17:18:39Z",
+          "updatedAt": "2025-11-14T17:18:39Z",
+          "comments": []
         }
       ]
     }
