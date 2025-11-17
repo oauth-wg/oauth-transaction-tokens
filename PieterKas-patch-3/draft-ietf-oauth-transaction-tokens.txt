@@ -1392,6 +1392,9 @@ Since Draft 06
       note in the Security Considerations to clarify replacement
       concerns.
 
+   *  Editorial comments from Joe Saloway (https://github.com/oauth-wg/
+      oauth-transaction-tokens/issues/219)
+
 Since Draft 05
 
    *  Strengthened prohibition on expanding TraT scope
