@@ -605,7 +605,7 @@ A service within a call chain may choose to replace the Txn-Token. This can typi
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request.
 
 ### Txn-Token Service Responsibilities
-A Txn-Token Service MUST exercise caution when issugin replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:
+A Txn-Token Service MUST exercise caution when issuing replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions
 * MAY enable additional asserted values
