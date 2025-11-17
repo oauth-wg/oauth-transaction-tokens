@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 20 May 2026                              Practical Identity LLC
+Expires: 21 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        16 November 2025
+                                                        17 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 May 2026.
+   This Internet-Draft will expire on 21 May 2026.
 
 Copyright Notice
 
@@ -319,10 +319,13 @@ Table of Contents
    5.  Subsequent calls to other internal workloads use the same Txn-
        Token to authorize calls
 
-   6.  Responses are provided to callers based on successful
+   6.  Responses are provided to calling workloads based on successful
        authorization by the invoked workloads
 
-   7.  External client is provided a response to the external invocation
+   7.  Response provided to external endpoint based on successful
+       authorization by the invoked workload
+
+   8.  External client is provided a response to the external invocation
 
 2.5.2.  Internally Initiated Txn-Token Flow
 
