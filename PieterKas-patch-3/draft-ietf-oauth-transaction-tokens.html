@@ -1950,7 +1950,7 @@ The type of the <code>subject_token</code> field is identified by <code>subject_
             <p id="section-7.1-5.1.1"><code>request_context</code> OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.<a href="#section-7.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-5.2">
-            <p id="section-7.1-5.2.1"><code>request_details</code> OPTIONAL. This parameter contains a JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the <code>tctx</code> claim.<a href="#section-7.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-5.2.1"><code>request_details</code> OPTIONAL. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the Transaction Token Service. The Transaction Token Service uses this data along with other information at its disposal to construct the txct JSON object (if required).<a href="#section-7.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.1-6">All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-7.1-6" class="pilcrow">¶</a></p>
@@ -2264,7 +2264,7 @@ Cache-Control: no-store
           <h4 id="name-txn-token-service-responsib">
 <a href="#section-9.12.1" class="section-number selfRef">9.12.1. </a><a href="#name-txn-token-service-responsib" class="section-name selfRef">Txn-Token Service Responsibilities</a>
           </h4>
-<p id="section-9.12.1-1">A Txn-Token Service MUST exercise caution when issugin replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:<a href="#section-9.12.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.12.1-1">A Txn-Token Service MUST exercise caution when issuing replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:<a href="#section-9.12.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.12.1-2.1">
               <p id="section-9.12.1-2.1.1">MAY enable modifications to asserted values that reduce the scope of permitted actions<a href="#section-9.12.1-2.1.1" class="pilcrow">¶</a></p>
@@ -2687,6 +2687,9 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
 </li>
           <li class="normal" id="appendix-B.1-1.16">
             <p id="appendix-B.1-1.16.1">Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)<a href="#appendix-B.1-1.16.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.17">
+            <p id="appendix-B.1-1.17.1">Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)<a href="#appendix-B.1-1.17.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
