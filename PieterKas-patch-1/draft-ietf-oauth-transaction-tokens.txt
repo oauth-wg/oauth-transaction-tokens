@@ -1059,8 +1059,8 @@ Table of Contents
       identifiers from the req_wl field in the rctx claim of the Txn-
       Token
 
-   *  SHOULD NOT issue a replacement Txn-token with lifetime exceeding
-      the lifetime of the originally presented token
+   *  SHOULD NOT issue replacement Txn-token with lifetime exceeding the
+      lifetime of the originally presented token
 
    *  MUST append the workload identifier of the workload requesting the
       replacement to the req_wl value using the character , as the
