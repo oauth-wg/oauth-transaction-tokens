@@ -721,6 +721,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Removed the requirement to encode parameters in based64url format
 * Rename the `purpose` claim to `scope`
 * Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.
+* Editorial updates identified by Dan Moore (https://github.com/oauth-wg/oauth-transaction-tokens/issues/236)
 
 ## Since Draft 05
 {:numbered="false"}
