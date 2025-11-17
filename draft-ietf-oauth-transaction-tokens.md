@@ -453,7 +453,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
 
 * `request_context` OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.
-* `request_details` OPTIONAL. This parameter contains a JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
+* `request_details` OPTIONAL. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the Transaction Token Service. The Transaction Token Service uses this data along with other information at its disposal to construct the txct JSON object (if required).
 
 All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of {{RFC6749}}.
 
@@ -605,7 +605,7 @@ A service within a call chain may choose to replace the Txn-Token. This can typi
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request.
 
 ### Txn-Token Service Responsibilities
-A Txn-Token Service MUST exercise caution when issugin replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:
+A Txn-Token Service MUST exercise caution when issuing replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions
 * MAY enable additional asserted values
@@ -721,6 +721,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Rename the `purpose` claim to `scope`
 * Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.
 * Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)
+* Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
 
 ## Since Draft 05
 {:numbered="false"}
