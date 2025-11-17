@@ -1041,7 +1041,7 @@ Table of Contents
 
 9.12.1.  Txn-Token Service Responsibilities
 
-   A Txn-Token Service MUST exercise caution when issugin replacement
+   A Txn-Token Service MUST exercise caution when issuing replacement
    Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates
    the primary purpose of having Txn-Tokens.  When issuing replacement
    Txn-Tokens, a Txn-Token Service:
