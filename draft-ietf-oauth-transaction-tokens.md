@@ -613,7 +613,7 @@ A Txn-Token Service MUST exercise caution when issugin replacement Txn-Tokens, s
 * MUST NOT enable modification to asserted values that expand the scope of permitted actions
 * MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request
 * MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` field in the `rctx` claim of the Txn-Token
-* SHOULD NOT issue a replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
+* SHOULD NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
 * MUST append the workload identifier of the workload requesting the replacement to the `req_wl` value using the character `,` as the separator between individual workload identifiers.
 
 # Privacy Considerations {#Privacy}
