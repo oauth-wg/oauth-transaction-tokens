@@ -1394,6 +1394,9 @@ Since Draft 06
       note in the Security Considerations to clarify replacement
       concerns.
 
+   *  Clarify request_details (https://github.com/oauth-wg/oauth-
+      transaction-tokens/issues/197)
+
 Since Draft 05
 
    *  Strengthened prohibition on expanding TraT scope
