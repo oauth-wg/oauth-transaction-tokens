@@ -453,7 +453,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
 
 * `request_context` OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.
-* `request_details` OPTIONAL. This parameter contains a JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
+* `request_details` OPTIONAL. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the Transaction Token Service. The Transaction Token Service uses this data along with other information at its disposal to construct the txct JSON object (if required).
 
 All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of {{RFC6749}}.
 
@@ -720,6 +720,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Removed the requirement to encode parameters in based64url format
 * Rename the `purpose` claim to `scope`
 * Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.
+* Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
 
 ## Since Draft 05
 {:numbered="false"}
