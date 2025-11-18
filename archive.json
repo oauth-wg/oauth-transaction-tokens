@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-16T00:20:33.067711+00:00",
+  "timestamp": "2025-11-18T00:19:15.045471+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3821,15 +3821,22 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-lifetime \n\"Except in the case where the request is made using a self-signed JWT\" - why this exception? \n",
       "createdAt": "2025-08-26T16:06:14Z",
-      "updatedAt": "2025-09-07T18:19:17Z",
+      "updatedAt": "2025-11-17T12:25:22Z",
       "closedAt": null,
       "comments": [
         {
           "author": "jsalowey",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Yes this seems strange to me as well, but I'm unclear on the processing rules for signed JWTs .   It seems at the very least it should apply to unsigned JWTs as well.  If you can actually validate the signature on the signed JWT against a trusted key then it seems like the expiration date would be important information, but I'm not sure that is the intention. ",
           "createdAt": "2025-09-07T18:19:17Z",
           "updatedAt": "2025-09-07T18:19:17Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch - can you review this issue and create a PR if needed?",
+          "createdAt": "2025-11-17T12:25:21Z",
+          "updatedAt": "2025-11-17T12:25:21Z"
         }
       ]
     },
@@ -4170,7 +4177,7 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1\nThe 'MUST remain immutable' here in the request parameter definition is rather odd and could easily be interpreted to mean something that is probably not intended. \n",
       "createdAt": "2025-08-26T16:15:49Z",
-      "updatedAt": "2025-11-11T21:51:03Z",
+      "updatedAt": "2025-11-17T12:35:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -4193,6 +4200,13 @@
           "body": "What about...\n\nThis parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the Transaction Token Service. The Transaction Token Service uses this data along with other data to construct the `tcxt` JSON object (if required). \n\n",
           "createdAt": "2025-11-11T21:51:03Z",
           "updatedAt": "2025-11-11T21:51:03Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Poposed a PR based on @gffletch proposed text (see #288)",
+          "createdAt": "2025-11-17T12:35:37Z",
+          "updatedAt": "2025-11-17T12:35:37Z"
         }
       ]
     },
@@ -4904,7 +4918,7 @@
       "id": "I_kwDOJt_WwM7IRCvU",
       "title": "Should tctx field be a MUST",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/222",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4913,8 +4927,8 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.3-3\n\"the tctx field contains the actual authorizaton details that are determined by the TTS. \"\nWeird to me that this is so crucial, but is not a MUST in the request, (per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.16.1 ) . What are the scenarios where the TTS would not provide a tctx field?\n",
       "createdAt": "2025-08-27T15:52:03Z",
-      "updatedAt": "2025-11-11T21:09:11Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-17T12:49:10Z",
+      "closedAt": "2025-11-17T12:49:09Z",
       "comments": [
         {
           "author": "ashayraut",
@@ -4950,6 +4964,13 @@
           "body": "I agree it should be a SHOULD. There could be some authorization deployments where no `tcxt` is needed.\n\nAs for where the data comes from, it can come from the `subject_token` and the `request_details` JSON object if specified.",
           "createdAt": "2025-11-11T21:09:11Z",
           "updatedAt": "2025-11-11T21:09:11Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing given that we are in agreement that the the normative language should not change.",
+          "createdAt": "2025-11-17T12:49:10Z",
+          "updatedAt": "2025-11-17T12:49:10Z"
         }
       ]
     },
@@ -4995,14 +5016,16 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [
         "help wanted",
         "WGLC Feedback"
       ],
       "body": "WGLC feedback from Dan Moore\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.2.4.1\nI thought we were always promised an access token or a self-signed JWT. per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-4 . Maybe 2.2.1 needs to be updated?\n",
       "createdAt": "2025-08-27T15:57:05Z",
-      "updatedAt": "2025-11-11T12:34:00Z",
+      "updatedAt": "2025-11-17T17:35:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -5011,6 +5034,27 @@
           "body": "Yes, I think we need to update section 2.2.1. I don't think we should prohibit someone setting the `subject_token_type` to `urn:....:email-address` and then setting the `subject_token` to `alice@example.com`. Forcing deployments to use an unsigned JSON object for this seems like extra work.\n\nThoughts?",
           "createdAt": "2025-11-11T12:34:00Z",
           "updatedAt": "2025-11-11T12:34:00Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch so basically something like this in the first bullet of section 2.2:\n\n* The external authorisation token (e.g., the OAuth access token), an internally generated JWT representing the subject of the request, or any other format that is understood by the Txn-Token Service.\n\n",
+          "createdAt": "2025-11-17T12:43:15Z",
+          "updatedAt": "2025-11-17T12:43:15Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That looks good to me!",
+          "createdAt": "2025-11-17T17:21:38Z",
+          "updatedAt": "2025-11-17T17:21:38Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I will create a PR",
+          "createdAt": "2025-11-17T17:35:59Z",
+          "updatedAt": "2025-11-17T17:35:59Z"
         }
       ]
     },
@@ -5721,7 +5765,7 @@
       "labels": [],
       "body": "Currently we do not allow transaction tokens to exceed the lifetime of the original access token, Consequently we advise that Access tokens be longer lived. Now that we allow for extension of transaction token lifetimes, we need to revise this guidance.",
       "createdAt": "2025-11-09T00:10:12Z",
-      "updatedAt": "2025-11-12T22:39:56Z",
+      "updatedAt": "2025-11-16T08:46:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -5751,6 +5795,124 @@
           "body": "We will allow extension of transaction token lifetimes. In essence, I think we are looking at langugage along the lines of \"the transaction token lifetime is subject to the policy of the transaction token service\" followed by security considerations type discussion on the risks of allowing it to be extended and perhaps some mitigations like limiting the number of times it may be extended and so on.",
           "createdAt": "2025-11-12T22:39:56Z",
           "updatedAt": "2025-11-12T22:39:56Z"
+        }
+      ]
+    },
+    {
+      "number": 283,
+      "id": "I_kwDOJt_WwM7Yipav",
+      "title": "Txn-Token Service Unique keys",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/283",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "PieterKas"
+      ],
+      "labels": [],
+      "body": "This text suggests that a trasnactiontoken service may use unique keys, but it is unclear if this means each transaction token is signed with a uunique key, or if the jeys are rotated periodically etc.\n\n> The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.\n\nProposed changes:\n\nOption 1:\nThe iss claim MUST be used in cases where the signing keys are not predetermined. The iss claim MUST be used when the Txn-Token Service signs each Txn-Token with a unique key.\"\n\nOption 2:\nDon't mention unique keys as we don't really expand on it elsewhere. Since the keys are unique, they are by definition not predetermined.\n\nI am inclined to go with option 2? \n\n@gffletch @tulshi - thoughts?",
+      "createdAt": "2025-11-17T11:40:26Z",
+      "updatedAt": "2025-11-17T17:30:54Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the second clause was really just intended to be a clarification of the first clause. So I think it's fine to just say that the `iss` claim MUST be present when the signing keys are not predetermined. If we want to add anything it should probably be something to the effect that the necessary key material MUST be discovered via the normal `iss` discovery methods.",
+          "createdAt": "2025-11-17T16:58:39Z",
+          "updatedAt": "2025-11-17T16:58:39Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks @gffletch - I will prepare a PR.",
+          "createdAt": "2025-11-17T17:30:49Z",
+          "updatedAt": "2025-11-17T17:30:49Z"
+        }
+      ]
+    },
+    {
+      "number": 284,
+      "id": "I_kwDOJt_WwM7Yiytr",
+      "title": "Capitalise Call Chain",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/284",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We define Call Chain early in the document, but then use call chain. Consider capitalisation of Call Chain where appropriate to make ise of formal definition.",
+      "createdAt": "2025-11-17T11:52:02Z",
+      "updatedAt": "2025-11-17T17:43:16Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So just capitalize it everywhere? Or are you saying there are some cases where it shouldn't be capitalized?",
+          "createdAt": "2025-11-17T17:00:57Z",
+          "updatedAt": "2025-11-17T17:00:57Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Somebody who has mastery of the English language - perhaps native speaker - should probably read it and decide when to capitalise and when not... ",
+          "createdAt": "2025-11-17T17:32:16Z",
+          "updatedAt": "2025-11-17T17:32:16Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Well... I'm a native speaker but I do not consider myself to have mastery of the language or the English language rules (which seem to differ based on jurisdiction) :-) \n\nI agree it should be consistent. Is there a consistent way defined terminology is handled in other specs? If defined terms are always capitalized throughout the spec, then I think we should do the same. I'll try and take a look at a few specs.",
+          "createdAt": "2025-11-17T17:40:32Z",
+          "updatedAt": "2025-11-17T17:40:32Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The rule I have filed away is that if you explicitly use the term in the context of the definition, you capitalise- if your using it outside that, you don't. Having said that- looking at other specs is probably. a better way as I am neither a native speaker, nor claim any mastery of the English language.",
+          "createdAt": "2025-11-17T17:43:16Z",
+          "updatedAt": "2025-11-17T17:43:16Z"
+        }
+      ]
+    },
+    {
+      "number": 285,
+      "id": "I_kwDOJt_WwM7Yi4_6",
+      "title": "Editorial: Check for consistent casing of Txn-Token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/285",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "check for consistent casing throughout the document.",
+      "createdAt": "2025-11-17T12:00:15Z",
+      "updatedAt": "2025-11-17T12:00:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 290,
+      "id": "I_kwDOJt_WwM7YjrYa",
+      "title": "Privacy consideration and obfuscation aspects",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/290",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In section Privacy considerations it is mentioned that some data within the tokens may be considered PII and the example of the client IP address is given. Indeed, IP addresses are considered PII in quite a lot of jurisdictions. However, that doesn't necessarily mean that the IP address or any other PII must be obfuscated as it is stated in the current draft. I think this is depending on what is being done with the Txn-Token. You could even consider the subject identifier to be PII. It should be clear that when adding PII to the Txn-Token, the entire Txn-Token must be handled according to privacy preserving policies in respect to relevant jurisdictions.\n",
+      "createdAt": "2025-11-17T12:56:29Z",
+      "updatedAt": "2025-11-17T17:36:50Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A great point. Any thoughts on how to improve the wording? Obsfucation is one option, anonymization is another. I know of some implementations that encrypt internal bits of the token so that only the workload authorized can decrypt them. I agree that how this data is handled is jurisdiction dependent.\n\nIs something like this better?\n\nTransaction tokens claims may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values need to be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and in that case an obsfucation method (e.g. salted SHA256) may suffice to meet jurisdictional requirements.",
+          "createdAt": "2025-11-17T17:36:50Z",
+          "updatedAt": "2025-11-17T17:36:50Z"
         }
       ]
     }
@@ -17101,18 +17263,26 @@
       "labels": [],
       "body": "Enhanced the description of the `sub` claim to clarify its uniqueness and association with the `aud` Trust Domain. This addresses issue #225.",
       "createdAt": "2025-11-12T16:41:57Z",
-      "updatedAt": "2025-11-14T17:13:43Z",
+      "updatedAt": "2025-11-17T17:58:33Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "2a91adbb80938825053a9df0ec442c77848f0f82",
+      "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "Sub-description",
-      "headRefOid": "2551ddba9d5879d30065b4051c4e6229ba6805dc",
+      "headRefOid": "a723cce89dfe258f2e8b73283bddccd79317c718",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch - since I resolved a conflict, you may have approve again.",
+          "createdAt": "2025-11-17T17:58:33Z",
+          "updatedAt": "2025-11-17T17:58:33Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7N7cCj",
@@ -17253,6 +17423,32 @@
               "updatedAt": "2025-11-14T17:13:43Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7O9eSD",
+          "commit": {
+            "abbreviatedOid": "2551ddb"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me, thanks @gffletch ",
+          "createdAt": "2025-11-17T11:18:46Z",
+          "updatedAt": "2025-11-17T11:18:46Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7O-X91",
+          "commit": {
+            "abbreviatedOid": "a723cce"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me.",
+          "createdAt": "2025-11-17T12:23:56Z",
+          "updatedAt": "2025-11-17T12:23:56Z",
+          "comments": []
         }
       ]
     },
@@ -17339,6 +17535,306 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 282,
+      "id": "PR_kwDOJt_WwM6zswRa",
+      "title": "Fix call numbers in diagrams",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/282",
+      "state": "OPEN",
+      "author": "obfuscoder",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-16T08:57:20Z",
+      "updatedAt": "2025-11-17T17:26:25Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "obfuscoder-patch-1",
+      "headRefOid": "1a9e942be6b49025ce742f350c13b44a2d1a147b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7O2Ra3",
+          "commit": {
+            "abbreviatedOid": "a5e9c93"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2025-11-16T17:27:40Z",
+          "updatedAt": "2025-11-16T17:28:29Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "I agree it's better for every connection to have a number. I think we need to update the textual description to match as well.",
+              "createdAt": "2025-11-16T17:27:40Z",
+              "updatedAt": "2025-11-16T17:28:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7PDjgZ",
+          "commit": {
+            "abbreviatedOid": "1a9e942"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2025-11-17T17:25:12Z",
+          "updatedAt": "2025-11-17T17:26:25Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "Thank you for the update! I think we need to update the step description for the internal flows. Is the line about steps 5-6 being the same sufficient since we now have additional steps? Maybe this should be changed to steps 5-7?",
+              "createdAt": "2025-11-17T17:25:12Z",
+              "updatedAt": "2025-11-17T17:26:25Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 286,
+      "id": "PR_kwDOJt_WwM6z16c2",
+      "title": "Editorial comments from Dan Moore",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/286",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Editorial updates suggested by Dan Moore: See issue #236",
+      "createdAt": "2025-11-17T12:11:36Z",
+      "updatedAt": "2025-11-17T17:57:05Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "ab15e77c858f3858ad5b1ddcd4caaa232947884b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch, I reverted the change I made. @tulshi  PR on replacement transaction tokens should remove all of the replacement token text.",
+          "createdAt": "2025-11-17T17:57:05Z",
+          "updatedAt": "2025-11-17T17:57:05Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7PDZmL",
+          "commit": {
+            "abbreviatedOid": "b3ab13f"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I'm good with this PR. I did leave a comment about a line referencing replacement transaction tokens. I'm OK merging this PR and then cleaning up the replacement stuff in another PR.",
+          "createdAt": "2025-11-17T17:13:49Z",
+          "updatedAt": "2025-11-17T17:15:20Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Do we want to leave this line in as replacement transaction tokens are not longer being specified?",
+              "createdAt": "2025-11-17T17:13:49Z",
+              "updatedAt": "2025-11-17T17:15:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7PDrUe",
+          "commit": {
+            "abbreviatedOid": "b3ab13f"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-11-17T17:34:46Z",
+          "updatedAt": "2025-11-17T17:34:46Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "I was thinking we have to do a whole bunch of work on re-writing how time limits will work, so left this in for that clean-up, but your are right - we might as well delete this now.",
+              "createdAt": "2025-11-17T17:34:46Z",
+              "updatedAt": "2025-11-17T17:34:56Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 287,
+      "id": "PR_kwDOJt_WwM6z2BgG",
+      "title": "Address Editorial comments from Joe Saloway",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/287",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #219",
+      "createdAt": "2025-11-17T12:20:24Z",
+      "updatedAt": "2025-11-17T17:38:52Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "61951b5e3bdf5db46086fae069339017b6ac8ff5",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-3",
+      "headRefOid": "86d39bf08443d5a7a12bb1c0b3d59ac2a05c9dff",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch - can you re-approve? I had to resolve a conflict\r\n",
+          "createdAt": "2025-11-17T17:38:52Z",
+          "updatedAt": "2025-11-17T17:38:52Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7PDcF2",
+          "commit": {
+            "abbreviatedOid": "0ee9238"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-17T17:16:28Z",
+          "updatedAt": "2025-11-17T17:16:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 288,
+      "id": "PR_kwDOJt_WwM6z2NrB",
+      "title": "Update description of 'request_details' parameter",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/288",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarified the purpose of the 'request_details' parameter in the Txn-Token Request. See issue #197",
+      "createdAt": "2025-11-17T12:34:55Z",
+      "updatedAt": "2025-11-17T17:20:53Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "7c04d2ff72b51cd1ac93544086f2d984fddc9a12",
+      "closedAt": "2025-11-17T17:20:50Z",
+      "mergedAt": "2025-11-17T17:20:50Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "606c721d32905b4110c88bb1efebc03c16f3d995"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7PDfQc",
+          "commit": {
+            "abbreviatedOid": "7c04d2f"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks Pieter!",
+          "createdAt": "2025-11-17T17:20:05Z",
+          "updatedAt": "2025-11-17T17:20:05Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 289,
+      "id": "PR_kwDOJt_WwM6z2YM6",
+      "title": "Fix typo in 'issuing' in Txn-Token Service section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/289",
+      "state": "MERGED",
+      "author": "obfuscoder",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-11-17T12:49:57Z",
+      "updatedAt": "2025-11-17T17:28:21Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "obfuscoder-patch-2",
+      "headRefOid": "cb6ced876653da92b3523d27eb54844cfd94ef1a",
+      "closedAt": "2025-11-17T17:28:19Z",
+      "mergedAt": "2025-11-17T17:28:19Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "61951b5e3bdf5db46086fae069339017b6ac8ff5"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7PDl_r",
+          "commit": {
+            "abbreviatedOid": "cb6ced8"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-17T17:27:58Z",
+          "updatedAt": "2025-11-17T17:27:58Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 291,
+      "id": "PR_kwDOJt_WwM6z6XLt",
+      "title": "Update 'iss' claim requirements in JWT format",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/291",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarified the usage of the 'iss' claim in Txn-Tokens. See issue #283",
+      "createdAt": "2025-11-17T17:53:09Z",
+      "updatedAt": "2025-11-17T17:53:10Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "61951b5e3bdf5db46086fae069339017b6ac8ff5",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "729d26d7d95c3f8bf906302f5aebde208abb5771",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
