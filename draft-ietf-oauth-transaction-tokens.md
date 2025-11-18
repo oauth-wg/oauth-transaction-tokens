@@ -145,7 +145,7 @@ They preserve any context such as:
 * Environmental factors, such as IP address of the original caller
 * Any context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.
 
-Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an intentionally invoked transaction.
+Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of a recent, intentionally invoked, transaction.
 
 ## What are Transaction Tokens?
 Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call chain as it passes through multiple workloads.
@@ -720,6 +720,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Removed the requirement to encode parameters in based64url format
 * Rename the `purpose` claim to `scope`
 * Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.
+* Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)
 * Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
 
 ## Since Draft 05
