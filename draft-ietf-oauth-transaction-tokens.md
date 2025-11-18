@@ -160,8 +160,7 @@ Txn-Tokens are typically created when a workload is invoked using an endpoint th
 
 If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:
 
-* The external authorization token (e.g., the OAuth access token)
-* An internally generated JWT representing the subject of the request
+* The external authorisation token (e.g., the OAuth access token), an internally generated JWT representing the subject of the request, or any other format that is understood by the Txn-Token Service.
 * Parameters that are required to be bound for the duration of this call
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token
 
@@ -705,6 +704,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 
 ## Since Draft 06
 {:numbered="false"}
+* Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
 * Replace StringOrURI with string [Relace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
 * Include token theft as a threat to be mitigated [Consider information disclosure as a benefit](https://github.com/oauth-wg/oauth-transaction-tokens/issues/207)
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
