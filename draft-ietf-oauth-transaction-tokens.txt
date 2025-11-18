@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 21 May 2026                              Practical Identity LLC
+Expires: 22 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        17 November 2025
+                                                        18 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 May 2026.
+   This Internet-Draft will expire on 22 May 2026.
 
 Copyright Notice
 
@@ -219,10 +219,10 @@ Table of Contents
    The context information provided to the Txn-Token Service MAY
    include:
 
-   *  The external authorization token (e.g., the OAuth access token)
-
-   *  An internally generated JWT representing the subject of the
-      request
+   *  The external authorisation token (e.g., the OAuth access token),
+      an internally generated JWT representing the subject of the
+      request, or any other format that is understood by the Txn-Token
+      Service.
 
    *  Parameters that are required to be bound for the duration of this
       call
@@ -1346,6 +1346,9 @@ Document History
    tokens/issues/228).
 
 Since Draft 06
+
+   *  Consistency in terms of expectations of input token
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
 
    *  Replace StringOrURI with string Relace StringOrURI with String
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
