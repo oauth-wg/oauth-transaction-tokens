@@ -182,8 +182,8 @@ Table of Contents
 
    Cryptographically protected Txn-Tokens ensure that downstream
    workloads cannot make unauthorized modifications to such information,
-   and cannot make spurious calls without the presence of an
-   intentionally invoked transaction.
+   and cannot make spurious calls without the presence of a recent,
+   intentionally invoked, transaction.
 
 2.1.  What are Transaction Tokens?
 
@@ -1395,6 +1395,9 @@ Since Draft 06
    *  Removed references to replacing transaction tokens, and added a
       note in the Security Considerations to clarify replacement
       concerns.
+
+   *  Editorial comments from Joe Saloway (https://github.com/oauth-wg/
+      oauth-transaction-tokens/issues/219)
 
    *  Clarify request_details (https://github.com/oauth-wg/oauth-
       transaction-tokens/issues/197)

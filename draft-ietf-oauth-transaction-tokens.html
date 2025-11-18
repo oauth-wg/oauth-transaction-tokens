@@ -1416,7 +1416,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           <p id="section-2-2.3.1">Any context that needs to be preserved in the call chain. This includes information that was not in the original request to the external endpoint.<a href="#section-2-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-2-3">Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an intentionally invoked transaction.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-3">Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of a recent, intentionally invoked, transaction.<a href="#section-2-3" class="pilcrow">¶</a></p>
 <div id="what-are-transaction-tokens">
 <section id="section-2.1">
         <h3 id="name-what-are-transaction-tokens">
@@ -2686,7 +2686,10 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
             <p id="appendix-B.1-1.16.1">Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.<a href="#appendix-B.1-1.16.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.17">
-            <p id="appendix-B.1-1.17.1">Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)<a href="#appendix-B.1-1.17.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.17.1">Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)<a href="#appendix-B.1-1.17.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.18">
+            <p id="appendix-B.1-1.18.1">Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)<a href="#appendix-B.1-1.18.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
