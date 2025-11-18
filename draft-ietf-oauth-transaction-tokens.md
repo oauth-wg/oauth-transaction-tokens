@@ -319,7 +319,7 @@ The transaction token body follows the JWT format and includes existing
 JWT claims as well as defines new claims. These claims are described below:
 
 `iss`:
-: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
+: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined.
 
 `iat`:
 : REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
