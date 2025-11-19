@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 21 May 2026                              Practical Identity LLC
+Expires: 23 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        17 November 2025
+                                                        19 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 May 2026.
+   This Internet-Draft will expire on 23 May 2026.
 
 Copyright Notice
 
@@ -218,9 +218,10 @@ Table of Contents
    The context information provided to the Txn-Token Service MAY
    include:
 
-   *  The external authorization token (e.g., the OAuth access token) or
+   *  The external authorisation token (e.g., the OAuth access token),
       an internally generated JWT representing the subject of the
-      request.
+      request, or any other format that is understood by the Txn-Token
+      Service.
 
    *  Parameters that are required to be bound for the duration of this
       call
@@ -453,9 +454,8 @@ Table of Contents
    iss:  OPTIONAL The iss claim as defined in [RFC7519] is not required
       as Txn-Tokens are bound to a single Trust Domain as defined by the
       aud claim and often the signing keys are known.  The iss claim
-      MUST be used in cases where the signing keys are not predetermined
-      or it is desired that the Txn-Token Service signs with unique
-      keys.
+      MUST be used in cases where the signing keys are not
+      predetermined.
 
    iat:  REQUIRED The issued at time of the Txn-Token as defined in
       [RFC7519]
@@ -680,10 +680,12 @@ Table of Contents
       which represents the context of this transaction.
 
    *  request_details OPTIONAL.  This parameter contains a JSON object
-      which represents additional details of the transaction that MUST
-      remain immutable throughout the processing of the transaction by
-      multiple workloads.  The Transaction Token Service uses this
-      information to construct the tctx claim.
+      which contains additional details about the request.  This could
+      include API parameters, authorization criteria or other details
+      the requester would like to pass to the Transaction Token Service.
+      The Transaction Token Service uses this data along with other
+      information at its disposal to construct the txct JSON object (if
+      required).
 
    All parameters are encoded using the "application/x-www-form-
    urlencoded" format per Appendix B of [RFC6749].
@@ -1039,7 +1041,7 @@ Table of Contents
 
 9.12.1.  Txn-Token Service Responsibilities
 
-   A Txn-Token Service MUST exercise caution when issugin replacement
+   A Txn-Token Service MUST exercise caution when issuing replacement
    Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates
    the primary purpose of having Txn-Tokens.  When issuing replacement
    Txn-Tokens, a Txn-Token Service:
@@ -1345,6 +1347,9 @@ Document History
 
 Since Draft 06
 
+   *  Consistency in terms of expectations of input token
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
+
    *  Replace StringOrURI with string Relace StringOrURI with String
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
 
@@ -1394,6 +1399,12 @@ Since Draft 06
 
    *  Editorial updates identified by Dan Moore (https://github.com/
       oauth-wg/oauth-transaction-tokens/issues/236)
+
+   *  Editorial comments from Joe Saloway (https://github.com/oauth-wg/
+      oauth-transaction-tokens/issues/219)
+
+   *  Clarify request_details (https://github.com/oauth-wg/oauth-
+      transaction-tokens/issues/197)
 
 Since Draft 05
 
