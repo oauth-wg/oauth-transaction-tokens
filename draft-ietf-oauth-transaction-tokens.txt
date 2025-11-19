@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 22 May 2026                              Practical Identity LLC
+Expires: 23 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        18 November 2025
+                                                        19 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 May 2026.
+   This Internet-Draft will expire on 23 May 2026.
 
 Copyright Notice
 
@@ -471,8 +471,11 @@ Table of Contents
    txn:  REQUIRED A unique transaction identifier as defined in
       Section 2.2 of [RFC8417].
 
-   sub:  REQUIRED A unique identifier for the subject within the context
-      of the aud Trust Domain.
+   sub:  REQUIRED This claim represents the principal of the transaction
+      as defined by Section 4.1.2 of [RFC7519].  The value MUST be
+      unique within the context of the aud Trust Domain.  Note: Unlike
+      OpenID Connect, the sub claim is NOT associated with the iss
+      claim.
 
    scope:  REQUIRED The scope claim is defined in Section 4.2 of
       [RFC8693].  Note that the value of this claim is determined by the
@@ -1391,6 +1394,8 @@ Since Draft 06
    *  Removed the requirement to encode parameters in based64url format
 
    *  Rename the purpose claim to scope
+
+   *  Enhanced the description of the sub claim addressing issue #225
 
    *  Removed references to replacing transaction tokens, and added a
       note in the Security Considerations to clarify replacement
