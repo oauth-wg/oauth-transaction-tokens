@@ -160,7 +160,7 @@ Txn-Tokens are typically created when a workload is invoked using an endpoint th
 
 If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:
 
-* The external authorization token (e.g., the OAuth access token) or an internally generated JWT representing the subject of the request.
+* The external authorisation token (e.g., the OAuth access token), an internally generated JWT representing the subject of the request, or any other format that is understood by the Txn-Token Service.
 * Parameters that are required to be bound for the duration of this call
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token
 
@@ -319,7 +319,7 @@ The transaction token body follows the JWT format and includes existing
 JWT claims as well as defines new claims. These claims are described below:
 
 `iss`:
-: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.
+: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined.
 
 `iat`:
 : REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
@@ -452,7 +452,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
 
 * `request_context` OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.
-* `request_details` OPTIONAL. This parameter contains a JSON object which represents additional details of the transaction that MUST remain immutable throughout the processing of the transaction by multiple workloads. The Transaction Token Service uses this information to construct the `tctx` claim.
+* `request_details` OPTIONAL. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the Transaction Token Service. The Transaction Token Service uses this data along with other information at its disposal to construct the txct JSON object (if required).
 
 All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of {{RFC6749}}.
 
@@ -606,7 +606,7 @@ A service within a call chain may choose to replace the Txn-Token. This can typi
 To get a replacement Txn-Token, a service will request a new Txn-Token from the Txn-Token Service and provide the current Txn-Token and other parameters in the request.
 
 ### Txn-Token Service Responsibilities
-A Txn-Token Service MUST exercise caution when issugin replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:
+A Txn-Token Service MUST exercise caution when issuing replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a Txn-Token Service:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions
 * MAY enable additional asserted values
@@ -706,6 +706,7 @@ The authors would like to thank the contributors and the OAuth working group mem
 
 ## Since Draft 06
 {:numbered="false"}
+* Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
 * Replace StringOrURI with string [Relace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
 * Include token theft as a threat to be mitigated [Consider information disclosure as a benefit](https://github.com/oauth-wg/oauth-transaction-tokens/issues/207)
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
@@ -722,6 +723,8 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Rename the `purpose` claim to `scope`
 * Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.
 * Editorial updates identified by Dan Moore (https://github.com/oauth-wg/oauth-transaction-tokens/issues/236)
+* Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)
+* Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
 
 ## Since Draft 05
 {:numbered="false"}
