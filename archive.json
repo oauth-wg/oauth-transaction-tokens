@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-18T00:19:15.045471+00:00",
+  "timestamp": "2025-11-20T00:19:02.635857+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4167,7 +4167,7 @@
       "id": "I_kwDOJt_WwM7IDToC",
       "title": "Clarify request_details",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/197",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4177,8 +4177,8 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#section-7.1-5.2.1\nThe 'MUST remain immutable' here in the request parameter definition is rather odd and could easily be interpreted to mean something that is probably not intended. \n",
       "createdAt": "2025-08-26T16:15:49Z",
-      "updatedAt": "2025-11-17T12:35:37Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-19T20:33:25Z",
+      "closedAt": "2025-11-19T20:33:25Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4658,7 +4658,7 @@
       "id": "I_kwDOJt_WwM7IQ1a5",
       "title": "Self signed JWT Validation",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/214",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4667,8 +4667,8 @@
       ],
       "body": "WGLC Feedback from Joe Salowey\n\nSection 7.3 - does the validation of a self signed JWT require any signature validation or is it treated as a unsigned object by the authorization server?\n",
       "createdAt": "2025-08-27T15:36:26Z",
-      "updatedAt": "2025-09-18T11:00:21Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-19T20:39:46Z",
+      "closedAt": "2025-11-19T20:39:46Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -4833,7 +4833,7 @@
       "id": "I_kwDOJt_WwM7IQ5IW",
       "title": "WGLC Editorial Feedback from Joe Saloway",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/219",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -4843,8 +4843,8 @@
       ],
       "body": "Section 2 perhaps the last sentence should mention a \"recent\" intentionally invoked transaction\n\nSection 2.4 - I find this description a bit hard to parse and perhaps a bit restricted, for example it talks about externally invoked APIs.  I think I like the text in the last paragraph in section 2 better, \n\n",
       "createdAt": "2025-08-27T15:40:59Z",
-      "updatedAt": "2025-10-29T23:43:55Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-19T20:33:57Z",
+      "closedAt": "2025-11-19T20:33:56Z",
       "comments": []
     },
     {
@@ -5013,7 +5013,7 @@
       "id": "I_kwDOJt_WwM7IRHcK",
       "title": "Consistency with Section 2.2.1",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/224",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5025,8 +5025,8 @@
       ],
       "body": "WGLC feedback from Dan Moore\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.2.4.1\nI thought we were always promised an access token or a self-signed JWT. per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-4 . Maybe 2.2.1 needs to be updated?\n",
       "createdAt": "2025-08-27T15:57:05Z",
-      "updatedAt": "2025-11-17T17:35:59Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-19T20:32:49Z",
+      "closedAt": "2025-11-19T20:32:49Z",
       "comments": [
         {
           "author": "gffletch",
@@ -5063,7 +5063,7 @@
       "id": "I_kwDOJt_WwM7IRIpi",
       "title": "Define subject of transaction token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/225",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -5073,8 +5073,8 @@
       ],
       "body": "WGLC Feedback from Dan Moore \n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.1\nit is unclear to me what the subject of the transaction is? That didn't get defined above, would be nice to have it defined.\n",
       "createdAt": "2025-08-27T15:58:18Z",
-      "updatedAt": "2025-11-13T01:32:08Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-19T20:34:52Z",
+      "closedAt": "2025-11-19T20:34:52Z",
       "comments": [
         {
           "author": "gffletch",
@@ -5165,7 +5165,7 @@
       "id": "I_kwDOJt_WwM7IRKiY",
       "title": "Clarify Normative Language",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/227",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -5175,8 +5175,8 @@
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.2.1-2.5.1\nThe draft says \"This should be a very short duration (order of seconds) in order to prevent any abuse of the JWT.\"\nshould \"this should\" be \"this SHOULD\" or \"this MUST\"? (capitalized)\n",
       "createdAt": "2025-08-27T16:00:35Z",
-      "updatedAt": "2025-11-12T13:24:50Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-19T20:38:04Z",
+      "closedAt": "2025-11-19T20:38:04Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -17256,24 +17256,26 @@
       "id": "PR_kwDOJt_WwM6zBhFG",
       "title": "Improve `sub` claim description in transaction tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/279",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Enhanced the description of the `sub` claim to clarify its uniqueness and association with the `aud` Trust Domain. This addresses issue #225.",
       "createdAt": "2025-11-12T16:41:57Z",
-      "updatedAt": "2025-11-17T17:58:33Z",
+      "updatedAt": "2025-11-19T14:03:02Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "Sub-description",
       "headRefOid": "a723cce89dfe258f2e8b73283bddccd79317c718",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-19T14:03:02Z",
+      "mergedAt": "2025-11-19T14:03:02Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "76af3bd20aa3713d051cc14f62dbfa2e5582108b"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -17281,6 +17283,13 @@
           "body": "@gffletch - since I resolved a conflict, you may have approve again.",
           "createdAt": "2025-11-17T17:58:33Z",
           "updatedAt": "2025-11-17T17:58:33Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi - since neither @gffletch or I can merge, can you approve and merge?",
+          "createdAt": "2025-11-19T11:06:08Z",
+          "updatedAt": "2025-11-19T11:06:08Z"
         }
       ],
       "reviews": [
@@ -17449,6 +17458,32 @@
           "createdAt": "2025-11-17T12:23:56Z",
           "updatedAt": "2025-11-17T12:23:56Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7PWtZn",
+          "commit": {
+            "abbreviatedOid": "a723cce"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Looks good. However, since I'm one of the authors I can't approve the review:)",
+          "createdAt": "2025-11-18T17:00:22Z",
+          "updatedAt": "2025-11-18T17:00:22Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7PmMsk",
+          "commit": {
+            "abbreviatedOid": "a723cce"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-19T14:02:53Z",
+          "updatedAt": "2025-11-19T14:02:53Z",
+          "comments": []
         }
       ]
     },
@@ -17615,13 +17650,13 @@
       "labels": [],
       "body": "Editorial updates suggested by Dan Moore: See issue #236",
       "createdAt": "2025-11-17T12:11:36Z",
-      "updatedAt": "2025-11-17T17:57:05Z",
+      "updatedAt": "2025-11-19T11:11:12Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
+      "baseRefOid": "66747216b53026e236c14f547da33133bae3a20b",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
-      "headRefOid": "ab15e77c858f3858ad5b1ddcd4caaa232947884b",
+      "headRefOid": "8a76384897f50e8c8b5862a73fe45107e2da9057",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -17633,6 +17668,13 @@
           "body": "@gffletch, I reverted the change I made. @tulshi  PR on replacement transaction tokens should remove all of the replacement token text.",
           "createdAt": "2025-11-17T17:57:05Z",
           "updatedAt": "2025-11-17T17:57:05Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@gffletch - yes, I think it is OK to have normative language regarding security considerations.\r\n\r\nThere was merge conflicts, so will need you to approve again before it can be merged (or if you can just merge it, it would be great).\r\n",
+          "createdAt": "2025-11-19T11:11:12Z",
+          "updatedAt": "2025-11-19T11:11:12Z"
         }
       ],
       "reviews": [
@@ -17675,6 +17717,19 @@
               "updatedAt": "2025-11-17T17:34:56Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7PW6fv",
+          "commit": {
+            "abbreviatedOid": "ab15e77"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Are we good with putting normative requirements in the security considerations section? ",
+          "createdAt": "2025-11-18T17:10:09Z",
+          "updatedAt": "2025-11-18T17:10:09Z",
+          "comments": []
         }
       ]
     },
@@ -17683,24 +17738,26 @@
       "id": "PR_kwDOJt_WwM6z2BgG",
       "title": "Address Editorial comments from Joe Saloway",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/287",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #219",
       "createdAt": "2025-11-17T12:20:24Z",
-      "updatedAt": "2025-11-17T17:38:52Z",
+      "updatedAt": "2025-11-18T17:12:38Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "61951b5e3bdf5db46086fae069339017b6ac8ff5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
       "headRefOid": "86d39bf08443d5a7a12bb1c0b3d59ac2a05c9dff",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-18T17:12:37Z",
+      "mergedAt": "2025-11-18T17:12:37Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "66747216b53026e236c14f547da33133bae3a20b"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -17722,6 +17779,19 @@
           "body": "",
           "createdAt": "2025-11-17T17:16:28Z",
           "updatedAt": "2025-11-17T17:16:28Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7PW9DO",
+          "commit": {
+            "abbreviatedOid": "86d39bf"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-18T17:12:11Z",
+          "updatedAt": "2025-11-18T17:12:12Z",
           "comments": []
         }
       ]
@@ -17815,26 +17885,84 @@
       "id": "PR_kwDOJt_WwM6z6XLt",
       "title": "Update 'iss' claim requirements in JWT format",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/291",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Clarified the usage of the 'iss' claim in Txn-Tokens. See issue #283",
       "createdAt": "2025-11-17T17:53:09Z",
-      "updatedAt": "2025-11-17T17:53:10Z",
+      "updatedAt": "2025-11-18T17:11:11Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "61951b5e3bdf5db46086fae069339017b6ac8ff5",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-4",
       "headRefOid": "729d26d7d95c3f8bf906302f5aebde208abb5771",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-18T17:11:09Z",
+      "mergedAt": "2025-11-18T17:11:09Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "45d0de8b1fb731e754b10b708d4b3c796f32dad2"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7PW7m8",
+          "commit": {
+            "abbreviatedOid": "729d26d"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-18T17:10:58Z",
+          "updatedAt": "2025-11-18T17:10:58Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 292,
+      "id": "PR_kwDOJt_WwM60E_DR",
+      "title": "Clarify transaction token request context details",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/292",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated the description of the transaction token request context to include additional formats understood by the Txn-Token Service. Improved clarity and consistency in the document. See issue #224",
+      "createdAt": "2025-11-18T10:57:46Z",
+      "updatedAt": "2025-11-18T17:01:40Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "61951b5e3bdf5db46086fae069339017b6ac8ff5",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-5",
+      "headRefOid": "1cade2a5391c954078b06931c34124e5c422846b",
+      "closedAt": "2025-11-18T17:01:38Z",
+      "mergedAt": "2025-11-18T17:01:38Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "e749ed40433b6227b770a20578466913e10666d8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7PWurG",
+          "commit": {
+            "abbreviatedOid": "1cade2a"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-18T17:01:22Z",
+          "updatedAt": "2025-11-18T17:01:22Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
