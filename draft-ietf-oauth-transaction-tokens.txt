@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 23 May 2026                              Practical Identity LLC
+Expires: 25 May 2026                              Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        19 November 2025
+                                                        21 November 2025
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 May 2026.
+   This Internet-Draft will expire on 25 May 2026.
 
 Copyright Notice
 
@@ -182,8 +182,7 @@ Table of Contents
 
    Cryptographically protected Txn-Tokens ensure that downstream
    workloads cannot make unauthorized modifications to such information,
-   and cannot make spurious calls without the presence of a recent,
-   intentionally invoked, transaction.
+   and cannot make spurious calls.
 
 2.1.  What are Transaction Tokens?
 
@@ -505,9 +504,9 @@ Table of Contents
 5.2.2.  Requester Context
 
    The Txn-Token SHOULD contain an rctx claim.  This MAY include the IP
-   address information of the originating user, as well as information
-   about the computational entity that requested the Txn-Token and
-   contextual attributes of the originating request itself.
+   address information of the originating requestor, as well as
+   information about the computational entity that requested the Txn-
+   Token and contextual attributes of the originating request itself.
 
    The JSON value of the rctx claim MAY include any values the Txn-Token
    Service determines are interesting to downstream services that rely
@@ -515,7 +514,7 @@ Table of Contents
    are included, they have the following meaning:
 
    *  req_ip The IP address of the requester.  This MAY be the end-user
-      or a robotic process that requested the Transaction
+      or a process that initiated the Transaction.
 
    *  authn The authentication method used to identify the requester.
       Its value is a string that uniquely identifies the method used.
@@ -660,7 +659,8 @@ Table of Contents
       subject is represented in the subject_token depends on the
       subject_token_type.  The subject_token MAY be:
 
-      -  An inbound token received by an API Gateway
+      -  An inbound token received by an external endpoint (e.g. an API
+         Gateway)
 
       -  A self-signed JWT constructed by a workload initiating a
          transaction
@@ -834,10 +834,8 @@ Table of Contents
 7.4.  Txn-Token Response
 
    A successful response to a Txn-Token Request by a Transaction Token
-   Service is called a Txn-Token Response.  If the Transaction Token
-   Service responds with an error, the error response is as described in
-   Section 5.2 of [RFC6749].  The following values defined in [RFC8693]
-   MUST be included in the Txn-Token Response:
+   Service is called a Txn-Token Response.  The following values defined
+   in [RFC8693] MUST be included in the Txn-Token Response:
 
    *  The token_type value MUST be set to N_A per guidance in OAuth 2.0
       Token Exchange [RFC8693]
@@ -848,6 +846,9 @@ Table of Contents
       urn:ietf:params:oauth:token-type:txn_token
 
    The Txn-Token Response MUST NOT include the refresh_token value.
+
+   If the Transaction Token Service responds with an error, the error
+   response is as described in Section 5.2 of [RFC6749].
 
    Figure 6 shows a non-normative example of a Txn-Token Response.
 
@@ -897,7 +898,7 @@ Table of Contents
    communicate the Txn-Token to the invoked workload, when the invoked
    workload presents an HTTP interface.  Note that the standard HTTP
    Authorization header MUST NOT be used because that may be used by the
-   workloads to communicate channel authorization.
+   workloads for other purposes.
 
 8.1.  Txn-Token HTTP Header
 
@@ -1009,7 +1010,7 @@ Table of Contents
    access to transaction token requests which includes sensitive
    information like access tokens.  To minimise the risk of leaking
    sensitive information like access tokens that are included in the
-   transaction token request, the workload must ensure that it
+   transaction token request, the workload MUST ensure that it
    authenticates the Transaction Token Service and only contact
    instances of the Transaction Token Service that is authorized to
    issue transaction tokens.
@@ -1082,7 +1083,7 @@ Table of Contents
 
 10.2.  Logging
 
-   Complete Txn-Tokens must not be logged verbatim.  This is in order to
+   Complete Txn-Tokens MUST NOT be logged verbatim.  This is in order to
    prevent replay of tokens or leakage of PII or other sensitive
    information via log files.  A hash of the Txn-Token may be logged to
    allow for correlation with the log files of the Txn-Token Service
@@ -1400,6 +1401,9 @@ Since Draft 06
    *  Removed references to replacing transaction tokens, and added a
       note in the Security Considerations to clarify replacement
       concerns.
+
+   *  Editorial updates identified by Dan Moore (https://github.com/
+      oauth-wg/oauth-transaction-tokens/issues/236)
 
    *  Editorial comments from Joe Saloway (https://github.com/oauth-wg/
       oauth-transaction-tokens/issues/219)
