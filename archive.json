@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-20T00:19:02.635857+00:00",
+  "timestamp": "2025-11-23T00:22:02.776486+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4721,7 +4721,7 @@
       ],
       "body": "WGLC Feedback from Joe Salowey Section 7.5.1 Shouldn't the txn-ctx value also be unmodified in a replacement token?\n",
       "createdAt": "2025-08-27T15:38:36Z",
-      "updatedAt": "2025-10-29T23:56:31Z",
+      "updatedAt": "2025-11-21T19:51:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -4730,6 +4730,13 @@
           "body": "Did you mean `tctx`? That can be modified, I think because a replacement might be needed to in fact specify some additional values or specify existing values in a way that is understood by downstream services.",
           "createdAt": "2025-10-29T23:08:07Z",
           "updatedAt": "2025-10-29T23:08:07Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@PieterKas could you please clarify? ",
+          "createdAt": "2025-11-21T19:51:46Z",
+          "updatedAt": "2025-11-21T19:51:46Z"
         }
       ]
     },
@@ -5430,7 +5437,7 @@
       "id": "I_kwDOJt_WwM7IRc5O",
       "title": "WGLC Editorial comments from Dan Moore",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/236",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -5439,8 +5446,8 @@
       ],
       "body": "At https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2-3 I would change:\n---\nCryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls without the presence of an intentionally invoked transaction.\n->\nCryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls.\n---\nseems that you can either have a spurious call or have an \"intentionally invoked transaction\", not both, so the \"without\" clause is not needed.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-2.1.1 I'd suggest combining these two bullet points:\n---\n- The external authorization token (e.g., the OAuth access token)\n- An internally generated JWT representing the subject of the request\n-> \n- The external authorization token (e.g., the OAuth access token) or an internally generated JWT representing the subject of the request\n---\nBecause it seems like these are mutually exclusive ( per https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.1-4 )\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.2.2-2 I would link to the relevant security section? https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-replacement-tokens \n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.3 would change the wording slightly for readability.\n---\n\"order of minutes, e.g., 5 minutes\"\n->\n\"on the order of minutes, e.g., 5 minutes\"\n---\n\nIn the second chart, https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-2.5.2-3\nwouldn't it be clearer to just repeat the same steps? Or is the \"same as above\" pattern better/typical? I couldn't find examples of RFCs that have closely related charts.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.2.1 I think this is cleare:\n---\n\"The iss claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.\"\n->\n\"The iss claim MUST be used in cases where the signing keys are not predetermined. The iss claim MUST be used when the Txn-Token Service signs each Txn-Token with a unique key.\"\n---\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.12.1 you could link to the OpenID Connect spec, as you do further below.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2-2.14.1\n- why is String capitalized?\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-purpose-claim is purp designed to be human readable, machine parseable or both (or left undefined and we can use any value)?\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-requester-context\n---\nthis MAY include the IP address information of the originating user\"\n->\nthis MAY include the IP address information of the originating request\"\n---\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.2-3.1.1 the req_ip description needs a period for consistency\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.2-3.1.1 I would remove \"robotic\". Not sure what it adds.\n\n\nWould change call-chain to Call Chain and call chain to Call Chain, since you define that term. saw this multiple times.\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-5.2.3-1\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.1-1\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-creating-replacement-txn-to\n\n\nSection 5.2.3.1 applies to the rctx claim, not the tctx, and should be numbered 5.2.2.1\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.5.2.1.1 would change:\n---\nAn inbound token received by an API Gateway\n-> \nA token received by an external endpoint\n---\nSeems more in keeping with the nomenclature used elsewhere in the doc.\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.4-2.2.1 I would change:\n---\nThe following values defined in [RFC8693] MUST be included in the Txn-Token Response:\n->\nThe following values defined in [RFC8693] MUST be included in a successful Txn-Token Response:\n---\nI got confused by the error sentence before this sentence, so adding a clarifying \"successful\" phrase would be helpful.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-creating-replacement-txn-to\nThe draft says \"A workload within a call chain may request the Transaction Token Service to replace a Txn-Token.\"\nawkward phrasing. Maybe \n\"When part of a Call Chain needs a new transaction token, it can make a request to the Transaction Token Service to replace the current one.\"\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.5.1-2.6.1 there's a missing 'a':\n---\n\"MUST NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token\"\n->\n\"MUST NOT issue a replacement Txn-Token with lifetime exceeding the lifetime of the originally presented token\"\n---\nAlso should check for proper casing of Txn-Token throughout the doc.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-8-1 I would change:\n---\nNote that the standard HTTP Authorization header MUST NOT be used because that may be used by the workloads to communicate channel authorization.\n->\nThe Authorization HTTP header MUST NOT be used because that may be used by the workloads for other purposes.\n---\nI have no idea what channel authorization is, but I think it is enough for implementers to know they MUST NOT use that header.\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.1-1 should we uppercase the SHOULD?\n---\nEven for long-running \"batch\" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint.\n->\nEven for long-running \"batch\" jobs, a longer-lived access token SHOULD be used to initiate the request to the batch endpoint.\n---\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#name-replacement-tokens it is unclear to me whether these sentences are related to the workload or the TTS or both? Seems like the first is the workload and the latter two tasks are for the TTS, but I'm not sure.\n\nI would either use TTS everywhere or I'd expand it. There's a mix of TTS, Transaction Token Service, and Txn-Token Service.\n\n\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.10-1 would change:\n---\nthe workload must ensure that it authenticates\n->\nthe workload MUST ensure that it authenticates\n---\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-9.12\nthere is a busted link: \"Mutual Authentication of the Txn-Token Request\"\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-10.2 would clarify/use MUST:\n---\nComplete Txn-Tokens must not be logged verbatim.\n->\nComplete Txn-Tokens MUST not be logged verbatim.\n---\n\n\n",
       "createdAt": "2025-08-27T16:22:27Z",
-      "updatedAt": "2025-10-30T15:05:58Z",
-      "closedAt": null,
+      "updatedAt": "2025-11-21T16:10:05Z",
+      "closedAt": "2025-11-21T16:10:05Z",
       "comments": [
         {
           "author": "tulshi",
@@ -17643,24 +17650,26 @@
       "id": "PR_kwDOJt_WwM6z16c2",
       "title": "Editorial comments from Dan Moore",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/286",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Editorial updates suggested by Dan Moore: See issue #236",
       "createdAt": "2025-11-17T12:11:36Z",
-      "updatedAt": "2025-11-19T11:11:12Z",
+      "updatedAt": "2025-11-21T16:04:00Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "66747216b53026e236c14f547da33133bae3a20b",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "8a76384897f50e8c8b5862a73fe45107e2da9057",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-11-21T16:03:59Z",
+      "mergedAt": "2025-11-21T16:03:58Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "06c39d42009b6753463617157188ec59c5dd5d64"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -17729,6 +17738,19 @@
           "body": "Are we good with putting normative requirements in the security considerations section? ",
           "createdAt": "2025-11-18T17:10:09Z",
           "updatedAt": "2025-11-18T17:10:09Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7QOVhC",
+          "commit": {
+            "abbreviatedOid": "8a76384"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-11-21T16:03:49Z",
+          "updatedAt": "2025-11-21T16:03:49Z",
           "comments": []
         }
       ]
