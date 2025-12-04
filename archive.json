@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-11-23T00:22:02.776486+00:00",
+  "timestamp": "2025-12-04T00:20:03.001179+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4641,7 +4641,7 @@
       ],
       "body": "Feedback from Joe Salowey\n\nSection 4.- Most of the terms in this section overlap with terms we define in [WIMSE arch spec](https://datatracker.ietf.org/doc/draft-ietf-wimse-arch/) as well (Workload, trust domain, External Endpoint, Call Chain, etc).  I don't think there is a lot of divergence, but it would be good to make sure there isn't and maybe make them more common where it makes sense. \n",
       "createdAt": "2025-08-27T15:35:33Z",
-      "updatedAt": "2025-10-29T23:46:28Z",
+      "updatedAt": "2025-12-03T23:51:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -4650,6 +4650,13 @@
           "body": "@jsalowey would you be able to take a quick look and point out any divergence?",
           "createdAt": "2025-10-29T23:46:28Z",
           "updatedAt": "2025-10-29T23:46:28Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The following is an analysis provided by Claude:\n\n# **Analysis of Transaction Tokens Editor's Draft and WIMSE Architecture Terminology Alignment**\n\nBased on my review of the editor's draft of Transaction Tokens and the WIMSE Architecture document (draft-ietf-wimse-arch-06), here's my analysis of terminology alignment and recommendations:\n\n## **Key Terminology Comparison**\n\n### **1\\. Workload**\n\n* **Transaction Tokens (editor's draft)**: \"An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads\"  \n* **WIMSE Architecture**: \"A workload is a running instance of software executing for a specific purpose\"  \n* **Analysis**: These definitions are compatible but serve different emphasis. Transaction Tokens focuses on the invocation aspect while WIMSE is more general. The definitions can coexist.\n\n### **2\\. Trust Domain**\n\n* **Transaction Tokens**: \"A collection of systems, applications, or workloads that share a common security policy\"  \n* **WIMSE Architecture**: \"A logical grouping of systems that share a common set of security controls and policies\"  \n* **Analysis**: Nearly identical \\- both emphasize shared security policies. Well-aligned.\n\n### **3\\. Security Context**\n\n* **Transaction Tokens**: No longer has a formal \"Authorization Context\" definition (removed per changelog)  \n* **WIMSE Architecture**: Defines \"Security Context\" broadly  \n* **Analysis**: Good alignment \\- Transaction Tokens removed the conflicting definition and now uses context within specific claims (`tctx`, `rctx`)\n\n### **4\\. Call Chain**\n\n* Both specs use this term consistently, with Transaction Tokens owning the formal definition  \n* **Analysis**: No conflict\n\n### **5\\. External Endpoint**\n\n* Transaction Tokens provides the formal definition  \n* WIMSE uses it without defining it  \n* **Analysis**: Good complementarity\n\n## **Notable Improvements in Editor's Draft**\n\nThe editor's draft has already made several improvements that help alignment:\n\n1. **Removed \"Authorization Context\" definition** \\- eliminating potential confusion with WIMSE's \"Security Context\"  \n2. **Changed \"purpose\" to \"scope\"** \\- aligning better with OAuth terminology  \n3. **Added reference to WIMSE workload authentication** (\\[I-D.ietf-wimse-s2s-protocol\\])\n\n## **Recommended Changes to Transaction Tokens Draft**\n\n### **1\\. Add WIMSE Architecture Reference**\n\nAdd \\[I-D.ietf-wimse-arch\\] as an informative reference and include a note in the introduction or overview explaining the relationship:\n\ntext\n\n```\n\"Transaction Tokens implement patterns described in the WIMSE Architecture \n[I-D.ietf-wimse-arch] for propagating user identity and authorization \ncontext across workloads within a trust domain.\"\n```\n\n### **2\\. Consider Harmonizing Workload Definition**\n\nEither:\n\n* Keep both definitions but add a note explaining the relationship, OR  \n* Adopt WIMSE's simpler definition and add transaction-specific details\n\nSuggested addition to terminology:\n\ntext\n\n```\nWorkload:\n    A running instance of software executing for a specific purpose \n    [I-D.ietf-wimse-arch]. In the context of Transaction Tokens, \n    workloads are computational units that can autonomously receive \n    and process invocations, and can generate invocations of other \n    workloads.\n```\n\n### **3\\. Clarify Security Context Relationship**\n\nAdd a note explaining that the `tctx` and `rctx` claims represent specific implementations of the broader \"Security Context\" concept from WIMSE:\n\ntext\n\n```\nNote: The transaction context (tctx) and requester context (rctx) \nclaims in Transaction Tokens are specific representations of the \nbroader Security Context concept defined in [I-D.ietf-wimse-arch].\n```\n\n### **4\\. Reference WIMSE Authentication Methods**\n\nThe draft already references \\[I-D.ietf-wimse-s2s-protocol\\] in Section 7.5, which is good. Consider also mentioning WIT (Workload Identity Token) when discussing authentication options.\n\n## **Assessment of Issue \\#213**\n\n**Yes, Issue \\#213 should be acted upon**, but the required changes are relatively minor:\n\n### **Why Action is Needed:**\n\n1. **Architectural Context**: Transaction Tokens is essentially a profile/implementation of WIMSE patterns \\- making this explicit improves understanding  \n2. **Ecosystem Coherence**: As part of the broader WIMSE ecosystem, aligned terminology reduces confusion  \n3. **Already Partially Addressed**: The editor's draft has already made good progress (removing Authorization Context, adding WIMSE references)\n\n### **Priority Actions:**\n\n1. **Add WIMSE Architecture as informative reference** \u2713 (High Priority)  \n2. **Add brief section explaining relationship to WIMSE** \u2713 (High Priority)  \n3. **Consider harmonizing workload definition** \u25cb (Medium Priority)  \n4. **Add notes connecting concepts** \u25cb (Low Priority)\n\n### **What's Already Good:**\n\n* Trust Domain definitions are well-aligned  \n* The removal of \"Authorization Context\" eliminates a major conflict  \n* References to WIMSE authentication specs are already present  \n* The specs complement each other well with Transaction Tokens providing specific implementation details\n\n## **Conclusion**\n\nThe editor's draft has already made significant improvements toward alignment. The remaining work is primarily about making the architectural relationship explicit and ensuring readers understand how Transaction Tokens fits within the broader WIMSE framework. These changes would improve clarity without requiring major restructuring of the document.\n\nRetry\n\nTo run code, enable code execution and file creation in Settings \\> Capabilities.\n\n[Claude can make mistakes.](https://support.anthropic.com/en/articles/8525154-claude-is-providing-incorrect-or-misleading-responses-what-s-going-on)  \n[Please double-check responses.](https://support.anthropic.com/en/articles/8525154-claude-is-providing-incorrect-or-misleading-responses-what-s-going-on)  ",
+          "createdAt": "2025-12-03T23:51:47Z",
+          "updatedAt": "2025-12-03T23:51:47Z"
         }
       ]
     },
@@ -4989,14 +4996,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [
-        "help wanted",
         "WGLC Feedback"
       ],
       "body": "WGLC Feedback from Dan Moore\n\nAt https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-06.html#section-7.1-3.2.1\nis the `audience` parameter the same as the `aud` claim in section 5.2? It appears related but different based on the non-normative examples? This is the only mention of the term \"Trust Domain name\" in the entire document so I'm confused as to what goes there.\n",
       "createdAt": "2025-08-27T15:53:13Z",
-      "updatedAt": "2025-10-29T23:35:06Z",
+      "updatedAt": "2025-12-03T23:24:34Z",
       "closedAt": null,
       "comments": [
         {
@@ -17985,6 +17993,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 293,
+      "id": "PR_kwDOJt_WwM628M_n",
+      "title": "replaced audience in request with the name aud to match the claim nam\u2026",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/293",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\u2026e in the txn-token",
+      "createdAt": "2025-12-03T23:24:47Z",
+      "updatedAt": "2025-12-03T23:26:22Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "06c39d42009b6753463617157188ec59c5dd5d64",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-request-audience",
+      "headRefOid": "01aa87a9bd88b519c4d8e89d28db9387ec085a14",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
