@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-04T00:20:03.001179+00:00",
+  "timestamp": "2025-12-07T00:21:44.513863+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -18006,7 +18006,7 @@
       "labels": [],
       "body": "\u2026e in the txn-token",
       "createdAt": "2025-12-03T23:24:47Z",
-      "updatedAt": "2025-12-03T23:26:22Z",
+      "updatedAt": "2025-12-04T15:54:40Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "06c39d42009b6753463617157188ec59c5dd5d64",
@@ -18018,7 +18018,48 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7TCyXu",
+          "commit": {
+            "abbreviatedOid": "01aa87a"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-04T15:53:52Z",
+          "updatedAt": "2025-12-04T15:53:52Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "@tulshi - I think the original name of the. parameter is correcthere - RFC 8693 defines the \"audience\" parameter which is what I thought we are using here?",
+              "createdAt": "2025-12-04T15:53:52Z",
+              "updatedAt": "2025-12-04T15:53:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7TCzXK",
+          "commit": {
+            "abbreviatedOid": "01aa87a"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-12-04T15:54:39Z",
+          "updatedAt": "2025-12-04T15:54:40Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "Similar commentas above - \"aud\" is the claim in the token, \"audience\" is the parameter defined in RFC 8693",
+              "createdAt": "2025-12-04T15:54:40Z",
+              "updatedAt": "2025-12-04T15:54:40Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
