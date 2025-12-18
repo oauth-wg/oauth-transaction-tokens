@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-11T00:20:12.206943+00:00",
+  "timestamp": "2025-12-18T00:17:16.939735+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4722,13 +4722,10 @@
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [
-        "WGLC Feedback",
-        "WGLC Discuss"
-      ],
+      "labels": [],
       "body": "WGLC Feedback from Joe Salowey Section 7.5.1 Shouldn't the txn-ctx value also be unmodified in a replacement token?\n",
       "createdAt": "2025-08-27T15:38:36Z",
-      "updatedAt": "2025-12-09T19:00:33Z",
+      "updatedAt": "2025-12-17T18:12:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -4751,6 +4748,13 @@
           "body": "This was an issue raised by @jsalowey as part of the WGLC feedback - I just opened the issue. @jsalowey - can you clarify?",
           "createdAt": "2025-12-09T19:00:33Z",
           "updatedAt": "2025-12-09T19:00:33Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm deferring this because we have removed the replacement flow from the normative sections of the draft.",
+          "createdAt": "2025-12-17T18:11:59Z",
+          "updatedAt": "2025-12-17T18:11:59Z"
         }
       ]
     },
@@ -17612,7 +17616,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-11-16T08:57:20Z",
-      "updatedAt": "2025-11-17T17:26:25Z",
+      "updatedAt": "2025-12-17T18:10:44Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
@@ -17664,6 +17668,19 @@
               "updatedAt": "2025-11-17T17:26:25Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7V67RM",
+          "commit": {
+            "abbreviatedOid": "1a9e942"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-12-17T18:09:40Z",
+          "updatedAt": "2025-12-17T18:09:40Z",
+          "comments": []
         }
       ]
     },
