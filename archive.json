@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-12-18T00:17:16.939735+00:00",
+  "timestamp": "2026-01-01T00:23:40.191280+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -5946,6 +5946,30 @@
           "body": "A great point. Any thoughts on how to improve the wording? Obsfucation is one option, anonymization is another. I know of some implementations that encrypt internal bits of the token so that only the workload authorized can decrypt them. I agree that how this data is handled is jurisdiction dependent.\n\nIs something like this better?\n\nTransaction tokens claims may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values need to be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and in that case an obsfucation method (e.g. salted SHA256) may suffice to meet jurisdictional requirements.",
           "createdAt": "2025-11-17T17:36:50Z",
           "updatedAt": "2025-11-17T17:36:50Z"
+        }
+      ]
+    },
+    {
+      "number": 294,
+      "id": "I_kwDOJt_WwM7gwRGb",
+      "title": "Assuring single use by preserving jti from request.",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/294",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Imagine single-use access tokens, such as the result of an OAuth + RAR request, representing approval of a specific state changing operation, such as a token representing a payment approval.\n\nBefore the pattern offered by Transaction Tokens draft, that access token might have traversed different application layer, and once reaching the resource server performing the state changing operation, that RS would have ensured its single-use by, for example, recording the token\u2019s jti, enabling replay prevention.\n\n \n\nHow shall such solution patterns work with the Transaction Tokens draft?\n\nI\u2019m concerned adding transaction tokens breaks current replay prevention techniques, in case a single-use token is presented multiple times to an ingress endpoint which requests transaction tokens, resulting in multiple instances of that token with changing jti.\n\n \n\nPerhaps some language is needed for claims transcription in such use cases to maintain specific original values such as jti.",
+      "createdAt": "2025-12-30T16:57:46Z",
+      "updatedAt": "2025-12-31T16:51:13Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think of Transaction Tokens as being inherently \u201cone-time-use\u201d tokens from the perspective of the transaction. When the transaction is complete, then the tokens are not longer valid. A mechanism to support this could be to record the `txn` claim in a \u201cDB\" that could be checked on receipt of a transaction token. The `txn` claim functions similar to the `jti` claim. \n\nAdditionally, adding the originating `jti` of the access token in the `tctx` to make it immutable is also valid and allows for determining if the originating access token is still valid. There are performance considerations to these additional checks but they are all viable. \n\nI wonder if adding something to the security considerations would be valuable.",
+          "createdAt": "2025-12-31T16:51:13Z",
+          "updatedAt": "2025-12-31T16:51:13Z"
         }
       ]
     }
