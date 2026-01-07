@@ -184,11 +184,11 @@ Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload
      1    +--------------+    2      +--------------+
 --------->│              │---------->│              │
           │   External   │           │  Txn-Token   │
-     7    │   Endpoint   │    3      │   Service    │
+     8    │   Endpoint   │    3      │   Service    │
 <---------│              │<----------│              │
           +--------------+           +--------------+
                │   ^
-             4 v   │ 6
+             4 v   │ 7
           +--------------+
           │              │
           │   Internal   │
@@ -216,8 +216,9 @@ Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload
 3. Txn-Token Service mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
 4. The external endpoint initiates a call to an internal workloads and provides the Txn-Token as authorization
 5. Subsequent calls to other internal workloads use the same Txn-Token to authorize calls
-6. Responses are provided to callers based on successful authorization by the invoked workloads
-7. External client is provided a response to the external invocation
+6. Responses are provided to calling workloads based on successful authorization by the invoked workloads
+7. Response provided to external endpoint based on successful authorization by the invoked workload
+8. External client is provided a response to the external invocation
 
 ### Internally Initiated Txn-Token Flow
 
@@ -232,7 +233,7 @@ An internal workload may need to initiate a transaction not on the basis of a cu
           ┤              ◀───────────│              │
           └────┬───▲─────┘           └──────────────┘
                │   │
-             4 │   │ 6
+             4 │   │ 7
           ┌────▼───┴─────┐
           │              │
           │   Internal   │
