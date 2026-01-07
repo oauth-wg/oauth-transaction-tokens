@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 25 May 2026                              Practical Identity LLC
+Expires: 11 July 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        21 November 2025
+                                                          7 January 2026
 
 
                            Transaction Tokens
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 May 2026.
+   This Internet-Draft will expire on 11 July 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -276,11 +276,11 @@ Table of Contents
         1    +--------------+    2      +--------------+
    --------->│              │---------->│              │
              │   External   │           │  Txn-Token   │
-        7    │   Endpoint   │    3      │   Service    │
+        8    │   Endpoint   │    3      │   Service    │
    <---------│              │<----------│              │
              +--------------+           +--------------+
                   │   ^
-                4 v   │ 6
+                4 v   │ 7
              +--------------+
              │              │
              │   Internal   │
@@ -318,10 +318,13 @@ Table of Contents
    5.  Subsequent calls to other internal workloads use the same Txn-
        Token to authorize calls
 
-   6.  Responses are provided to callers based on successful
+   6.  Responses are provided to calling workloads based on successful
        authorization by the invoked workloads
 
-   7.  External client is provided a response to the external invocation
+   7.  Response provided to external endpoint based on successful
+       authorization by the invoked workload
+
+   8.  External client is provided a response to the external invocation
 
 2.5.2.  Internally Initiated Txn-Token Flow
 
@@ -339,7 +342,7 @@ Table of Contents
              ┤              ◀───────────│              │
              └────┬───▲─────┘           └──────────────┘
                   │   │
-                4 │   │ 6
+                4 │   │ 7
              ┌────▼───┴─────┐
              │              │
              │   Internal   │
