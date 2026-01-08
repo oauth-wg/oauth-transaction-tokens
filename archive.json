@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-04T00:23:26.854581+00:00",
+  "timestamp": "2026-01-08T00:21:06.615492+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3817,7 +3817,7 @@
       "id": "I_kwDOJt_WwM7IDMIH",
       "title": "Exception for self-signed JWTs",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/191",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -3828,8 +3828,8 @@
       ],
       "body": "WGLC feedback from @bc-pi \n\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-txn-token-lifetime \n\"Except in the case where the request is made using a self-signed JWT\" - why this exception? \n",
       "createdAt": "2025-08-26T16:06:14Z",
-      "updatedAt": "2025-11-17T12:25:22Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-07T19:16:19Z",
+      "closedAt": "2026-01-07T19:16:19Z",
       "comments": [
         {
           "author": "jsalowey",
@@ -3844,6 +3844,13 @@
           "body": "@gffletch - can you review this issue and create a PR if needed?",
           "createdAt": "2025-11-17T12:25:21Z",
           "updatedAt": "2025-11-17T12:25:21Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The text referenced has since been changed in the latest version to remove the exception for self-signed JWTs. This issue can be closed.",
+          "createdAt": "2026-01-07T18:59:22Z",
+          "updatedAt": "2026-01-07T18:59:22Z"
         }
       ]
     },
@@ -17640,24 +17647,26 @@
       "id": "PR_kwDOJt_WwM6zswRa",
       "title": "Fix call numbers in diagrams",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/282",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-11-16T08:57:20Z",
-      "updatedAt": "2025-12-17T18:10:44Z",
+      "updatedAt": "2026-01-07T19:23:08Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "obfuscoder-patch-1",
       "headRefOid": "1a9e942be6b49025ce742f350c13b44a2d1a147b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-07T19:23:07Z",
+      "mergedAt": "2026-01-07T19:23:07Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "892a5c96f216ac7345b4ac45602a40e61e787b72"
+      },
       "comments": [],
       "reviews": [
         {
@@ -17711,6 +17720,19 @@
           "body": "",
           "createdAt": "2025-12-17T18:09:40Z",
           "updatedAt": "2025-12-17T18:09:40Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Yv_pw",
+          "commit": {
+            "abbreviatedOid": "1a9e942"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-07T19:21:34Z",
+          "updatedAt": "2026-01-07T19:21:34Z",
           "comments": []
         }
       ]
