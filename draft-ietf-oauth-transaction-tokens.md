@@ -359,7 +359,6 @@ The JSON value of the `rctx` claim MAY include any values the Txn-Token Service 
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a process that initiated the Transaction.
 * `authn` The authentication method used to identify the requester. Its value is a string that uniquely identifies the method used.
-* `req_wl` The requesting workload. A string that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
 
 The following is a non-normative example of an `rctx` claim initiated by an external call:
 
@@ -367,8 +366,7 @@ The following is a non-normative example of an `rctx` claim initiated by an exte
 {
     "rctx": {
       "req_ip": "69.151.72.123", // env context of external call
-      "authn": "urn:ietf:rfc:6749", // env context of external call
-      "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+      "authn": "urn:ietf:rfc:6749" // env context of external call
     }
 }
 ~~~
