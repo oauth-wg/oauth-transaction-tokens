@@ -160,7 +160,7 @@ Txn-Tokens are typically created when a workload is invoked using an endpoint th
 
 If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Transaction Token Service [TTS]) and provides context that is sufficient for it to generate a Txn-Token. 
 
-The context information provided to the Txn-Token Service MUST include:
+The context information provided to the TTS MUST include:
 * the identification of the trust domain in which the issued Txn-Token is valid
 * a token which identifies the subject of the Txn-Token (e.g. an OAuth access token, a self-issued JWT, etc)
 * the desired authorisation scope for the issued Txn-Token
