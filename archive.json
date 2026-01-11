@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-08T00:21:06.615492+00:00",
+  "timestamp": "2026-01-11T00:23:20.405596+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4559,14 +4559,16 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [
-        "help wanted",
+        "pre-last-call",
         "WGLC Feedback"
       ],
       "body": "WGLC feedback from Joe Salowey\n\nSection 2.2.1 lists a bunch of MAY items in the request.  It seems like there should be some MUSTs somewhere in here?  For example, the request MUST contain some information about the subject of the request which could be one of several options.  I realize that 7.1 contains more normative information, but this section seems to be a bit out of sync and not very informative. It might also be useful to list the authentication requirements here at a high level.",
       "createdAt": "2025-08-27T15:31:15Z",
-      "updatedAt": "2025-10-29T23:52:00Z",
+      "updatedAt": "2026-01-09T15:38:22Z",
       "closedAt": null,
       "comments": []
     },
@@ -4648,14 +4650,16 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [
-        "help wanted",
+        "pre-last-call",
         "WGLC Feedback"
       ],
       "body": "Feedback from Joe Salowey\n\nSection 4.- Most of the terms in this section overlap with terms we define in [WIMSE arch spec](https://datatracker.ietf.org/doc/draft-ietf-wimse-arch/) as well (Workload, trust domain, External Endpoint, Call Chain, etc).  I don't think there is a lot of divergence, but it would be good to make sure there isn't and maybe make them more common where it makes sense. \n",
       "createdAt": "2025-08-27T15:35:33Z",
-      "updatedAt": "2025-12-03T23:51:47Z",
+      "updatedAt": "2026-01-09T15:39:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -4732,15 +4736,15 @@
       "id": "I_kwDOJt_WwM7IQ3L7",
       "title": "txn-ctx modification",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/216",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "WGLC Feedback from Joe Salowey Section 7.5.1 Shouldn't the txn-ctx value also be unmodified in a replacement token?\n",
       "createdAt": "2025-08-27T15:38:36Z",
-      "updatedAt": "2025-12-17T18:12:12Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-09T15:40:52Z",
+      "closedAt": "2026-01-09T15:40:52Z",
       "comments": [
         {
           "author": "tulshi",
@@ -5513,11 +5517,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "tulshi"
+      ],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "We need to do a pass to be consistent about the use of acronymns, abbreviations and full text. For example, Transaction token Service is represented as Txn-Token-Service, TTS or Transaction Token Service in various places. Same for transaction token.\n\nI have cone to have a strong preference for writing the fill term rather than using abbreviations in lots of pplaces as the abbreviations may be unfamiliar or may have different meanings to readers (unless they read the whole thing carefully). Personal preference aside, consistency is important, so we just need to pick an approach and stick to it.",
       "createdAt": "2025-09-05T12:07:28Z",
-      "updatedAt": "2025-09-15T16:19:17Z",
+      "updatedAt": "2026-01-09T15:43:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -5526,6 +5534,13 @@
           "body": "+1 for full text",
           "createdAt": "2025-09-15T16:19:17Z",
           "updatedAt": "2025-09-15T16:19:17Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors discussion: Decision to use TTS. ",
+          "createdAt": "2026-01-09T15:43:32Z",
+          "updatedAt": "2026-01-09T15:43:32Z"
         }
       ]
     },
@@ -5537,13 +5552,27 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "gffletch",
+        "tulshi",
+        "PieterKas"
+      ],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-acknowledgements\n\nI do appreciate the Contributors section below (and being in it) but I suspect it is missing some people that could/should be listed here in the Acknowledgements. But if Acknowledgments is only going to thank \"the contributors and the OAuth working group members\" then maybe just remove it?",
       "createdAt": "2025-10-09T00:06:03Z",
-      "updatedAt": "2025-10-09T00:06:03Z",
+      "updatedAt": "2026-01-09T15:52:25Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors decision - each editor to review correspondence and issues to ensure everyone is acknowledged. Collapse contributor and acknowledgements. Just recognise names not specific contributions. Only have acknowledgements, do it alphabetically.",
+          "createdAt": "2026-01-09T15:45:45Z",
+          "updatedAt": "2026-01-09T15:51:55Z"
+        }
+      ]
     },
     {
       "number": 262,
@@ -5628,10 +5657,12 @@
       "assignees": [
         "tulshi"
       ],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "From https://github.com/oauth-wg/oauth-transaction-tokens/pull/253\n\n@gffletch and @tulshi opened a discussion about the normative language used regarding the request_detailt and rctx claim. This was orthogonal to the original issue being adressed. to avoid having a PR open for a long time when the issue being raised is not related to the issue in the PR, this issue wass created instead. Screenshot of discussion below:\n\n<img width=\"827\" height=\"832\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/524de217-960a-4665-85fa-f2fdc65f0ad2\" />",
       "createdAt": "2025-10-30T13:30:51Z",
-      "updatedAt": "2025-11-13T01:30:14Z",
+      "updatedAt": "2026-01-09T19:32:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -5675,6 +5706,13 @@
           "body": "Sorry, that is my fault. I was thinking that the `req_wl` doesn't need to be specified in request details object. I'm sorry for the confusion.\n\nYes, the `req_wl` should be available in the `rctx` object regardless of how the TTS determines the value. :)",
           "createdAt": "2025-11-13T01:30:13Z",
           "updatedAt": "2025-11-13T01:30:13Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A (somewhat surprising) twist here, is that the latest draft requires the \"req_wl\" value outside the \"rctx\" value in the TraT. I think as a result, we should remove language regarding \"req_wl\" from the \"rctx\". I'll submit a PR to that effect.",
+          "createdAt": "2026-01-09T19:32:24Z",
+          "updatedAt": "2026-01-09T19:32:24Z"
         }
       ]
     },
@@ -5686,11 +5724,15 @@
       "state": "OPEN",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "There is a lot of normative language about the interface for the Txn-Token-Service. However, I am missing normative language for how a workload should validate the authorization context represented by the Txn-Token. For instance:\n\n- MUST validate signature of JWT, exp, iat claims (with appropriate slack for clock skew)\n- MUST validate that scope allows requested operation\n- MUST validate aud claim (although at least for this there is a \"A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the aud claim.\" yet workload is not explicitly mentioned)\n- MUST validate tctx if present\n- MUST pass along the Txn-Token in outgoing calls belonging to the same transaction\n\nWas this maybe left out intentionally? I do understand that it may be necessary to make some of this language conditional to support different configurations/deployments. For instance there may be cases where some workloads may opt for employing Token Introspection to validate Txn-Tokens instead of doing it locally (which is by the way not mentioned at all in the current draft).",
       "createdAt": "2025-11-04T14:00:31Z",
-      "updatedAt": "2025-11-12T17:47:25Z",
+      "updatedAt": "2026-01-09T15:56:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -5713,6 +5755,13 @@
           "body": "So should we add a section to section 8 on transaction token request processing to be explicit about this guidance?",
           "createdAt": "2025-11-12T17:47:25Z",
           "updatedAt": "2025-11-12T17:47:25Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors discussion: add section with processing rules and guidance on deployment specific authorisation.",
+          "createdAt": "2026-01-09T15:56:57Z",
+          "updatedAt": "2026-01-09T15:56:57Z"
         }
       ]
     },
@@ -5932,10 +5981,12 @@
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "pre-last-call"
+      ],
       "body": "check for consistent casing throughout the document.",
       "createdAt": "2025-11-17T12:00:15Z",
-      "updatedAt": "2025-11-17T12:00:15Z",
+      "updatedAt": "2026-01-09T15:30:09Z",
       "closedAt": null,
       "comments": []
     },
@@ -5948,10 +5999,12 @@
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "In section Privacy considerations it is mentioned that some data within the tokens may be considered PII and the example of the client IP address is given. Indeed, IP addresses are considered PII in quite a lot of jurisdictions. However, that doesn't necessarily mean that the IP address or any other PII must be obfuscated as it is stated in the current draft. I think this is depending on what is being done with the Txn-Token. You could even consider the subject identifier to be PII. It should be clear that when adding PII to the Txn-Token, the entire Txn-Token must be handled according to privacy preserving policies in respect to relevant jurisdictions.\n",
       "createdAt": "2025-11-17T12:56:29Z",
-      "updatedAt": "2025-11-17T17:36:50Z",
+      "updatedAt": "2026-01-09T15:29:28Z",
       "closedAt": null,
       "comments": [
         {
@@ -5972,10 +6025,12 @@
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "Imagine single-use access tokens, such as the result of an OAuth + RAR request, representing approval of a specific state changing operation, such as a token representing a payment approval.\n\nBefore the pattern offered by Transaction Tokens draft, that access token might have traversed different application layer, and once reaching the resource server performing the state changing operation, that RS would have ensured its single-use by, for example, recording the token\u2019s jti, enabling replay prevention.\n\n \n\nHow shall such solution patterns work with the Transaction Tokens draft?\n\nI\u2019m concerned adding transaction tokens breaks current replay prevention techniques, in case a single-use token is presented multiple times to an ingress endpoint which requests transaction tokens, resulting in multiple instances of that token with changing jti.\n\n \n\nPerhaps some language is needed for claims transcription in such use cases to maintain specific original values such as jti.",
       "createdAt": "2025-12-30T16:57:46Z",
-      "updatedAt": "2025-12-31T16:51:13Z",
+      "updatedAt": "2026-01-09T15:28:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -18150,6 +18205,181 @@
               "updatedAt": "2025-12-04T15:54:40Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 295,
+      "id": "PR_kwDOJt_WwM68Xt3b",
+      "title": "Clarify Txn-Token Service context requirements",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/295",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated to define some MUSTs, removed a reference to replacement transaction tokens and defined the reference for TTS",
+      "createdAt": "2026-01-09T17:14:26Z",
+      "updatedAt": "2026-01-10T00:51:06Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_209",
+      "headRefOid": "b3f2c17fbfd714c0a73912734447d4e2d18a860a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7ZRIfJ",
+          "commit": {
+            "abbreviatedOid": "7736103"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-09T18:40:57Z",
+          "updatedAt": "2026-01-09T18:41:14Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "\"Txn-Token Service\" -> TTS?",
+              "createdAt": "2026-01-09T18:40:57Z",
+              "updatedAt": "2026-01-09T18:41:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ZUhi5",
+          "commit": {
+            "abbreviatedOid": "7736103"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-10T00:44:50Z",
+          "updatedAt": "2026-01-10T00:44:50Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Good catch, will update!",
+              "createdAt": "2026-01-10T00:44:50Z",
+              "updatedAt": "2026-01-10T00:44:50Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 296,
+      "id": "PR_kwDOJt_WwM68ZPWh",
+      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/296",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Removed `req_wl` from rctx, as it is a part of the top level claims. Closes #268 ",
+      "createdAt": "2026-01-09T19:48:59Z",
+      "updatedAt": "2026-01-10T00:54:30Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "remove-req-wl",
+      "headRefOid": "dc45cde910b7cdf4a16f05cac98736b22124b4a6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This looks good. I do think we should add `req_wl` to and example as a top-level claims. It's defined as such not not shown in an example as far as I could tell.",
+          "createdAt": "2026-01-10T00:52:41Z",
+          "updatedAt": "2026-01-10T00:52:41Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7ZUklR",
+          "commit": {
+            "abbreviatedOid": "dc45cde"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Fix other examples where `req_wl` is used (move to top-level claim).",
+          "createdAt": "2026-01-10T00:54:30Z",
+          "updatedAt": "2026-01-10T00:54:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 297,
+      "id": "PR_kwDOJt_WwM68Zkpp",
+      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/297",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Used the acronym \"TTS\" for all except initial use of Transaction Token Service. Closes #243 ",
+      "createdAt": "2026-01-09T20:29:30Z",
+      "updatedAt": "2026-01-10T00:59:34Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "make-it-TTS",
+      "headRefOid": "7ff81343eb86d936383519c9ab219d05113c1fed",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7ZUnaX",
+          "commit": {
+            "abbreviatedOid": "7ff8134"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-10T00:57:47Z",
+          "updatedAt": "2026-01-10T00:57:47Z",
+          "comments": [
+            {
+              "originalPosition": 104,
+              "body": "Given this is a heading, would it be bad to leave it fully expanded? Maybe restate the TTS as well?\r\n\r\n# Txn-Token Service (TTS)",
+              "createdAt": "2026-01-10T00:57:47Z",
+              "updatedAt": "2026-01-10T00:57:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ZUoyz",
+          "commit": {
+            "abbreviatedOid": "7ff8134"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Outside of my one comment this looks good. ",
+          "createdAt": "2026-01-10T00:59:34Z",
+          "updatedAt": "2026-01-10T00:59:34Z",
+          "comments": []
         }
       ]
     }
