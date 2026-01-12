@@ -1428,7 +1428,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
           <h4 id="name-authorization-context">
 <a href="#section-2.1.1" class="section-number selfRef">2.1.1. </a><a href="#name-authorization-context" class="section-name selfRef">Authorization Context</a>
           </h4>
-<p id="section-2.1.1-1">A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-1">Authorization context includes information used for authorization, accounting and auditing purposes and often contains information about the request being made. A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.<a href="#section-2.1.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1639,17 +1639,17 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
 <span class="break"></span><dl class="dlParallel" id="section-4-1">
         <dt id="section-4-1.1">Workload:</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.2">
-          <p id="section-4-1.2.1">An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.<a href="#section-4-1.2.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.2.1">A running instance of software executing for a specific purpose. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.<a href="#section-4-1.2.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.3">Trust Domain:</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.4">
-          <p id="section-4-1.4.1">A collection of systems, applications, or workloads that share a common security policy. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.4.1">A logical grouping of systems that share a common set of security controls and policies. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.<a href="#section-4-1.4.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.5">External Endpoint:</dt>
         <dd style="margin-left: 1.5em" id="section-4-1.6">
-          <p id="section-4-1.6.1">A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.<a href="#section-4-1.6.1" class="pilcrow">¶</a></p>
+          <p id="section-4-1.6.1">A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be acccessed through a gateway service as described in the WIMSE architecture <span>[<a href="#I-D.ietf-wimse-arch" class="cite xref">I-D.ietf-wimse-arch</a>]</span>.<a href="#section-4-1.6.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 <dt id="section-4-1.7">Call Chain:</dt>
@@ -2132,7 +2132,7 @@ Cache-Control: no-store
 <p id="section-7.5-1">A Transaction Token Service and requesting workload MUST authenticate each other (mutual authentication). Workloads MUST authenticate the Transaction Token Service to ensure that they do not disclose sensitive information, such as OAuth access tokens, to a rogue Transaction Token Service. A Transaction Token Service MUST authenticate a workload to ensure the workload is authorized to request a transaction token.<a href="#section-7.5-1" class="pilcrow">¶</a></p>
 <p id="section-7.5-2">Workloads SHOULD use the <code>https</code> scheme to secure the communication channel and authenticate the Transaction Token Service. When using <code>https</code>, TLS certificates MUST be checked according to <span><a href="https://rfc-editor.org/rfc/rfc9110#section-4.3.4" class="relref">Section 4.3.4</a> of [<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>. At the time of this writing, TLS version 1.3 <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> is the most recent version.<a href="#section-7.5-2" class="pilcrow">¶</a></p>
 <p id="section-7.5-3">Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed client authentication JWTs in accordance with <span>[<a href="#RFC7523" class="cite xref">RFC7523</a>]</span>.<a href="#section-7.5-3" class="pilcrow">¶</a></p>
-<p id="section-7.5-4">Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens <span>[<a href="#RFC8705" class="cite xref">RFC8705</a>]</span> and WIMSE Workload-to-Workload Authentication <span>[<a href="#I-D.ietf-wimse-s2s-protocol" class="cite xref">I-D.ietf-wimse-s2s-protocol</a>]</span>.<a href="#section-7.5-4" class="pilcrow">¶</a></p>
+<p id="section-7.5-4">Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens <span>[<a href="#RFC8705" class="cite xref">RFC8705</a>]</span>, Workload Authentication Using Mutual TLS <span>[<a href="#I-D.ietf-wimse-mutual-tls" class="cite xref">I-D.ietf-wimse-mutual-tls</a>]</span>, WIMSE Workload-to-Workload Authentication with HTTP Signatures <span>[<a href="#I-D.ietf-wimse-http-signature" class="cite xref">I-D.ietf-wimse-http-signature</a>]</span> and WIMSE Workload Proof Token <span>[<a href="#I-D.ietf-wimse-wpt" class="cite xref">I-D.ietf-wimse-wpt</a>]</span>.<a href="#section-7.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2606,9 +2606,21 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
         <dd>
 <span class="refAuthor">Cloud Native Computing Foundation</span>, <span class="refTitle">"Secure Production Identity Framework for Everyone"</span>, <span>n.d.</span>, <span>&lt;<a href="https://spiffe.io/docs/latest/spiffe-about/overview/">https://spiffe.io/docs/latest/spiffe-about/overview/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-wimse-s2s-protocol">[I-D.ietf-wimse-s2s-protocol]</dt>
+<dt id="I-D.ietf-wimse-arch">[I-D.ietf-wimse-arch]</dt>
+        <dd>
+<span class="refAuthor">Salowey, J. A.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Workload Identity in a Multi System Environment (WIMSE) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-arch-06</span>, <time datetime="2025-09-30" class="refDate">30 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-06">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-06</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-wimse-mutual-tls">[I-D.ietf-wimse-mutual-tls]</dt>
+        <dd>
+<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Rosomakho</span>, <span class="refTitle">"Workload Authentication Using Mutual TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-mutual-tls-00</span>, <time datetime="2025-11-02" class="refDate">2 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-00">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-wimse-http-signature">[I-D.ietf-wimse-http-signature]</dt>
+        <dd>
+<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication with HTTP Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-http-signature-01</span>, <time datetime="2026-01-08" class="refDate">8 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-01">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-wimse-wpt">[I-D.ietf-wimse-wpt]</dt>
       <dd>
-<span class="refAuthor">Campbell, B.</span>, <span class="refAuthor">Salowey, J. A.</span>, <span class="refAuthor">Schwenkschuster, A.</span>, and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-s2s-protocol-07</span>, <time datetime="2025-10-16" class="refDate">16 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-s2s-protocol-07">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-s2s-protocol-07</a>&gt;</span>. </dd>
+<span class="refAuthor">Campbell, B.</span> and <span class="refAuthor">A. Schwenkschuster</span>, <span class="refTitle">"WIMSE Workload Proof Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-wpt-00</span>, <time datetime="2025-11-03" class="refDate">3 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-wpt-00">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-wpt-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

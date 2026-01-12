@@ -194,10 +194,13 @@ Table of Contents
 
 2.1.1.  Authorization Context
 
-   A key aspect of the authorization context is the intent or purpose of
-   the transaction, which should be as narrowly defined as possible for
-   the given deployment.  A narrowly scoped transaction token reduces
-   the attack surface of captured and replayed transaction tokens.
+   Authorization context includes information used for authorization,
+   accounting and auditing purposes and often contains information about
+   the request being made.  A key aspect of the authorization context is
+   the intent or purpose of the transaction, which should be as narrowly
+   defined as possible for the given deployment.  A narrowly scoped
+   transaction token reduces the attack surface of captured and replayed
+   transaction tokens.
 
 2.2.  Creating Txn-Tokens
 
@@ -393,20 +396,22 @@ Table of Contents
 
 4.  Terminology
 
-   Workload:  An independent computational unit that can autonomously
-      receive and process invocations, and can generate invocations of
-      other workloads.  Examples of workloads include containerized
+   Workload:  A running instance of software executing for a specific
+      purpose.  Examples of workloads include containerized
       microservices, monolithic services and infrastructure services
       such as managed databases.
 
-   Trust Domain:  A collection of systems, applications, or workloads
-      that share a common security policy.  In practice this may include
-      a virtually or physically separated network, which contains two or
+   Trust Domain:  A logical grouping of systems that share a common set
+      of security controls and policies.  In practice this may include a
+      virtually or physically separated network, which contains two or
       more workloads.  The workloads within a Trust Domain may be
       invoked only through published interfaces.
 
    External Endpoint:  A published interface to a Trust Domain that
       results in the invocation of a workload within the Trust Domain.
+      In practice, the external endpoint may be acccessed through a
+      gateway service as described in the WIMSE architecture
+      [I-D.ietf-wimse-arch].
 
    Call Chain:  A sequence of invocations that results from the
       invocation of an external endpoint.
@@ -879,8 +884,10 @@ Table of Contents
 
    Examples of public-key based authentication include those defined in
    OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound
-   Access Tokens [RFC8705] and WIMSE Workload-to-Workload Authentication
-   [I-D.ietf-wimse-s2s-protocol].
+   Access Tokens [RFC8705], Workload Authentication Using Mutual TLS
+   [I-D.ietf-wimse-mutual-tls], WIMSE Workload-to-Workload
+   Authentication with HTTP Signatures [I-D.ietf-wimse-http-signature]
+   and WIMSE Workload Proof Token [I-D.ietf-wimse-wpt].
 
 8.  Using Txn-Tokens
 
@@ -1320,13 +1327,34 @@ Table of Contents
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
 
-   [I-D.ietf-wimse-s2s-protocol]
-              Campbell, B., Salowey, J. A., Schwenkschuster, A., and Y.
-              Sheffer, "WIMSE Workload-to-Workload Authentication", Work
-              in Progress, Internet-Draft, draft-ietf-wimse-s2s-
-              protocol-07, 16 October 2025,
+   [I-D.ietf-wimse-arch]
+              Salowey, J. A., Rosomakho, Y., and H. Tschofenig,
+              "Workload Identity in a Multi System Environment (WIMSE)
+              Architecture", Work in Progress, Internet-Draft, draft-
+              ietf-wimse-arch-06, 30 September 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              s2s-protocol-07>.
+              arch-06>.
+
+   [I-D.ietf-wimse-mutual-tls]
+              Salowey, J. A. and Y. Rosomakho, "Workload Authentication
+              Using Mutual TLS", Work in Progress, Internet-Draft,
+              draft-ietf-wimse-mutual-tls-00, 2 November 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              mutual-tls-00>.
+
+   [I-D.ietf-wimse-http-signature]
+              Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
+              Authentication with HTTP Signatures", Work in Progress,
+              Internet-Draft, draft-ietf-wimse-http-signature-01, 8
+              January 2026, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-wimse-http-signature-01>.
+
+   [I-D.ietf-wimse-wpt]
+              Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof
+              Token", Work in Progress, Internet-Draft, draft-ietf-
+              wimse-wpt-00, 3 November 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
+              wpt-00>.
 
 Acknowledgements
 
