@@ -424,8 +424,8 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
 {: #figleaftxtokenbody title="Example: Txn-Token Body"}
 A Txn-Token from an internal request would look much the same except the rctx and tctx field claims would be populated with information from the initiating workloads request.
 
-# TTS
-A TTS uses {{RFC8693}} as described in this specification if it issues transaction tokens in response to HTTP requests. The unique properties of the Txn-Token requests and responses are described below. The TTS MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a TTS.
+# Txn-Token Service (TTS)
+A Txn-Token Service (TTS) uses {{RFC8693}} as described in this specification if it issues transaction tokens in response to HTTP requests. The unique properties of the Txn-Token requests and responses are described below. The TTS MAY optionally support other OAuth 2.0 endpoints and features, but that is not a requirement for it to be a TTS.
 
 Each Trust Domain that uses Txn-Tokens MUST have exactly one logical TTS.
 
