@@ -1052,7 +1052,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 13 July 2026</td>
+<td class="center">Expires 16 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-09" class="published">9 January 2026</time>
+<time datetime="2026-01-12" class="published">12 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-13">13 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-16">16 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1123,7 +1123,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 13 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1853,10 +1853,10 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
   "exp": 1686536586,
   "txn": "97053963-771d-49cc-a4e3-20aad399c312",
   "sub": "d084sdrt234fsaw34tr23t",
+  "req_wl": "apigateway.trust-domain.example", // the internal entity that requested the Txn-Token
   "rctx": {
     "req_ip": "69.151.72.123", // env context of external call
     "authn": "urn:ietf:rfc:6749", // env context of the external call
-    "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
   },
   "scope" : "trade.stocks",
   "tctx": {
@@ -1968,8 +1968,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 &amp;request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
 %2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
 %3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
-%20%20%20%22req_wl%22%3A%20%5B%20%22apigateway.trust-domain.example%22%2C%20
-%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
+%20%20%20%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
 </pre>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
@@ -2006,7 +2005,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 <p id="section-7.2.1-1">A requester MAY use a self-signed JWT as a <code>subject_token</code> value. In that case, the requester MUST set the <code>subject_token_type</code> value to: <code>urn:ietf:params:oauth:token-type:self_signed</code>. This self-signed JWT MUST contain the following claims:<a href="#section-7.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2.1-2.1">
-              <p id="section-7.2.1-2.1.1"><code>iss</code>: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determining the <code>req_wl</code> value in the Txn-Token issued in response to this request.<a href="#section-7.2.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-7.2.1-2.1.1"><code>iss</code>: The unique identifier of the requesting workload.<a href="#section-7.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-7.2.1-2.2">
               <p id="section-7.2.1-2.2.1"><code>sub</code>: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the <code>sub</code> value in the Txn-Token issued in the response to this request.<a href="#section-7.2.1-2.2.1" class="pilcrow">¶</a></p>
@@ -2075,7 +2074,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
             <p id="section-7.3-2.9.1">The Transaction Token Service MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token.<a href="#section-7.3-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-2.10">
-            <p id="section-7.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the <code>rctx</code> object as the <code>req_wl</code> claim.<a href="#section-7.3-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token.<a href="#section-7.3-2.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-2.11">
             <p id="section-7.3-2.11.1">If a <code>request_details</code> parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the <code>request_details</code> object into the claims in the <code>tctx</code> object as authorized by the Transaction Token Service authorization policy for the requesting client.<a href="#section-7.3-2.11.1" class="pilcrow">¶</a></p>
@@ -2276,13 +2275,13 @@ Cache-Control: no-store
               <p id="section-9.12.1-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request<a href="#section-9.12.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.12.1-2.5">
-              <p id="section-9.12.1-2.5.1">MUST NOT remove any of the existing requesting workload identifiers from the <code>req_wl</code> field in the <code>rctx</code> claim of the Txn-Token<a href="#section-9.12.1-2.5.1" class="pilcrow">¶</a></p>
+              <p id="section-9.12.1-2.5.1">MUST NOT remove any of the existing requesting workload identifiers from the <code>req_wl</code> claim<a href="#section-9.12.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.12.1-2.6">
               <p id="section-9.12.1-2.6.1">SHOULD NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token<a href="#section-9.12.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-9.12.1-2.7">
-              <p id="section-9.12.1-2.7.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> value using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-9.12.1-2.7.1" class="pilcrow">¶</a></p>
+              <p id="section-9.12.1-2.7.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-9.12.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
