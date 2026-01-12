@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 13 July 2026                             Practical Identity LLC
+Expires: 16 July 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                          9 January 2026
+                                                         12 January 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 July 2026.
+   This Internet-Draft will expire on 16 July 2026.
 
 Copyright Notice
 
@@ -90,7 +90,7 @@ Table of Contents
        5.2.2.  Requester Context
        5.2.3.  Transaction Context
        5.2.4.  Example
-   6.  TTS
+   6.  Txn-Token Service (TTS)
    7.  Requesting Txn-Tokens
      7.1.  Txn-Token Request
      7.2.  Subject Token Types
@@ -601,13 +601,14 @@ Table of Contents
    the rctx and tctx field claims would be populated with information
    from the initiating workloads request.
 
-6.  TTS
+6.  Txn-Token Service (TTS)
 
-   A TTS uses [RFC8693] as described in this specification if it issues
-   transaction tokens in response to HTTP requests.  The unique
-   properties of the Txn-Token requests and responses are described
-   below.  The TTS MAY optionally support other OAuth 2.0 endpoints and
-   features, but that is not a requirement for it to be a TTS.
+   A Txn-Token Service (TTS) uses [RFC8693] as described in this
+   specification if it issues transaction tokens in response to HTTP
+   requests.  The unique properties of the Txn-Token requests and
+   responses are described below.  The TTS MAY optionally support other
+   OAuth 2.0 endpoints and features, but that is not a requirement for
+   it to be a TTS.
 
    Each Trust Domain that uses Txn-Tokens MUST have exactly one logical
    TTS.
