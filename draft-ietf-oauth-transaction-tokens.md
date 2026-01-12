@@ -402,10 +402,10 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
   "exp": 1686536586,
   "txn": "97053963-771d-49cc-a4e3-20aad399c312",
   "sub": "d084sdrt234fsaw34tr23t",
+  "req_wl": "apigateway.trust-domain.example", // the internal entity that requested the Txn-Token
   "rctx": {
     "req_ip": "69.151.72.123", // env context of external call
     "authn": "urn:ietf:rfc:6749", // env context of the external call
-    "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
   },
   "scope" : "trade.stocks",
   "tctx": {
@@ -471,8 +471,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
 %2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
 %3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
-%20%20%20%22req_wl%22%3A%20%5B%20%22apigateway.trust-domain.example%22%2C%20
-%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
+%20%20%20%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
@@ -487,7 +486,7 @@ The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be:
 ### Self-Signed Subject Token Type {#self-signed-subject-token-type}
 A requester MAY use a self-signed JWT as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:self_signed`. This self-signed JWT MUST contain the following claims:
 
-* `iss`: The unique identifier of the requesting workload. The Txn-Token Service SHALL use this value in determining the `req_wl` value in the Txn-Token issued in response to this request.
+* `iss`: The unique identifier of the requesting workload.
 * `sub`: The subject for whom the Txn-Token is being requested. The Txn-Token Service SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
 * `aud`: The unique identifier of the Txn-Token Service. The Txn-Token Service SHALL verify that this value matches its own unique identifier.
 * `iat`: The time at which the self-signed JWT was created. Note that the Txn-Token Service may reject self-signed tokens with an `iat` value that is unreasonably far in the past or future.
@@ -514,7 +513,7 @@ When the Transaction Token Service receives a Txn-Token Request it:
 * The Transaction Token Service MUST set the `txn` claim to a unique ID specific to this transaction.
 * The Transaction Token Service MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.
 * The Transaction Token Service MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token.
-* If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token. In addition, the Transaction Token Service SHOULD add the authenticated requesting workload identifier in the `rctx` object as the `req_wl` claim.
+* If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.
 * If a `request_details` parameter is present in the Txn-Token Request, then the Transaction Token Service SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the Transaction Token Service authorization policy for the requesting client.
 
 The Transaction Token Service MAY provide additional processing and verification that is outside the scope of this specification.
@@ -611,9 +610,9 @@ A Txn-Token Service MUST exercise caution when issuing replacement Txn-Tokens, s
 * MAY enable additional asserted values
 * MUST NOT enable modification to asserted values that expand the scope of permitted actions
 * MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request
-* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` field in the `rctx` claim of the Txn-Token
+* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim
 * SHOULD NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
-* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` value using the character `,` as the separator between individual workload identifiers.
+* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.
 
 # Privacy Considerations {#Privacy}
 
