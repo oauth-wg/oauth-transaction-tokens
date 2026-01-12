@@ -152,7 +152,7 @@ Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of 
 
 ### Authorization Context
 Authorization context includes information used for authorization, accounting and auditing purposes and often contains information about the request being made. A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.
-   
+
 ## Creating Txn-Tokens
 
 ### Creation
@@ -278,10 +278,10 @@ they appear in all capitals, as shown here.
 
 Workload:
 : A running instance of software executing for a specific purpose. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
-   
+
 Trust Domain:
 : A logical grouping of systems that share a common set of security controls and policies. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
-    
+
 External Endpoint:
 : A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be acccessed through a gateway service as described in the WIMSE architecture {{?I-D.ietf-wimse-arch}}.
 
