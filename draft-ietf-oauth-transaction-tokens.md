@@ -359,7 +359,6 @@ The JSON value of the `rctx` claim MAY include any values the TTS determines are
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a process that initiated the Transaction.
 * `authn` The authentication method used to identify the requester. Its value is a string that uniquely identifies the method used.
-* `req_wl` The requesting workload. A string that uniquely identifies the computational entity that requested the Txn-Token. This entity MUST be within the Trust Domain of the Txn-Token.
 
 The following is a non-normative example of an `rctx` claim initiated by an external call:
 
@@ -367,8 +366,7 @@ The following is a non-normative example of an `rctx` claim initiated by an exte
 {
     "rctx": {
       "req_ip": "69.151.72.123", // env context of external call
-      "authn": "urn:ietf:rfc:6749", // env context of external call
-      "req_wl": [ "apigateway.trust-domain.example", "workload3.trust-domain.example" ]
+      "authn": "urn:ietf:rfc:6749" // env context of external call
     }
 }
 ~~~
@@ -404,10 +402,10 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
   "exp": 1686536586,
   "txn": "97053963-771d-49cc-a4e3-20aad399c312",
   "sub": "d084sdrt234fsaw34tr23t",
+  "req_wl": "apigateway.trust-domain.example", // the internal entity that requested the Txn-Token
   "rctx": {
     "req_ip": "69.151.72.123", // env context of external call
     "authn": "urn:ietf:rfc:6749", // env context of the external call
-    "req_wl": "apigateway.trust-domain.example" // the internal entity that requested the Txn-Token
   },
   "scope" : "trade.stocks",
   "tctx": {
@@ -473,8 +471,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
 &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
 %2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
 %3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
-%20%20%20%22req_wl%22%3A%20%5B%20%22apigateway.trust-domain.example%22%2C%20
-%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
+%20%20%20%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
@@ -489,7 +486,7 @@ The `subject_token_type` parameter value MUST be a URI {{RFC3986}}. It MAY be:
 ### Self-Signed Subject Token Type {#self-signed-subject-token-type}
 A requester MAY use a self-signed JWT as a `subject_token` value. In that case, the requester MUST set the `subject_token_type` value to: `urn:ietf:params:oauth:token-type:self_signed`. This self-signed JWT MUST contain the following claims:
 
-* `iss`: The unique identifier of the requesting workload. The TTS SHALL use this value in determining the `req_wl` value in the Txn-Token issued in response to this request.
+* `iss`: The unique identifier of the requesting workload.
 * `sub`: The subject for whom the Txn-Token is being requested. The TTS SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
 * `aud`: The unique identifier of the TTS. The TTS SHALL verify that this value matches its own unique identifier.
 * `iat`: The time at which the self-signed JWT was created. Note that the TTS may reject self-signed tokens with an `iat` value that is unreasonably far in the past or future.
@@ -613,9 +610,9 @@ A TTS MUST exercise caution when issuing replacement Txn-Tokens, since replacing
 * MAY enable additional asserted values
 * MUST NOT enable modification to asserted values that expand the scope of permitted actions
 * MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request
-* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` field in the `rctx` claim of the Txn-Token
+* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim
 * SHOULD NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
-* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` value using the character `,` as the separator between individual workload identifiers.
+* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.
 
 # Privacy Considerations {#Privacy}
 
