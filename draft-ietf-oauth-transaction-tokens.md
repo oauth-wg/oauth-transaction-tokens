@@ -151,8 +151,8 @@ Cryptographically protected Txn-Tokens ensure that downstream workloads cannot m
 Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call chain as it passes through multiple workloads.
 
 ### Authorization Context
-A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.
-
+Authorization context includes information used for authorization, accounting and auditing purposes and often contains information about the request being made. A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.
+   
 ## Creating Txn-Tokens
 
 ### Creation
@@ -277,13 +277,13 @@ they appear in all capitals, as shown here.
 # Terminology
 
 Workload:
-: An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
-
+: A running instance of software executing for a specific purpose. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
+   
 Trust Domain:
-: A collection of systems, applications, or workloads that share a common security policy. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
-
+: A logical grouping of systems that share a common set of security controls and policies. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
+    
 External Endpoint:
-: A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain.
+: A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be acccessed through a gateway service as described in the WIMSE architecture {{?I-D.ietf-wimse-arch}}.
 
 Call Chain:
 : A sequence of invocations that results from the invocation of an external endpoint.
@@ -554,7 +554,7 @@ Workloads SHOULD use the `https` scheme to secure the communication channel and 
 
 Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed client authentication JWTs in accordance with {{RFC7523}}.
 
-Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}} and WIMSE Workload-to-Workload Authentication {{?I-D.ietf-wimse-s2s-protocol}}.
+Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}}, Workload Authentication Using Mutual TLS {{?I-D.ietf-wimse-mutual-tls}}, WIMSE Workload-to-Workload Authentication with HTTP Signatures {{?I-D.ietf-wimse-http-signature.md }} and WIMSE Workload Proof Token {{?I-D.ietf-wimse-wpt}}.
 
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads for other purposes.
