@@ -2071,7 +2071,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
             <p id="section-7.3-2.9.1">The TTS MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token.<a href="#section-7.3-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-2.10">
-            <p id="section-7.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token. In addition, the TTS SHOULD add the authenticated requesting workload identifier in the <code>rctx</code> object as the <code>req_wl</code> claim.<a href="#section-7.3-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token.<a href="#section-7.3-2.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-2.11">
             <p id="section-7.3-2.11.1">If a <code>request_details</code> parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the <code>request_details</code> object into the claims in the <code>tctx</code> object as authorized by the TTS authorization policy for the requesting client.<a href="#section-7.3-2.11.1" class="pilcrow">¶</a></p>

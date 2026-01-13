@@ -814,9 +814,7 @@ Table of Contents
 
    *  If a request_context parameter is present in the Txn-Token
       Request, the data SHOULD be added to the rctx object of the Txn-
-      Token.  In addition, the TTS SHOULD add the authenticated
-      requesting workload identifier in the rctx object as the req_wl
-      claim.
+      Token.
 
    *  If a request_details parameter is present in the Txn-Token
       Request, then the TTS SHOULD propagate the data from the
