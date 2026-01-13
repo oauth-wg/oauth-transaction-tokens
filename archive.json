@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-11T00:23:20.405596+00:00",
+  "timestamp": "2026-01-13T00:17:38.139012+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4659,7 +4659,7 @@
       ],
       "body": "Feedback from Joe Salowey\n\nSection 4.- Most of the terms in this section overlap with terms we define in [WIMSE arch spec](https://datatracker.ietf.org/doc/draft-ietf-wimse-arch/) as well (Workload, trust domain, External Endpoint, Call Chain, etc).  I don't think there is a lot of divergence, but it would be good to make sure there isn't and maybe make them more common where it makes sense. \n",
       "createdAt": "2025-08-27T15:35:33Z",
-      "updatedAt": "2026-01-09T15:39:58Z",
+      "updatedAt": "2026-01-12T22:02:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -4675,6 +4675,13 @@
           "body": "The following is an analysis provided by Claude:\n\n# **Analysis of Transaction Tokens Editor's Draft and WIMSE Architecture Terminology Alignment**\n\nBased on my review of the editor's draft of Transaction Tokens and the WIMSE Architecture document (draft-ietf-wimse-arch-06), here's my analysis of terminology alignment and recommendations:\n\n## **Key Terminology Comparison**\n\n### **1\\. Workload**\n\n* **Transaction Tokens (editor's draft)**: \"An independent computational unit that can autonomously receive and process invocations, and can generate invocations of other workloads\"  \n* **WIMSE Architecture**: \"A workload is a running instance of software executing for a specific purpose\"  \n* **Analysis**: These definitions are compatible but serve different emphasis. Transaction Tokens focuses on the invocation aspect while WIMSE is more general. The definitions can coexist.\n\n### **2\\. Trust Domain**\n\n* **Transaction Tokens**: \"A collection of systems, applications, or workloads that share a common security policy\"  \n* **WIMSE Architecture**: \"A logical grouping of systems that share a common set of security controls and policies\"  \n* **Analysis**: Nearly identical \\- both emphasize shared security policies. Well-aligned.\n\n### **3\\. Security Context**\n\n* **Transaction Tokens**: No longer has a formal \"Authorization Context\" definition (removed per changelog)  \n* **WIMSE Architecture**: Defines \"Security Context\" broadly  \n* **Analysis**: Good alignment \\- Transaction Tokens removed the conflicting definition and now uses context within specific claims (`tctx`, `rctx`)\n\n### **4\\. Call Chain**\n\n* Both specs use this term consistently, with Transaction Tokens owning the formal definition  \n* **Analysis**: No conflict\n\n### **5\\. External Endpoint**\n\n* Transaction Tokens provides the formal definition  \n* WIMSE uses it without defining it  \n* **Analysis**: Good complementarity\n\n## **Notable Improvements in Editor's Draft**\n\nThe editor's draft has already made several improvements that help alignment:\n\n1. **Removed \"Authorization Context\" definition** \\- eliminating potential confusion with WIMSE's \"Security Context\"  \n2. **Changed \"purpose\" to \"scope\"** \\- aligning better with OAuth terminology  \n3. **Added reference to WIMSE workload authentication** (\\[I-D.ietf-wimse-s2s-protocol\\])\n\n## **Recommended Changes to Transaction Tokens Draft**\n\n### **1\\. Add WIMSE Architecture Reference**\n\nAdd \\[I-D.ietf-wimse-arch\\] as an informative reference and include a note in the introduction or overview explaining the relationship:\n\ntext\n\n```\n\"Transaction Tokens implement patterns described in the WIMSE Architecture \n[I-D.ietf-wimse-arch] for propagating user identity and authorization \ncontext across workloads within a trust domain.\"\n```\n\n### **2\\. Consider Harmonizing Workload Definition**\n\nEither:\n\n* Keep both definitions but add a note explaining the relationship, OR  \n* Adopt WIMSE's simpler definition and add transaction-specific details\n\nSuggested addition to terminology:\n\ntext\n\n```\nWorkload:\n    A running instance of software executing for a specific purpose \n    [I-D.ietf-wimse-arch]. In the context of Transaction Tokens, \n    workloads are computational units that can autonomously receive \n    and process invocations, and can generate invocations of other \n    workloads.\n```\n\n### **3\\. Clarify Security Context Relationship**\n\nAdd a note explaining that the `tctx` and `rctx` claims represent specific implementations of the broader \"Security Context\" concept from WIMSE:\n\ntext\n\n```\nNote: The transaction context (tctx) and requester context (rctx) \nclaims in Transaction Tokens are specific representations of the \nbroader Security Context concept defined in [I-D.ietf-wimse-arch].\n```\n\n### **4\\. Reference WIMSE Authentication Methods**\n\nThe draft already references \\[I-D.ietf-wimse-s2s-protocol\\] in Section 7.5, which is good. Consider also mentioning WIT (Workload Identity Token) when discussing authentication options.\n\n## **Assessment of Issue \\#213**\n\n**Yes, Issue \\#213 should be acted upon**, but the required changes are relatively minor:\n\n### **Why Action is Needed:**\n\n1. **Architectural Context**: Transaction Tokens is essentially a profile/implementation of WIMSE patterns \\- making this explicit improves understanding  \n2. **Ecosystem Coherence**: As part of the broader WIMSE ecosystem, aligned terminology reduces confusion  \n3. **Already Partially Addressed**: The editor's draft has already made good progress (removing Authorization Context, adding WIMSE references)\n\n### **Priority Actions:**\n\n1. **Add WIMSE Architecture as informative reference** \u2713 (High Priority)  \n2. **Add brief section explaining relationship to WIMSE** \u2713 (High Priority)  \n3. **Consider harmonizing workload definition** \u25cb (Medium Priority)  \n4. **Add notes connecting concepts** \u25cb (Low Priority)\n\n### **What's Already Good:**\n\n* Trust Domain definitions are well-aligned  \n* The removal of \"Authorization Context\" eliminates a major conflict  \n* References to WIMSE authentication specs are already present  \n* The specs complement each other well with Transaction Tokens providing specific implementation details\n\n## **Conclusion**\n\nThe editor's draft has already made significant improvements toward alignment. The remaining work is primarily about making the architectural relationship explicit and ensuring readers understand how Transaction Tokens fits within the broader WIMSE framework. These changes would improve clarity without requiring major restructuring of the document.\n\nRetry\n\nTo run code, enable code execution and file creation in Settings \\> Capabilities.\n\n[Claude can make mistakes.](https://support.anthropic.com/en/articles/8525154-claude-is-providing-incorrect-or-misleading-responses-what-s-going-on)  \n[Please double-check responses.](https://support.anthropic.com/en/articles/8525154-claude-is-providing-incorrect-or-misleading-responses-what-s-going-on)  ",
           "createdAt": "2025-12-03T23:51:47Z",
           "updatedAt": "2025-12-03T23:51:47Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@jsalowey - I made a couple of edits in the PR for closer alignment and explicit references to WIMSE architecture. Please take a look (I tried to align this with your observation in Madrid about where terminology might be misaligned). (see PR https://github.com/oauth-wg/oauth-transaction-tokens/pull/298)",
+          "createdAt": "2026-01-12T22:01:16Z",
+          "updatedAt": "2026-01-12T22:02:36Z"
         }
       ]
     },
@@ -5651,7 +5658,7 @@
       "id": "I_kwDOJt_WwM7U1jSi",
       "title": "Clarify request_context normative language",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/268",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5662,8 +5669,8 @@
       ],
       "body": "From https://github.com/oauth-wg/oauth-transaction-tokens/pull/253\n\n@gffletch and @tulshi opened a discussion about the normative language used regarding the request_detailt and rctx claim. This was orthogonal to the original issue being adressed. to avoid having a PR open for a long time when the issue being raised is not related to the issue in the PR, this issue wass created instead. Screenshot of discussion below:\n\n<img width=\"827\" height=\"832\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/524de217-960a-4665-85fa-f2fdc65f0ad2\" />",
       "createdAt": "2025-10-30T13:30:51Z",
-      "updatedAt": "2026-01-09T19:32:24Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-12T22:21:07Z",
+      "closedAt": "2026-01-12T22:21:07Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -5899,7 +5906,7 @@
       "id": "I_kwDOJt_WwM7Yipav",
       "title": "Txn-Token Service Unique keys",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/283",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5908,8 +5915,8 @@
       "labels": [],
       "body": "This text suggests that a trasnactiontoken service may use unique keys, but it is unclear if this means each transaction token is signed with a uunique key, or if the jeys are rotated periodically etc.\n\n> The `iss` claim MUST be used in cases where the signing keys are not predetermined or it is desired that the Txn-Token Service signs with unique keys.\n\nProposed changes:\n\nOption 1:\nThe iss claim MUST be used in cases where the signing keys are not predetermined. The iss claim MUST be used when the Txn-Token Service signs each Txn-Token with a unique key.\"\n\nOption 2:\nDon't mention unique keys as we don't really expand on it elsewhere. Since the keys are unique, they are by definition not predetermined.\n\nI am inclined to go with option 2? \n\n@gffletch @tulshi - thoughts?",
       "createdAt": "2025-11-17T11:40:26Z",
-      "updatedAt": "2025-11-17T17:30:54Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-12T13:01:32Z",
+      "closedAt": "2026-01-12T13:01:32Z",
       "comments": [
         {
           "author": "gffletch",
@@ -5977,7 +5984,7 @@
       "id": "I_kwDOJt_WwM7Yi4_6",
       "title": "Editorial: Check for consistent casing of Txn-Token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/285",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -5986,9 +5993,17 @@
       ],
       "body": "check for consistent casing throughout the document.",
       "createdAt": "2025-11-17T12:00:15Z",
-      "updatedAt": "2026-01-09T15:30:09Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-01-12T18:59:30Z",
+      "closedAt": "2026-01-12T18:59:30Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I looked through the document, and the casing is consistent (always used as \"Txn-Token\", except the heading references and examples use \"txn-token\" in the path. The heading references are just editorial (they won't appear in the final doc), so I think we can close this issue.",
+          "createdAt": "2026-01-12T18:59:30Z",
+          "updatedAt": "2026-01-12T18:59:30Z"
+        }
+      ]
     },
     {
       "number": 290,
@@ -18220,18 +18235,33 @@
       "labels": [],
       "body": "Updated to define some MUSTs, removed a reference to replacement transaction tokens and defined the reference for TTS",
       "createdAt": "2026-01-09T17:14:26Z",
-      "updatedAt": "2026-01-10T00:51:06Z",
+      "updatedAt": "2026-01-12T22:35:15Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_209",
-      "headRefOid": "b3f2c17fbfd714c0a73912734447d4e2d18a860a",
+      "headRefOid": "45447eae78e0b42a2b72341b00f212d2ca0cd406",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed a formatting error ",
+          "createdAt": "2026-01-12T21:41:33Z",
+          "updatedAt": "2026-01-12T21:41:33Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi I think you will have to do the re-approval as I can't as the original author of the PR and Pieter can't has he made the last change :)",
+          "createdAt": "2026-01-12T22:16:29Z",
+          "updatedAt": "2026-01-12T22:16:29Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7ZRIfJ",
@@ -18272,32 +18302,100 @@
               "updatedAt": "2026-01-10T00:44:50Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ZsHkl",
+          "commit": {
+            "abbreviatedOid": "b3f2c17"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-12T18:49:48Z",
+          "updatedAt": "2026-01-12T18:49:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ZsH-v",
+          "commit": {
+            "abbreviatedOid": "7736103"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T18:50:13Z",
+          "updatedAt": "2026-01-12T18:50:13Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "You don't need to spell out and just TTS, but I've approved the PR as is, since this is a nit.",
+              "createdAt": "2026-01-12T18:50:13Z",
+              "updatedAt": "2026-01-12T18:50:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Zuid8",
+          "commit": {
+            "abbreviatedOid": "45447ea"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good.",
+          "createdAt": "2026-01-12T21:43:07Z",
+          "updatedAt": "2026-01-12T21:43:07Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ZvFh8",
+          "commit": {
+            "abbreviatedOid": "45447ea"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T22:35:06Z",
+          "updatedAt": "2026-01-12T22:35:15Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "This should be TTS.",
+              "createdAt": "2026-01-12T22:35:07Z",
+              "updatedAt": "2026-01-12T22:35:15Z"
+            }
+          ]
         }
       ]
     },
     {
       "number": 296,
       "id": "PR_kwDOJt_WwM68ZPWh",
-      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "title": "Refactor to align with `req_wl` being a top-level claim. ",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/296",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Removed `req_wl` from rctx, as it is a part of the top level claims. Closes #268 ",
       "createdAt": "2026-01-09T19:48:59Z",
-      "updatedAt": "2026-01-10T00:54:30Z",
+      "updatedAt": "2026-01-12T22:21:08Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "remove-req-wl",
-      "headRefOid": "dc45cde910b7cdf4a16f05cac98736b22124b4a6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "36d022a34f977894b9692c849d3b1f80e2e7d02d",
+      "closedAt": "2026-01-12T22:21:06Z",
+      "mergedAt": "2026-01-12T22:21:06Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "5b4f709b43497ebae5a3f5e9052e5c77069604b3"
+      },
       "comments": [
         {
           "author": "gffletch",
@@ -18305,6 +18403,13 @@
           "body": "This looks good. I do think we should add `req_wl` to and example as a top-level claims. It's defined as such not not shown in an example as far as I could tell.",
           "createdAt": "2026-01-10T00:52:41Z",
           "updatedAt": "2026-01-10T00:52:41Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Fix other examples where `req_wl` is used (move to top-level claim).\r\n\r\ndone. It required a bit more cleanup.",
+          "createdAt": "2026-01-12T18:42:48Z",
+          "updatedAt": "2026-01-12T18:42:48Z"
         }
       ],
       "reviews": [
@@ -18320,13 +18425,46 @@
           "createdAt": "2026-01-10T00:54:30Z",
           "updatedAt": "2026-01-10T00:54:30Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7ZmJw5",
+          "commit": {
+            "abbreviatedOid": "dc45cde"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-12T13:00:00Z",
+          "updatedAt": "2026-01-12T13:00:00Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "You may want to to do a sweep for req_wl - I think there is at least one more example where it is still in the tctx.\r\n",
+              "createdAt": "2026-01-12T13:00:00Z",
+              "updatedAt": "2026-01-12T13:00:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Zu9td",
+          "commit": {
+            "abbreviatedOid": "36d022a"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I think there may still be some vestiges of replacement transaction tokens. We can clean them up in a final read of the doc.",
+          "createdAt": "2026-01-12T22:20:42Z",
+          "updatedAt": "2026-01-12T22:20:42Z",
+          "comments": []
         }
       ]
     },
     {
       "number": 297,
       "id": "PR_kwDOJt_WwM68Zkpp",
-      "title": "Update draft-ietf-oauth-transaction-tokens.md",
+      "title": "Replace various names used for TTS by TTS",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/297",
       "state": "OPEN",
       "author": "tulshi",
@@ -18335,18 +18473,26 @@
       "labels": [],
       "body": "Used the acronym \"TTS\" for all except initial use of Transaction Token Service. Closes #243 ",
       "createdAt": "2026-01-09T20:29:30Z",
-      "updatedAt": "2026-01-10T00:59:34Z",
+      "updatedAt": "2026-01-12T22:38:10Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
+      "baseRefOid": "9fe7843e955933e1737895a03599cd163c252421",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "make-it-TTS",
-      "headRefOid": "7ff81343eb86d936383519c9ab219d05113c1fed",
+      "headRefOid": "e5445186455e7551da26df4ccd1f374133d2c833",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Looks good, thanks!\r\n\r\nI had to resolve conflicts, so could you please review again?",
+          "createdAt": "2026-01-12T22:33:14Z",
+          "updatedAt": "2026-01-12T22:33:14Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7ZUnaX",
@@ -18379,6 +18525,61 @@
           "body": "Outside of my one comment this looks good. ",
           "createdAt": "2026-01-10T00:59:34Z",
           "updatedAt": "2026-01-10T00:59:34Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Zu-dY",
+          "commit": {
+            "abbreviatedOid": "185da2e"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good, thanks!",
+          "createdAt": "2026-01-12T22:22:02Z",
+          "updatedAt": "2026-01-12T22:22:02Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 298,
+      "id": "PR_kwDOJt_WwM68yqpQ",
+      "title": "Revise definitions and expand authentication examples",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/298",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated definitions and descriptions for authorization context, workload, trust domain, and external endpoint. Expanded examples of public-key based authentication methods. see issue #213",
+      "createdAt": "2026-01-12T21:36:47Z",
+      "updatedAt": "2026-01-12T22:37:47Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "8fee9a65a2396916fec80ae92ea284704656c6a4",
+      "closedAt": "2026-01-12T22:37:45Z",
+      "mergedAt": "2026-01-12T22:37:45Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "9fe7843e955933e1737895a03599cd163c252421"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7ZvHIM",
+          "commit": {
+            "abbreviatedOid": "8fee9a6"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-12T22:37:24Z",
+          "updatedAt": "2026-01-12T22:37:24Z",
           "comments": []
         }
       ]
