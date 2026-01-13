@@ -519,7 +519,7 @@ When the TTS receives a Txn-Token Request it:
 * The TTS MUST set the `txn` claim to a unique ID specific to this transaction.
 * The TTS MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.
 * The TTS MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token.
-* If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token. In addition, the TTS SHOULD add the authenticated requesting workload identifier in the `rctx` object as the `req_wl` claim.
+* If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.
 * If a `request_details` parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the TTS authorization policy for the requesting client.
 
 The TTS MAY provide additional processing and verification that is outside the scope of this specification.
