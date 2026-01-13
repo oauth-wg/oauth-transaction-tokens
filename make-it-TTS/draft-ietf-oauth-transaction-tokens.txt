@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 16 July 2026                             Practical Identity LLC
+Expires: 17 July 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         12 January 2026
+                                                         13 January 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 July 2026.
+   This Internet-Draft will expire on 17 July 2026.
 
 Copyright Notice
 
@@ -217,25 +217,27 @@ Table of Contents
    If the transaction token request is made via HTTP to a remote server,
    it MUST use [RFC8693] as described in this specification.  To do
    this, it invokes a special Token Service (the Transaction Token
-   Service (TTS)) and provides context that is sufficient for it to
-   generate a Txn-Token.  The context information provided to the TTS
-   MAY include:
+   Service [TTS]) and provides context that is sufficient for it to
+   generate a Txn-Token.
 
-   *  The external authorisation token (e.g., the OAuth access token),
-      an internally generated JWT representing the subject of the
-      request, or any other format that is understood by the TTS.
+   The context information provided to the TTS MUST include: * the
+   identification of the trust domain in which the issued Txn-Token is
+   valid * a token which identifies the subject of the Txn-Token (e.g.
+   an OAuth access token, a self-issued JWT, etc) * the desired
+   authorisation scope for the issued Txn-Token
 
-   *  Parameters that are required to be bound for the duration of this
-      call
-
-   *  Additional context, such as the incoming IP address, User Agent
-      information, or other context that can help the TTS to issue the
-      Txn-Token
+   Additional contextual information MAY be provided such as: *
+   Parameters that are required to be integrity protected for the
+   duration of this call * Additional context, such as the incoming IP
+   address, User Agent information, or other context that can help the
+   TTS to issue the Txn-Token
 
    The TTS responds to a successful invocation by generating a Txn-
    Token.  The calling workload then uses the Txn-Token to authorize its
    calls to subsequent workloads.  Subsequent workloads may obtain Txn-
-   Tokens on their own.
+   Tokens on their own.  The TTS responds to a successful invocation by
+   generating a Txn-Token.  The calling workload then uses the Txn-Token
+   to authorize its calls to subsequent workloads.
 
    If the requesting service does not have an inbound token that it can
    use in its request to the TTS, it generates a self-signed JWT and
