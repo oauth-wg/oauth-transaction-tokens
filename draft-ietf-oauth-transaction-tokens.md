@@ -158,13 +158,18 @@ Authorization context includes information used for authorization, accounting an
 ### Creation
 Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} access token. The externally visible endpoint exchanges the external authorization token for a transaction token before sending it to the workload. The transaction token may be obtained through a local interface, or it may be requested from a remote server.
 
-If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Txn-Token Service) and provides context that is sufficient for it to generate a Txn-Token. The context information provided to the Txn-Token Service MAY include:
+If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Transaction Token Service [TTS]) and provides context that is sufficient for it to generate a Txn-Token.
 
-* The external authorisation token (e.g., the OAuth access token), an internally generated JWT representing the subject of the request, or any other format that is understood by the Txn-Token Service.
-* Parameters that are required to be bound for the duration of this call
+The context information provided to the TTS MUST include:
+* the identification of the trust domain in which the issued Txn-Token is valid
+* a token which identifies the subject of the Txn-Token (e.g. an OAuth access token, a self-issued JWT, etc)
+* the desired authorisation scope for the issued Txn-Token
+
+Additional contextual information MAY be provided such as:
+* Parameters that are required to be integrity protected for the duration of this call
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the Txn-Token Service to issue the Txn-Token
 
-The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.
+The Txn-Token Service responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads.
 
 If the requesting service does not have an inbound token that it can use in its request to the Txn-Token Service, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.
 
