@@ -36,37 +36,6 @@ author:
   org: Defakto Security
   email: pieter@defakto.security
 
-contributor:
-- ins: K. Burgin
-  name: Dr. Kelley W. Burgin, PhD.
-  org: MITRE Corporation
-  email: kburgin@mitre.org
-
-- ins: B. Campbell
-  name: Brian Campbell
-  org: Ping Identity
-  email: bcampbell@pingidentity.com
-
-- ins: E. Gilman
-  name: Evan Gilman
-  org: SPIRL
-  email: evan@spirl.com
-
-- ins: K. Lehmann
-  name: Kai Lehmann
-  org: 1&1 Mail & Media Development & Technology GmbH
-  email: kai.lehmann@1und1.de
-
-- ins: A. Schwenkschuster
-  name: Arndt Schwenkschuster
-  organization: Defakto Security
-  email: arndts.ietf@gmail.com
-
-- ins: H. Tschofenig
-  name: Hannes Tschofenig
-  org: Arm Ltd.
-  email: Hannes.Tschofenig@arm.com
-
 normative:
   RFC2119: # Keywords
   RFC3986: # URI
@@ -572,7 +541,7 @@ A workload that receives a Txn-Token MUST evaluate the token for validity before
 
 In addition, any outbound calls made by this workload MUST include the Txn-Token as it was received so that it is passed unmodified to any downstream workloads.
 
-Once the Txn-Token is determined to be valid, the workload MAY use any of the other data contained in the Txn-Token to determine if the Txn-Token authorizes the requested activity. How the workload determines this authorization is out of scope for this specification.
+Once the Txn-Token is determined to be valid, the workload MAY use any of the data contained in the Txn-Token to determine if the Txn-Token authorizes the requested activity. How the workload determines this authorization is out of scope for this specification.
 
 # Security Considerations {#Security}
 
@@ -710,7 +679,7 @@ The header name `Txn-Token` is proposed to be added to the HTTP Field Name Regis
 
 # Acknowledgements {#Acknowledgements}
 {: numbered="false"}
-The authors would like to thank the contributors and the OAuth working group members who gave valuable input to this draft.
+The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Andrii Deinega, Apoorva Deshpande, Daniel Fett, Evan Gilman, Joseph Heenan, Watson Ladd, Kai Lehmann, Jeff Lombardo, Dan Moore, Steinar Noem, Ashay Raut, Justin Richer, Joe Salowey, Dean Saxe, Arndt Schwenkschuster, Dag Sneeggen, Yaron Scheffer, Orie Steele, Dmitry Telegin, and Hannes Tschofenig for supporting, commenting, contributing and providing feedback on this specification.
 
 # Document History
 {: numbered="false"}
@@ -741,6 +710,8 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
 * Add normative language for processing Txn-Tokens (https://github.com/oauth-wg/oauth-transaction-tokens/issues/270)
 * Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)
+* Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)
+* Updated Acknpwledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)
 
 ## Since Draft 05
 {:numbered="false"}
