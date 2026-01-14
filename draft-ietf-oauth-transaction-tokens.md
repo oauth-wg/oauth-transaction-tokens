@@ -36,37 +36,6 @@ author:
   org: Defakto Security
   email: pieter@defakto.security
 
-contributor:
-- ins: K. Burgin
-  name: Dr. Kelley W. Burgin, PhD.
-  org: MITRE Corporation
-  email: kburgin@mitre.org
-
-- ins: B. Campbell
-  name: Brian Campbell
-  org: Ping Identity
-  email: bcampbell@pingidentity.com
-
-- ins: E. Gilman
-  name: Evan Gilman
-  org: SPIRL
-  email: evan@spirl.com
-
-- ins: K. Lehmann
-  name: Kai Lehmann
-  org: 1&1 Mail & Media Development & Technology GmbH
-  email: kai.lehmann@1und1.de
-
-- ins: A. Schwenkschuster
-  name: Arndt Schwenkschuster
-  organization: Defakto Security
-  email: arndts.ietf@gmail.com
-
-- ins: H. Tschofenig
-  name: Hannes Tschofenig
-  org: Arm Ltd.
-  email: Hannes.Tschofenig@arm.com
-
 normative:
   RFC2119: # Keywords
   RFC3986: # URI
@@ -700,7 +669,7 @@ The header name `Txn-Token` is proposed to be added to the HTTP Field Name Regis
 
 # Acknowledgements {#Acknowledgements}
 {: numbered="false"}
-The authors would like to thank the contributors and the OAuth working group members who gave valuable input to this draft.
+The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Andrii Deinega, Apoorva Deshpande, Daniel Fett, Evan Gilman, Joseph Heenan, Watson Ladd, Kai Lehmann, Jeff Lombardo, Dan Moore, Steinar Noem, Ashay Raut, Justin Richer, Joe Salowey, Dean Saxe, Arndt Schwenkschuster, Dag Sneeggen, Yaron Scheffer, Orie Steele, Dmitry Telegin, and Hannes Tschofenig for supporting, commenting, contributing and providing feedback on this specification.
 
 # Document History
 {: numbered="false"}
@@ -729,6 +698,8 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Editorial updates identified by Dan Moore (https://github.com/oauth-wg/oauth-transaction-tokens/issues/236)
 * Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)
 * Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
+* Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)
+* Updated Acknpwledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)
 
 ## Since Draft 05
 {:numbered="false"}
