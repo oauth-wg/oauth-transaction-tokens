@@ -564,6 +564,16 @@ Txn-Tokens need to be communicated between workloads that depend upon them to au
 ## Txn-Token HTTP Header {#txn-token-http-header}
 A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token in the HTTP Request. The value of this header MUST be exactly one Txn-Token.
 
+## Txn-Token Validation
+A workload that receives a Txn-Token MUST evaluate the token for validity before authorizing it for activities supported by the workload. To validate the Txn-Token, the workload MUST:
+* validate the Txn-Token JWS signature
+* verify the `aud` claim identifies the trust domain of the workload
+* verify the Txn-Token is not expired
+
+In addition, any outbound calls made by this workload MUST include the Txn-Token as it was received so that it is passed unmodified to any downstream workloads.
+
+Once the Txn-Token is determined to be valid, the workload MAY use any of the other data contained in the Txn-Token to determine if the Txn-Token authorizes the requested activity. How the workload determines this authorization is out of scope for this specification.
+
 # Security Considerations {#Security}
 
 ## Txn-Token Lifetime {#lifetime}
