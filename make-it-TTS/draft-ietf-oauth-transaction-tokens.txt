@@ -131,7 +131,6 @@ Table of Contents
      Since Draft 06
      Since Draft 05
      Since Draft 04
-   Contributors
    Authors' Addresses
 
 1.  Introduction
@@ -1344,8 +1343,14 @@ Table of Contents
 
 Acknowledgements
 
-   The authors would like to thank the contributors and the OAuth
-   working group members who gave valuable input to this draft.
+   The authors would like to thank John Bradley, Kelley Burgin, Brian
+   Campbell, Andrii Deinega, Apoorva Deshpande, Daniel Fett, Evan
+   Gilman, Joseph Heenan, Watson Ladd, Kai Lehmann, Jeff Lombardo, Dan
+   Moore, Steinar Noem, Ashay Raut, Justin Richer, Joe Salowey, Dean
+   Saxe, Arndt Schwenkschuster, Dag Sneeggen, Yaron Scheffer, Orie
+   Steele, Dmitry Telegin, and Hannes Tschofenig for supporting,
+   commenting, contributing and providing feedback on this
+   specification.
 
 Document History
 
@@ -1417,6 +1422,12 @@ Since Draft 06
    *  Clarify request_details (https://github.com/oauth-wg/oauth-
       transaction-tokens/issues/197)
 
+   *  Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-
+      transaction-tokens/issues/213)
+
+   *  Updated Acknpwledgement section (https://github.com/oauth-wg/
+      oauth-transaction-tokens/issues/260)
+
 Since Draft 05
 
    *  Strengthened prohibition on expanding TraT scope
@@ -1451,38 +1462,6 @@ Since Draft 04
 
    *  Clarified text around external vs internal invocation
       (https://github.com/oauth-wg/oauth-transaction-tokens/pull/157)
-
-Contributors
-
-   Dr. Kelley W. Burgin, PhD.
-   MITRE Corporation
-   Email: kburgin@mitre.org
-
-
-   Brian Campbell
-   Ping Identity
-   Email: bcampbell@pingidentity.com
-
-
-   Evan Gilman
-   SPIRL
-   Email: evan@spirl.com
-
-
-   Kai Lehmann
-   1&1 Mail & Media Development & Technology GmbH
-   Email: kai.lehmann@1und1.de
-
-
-   Arndt Schwenkschuster
-   Defakto Security
-   Email: arndts.ietf@gmail.com
-
-
-   Hannes Tschofenig
-   Arm Ltd.
-   Email: Hannes.Tschofenig@arm.com
-
 
 Authors' Addresses
 
