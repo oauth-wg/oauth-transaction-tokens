@@ -101,6 +101,7 @@ Table of Contents
      7.5.  Mutual Authentication of the Txn-Token Request
    8.  Using Txn-Tokens
      8.1.  Txn-Token HTTP Header
+     8.2.  Txn-Token Validation
    9.  Security Considerations
      9.1.  Txn-Token Lifetime
      9.2.  Access Tokens
@@ -900,6 +901,23 @@ Table of Contents
    Txn-Token to communicate the Txn-Token in the HTTP Request.  The
    value of this header MUST be exactly one Txn-Token.
 
+8.2.  Txn-Token Validation
+
+   A workload that receives a Txn-Token MUST evaluate the token for
+   validity before authorizing it for activities supported by the
+   workload.  To validate the Txn-Token, the workload MUST: * validate
+   the Txn-Token JWS signature * verify the aud claim identifies the
+   trust domain of the workload * verify the Txn-Token is not expired
+
+   In addition, any outbound calls made by this workload MUST include
+   the Txn-Token as it was received so that it is passed unmodified to
+   any downstream workloads.
+
+   Once the Txn-Token is determined to be valid, the workload MAY use
+   any of the data contained in the Txn-Token to determine if the Txn-
+   Token authorizes the requested activity.  How the workload determines
+   this authorization is out of scope for this specification.
+
 9.  Security Considerations
 
 9.1.  Txn-Token Lifetime
@@ -1421,6 +1439,12 @@ Since Draft 06
 
    *  Clarify request_details (https://github.com/oauth-wg/oauth-
       transaction-tokens/issues/197)
+
+   *  Add normative language for processing Txn-Tokens
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/270)
+
+   *  Strengthen normative language for Txn-Token Requests
+      (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)
 
    *  Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-
       transaction-tokens/issues/213)
