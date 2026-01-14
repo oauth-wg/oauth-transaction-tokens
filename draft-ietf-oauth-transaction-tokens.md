@@ -534,6 +534,16 @@ Txn-Tokens need to be communicated between workloads that depend upon them to au
 ## Txn-Token HTTP Header {#txn-token-http-header}
 A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token in the HTTP Request. The value of this header MUST be exactly one Txn-Token.
 
+## Txn-Token Validation
+A workload that receives a Txn-Token MUST evaluate the token for validity before authorizing it for activities supported by the workload. To validate the Txn-Token, the workload MUST:
+* validate the Txn-Token JWS signature
+* verify the `aud` claim identifies the trust domain of the workload
+* verify the Txn-Token is not expired
+
+In addition, any outbound calls made by this workload MUST include the Txn-Token as it was received so that it is passed unmodified to any downstream workloads.
+
+Once the Txn-Token is determined to be valid, the workload MAY use any of the data contained in the Txn-Token to determine if the Txn-Token authorizes the requested activity. How the workload determines this authorization is out of scope for this specification.
+
 # Security Considerations {#Security}
 
 ## Txn-Token Lifetime {#lifetime}
@@ -699,6 +709,8 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, And
 * Editorial updates identified by Dan Moore (https://github.com/oauth-wg/oauth-transaction-tokens/issues/236)
 * Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)
 * Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
+* Add normative language for processing Txn-Tokens (https://github.com/oauth-wg/oauth-transaction-tokens/issues/270)
+* Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)
 * Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)
 * Updated Acknpwledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)
 
