@@ -739,6 +739,8 @@ The authors would like to thank the contributors and the OAuth working group mem
 * Editorial updates identified by Dan Moore (https://github.com/oauth-wg/oauth-transaction-tokens/issues/236)
 * Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)
 * Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)
+* Add normative language for processing Txn-Tokens (https://github.com/oauth-wg/oauth-transaction-tokens/issues/270)
+* Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)
 
 ## Since Draft 05
 {:numbered="false"}
