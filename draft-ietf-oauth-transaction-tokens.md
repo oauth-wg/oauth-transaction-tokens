@@ -138,7 +138,7 @@ Additional contextual information MAY be provided such as:
 * Parameters that are required to be integrity protected for the duration of this call
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the TTS to issue the Txn-Token
 
-The TTS responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.
+The TTS responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads.
 
 If the requesting service does not have an inbound token that it can use in its request to the TTS, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.
 
