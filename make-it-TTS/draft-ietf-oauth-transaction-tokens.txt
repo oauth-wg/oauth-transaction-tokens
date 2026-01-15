@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 18 July 2026                             Practical Identity LLC
+Expires: 19 July 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         14 January 2026
+                                                         15 January 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 July 2026.
+   This Internet-Draft will expire on 19 July 2026.
 
 Copyright Notice
 
@@ -235,9 +235,7 @@ Table of Contents
    The TTS responds to a successful invocation by generating a Txn-
    Token.  The calling workload then uses the Txn-Token to authorize its
    calls to subsequent workloads.  Subsequent workloads may obtain Txn-
-   Tokens on their own.  The TTS responds to a successful invocation by
-   generating a Txn-Token.  The calling workload then uses the Txn-Token
-   to authorize its calls to subsequent workloads.
+   Tokens on their own.
 
    If the requesting service does not have an inbound token that it can
    use in its request to the TTS, it generates a self-signed JWT and
