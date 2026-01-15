@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-13T00:17:38.139012+00:00",
+  "timestamp": "2026-01-15T00:19:33.441596+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4647,7 +4647,7 @@
       "id": "I_kwDOJt_WwM7IQ0qJ",
       "title": "Compare WIMSE arch doc terminology with Transaction token spec",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/213",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4659,8 +4659,8 @@
       ],
       "body": "Feedback from Joe Salowey\n\nSection 4.- Most of the terms in this section overlap with terms we define in [WIMSE arch spec](https://datatracker.ietf.org/doc/draft-ietf-wimse-arch/) as well (Workload, trust domain, External Endpoint, Call Chain, etc).  I don't think there is a lot of divergence, but it would be good to make sure there isn't and maybe make them more common where it makes sense. \n",
       "createdAt": "2025-08-27T15:35:33Z",
-      "updatedAt": "2026-01-12T22:02:36Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-13T11:22:03Z",
+      "closedAt": "2026-01-13T11:22:03Z",
       "comments": [
         {
           "author": "tulshi",
@@ -18228,24 +18228,26 @@
       "id": "PR_kwDOJt_WwM68Xt3b",
       "title": "Clarify Txn-Token Service context requirements",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/295",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Updated to define some MUSTs, removed a reference to replacement transaction tokens and defined the reference for TTS",
       "createdAt": "2026-01-09T17:14:26Z",
-      "updatedAt": "2026-01-12T22:35:15Z",
+      "updatedAt": "2026-01-13T23:24:51Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_209",
       "headRefOid": "45447eae78e0b42a2b72341b00f212d2ca0cd406",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-13T23:24:51Z",
+      "mergedAt": "2026-01-13T23:24:51Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "36cadeafc4f89ba3bbe1502eaaf0ae366af2f502"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -18368,6 +18370,19 @@
               "updatedAt": "2026-01-12T22:35:15Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aDSgh",
+          "commit": {
+            "abbreviatedOid": "45447ea"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-13T23:24:44Z",
+          "updatedAt": "2026-01-13T23:24:44Z",
+          "comments": []
         }
       ]
     },
@@ -18473,13 +18488,13 @@
       "labels": [],
       "body": "Used the acronym \"TTS\" for all except initial use of Transaction Token Service. Closes #243 ",
       "createdAt": "2026-01-09T20:29:30Z",
-      "updatedAt": "2026-01-12T22:38:10Z",
+      "updatedAt": "2026-01-14T23:17:35Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "9fe7843e955933e1737895a03599cd163c252421",
+      "baseRefOid": "89cd2ee40e387f8ba728a4a5b877ca52a8dac611",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "make-it-TTS",
-      "headRefOid": "e5445186455e7551da26df4ccd1f374133d2c833",
+      "headRefOid": "50440fe505ee94e86d6a014a58c872a753f4ef33",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -18539,6 +18554,46 @@
           "createdAt": "2026-01-12T22:22:02Z",
           "updatedAt": "2026-01-12T22:22:02Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aL0Qe",
+          "commit": {
+            "abbreviatedOid": "8fa5283"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-14T12:36:55Z",
+          "updatedAt": "2026-01-14T12:36:55Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "On line 161: \r\n\r\nIf the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Transaction Token Service [TTS]) and provides context that is sufficient for it to generate a Txn-Token.\r\n\r\nWhy yse square brackets (which I mentally associate with a reference) vs round brackets?",
+              "createdAt": "2026-01-14T12:36:55Z",
+              "updatedAt": "2026-01-14T12:36:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aTC9m",
+          "commit": {
+            "abbreviatedOid": "8fa5283"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-14T19:34:50Z",
+          "updatedAt": "2026-01-14T19:34:50Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "That was my edit. I'm fine with nested parentheses. My own personal process is to use square brackets when nesting so that people don't get confused by trying to follow the nested parenthesis. In this case that isn't hard so switching it is fine.",
+              "createdAt": "2026-01-14T19:34:50Z",
+              "updatedAt": "2026-01-14T19:41:37Z"
+            }
+          ]
         }
       ]
     },
@@ -18554,7 +18609,7 @@
       "labels": [],
       "body": "Updated definitions and descriptions for authorization context, workload, trust domain, and external endpoint. Expanded examples of public-key based authentication methods. see issue #213",
       "createdAt": "2026-01-12T21:36:47Z",
-      "updatedAt": "2026-01-12T22:37:47Z",
+      "updatedAt": "2026-01-13T04:07:30Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
@@ -18580,6 +18635,151 @@
           "body": "",
           "createdAt": "2026-01-12T22:37:24Z",
           "updatedAt": "2026-01-12T22:37:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7Zx11N",
+          "commit": {
+            "abbreviatedOid": "8fee9a6"
+          },
+          "author": "jsalowey",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "Thank you, this looks good. ",
+          "createdAt": "2026-01-13T04:07:30Z",
+          "updatedAt": "2026-01-13T04:07:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 299,
+      "id": "PR_kwDOJt_WwM69J8uT",
+      "title": "Revise contributor list and update acknowledgements",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/299",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Removed several contributors from the document and updated the acknowledgements section to include specific names. Made editorial updates and clarifications throughout the draft. see issue #260\r\n\r\nI moved all contributors to the accknowledgement secction and also went though issues and the mailing list arcchives to identify individuals who supported the draft, raised questions or suggested alternatives. Pleas review and suggest additional names I may have missed, folks who reached out to you in private or who made contributions or provided feedback through other means (e.g. I recall folks from PayPal? but can't remember their names, so perhaps they are already acknowledged.).",
+      "createdAt": "2026-01-14T13:18:56Z",
+      "updatedAt": "2026-01-14T20:19:30Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "36cadeafc4f89ba3bbe1502eaaf0ae366af2f502",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "29dc5b787901bb75591ff8a3c9f4b27b5526984e",
+      "closedAt": "2026-01-14T20:19:28Z",
+      "mergedAt": "2026-01-14T20:19:28Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "0a8803e9893043cfc8fdf77ce557006df8bbedbe"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7aTupO",
+          "commit": {
+            "abbreviatedOid": "29dc5b7"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-14T20:19:21Z",
+          "updatedAt": "2026-01-14T20:19:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 300,
+      "id": "PR_kwDOJt_WwM69O-p_",
+      "title": "Added normative language for processing Txn-Tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/300",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This addresses issue #270 and also updated the Document change log to include the changes made for issue #209",
+      "createdAt": "2026-01-14T20:02:55Z",
+      "updatedAt": "2026-01-14T23:17:02Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "0a8803e9893043cfc8fdf77ce557006df8bbedbe",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_270",
+      "headRefOid": "c6b432387e5c37339b3d77861943f2f47037c9f8",
+      "closedAt": "2026-01-14T23:17:02Z",
+      "mergedAt": "2026-01-14T23:17:02Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "89cd2ee40e387f8ba728a4a5b877ca52a8dac611"
+      },
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I resolved the merge conflicts and made the change requested by Atul",
+          "createdAt": "2026-01-14T20:25:02Z",
+          "updatedAt": "2026-01-14T20:25:02Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7aTxJo",
+          "commit": {
+            "abbreviatedOid": "971a795"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-14T20:22:33Z",
+          "updatedAt": "2026-01-14T20:22:45Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "why say \"any of the other data contained\"? The aud and issuance / expiration times might be useful for processing too. Should we just say \"any data contained...\"?",
+              "createdAt": "2026-01-14T20:22:33Z",
+              "updatedAt": "2026-01-14T20:22:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aTyHz",
+          "commit": {
+            "abbreviatedOid": "971a795"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-14T20:23:22Z",
+          "updatedAt": "2026-01-14T20:23:22Z",
+          "comments": [
+            {
+              "originalPosition": 12,
+              "body": "Sure, that's fine.",
+              "createdAt": "2026-01-14T20:23:22Z",
+              "updatedAt": "2026-01-14T20:23:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aWO0l",
+          "commit": {
+            "abbreviatedOid": "c6b4323"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-14T23:16:54Z",
+          "updatedAt": "2026-01-14T23:16:54Z",
           "comments": []
         }
       ]
