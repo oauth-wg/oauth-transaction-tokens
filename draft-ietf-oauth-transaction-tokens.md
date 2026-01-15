@@ -679,7 +679,7 @@ The header name `Txn-Token` is proposed to be added to the HTTP Field Name Regis
 
 # Acknowledgements {#Acknowledgements}
 {: numbered="false"}
-The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Andrii Deinega, Apoorva Deshpande, Daniel Fett, Evan Gilman, Joseph Heenan, Watson Ladd, Kai Lehmann, Jeff Lombardo, Dan Moore, Steinar Noem, Ashay Raut, Justin Richer, Joe Salowey, Dean Saxe, Arndt Schwenkschuster, Dag Sneeggen, Yaron Scheffer, Orie Steele, Dmitry Telegin, and Hannes Tschofenig for supporting, commenting, contributing and providing feedback on this specification.
+The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Naveen CM, Andrii Deinega, Apoorva Deshpande, Daniel Fett, Evan Gilman, Joseph Heenan, Watson Ladd, Kai Lehmann, Jeff Lombardo, Dan Moore, Steinar Noem, Ashay Raut, Justin Richer, Joe Salowey, Dean Saxe, Arndt Schwenkschuster, Dag Sneeggen, Yaron Scheffer, Orie Steele, Dmitry Telegin, and Hannes Tschofenig for supporting, commenting, contributing and providing feedback on this specification.
 
 # Document History
 {: numbered="false"}
