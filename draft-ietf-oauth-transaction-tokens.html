@@ -1452,7 +1452,7 @@ They preserve any context such as:<a href="#section-2-1" class="pilcrow">¶</a><
 <p id="section-2.2.1-4">Additional contextual information MAY be provided such as:
 * Parameters that are required to be integrity protected for the duration of this call
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the TTS to issue the Txn-Token<a href="#section-2.2.1-4" class="pilcrow">¶</a></p>
-<p id="section-2.2.1-5">The TTS responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads. Subsequent workloads may obtain Txn-Tokens on their own.<a href="#section-2.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-5">The TTS responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads.<a href="#section-2.2.1-5" class="pilcrow">¶</a></p>
 <p id="section-2.2.1-6">If the requesting service does not have an inbound token that it can use in its request to the TTS, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.<a href="#section-2.2.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>

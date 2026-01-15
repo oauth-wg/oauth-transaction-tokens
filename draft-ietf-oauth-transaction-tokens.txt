@@ -234,8 +234,7 @@ Table of Contents
 
    The TTS responds to a successful invocation by generating a Txn-
    Token.  The calling workload then uses the Txn-Token to authorize its
-   calls to subsequent workloads.  Subsequent workloads may obtain Txn-
-   Tokens on their own.
+   calls to subsequent workloads.
 
    If the requesting service does not have an inbound token that it can
    use in its request to the TTS, it generates a self-signed JWT and
