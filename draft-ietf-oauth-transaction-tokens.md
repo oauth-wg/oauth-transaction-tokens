@@ -707,6 +707,8 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)
 * Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)
 * Updated Acknpwledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)
+* Removed text related to replacement transaction tokens
+* Updated references to call chain to be capitalized and fixed some definitions (https://github.com/oauth-wg/oauth-transaction-tokens/issues/284)
 
 ## Since Draft 05
 {:numbered="false"}
