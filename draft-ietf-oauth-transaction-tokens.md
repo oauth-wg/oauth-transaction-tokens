@@ -116,15 +116,43 @@ They preserve any context such as:
 
 Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls.
 
-## What are Transaction Tokens?
+# Notational Conventions
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+"MAY", and "OPTIONAL" in this document are to be interpreted as
+described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when,
+they appear in all capitals, as shown here.
+
+# Terminology
+
+Workload:
+: A running instance of software executing for a specific purpose. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
+
+Trust Domain:
+: A logical grouping of systems that share a common set of security controls and policies. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
+
+External Endpoint:
+: A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be acccessed through a gateway service as described in the WIMSE architecture {{?I-D.ietf-wimse-arch}}.
+
+Call Chain:
+: A sequence of invocations that results from the invocation of an external endpoint.
+
+Transaction Token (Txn-Token):
+: A signed JWT with a short lifetime, providing immutable information about the user or workload, certain parameters of the call, and specific contextual attributes of the call. The Txn-Token is used to authorize subsequent calls in the call chain.
+
+Transaction Token Service (TTS):
+: A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical TTS.
+
+# What are Transaction Tokens?
 Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of a call chain as it passes through multiple workloads.
 
-### Authorization Context
+## Authorization Context
 Authorization context includes information used for authorization, accounting and auditing purposes and often contains information about the request being made. A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.
 
-## Creating Txn-Tokens
+# Creating Txn-Tokens
 
-### Creation
+## Creation
 Txn-Tokens are typically created when a workload is invoked using an endpoint that is externally visible, and is authorized using a separate mechanism, such as an OAuth {{RFC6749}} access token. The externally visible endpoint exchanges the external authorization token for a transaction token before sending it to the workload. The transaction token may be obtained through a local interface, or it may be requested from a remote server.
 
 If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Transaction Token Service (TTS)) and provides context that is sufficient for it to generate a Txn-Token.
@@ -142,15 +170,15 @@ The TTS responds to a successful invocation by generating a Txn-Token. The calli
 
 If the requesting service does not have an inbound token that it can use in its request to the TTS, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.
 
-## Txn-Token Lifetime
+# Txn-Token Lifetime
 Txn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the TTS when requesting a Txn-Token has an expiration time, then the TTS MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.
 
-## Benefits of Txn-Tokens
+# Benefits of Txn-Tokens
 Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call.
 
-## Txn-Token Issuance and Usage Flows
+# Txn-Token Issuance and Usage Flows
 
-### Basic Flow {#basic-flow}
+## Basic Flow {#basic-flow}
 {{fig-arch-basic}} shows the basic flow of how Txn-Tokens are used in a multi-workload environment.
 
 ~~~ ascii-art
@@ -194,7 +222,7 @@ Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload
 7. Response provided to external endpoint based on successful authorization by the invoked workload
 8. External client is provided a response to the external invocation
 
-### Internally Initiated Txn-Token Flow
+## Internally Initiated Txn-Token Flow
 
 An internal workload may need to initiate a transaction not on the basis of a current external request, but as part of a scheduled task or in reaction to a specific condition. The transaction may be requested on behalf of the identity of the requesting workload or as an impersonation on behalf of a specific user chosen based on information accessible to the workload.
 
@@ -239,34 +267,6 @@ In the diagram above, steps 5-6 are the same as in {{basic-flow}}.
 2. The internal microservice authenticates to the token service and makes a request for a Txn-Token. The request contains information about the transaction along with optional additional authorization credentials
 3. TTS authorizes the requester and then mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
 4. The originating microservice then contacts another internal microservice and provides the Txn-Token as authorization
-
-# Notational Conventions
-
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
-"MAY", and "OPTIONAL" in this document are to be interpreted as
-described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when,
-they appear in all capitals, as shown here.
-
-# Terminology
-
-Workload:
-: A running instance of software executing for a specific purpose. Examples of workloads include containerized microservices, monolithic services and infrastructure services such as managed databases.
-
-Trust Domain:
-: A logical grouping of systems that share a common set of security controls and policies. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
-
-External Endpoint:
-: A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be acccessed through a gateway service as described in the WIMSE architecture {{?I-D.ietf-wimse-arch}}.
-
-Call Chain:
-: A sequence of invocations that results from the invocation of an external endpoint.
-
-Transaction Token (Txn-Token):
-: A signed JWT with a short lifetime, providing immutable information about the user or workload, certain parameters of the call, and specific contextual attributes of the call. The Txn-Token is used to authorize subsequent calls in the call chain.
-
-Transaction Token Service (TTS):
-: A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical TTS.
 
 # Txn-Token Format
 A Txn-Token is a JSON Web Token {{RFC7519}} protected by a JSON Web Signature {{RFC7515}}. The following describes the required values in a Txn-Token:
