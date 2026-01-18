@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-15T00:19:33.441596+00:00",
+  "timestamp": "2026-01-18T00:23:07.591475+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -4556,7 +4556,7 @@
       "id": "I_kwDOJt_WwM7IQw7t",
       "title": "Consider stronger normative language",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/209",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -4568,8 +4568,8 @@
       ],
       "body": "WGLC feedback from Joe Salowey\n\nSection 2.2.1 lists a bunch of MAY items in the request.  It seems like there should be some MUSTs somewhere in here?  For example, the request MUST contain some information about the subject of the request which could be one of several options.  I realize that 7.1 contains more normative information, but this section seems to be a bit out of sync and not very informative. It might also be useful to list the authentication requirements here at a high level.",
       "createdAt": "2025-08-27T15:31:15Z",
-      "updatedAt": "2026-01-09T15:38:22Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-15T01:52:13Z",
+      "closedAt": "2026-01-15T01:52:13Z",
       "comments": []
     },
     {
@@ -5521,7 +5521,7 @@
       "id": "I_kwDOJt_WwM7J5or0",
       "title": "Consistency Pass Needed",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/243",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5532,8 +5532,8 @@
       ],
       "body": "We need to do a pass to be consistent about the use of acronymns, abbreviations and full text. For example, Transaction token Service is represented as Txn-Token-Service, TTS or Transaction Token Service in various places. Same for transaction token.\n\nI have cone to have a strong preference for writing the fill term rather than using abbreviations in lots of pplaces as the abbreviations may be unfamiliar or may have different meanings to readers (unless they read the whole thing carefully). Personal preference aside, consistency is important, so we just need to pick an approach and stick to it.",
       "createdAt": "2025-09-05T12:07:28Z",
-      "updatedAt": "2026-01-09T15:43:46Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-15T01:46:54Z",
+      "closedAt": "2026-01-15T01:46:54Z",
       "comments": [
         {
           "author": "gffletch",
@@ -5556,7 +5556,7 @@
       "id": "I_kwDOJt_WwM7Qc1_C",
       "title": "Review Acknowledgements Section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/260",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5569,8 +5569,8 @@
       ],
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-acknowledgements\n\nI do appreciate the Contributors section below (and being in it) but I suspect it is missing some people that could/should be listed here in the Acknowledgements. But if Acknowledgments is only going to thank \"the contributors and the OAuth working group members\" then maybe just remove it?",
       "createdAt": "2025-10-09T00:06:03Z",
-      "updatedAt": "2026-01-09T15:52:25Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-15T10:31:08Z",
+      "closedAt": "2026-01-15T10:31:08Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -5728,7 +5728,7 @@
       "id": "I_kwDOJt_WwM7VySyg",
       "title": "Lack in normative language for workloads to validate Txn-Tokens and authorization context",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/270",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5739,8 +5739,8 @@
       ],
       "body": "There is a lot of normative language about the interface for the Txn-Token-Service. However, I am missing normative language for how a workload should validate the authorization context represented by the Txn-Token. For instance:\n\n- MUST validate signature of JWT, exp, iat claims (with appropriate slack for clock skew)\n- MUST validate that scope allows requested operation\n- MUST validate aud claim (although at least for this there is a \"A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the aud claim.\" yet workload is not explicitly mentioned)\n- MUST validate tctx if present\n- MUST pass along the Txn-Token in outgoing calls belonging to the same transaction\n\nWas this maybe left out intentionally? I do understand that it may be necessary to make some of this language conditional to support different configurations/deployments. For instance there may be cases where some workloads may opt for employing Token Introspection to validate Txn-Tokens instead of doing it locally (which is by the way not mentioned at all in the current draft).",
       "createdAt": "2025-11-04T14:00:31Z",
-      "updatedAt": "2026-01-09T15:56:57Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-15T01:53:06Z",
+      "closedAt": "2026-01-15T01:53:06Z",
       "comments": [
         {
           "author": "gffletch",
@@ -5864,11 +5864,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "PieterKas"
+      ],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "Currently we do not allow transaction tokens to exceed the lifetime of the original access token, Consequently we advise that Access tokens be longer lived. Now that we allow for extension of transaction token lifetimes, we need to revise this guidance.",
       "createdAt": "2025-11-09T00:10:12Z",
-      "updatedAt": "2025-11-16T08:46:27Z",
+      "updatedAt": "2026-01-16T15:49:29Z",
       "closedAt": null,
       "comments": [
         {
@@ -5942,11 +5946,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "gffletch"
+      ],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "We define Call Chain early in the document, but then use call chain. Consider capitalisation of Call Chain where appropriate to make ise of formal definition.",
       "createdAt": "2025-11-17T11:52:02Z",
-      "updatedAt": "2025-11-17T17:43:16Z",
+      "updatedAt": "2026-01-16T15:49:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -6013,13 +6021,15 @@
       "state": "OPEN",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "In section Privacy considerations it is mentioned that some data within the tokens may be considered PII and the example of the client IP address is given. Indeed, IP addresses are considered PII in quite a lot of jurisdictions. However, that doesn't necessarily mean that the IP address or any other PII must be obfuscated as it is stated in the current draft. I think this is depending on what is being done with the Txn-Token. You could even consider the subject identifier to be PII. It should be clear that when adding PII to the Txn-Token, the entire Txn-Token must be handled according to privacy preserving policies in respect to relevant jurisdictions.\n",
       "createdAt": "2025-11-17T12:56:29Z",
-      "updatedAt": "2026-01-09T15:29:28Z",
+      "updatedAt": "2026-01-16T15:34:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -6039,13 +6049,15 @@
       "state": "OPEN",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
-      "body": "Imagine single-use access tokens, such as the result of an OAuth + RAR request, representing approval of a specific state changing operation, such as a token representing a payment approval.\n\nBefore the pattern offered by Transaction Tokens draft, that access token might have traversed different application layer, and once reaching the resource server performing the state changing operation, that RS would have ensured its single-use by, for example, recording the token\u2019s jti, enabling replay prevention.\n\n \n\nHow shall such solution patterns work with the Transaction Tokens draft?\n\nI\u2019m concerned adding transaction tokens breaks current replay prevention techniques, in case a single-use token is presented multiple times to an ingress endpoint which requests transaction tokens, resulting in multiple instances of that token with changing jti.\n\n \n\nPerhaps some language is needed for claims transcription in such use cases to maintain specific original values such as jti.",
+      "body": "From: Yaron ZEHAVI <yaron.zehavi@rbinternational.com>\n\nImagine single-use access tokens, such as the result of an OAuth + RAR request, representing approval of a specific state changing operation, such as a token representing a payment approval.\n\nBefore the pattern offered by Transaction Tokens draft, that access token might have traversed different application layer, and once reaching the resource server performing the state changing operation, that RS would have ensured its single-use by, for example, recording the token\u2019s jti, enabling replay prevention.\n\n \n\nHow shall such solution patterns work with the Transaction Tokens draft?\n\nI\u2019m concerned adding transaction tokens breaks current replay prevention techniques, in case a single-use token is presented multiple times to an ingress endpoint which requests transaction tokens, resulting in multiple instances of that token with changing jti.\n\n \n\nPerhaps some language is needed for claims transcription in such use cases to maintain specific original values such as jti.",
       "createdAt": "2025-12-30T16:57:46Z",
-      "updatedAt": "2026-01-09T15:28:19Z",
+      "updatedAt": "2026-01-16T15:43:50Z",
       "closedAt": null,
       "comments": [
         {
@@ -17404,7 +17416,7 @@
       "labels": [],
       "body": "Enhanced the description of the `sub` claim to clarify its uniqueness and association with the `aud` Trust Domain. This addresses issue #225.",
       "createdAt": "2025-11-12T16:41:57Z",
-      "updatedAt": "2025-11-19T14:03:02Z",
+      "updatedAt": "2026-01-15T15:25:00Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8938a8b0beb086e5084292ead17d29240e7cfca3",
@@ -18235,7 +18247,7 @@
       "labels": [],
       "body": "Updated to define some MUSTs, removed a reference to replacement transaction tokens and defined the reference for TTS",
       "createdAt": "2026-01-09T17:14:26Z",
-      "updatedAt": "2026-01-13T23:24:51Z",
+      "updatedAt": "2026-01-15T15:25:06Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "892a5c96f216ac7345b4ac45602a40e61e787b72",
@@ -18481,24 +18493,26 @@
       "id": "PR_kwDOJt_WwM68Zkpp",
       "title": "Replace various names used for TTS by TTS",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/297",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Used the acronym \"TTS\" for all except initial use of Transaction Token Service. Closes #243 ",
       "createdAt": "2026-01-09T20:29:30Z",
-      "updatedAt": "2026-01-14T23:17:35Z",
+      "updatedAt": "2026-01-15T10:30:13Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "89cd2ee40e387f8ba728a4a5b877ca52a8dac611",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "make-it-TTS",
-      "headRefOid": "50440fe505ee94e86d6a014a58c872a753f4ef33",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "d686aa3661d8d10bb201f62bdfbfd9bf12fde09b",
+      "closedAt": "2026-01-15T01:46:53Z",
+      "mergedAt": "2026-01-15T01:46:53Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "607b66578f4097ebe81fa246dd4b05d2dfc4ee2a"
+      },
       "comments": [
         {
           "author": "tulshi",
@@ -18594,6 +18608,65 @@
               "updatedAt": "2026-01-14T19:41:37Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aXPwM",
+          "commit": {
+            "abbreviatedOid": "50440fe"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-15T01:34:13Z",
+          "updatedAt": "2026-01-15T01:34:13Z",
+          "comments": [
+            {
+              "originalPosition": 26,
+              "body": "Is this a dup line? I think this one should be deleted as there is a reference to \"replacement\" transaction tokens.",
+              "createdAt": "2026-01-15T01:34:13Z",
+              "updatedAt": "2026-01-15T01:34:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aXR6D",
+          "commit": {
+            "abbreviatedOid": "50440fe"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Just the one dup'd line.",
+          "createdAt": "2026-01-15T01:39:19Z",
+          "updatedAt": "2026-01-15T01:39:19Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7aXVe6",
+          "commit": {
+            "abbreviatedOid": "d686aa3"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-15T01:46:42Z",
+          "updatedAt": "2026-01-15T01:46:42Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7acpYd",
+          "commit": {
+            "abbreviatedOid": "d686aa3"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Looks good to me",
+          "createdAt": "2026-01-15T10:30:13Z",
+          "updatedAt": "2026-01-15T10:30:13Z",
+          "comments": []
         }
       ]
     },
@@ -18706,7 +18779,7 @@
       "labels": [],
       "body": "This addresses issue #270 and also updated the Document change log to include the changes made for issue #209",
       "createdAt": "2026-01-14T20:02:55Z",
-      "updatedAt": "2026-01-14T23:17:02Z",
+      "updatedAt": "2026-01-15T15:25:07Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "0a8803e9893043cfc8fdf77ce557006df8bbedbe",
@@ -18783,6 +18856,158 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 301,
+      "id": "PR_kwDOJt_WwM69SDDJ",
+      "title": "removed replacement language that had been reinserted due to a merge",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/301",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-15T01:50:22Z",
+      "updatedAt": "2026-01-15T01:51:04Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "607b66578f4097ebe81fa246dd4b05d2dfc4ee2a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "remove-replacement-language",
+      "headRefOid": "92ac642607a9d1163935429cad1583e8827fb32c",
+      "closedAt": "2026-01-15T01:51:03Z",
+      "mergedAt": "2026-01-15T01:51:03Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "f05efd674a157b7e9fc0268f0bfef73554af1445"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7aXXRA",
+          "commit": {
+            "abbreviatedOid": "92ac642"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-15T01:50:56Z",
+          "updatedAt": "2026-01-15T01:50:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 302,
+      "id": "PR_kwDOJt_WwM69aHrq",
+      "title": "Update acknowledgements with new contributor",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/302",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added Naveen CM (yahoo) to the Acknowledgements section. I checked with Naveen to ensure that \"Naveen CM\" was an appropriate string.",
+      "createdAt": "2026-01-15T15:24:09Z",
+      "updatedAt": "2026-01-15T15:26:12Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "f05efd674a157b7e9fc0268f0bfef73554af1445",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "acknowledgements",
+      "headRefOid": "7c701a8bd4d52054cbd837d3aff22fa529e03e2c",
+      "closedAt": "2026-01-15T15:26:12Z",
+      "mergedAt": "2026-01-15T15:26:12Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "c177948d1fd0f380250cc1d32bf712a4be2c2ad5"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7ahW3L",
+          "commit": {
+            "abbreviatedOid": "7c701a8"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-15T15:26:01Z",
+          "updatedAt": "2026-01-15T15:26:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 303,
+      "id": "PR_kwDOJt_WwM69pgLH",
+      "title": "rearranged initial sections",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/303",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-01-16T15:49:57Z",
+      "updatedAt": "2026-01-16T18:50:23Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "c177948d1fd0f380250cc1d32bf712a4be2c2ad5",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "rearrange-sections",
+      "headRefOid": "8e112bc488df71b5192a6b1efe43c9409fde8c4a",
+      "closedAt": "2026-01-16T18:50:21Z",
+      "mergedAt": "2026-01-16T18:50:21Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "4c2946b4af0f34da37118b69325c38c913f5f79a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7a4jsK",
+          "commit": {
+            "abbreviatedOid": "8e112bc"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-16T18:49:56Z",
+          "updatedAt": "2026-01-16T18:49:56Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 304,
+      "id": "PR_kwDOJt_WwM69rtX_",
+      "title": "Standardize terminology for Call Chain in document",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/304",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated terminology for consistency and clarity throughout the document, specifically changing 'call chain' to 'Call Chain' and ensuring proper capitalization.\r\n\r\nI updated the terminology definition for `Call Chain` and `Subject Token Types`.\r\n\r\nCarefull review required.",
+      "createdAt": "2026-01-16T19:07:35Z",
+      "updatedAt": "2026-01-16T19:11:38Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "4c2946b4af0f34da37118b69325c38c913f5f79a",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_284",
+      "headRefOid": "57e89c0680f4cbcfd2fcd45b5cdfce2f93bb3a8a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
