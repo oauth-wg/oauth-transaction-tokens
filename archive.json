@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-18T00:23:07.591475+00:00",
+  "timestamp": "2026-01-20T00:20:27.372187+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -13172,7 +13172,7 @@
       "labels": [],
       "body": "Security Considerations for Transaction Token Discovery (#95 )",
       "createdAt": "2025-01-31T15:02:47Z",
-      "updatedAt": "2025-02-13T22:49:50Z",
+      "updatedAt": "2026-01-18T09:26:39Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5316d5746659848a9587986e78b80c5c0d184168",
