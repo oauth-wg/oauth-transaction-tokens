@@ -558,7 +558,7 @@ A Txn-Token conveys user identity and authorization context across workloads in 
 A workload receiving a Txn-Token can store the `txn` value of each Txn-Token for the time window in which the Txn-Token would be accepted to prevent multiple uses of the same Txn-Token. Requests to the same workload for which the jti value has been seen before would be declined. When strictly enforced, such a single-use check provides a very strong protection against Txn-Token replay, but it may not always be feasible in practice, e.g., when multiple instances of the same workload have no shared state.
 
 ## Refresh Tokens
-OAuth refresh tokens are used only to obtain access tokens as defined in {{RFC6749}} and MUST NOT be used to request transaction tokens (see {{subject-token-types}}. Since Txn-Tokens are short-lived ({{txn-token-lifetime}}), the Txn-Token response from the TTS MUST NOT include a refresh token (see {{txn-token-response}}).
+OAuth refresh tokens are used to obtain access tokens as defined in {{RFC6749}} and MUST NOT be used to request transaction tokens (see {{subject-token-types}}. Since Txn-Tokens are short-lived ({{txn-token-lifetime}}), the Txn-Token response from the TTS MUST NOT include a refresh token (see {{txn-token-response}}).
 
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
