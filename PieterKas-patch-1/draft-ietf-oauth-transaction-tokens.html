@@ -2301,10 +2301,13 @@ Cache-Control: no-store
               <p id="section-14.13.1-2.6.1">MUST NOT issue a Txn-Token if the expiration time has passed.<a href="#section-14.13.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-14.13.1-2.7">
-              <p id="section-14.13.1-2.7.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the originally presented token and MAY limit the number of times a Txn-Token is replaced to reduce replay risks, subject to the policy of the transaction token issuer.<a href="#section-14.13.1-2.7.1" class="pilcrow">¶</a></p>
+              <p id="section-14.13.1-2.7.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the transaction token issuer.<a href="#section-14.13.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-14.13.1-2.8">
-              <p id="section-14.13.1-2.8.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-14.13.1-2.8.1" class="pilcrow">¶</a></p>
+              <p id="section-14.13.1-2.8.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-14.13.1-2.8.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-14.13.1-2.9">
+              <p id="section-14.13.1-2.9.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-14.13.1-2.9.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
