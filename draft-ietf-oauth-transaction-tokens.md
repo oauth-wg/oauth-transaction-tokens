@@ -553,7 +553,7 @@ A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore
 The use of a unique transaction identifier (`txn` claim) allows for discovery of Txn-Token replay as described in {{uti}}.
 
 ## Unique Transaction Identifier {#uti}
-A Txn-Token conveys user identity and authorization context across workloads in a call chain. The `txn` claim is a unique identifier that, when logged by the TTS and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain. 
+A Txn-Token conveys user identity and authorization context across workloads in a call chain. The `txn` claim is a unique identifier that, when logged by the TTS and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain.
 
 A workload receiving a Txn-Token can store the `txn` value of each Txn-Token for the time window in which the Txn-Token would be accepted to prevent multiple uses of the same Txn-Token. Requests to the same workload for which the jti value has been seen before would be declined. When strictly enforced, such a single-use check provides a very strong protection against Txn-Token replay, but it may not always be feasible in practice, e.g., when multiple instances of the same workload have no shared state.
 
