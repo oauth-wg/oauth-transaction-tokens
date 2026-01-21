@@ -604,7 +604,7 @@ A TTS MUST exercise caution when issuing replacement Txn-Tokens, since replacing
 * MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim
 * MUST NOT issue a Txn-Token if the expiration time has passed.
 * MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the transaction token issuer.
-* SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks. 
+* SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
 * MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.
 
 # Privacy Considerations {#Privacy}
