@@ -546,7 +546,7 @@ Once the Txn-Token is determined to be valid, the workload MAY use any of the da
 # Security Considerations {#Security}
 
 ## Txn-Token Replay Risks {#lifetime}
-A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime MUST be kept short and follow the guidance given in {{txn-token-lifetime}}.
+A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is discovered by an attacker (e.g. if it is stored in a file), and then replayed. For this reason, a Txn-Token lifetime MUST be kept short and follow the guidance given in {{txn-token-lifetime}}.
 
 {{replace}} describes the TTS responsibilities when replacing a Txn-Token, including guidance to minimize the risk of replaying a Txn-Token to obtain one with an extended expiry.
 
