@@ -170,8 +170,8 @@ The TTS responds to a successful invocation by generating a Txn-Token. The calli
 
 If the requesting service does not have an inbound token that it can use in its request to the TTS, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.
 
-# Txn-Token Lifetime
-Txn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT)  presented to the TTS when requesting a Txn-Token has an expiration time, then the TTS MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token. The expectation is that since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token.
+# Txn-Token Lifetime {#txn-token-lifetime}
+Txn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT) presented to the TTS when requesting a Txn-Token has an expiration time, then the TTS MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token, subject to the policy of the transaction token issuer. Since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token (see {{lifetime}}).
 
 # Benefits of Txn-Tokens
 Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call.
@@ -464,7 +464,7 @@ A requester MAY use a self-signed JWT as a `subject_token` value. In that case, 
 * `sub`: The subject for whom the Txn-Token is being requested. The TTS SHALL use this value in determining the `sub` value in the Txn-Token issued in the response to this request.
 * `aud`: The unique identifier of the TTS. The TTS SHALL verify that this value matches its own unique identifier.
 * `iat`: The time at which the self-signed JWT was created. Note that the TTS may reject self-signed tokens with an `iat` value that is unreasonably far in the past or future.
-* `exp`: The expiration time for the JWT. {{lifetime}} provides guidance on setting the expiry of a Txn-Token.
+* `exp`: The expiration time for the JWT. {{txn-token-lifetime}} provides guidance on setting the expiry of a Txn-Token.
 
 The self-signed JWT MAY contain other claims.
 
@@ -545,10 +545,20 @@ Once the Txn-Token is determined to be valid, the workload MAY use any of the da
 
 # Security Considerations {#Security}
 
-## Txn-Token Lifetime {#lifetime}
-A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime must be kept short, not exceeding the lifetime of a call-chain. Even for long-running "batch" jobs, a longer-lived access token should be used to initiate the request to the batch endpoint. It then obtains short-lived Txn-Tokens that may be used to authorize the call to downstream services in the call-chain.
+## Txn-Token Replay Risks {#lifetime}
+A Txn-Token is not resistant to replay attacks. A long-lived Txn-Token therefore represents a risk if it is stored in a file, discovered by an attacker, and then replayed. For this reason, a Txn-Token lifetime MUST be kept short and follow the guidance given in {{txn-token-lifetime}}.
 
-Because Txn-Tokens are short-lived, the Txn-Token response from the TTS does not contain the `refresh_token` field. A Txn-Token cannot be issued by presenting a `refresh_token`.
+{{replace}} describes the TTS responsibilities when replacing a Txn-Token, including guidance to minimize the risk of replaying a Txn-Token to obtain one with an extended expiry.
+
+The use of a unique transaction identifier (`txn` claim) allows for discovery of Txn-Token replay as described in {{uti}}.
+
+## Unique Transaction Identifier {#uti}
+A Txn-Token conveys user identity and authorization context across workloads in a call chain. The `txn` claim is a unique identifier that, when logged by the TTS and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain. 
+
+A workload receiving a Txn-Token can store the `txn` value of each Txn-Token for the time window in which the Txn-Token would be accepted to prevent multiple uses of the same Txn-Token. Requests to the same workload for which the jti value has been seen before would be declined. When strictly enforced, such a single-use check provides a very strong protection against Txn-Token replay, but it may not always be feasible in practice, e.g., when multiple instances of the same workload have no shared state.
+
+## Refresh Tokens
+OAuth refresh tokens are used only to obtain access tokens as defined in {{RFC6749}} and MUST NOT be used to request transaction tokens (see {{subject-token-types}}. Since Txn-Tokens are short-lived ({{txn-token-lifetime}}), the Txn-Token response from the TTS MUST NOT include a refresh token (see {{txn-token-response}}).
 
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
@@ -561,9 +571,6 @@ If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 To
 
 ## Scope Processing
 The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the TTS. The TTS MUST ensure that the requested `scope` of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`.
-
-## Unique Transaction Identifier
-A transaction token conveys user identity and authorization context across workloads in a call chain. The `txn` claim is a unique identifier that, when logged by the TTS and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain.
 
 ## TTS Discovery
 A workload may use various mechanisms to determine which instance of a TTS to interact with. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to an instance of a TTS under it's control. Such a service could be used to collect Access Tokens sent as part of the Transaction Token Request message.
@@ -582,7 +589,7 @@ The TTS may need to rotate signing keys. When doing so, it MAY adopt the key rot
 ## Transaction Tokens Are Not Authentication Credentials
 A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in {{Mutual-Authentication}}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.
 
-## Replacing Transaction Tokens
+## Replacing Transaction Tokens {#replace}
 A service within a call chain may choose to replace the Txn-Token. This can typically happen if the service wants to change (add to, remove, or modify) the context of the current Txn-Token
 
 To get a replacement Txn-Token, a service will request a new Txn-Token from the TTS and provide the current Txn-Token and other parameters in the request.
@@ -595,7 +602,8 @@ A TTS MUST exercise caution when issuing replacement Txn-Tokens, since replacing
 * MUST NOT enable modification to asserted values that expand the scope of permitted actions
 * MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request
 * MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim
-* SHOULD NOT issue replacement Txn-token with lifetime exceeding the lifetime of the originally presented token
+* MUST NOT issue a Txn-Token if the expiration time has passed.
+* MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the originally presented token and MAY limit the number of times a Txn-Token is replaced to reduce replay risks, subject to the policy of the transaction token issuer.
 * MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.
 
 # Privacy Considerations {#Privacy}
