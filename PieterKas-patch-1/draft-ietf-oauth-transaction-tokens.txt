@@ -953,8 +953,8 @@ Table of Contents
 
 14.3.  Refresh Tokens
 
-   OAuth refresh tokens are used only to obtain access tokens as defined
-   in [RFC6749] and MUST NOT be used to request transaction tokens (see
+   OAuth refresh tokens are used to obtain access tokens as defined in
+   [RFC6749] and MUST NOT be used to request transaction tokens (see
    Section 12.2.  Since Txn-Tokens are short-lived (Section 7), the Txn-
    Token response from the TTS MUST NOT include a refresh token (see
    Section 12.4).
