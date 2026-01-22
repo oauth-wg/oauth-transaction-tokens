@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-20T00:20:27.372187+00:00",
+  "timestamp": "2026-01-22T00:22:10.525076+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -18995,13 +18995,60 @@
       "labels": [],
       "body": "Updated terminology for consistency and clarity throughout the document, specifically changing 'call chain' to 'Call Chain' and ensuring proper capitalization.\r\n\r\nI updated the terminology definition for `Call Chain` and `Subject Token Types`.\r\n\r\nCarefull review required.",
       "createdAt": "2026-01-16T19:07:35Z",
-      "updatedAt": "2026-01-16T19:11:38Z",
+      "updatedAt": "2026-01-21T11:33:03Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "4c2946b4af0f34da37118b69325c38c913f5f79a",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_284",
       "headRefOid": "57e89c0680f4cbcfd2fcd45b5cdfce2f93bb3a8a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7bvttY",
+          "commit": {
+            "abbreviatedOid": "57e89c0"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-21T11:33:02Z",
+          "updatedAt": "2026-01-21T11:33:03Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "The previous definition talks about the sequence of invocations as the call chain (regardless of whether there is one or many workloads involved). The new definition talks about workloads as the thing that should be counted, regardless of invocations.\r\n\r\nIs the call chain just the workloads involved, or also the individual calls? e.g. if there are 10 APIs supported by a workload B and workload A calls those 10 different APIs seperately, is there one call chain, or 10? I typically thought about the call chain as the invocations, regardless of the workload(s) implementing them (one workload implementing 10 APIs, or 10 workloads, each implementing their own. \r\n\r\nMy mental model was more towards invocations or API callss, regardless of whether the workloads running them were seperate or a single one. So I was thinking more about this as the logical calls made than the way in which i was implemented.",
+              "createdAt": "2026-01-21T11:33:03Z",
+              "updatedAt": "2026-01-21T11:33:03Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 305,
+      "id": "PR_kwDOJt_WwM6-dC9O",
+      "title": "Update Txn-Token lifetime and replay risk sections",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/305",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #277",
+      "createdAt": "2026-01-21T13:31:55Z",
+      "updatedAt": "2026-01-21T13:48:30Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "4c2946b4af0f34da37118b69325c38c913f5f79a",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "5feaa9b263445429ac011451710cde606b90a3be",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
