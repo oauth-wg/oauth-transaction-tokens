@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 25 July 2026                             Practical Identity LLC
+Expires: 27 July 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         21 January 2026
+                                                         23 January 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 July 2026.
+   This Internet-Draft will expire on 27 July 2026.
 
 Copyright Notice
 
@@ -1082,7 +1082,8 @@ Table of Contents
    *  MUST NOT remove any of the existing requesting workload
       identifiers from the req_wl claim
 
-   *  MUST NOT issue a Txn-Token if the expiration time has passed.
+   *  MUST NOT issue a new Txn-Token when the Txn-Token being replaced
+      has expired.
 
    *  MAY issue a replacement Txn-Token with a lifetime exceeding the
       lifetime of the input Txn-Token, subject to the policy of the
