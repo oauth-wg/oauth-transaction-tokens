@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-22T00:22:10.525076+00:00",
+  "timestamp": "2026-01-25T00:23:29.278938+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6057,7 +6057,7 @@
       ],
       "body": "From: Yaron ZEHAVI <yaron.zehavi@rbinternational.com>\n\nImagine single-use access tokens, such as the result of an OAuth + RAR request, representing approval of a specific state changing operation, such as a token representing a payment approval.\n\nBefore the pattern offered by Transaction Tokens draft, that access token might have traversed different application layer, and once reaching the resource server performing the state changing operation, that RS would have ensured its single-use by, for example, recording the token\u2019s jti, enabling replay prevention.\n\n \n\nHow shall such solution patterns work with the Transaction Tokens draft?\n\nI\u2019m concerned adding transaction tokens breaks current replay prevention techniques, in case a single-use token is presented multiple times to an ingress endpoint which requests transaction tokens, resulting in multiple instances of that token with changing jti.\n\n \n\nPerhaps some language is needed for claims transcription in such use cases to maintain specific original values such as jti.",
       "createdAt": "2025-12-30T16:57:46Z",
-      "updatedAt": "2026-01-16T15:43:50Z",
+      "updatedAt": "2026-01-22T19:29:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -6066,6 +6066,13 @@
           "body": "I think of Transaction Tokens as being inherently \u201cone-time-use\u201d tokens from the perspective of the transaction. When the transaction is complete, then the tokens are not longer valid. A mechanism to support this could be to record the `txn` claim in a \u201cDB\" that could be checked on receipt of a transaction token. The `txn` claim functions similar to the `jti` claim. \n\nAdditionally, adding the originating `jti` of the access token in the `tctx` to make it immutable is also valid and allows for determining if the originating access token is still valid. There are performance considerations to these additional checks but they are all viable. \n\nI wonder if adding something to the security considerations would be valuable.",
           "createdAt": "2025-12-31T16:51:13Z",
           "updatedAt": "2025-12-31T16:51:13Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I wrote some text for this, but ended up deleting it. \n\nFirst of all, I am unsure how common single use access tokens are. I can imagine the same access token being used to make multiple requests (different transactions). Secondly, if they are supposed to be single use, the single use should be enforced at the gateway. If the gateway fails to enforce this, having traceability in the transaction tokens provides a kind of audit trail (which could be more easily maintained at the transaction token service by keeping an audit log of the jti's of tokens used to issue transaction tokens. Including the jti in the transaction token feels like a third order mitigation as it now requires all workloads to be keeping track of something beyond the txn claim. \n\nThere is nothing preventing this from being done by implementers, but it also seems like a lot of overhead with minimal gain compared to other mechanisms for ensuring single use access tokens. \n\nI propose we close this issue - at least for the moment - as I am not convinced the additional complexity is worth the gain, when even tracking a txn claim may be hard.\n\n@tulshi @gffletch - would love to hear your take on this as well.\n",
+          "createdAt": "2026-01-22T19:29:11Z",
+          "updatedAt": "2026-01-22T19:29:11Z"
         }
       ]
     }
@@ -18995,7 +19002,7 @@
       "labels": [],
       "body": "Updated terminology for consistency and clarity throughout the document, specifically changing 'call chain' to 'Call Chain' and ensuring proper capitalization.\r\n\r\nI updated the terminology definition for `Call Chain` and `Subject Token Types`.\r\n\r\nCarefull review required.",
       "createdAt": "2026-01-16T19:07:35Z",
-      "updatedAt": "2026-01-21T11:33:03Z",
+      "updatedAt": "2026-01-23T00:48:15Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "4c2946b4af0f34da37118b69325c38c913f5f79a",
@@ -19027,6 +19034,32 @@
               "updatedAt": "2026-01-21T11:33:03Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7bEsuJ",
+          "commit": {
+            "abbreviatedOid": "57e89c0"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-18T12:11:09Z",
+          "updatedAt": "2026-01-23T00:48:15Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "\"passes\" is correct? I'm not sure why that word has changed. ",
+              "createdAt": "2026-01-18T12:11:09Z",
+              "updatedAt": "2026-01-23T00:48:15Z"
+            },
+            {
+              "originalPosition": 23,
+              "body": "I think the call chain should be about the invocations and the workloads. So in Pieter's example, if an external invocation E1 results in say, invocation of API A1 at Workload A, and A1 invokes API B1 at Workload B, and invokes API B2 at Workload B, then the call chain, in my mind, is:  E1->A1->B1, and E1->A1->B2 (probably better thought of as a call tree than a call chain).",
+              "createdAt": "2026-01-23T00:47:25Z",
+              "updatedAt": "2026-01-23T00:48:15Z"
+            }
+          ]
         }
       ]
     },
@@ -19042,19 +19075,80 @@
       "labels": [],
       "body": "See issue #277",
       "createdAt": "2026-01-21T13:31:55Z",
-      "updatedAt": "2026-01-21T13:48:30Z",
+      "updatedAt": "2026-01-23T12:00:27Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "4c2946b4af0f34da37118b69325c38c913f5f79a",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
-      "headRefOid": "5feaa9b263445429ac011451710cde606b90a3be",
+      "headRefOid": "6ed37df2f35bb85aabf993d83b988017dd52baa7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7cQMiv",
+          "commit": {
+            "abbreviatedOid": "5feaa9b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T00:41:17Z",
+          "updatedAt": "2026-01-23T00:42:09Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "If the expiration time *of the input Txn-Token* has passed?",
+              "createdAt": "2026-01-23T00:41:17Z",
+              "updatedAt": "2026-01-23T00:42:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7cXh6H",
+          "commit": {
+            "abbreviatedOid": "5feaa9b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T11:54:15Z",
+          "updatedAt": "2026-01-23T11:54:15Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "Yes. Let me clarify.",
+              "createdAt": "2026-01-23T11:54:15Z",
+              "updatedAt": "2026-01-23T11:54:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7cXm7g",
+          "commit": {
+            "abbreviatedOid": "5feaa9b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-23T12:00:27Z",
+          "updatedAt": "2026-01-23T12:00:27Z",
+          "comments": [
+            {
+              "originalPosition": 68,
+              "body": "@tulshi - take a look and see if that reads better.",
+              "createdAt": "2026-01-23T12:00:27Z",
+              "updatedAt": "2026-01-23T12:00:27Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
