@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 20 July 2026                             Practical Identity LLC
+Expires: 29 July 2026                             Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         16 January 2026
+                                                         25 January 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 20 July 2026.
+   This Internet-Draft will expire on 29 July 2026.
 
 Copyright Notice
 
@@ -103,19 +103,20 @@ Table of Contents
      13.1.  Txn-Token HTTP Header
      13.2.  Txn-Token Validation
    14. Security Considerations
-     14.1.  Txn-Token Lifetime
-     14.2.  Access Tokens
-     14.3.  Subject Token Types
-     14.4.  Use of 'actor_token'
-     14.5.  Scope Processing
-     14.6.  Unique Transaction Identifier
-     14.7.  TTS Discovery
-     14.8.  Workload Configuration Protection
-     14.9.  TTS Authentication
-     14.10. TTS Key Rotation
-     14.11. Transaction Tokens Are Not Authentication Credentials
-     14.12. Replacing Transaction Tokens
-       14.12.1.  TTS Responsibilities
+     14.1.  Txn-Token Replay Risks
+     14.2.  Unique Transaction Identifier
+     14.3.  Refresh Tokens
+     14.4.  Access Tokens
+     14.5.  Subject Token Types
+     14.6.  Use of 'actor_token'
+     14.7.  Scope Processing
+     14.8.  TTS Discovery
+     14.9.  Workload Configuration Protection
+     14.10. TTS Authentication
+     14.11. TTS Key Rotation
+     14.12. Transaction Tokens Are Not Authentication Credentials
+     14.13. Replacing Transaction Tokens
+       14.13.1.  TTS Responsibilities
    15. Privacy Considerations
      15.1.  Obfuscation of Personal Information
      15.2.  Logging
@@ -292,13 +293,14 @@ Table of Contents
    (e.g. self-signed JWT) presented to the TTS when requesting a Txn-
    Token has an expiration time, then the TTS MUST NOT issue a Txn-Token
    if the expiration time has passed.  The lifetime of the Txn-Token
-   itself MAY exceed the expiration time of the presented token.  The
-   expectation is that since Txn-Tokens are short lived and are
-   authorizing a specific transaction, extending beyond the lifetime of
-   the presented expiration time is not a security risk.  If a long-
-   running process such as a batch or offline task is involved, the
-   mechanism used to perform the external or internal invocation still
-   results in a short-lived Txn-Token.
+   itself MAY exceed the expiration time of the presented token, subject
+   to the policy of the transaction token issuer.  Since Txn-Tokens are
+   short lived and are authorizing a specific transaction, extending
+   beyond the lifetime of the presented expiration time is not a
+   security risk.  If a long-running process such as a batch or offline
+   task is involved, the mechanism used to perform the external or
+   internal invocation still results in a short-lived Txn-Token (see
+   Section 14.1).
 
 8.  Benefits of Txn-Tokens
 
@@ -750,8 +752,8 @@ Table of Contents
       the TTS may reject self-signed tokens with an iat value that is
       unreasonably far in the past or future.
 
-   *  exp: The expiration time for the JWT.  Section 14.1 provides
-      guidance on setting the expiry of a Txn-Token.
+   *  exp: The expiration time for the JWT.  Section 7 provides guidance
+      on setting the expiry of a Txn-Token.
 
    The self-signed JWT MAY contain other claims.
 
@@ -917,22 +919,47 @@ Table of Contents
 
 14.  Security Considerations
 
-14.1.  Txn-Token Lifetime
+14.1.  Txn-Token Replay Risks
 
    A Txn-Token is not resistant to replay attacks.  A long-lived Txn-
-   Token therefore represents a risk if it is stored in a file,
-   discovered by an attacker, and then replayed.  For this reason, a
-   Txn-Token lifetime must be kept short, not exceeding the lifetime of
-   a call-chain.  Even for long-running "batch" jobs, a longer-lived
-   access token should be used to initiate the request to the batch
-   endpoint.  It then obtains short-lived Txn-Tokens that may be used to
-   authorize the call to downstream services in the call-chain.
+   Token therefore represents a risk if it is discovered by an attacker
+   (e.g. if it is stored in a file), and then replayed.  For this
+   reason, a Txn-Token lifetime MUST be kept short and follow the
+   guidance given in Section 7.
 
-   Because Txn-Tokens are short-lived, the Txn-Token response from the
-   TTS does not contain the refresh_token field.  A Txn-Token cannot be
-   issued by presenting a refresh_token.
+   Section 14.13 describes the TTS responsibilities when replacing a
+   Txn-Token, including guidance to minimize the risk of replaying a
+   Txn-Token to obtain one with an extended expiry.
 
-14.2.  Access Tokens
+   The use of a unique transaction identifier (txn claim) allows for
+   discovery of Txn-Token replay as described in Section 14.2.
+
+14.2.  Unique Transaction Identifier
+
+   A Txn-Token conveys user identity and authorization context across
+   workloads in a call chain.  The txn claim is a unique identifier
+   that, when logged by the TTS and workloads, enables discovery and
+   auditing of successful and failed transactions.  The txn value SHOULD
+   be unique within the Trust Domain.
+
+   A workload receiving a Txn-Token can store the txn value of each Txn-
+   Token for the time window in which the Txn-Token would be accepted to
+   prevent multiple uses of the same Txn-Token.  Requests to the same
+   workload for which the txn value has been seen before would be
+   declined.  When strictly enforced, such a single-use check provides a
+   very strong protection against Txn-Token replay, but it may not
+   always be feasible in practice, e.g., when multiple instances of the
+   same workload have no shared state.
+
+14.3.  Refresh Tokens
+
+   OAuth refresh tokens are used to obtain access tokens as defined in
+   [RFC6749] and MUST NOT be used to request transaction tokens (see
+   Section 12.2.  Since Txn-Tokens are short-lived (Section 7), the Txn-
+   Token response from the TTS MUST NOT include a refresh token (see
+   Section 12.4).
+
+14.4.  Access Tokens
 
    When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access
    Token presented to the external endpoint.  If an Access Token is
@@ -942,7 +969,7 @@ Table of Contents
    this attack since the Access Token may remain valid even after the
    Txn-Token has expired.
 
-14.3.  Subject Token Types
+14.5.  Subject Token Types
 
    A service requesting a Txn-Token SHOULD provide an incoming token if
    it has one that it used itself to authorize a caller, and if it
@@ -952,14 +979,14 @@ Table of Contents
    or any other format to represent the details of the requester to the
    TTS.
 
-14.4.  Use of 'actor_token'
+14.6.  Use of 'actor_token'
 
    If using the actor_token and actor_token_type parameters of the OAuth
    2.0 Token Exchange specification [RFC8693], both parameters MUST be
    present in the request.  The actor_token can authenticate the
    identity of the requesting workload.
 
-14.5.  Scope Processing
+14.7.  Scope Processing
 
    The authorization model within a Trust Domain boundary may be quite
    different from the authorization model (e.g. OAuth scopes) used with
@@ -968,15 +995,7 @@ Table of Contents
    MUST ensure that the requested scope of the Txn-Token is equal or
    less than the scope(s) identified in the subject_token.
 
-14.6.  Unique Transaction Identifier
-
-   A transaction token conveys user identity and authorization context
-   across workloads in a call chain.  The txn claim is a unique
-   identifier that, when logged by the TTS and workloads, enables
-   discovery and auditing of successful and failed transactions.  The
-   txn value SHOULD be unique within the Trust Domain.
-
-14.7.  TTS Discovery
+14.8.  TTS Discovery
 
    A workload may use various mechanisms to determine which instance of
    a TTS to interact with.  Workloads MUST retrieve configuration
@@ -995,7 +1014,7 @@ Table of Contents
    signatures or message authentication codes MAY be used to detect any
    tampering with the configuration information.
 
-14.8.  Workload Configuration Protection
+14.9.  Workload Configuration Protection
 
    A deployment may include multiple instances of a TTS to improve
    resiliency, reduce latency and enhance scalability.  A workload may
@@ -1006,7 +1025,7 @@ Table of Contents
    denial of service attack or degrade the performance of a system by
    removing an instance of a TTS from the workload configuration.
 
-14.9.  TTS Authentication
+14.10.  TTS Authentication
 
    A workload may accidently send a transaction token request to a
    service that is not a TTS, or an attacker may attempt to impersonate
@@ -1017,12 +1036,12 @@ Table of Contents
    that it authenticates the TTS and only contact instances of the TTS
    that is authorized to issue transaction tokens.
 
-14.10.  TTS Key Rotation
+14.11.  TTS Key Rotation
 
    The TTS may need to rotate signing keys.  When doing so, it MAY adopt
    the key rotation practices in Section 10.1.1 of [OpenIdConnect].
 
-14.11.  Transaction Tokens Are Not Authentication Credentials
+14.12.  Transaction Tokens Are Not Authentication Credentials
 
    A workload MUST NOT use a transaction token to authenticate itself to
    another workload, service or the TTS.  Transaction tokens represents
@@ -1032,7 +1051,7 @@ Table of Contents
    to authenticate to other workloads, services or system components is
    out of scope of this specification.
 
-14.12.  Replacing Transaction Tokens
+14.13.  Replacing Transaction Tokens
 
    A service within a call chain may choose to replace the Txn-Token.
    This can typically happen if the service wants to change (add to,
@@ -1042,7 +1061,7 @@ Table of Contents
    Token from the TTS and provide the current Txn-Token and other
    parameters in the request.
 
-14.12.1.  TTS Responsibilities
+14.13.1.  TTS Responsibilities
 
    A TTS MUST exercise caution when issuing replacement Txn-Tokens,
    since replacing Txn-Tokens with arbitrary values negates the primary
@@ -1063,8 +1082,16 @@ Table of Contents
    *  MUST NOT remove any of the existing requesting workload
       identifiers from the req_wl claim
 
-   *  SHOULD NOT issue replacement Txn-token with lifetime exceeding the
-      lifetime of the originally presented token
+   *  MUST NOT issue a new Txn-Token when the Txn-Token being replaced
+      has expired.
+
+   *  MAY issue a replacement Txn-Token with a lifetime exceeding the
+      lifetime of the input Txn-Token, subject to the policy of the
+      transaction token issuer.
+
+   *  SHOULD limit the number of times a Txn-Token is replaced if it
+      allows extending the lifetime beyond that of the input Txn-Token
+      to reduce replay risks.
 
    *  MUST append the workload identifier of the workload requesting the
       replacement to the req_wl claim using the character , as the
