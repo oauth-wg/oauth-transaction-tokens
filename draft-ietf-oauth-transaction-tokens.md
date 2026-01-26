@@ -136,7 +136,7 @@ External Endpoint:
 : A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be acccessed through a gateway service as described in the WIMSE architecture {{?I-D.ietf-wimse-arch}}.
 
 Call Chain:
-: The sequence of workloads invoked to complete the requested transaction.
+: The set of invocations across all workloads invoked to complete the requested transaction.
 
 Transaction Token (Txn-Token):
 : A signed JWT with a short lifetime, providing immutable information about the user or workload, certain parameters of the call, and specific contextual attributes of the call. The Txn-Token is used to authorize subsequent calls in the Call Chain.
@@ -145,7 +145,7 @@ Transaction Token Service (TTS):
 : A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical TTS.
 
 # What are Transaction Tokens?
-Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of the transaction as it passese through the Call Chain.
+Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of the transaction as it passes through the Call Chain.
 
 ## Authorization Context
 Authorization context includes information used for authorization, accounting and auditing purposes and often contains information about the request being made. A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.
