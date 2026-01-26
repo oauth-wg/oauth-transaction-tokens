@@ -609,11 +609,8 @@ A TTS MUST exercise caution when issuing replacement Txn-Tokens, since replacing
 
 # Privacy Considerations {#Privacy}
 
-## Obfuscation of Personal Information
-Some `rctx` and `tctx` claims may be considered personal information in some jurisdictions
-and if so their values need to be obfuscated. For example, originating IP address
-(`req_ip`) is often considered personal information and in that case must be
-protected through some obfuscation method (e.g. salted SHA256).
+## Handling of Personal Information
+Claims contained within transaction tokens may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values should be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and therefore must be handled according to juristictional requirements.
 
 ## Logging
 Complete Txn-Tokens MUST NOT be logged verbatim. This is in order to prevent replay of tokens or leakage of PII or other sensitive information via log files. A hash of the Txn-Token may be logged to allow for correlation with the log files of the TTS that records issued tokens. Alternatively the JWS payload of a Txn-Token may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.
@@ -721,6 +718,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)
 * Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)
 * Updated Acknpwledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)
+* Rewrote the 'Handling of Personal Information' section of Privacy Considerations (https://github.com/oauth-wg/oauth-transaction-tokens/issues/290)
 
 ## Since Draft 05
 {:numbered="false"}
