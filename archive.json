@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-25T00:23:29.278938+00:00",
+  "timestamp": "2026-01-27T00:22:36.743025+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -5861,7 +5861,7 @@
       "id": "I_kwDOJt_WwM7W1BoJ",
       "title": "Update Transaction Token Lifetime Guidance",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/277",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5872,8 +5872,8 @@
       ],
       "body": "Currently we do not allow transaction tokens to exceed the lifetime of the original access token, Consequently we advise that Access tokens be longer lived. Now that we allow for extension of transaction token lifetimes, we need to revise this guidance.",
       "createdAt": "2025-11-09T00:10:12Z",
-      "updatedAt": "2026-01-16T15:49:29Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-26T01:08:48Z",
+      "closedAt": "2026-01-26T01:08:48Z",
       "comments": [
         {
           "author": "gffletch",
@@ -5902,6 +5902,13 @@
           "body": "We will allow extension of transaction token lifetimes. In essence, I think we are looking at langugage along the lines of \"the transaction token lifetime is subject to the policy of the transaction token service\" followed by security considerations type discussion on the risks of allowing it to be extended and perhaps some mitigations like limiting the number of times it may be extended and so on.",
           "createdAt": "2025-11-12T22:39:56Z",
           "updatedAt": "2025-11-12T22:39:56Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed by: https://github.com/oauth-wg/oauth-transaction-tokens/pull/305",
+          "createdAt": "2026-01-26T01:08:48Z",
+          "updatedAt": "2026-01-26T01:08:48Z"
         }
       ]
     },
@@ -5943,7 +5950,7 @@
       "id": "I_kwDOJt_WwM7Yiytr",
       "title": "Capitalise Call Chain",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/284",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -5954,8 +5961,8 @@
       ],
       "body": "We define Call Chain early in the document, but then use call chain. Consider capitalisation of Call Chain where appropriate to make ise of formal definition.",
       "createdAt": "2025-11-17T11:52:02Z",
-      "updatedAt": "2026-01-16T15:49:58Z",
-      "closedAt": null,
+      "updatedAt": "2026-01-26T19:31:34Z",
+      "closedAt": "2026-01-26T19:31:33Z",
       "comments": [
         {
           "author": "gffletch",
@@ -5984,6 +5991,13 @@
           "body": "The rule I have filed away is that if you explicitly use the term in the context of the definition, you capitalise- if your using it outside that, you don't. Having said that- looking at other specs is probably. a better way as I am neither a native speaker, nor claim any mastery of the English language.",
           "createdAt": "2025-11-17T17:43:16Z",
           "updatedAt": "2025-11-17T17:43:16Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Resolved by PR #304 ",
+          "createdAt": "2026-01-26T19:31:34Z",
+          "updatedAt": "2026-01-26T19:31:34Z"
         }
       ]
     },
@@ -18995,25 +19009,35 @@
       "id": "PR_kwDOJt_WwM69rtX_",
       "title": "Standardize terminology for Call Chain in document",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/304",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Updated terminology for consistency and clarity throughout the document, specifically changing 'call chain' to 'Call Chain' and ensuring proper capitalization.\r\n\r\nI updated the terminology definition for `Call Chain` and `Subject Token Types`.\r\n\r\nCarefull review required.",
       "createdAt": "2026-01-16T19:07:35Z",
-      "updatedAt": "2026-01-23T00:48:15Z",
+      "updatedAt": "2026-01-26T16:34:37Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "4c2946b4af0f34da37118b69325c38c913f5f79a",
+      "baseRefOid": "8cdc4aa6d462fce895d06247f3e9cbe3412a3877",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_284",
-      "headRefOid": "57e89c0680f4cbcfd2fcd45b5cdfce2f93bb3a8a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "00cd82bc28aed93b0e5a5e56f5949d23534f3da6",
+      "closedAt": "2026-01-26T16:34:37Z",
+      "mergedAt": "2026-01-26T16:34:37Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "b536b0943cd19ab4556aa935a1756f310a797086"
+      },
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I fixed the typo and updated the definition to hopefully capture the conversation. I'll resolve conflicts next.",
+          "createdAt": "2026-01-26T15:20:21Z",
+          "updatedAt": "2026-01-26T15:20:21Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7bvttY",
@@ -19060,6 +19084,99 @@
               "updatedAt": "2026-01-23T00:48:15Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7c7JyN",
+          "commit": {
+            "abbreviatedOid": "57e89c0"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-26T15:13:06Z",
+          "updatedAt": "2026-01-26T15:13:06Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "For me... I think of the call chain as all necessary invocations required to complete the requested transaction. I agree it is really a call \"tree\" rather than a linear chain.",
+              "createdAt": "2026-01-26T15:13:06Z",
+              "updatedAt": "2026-01-26T15:13:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7c7KM7",
+          "commit": {
+            "abbreviatedOid": "57e89c0"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-26T15:13:29Z",
+          "updatedAt": "2026-01-26T15:13:30Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "I'm not sure either. Thanks for the correction.",
+              "createdAt": "2026-01-26T15:13:29Z",
+              "updatedAt": "2026-01-26T15:13:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7c7kK1",
+          "commit": {
+            "abbreviatedOid": "00cd82b"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-26T15:30:08Z",
+          "updatedAt": "2026-01-26T15:30:08Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "Do we want to remove this ? or leave it in? @tulshi ",
+              "createdAt": "2026-01-26T15:30:08Z",
+              "updatedAt": "2026-01-26T15:30:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7c8tNZ",
+          "commit": {
+            "abbreviatedOid": "00cd82b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-01-26T16:34:03Z",
+          "updatedAt": "2026-01-26T16:34:04Z",
+          "comments": [
+            {
+              "originalPosition": 83,
+              "body": "We should remove it, I think. ",
+              "createdAt": "2026-01-26T16:34:04Z",
+              "updatedAt": "2026-01-26T16:34:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7c8tjh",
+          "commit": {
+            "abbreviatedOid": "00cd82b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-26T16:34:24Z",
+          "updatedAt": "2026-01-26T16:34:24Z",
+          "comments": []
         }
       ]
     },
@@ -19068,24 +19185,26 @@
       "id": "PR_kwDOJt_WwM6-dC9O",
       "title": "Update Txn-Token lifetime and replay risk sections",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/305",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #277",
       "createdAt": "2026-01-21T13:31:55Z",
-      "updatedAt": "2026-01-23T12:00:27Z",
+      "updatedAt": "2026-01-25T05:59:27Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "4c2946b4af0f34da37118b69325c38c913f5f79a",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "6ed37df2f35bb85aabf993d83b988017dd52baa7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-01-25T05:59:25Z",
+      "mergedAt": "2026-01-25T05:59:25Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "8cdc4aa6d462fce895d06247f3e9cbe3412a3877"
+      },
       "comments": [],
       "reviews": [
         {
@@ -19147,8 +19266,47 @@
               "updatedAt": "2026-01-23T12:00:27Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7cu6o6",
+          "commit": {
+            "abbreviatedOid": "6ed37df"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-01-25T05:59:04Z",
+          "updatedAt": "2026-01-25T05:59:04Z",
+          "comments": []
         }
       ]
+    },
+    {
+      "number": 306,
+      "id": "PR_kwDOJt_WwM6_ZMYp",
+      "title": "Revise handling of personal information in Privacy section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/306",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Rewrote the 'Handling of Personal Information' section to clarify the treatment of personal information in transaction tokens.",
+      "createdAt": "2026-01-26T15:41:48Z",
+      "updatedAt": "2026-01-26T15:41:48Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8cdc4aa6d462fce895d06247f3e9cbe3412a3877",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_290",
+      "headRefOid": "abbac5118473aad6066312c47ee10b1a01c2c1a2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
