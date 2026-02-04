@@ -1049,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">January 2026</td>
+<td class="right">February 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 30 July 2026</td>
+<td class="center">Expires 8 August 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-26" class="published">26 January 2026</time>
+<time datetime="2026-02-04" class="published">4 February 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-30">30 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-08-08">8 August 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1318,7 +1318,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1">
-                <p id="section-toc.1-1.15.2.1.1"><a href="#section-15.1" class="auto internal xref">15.1</a>.  <a href="#name-obfuscation-of-personal-inf" class="internal xref">Obfuscation of Personal Information</a></p>
+                <p id="section-toc.1-1.15.2.1.1"><a href="#section-15.1" class="auto internal xref">15.1</a>.  <a href="#name-handling-of-personal-inform" class="internal xref">Handling of Personal Information</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2">
                 <p id="section-toc.1-1.15.2.2.1"><a href="#section-15.2" class="auto internal xref">15.2</a>.  <a href="#name-logging" class="internal xref">Logging</a></p>
@@ -2320,15 +2320,12 @@ Cache-Control: no-store
       <h2 id="name-privacy-considerations">
 <a href="#section-15" class="section-number selfRef">15. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<div id="obfuscation-of-personal-information">
+<div id="handling-of-personal-information">
 <section id="section-15.1">
-        <h3 id="name-obfuscation-of-personal-inf">
-<a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-obfuscation-of-personal-inf" class="section-name selfRef">Obfuscation of Personal Information</a>
+        <h3 id="name-handling-of-personal-inform">
+<a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-handling-of-personal-inform" class="section-name selfRef">Handling of Personal Information</a>
         </h3>
-<p id="section-15.1-1">Some <code>rctx</code> and <code>tctx</code> claims may be considered personal information in some jurisdictions
-and if so their values need to be obfuscated. For example, originating IP address
-(<code>req_ip</code>) is often considered personal information and in that case must be
-protected through some obfuscation method (e.g. salted SHA256).<a href="#section-15.1-1" class="pilcrow">¶</a></p>
+<p id="section-15.1-1">Claims contained within transaction tokens may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values should be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and therefore must be handled according to juristictional requirements.<a href="#section-15.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="logging">
@@ -2746,10 +2743,13 @@ protected through some obfuscation method (e.g. salted SHA256).<a href="#section
             <p id="appendix-B.1-1.24.1">Updated Acknpwledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)<a href="#appendix-B.1-1.24.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.25">
-            <p id="appendix-B.1-1.25.1">Removed text related to replacement transaction tokens<a href="#appendix-B.1-1.25.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.25.1">Rewrote the 'Handling of Personal Information' section of Privacy Considerations (https://github.com/oauth-wg/oauth-transaction-tokens/issues/290)<a href="#appendix-B.1-1.25.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.26">
-            <p id="appendix-B.1-1.26.1">Updated references to call chain to be capitalized and fixed some definitions (https://github.com/oauth-wg/oauth-transaction-tokens/issues/284)<a href="#appendix-B.1-1.26.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.26.1">Removed text related to replacement transaction tokens<a href="#appendix-B.1-1.26.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.27">
+            <p id="appendix-B.1-1.27.1">Updated references to call chain to be capitalized and fixed some definitions (https://github.com/oauth-wg/oauth-transaction-tokens/issues/284)<a href="#appendix-B.1-1.27.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

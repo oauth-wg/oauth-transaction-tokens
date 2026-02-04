@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 30 July 2026                             Practical Identity LLC
+Expires: 8 August 2026                            Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         26 January 2026
+                                                         4 February 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 July 2026.
+   This Internet-Draft will expire on 8 August 2026.
 
 Copyright Notice
 
@@ -118,7 +118,7 @@ Table of Contents
      14.13. Transaction Tokens Are Not Authentication Credentials
        14.13.1.  TTS Responsibilities
    15. Privacy Considerations
-     15.1.  Obfuscation of Personal Information
+     15.1.  Handling of Personal Information
      15.2.  Logging
    16. IANA Considerations
      16.1.  OAuth URI Subregistry Contents
@@ -1092,13 +1092,14 @@ Table of Contents
 
 15.  Privacy Considerations
 
-15.1.  Obfuscation of Personal Information
+15.1.  Handling of Personal Information
 
-   Some rctx and tctx claims may be considered personal information in
-   some jurisdictions and if so their values need to be obfuscated.  For
-   example, originating IP address (req_ip) is often considered personal
-   information and in that case must be protected through some
-   obfuscation method (e.g. salted SHA256).
+   Claims contained within transaction tokens may be considered personal
+   information (PI) or personally identifying information (PII) in some
+   jurisdictions and if so their values should be protected accordingly.
+   For example, requester IP address (req_ip) is often considered
+   personal information and therefore must be handled according to
+   juristictional requirements.
 
 15.2.  Logging
 
@@ -1468,6 +1469,10 @@ Since Draft 06
 
    *  Updated Acknpwledgement section (https://github.com/oauth-wg/
       oauth-transaction-tokens/issues/260)
+
+   *  Rewrote the 'Handling of Personal Information' section of Privacy
+      Considerations (https://github.com/oauth-wg/oauth-transaction-
+      tokens/issues/290)
 
    *  Removed text related to replacement transaction tokens
 
