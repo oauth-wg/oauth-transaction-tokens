@@ -592,7 +592,7 @@ The TTS may need to rotate signing keys. When doing so, it MAY adopt the key rot
 ## Transaction Tokens Are Not Authentication Credentials
 A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in {{Mutual-Authentication}}.
 
-### Txn-Token as a `subject_token` 
+### Txn-Token as a `subject_token`
 A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions.
