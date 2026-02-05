@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-27T00:22:36.743025+00:00",
+  "timestamp": "2026-02-05T00:26:09.287251+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6032,7 +6032,7 @@
       "id": "I_kwDOJt_WwM7YjrYa",
       "title": "Privacy consideration and obfuscation aspects",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/290",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "obfuscoder",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -6043,8 +6043,8 @@
       ],
       "body": "In section Privacy considerations it is mentioned that some data within the tokens may be considered PII and the example of the client IP address is given. Indeed, IP addresses are considered PII in quite a lot of jurisdictions. However, that doesn't necessarily mean that the IP address or any other PII must be obfuscated as it is stated in the current draft. I think this is depending on what is being done with the Txn-Token. You could even consider the subject identifier to be PII. It should be clear that when adding PII to the Txn-Token, the entire Txn-Token must be handled according to privacy preserving policies in respect to relevant jurisdictions.\n",
       "createdAt": "2025-11-17T12:56:29Z",
-      "updatedAt": "2026-01-16T15:34:05Z",
-      "closedAt": null,
+      "updatedAt": "2026-02-04T01:34:37Z",
+      "closedAt": "2026-02-04T01:34:37Z",
       "comments": [
         {
           "author": "gffletch",
@@ -6060,7 +6060,7 @@
       "id": "I_kwDOJt_WwM7gwRGb",
       "title": "Assuring single use by preserving jti from request.",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/294",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -6071,8 +6071,8 @@
       ],
       "body": "From: Yaron ZEHAVI <yaron.zehavi@rbinternational.com>\n\nImagine single-use access tokens, such as the result of an OAuth + RAR request, representing approval of a specific state changing operation, such as a token representing a payment approval.\n\nBefore the pattern offered by Transaction Tokens draft, that access token might have traversed different application layer, and once reaching the resource server performing the state changing operation, that RS would have ensured its single-use by, for example, recording the token\u2019s jti, enabling replay prevention.\n\n \n\nHow shall such solution patterns work with the Transaction Tokens draft?\n\nI\u2019m concerned adding transaction tokens breaks current replay prevention techniques, in case a single-use token is presented multiple times to an ingress endpoint which requests transaction tokens, resulting in multiple instances of that token with changing jti.\n\n \n\nPerhaps some language is needed for claims transcription in such use cases to maintain specific original values such as jti.",
       "createdAt": "2025-12-30T16:57:46Z",
-      "updatedAt": "2026-01-22T19:29:11Z",
-      "closedAt": null,
+      "updatedAt": "2026-02-03T00:35:54Z",
+      "closedAt": "2026-02-03T00:35:54Z",
       "comments": [
         {
           "author": "gffletch",
@@ -6087,6 +6087,13 @@
           "body": "I wrote some text for this, but ended up deleting it. \n\nFirst of all, I am unsure how common single use access tokens are. I can imagine the same access token being used to make multiple requests (different transactions). Secondly, if they are supposed to be single use, the single use should be enforced at the gateway. If the gateway fails to enforce this, having traceability in the transaction tokens provides a kind of audit trail (which could be more easily maintained at the transaction token service by keeping an audit log of the jti's of tokens used to issue transaction tokens. Including the jti in the transaction token feels like a third order mitigation as it now requires all workloads to be keeping track of something beyond the txn claim. \n\nThere is nothing preventing this from being done by implementers, but it also seems like a lot of overhead with minimal gain compared to other mechanisms for ensuring single use access tokens. \n\nI propose we close this issue - at least for the moment - as I am not convinced the additional complexity is worth the gain, when even tracking a txn claim may be hard.\n\n@tulshi @gffletch - would love to hear your take on this as well.\n",
           "createdAt": "2026-01-22T19:29:11Z",
           "updatedAt": "2026-01-22T19:29:11Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree, let's close it for now.",
+          "createdAt": "2026-02-03T00:35:54Z",
+          "updatedAt": "2026-02-03T00:35:54Z"
         }
       ]
     }
@@ -19287,26 +19294,55 @@
       "id": "PR_kwDOJt_WwM6_ZMYp",
       "title": "Revise handling of personal information in Privacy section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/306",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Rewrote the 'Handling of Personal Information' section to clarify the treatment of personal information in transaction tokens.",
       "createdAt": "2026-01-26T15:41:48Z",
-      "updatedAt": "2026-01-26T15:41:48Z",
+      "updatedAt": "2026-02-04T01:34:36Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "8cdc4aa6d462fce895d06247f3e9cbe3412a3877",
+      "baseRefOid": "b536b0943cd19ab4556aa935a1756f310a797086",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_290",
-      "headRefOid": "abbac5118473aad6066312c47ee10b1a01c2c1a2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "0b1d076d8d20a2ea7a678dc88c68b2a76f9bf201",
+      "closedAt": "2026-02-04T01:34:36Z",
+      "mergedAt": "2026-02-04T01:34:36Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "7080041e985a26388eecc3dfb737448315f82891"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7fDeNw",
+          "commit": {
+            "abbreviatedOid": "abbac51"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-03T00:34:08Z",
+          "updatedAt": "2026-02-03T00:34:08Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7fbWWO",
+          "commit": {
+            "abbreviatedOid": "0b1d076"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-04T01:34:29Z",
+          "updatedAt": "2026-02-04T01:34:29Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
