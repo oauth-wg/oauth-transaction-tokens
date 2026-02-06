@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 9 August 2026                            Practical Identity LLC
+Expires: 10 August 2026                           Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                         5 February 2026
+                                                         6 February 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 August 2026.
+   This Internet-Draft will expire on 10 August 2026.
 
 Copyright Notice
 
@@ -828,7 +828,7 @@ Table of Contents
 
 12.4.  Txn-Token Response
 
-   A successful response to a Txn-Token Request must include the
+   A successful response to a Txn-Token Request MUST include the
    following values defined in [RFC8693]:
 
    *  The token_type value MUST be set to N_A per guidance in OAuth 2.0
