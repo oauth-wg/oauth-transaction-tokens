@@ -92,7 +92,7 @@ informative:
     - org: Cloud Native Computing Foundation
 
 --- abstract
-Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user and workload identity and authorization context across workloads within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the Call Chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.
+Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the Call Chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.
 --- middle
 
 # Introduction
