@@ -92,7 +92,7 @@ informative:
     - org: Cloud Native Computing Foundation
 
 --- abstract
-Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity and authorization context across workloads within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the Call Chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.
+Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the Call Chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.
 --- middle
 
 # Introduction
@@ -107,7 +107,8 @@ Modern computing architectures often use multiple independently running componen
 The results of these actions are unauthorized access to resources.
 
 # Overview
-Transaction Tokens (Txn-Tokens) reduce the risks from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet facing API invocation) other transactions are initiated from within the trusted domain. Txn-Tokens apply to both externally triggered and internally invoked transactions and ensure that the user's identity or a workload that made the request is preserved throughout subsequent workload invocations.
+Transaction Tokens (Txn-Tokens) reduce the risks from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet facing API invocation) other transactions are initiated from within the trusted domain. Txn-Tokens apply to both externally triggered and internally invoked transactions and ensure that the user or workload identity that made the request is preserved throughout subsequent workload invocations.
+
 They preserve any context such as:
 
 * Parameters of the original call
@@ -145,10 +146,10 @@ Transaction Token Service (TTS):
 : A special service within the Trust Domain that issues Txn-Tokens to requesting workloads. Each Trust Domain using Txn-Tokens MUST have exactly one logical TTS.
 
 # What are Transaction Tokens?
-Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and assert an authorization context. The authorization context provides information expected to remain constant during the execution of the transaction as it passes through the Call Chain.
+Txn-Tokens are short-lived, signed JWTs {{RFC7519}} that assert the identity of a user or a workload and an authorization context. The authorization context provides information expected to remain constant during the execution of the transaction as it passes through the Call Chain.
 
 ## Authorization Context
-Authorization context includes information used for authorization, accounting and auditing purposes and often contains information about the request being made. A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped transaction token reduces the attack surface of captured and replayed transaction tokens.
+Authorization context includes information used for authorization, accounting and auditing purposes and often contains information about the request being made. A key aspect of the authorization context is the intent or purpose of the transaction, which should be as narrowly defined as possible for the given deployment. A narrowly scoped, short-lived, transaction token reduces the attack surface of captured and replayed transaction tokens.
 
 # Creating Txn-Tokens
 
@@ -158,17 +159,17 @@ Txn-Tokens are typically created when a workload is invoked using an endpoint th
 If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Transaction Token Service (TTS)) and provides context that is sufficient for it to generate a Txn-Token.
 
 The context information provided to the TTS MUST include:
-* the identification of the trust domain in which the issued Txn-Token is valid
-* a token which identifies the subject of the Txn-Token (e.g. an OAuth access token, a self-issued JWT, etc)
-* the desired authorisation scope for the issued Txn-Token
+* The identification of the trust domain in which the issued Txn-Token is valid.
+* A token which identifies the subject of the Txn-Token (e.g. an OAuth access token, a self-issued JWT, etc).
+* The desired authorisation scope for the issued Txn-Token.
 
 Additional contextual information MAY be provided such as:
-* Parameters that are required to be integrity protected for the duration of this call
-* Additional context, such as the incoming IP address, User Agent information, or other context that can help the TTS to issue the Txn-Token
+* Parameters that are required to be integrity protected for the duration of this call.
+* Additional context, such as the incoming IP address, User Agent information, or other context that can help the TTS to issue the Txn-Token.
 
 The TTS responds to a successful invocation by generating a Txn-Token. The calling workload then uses the Txn-Token to authorize its calls to subsequent workloads.
 
-If the requesting service does not have an inbound token that it can use in its request to the TTS, it generates a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.
+If the requesting service does not have an inbound token that it can use in its request to the TTS, it MAY generate a self-signed JWT and passes that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request on for itself or on behalf of a user of the system.
 
 # Txn-Token Lifetime {#txn-token-lifetime}
 Txn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT) presented to the TTS when requesting a Txn-Token has an expiration time, then the TTS MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token, subject to the policy of the transaction token issuer. Since Txn-Tokens are short lived and are authorizing a specific transaction, extending beyond the lifetime of the presented expiration time is not a security risk. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token (see {{lifetime}}).
@@ -213,14 +214,14 @@ Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload
 ~~~
 {: #fig-arch-basic title="Basic Transaction Tokens Architecture"}
 
-1. External endpoint is invoked using conventional authorization mechanism such as an OAuth 2.0 Access token
-2. External endpoint provides context and incoming authorization (e.g., access token) to the TTS
-3. TTS mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
-4. The external endpoint initiates a call to an internal workloads and provides the Txn-Token as authorization
-5. Subsequent calls to other internal workloads use the same Txn-Token to authorize calls
-6. Responses are provided to calling workloads based on successful authorization by the invoked workloads
-7. Response provided to external endpoint based on successful authorization by the invoked workload
-8. External client is provided a response to the external invocation
+1. External endpoint is invoked using conventional authorization mechanism such as an OAuth 2.0 Access token.
+2. External endpoint provides context and incoming authorization (e.g., access token) to the TTS.
+3. TTS mints a Txn-Token that provides immutable context for the transaction and returns it to the requester.
+4. The external endpoint initiates a call to an internal workload and provides the Txn-Token as authorization.
+5. Subsequent calls to other internal workloads use the same Txn-Token to authorize calls.
+6. Responses are provided to calling workloads based on successful authorization by the invoked workloads.
+7. Response provided to external endpoint based on successful authorization by the invoked workload.
+8. External client is provided a response to the external invocation.
 
 ## Internally Initiated Txn-Token Flow
 
@@ -264,9 +265,9 @@ In the diagram above, steps 5-6 are the same as in {{basic-flow}}.
 {:start="1"}
 
 1. A microservice determines that it needs to initiate a request on behalf of a user in response to a scheduled timer or other trigger.
-2. The internal microservice authenticates to the token service and makes a request for a Txn-Token. The request contains information about the transaction along with optional additional authorization credentials
-3. TTS authorizes the requester and then mints a Txn-Token that provides immutable context for the transaction and returns it to the requester
-4. The originating microservice then contacts another internal microservice and provides the Txn-Token as authorization
+2. The internal microservice authenticates to the token service and makes a request for a Txn-Token. The request contains information about the transaction along with optional additional authorization credentials.
+3. TTS authorizes the requester and then mints a Txn-Token that provides immutable context for the transaction and returns it to the requester.
+4. The originating microservice then contacts another internal microservice and provides the Txn-Token as authorization.
 
 # Txn-Token Format
 A Txn-Token is a JSON Web Token {{RFC7519}} protected by a JSON Web Signature {{RFC7515}}. The following describes the required values in a Txn-Token:
@@ -297,13 +298,13 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined.
 
 `iat`:
-: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}
+: REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}.
 
 `aud`:
 : REQUIRED This claim, defined in {{RFC7519}}, MUST identify the Trust Domain in which the Txn-Token is valid. A Txn-Token MUST NOT be accepted outside the Trust Domain identified by the `aud` claim.
 
 `exp`:
-: REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}
+: REQUIRED Expiry time of the Txn-Token as defined in {{RFC7519}}.
 
 `txn`:
 : REQUIRED A unique transaction identifier as defined in Section 2.2 of {{RFC8417}}.
@@ -329,7 +330,7 @@ The `scope` claim captures, as narrowly as possible, the purpose of this particu
 ### Requester Context {#requester-context}
 The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating requestor, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.
 
-The JSON value of the `rctx` claim MAY include any values the TTS determines are interesting to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
+The JSON value of the `rctx` claim MAY include any values the TTS determines are relevant to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
 
 * `req_ip` The IP address of the requester. This MAY be the end-user or a process that initiated the Transaction.
 * `authn` The authentication method used to identify the requester. Its value is a string that uniquely identifies the method used.
@@ -412,15 +413,15 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 * `grant_type` REQUIRED. The value MUST be set to `urn:ietf:params:oauth:grant-type:token-exchange`.
 * `audience` REQUIRED. The value MUST be set to the Trust Domain name.
 * `scope` REQUIRED. A space-delimited list of case-sensitive strings where the value(s) MUST represent the specific purpose or intent of the transaction.
-* `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn_token`
+* `requested_token_type` REQUIRED. The value MUST be `urn:ietf:params:oauth:token-type:txn_token`.
 * `subject_token` REQUIRED. The value MUST contain a token that represent the subject of the transaction. The manner in which the subject is represented in the `subject_token` depends on the `subject_token_type`. The `subject_token` MAY be:
-  - An inbound token received by an external endpoint (e.g. an API Gateway)
-  - A self-signed JWT constructed by a workload initiating a transaction
-  - An unsigned JSON object constructed by a workload initiating a transaction
-  - Any other format that is understood by the TTS
+  - An inbound token received by an external endpoint (e.g. an API Gateway).
+  - A self-signed JWT constructed by a workload initiating a transaction.
+  - An unsigned JSON object constructed by a workload initiating a transaction.
+  - Any other format that is understood by the TTS.
 
   The type of the `subject_token` field is identified by `subject_token_type`.
-* `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter
+* `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter.
 
 The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
 
@@ -479,7 +480,7 @@ The unsigned JSON object MAY contain other fields, and the TTS MAY consider them
 When the TTS receives a Txn-Token Request it:
 
 * MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested value(s). The authorization policy for determining such issuance is out of scope for this specification.
-* Next, the TTS MUST validate the `subject_token`, including verifying the signature, if it is signed.
+* The TTS MUST validate the `subject_token`, including verifying the signature, if it is signed.
 * The TTS determines the value to specify as the `sub` of the Txn-Token and MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
 * The TTS MUST set the `iat` claim to the time of issuance of the Txn-Token.
 * The TTS MUST set the `aud` claim to an identifier representing the Trust Domain of the TTS. If the TTS supports multiple Trust Domains, then it MUST determine the correct `aud` value for this request.
@@ -493,11 +494,11 @@ When the TTS receives a Txn-Token Request it:
 The TTS MAY provide additional processing and verification that is outside the scope of this specification.
 
 ## Txn-Token Response {#txn-token-response}
-A successful response to a Txn-Token Request by a TTS is called a Txn-Token Response. The following values defined in {{RFC8693}} MUST be included in the Txn-Token Response:
+A successful response to a Txn-Token Request MUST include the following values defined in {{RFC8693}}:
 
-* The `token_type` value MUST be set to `N_A` per guidance in OAuth 2.0 Token Exchange {{RFC8693}}
-* The `access_token` value MUST be the Txn-Token JWT
-* The `issued_token_type` value MUST bet set to `urn:ietf:params:oauth:token-type:txn_token`
+* The `token_type` value MUST be set to `N_A` per guidance in OAuth 2.0 Token Exchange {{RFC8693}}.
+* The `access_token` value MUST be the Txn-Token JWT.
+* The `issued_token_type` value MUST bet set to `urn:ietf:params:oauth:token-type:txn_token`.
 
 The Txn-Token Response MUST NOT include the `refresh_token` value.
 
@@ -523,7 +524,7 @@ A TTS and requesting workload MUST authenticate each other (mutual authenticatio
 
 Workloads SHOULD use the `https` scheme to secure the communication channel and authenticate the TTS. When using `https`, TLS certificates MUST be checked according to {{Section 4.3.4 of RFC9110}}. At the time of this writing, TLS version 1.3 {{RFC8446}} is the most recent version.
 
-Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed client authentication JWTs in accordance with {{RFC7523}}.
+Workloads SHOULD authenticate to a Transaction Token Server using asymmetric (public-key based) methods or signed client authentication JWTs in accordance with {{RFC7523}}, which MAY be provisioned using mechanisms such as {{SPIFFE}} or other provisioning protocols.
 
 Examples of public-key based authentication include those defined in OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens {{RFC8705}}, Workload Authentication Using Mutual TLS {{?I-D.ietf-wimse-mutual-tls}}, WIMSE Workload-to-Workload Authentication with HTTP Signatures {{?I-D.ietf-wimse-http-signature}} and WIMSE Workload Proof Token {{?I-D.ietf-wimse-wpt}}.
 
@@ -535,9 +536,10 @@ A workload that invokes another workload using HTTP and needs to present a Txn-T
 
 ## Txn-Token Validation
 A workload that receives a Txn-Token MUST evaluate the token for validity before authorizing it for activities supported by the workload. To validate the Txn-Token, the workload MUST:
-* validate the Txn-Token JWS signature
-* verify the `aud` claim identifies the trust domain of the workload
-* verify the Txn-Token is not expired
+
+* Validate the Txn-Token JWS signature.
+* Verify the `aud` claim identifies the trust domain of the workload.
+* Verify the Txn-Token is not expired.
 
 In addition, any outbound calls made by this workload MUST include the Txn-Token as it was received so that it is passed unmodified to any downstream workloads.
 
@@ -553,13 +555,13 @@ The use of a unique transaction identifier (`txn` claim) allows for discovery of
 ## Unique Transaction Identifier {#uti}
 A Txn-Token conveys user identity and authorization context across workloads in a call chain. The `txn` claim is a unique identifier that, when logged by the TTS and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain.
 
-A workload receiving a Txn-Token can store the `txn` value of each Txn-Token for the time window in which the Txn-Token would be accepted to prevent multiple uses of the same Txn-Token. Requests to the same workload for which the `txn` value has been seen before would be declined. When strictly enforced, such a single-use check provides a very strong protection against Txn-Token replay, but it may not always be feasible in practice, e.g., when multiple instances of the same workload have no shared state.
+A workload receiving a Txn-Token can store the `txn` value of each Txn-Token for the time window in which the Txn-Token would be accepted to prevent multiple uses of the same Txn-Token. Requests to the same workload for which the `txn` value has been seen before would be declined. When strictly enforced, such a single-use check provides a very strong protection against Txn-Token replay, but it may not always be feasible in practice, e.g., when multiple instances of the same workload receiving a Txn-Token have no shared state.
 
 ## Refresh Tokens
 OAuth refresh tokens are used to obtain access tokens as defined in {{RFC6749}} and MUST NOT be used to request transaction tokens (see {{subject-token-types}}. Since Txn-Tokens are short-lived ({{txn-token-lifetime}}), the Txn-Token response from the TTS MUST NOT include a refresh token (see {{txn-token-response}}).
 
 ## Access Tokens
-When creating Txn-Tokens, the Txn-Token MUST NOT contain the Access Token presented to the external endpoint. If an Access Token is included in a Txn-Token, an attacker may extract the Access Token from the Txn-Token, and replay it to any Resource Server that can accept that Access Token. Txn-Token expiry does not protect against this attack since the Access Token may remain valid even after the Txn-Token has expired.
+When creating Txn-Tokens, the Txn-Token MUST NOT contain the access token presented to the external endpoint. If an access token is included in a Txn-Token, an attacker may extract the access token from the Txn-Token, and replay it to any Resource Server that can accept that access token. Txn-Token expiry does not protect against this attack since the access token may remain valid even after the Txn-Token has expired.
 
 ## Subject Token Types {#sec-sub-token-types}
 Identifies the token type of the `subject_token` which is generally a token the requesting workload received (e.g. an OAuth token or a SAML assertion). In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the details of the requester and the transaction to the TTS.
@@ -574,7 +576,7 @@ The authorization model within a Trust Domain boundary may be quite different fr
 A transaction token conveys user identity and authorization context across workloads in a Call Chain. The `txn` claim is a unique identifier that, when logged by the TTS and workloads, enables discovery and auditing of successful and failed transactions. The `txn` value SHOULD be unique within the Trust Domain.
 
 ## TTS Discovery
-A workload may use various mechanisms to determine which instance of a TTS to interact with. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to an instance of a TTS under it's control. Such a service could be used to collect Access Tokens sent as part of the Transaction Token Request message.
+A workload may use various mechanisms to determine which instance of a TTS to interact with. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to an instance of a TTS under it's control which could be used to collect access tokens sent as part of the Transaction Token Request message.
 
 To mitigate this risk, workloads SHOULD authenticate the service providing the configuration information and verify the integrity of the configuration information. This ensures that no unauthorized entity can insert or alter configuration data. The workload SHOULD use Transport Layer Security (TLS) to authenticate the endpoint and secure the communication channel. Additionally, application-layer signatures or message authentication codes MAY be used to detect any tampering with the configuration information.
 
@@ -588,16 +590,16 @@ A workload may accidently send a transaction token request to a service that is 
 The TTS may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of {{OpenIdConnect}}.
 
 ## Transaction Tokens Are Not Authentication Credentials
-A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in {{Mutual-Authentication}}. The mechanisms used by workloads to authenticate to other workloads, services or system components is out of scope of this specification.
+A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in {{Mutual-Authentication}}.
 
-### TTS Responsibilities
-A TTS MUST exercise caution when issuing replacement Txn-Tokens, since replacing Txn-Tokens with arbitrary values negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:
+### Txn-Token as a `subject_token`
+A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:
 
-* MAY enable modifications to asserted values that reduce the scope of permitted actions
-* MAY enable additional asserted values
-* MUST NOT enable modification to asserted values that expand the scope of permitted actions
-* MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request
-* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim
+* MAY enable modifications to asserted values that reduce the scope of permitted actions.
+* MAY enable additional asserted values.
+* MUST NOT enable modification to asserted values that expand the scope of permitted actions.
+* MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request.
+* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim.
 * MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.
 * MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the transaction token issuer.
 * SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
@@ -657,14 +659,14 @@ The following entry will be proposed using the IANA Media Type registration {{IA
   1. The media type is used to identify JWTs that may be used as Transaction Tokens. It is a piece of data, and may not contain executable content.
   2. Transaction Tokens are short-lived tokens used within a trusted environment, so there are no privacy considerations. Transaction Tokens are unmodifiable tokens, which need integrity protection.
   3. The JWTs representing Transaction Tokens are signed, and therefore are integrity protected. A recipient of a Transaction Token must verify the signature on the Transaction Token before using it.
-  4. There are no additional security considerations specific to the use of JWTs as Transaction Tokens
-  5. The Transaction Tokens format does not require the use of links within the token. If links are used by specific instances of Transaction Tokens, then their interpretation is usage specific
+  4. There are no additional security considerations specific to the use of JWTs as Transaction Tokens.
+  5. The Transaction Tokens format does not require the use of links within the token. If links are used by specific instances of Transaction Tokens, then their interpretation is usage specific.
 
 * Interoperability Considerations: Transaction Tokens inherit all interoperability properties of JWTs.
-* Published Specification: this document (when published)
-* Application Usage: Any application supporting the use of JWTs
+* Published Specification: this document (when published).
+* Application Usage: Any application supporting the use of JWTs.
 * Fragment Identifier Consideration: N/A.
-* Restrictions on Usage: Any application supporting the use of JWTs
+* Restrictions on Usage: Any application supporting the use of JWTs.
 * Intended Usage: Common
 * Contact Person: Atul Tulshibagwale
 
