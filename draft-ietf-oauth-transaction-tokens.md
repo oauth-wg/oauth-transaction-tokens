@@ -494,7 +494,7 @@ When the TTS receives a Txn-Token Request it:
 The TTS MAY provide additional processing and verification that is outside the scope of this specification.
 
 ## Txn-Token Response {#txn-token-response}
-A successful response to a Txn-Token Request must include the following values defined in {{RFC8693}}:
+A successful response to a Txn-Token Request MUST include the following values defined in {{RFC8693}}:
 
 * The `token_type` value MUST be set to `N_A` per guidance in OAuth 2.0 Token Exchange {{RFC8693}}.
 * The `access_token` value MUST be the Txn-Token JWT.
