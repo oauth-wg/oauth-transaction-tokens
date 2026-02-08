@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-05T00:26:09.287251+00:00",
+  "timestamp": "2026-02-08T00:32:37.970980+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -19340,6 +19340,227 @@
           "body": "",
           "createdAt": "2026-02-04T01:34:29Z",
           "updatedAt": "2026-02-04T01:34:29Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 307,
+      "id": "PR_kwDOJt_WwM7BvXRs",
+      "title": "Editorial sweep",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/307",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Mostly eeditorial changes. One normative MAY was added - please review.",
+      "createdAt": "2026-02-05T14:16:28Z",
+      "updatedAt": "2026-02-06T18:26:12Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "7080041e985a26388eecc3dfb737448315f82891",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "1a52117d2e7c3869a8489651bde2aaeef3dd49e5",
+      "closedAt": "2026-02-06T18:26:10Z",
+      "mergedAt": "2026-02-06T18:26:10Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "578cda1a717a5c19d18b940ed84abbbcaa3df66d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7f93Tz",
+          "commit": {
+            "abbreviatedOid": "78cdf55"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I'm good with this :) Thanks Pieter!",
+          "createdAt": "2026-02-05T14:39:44Z",
+          "updatedAt": "2026-02-05T14:39:44Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gAttp",
+          "commit": {
+            "abbreviatedOid": "78cdf55"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-05T16:53:33Z",
+          "updatedAt": "2026-02-05T17:06:08Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Not sure what you mean by propagating workload identities. Are you suggesting that the invocation may be because of a workload, and we will be propagating that, or whether we are propagating the identity of the requesting workload (both could be true).",
+              "createdAt": "2026-02-05T16:53:34Z",
+              "updatedAt": "2026-02-05T17:06:08Z"
+            },
+            {
+              "originalPosition": 153,
+              "body": "normative \"MUST\"?",
+              "createdAt": "2026-02-05T16:55:34Z",
+              "updatedAt": "2026-02-05T17:06:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gRPJO",
+          "commit": {
+            "abbreviatedOid": "78cdf55"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-06T11:39:27Z",
+          "updatedAt": "2026-02-06T11:39:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I think I am just stating what transaction tokens do. \r\n\r\nTransaction tokens actually propagate both of these things -  I would go as far as to say it always propagates the workload identity (req_wl is mandatory) and sometimes the user identity (there is always a workload involved, and sometimes a user as well). In the case where there is no user involvement, only the workload identity may be \r\n\r\nThe existing text make a similar statement in Section2:\r\n\r\n>Txn-Tokens apply to both externally triggered and internally invoked transactions and ensure that the user's identity or a workload that made the request is preserved throughout subsequent workload invocations.",
+              "createdAt": "2026-02-06T11:39:27Z",
+              "updatedAt": "2026-02-06T11:39:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gRPhA",
+          "commit": {
+            "abbreviatedOid": "78cdf55"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-06T11:39:49Z",
+          "updatedAt": "2026-02-06T11:39:50Z",
+          "comments": [
+            {
+              "originalPosition": 153,
+              "body": "Agreed.",
+              "createdAt": "2026-02-06T11:39:50Z",
+              "updatedAt": "2026-02-06T11:39:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gRQz6",
+          "commit": {
+            "abbreviatedOid": "78cdf55"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-06T11:41:07Z",
+          "updatedAt": "2026-02-06T11:41:07Z",
+          "comments": [
+            {
+              "originalPosition": 153,
+              "body": "```suggestion\nA successful response to a Txn-Token Request MUST include the following values defined in {{RFC8693}}:\n```",
+              "createdAt": "2026-02-06T11:41:07Z",
+              "updatedAt": "2026-02-06T11:41:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gVRRc",
+          "commit": {
+            "abbreviatedOid": "38eb253"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-06T15:15:47Z",
+          "updatedAt": "2026-02-06T15:15:47Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I think it could be possible that the `sub` identifier represents a workload instead of a human; especially in the context of AI Agents. I'd propose...\n\nTransaction Tokens (Txn-Tokens) are designed to maintain and propagate user and/or workload identity and authorization context across workloads within a trusted domain during the processing of requests (e.g. external requests such as API calls or internally generated requests). They ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures.",
+              "createdAt": "2026-02-06T15:15:47Z",
+              "updatedAt": "2026-02-06T15:15:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gW6Ck",
+          "commit": {
+            "abbreviatedOid": "38eb253"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-06T16:47:27Z",
+          "updatedAt": "2026-02-06T16:47:27Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "How about:\n\n```suggestion\nTransaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the Call Chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.\n```",
+              "createdAt": "2026-02-06T16:47:27Z",
+              "updatedAt": "2026-02-06T16:48:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gYeif",
+          "commit": {
+            "abbreviatedOid": "38eb253"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-06T18:13:30Z",
+          "updatedAt": "2026-02-06T18:13:30Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm good with the language that George is proposing, although my original concern remains (i.e. when we say preserving workload identity, which workload are we talking about - the autonomous external requester, or the requesting service?) But the rest of the sentence reads better IMO.",
+              "createdAt": "2026-02-06T18:13:30Z",
+              "updatedAt": "2026-02-06T18:13:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gYfG7",
+          "commit": {
+            "abbreviatedOid": "38eb253"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-06T18:14:11Z",
+          "updatedAt": "2026-02-06T18:14:12Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "This is good too. I like the \"throughout the call chain\" part.",
+              "createdAt": "2026-02-06T18:14:11Z",
+              "updatedAt": "2026-02-06T18:14:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7gYo0z",
+          "commit": {
+            "abbreviatedOid": "1a52117"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-06T18:26:03Z",
+          "updatedAt": "2026-02-06T18:26:03Z",
           "comments": []
         }
       ]
