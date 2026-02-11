@@ -92,22 +92,22 @@ informative:
     - org: Cloud Native Computing Foundation
 
 --- abstract
-Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests, such as API calls. They ensure that this context is preserved throughout the Call Chain, even when new transactions are initiated internally, thereby enhancing security and consistency in complex, multi-service architectures.
+Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests (e.g. such as API calls) or requests initiated internally within the trust domain. Txn-Tokens ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures.
 --- middle
 
 # Introduction
 
 Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
 
-* Invocations of workloads in the network without any explicit transaction invocation being present.
+* Invocation of workloads in the network without any explicit transaction invocation being present.
 * Arbitrary user impersonation.
 * Parameter modification or augmentation.
 * Theft of tokens, such as OAuth access tokens, used to call external interfaces and passed to internal workloads to convey authorization context.
 
-The results of these actions are unauthorized access to resources.
+The result of these actions are unauthorized access to resources.
 
 # Overview
-Transaction Tokens (Txn-Tokens) reduce the risks from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet facing API invocation) other transactions are initiated from within the trusted domain. Txn-Tokens apply to both externally triggered and internally invoked transactions and ensure that the user or workload identity that made the request is preserved throughout subsequent workload invocations.
+Transaction Tokens (Txn-Tokens) reduce the risks from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet-facing API invocation) other transactions are initiated from within the trusted domain. Txn-Tokens apply to both externally triggered and internally invoked transactions and ensure that the user or workload identity that made the request is preserved throughout subsequent workload invocations.
 
 They preserve any context such as:
 
@@ -115,7 +115,7 @@ They preserve any context such as:
 * Environmental factors, such as IP address of the original caller
 * Any context that needs to be preserved in the Call Chain. This includes information that was not in the original request to the external endpoint.
 
-Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information, and cannot make spurious calls.
+Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information and cannot make spurious calls.
 
 # Notational Conventions
 
@@ -134,7 +134,7 @@ Trust Domain:
 : A logical grouping of systems that share a common set of security controls and policies. In practice this may include a virtually or physically separated network, which contains two or more workloads. The workloads within a Trust Domain may be invoked only through published interfaces.
 
 External Endpoint:
-: A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be acccessed through a gateway service as described in the WIMSE architecture {{?I-D.ietf-wimse-arch}}.
+: A published interface to a Trust Domain that results in the invocation of a workload within the Trust Domain. In practice, the external endpoint may be accessed through a gateway service as described in the WIMSE architecture {{?I-D.ietf-wimse-arch}}.
 
 Call Chain:
 : The set of invocations across all workloads invoked to complete the requested transaction.
@@ -608,7 +608,7 @@ A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any
 # Privacy Considerations {#Privacy}
 
 ## Handling of Personal Information
-Claims contained within transaction tokens may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values should be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and therefore must be handled according to juristictional requirements.
+Claims contained within transaction tokens may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values should be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and therefore must be handled according to jurisdictional requirements.
 
 ## Logging
 Complete Txn-Tokens MUST NOT be logged verbatim. This is in order to prevent replay of tokens or leakage of PII or other sensitive information via log files. A hash of the Txn-Token may be logged to allow for correlation with the log files of the TTS that records issued tokens. Alternatively the JWS payload of a Txn-Token may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.
@@ -677,7 +677,7 @@ The header name `Txn-Token` is proposed to be added to the HTTP Field Name Regis
 * Type:
 * Status: permanent
 * Specification Document: Section {{txn-token-http-header}} of this document
-* Comment: The `Authorization` header cannot be used for Txn-tokens because that may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.
+* Comment: The `Authorization` header cannot be used for Txn-tokens because that header may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.
 
 --- back
 
@@ -688,12 +688,12 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 # Document History
 {: numbered="false"}
 [[ To be removed from final specification ]]
-* Remove contradiction in "request_details" description and simpliffy normative langugage [Clarify claim usage](https://github.com/oauth-wg/oauth-transaction-tokens/issues/228).
+* Remove contradiction in "request_details" description and simplify normative langugage [Clarify claim usage](https://github.com/oauth-wg/oauth-transaction-tokens/issues/228).
 
 ## Since Draft 06
 {:numbered="false"}
 * Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
-* Replace StringOrURI with string [Relace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
+* Replace StringOrURI with string [Replace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
 * Include token theft as a threat to be mitigated [Consider information disclosure as a benefit](https://github.com/oauth-wg/oauth-transaction-tokens/issues/207)
 * Remove definition of Authorization Context [Be more specific on Authorization Context](https://github.com/oauth-wg/oauth-transaction-tokens/issues/192)
 * Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235
@@ -701,7 +701,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Clarify need to validate signature on subject_token if it is signed.
 * Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)
 * Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)
-* Remove exp field from unsigend token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
+* Remove exp field from unsigned token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)
 * Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)
 * Clarify that `txn`should remain unchanged when included in a replacement transaction token.
 * Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)
@@ -715,7 +715,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Add normative language for processing Txn-Tokens (https://github.com/oauth-wg/oauth-transaction-tokens/issues/270)
 * Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)
 * Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)
-* Updated Acknpwledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)
+* Updated Acknowledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)
 * Rewrote the 'Handling of Personal Information' section of Privacy Considerations (https://github.com/oauth-wg/oauth-transaction-tokens/issues/290)
 * Removed text related to replacement transaction tokens
 * Updated references to call chain to be capitalized and fixed some definitions (https://github.com/oauth-wg/oauth-transaction-tokens/issues/284)
