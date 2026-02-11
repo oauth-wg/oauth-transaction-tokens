@@ -686,6 +686,8 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 {: numbered="false"}
 [[ To be removed from final specification ]]
 * Remove contradiction in "request_details" description and simplify normative langugage [Clarify claim usage](https://github.com/oauth-wg/oauth-transaction-tokens/issues/228).
+* Editorial review fixing spelling, grammer and other non-normative wording changes
+* Resolve micoservice vs workload issue (https://github.com/oauth-wg/oauth-transaction-tokens/issues/309)
 
 ## Since Draft 06
 {:numbered="false"}
