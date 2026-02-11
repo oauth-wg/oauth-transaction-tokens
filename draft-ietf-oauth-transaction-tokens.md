@@ -15,7 +15,7 @@ title: Transaction Tokens
 abbrev: Txn-Tokens
 lang: en
 kw:
-  - Microservices
+  - Workloads
   - OAuth
   - JWT
   - token exchange
@@ -264,10 +264,10 @@ In the diagram above, steps 5-7 are the same as in {{basic-flow}}.
 
 {:start="1"}
 
-1. A microservice determines that it needs to initiate a request on behalf of a user in response to a scheduled timer or other trigger.
-2. The internal microservice authenticates to the token service and makes a request for a Txn-Token. The request contains information about the transaction along with optional additional authorization credentials.
+1. A workload determines that it needs to initiate a request on behalf of a user in response to a scheduled timer or other trigger.
+2. The internal workload authenticates to the token service and makes a request for a Txn-Token. The request contains information about the transaction along with optional additional authorization credentials.
 3. TTS authorizes the requester and then mints a Txn-Token that provides immutable context for the transaction and returns it to the requester.
-4. The originating microservice then contacts another internal microservice and provides the Txn-Token as authorization.
+4. The originating workload then contacts another internal workload and provides the Txn-Token as authorization.
 
 # Txn-Token Format
 A Txn-Token is a JSON Web Token {{RFC7519}} protected by a JSON Web Signature {{RFC7515}}. The following describes the required values in a Txn-Token:
