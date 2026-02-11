@@ -543,7 +543,7 @@ A workload that receives a Txn-Token MUST evaluate the token for validity before
 
 In addition, any outbound calls made by this workload MUST include the Txn-Token as it was received so that it is passed unmodified to any downstream workloads.
 
-Once the Txn-Token is determined to be valid, the workload MAY use any of the data contained in the Txn-Token to determine if the Txn-Token authorizes the requested activity. How the workload determines this  is out of scope for this specification.
+Once the Txn-Token is determined to be valid, the workload MAY use any of the data contained in the Txn-Token to determine if the Txn-Token authorizes the requested activity. How the workload determines this authorization is out of scope for this specification.
 
 # Security Considerations {#Security}
 
