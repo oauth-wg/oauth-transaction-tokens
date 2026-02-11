@@ -347,7 +347,7 @@ The following is a non-normative example of an `rctx` claim initiated by an exte
 ~~~
 
 ### Transaction Context {#transaction-context}
-The Txn-Token SHOULD contain an `tctx` claim. The value of this claim is a JSON object that contains claims (wherein the value could itself be an object), which together assert the details that remain immutable through the Call Chain where this Txn-Token is used.
+The Txn-Token SHOULD contain an `tctx` claim. The value of this claim is a JSON object that contains fields (wherein the value could itself be an object), which together assert the details that remain immutable through the Call Chain where this Txn-Token is used.
 
 Txn-Tokens are primarily used to assure identity and context for a transaction, and the content of this field is a critical part of that context.
 
