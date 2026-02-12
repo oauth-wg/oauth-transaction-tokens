@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-08T00:32:37.970980+00:00",
+  "timestamp": "2026-02-12T00:25:35.396532+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6094,6 +6094,99 @@
           "body": "I agree, let's close it for now.",
           "createdAt": "2026-02-03T00:35:54Z",
           "updatedAt": "2026-02-03T00:35:54Z"
+        }
+      ]
+    },
+    {
+      "number": 309,
+      "id": "I_kwDOJt_WwM7qGP1F",
+      "title": "Microservice vs workload",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/309",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In reading through the spec for an editorial review, it seems the first part of the spec tends to use the work `microservice` and the latter part of the spec tends to use the word `workload`. Do we want to standardize on one term?",
+      "createdAt": "2026-02-11T16:34:29Z",
+      "updatedAt": "2026-02-11T18:58:23Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I vote for workload, as microservice may be too specific.",
+          "createdAt": "2026-02-11T18:47:01Z",
+          "updatedAt": "2026-02-11T18:47:01Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok, I'm happy to make that change in my editorial review since more needs to be done there.",
+          "createdAt": "2026-02-11T18:50:51Z",
+          "updatedAt": "2026-02-11T18:50:51Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed with PR #307 ",
+          "createdAt": "2026-02-11T18:57:13Z",
+          "updatedAt": "2026-02-11T18:57:13Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "It's actually PR #308 ",
+          "createdAt": "2026-02-11T18:58:23Z",
+          "updatedAt": "2026-02-11T18:58:23Z"
+        }
+      ]
+    },
+    {
+      "number": 310,
+      "id": "I_kwDOJt_WwM7qGYU-",
+      "title": "Do we need a security consideration for `actor_token`?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/310",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "## Use of 'actor_token'\nIf using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` can authenticate the identity of the requesting workload.",
+      "createdAt": "2026-02-11T16:41:33Z",
+      "updatedAt": "2026-02-11T18:57:33Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What is the issue here? I spotted that we're using the word \"can authenticate\", we should either make it a \"SHOULD\" or \"MAY\", I think.",
+          "createdAt": "2026-02-11T18:57:33Z",
+          "updatedAt": "2026-02-11T18:57:33Z"
+        }
+      ]
+    },
+    {
+      "number": 311,
+      "id": "I_kwDOJt_WwM7qGk1g",
+      "title": "Security consideration section on \"replacement transaction tokens\"",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/311",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Do we want to keep the section below? If so, then I think we need to figure out what to do about the `req_wl` claim requirements.\n\n>### Txn-Token as a `subject_token`\nA TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:\n\n* MAY enable modifications to asserted values that reduce the scope of permitted actions.\n* MAY enable additional asserted values.\n* MUST NOT enable modification to asserted values that expand the scope of permitted actions.\n* MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request.\n* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim.\n* MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.\n* MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the transaction token issuer.\n* SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.\n* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.",
+      "createdAt": "2026-02-11T16:53:29Z",
+      "updatedAt": "2026-02-11T18:54:50Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Given that it is non-normative, I think we should keep it, including the \"req_wl\" language. Is there something about that point that doesn't work?",
+          "createdAt": "2026-02-11T18:54:50Z",
+          "updatedAt": "2026-02-11T18:54:50Z"
         }
       ]
     }
@@ -19561,6 +19654,372 @@
           "body": "",
           "createdAt": "2026-02-06T18:26:03Z",
           "updatedAt": "2026-02-06T18:26:03Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 308,
+      "id": "PR_kwDOJt_WwM7DAqJH",
+      "title": "Editorial review",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/308",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Corrected typos and improved clarity in the document. Most of these changes (except the abstract one) found by running the draft through AI. I'm going to continue my human read through but figured I'd at least commit these changes.",
+      "createdAt": "2026-02-11T13:46:57Z",
+      "updatedAt": "2026-02-11T19:38:26Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "578cda1a717a5c19d18b940ed84abbbcaa3df66d",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "editorial_review",
+      "headRefOid": "49d7687294d4dfb8000f61fb7d508face83f17b6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7hmz5W",
+          "commit": {
+            "abbreviatedOid": "9000b52"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T14:08:44Z",
+          "updatedAt": "2026-02-11T14:08:45Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "Additionally, do we want to delete the last sentence here? I'm not sure we have much other reference to \"batch\" or \"long running\" processes?",
+              "createdAt": "2026-02-11T14:08:45Z",
+              "updatedAt": "2026-02-11T14:08:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hm0jY",
+          "commit": {
+            "abbreviatedOid": "9000b52"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T14:09:13Z",
+          "updatedAt": "2026-02-11T14:09:13Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "Should we add more benefits to this section?",
+              "createdAt": "2026-02-11T14:09:13Z",
+              "updatedAt": "2026-02-11T14:09:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hoMhs",
+          "commit": {
+            "abbreviatedOid": "1bfb78c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T15:08:11Z",
+          "updatedAt": "2026-02-11T15:08:12Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "looks good",
+              "createdAt": "2026-02-11T15:08:11Z",
+              "updatedAt": "2026-02-11T15:08:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hoM8I",
+          "commit": {
+            "abbreviatedOid": "1bfb78c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T15:08:27Z",
+          "updatedAt": "2026-02-11T15:08:27Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "Looks Good",
+              "createdAt": "2026-02-11T15:08:27Z",
+              "updatedAt": "2026-02-11T15:08:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hoNSt",
+          "commit": {
+            "abbreviatedOid": "1bfb78c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T15:08:38Z",
+          "updatedAt": "2026-02-11T15:08:38Z",
+          "comments": [
+            {
+              "originalPosition": 19,
+              "body": "Look good",
+              "createdAt": "2026-02-11T15:08:38Z",
+              "updatedAt": "2026-02-11T15:08:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hoNxd",
+          "commit": {
+            "abbreviatedOid": "1bfb78c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T15:09:00Z",
+          "updatedAt": "2026-02-11T15:09:00Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "Looks good",
+              "createdAt": "2026-02-11T15:09:00Z",
+              "updatedAt": "2026-02-11T15:09:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hoQE2",
+          "commit": {
+            "abbreviatedOid": "1bfb78c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T15:10:23Z",
+          "updatedAt": "2026-02-11T15:10:23Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "```suggestion\nIf the requesting service does not have an inbound token that it can use in its request to the TTS, it MAY generate a self-signed JWT and present that in the request in place of the external authorization token. This can be the case when the external authentication does not use an access token or when the requesting service is initiating a scheduled internal request for itself or on behalf of a user of the system.\n```",
+              "createdAt": "2026-02-11T15:10:23Z",
+              "updatedAt": "2026-02-11T15:10:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hoTy-",
+          "commit": {
+            "abbreviatedOid": "1bfb78c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T15:12:48Z",
+          "updatedAt": "2026-02-11T15:12:49Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "\nI think the history of that sentence is that we wanted to make some kind of statement about the fact that having a. transaction token that is valid for longer than the initial access token is OK, even when used in batch processes.",
+              "createdAt": "2026-02-11T15:12:48Z",
+              "updatedAt": "2026-02-11T15:12:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hoWtp",
+          "commit": {
+            "abbreviatedOid": "1bfb78c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T15:14:41Z",
+          "updatedAt": "2026-02-11T15:14:41Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "We got some WGLC feedback that maybe we are overstating the benefits - however, current benefit is anly about preservviong context and we can add something about time-limited (reduce exxposure window), scope reduction (blast radius reductioon) and transaction specific binding as additional benefits.",
+              "createdAt": "2026-02-11T15:14:41Z",
+              "updatedAt": "2026-02-11T15:14:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hsVG3",
+          "commit": {
+            "abbreviatedOid": "fd3d87a"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T18:20:22Z",
+          "updatedAt": "2026-02-11T18:22:25Z",
+          "comments": [
+            {
+              "originalPosition": 87,
+              "body": "Since a workload's SPIFFE ID could be a URI, should we say \"StringOrURI\"?",
+              "createdAt": "2026-02-11T18:20:22Z",
+              "updatedAt": "2026-02-11T18:22:25Z"
+            },
+            {
+              "originalPosition": 105,
+              "body": "I've generally used the word \"claims\" only for the top-level fields in a JWT. ",
+              "createdAt": "2026-02-11T18:21:25Z",
+              "updatedAt": "2026-02-11T18:22:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hs3N2",
+          "commit": {
+            "abbreviatedOid": "fd3d87a"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T18:48:36Z",
+          "updatedAt": "2026-02-11T18:48:36Z",
+          "comments": [
+            {
+              "originalPosition": 87,
+              "body": "We removed all the StringOrURI designations throughout the rest of the document. We can put it back, but I think in make of the other cases, the value could be a URI as well and we don't call it out.",
+              "createdAt": "2026-02-11T18:48:36Z",
+              "updatedAt": "2026-02-11T18:48:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hs4o9",
+          "commit": {
+            "abbreviatedOid": "fd3d87a"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T18:50:00Z",
+          "updatedAt": "2026-02-11T18:50:01Z",
+          "comments": [
+            {
+              "originalPosition": 105,
+              "body": "I don't feel to strongly about this... for me reading it, the \"name/value pairs\" felt a bit like new language. That said, I'm happy to go back to the current text.",
+              "createdAt": "2026-02-11T18:50:00Z",
+              "updatedAt": "2026-02-11T18:50:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hs6p-",
+          "commit": {
+            "abbreviatedOid": "fd3d87a"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T18:52:02Z",
+          "updatedAt": "2026-02-11T18:52:02Z",
+          "comments": [
+            {
+              "originalPosition": 105,
+              "body": "How about using \"fields\" instead of \"name/value pairs\"?",
+              "createdAt": "2026-02-11T18:52:02Z",
+              "updatedAt": "2026-02-11T18:52:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7hs7l9",
+          "commit": {
+            "abbreviatedOid": "fd3d87a"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T18:53:03Z",
+          "updatedAt": "2026-02-11T18:53:03Z",
+          "comments": [
+            {
+              "originalPosition": 87,
+              "body": "Makes sense. I suppose a \"string\" could be a URI too, right?",
+              "createdAt": "2026-02-11T18:53:03Z",
+              "updatedAt": "2026-02-11T18:53:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7htAxh",
+          "commit": {
+            "abbreviatedOid": "fd3d87a"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T18:57:53Z",
+          "updatedAt": "2026-02-11T18:57:53Z",
+          "comments": [
+            {
+              "originalPosition": 87,
+              "body": "Right - and as George said - we got feedback in the WGLC pointing us away from StringOrURI.",
+              "createdAt": "2026-02-11T18:57:53Z",
+              "updatedAt": "2026-02-11T18:57:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7htBO3",
+          "commit": {
+            "abbreviatedOid": "fd3d87a"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-11T18:58:10Z",
+          "updatedAt": "2026-02-11T18:58:10Z",
+          "comments": [
+            {
+              "originalPosition": 105,
+              "body": "Good suggestion. I'll make that change.",
+              "createdAt": "2026-02-11T18:58:10Z",
+              "updatedAt": "2026-02-11T18:58:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7huAud",
+          "commit": {
+            "abbreviatedOid": "49d7687"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-11T19:38:26Z",
+          "updatedAt": "2026-02-11T19:38:26Z",
           "comments": []
         }
       ]
