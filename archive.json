@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-12T00:25:35.396532+00:00",
+  "timestamp": "2026-02-15T00:27:41.726852+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6102,15 +6102,15 @@
       "id": "I_kwDOJt_WwM7qGP1F",
       "title": "Microservice vs workload",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/309",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In reading through the spec for an editorial review, it seems the first part of the spec tends to use the work `microservice` and the latter part of the spec tends to use the word `workload`. Do we want to standardize on one term?",
       "createdAt": "2026-02-11T16:34:29Z",
-      "updatedAt": "2026-02-11T18:58:23Z",
-      "closedAt": null,
+      "updatedAt": "2026-02-12T19:43:55Z",
+      "closedAt": "2026-02-12T19:43:55Z",
       "comments": [
         {
           "author": "tulshi",
@@ -6154,7 +6154,7 @@
       "labels": [],
       "body": "## Use of 'actor_token'\nIf using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` can authenticate the identity of the requesting workload.",
       "createdAt": "2026-02-11T16:41:33Z",
-      "updatedAt": "2026-02-11T18:57:33Z",
+      "updatedAt": "2026-02-12T19:01:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -6163,6 +6163,13 @@
           "body": "What is the issue here? I spotted that we're using the word \"can authenticate\", we should either make it a \"SHOULD\" or \"MAY\", I think.",
           "createdAt": "2026-02-11T18:57:33Z",
           "updatedAt": "2026-02-11T18:57:33Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Originally, we added this as another way the client can do client authentication. Now I'm wondering if we need to call it out at all or just leave it up to developers to determine how they want to do client authentication.",
+          "createdAt": "2026-02-12T19:01:39Z",
+          "updatedAt": "2026-02-12T19:01:39Z"
         }
       ]
     },
@@ -6178,7 +6185,7 @@
       "labels": [],
       "body": "Do we want to keep the section below? If so, then I think we need to figure out what to do about the `req_wl` claim requirements.\n\n>### Txn-Token as a `subject_token`\nA TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:\n\n* MAY enable modifications to asserted values that reduce the scope of permitted actions.\n* MAY enable additional asserted values.\n* MUST NOT enable modification to asserted values that expand the scope of permitted actions.\n* MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request.\n* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim.\n* MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.\n* MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the transaction token issuer.\n* SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.\n* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.",
       "createdAt": "2026-02-11T16:53:29Z",
-      "updatedAt": "2026-02-11T18:54:50Z",
+      "updatedAt": "2026-02-12T19:04:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -6187,8 +6194,31 @@
           "body": "Given that it is non-normative, I think we should keep it, including the \"req_wl\" language. Is there something about that point that doesn't work?",
           "createdAt": "2026-02-11T18:54:50Z",
           "updatedAt": "2026-02-11T18:54:50Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I guess I'm wondering if we need to add more text when defining the `req_wl` claim to make it clear it could be a list of identifiers separated by a commas.  Also, I'm not sure it's really non-normative with all the MAY, MUST, SHOULD and MUST NOT clauses.",
+          "createdAt": "2026-02-12T19:04:58Z",
+          "updatedAt": "2026-02-12T19:04:58Z"
         }
       ]
+    },
+    {
+      "number": 312,
+      "id": "I_kwDOJt_WwM7qdNvT",
+      "title": "Enhance the `Benefits of Txn-Tokens` section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/312",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Per my editorial review PR, it seems like we may want to enhance this section. I'm creating a issue so we can do the work (if we decided to) in a different PR.\n\nPieter's comment from the PR\n> We got some WGLC feedback that maybe we are overstating the benefits - however, current benefit is anly about preservviong context and we can add something about time-limited (reduce exxposure window), scope reduction (blast radius reductioon) and transaction specific binding as additional benefits.",
+      "createdAt": "2026-02-12T19:07:09Z",
+      "updatedAt": "2026-02-12T19:07:09Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -19663,25 +19693,35 @@
       "id": "PR_kwDOJt_WwM7DAqJH",
       "title": "Editorial review",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/308",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Corrected typos and improved clarity in the document. Most of these changes (except the abstract one) found by running the draft through AI. I'm going to continue my human read through but figured I'd at least commit these changes.",
       "createdAt": "2026-02-11T13:46:57Z",
-      "updatedAt": "2026-02-11T19:38:26Z",
+      "updatedAt": "2026-02-12T19:43:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "578cda1a717a5c19d18b940ed84abbbcaa3df66d",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "editorial_review",
-      "headRefOid": "49d7687294d4dfb8000f61fb7d508face83f17b6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "headRefOid": "b82a6c7b65cde96e6a054f270bf0b9b9259a56f7",
+      "closedAt": "2026-02-12T19:43:54Z",
+      "mergedAt": "2026-02-12T19:43:54Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d8ca043e3fcbf28b3d49cd698f5b4f0a3ba4cc5c"
+      },
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Accepted @PieterKas 's suggestions. I will need re-reviews :) ",
+          "createdAt": "2026-02-12T19:08:26Z",
+          "updatedAt": "2026-02-12T19:08:26Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7hmz5W",
@@ -20020,6 +20060,85 @@
           "body": "",
           "createdAt": "2026-02-11T19:38:26Z",
           "updatedAt": "2026-02-11T19:38:26Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7h7J8t",
+          "commit": {
+            "abbreviatedOid": "49d7687"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-12T11:20:40Z",
+          "updatedAt": "2026-02-12T11:20:40Z",
+          "comments": [
+            {
+              "originalPosition": 78,
+              "body": "I struggle with the \"generally\" - it raises more questions. I wonder if we can say it differently:\n\n\n```suggestion\nTxn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT) presented to the TTS when requesting a Txn-Token has an expiration time, then the TTS MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token, subject to the policy of the TTS. The TTS SHOULD assess whether the Txn-Token\u2019s assigned lifetime and transaction binding adequately mitigate the risks of a Txn-Token lifetime that exceeds the presented subject token\u2019s expiration time. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token (see {{lifetime}}).\n```",
+              "createdAt": "2026-02-12T11:20:40Z",
+              "updatedAt": "2026-02-12T11:30:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7h7ZHe",
+          "commit": {
+            "abbreviatedOid": "49d7687"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Overall looks good, one change requested.",
+          "createdAt": "2026-02-12T11:32:45Z",
+          "updatedAt": "2026-02-12T11:32:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7iFiRs",
+          "commit": {
+            "abbreviatedOid": "9000b52"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-12T19:07:52Z",
+          "updatedAt": "2026-02-12T19:07:52Z",
+          "comments": [
+            {
+              "originalPosition": 72,
+              "body": "I created a new issue for this topic and am going to resolve this conversation so we can merge this PR. I've copied Pieter's comment to the new issue.",
+              "createdAt": "2026-02-12T19:07:52Z",
+              "updatedAt": "2026-02-12T19:07:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7iFnNX",
+          "commit": {
+            "abbreviatedOid": "b82a6c7"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-12T19:12:19Z",
+          "updatedAt": "2026-02-12T19:12:19Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7iF-oF",
+          "commit": {
+            "abbreviatedOid": "b82a6c7"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me.",
+          "createdAt": "2026-02-12T19:34:35Z",
+          "updatedAt": "2026-02-12T19:34:35Z",
           "comments": []
         }
       ]
