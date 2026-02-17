@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-15T00:27:41.726852+00:00",
+  "timestamp": "2026-02-17T00:26:50.884484+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6218,6 +6218,22 @@
       "createdAt": "2026-02-12T19:07:09Z",
       "updatedAt": "2026-02-12T19:07:09Z",
       "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 313,
+      "id": "I_kwDOJt_WwM7rKZaS",
+      "title": "https://modelcontextprotocol.io/docs/develop/build-server#what-we\u2019ll-be-building",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/313",
+      "state": "CLOSED",
+      "author": "NaungYoe2",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-16T01:06:25Z",
+      "updatedAt": "2026-02-16T18:44:40Z",
+      "closedAt": "2026-02-16T18:44:40Z",
       "comments": []
     }
   ],
