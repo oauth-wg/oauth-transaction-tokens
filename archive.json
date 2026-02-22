@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-17T00:26:50.884484+00:00",
+  "timestamp": "2026-02-22T00:25:45.903041+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6234,6 +6234,22 @@
       "createdAt": "2026-02-16T01:06:25Z",
       "updatedAt": "2026-02-16T18:44:40Z",
       "closedAt": "2026-02-16T18:44:40Z",
+      "comments": []
+    },
+    {
+      "number": 314,
+      "id": "I_kwDOJt_WwM7sshDX",
+      "title": "Clarification required regarding 'sub' field in Txn-Token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/314",
+      "state": "OPEN",
+      "author": "ashayraut",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Currently, it seems `sub` can be end user identity (if `access token` was used by external endpoint to request Txn-Token from TTS) or it can be External endpoint itself. In former case, external endpoint identity is never captured in the token.\n\nI have a draft for AI agents with Txn-tokens.\nhttps://www.ietf.org/archive/id/draft-oauth-transaction-tokens-for-agents-04.html#name-principal-initiated-flow\n\nIn my draft, I had input to TTS as `subject token + access token` received from AI agent at external endpoint (not one of the two inputs but both)\n\nOutput we get is: \n\u200b`Txn token {\n\n    Sub: <set to external service> // because TA authenticates subject i.e external endpoint\n\n    Principal : <set to human (from access token)> // new field\n\n    Actor: AI Agent // new field.. this could be \u2018act.sub\u2019 but I didn\u2019t use that because \u2018act.sub\u2019 could be some internal service that is acting on behalf of external identity.\n\n}`\n\nThis is different than Txn token draft because\nTxn token draft says external endpoint can pass its self-signed JWT or input access token (w/ token exchange) but I am mandating both.\nIn my proposal, we don\u2019t lose the external identity.\n\n\nI do ack that `sub` should be human. If I do that, then I don\u2019t really need Principal. Sub in Txn token should suffice and act.sub will be AI Agent.\n\nBasically where am I heading with my question is that can we simply say that this latest draft for Txn-token is good enough to capture `AI Agent + Human identity` (in sub and act.sub) in Txn-token as along as the agent passes an OBO token which has sub and act.sub.\n\nHowever, we lose external endpoint info. My draft essentially says Subject in TxnToken will always be external endpoint and we need Principal and Actor fields to represent end user and their agents (which seems to be against general subject definition at the moment).\n\nWould love to hear some thoughts on this one from you all?",
+      "createdAt": "2026-02-21T02:29:18Z",
+      "updatedAt": "2026-02-21T02:29:18Z",
+      "closedAt": null,
       "comments": []
     }
   ],
