@@ -322,7 +322,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : OPTIONAL A JSON object that describes the environmental context of the requested transaction.
 
 `req_wl`:
-: REQUIRED. A string value that identifies the workload that requested the Txn-Token.
+: REQUIRED. A string value that identifies the workload that requested the Txn-Token. The value SHOULD contain a single workload identifier. In some circumstances, the value MAY contain multiple workload identifiers with each identifier separated by a comma (,).
 
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the TTS as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
@@ -718,6 +718,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Rewrote the 'Handling of Personal Information' section of Privacy Considerations (https://github.com/oauth-wg/oauth-transaction-tokens/issues/290)
 * Removed text related to replacement transaction tokens
 * Updated references to call chain to be capitalized and fixed some definitions (https://github.com/oauth-wg/oauth-transaction-tokens/issues/284)
+* Update definition of `req_wl` claim (https://github.com/oauth-wg/oauth-transaction-tokens/issues/311)
 
 ## Since Draft 05
 {:numbered="false"}
