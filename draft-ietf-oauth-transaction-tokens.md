@@ -182,7 +182,6 @@ Txn-Tokens prevent unauthorized invocations by allowing a workload to independen
 * Signed Txn-Tokens protect the original call context and identity from modification along the call chain.
 * Independent verification at each workload helps prevent unauthorized invocation.
 * Restricting which workloads can obtain Txn-Tokens limits exposure from compromised or untrusted services, including some SBOM-related attack paths.
-* Through the use of digitally signed tokens, it prevents any workload in the call-chain from modifying the context and identity of the original call that initiated the call-chain.
 * By restricting the lifetime of a Txn-Token to just a few minutes and by including a unique transaction identifier, it prevents replay of previous invocations.
 
 # Txn-Token Issuance and Usage Flows
