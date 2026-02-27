@@ -566,9 +566,6 @@ When creating Txn-Tokens, the Txn-Token MUST NOT contain the access token presen
 ## Subject Token Types {#sec-sub-token-types}
 Identifies the token type of the `subject_token` which is generally a token the requesting workload received (e.g. an OAuth token or a SAML assertion). In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the details of the requester and the transaction to the TTS.
 
-## Use of 'actor_token'
-If using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` can authenticate the identity of the requesting workload.
-
 ## Scope Processing
 The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the TTS. The TTS MUST ensure that the requested `scope` of the Txn-Token is equal or less than the scope(s) identified in the `subject_token`.
 
