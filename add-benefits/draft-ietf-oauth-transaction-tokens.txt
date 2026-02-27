@@ -326,10 +326,6 @@ Table of Contents
       from compromised or untrusted services, including some SBOM-
       related attack paths.
 
-   *  Through the use of digitally signed tokens, it prevents any
-      workload in the call-chain from modifying the context and identity
-      of the original call that initiated the call-chain.
-
    *  By restricting the lifetime of a Txn-Token to just a few minutes
       and by including a unique transaction identifier, it prevents
       replay of previous invocations.
