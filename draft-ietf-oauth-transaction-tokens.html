@@ -1285,28 +1285,25 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.14.2.5.1"><a href="#section-14.5" class="auto internal xref">14.5</a>.  <a href="#name-subject-token-types-2" class="internal xref">Subject Token Types</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.6">
-                <p id="section-toc.1-1.14.2.6.1"><a href="#section-14.6" class="auto internal xref">14.6</a>.  <a href="#name-use-of-actor_token" class="internal xref">Use of 'actor_token'</a></p>
+                <p id="section-toc.1-1.14.2.6.1"><a href="#section-14.6" class="auto internal xref">14.6</a>.  <a href="#name-scope-processing" class="internal xref">Scope Processing</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.7">
-                <p id="section-toc.1-1.14.2.7.1"><a href="#section-14.7" class="auto internal xref">14.7</a>.  <a href="#name-scope-processing" class="internal xref">Scope Processing</a></p>
+                <p id="section-toc.1-1.14.2.7.1"><a href="#section-14.7" class="auto internal xref">14.7</a>.  <a href="#name-tts-discovery" class="internal xref">TTS Discovery</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.8">
-                <p id="section-toc.1-1.14.2.8.1"><a href="#section-14.8" class="auto internal xref">14.8</a>.  <a href="#name-tts-discovery" class="internal xref">TTS Discovery</a></p>
+                <p id="section-toc.1-1.14.2.8.1"><a href="#section-14.8" class="auto internal xref">14.8</a>.  <a href="#name-workload-configuration-prot" class="internal xref">Workload Configuration Protection</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.9">
-                <p id="section-toc.1-1.14.2.9.1"><a href="#section-14.9" class="auto internal xref">14.9</a>.  <a href="#name-workload-configuration-prot" class="internal xref">Workload Configuration Protection</a></p>
+                <p id="section-toc.1-1.14.2.9.1"><a href="#section-14.9" class="auto internal xref">14.9</a>.  <a href="#name-tts-authentication" class="internal xref">TTS Authentication</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.10">
-                <p id="section-toc.1-1.14.2.10.1"><a href="#section-14.10" class="auto internal xref">14.10</a>. <a href="#name-tts-authentication" class="internal xref">TTS Authentication</a></p>
+                <p id="section-toc.1-1.14.2.10.1"><a href="#section-14.10" class="auto internal xref">14.10</a>. <a href="#name-tts-key-rotation" class="internal xref">TTS Key Rotation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.11">
-                <p id="section-toc.1-1.14.2.11.1"><a href="#section-14.11" class="auto internal xref">14.11</a>. <a href="#name-tts-key-rotation" class="internal xref">TTS Key Rotation</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.12">
-                <p id="section-toc.1-1.14.2.12.1"><a href="#section-14.12" class="auto internal xref">14.12</a>. <a href="#name-transaction-tokens-are-not-" class="internal xref">Transaction Tokens Are Not Authentication Credentials</a></p>
+                <p id="section-toc.1-1.14.2.11.1"><a href="#section-14.11" class="auto internal xref">14.11</a>. <a href="#name-transaction-tokens-are-not-" class="internal xref">Transaction Tokens Are Not Authentication Credentials</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.12.2.1">
-                    <p id="section-toc.1-1.14.2.12.2.1.1"><a href="#section-14.12.1" class="auto internal xref">14.12.1</a>.  <a href="#name-txn-token-as-a-subject_toke" class="internal xref">Txn-Token as a <code>subject_token</code></a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.11.2.1">
+                    <p id="section-toc.1-1.14.2.11.2.1.1"><a href="#section-14.11.1" class="auto internal xref">14.11.1</a>.  <a href="#name-txn-token-as-a-subject_toke" class="internal xref">Txn-Token as a <code>subject_token</code></a></p>
 </li>
                 </ul>
 </li>
@@ -2217,94 +2214,86 @@ Cache-Control: no-store
 <p id="section-14.5-1">Identifies the token type of the <code>subject_token</code> which is generally a token the requesting workload received (e.g. an OAuth token or a SAML assertion). In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the details of the requester and the transaction to the TTS.<a href="#section-14.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="use-of-actortoken">
-<section id="section-14.6">
-        <h3 id="name-use-of-actor_token">
-<a href="#section-14.6" class="section-number selfRef">14.6. </a><a href="#name-use-of-actor_token" class="section-name selfRef">Use of 'actor_token'</a>
-        </h3>
-<p id="section-14.6-1">If using the <code>actor_token</code> and <code>actor_token_type</code> parameters of the OAuth 2.0 Token Exchange specification <span>[<a href="#RFC8693" class="cite xref">RFC8693</a>]</span>, both parameters MUST be present in the request. The <code>actor_token</code> can authenticate the identity of the requesting workload.<a href="#section-14.6-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 <div id="scope-processing">
-<section id="section-14.7">
+<section id="section-14.6">
         <h3 id="name-scope-processing">
-<a href="#section-14.7" class="section-number selfRef">14.7. </a><a href="#name-scope-processing" class="section-name selfRef">Scope Processing</a>
+<a href="#section-14.6" class="section-number selfRef">14.6. </a><a href="#name-scope-processing" class="section-name selfRef">Scope Processing</a>
         </h3>
-<p id="section-14.7-1">The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the TTS. The TTS MUST ensure that the requested <code>scope</code> of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>.<a href="#section-14.7-1" class="pilcrow">¶</a></p>
+<p id="section-14.6-1">The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the TTS. The TTS MUST ensure that the requested <code>scope</code> of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>.<a href="#section-14.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tts-discovery">
-<section id="section-14.8">
+<section id="section-14.7">
         <h3 id="name-tts-discovery">
-<a href="#section-14.8" class="section-number selfRef">14.8. </a><a href="#name-tts-discovery" class="section-name selfRef">TTS Discovery</a>
+<a href="#section-14.7" class="section-number selfRef">14.7. </a><a href="#name-tts-discovery" class="section-name selfRef">TTS Discovery</a>
         </h3>
-<p id="section-14.8-1">A workload may use various mechanisms to determine the correct instance of a TTS with which to interact. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to an instance of a TTS under it's control which could be used to collect access tokens sent as part of the Transaction Token Request message.<a href="#section-14.8-1" class="pilcrow">¶</a></p>
-<p id="section-14.8-2">To mitigate this risk, workloads SHOULD authenticate the service providing the configuration information and verify the integrity of the configuration information. This ensures that no unauthorized entity can insert or alter configuration data. The workload SHOULD use Transport Layer Security (TLS) to authenticate the endpoint and secure the communication channel. Additionally, application-layer signatures or message authentication codes MAY be used to detect any tampering with the configuration information.<a href="#section-14.8-2" class="pilcrow">¶</a></p>
+<p id="section-14.7-1">A workload may use various mechanisms to determine the correct instance of a TTS with which to interact. Workloads MUST retrieve configuration information from a trusted source to minimize the risk of a threat actor providing malicious configuration data that points to an instance of a TTS under it's control which could be used to collect access tokens sent as part of the Transaction Token Request message.<a href="#section-14.7-1" class="pilcrow">¶</a></p>
+<p id="section-14.7-2">To mitigate this risk, workloads SHOULD authenticate the service providing the configuration information and verify the integrity of the configuration information. This ensures that no unauthorized entity can insert or alter configuration data. The workload SHOULD use Transport Layer Security (TLS) to authenticate the endpoint and secure the communication channel. Additionally, application-layer signatures or message authentication codes MAY be used to detect any tampering with the configuration information.<a href="#section-14.7-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="workload-configuration-protection">
-<section id="section-14.9">
+<section id="section-14.8">
         <h3 id="name-workload-configuration-prot">
-<a href="#section-14.9" class="section-number selfRef">14.9. </a><a href="#name-workload-configuration-prot" class="section-name selfRef">Workload Configuration Protection</a>
+<a href="#section-14.8" class="section-number selfRef">14.8. </a><a href="#name-workload-configuration-prot" class="section-name selfRef">Workload Configuration Protection</a>
         </h3>
-<p id="section-14.9-1">A deployment may include multiple instances of a TTS to improve resiliency, reduce latency and enhance scalability. A workload may be configured to access more than one instance of a TTS to ensure reliability or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of TTS instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a TTS from the workload configuration.<a href="#section-14.9-1" class="pilcrow">¶</a></p>
+<p id="section-14.8-1">A deployment may include multiple instances of a TTS to improve resiliency, reduce latency and enhance scalability. A workload may be configured to access more than one instance of a TTS to ensure reliability or reduce latency for transaction token requests. The workload configuration should be protected against unauthorized addition or removal of TTS instances. An attacker may perform a denial of service attack or degrade the performance of a system by removing an instance of a TTS from the workload configuration.<a href="#section-14.8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tts-authentication">
-<section id="section-14.10">
+<section id="section-14.9">
         <h3 id="name-tts-authentication">
-<a href="#section-14.10" class="section-number selfRef">14.10. </a><a href="#name-tts-authentication" class="section-name selfRef">TTS Authentication</a>
+<a href="#section-14.9" class="section-number selfRef">14.9. </a><a href="#name-tts-authentication" class="section-name selfRef">TTS Authentication</a>
         </h3>
-<p id="section-14.10-1">A workload may accidently send a transaction token request to a service that is not a TTS, or an attacker may attempt to impersonate a TTS in order to gain access to transaction token requests which includes sensitive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transaction token request, the workload MUST ensure that it authenticates the TTS and only contacts instances of the TTS that is authorized to issue transaction tokens.<a href="#section-14.10-1" class="pilcrow">¶</a></p>
+<p id="section-14.9-1">A workload may accidently send a transaction token request to a service that is not a TTS, or an attacker may attempt to impersonate a TTS in order to gain access to transaction token requests which includes sensitive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transaction token request, the workload MUST ensure that it authenticates the TTS and only contacts instances of the TTS that is authorized to issue transaction tokens.<a href="#section-14.9-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tts-key-rotation">
-<section id="section-14.11">
+<section id="section-14.10">
         <h3 id="name-tts-key-rotation">
-<a href="#section-14.11" class="section-number selfRef">14.11. </a><a href="#name-tts-key-rotation" class="section-name selfRef">TTS Key Rotation</a>
+<a href="#section-14.10" class="section-number selfRef">14.10. </a><a href="#name-tts-key-rotation" class="section-name selfRef">TTS Key Rotation</a>
         </h3>
-<p id="section-14.11-1">The TTS may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of <span>[<a href="#OpenIdConnect" class="cite xref">OpenIdConnect</a>]</span>.<a href="#section-14.11-1" class="pilcrow">¶</a></p>
+<p id="section-14.10-1">The TTS may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of <span>[<a href="#OpenIdConnect" class="cite xref">OpenIdConnect</a>]</span>.<a href="#section-14.10-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="transaction-tokens-are-not-authentication-credentials">
-<section id="section-14.12">
+<section id="section-14.11">
         <h3 id="name-transaction-tokens-are-not-">
-<a href="#section-14.12" class="section-number selfRef">14.12. </a><a href="#name-transaction-tokens-are-not-" class="section-name selfRef">Transaction Tokens Are Not Authentication Credentials</a>
+<a href="#section-14.11" class="section-number selfRef">14.11. </a><a href="#name-transaction-tokens-are-not-" class="section-name selfRef">Transaction Tokens Are Not Authentication Credentials</a>
         </h3>
-<p id="section-14.12-1">A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in <a href="#Mutual-Authentication" class="auto internal xref">Section 12.5</a>.<a href="#section-14.12-1" class="pilcrow">¶</a></p>
+<p id="section-14.11-1">A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in <a href="#Mutual-Authentication" class="auto internal xref">Section 12.5</a>.<a href="#section-14.11-1" class="pilcrow">¶</a></p>
 <div id="txn-token-as-a-subjecttoken">
-<section id="section-14.12.1">
+<section id="section-14.11.1">
           <h4 id="name-txn-token-as-a-subject_toke">
-<a href="#section-14.12.1" class="section-number selfRef">14.12.1. </a><a href="#name-txn-token-as-a-subject_toke" class="section-name selfRef">Txn-Token as a <code>subject_token</code></a>
+<a href="#section-14.11.1" class="section-number selfRef">14.11.1. </a><a href="#name-txn-token-as-a-subject_toke" class="section-name selfRef">Txn-Token as a <code>subject_token</code></a>
           </h4>
-<p id="section-14.12.1-1">A TTS MUST exercise caution when receiving a Txn-token as a <code>subject_token</code>. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:<a href="#section-14.12.1-1" class="pilcrow">¶</a></p>
+<p id="section-14.11.1-1">A TTS MUST exercise caution when receiving a Txn-token as a <code>subject_token</code>. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:<a href="#section-14.11.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-14.12.1-2.1">
-              <p id="section-14.12.1-2.1.1">MAY enable modifications to asserted values that reduce the scope of permitted actions.<a href="#section-14.12.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-14.11.1-2.1">
+              <p id="section-14.11.1-2.1.1">MAY enable modifications to asserted values that reduce the scope of permitted actions.<a href="#section-14.11.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.2">
-              <p id="section-14.12.1-2.2.1">MAY enable additional asserted values.<a href="#section-14.12.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.2">
+              <p id="section-14.11.1-2.2.1">MAY enable additional asserted values.<a href="#section-14.11.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.3">
-              <p id="section-14.12.1-2.3.1">MUST NOT enable modification to asserted values that expand the scope of permitted actions.<a href="#section-14.12.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.3">
+              <p id="section-14.11.1-2.3.1">MUST NOT enable modification to asserted values that expand the scope of permitted actions.<a href="#section-14.11.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.4">
-              <p id="section-14.12.1-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request.<a href="#section-14.12.1-2.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.4">
+              <p id="section-14.11.1-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request.<a href="#section-14.11.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.5">
-              <p id="section-14.12.1-2.5.1">MUST NOT remove any of the existing requesting workload identifiers from the <code>req_wl</code> claim.<a href="#section-14.12.1-2.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.5">
+              <p id="section-14.11.1-2.5.1">MUST NOT remove any of the existing requesting workload identifiers from the <code>req_wl</code> claim.<a href="#section-14.11.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.6">
-              <p id="section-14.12.1-2.6.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-14.12.1-2.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.6">
+              <p id="section-14.11.1-2.6.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-14.11.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.7">
-              <p id="section-14.12.1-2.7.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-14.12.1-2.7.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.7">
+              <p id="section-14.11.1-2.7.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-14.11.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.8">
-              <p id="section-14.12.1-2.8.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-14.12.1-2.8.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.8">
+              <p id="section-14.11.1-2.8.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-14.11.1-2.8.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-14.12.1-2.9">
-              <p id="section-14.12.1-2.9.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-14.12.1-2.9.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-14.11.1-2.9">
+              <p id="section-14.11.1-2.9.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-14.11.1-2.9.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>

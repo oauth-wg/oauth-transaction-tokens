@@ -108,14 +108,13 @@ Table of Contents
      14.3.  Refresh Tokens
      14.4.  Access Tokens
      14.5.  Subject Token Types
-     14.6.  Use of 'actor_token'
-     14.7.  Scope Processing
-     14.8.  TTS Discovery
-     14.9.  Workload Configuration Protection
-     14.10. TTS Authentication
-     14.11. TTS Key Rotation
-     14.12. Transaction Tokens Are Not Authentication Credentials
-       14.12.1.  Txn-Token as a subject_token
+     14.6.  Scope Processing
+     14.7.  TTS Discovery
+     14.8.  Workload Configuration Protection
+     14.9.  TTS Authentication
+     14.10. TTS Key Rotation
+     14.11. Transaction Tokens Are Not Authentication Credentials
+       14.11.1.  Txn-Token as a subject_token
    15. Privacy Considerations
      15.1.  Handling of Personal Information
      15.2.  Logging
@@ -982,14 +981,7 @@ Table of Contents
    or any other format to represent the details of the requester and the
    transaction to the TTS.
 
-14.6.  Use of 'actor_token'
-
-   If using the actor_token and actor_token_type parameters of the OAuth
-   2.0 Token Exchange specification [RFC8693], both parameters MUST be
-   present in the request.  The actor_token can authenticate the
-   identity of the requesting workload.
-
-14.7.  Scope Processing
+14.6.  Scope Processing
 
    The authorization model within a Trust Domain boundary may be quite
    different from the authorization model (e.g. OAuth scopes) used with
@@ -998,7 +990,7 @@ Table of Contents
    MUST ensure that the requested scope of the Txn-Token is equal or
    less than the scope(s) identified in the subject_token.
 
-14.8.  TTS Discovery
+14.7.  TTS Discovery
 
    A workload may use various mechanisms to determine the correct
    instance of a TTS with which to interact.  Workloads MUST retrieve
@@ -1017,7 +1009,7 @@ Table of Contents
    signatures or message authentication codes MAY be used to detect any
    tampering with the configuration information.
 
-14.9.  Workload Configuration Protection
+14.8.  Workload Configuration Protection
 
    A deployment may include multiple instances of a TTS to improve
    resiliency, reduce latency and enhance scalability.  A workload may
@@ -1028,7 +1020,7 @@ Table of Contents
    denial of service attack or degrade the performance of a system by
    removing an instance of a TTS from the workload configuration.
 
-14.10.  TTS Authentication
+14.9.  TTS Authentication
 
    A workload may accidently send a transaction token request to a
    service that is not a TTS, or an attacker may attempt to impersonate
@@ -1039,12 +1031,12 @@ Table of Contents
    that it authenticates the TTS and only contacts instances of the TTS
    that is authorized to issue transaction tokens.
 
-14.11.  TTS Key Rotation
+14.10.  TTS Key Rotation
 
    The TTS may need to rotate signing keys.  When doing so, it MAY adopt
    the key rotation practices in Section 10.1.1 of [OpenIdConnect].
 
-14.12.  Transaction Tokens Are Not Authentication Credentials
+14.11.  Transaction Tokens Are Not Authentication Credentials
 
    A workload MUST NOT use a transaction token to authenticate itself to
    another workload, service or the TTS.  Transaction tokens represents
@@ -1052,7 +1044,7 @@ Table of Contents
    identity credentials.  Authentication between the workload and the
    TTS is described in Section 12.5.
 
-14.12.1.  Txn-Token as a subject_token
+14.11.1.  Txn-Token as a subject_token
 
    A TTS MUST exercise caution when receiving a Txn-token as a
    subject_token.  Any Txn-Token issued in response to such a request is
