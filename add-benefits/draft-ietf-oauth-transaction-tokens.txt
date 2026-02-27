@@ -326,10 +326,6 @@ Table of Contents
       from compromised or untrusted services, including some SBOM-
       related attack paths.
 
-   *  By restricting the lifetime of a Txn-Token to just a few minutes
-      and by including a unique transaction identifier, it prevents
-      replay of previous invocations.
-
 9.  Txn-Token Issuance and Usage Flows
 
 9.1.  Basic Flow
