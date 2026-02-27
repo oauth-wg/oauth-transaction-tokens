@@ -1524,18 +1524,31 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
       <h2 id="name-benefits-of-txn-tokens">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-benefits-of-txn-tokens" class="section-name selfRef">Benefits of Txn-Tokens</a>
       </h2>
+<p id="section-8-1">Txn-Tokens prevent unauthorized invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call. This results in the following benefits:<a href="#section-8-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-8-1.1">
-          <p id="section-8-1.1.1">By restricting workloads that can request Txn-Tokens, it ensures that Software Bill-Of-Materials (SBOM) attacks are prevented from all services that cannot request Txn-Tokens.<a href="#section-8-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8-2.1">
+          <p id="section-8-2.1.1">Short-lived, Txn-Tokens, bound to a single transaction, reduce replay risk.<a href="#section-8-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-8-1.2">
-          <p id="section-8-1.2.1">By providing the ability to independently verify the Txn-Token in each workload, it prevents anyone with access to invoke the workload from spuriously invoking the workload.<a href="#section-8-1.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-8-2.2">
+          <p id="section-8-2.2.1">Narrowly scoped Txn-Tokens limit lateral movement and blast radius.<a href="#section-8-2.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-8-1.3">
-          <p id="section-8-1.3.1">Through the use of digitally signed tokens, it prevents any workload in the call-chain from modifying the context and identity of the original call that initiated the call-chain.<a href="#section-8-1.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-8-2.3">
+          <p id="section-8-2.3.1">Signed Txn-Tokens protect the original call context and identity from modification along the call chain.<a href="#section-8-2.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-8-1.4">
-          <p id="section-8-1.4.1">By restricting the lifetime of a Txn-Token to just a few minutes and by including a unique transaction identifier, it prevents replay of previous invocations.<a href="#section-8-1.4.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-8-2.4">
+          <p id="section-8-2.4.1">Independent verification at each workload helps prevent unauthorized invocation.<a href="#section-8-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.5">
+          <p id="section-8-2.5.1">Restricting which workloads can obtain Txn-Tokens limits exposure from compromised or untrusted services, including some SBOM-related attack paths.<a href="#section-8-2.5.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.6">
+          <p id="section-8-2.6.1">By providing the ability to independently verify the Txn-Token in each workload, it prevents anyone with access to invoke the workload from spuriously invoking the workload.<a href="#section-8-2.6.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.7">
+          <p id="section-8-2.7.1">Through the use of digitally signed tokens, it prevents any workload in the call-chain from modifying the context and identity of the original call that initiated the call-chain.<a href="#section-8-2.7.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.8">
+          <p id="section-8-2.8.1">By restricting the lifetime of a Txn-Token to just a few minutes and by including a unique transaction identifier, it prevents replay of previous invocations.<a href="#section-8-2.8.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>

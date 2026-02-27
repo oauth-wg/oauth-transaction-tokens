@@ -304,9 +304,27 @@ Table of Contents
 
 8.  Benefits of Txn-Tokens
 
-   *  By restricting workloads that can request Txn-Tokens, it ensures
-      that Software Bill-Of-Materials (SBOM) attacks are prevented from
-      all services that cannot request Txn-Tokens.
+   Txn-Tokens prevent unauthorized invocations by allowing a workload to
+   independently verify the identity of the user or workload that
+   initiated an external call, as well as any contextual information
+   relevant to processing that call.  This results in the following
+   benefits:
+
+   *  Short-lived, Txn-Tokens, bound to a single transaction, reduce
+      replay risk.
+
+   *  Narrowly scoped Txn-Tokens limit lateral movement and blast
+      radius.
+
+   *  Signed Txn-Tokens protect the original call context and identity
+      from modification along the call chain.
+
+   *  Independent verification at each workload helps prevent
+      unauthorized invocation.
+
+   *  Restricting which workloads can obtain Txn-Tokens limits exposure
+      from compromised or untrusted services, including some SBOM-
+      related attack paths.
 
    *  By providing the ability to independently verify the Txn-Token in
       each workload, it prevents anyone with access to invoke the
