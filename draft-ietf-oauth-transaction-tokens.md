@@ -175,7 +175,13 @@ If the requesting service does not have an inbound token that it can use in its 
 Txn-Tokens are expected to be short-lived (on the order of minutes or less), and as a result MUST be used only for the expected duration of an external or internal invocation. If the token or other credential (e.g. self-signed JWT) presented to the TTS when requesting a Txn-Token has an expiration time, then the TTS MUST NOT issue a Txn-Token if the expiration time has passed. The lifetime of the Txn-Token itself MAY exceed the expiration time of the presented token, subject to the policy of the TTS. The TTS SHOULD assess whether the Txn-Token’s assigned lifetime and transaction binding adequately mitigate the risks of a Txn-Token lifetime that exceeds the presented subject token’s expiration time. If a long-running process such as a batch or offline task is involved, the mechanism used to perform the external or internal invocation still results in a short-lived Txn-Token (see {{lifetime}}).
 
 # Benefits of Txn-Tokens
-* By restricting workloads that can request Txn-Tokens, it ensures that Software Bill-Of-Materials (SBOM) attacks are prevented from all services that cannot request Txn-Tokens.
+Txn-Tokens prevent unauthorized invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call. This results in the following benefits:
+
+* Short-lived, Txn-Tokens, bound to a single transaction, reduce replay risk.
+* Narrowly scoped Txn-Tokens limit lateral movement and blast radius.
+* Signed Txn-Tokens protect the original call context and identity from modification along the call chain.
+* Independent verification at each workload helps prevent unauthorized invocation.
+* Restricting which workloads can obtain Txn-Tokens limits exposure from compromised or untrusted services, including some SBOM-related attack paths.
 * By providing the ability to independently verify the Txn-Token in each workload, it prevents anyone with access to invoke the workload from spuriously invoking the workload.
 * Through the use of digitally signed tokens, it prevents any workload in the call-chain from modifying the context and identity of the original call that initiated the call-chain.
 * By restricting the lifetime of a Txn-Token to just a few minutes and by including a unique transaction identifier, it prevents replay of previous invocations.
