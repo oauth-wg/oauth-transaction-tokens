@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 16 August 2026                           Practical Identity LLC
+Expires: 31 August 2026                           Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        12 February 2026
+                                                        27 February 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 August 2026.
+   This Internet-Draft will expire on 31 August 2026.
 
 Copyright Notice
 
@@ -496,7 +496,10 @@ Table of Contents
       context of the requested transaction.
 
    req_wl:  REQUIRED.  A string value that identifies the workload that
-      requested the Txn-Token.
+      requested the Txn-Token.  The value SHOULD contain a single
+      workload identifier.  In some circumstances, the value MAY contain
+      multiple workload identifiers with each identifier separated by a
+      comma (,).
 
 10.2.1.  Scope claim
 
@@ -1477,6 +1480,9 @@ Since Draft 06
    *  Updated references to call chain to be capitalized and fixed some
       definitions (https://github.com/oauth-wg/oauth-transaction-tokens/
       issues/284)
+
+   *  Update definition of req_wl claim (https://github.com/oauth-wg/
+      oauth-transaction-tokens/issues/311)
 
 Since Draft 05
 
