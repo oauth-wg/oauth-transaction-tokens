@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-26T00:23:32.039889+00:00",
+  "timestamp": "2026-03-01T00:28:43.924165+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6150,11 +6150,13 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [],
       "body": "## Use of 'actor_token'\nIf using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` can authenticate the identity of the requesting workload.",
       "createdAt": "2026-02-11T16:41:33Z",
-      "updatedAt": "2026-02-12T19:01:39Z",
+      "updatedAt": "2026-02-27T16:10:21Z",
       "closedAt": null,
       "comments": [
         {
@@ -6170,6 +6172,13 @@
           "body": "Originally, we added this as another way the client can do client authentication. Now I'm wondering if we need to call it out at all or just leave it up to developers to determine how they want to do client authentication.",
           "createdAt": "2026-02-12T19:01:39Z",
           "updatedAt": "2026-02-12T19:01:39Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Editors consensus - remove actor_token",
+          "createdAt": "2026-02-27T16:10:18Z",
+          "updatedAt": "2026-02-27T16:10:18Z"
         }
       ]
     },
@@ -6181,11 +6190,13 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "gffletch"
+      ],
       "labels": [],
       "body": "Do we want to keep the section below? If so, then I think we need to figure out what to do about the `req_wl` claim requirements.\n\n>### Txn-Token as a `subject_token`\nA TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:\n\n* MAY enable modifications to asserted values that reduce the scope of permitted actions.\n* MAY enable additional asserted values.\n* MUST NOT enable modification to asserted values that expand the scope of permitted actions.\n* MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request.\n* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim.\n* MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.\n* MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the transaction token issuer.\n* SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.\n* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.",
       "createdAt": "2026-02-11T16:53:29Z",
-      "updatedAt": "2026-02-12T19:04:58Z",
+      "updatedAt": "2026-02-27T16:14:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -6201,6 +6212,13 @@
           "body": "I guess I'm wondering if we need to add more text when defining the `req_wl` claim to make it clear it could be a list of identifiers separated by a commas.  Also, I'm not sure it's really non-normative with all the MAY, MUST, SHOULD and MUST NOT clauses.",
           "createdAt": "2026-02-12T19:04:58Z",
           "updatedAt": "2026-02-12T19:04:58Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": ">MUST append the workload identifier of the workload requesting the replacement to the req_wl claim using the character , as the separator between individual workload identifiers.\n\nGeorge to update the normative definition for req_wl",
+          "createdAt": "2026-02-27T16:13:54Z",
+          "updatedAt": "2026-02-27T16:13:54Z"
         }
       ]
     },
@@ -6212,11 +6230,13 @@
       "state": "OPEN",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "tulshi"
+      ],
       "labels": [],
       "body": "Per my editorial review PR, it seems like we may want to enhance this section. I'm creating a issue so we can do the work (if we decided to) in a different PR.\n\nPieter's comment from the PR\n> We got some WGLC feedback that maybe we are overstating the benefits - however, current benefit is anly about preservviong context and we can add something about time-limited (reduce exxposure window), scope reduction (blast radius reductioon) and transaction specific binding as additional benefits.",
       "createdAt": "2026-02-12T19:07:09Z",
-      "updatedAt": "2026-02-12T19:07:09Z",
+      "updatedAt": "2026-02-27T16:16:12Z",
       "closedAt": null,
       "comments": []
     },
@@ -6248,9 +6268,17 @@
       "labels": [],
       "body": "Currently, it seems `sub` can be end user identity (if `access token` was used by external endpoint to request Txn-Token from TTS) or it can be External endpoint itself. In former case, external endpoint identity is never captured in the token.\n\nI have a draft for AI agents with Txn-tokens.\nhttps://www.ietf.org/archive/id/draft-oauth-transaction-tokens-for-agents-04.html#name-principal-initiated-flow\n\nIn my draft, I had input to TTS as `subject token + access token` received from AI agent at external endpoint (not one of the two inputs but both)\n\nOutput we get is: \n\u200b`Txn token {\n\n    Sub: <set to external service> // because TA authenticates subject i.e external endpoint\n\n    Principal : <set to human (from access token)> // new field\n\n    Actor: AI Agent // new field.. this could be \u2018act.sub\u2019 but I didn\u2019t use that because \u2018act.sub\u2019 could be some internal service that is acting on behalf of external identity.\n\n}`\n\nThis is different than Txn token draft because\nTxn token draft says external endpoint can pass its self-signed JWT or input access token (w/ token exchange) but I am mandating both.\nIn my proposal, we don\u2019t lose the external identity.\n\n\nI do ack that `sub` should be human. If I do that, then I don\u2019t really need Principal. Sub in Txn token should suffice and act.sub will be AI Agent.\n\n### Question \nBasically where am I heading with my question is that can we simply say that this latest draft for Txn-token is good enough to capture `AI Agent + Human identity` (in sub and act.sub) in Txn-token as along as the agent passes an OBO token which has sub and act.sub?\n\nIf that is the case, then my draft should simply call out that we need to introduce `act` field and `req_wl` will continue to be the externally visible endpoint\n\nWould love to hear some thoughts on this one from you all?",
       "createdAt": "2026-02-21T02:29:18Z",
-      "updatedAt": "2026-02-24T19:36:01Z",
+      "updatedAt": "2026-02-27T16:27:10Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@PieterKas , @gffletch and I discussed this:\n- We assume when you say \"external endpoint\", you mean the requesting workload \n- `sub` is the subject of the transaction, not necessarily the actor.\n- When used in an AI scenario, the `req_wl` will be the agent, which maps to your \"actor\", and the `sub` would be the human about whom the transaction is.\n- If you have a AI agent requesting an API gateway and the API gateway is requesting a transaction token, then the `req_wl` should have the agent identifier, and not the gateway identifier.\n",
+          "createdAt": "2026-02-27T16:27:10Z",
+          "updatedAt": "2026-02-27T16:27:10Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -20171,6 +20199,197 @@
           "body": "Looks good to me.",
           "createdAt": "2026-02-12T19:34:35Z",
           "updatedAt": "2026-02-12T19:34:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 315,
+      "id": "PR_kwDOJt_WwM7G3shu",
+      "title": "Update definition of `req_wl` claim",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/315",
+      "state": "MERGED",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarified the definition of the `req_wl` claim to specify that it should contain a single workload identifier, with the option for multiple identifiers separated by commas. Addresses issue #311.",
+      "createdAt": "2026-02-27T16:43:05Z",
+      "updatedAt": "2026-02-27T18:06:48Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d8ca043e3fcbf28b3d49cd698f5b4f0a3ba4cc5c",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_311",
+      "headRefOid": "2954d19c45c642c06e49656f76c37a1f93df0aaf",
+      "closedAt": "2026-02-27T18:06:48Z",
+      "mergedAt": "2026-02-27T18:06:48Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "b1584df5b3920d6fd89f8d128f4563d777c77e1c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7mkc2L",
+          "commit": {
+            "abbreviatedOid": "2954d19"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-27T18:06:41Z",
+          "updatedAt": "2026-02-27T18:06:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 316,
+      "id": "PR_kwDOJt_WwM7G5Bu1",
+      "title": "Expand benefits section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/316",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-02-27T18:27:36Z",
+      "updatedAt": "2026-02-27T20:07:07Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "b1584df5b3920d6fd89f8d128f4563d777c77e1c",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "add-benefits",
+      "headRefOid": "485eaa99d29d693c9f48cb6aaeb23722d31cf50f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7mmD0F",
+          "commit": {
+            "abbreviatedOid": "1340aae"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-27T19:42:09Z",
+          "updatedAt": "2026-02-27T19:42:10Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "\n```suggestion\nTxn-Tokens prevent unauthorized invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call. This results in the following benefits:\n\n* Short-lived, Txn-Tokens, bound to a single transaction, reduce replay risk.\n* Narrowly scoped Txn-Tokens limit lateral movement and blast radius.\n* Signed Txn-Tokens protect the original call context and identity from modification along the call chain.\n* Independent verification at each workload helps prevent unauthorized invocation.\n* Restricting which workloads can obtain Txn-Tokens limits exposure from compromised or untrusted services, including some SBOM-related attack paths.\n```",
+              "createdAt": "2026-02-27T19:42:10Z",
+              "updatedAt": "2026-02-27T19:42:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7mmETf",
+          "commit": {
+            "abbreviatedOid": "1340aae"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-27T19:42:44Z",
+          "updatedAt": "2026-02-27T19:42:45Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-02-27T19:42:45Z",
+              "updatedAt": "2026-02-27T19:42:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7mmEd8",
+          "commit": {
+            "abbreviatedOid": "1340aae"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-27T19:42:57Z",
+          "updatedAt": "2026-02-27T19:42:57Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-02-27T19:42:57Z",
+              "updatedAt": "2026-02-27T19:42:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7mmEoB",
+          "commit": {
+            "abbreviatedOid": "1340aae"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-27T19:43:09Z",
+          "updatedAt": "2026-02-27T19:43:09Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-02-27T19:43:09Z",
+              "updatedAt": "2026-02-27T19:43:09Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 317,
+      "id": "PR_kwDOJt_WwM7G5-Ml",
+      "title": "Remove actor_token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/317",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #310",
+      "createdAt": "2026-02-27T19:45:09Z",
+      "updatedAt": "2026-02-27T19:45:51Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "b1584df5b3920d6fd89f8d128f4563d777c77e1c",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "c431620e0722b58a271aa7e4e2b8b40e8924f8b6",
+      "closedAt": "2026-02-27T19:45:49Z",
+      "mergedAt": "2026-02-27T19:45:49Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "6220b8a05623738bf3fafe52ceca4ae33e8abe22"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7mmHIH",
+          "commit": {
+            "abbreviatedOid": "c431620"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-02-27T19:45:42Z",
+          "updatedAt": "2026-02-27T19:45:42Z",
           "comments": []
         }
       ]
