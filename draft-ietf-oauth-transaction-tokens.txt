@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                                      SGNL
 Intended status: Standards Track                             G. Fletcher
-Expires: 31 August 2026                           Practical Identity LLC
+Expires: 3 September 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        27 February 2026
+                                                            2 March 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -303,10 +303,27 @@ Table of Contents
 
 8.  Benefits of Txn-Tokens
 
-   Txn-Tokens prevent unauthorized or unintended invocations by allowing
-   a workload to independently verify the identity of the user or
-   workload that initiated an external call, as well as any contextual
-   information relevant to processing that call.
+   Txn-Tokens prevent unauthorized invocations by allowing a workload to
+   independently verify the identity of the user or workload that
+   initiated an external call, as well as any contextual information
+   relevant to processing that call.  This results in the following
+   benefits:
+
+   *  Short-lived, Txn-Tokens, bound to a single transaction, reduce
+      replay risk.
+
+   *  Narrowly scoped Txn-Tokens limit lateral movement and blast
+      radius.
+
+   *  Signed Txn-Tokens protect the original call context and identity
+      from modification along the call chain.
+
+   *  Independent verification at each workload helps prevent
+      unauthorized invocation.
+
+   *  Restricting which workloads can obtain Txn-Tokens limits exposure
+      from compromised or untrusted services, including some SBOM-
+      related attack paths.
 
 9.  Txn-Token Issuance and Usage Flows
 
@@ -1356,9 +1373,9 @@ Table of Contents
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
               Authentication with HTTP Signatures", Work in Progress,
-              Internet-Draft, draft-ietf-wimse-http-signature-01, 8
-              January 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-wimse-http-signature-01>.
+              Internet-Draft, draft-ietf-wimse-http-signature-02, 1
+              March 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-wimse-http-signature-02>.
 
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof
