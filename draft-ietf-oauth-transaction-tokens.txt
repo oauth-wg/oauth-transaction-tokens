@@ -3,7 +3,7 @@
 
 
 oauth                                                   A. Tulshibagwale
-Internet-Draft                                                      SGNL
+Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
 Expires: 3 September 2026                         Practical Identity LLC
                                                             P. Kasselman
@@ -1359,9 +1359,9 @@ Table of Contents
               Salowey, J. A., Rosomakho, Y., and H. Tschofenig,
               "Workload Identity in a Multi System Environment (WIMSE)
               Architecture", Work in Progress, Internet-Draft, draft-
-              ietf-wimse-arch-06, 30 September 2025,
+              ietf-wimse-arch-07, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              arch-06>.
+              arch-07>.
 
    [I-D.ietf-wimse-mutual-tls]
               Salowey, J. A. and Y. Rosomakho, "Workload Authentication
@@ -1531,8 +1531,8 @@ Since Draft 04
 Authors' Addresses
 
    Atul Tulshibagwale
-   SGNL
-   Email: atul@sgnl.ai
+   CrowdStrike
+   Email: atul.tulshibagwale@crowdstrike.com
 
 
    George Fletcher
