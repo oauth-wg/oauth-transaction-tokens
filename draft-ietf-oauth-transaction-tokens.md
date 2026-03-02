@@ -23,8 +23,8 @@ kw:
 author:
 - ins: A. Tulshibagwale
   name: Atul Tulshibagwale
-  org: SGNL
-  email: atul@sgnl.ai
+  org: CrowdStrike
+  email: atul.tulshibagwale@crowdstrike.com
 
 - ins: G. Fletcher
   name: George Fletcher
