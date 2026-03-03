@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-01T00:28:43.924165+00:00",
+  "timestamp": "2026-03-03T00:26:19.832635+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -20250,24 +20250,26 @@
       "id": "PR_kwDOJt_WwM7G5Bu1",
       "title": "Expand benefits section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/316",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-02-27T18:27:36Z",
-      "updatedAt": "2026-02-27T20:07:07Z",
+      "updatedAt": "2026-03-02T17:02:52Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "b1584df5b3920d6fd89f8d128f4563d777c77e1c",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "add-benefits",
       "headRefOid": "485eaa99d29d693c9f48cb6aaeb23722d31cf50f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-03-02T17:02:51Z",
+      "mergedAt": "2026-03-02T17:02:51Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "58249c8adb5744b9a756bb71185d886e0f3e0329"
+      },
       "comments": [],
       "reviews": [
         {
@@ -20349,6 +20351,19 @@
               "updatedAt": "2026-02-27T19:43:09Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7nAXaP",
+          "commit": {
+            "abbreviatedOid": "485eaa9"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-02T11:34:03Z",
+          "updatedAt": "2026-03-02T11:34:03Z",
+          "comments": []
         }
       ]
     },
@@ -20390,6 +20405,48 @@
           "body": "",
           "createdAt": "2026-02-27T19:45:42Z",
           "updatedAt": "2026-02-27T19:45:42Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 318,
+      "id": "PR_kwDOJt_WwM7HZPXu",
+      "title": "changed my employer details",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/318",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-03-02T17:39:24Z",
+      "updatedAt": "2026-03-02T18:25:46Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "58249c8adb5744b9a756bb71185d886e0f3e0329",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-affiliation",
+      "headRefOid": "e3db09c1d805437e525ade895a677b4d06650d65",
+      "closedAt": "2026-03-02T18:25:45Z",
+      "mergedAt": "2026-03-02T18:25:44Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "168e9079c56c39a078bd86b3381f1c4f6a20e39a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7nJGj2",
+          "commit": {
+            "abbreviatedOid": "e3db09c"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-03-02T18:25:36Z",
+          "updatedAt": "2026-03-02T18:25:36Z",
           "comments": []
         }
       ]
