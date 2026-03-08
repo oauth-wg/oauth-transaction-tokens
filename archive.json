@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-03T00:26:19.832635+00:00",
+  "timestamp": "2026-03-08T00:25:41.154392+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6268,7 +6268,7 @@
       "labels": [],
       "body": "Currently, it seems `sub` can be end user identity (if `access token` was used by external endpoint to request Txn-Token from TTS) or it can be External endpoint itself. In former case, external endpoint identity is never captured in the token.\n\nI have a draft for AI agents with Txn-tokens.\nhttps://www.ietf.org/archive/id/draft-oauth-transaction-tokens-for-agents-04.html#name-principal-initiated-flow\n\nIn my draft, I had input to TTS as `subject token + access token` received from AI agent at external endpoint (not one of the two inputs but both)\n\nOutput we get is: \n\u200b`Txn token {\n\n    Sub: <set to external service> // because TA authenticates subject i.e external endpoint\n\n    Principal : <set to human (from access token)> // new field\n\n    Actor: AI Agent // new field.. this could be \u2018act.sub\u2019 but I didn\u2019t use that because \u2018act.sub\u2019 could be some internal service that is acting on behalf of external identity.\n\n}`\n\nThis is different than Txn token draft because\nTxn token draft says external endpoint can pass its self-signed JWT or input access token (w/ token exchange) but I am mandating both.\nIn my proposal, we don\u2019t lose the external identity.\n\n\nI do ack that `sub` should be human. If I do that, then I don\u2019t really need Principal. Sub in Txn token should suffice and act.sub will be AI Agent.\n\n### Question \nBasically where am I heading with my question is that can we simply say that this latest draft for Txn-token is good enough to capture `AI Agent + Human identity` (in sub and act.sub) in Txn-token as along as the agent passes an OBO token which has sub and act.sub?\n\nIf that is the case, then my draft should simply call out that we need to introduce `act` field and `req_wl` will continue to be the externally visible endpoint\n\nWould love to hear some thoughts on this one from you all?",
       "createdAt": "2026-02-21T02:29:18Z",
-      "updatedAt": "2026-02-27T16:27:10Z",
+      "updatedAt": "2026-03-06T18:20:39Z",
       "closedAt": null,
       "comments": [
         {
@@ -6277,6 +6277,13 @@
           "body": "@PieterKas , @gffletch and I discussed this:\n- We assume when you say \"external endpoint\", you mean the requesting workload \n- `sub` is the subject of the transaction, not necessarily the actor.\n- When used in an AI scenario, the `req_wl` will be the agent, which maps to your \"actor\", and the `sub` would be the human about whom the transaction is.\n- If you have a AI agent requesting an API gateway and the API gateway is requesting a transaction token, then the `req_wl` should have the agent identifier, and not the gateway identifier.\n",
           "createdAt": "2026-02-27T16:27:10Z",
           "updatedAt": "2026-02-27T16:27:10Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok so I believe we agree on\n1. `sub` will be human in case human is involved. (this aligns with what I have in my draft)\n2. I am thinking to remove 'actor' from my draft and simply use 'act.sub' field for AI agent and 'sub' will be human.\n\nNow comes the part where `req_wl` is AI agent or API Gateway? I believe `req_wl` is always the first service in my trust domain that actually requests token. If API GW is external facing endpoint and AI Agent is some 3P app, then `req_wl` should be API Gateway but if AI Agent is 1P agent exposed by same company/org, then yes, `req_wl` should be AI Agent.\n\nSo #3 is probably the topic to settle on or clarify. I can update my draft once we clarify #3.",
+          "createdAt": "2026-03-06T18:20:29Z",
+          "updatedAt": "2026-03-06T18:20:39Z"
         }
       ]
     }
