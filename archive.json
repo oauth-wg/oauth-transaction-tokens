@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-08T00:25:41.154392+00:00",
+  "timestamp": "2026-03-10T00:23:27.101958+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6147,7 +6147,7 @@
       "id": "I_kwDOJt_WwM7qGYU-",
       "title": "Do we need a security consideration for `actor_token`?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/310",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -6156,8 +6156,8 @@
       "labels": [],
       "body": "## Use of 'actor_token'\nIf using the `actor_token` and `actor_token_type` parameters of the OAuth 2.0 Token Exchange specification {{RFC8693}}, both parameters MUST be present in the request. The `actor_token` can authenticate the identity of the requesting workload.",
       "createdAt": "2026-02-11T16:41:33Z",
-      "updatedAt": "2026-02-27T16:10:21Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-09T15:15:03Z",
+      "closedAt": "2026-03-09T15:15:02Z",
       "comments": [
         {
           "author": "tulshi",
@@ -6179,6 +6179,13 @@
           "body": "Editors consensus - remove actor_token",
           "createdAt": "2026-02-27T16:10:18Z",
           "updatedAt": "2026-02-27T16:10:18Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed via #317 ",
+          "createdAt": "2026-03-09T15:15:03Z",
+          "updatedAt": "2026-03-09T15:15:03Z"
         }
       ]
     },
@@ -6187,7 +6194,7 @@
       "id": "I_kwDOJt_WwM7qGk1g",
       "title": "Security consideration section on \"replacement transaction tokens\"",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/311",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -6196,8 +6203,8 @@
       "labels": [],
       "body": "Do we want to keep the section below? If so, then I think we need to figure out what to do about the `req_wl` claim requirements.\n\n>### Txn-Token as a `subject_token`\nA TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:\n\n* MAY enable modifications to asserted values that reduce the scope of permitted actions.\n* MAY enable additional asserted values.\n* MUST NOT enable modification to asserted values that expand the scope of permitted actions.\n* MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request.\n* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim.\n* MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.\n* MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the transaction token issuer.\n* SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.\n* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.",
       "createdAt": "2026-02-11T16:53:29Z",
-      "updatedAt": "2026-02-27T16:14:00Z",
-      "closedAt": null,
+      "updatedAt": "2026-03-09T15:14:39Z",
+      "closedAt": "2026-03-09T15:14:39Z",
       "comments": [
         {
           "author": "tulshi",
@@ -6219,6 +6226,13 @@
           "body": ">MUST append the workload identifier of the workload requesting the replacement to the req_wl claim using the character , as the separator between individual workload identifiers.\n\nGeorge to update the normative definition for req_wl",
           "createdAt": "2026-02-27T16:13:54Z",
           "updatedAt": "2026-02-27T16:13:54Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in #315 ",
+          "createdAt": "2026-03-09T15:14:39Z",
+          "updatedAt": "2026-03-09T15:14:39Z"
         }
       ]
     },
@@ -6227,7 +6241,7 @@
       "id": "I_kwDOJt_WwM7qdNvT",
       "title": "Enhance the `Benefits of Txn-Tokens` section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/312",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -6236,9 +6250,17 @@
       "labels": [],
       "body": "Per my editorial review PR, it seems like we may want to enhance this section. I'm creating a issue so we can do the work (if we decided to) in a different PR.\n\nPieter's comment from the PR\n> We got some WGLC feedback that maybe we are overstating the benefits - however, current benefit is anly about preservviong context and we can add something about time-limited (reduce exxposure window), scope reduction (blast radius reductioon) and transaction specific binding as additional benefits.",
       "createdAt": "2026-02-12T19:07:09Z",
-      "updatedAt": "2026-02-27T16:16:12Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-03-09T15:14:05Z",
+      "closedAt": "2026-03-09T15:14:04Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in tihs PR: https://github.com/oauth-wg/oauth-transaction-tokens/pull/316",
+          "createdAt": "2026-03-09T15:14:04Z",
+          "updatedAt": "2026-03-09T15:14:04Z"
+        }
+      ]
     },
     {
       "number": 313,
