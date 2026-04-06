@@ -692,6 +692,16 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Editorial review fixing spelling, grammer and other non-normative wording changes
 * Resolve micoservice vs workload issue (https://github.com/oauth-wg/oauth-transaction-tokens/issues/309)
 
+## Since Draft 07
+* Fixed author affiliation
+* Added details to the benefits section
+* Editorial changes for grammar and clarity
+* Capitalized "Call Chain" throughout the document
+* Standardized terminology "workload" and "workload identity" throughout the document
+* Revised handling of personal information in Privacy section
+* Clarified token replay risks
+* Fixed typos
+
 ## Since Draft 06
 {:numbered="false"}
 * Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
