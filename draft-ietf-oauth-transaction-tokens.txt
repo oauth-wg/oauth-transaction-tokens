@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 3 September 2026                         Practical Identity LLC
+Expires: 9 October 2026                           Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            2 March 2026
+                                                            7 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 9 October 2026.
 
 Copyright Notice
 
@@ -128,6 +128,8 @@ Table of Contents
      17.2.  Informative References
    Acknowledgements
    Document History
+     Since Draft 08
+     Since Draft 07
      Since Draft 06
      Since Draft 05
      Since Draft 04
@@ -1380,9 +1382,9 @@ Table of Contents
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof
               Token", Work in Progress, Internet-Draft, draft-ietf-
-              wimse-wpt-00, 3 November 2025,
+              wimse-wpt-01, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              wpt-00>.
+              wpt-01>.
 
 Acknowledgements
 
@@ -1404,6 +1406,34 @@ Document History
    other non-normative wording changes * Resolve micoservice vs workload
    issue (https://github.com/oauth-wg/oauth-transaction-tokens/
    issues/309)
+
+Since Draft 08
+
+   *  Added document history for changes from 07 to 08
+
+Since Draft 07
+
+   *  Fixed author affiliation (https://github.com/oauth-wg/oauth-
+      transaction-tokens/pull/318)
+
+   *  Added details to the benefits section (https://github.com/oauth-
+      wg/oauth-transaction-tokens/pull/316)
+
+   *  Updated the definition of the req_wl claim (https://github.com/
+      oauth-wg/oauth-transaction-tokens/pull/315)
+
+   *  Editorial changes for grammar and clarity (https://github.com/
+      oauth-wg/oauth-transaction-tokens/pull/307, https://github.com/
+      oauth-wg/oauth-transaction-tokens/pull/308)
+
+   *  Standardized terminology throughout the document
+      (https://github.com/oauth-wg/oauth-transaction-tokens/pull/304)
+
+   *  Revised handling of personal information in Privacy section
+      (hhttps://github.com/oauth-wg/oauth-transaction-tokens/pull/306/)
+
+   *  Clarified token replay risks (https://github.com/oauth-wg/oauth-
+      transaction-tokens/pull/305)
 
 Since Draft 06
 
