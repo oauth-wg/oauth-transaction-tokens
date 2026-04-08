@@ -688,9 +688,6 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 # Document History
 {: numbered="false"}
 [[ To be removed from final specification ]]
-* Remove contradiction in "request_details" description and simplify normative langugage [Clarify claim usage](https://github.com/oauth-wg/oauth-transaction-tokens/issues/228).
-* Editorial review fixing spelling, grammer and other non-normative wording changes
-* Resolve micoservice vs workload issue (https://github.com/oauth-wg/oauth-transaction-tokens/issues/309)
 
 ## Since Draft 08
 {:numbered="false"}
@@ -708,6 +705,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 
 ## Since Draft 06
 {:numbered="false"}
+* Remove contradiction in "request_details" description and simplify normative langugage [Clarify claim usage](https://github.com/oauth-wg/oauth-transaction-tokens/issues/228).
 * Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
 * Replace StringOrURI with string [Replace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
 * Include token theft as a threat to be mitigated [Consider information disclosure as a benefit](https://github.com/oauth-wg/oauth-transaction-tokens/issues/207)
