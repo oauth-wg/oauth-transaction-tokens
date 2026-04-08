@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 9 October 2026                           Practical Identity LLC
+Expires: 10 October 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            7 April 2026
+                                                            8 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 October 2026.
+   This Internet-Draft will expire on 10 October 2026.
 
 Copyright Notice
 
@@ -1375,9 +1375,9 @@ Table of Contents
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
               Authentication with HTTP Signatures", Work in Progress,
-              Internet-Draft, draft-ietf-wimse-http-signature-02, 1
-              March 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-wimse-http-signature-02>.
+              Internet-Draft, draft-ietf-wimse-http-signature-03, 7
+              April 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-wimse-http-signature-03>.
 
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof
@@ -1399,13 +1399,7 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]] * Remove contradiction
-   in "request_details" description and simplify normative langugage
-   Clarify claim usage (https://github.com/oauth-wg/oauth-transaction-
-   tokens/issues/228). * Editorial review fixing spelling, grammer and
-   other non-normative wording changes * Resolve micoservice vs workload
-   issue (https://github.com/oauth-wg/oauth-transaction-tokens/
-   issues/309)
+   [[ To be removed from final specification ]]
 
 Since Draft 08
 
@@ -1436,6 +1430,10 @@ Since Draft 07
       transaction-tokens/pull/305)
 
 Since Draft 06
+
+   *  Remove contradiction in "request_details" description and simplify
+      normative langugage Clarify claim usage (https://github.com/oauth-
+      wg/oauth-transaction-tokens/issues/228).
 
    *  Consistency in terms of expectations of input token
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
