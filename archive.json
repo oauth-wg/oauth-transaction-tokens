@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-09T00:25:47.092549+00:00",
+  "timestamp": "2026-04-12T00:33:21.382851+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -5569,7 +5569,7 @@
       ],
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-06#name-acknowledgements\n\nI do appreciate the Contributors section below (and being in it) but I suspect it is missing some people that could/should be listed here in the Acknowledgements. But if Acknowledgments is only going to thank \"the contributors and the OAuth working group members\" then maybe just remove it?",
       "createdAt": "2025-10-09T00:06:03Z",
-      "updatedAt": "2026-01-15T10:31:08Z",
+      "updatedAt": "2026-04-09T19:35:16Z",
       "closedAt": "2026-01-15T10:31:08Z",
       "comments": [
         {
@@ -5578,6 +5578,13 @@
           "body": "Editors decision - each editor to review correspondence and issues to ensure everyone is acknowledged. Collapse contributor and acknowledgements. Just recognise names not specific contributions. Only have acknowledgements, do it alphabetically.",
           "createdAt": "2026-01-09T15:45:45Z",
           "updatedAt": "2026-01-09T15:51:55Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "It's hard not to appreciate the irony that my comment led to effectively being downgraded in contribution level and removal of my employer's name from the draft. ",
+          "createdAt": "2026-04-09T19:34:57Z",
+          "updatedAt": "2026-04-09T19:35:16Z"
         }
       ]
     },
@@ -6290,7 +6297,7 @@
       "labels": [],
       "body": "Currently, it seems `sub` can be end user identity (if `access token` was used by external endpoint to request Txn-Token from TTS) or it can be External endpoint itself. In former case, external endpoint identity is never captured in the token.\n\nI have a draft for AI agents with Txn-tokens.\nhttps://www.ietf.org/archive/id/draft-oauth-transaction-tokens-for-agents-04.html#name-principal-initiated-flow\n\nIn my draft, I had input to TTS as `subject token + access token` received from AI agent at external endpoint (not one of the two inputs but both)\n\nOutput we get is: \n\u200b`Txn token {\n\n    Sub: <set to external service> // because TA authenticates subject i.e external endpoint\n\n    Principal : <set to human (from access token)> // new field\n\n    Actor: AI Agent // new field.. this could be \u2018act.sub\u2019 but I didn\u2019t use that because \u2018act.sub\u2019 could be some internal service that is acting on behalf of external identity.\n\n}`\n\nThis is different than Txn token draft because\nTxn token draft says external endpoint can pass its self-signed JWT or input access token (w/ token exchange) but I am mandating both.\nIn my proposal, we don\u2019t lose the external identity.\n\n\nI do ack that `sub` should be human. If I do that, then I don\u2019t really need Principal. Sub in Txn token should suffice and act.sub will be AI Agent.\n\n### Question \nBasically where am I heading with my question is that can we simply say that this latest draft for Txn-token is good enough to capture `AI Agent + Human identity` (in sub and act.sub) in Txn-token as along as the agent passes an OBO token which has sub and act.sub?\n\nIf that is the case, then my draft should simply call out that we need to introduce `act` field and `req_wl` will continue to be the externally visible endpoint\n\nWould love to hear some thoughts on this one from you all?",
       "createdAt": "2026-02-21T02:29:18Z",
-      "updatedAt": "2026-03-06T18:20:39Z",
+      "updatedAt": "2026-04-10T14:05:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -6306,6 +6313,13 @@
           "body": "Ok so I believe we agree on\n1. `sub` will be human in case human is involved. (this aligns with what I have in my draft)\n2. I am thinking to remove 'actor' from my draft and simply use 'act.sub' field for AI agent and 'sub' will be human.\n\nNow comes the part where `req_wl` is AI agent or API Gateway? I believe `req_wl` is always the first service in my trust domain that actually requests token. If API GW is external facing endpoint and AI Agent is some 3P app, then `req_wl` should be API Gateway but if AI Agent is 1P agent exposed by same company/org, then yes, `req_wl` should be AI Agent.\n\nSo #3 is probably the topic to settle on or clarify. I can update my draft once we clarify #3.",
           "createdAt": "2026-03-06T18:20:29Z",
           "updatedAt": "2026-03-06T18:20:39Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See Brian's comment about the `act` claim [here](https://github.com/oauth-wg/oauth-transaction-tokens/issues/331)",
+          "createdAt": "2026-04-10T14:05:13Z",
+          "updatedAt": "2026-04-10T14:05:13Z"
         }
       ]
     },
@@ -6318,10 +6332,12 @@
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "In the case of `subject_token` being an external access token, we could recommend preforming a revocation check, in addition to the mandatory signature and expiration checks. From the discussion with @PieterKas :\n\n> In terms of revoked tokens, it is up to the transaction token service if it checks for that, or how it obtains that information (there is an ever increasing number of ways to find out about revoked tokens, including SSF/CAEP, token status list and token introspection).\n\nMight be worth adding the above to the Security Considerations section.",
       "createdAt": "2026-04-08T20:26:09Z",
-      "updatedAt": "2026-04-08T20:26:09Z",
+      "updatedAt": "2026-04-09T20:35:12Z",
       "closedAt": null,
       "comments": []
     },
@@ -6334,12 +6350,29 @@
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "The `request_context` parameter is used to pass security-sensitive information to the TTS. That means, the `request_context` parameter (or its individual fields?) should only be accepted from the requestors with an elevated level of trust.\n\nFor example, the only way to communicate the end-user's IP address to the TTS is via `request_context`. The only workload that could be trusted for that, is the Edge / API Gateway; other workloads do not possess this information, but could forge it, should the `request_context` parameter be accepted from them.\n\nShould we add a paragraph on the special handling of `request_context`? Some other thoughts:\n* should we ignore `request_context` in the case of `subject_token` being self-signed or unsigned (or, generally, being other than external access token)?\n* as a consequence, should we ignore `request_context` in the case of TraT replacement request?",
       "createdAt": "2026-04-08T20:43:23Z",
-      "updatedAt": "2026-04-08T20:43:23Z",
+      "updatedAt": "2026-04-10T14:00:08Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In general, only a small number of services should be permitted to request TraTs. I suppose we need to cover this somewhere in the draft (either Security Considerations, or in one of the early normative sections)",
+          "createdAt": "2026-04-09T20:34:44Z",
+          "updatedAt": "2026-04-09T20:34:44Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Given that client authentication is required for the requestor of the transaction token, the TTS can make the determination on whether the requestor is authoritative for any value specified in the `request_context` object. It would probably be good to highlight this in the Security Considerations that the TTS needs to manage this.",
+          "createdAt": "2026-04-10T14:00:08Z",
+          "updatedAt": "2026-04-10T14:00:08Z"
+        }
+      ]
     },
     {
       "number": 323,
@@ -6350,12 +6383,36 @@
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "For the `authn` request parameter, only the example value of `urn:ietf:rfc:6749` is provided. Could we elaborate on the format / recognized values? For example, we mention SAML in 14.5 Subject Token Types. However, it is unclear what the value of `authn` should be in this case.",
       "createdAt": "2026-04-08T20:48:00Z",
-      "updatedAt": "2026-04-08T20:48:00Z",
+      "updatedAt": "2026-04-10T18:05:19Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Should we just refer to: https://www.rfc-editor.org/rfc/rfc6755.html in the format of this value?",
+          "createdAt": "2026-04-09T20:32:03Z",
+          "updatedAt": "2026-04-09T20:32:03Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "`urn:ietf:rfc:6749` is a URN that identifies RFC 6749. The RFC. Which doesn't make sense to me as the \"authentication method used to identify the requester\". ",
+          "createdAt": "2026-04-10T18:04:14Z",
+          "updatedAt": "2026-04-10T18:04:14Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Should we just refer to: https://www.rfc-editor.org/rfc/rfc6755.html in the format of this value?\n\nThis also doesn't make sense to me. ",
+          "createdAt": "2026-04-10T18:05:19Z",
+          "updatedAt": "2026-04-10T18:05:19Z"
+        }
+      ]
     },
     {
       "number": 324,
@@ -6366,10 +6423,12 @@
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "https://github.com/oauth-wg/oauth-transaction-tokens/blob/08ec5da85c9da860386e05d320a0437867db9be7/draft-ietf-oauth-transaction-tokens.md?plain=1#L447\n\n`txn-token` \u2192 `txn_token`\n\nhttps://github.com/oauth-wg/oauth-transaction-tokens/blob/08ec5da85c9da860386e05d320a0437867db9be7/draft-ietf-oauth-transaction-tokens.md?plain=1#L452\n\nThe example value provided for `request_context` decodes to some bogus JSON:\n\n```json\n{\n      \"req_ip\": \"69.151.72.123\", // env context of external call\n      \"authn\": \"urn:ietf:rfc:6749\", // env context of external call\n      \"workload3.trust-domain.example\" ]\n    }\n```",
       "createdAt": "2026-04-08T20:53:27Z",
-      "updatedAt": "2026-04-08T20:53:27Z",
+      "updatedAt": "2026-04-09T20:32:51Z",
       "closedAt": null,
       "comments": []
     },
@@ -6385,7 +6444,7 @@
       "labels": [],
       "body": "In Transaction Tokens, the `aud` claim represents the entire trust domain, which is opposite to OAuth, where it reflects individual resource servers. There is no claim defined that would represent particular workloads as the receivers for the transaction token.\n\nIn the absence of the `aud` equivalent having workload-level granularity, how do we implement the \"strict audience check\" concept from OAuth?\n\nExample: a workload obtains a TraT with audience set to the entire trust domain. Under some circumstances, it might decide to \"downscope\" the TraT (via replacement request), limiting its \"audience\" to only selected workloads inside the trust domain, and thus enforcing only a specific request propagation path.\n\n(Credits: Isabella Dix @ Keycloak Dev Day 2026)",
       "createdAt": "2026-04-08T21:07:53Z",
-      "updatedAt": "2026-04-08T21:45:20Z",
+      "updatedAt": "2026-04-10T13:53:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -6401,6 +6460,20 @@
           "body": "Definitely not a MUST, but might be useful for smaller deployments with an established service graph and higher security requirements.",
           "createdAt": "2026-04-08T21:45:20Z",
           "updatedAt": "2026-04-08T21:45:20Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "After the discussion in IETF 124, we decided to not work on replacement semantics in this particular draft (see issue #272) . This seems within the scope of replacement, so I'm inclined to not address this in this particular draft.",
+          "createdAt": "2026-04-09T20:26:33Z",
+          "updatedAt": "2026-04-09T20:26:33Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dteleguin is it possible to manage the security requirements via the finely-grained scope values? The transaction token `aud` is for the entire trust domain but it's usefulness is only for those services that support the finely-grained purpose of the transaction. \n\nIt is possible to encrypt data in the `tctx` for specific services if there is a concern about leaking of data.",
+          "createdAt": "2026-04-10T13:53:38Z",
+          "updatedAt": "2026-04-10T13:53:38Z"
         }
       ]
     },
@@ -6416,7 +6489,7 @@
       "labels": [],
       "body": "Imagine two trust domains (A and B), each having its own TTS, with an existing trust relationship. It is assumed that some workloads from the domain A have direct connectivity to their counterparts from domain B (potentially including respective TTSs).\n\nCan we provide a guidance on how to implement the cross-domain setup?\n\nExample: a workload from A, having obtained TraT-A, might decide to call TTS-A with `audience` set to B, and ask for a replacement TraT-B. In this case, TTS-A will need to propagate that call to TTS-B under the hood.\nAlternatively, if workload A has connectivity to TTS-B, it could request a replacement TraT-B directly.\n\nThis has some conceptual overlap with Identity Chaining, but I think it could be implemented in a simpler way (not requiring an intermediate credential like ID-JAG and an extra leg).\n\n(Credits: @tnorimat @ Keycloak)",
       "createdAt": "2026-04-08T21:19:44Z",
-      "updatedAt": "2026-04-08T21:34:42Z",
+      "updatedAt": "2026-04-10T19:14:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -6425,6 +6498,242 @@
           "body": "There are different ways to solve it I guess\n\nOption-1. **TTS-to-TTS Propagation (Backend-Mediated)** \n```\n\nIn this model, the workload is unaware of Domain B\u2019s internal structure. It treats TTS-A as its single point of truth for context preservation.\n\nHigh-Level Flow:\n\nRequest: Workload-A calls TTS-A with subject_token (TraT-A) and audience set to domain-b (or a specific resource in B).\n\nMediation: TTS-A recognizes the audience is external. It acts as an OAuth Client to TTS-B.\n\nExchange: TTS-A calls TTS-B\u2019s token endpoint using its own credentials (e.g., MTLS or private_key_jwt) and passes TraT-A as the assertion.\n\nValidation: TTS-B validates the signature of TraT-A (assuming a pre-established JWKS trust between domains) and issues TraT-B.\n```\n\n**Option-2: Direct Workload-to-TTS-B (Direct Exchange)**\n```\nThis follows the RFC 8693 \"Token Exchange\" model more closely, where the client is responsible for obtaining the necessary token for the target domain.\n\nHigh-Level Flow:\n\nAcquisition: Workload-A, holding TraT-A, calls TTS-B directly.\n\nAssertion: It presents TraT-A as the subject_token with subject_token_type set to the Transaction Token URN.\n\nIssuance: TTS-B validates the token from Domain A and issues TraT-B directly to Workload-A.\n```\n\nThere are some cons though depending on connectivity between those trust domains.",
           "createdAt": "2026-04-08T21:34:42Z",
           "updatedAt": "2026-04-08T21:34:42Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I like the option 2 in Ashay's response. That seems like a natural thing to do if a service needs to go outside the trust domain, but wants to use their existing TraT as a token to authorize their request.\n\nI don't know if we need to say anything about this in this particular spec though. The spec supports it, and it could be a part of another spec that discusses, among other things, cross-domain use of TraTs.",
+          "createdAt": "2026-04-09T20:22:11Z",
+          "updatedAt": "2026-04-09T20:22:11Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There are definitely lots of proposals for how to use transaction tokens across domains (often in the context of agentic AI). I think a separate profile for how to do this would make sense and agree with Atul that this spec doesn't prohibit such behavior.\n\nI would recommend leveraging the [OAuth Identity and Authorization Chaining Across Domains](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/) for the flow. ID-JAG is a profile of this spec and another profile could be created for Transaction Tokens though that should be a \"last resort\" so that we aren't continuing to create more things developers need to implement.",
+          "createdAt": "2026-04-10T13:50:32Z",
+          "updatedAt": "2026-04-10T13:50:32Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Strongly agree with most of @gffletch's comments above. A Txn-Token as the \"a token it has in its possession\" of step b) here https://www.ietf.org/archive/id/draft-ietf-oauth-identity-chaining-08.html#section-2.1-4.2.1 seems like a very natural fit. ",
+          "createdAt": "2026-04-10T19:14:03Z",
+          "updatedAt": "2026-04-10T19:14:03Z"
+        }
+      ]
+    },
+    {
+      "number": 327,
+      "id": "I_kwDOJt_WwM78Zk4L",
+      "title": "merge Introduction and Overview",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/327",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
+      "body": "The [Introduction](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-introduction) isn't really an introduction.  It just describes some risks/problems. I'd suggest that combining the Introduction and [Overview](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-overview) would make for a more natural flow. ",
+      "createdAt": "2026-04-09T19:49:31Z",
+      "updatedAt": "2026-04-09T20:32:39Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 328,
+      "id": "I_kwDOJt_WwM78aBcR",
+      "title": "Assuming lists were wanted?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/328",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
+      "body": "The formatting in https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-6.1 needs help. Which *might* be as simple as a leading line break before the list in the markdown. Maybe Or was this what was intended? Can't help but wonder...  \n\n<img width=\"793\" height=\"250\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/49ca6d01-67f2-44ca-a699-529fcf23d5e7\" />",
+      "createdAt": "2026-04-09T20:15:25Z",
+      "updatedAt": "2026-04-09T20:32:28Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks Brian, yes this is a formatting issue we need to fix.",
+          "createdAt": "2026-04-09T20:17:25Z",
+          "updatedAt": "2026-04-09T20:17:25Z"
+        }
+      ]
+    },
+    {
+      "number": 329,
+      "id": "I_kwDOJt_WwM78bdjV",
+      "title": "iss issue",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/329",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-10.2-2.2.1 has \"The iss claim MUST be used in cases where the signing keys are not predetermined.\" but what does the iss claim do in cases where the signing keys are not predetermined? I am very aware that some other specs/profiles/whatever use issuer as part of a key discovery routine. But this isn't any of those specs/profiles/whatever so this **MUST** isn't meaningful. ",
+      "createdAt": "2026-04-09T21:39:54Z",
+      "updatedAt": "2026-04-10T16:10:29Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So, there are some deployments that want to have multiple TTS instances potentially geo-distributed that use different keys. In that case the `iss` claim is mandatory. \n\nPersonally, I think the `iss` claim should be there all the time rather than relying on pre-shared keys and the `aud` claim. (See [issue 325](https://github.com/oauth-wg/oauth-transaction-tokens/issues/325) where there is some concerns around the way `aud` is used). That said, there was strong push back on requiring the `iss` claim. \n\nThe intent of the text is to say that if in a deployment the TTS keys are known or handled without a need for a discovery mechanism, then `iss` is not required. In all other cases it is required. \n\nWe can clean up the text if that is not clear. Or is the issue that there is disagreement with the intent?\n",
+          "createdAt": "2026-04-10T13:25:10Z",
+          "updatedAt": "2026-04-10T13:25:10Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Discussion notes:\n\n1. Drop normative MUST\n2. Simplify text on \"iss\" by just referencing RFC 7519\n\nOverall take-away -limit text if it is addressed in other specs, unless there is clear guidance.",
+          "createdAt": "2026-04-10T15:35:58Z",
+          "updatedAt": "2026-04-10T15:35:58Z"
+        }
+      ]
+    },
+    {
+      "number": 330,
+      "id": "I_kwDOJt_WwM78bhW9",
+      "title": "tctx/rctx/scope",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/330",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Each of tctx/rctx/scope in https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-10.2 could benefit from some explicit tie in with the respective subsection right below that gives a lot more definition/explanation. And even a name in some cases. e.g.,\n\n<img width=\"808\" height=\"76\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/56077242-9e7a-45ff-95fb-e36f8ad015c2\" />",
+      "createdAt": "2026-04-09T21:43:44Z",
+      "updatedAt": "2026-04-10T13:36:03Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "also there's requirements level mismatch in the *ctx claims with OPTIONAL vs SHOULD \nhttps://www.rfc-editor.org/rfc/rfc2119\n",
+          "createdAt": "2026-04-10T12:12:35Z",
+          "updatedAt": "2026-04-10T12:12:35Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "So section 10.2 is describing for the JWT body whether a claim is required or not. I can't think of a spec that uses `SHOULD` when describing whether a claim should be present or not. I do see the use of `RECOMMENDED` which would more closely match the SHOULD in the description of the claim. Is that what you were thinking regarding the requirements level mismatch?",
+          "createdAt": "2026-04-10T13:36:03Z",
+          "updatedAt": "2026-04-10T13:36:03Z"
+        }
+      ]
+    },
+    {
+      "number": 331,
+      "id": "I_kwDOJt_WwM78r42R",
+      "title": "... req_wl ... ",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/331",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-10.2-2.20.1 \n\n> req_wl:\n> \n> REQUIRED. A string value that identifies the workload that requested the Txn-Token. The value SHOULD contain a single workload identifier. In some circumstances, the value MAY contain multiple workload identifiers with each identifier separated by a comma (,).\n\nWhat are some circumstances? [14.11.1.](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-14.11.1) has two bullets (that should probably be together) about req_wl that are maybe these \"some circumstances\" but that's a lot left to the reader. Also not great justification for a under-defied structured format for use inside a different data format that has ways to structure data.\n\nWhat if some of workload identifiers contain commas? Workload identifiers aren't defined in here, are they?\n\nDo we really want to define a sometimes comma separated values list as a the value of a claim?\n\nIf the [Requester Context](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-requester-context) claim can contain \"information about the computational entity that requested the Txn-Token\", then how/why is that different than \"the workload that requested the Txn-Token\"? \n\nCould the [\"act\" (Actor) Claim](https://www.rfc-editor.org/rfc/rfc8693.html#name-act-actor-claim) be of any relevance here? I am painfully aware that representing delegation is a bit of a mess. But does introducing another construct help the situation? I've not yet read @mcguinness's https://notes.karlmcguinness.com/notes/standardize-act-across-assertion-grants-and-jwt-access-tokens/ and don't know if I agree with proposal(s) but highly suspect it describes some of that \"bit of a mess\". Is a new sometimes-csv valued claim at the top-level going to improve the situation or enworseify it?\n\n\n",
+      "createdAt": "2026-04-10T13:10:10Z",
+      "updatedAt": "2026-04-10T16:38:20Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Originally this was an array when replacement transaction tokens were specified and the array was located in the requestor context. With the removal of the specification for \"replacement transaction tokens\" the `req_wl` element was moved to the top level. An easy option is to turn it back into an array with the seemly often used construct of if there is only one element it's a string and if more than one it's an array.\n\nLeveraging the `act` claim while being a pretty significant breaking change is interesting and needs more thought. Using it may bring in the delegation chain aspects which may (?) add confusion to how it should be used. Since `act` is a structure it would provide an extension point for more metadata about the requesting workload which could be useful.",
+          "createdAt": "2026-04-10T13:45:07Z",
+          "updatedAt": "2026-04-10T13:45:07Z"
+        },
+        {
+          "author": "mcguinness",
+          "authorAssociation": "NONE",
+          "body": "This is still early WIP and not ready to publish as a draft, but i'm trying to work out how `act` could be applied to tx-tokens and processing rules with `req_wl` as a new optional profile. \n\nhttps://mcguinness.github.io/draft-mcguinness-oauth-actor-profile/draft-mcguinness-oauth-actor-profile.html#name-actor-claim-in-transaction-\n\nThere was enough interest on the blog post to justify exploring a spec. Folks may not agree with the conclusion but at least there is something concrete to disagree with.  Feedback welcome. ",
+          "createdAt": "2026-04-10T14:02:02Z",
+          "updatedAt": "2026-04-10T14:02:02Z"
+        }
+      ]
+    },
+    {
+      "number": 332,
+      "id": "I_kwDOJt_WwM78sX8-",
+      "title": "Txn-Token Request: OPTIONAL is different than RECOMMENDED",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/332",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "per https://www.rfc-editor.org/rfc/rfc2119 OPTIONAL is different than RECOMMENDED (and IMHO the latter is pretty strong for some fields that basically amount to \"put some stuff in here\"). \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-12.1-5.1.1\n<img width=\"817\" height=\"279\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/95233540-02ea-4454-910f-24f6b9dc5567\" />",
+      "createdAt": "2026-04-10T13:33:28Z",
+      "updatedAt": "2026-04-10T13:33:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 333,
+      "id": "I_kwDOJt_WwM78tkA9",
+      "title": "\"This claim MUST be omitted if not set.\"",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/333",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-12.3-2.8.1\n\nreally?\n\nnot the first time this has been questioned either https://mailarchive.ietf.org/arch/msg/oauth/rGqrvjNps203khsaUHXd_00dGX4/ ",
+      "createdAt": "2026-04-10T14:29:17Z",
+      "updatedAt": "2026-04-10T17:47:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I'm sorry we missed this from your first feedback. In what context is there value in an empty `iss` claim being in the token?",
+          "createdAt": "2026-04-10T15:22:15Z",
+          "updatedAt": "2026-04-10T15:22:15Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Is that what \"not set\" means? Note that \"not set\" is not defined anywhere. What about `null` or a space character or two spaces or a tab or a tab and three spaces? What about other claims that might be \"not set\"? What if \"not set\" means omitted? That's how it reads colloquially to me BTW so seemed like just a tautology - like saying \"this claim MUST be present if set\". Is there something about the iss claim in this context that somehow needs something special said about it (setting aside other issues with issuer #329)? I'm clearly skeptical that's the case, but if it is, the text needs more precision. \n\nI guess this one is maybe an example of something in the text that, to me, seems so insensible that I'm frustrated by seeing it at all and even more so by the prospect of discussing it like this. Which was the case in August as it is today. \n",
+          "createdAt": "2026-04-10T16:35:47Z",
+          "updatedAt": "2026-04-10T17:47:27Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Maybe, probably even, I should just ignore this kind of thing. But it's hard (for me anyway) to find the line when reviewing something and easy to get hung up on details. Especially something that has my name on it (even if [recently downgraded in status](https://github.com/oauth-wg/oauth-transaction-tokens/issues/260#issuecomment-4217004735)) and also believe is overall useful work. ",
+          "createdAt": "2026-04-10T17:47:20Z",
+          "updatedAt": "2026-04-10T17:47:20Z"
+        }
+      ]
+    },
+    {
+      "number": 334,
+      "id": "I_kwDOJt_WwM78zUbH",
+      "title": "Txn-Token vs Txn-Token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/334",
+      "state": "OPEN",
+      "author": "bc-pi",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\nin the text and htmlized versions the Txn-Token header name is hard to distinguish from the name name of the thing. Some quotations or other formatting or something might be good in this case. \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-txn-token-http-header\n<img width=\"768\" height=\"171\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/fddf4883-7457-46c0-98fd-f59dae0a62b8\" />\n\nThe html version is a bit better but still\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#name-txn-token-http-header\n<img width=\"749\" height=\"130\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/2ca1103c-827d-4edb-ab8f-79ee825b3248\" />\n",
+      "createdAt": "2026-04-10T19:28:27Z",
+      "updatedAt": "2026-04-10T22:04:02Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Enclosing things in backticks (\\`) in the markdown results in the text being enclosed in `<tt>` in the xml. In the html outputs of xml2rfc, that text enclosed in `<tt>` is output in a fixed-width font. Which is nice. However, in the txt output and subsequently the htmlized version, there is nothing distinguishing such text (xml2rfc did previously surround with quotation marks but is no longer doing so as of a couple years ago). \n",
+          "createdAt": "2026-04-10T22:03:31Z",
+          "updatedAt": "2026-04-10T22:04:02Z"
         }
       ]
     }
@@ -20694,7 +21003,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-04-07T19:58:05Z",
-      "updatedAt": "2026-04-08T20:21:32Z",
+      "updatedAt": "2026-04-10T22:20:48Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "f6d2c49b8138d7293574202cb7dffa1c52406a94",
@@ -20721,6 +21030,26 @@
           "createdAt": "2026-04-08T10:25:06Z",
           "updatedAt": "2026-04-08T10:25:06Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7z8k1X",
+          "commit": {
+            "abbreviatedOid": "d227bf6"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-10T22:20:48Z",
+          "updatedAt": "2026-04-10T22:20:48Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "were these two dropped intentionally? ",
+              "createdAt": "2026-04-10T22:20:48Z",
+              "updatedAt": "2026-04-10T22:20:48Z"
+            }
+          ]
         }
       ]
     }
