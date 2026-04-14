@@ -11,25 +11,25 @@
 <meta content="
        Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests (e.g. such as API calls) or requests initiated internally within the trust domain. Txn-Tokens ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures. 
     " name="description">
-<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="xml2rfc 3.32.0" name="generator">
 <meta content="Workloads" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.31.0
+  xml2rfc 3.32.0
     Python 3.12.12
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.5.1
+    platformdirs 4.9.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
-    wcwidth 0.3.0
+    wcwidth 0.6.0
 -->
 <link href="draft-ietf-oauth-transaction-tokens.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">February 2026</td>
+<td class="right">April 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 31 August 2026</td>
+<td class="center">Expires 16 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,17 +1067,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-27" class="published">27 February 2026</time>
+<time datetime="2026-04-14" class="published">14 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-31">31 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-16">16 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">A. Tulshibagwale</div>
-<div class="org">SGNL</div>
+<div class="org">CrowdStrike</div>
 </div>
 <div class="author">
       <div class="author-name">G. Fletcher</div>
@@ -1125,7 +1125,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1355,13 +1355,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.19.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-document-history" class="internal xref">Document History</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.1">
-                <p id="section-toc.1-1.19.2.1.1"><a href="#appendix-B.1" class="auto internal xref"></a><a href="#name-since-draft-06" class="internal xref">Since Draft 06</a></p>
+                <p id="section-toc.1-1.19.2.1.1"><a href="#appendix-B.1" class="auto internal xref"></a><a href="#name-since-draft-08" class="internal xref">Since Draft 08</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.2">
-                <p id="section-toc.1-1.19.2.2.1"><a href="#appendix-B.2" class="auto internal xref"></a><a href="#name-since-draft-05" class="internal xref">Since Draft 05</a></p>
+                <p id="section-toc.1-1.19.2.2.1"><a href="#appendix-B.2" class="auto internal xref"></a><a href="#name-since-draft-07" class="internal xref">Since Draft 07</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.3">
-                <p id="section-toc.1-1.19.2.3.1"><a href="#appendix-B.3" class="auto internal xref"></a><a href="#name-since-draft-04" class="internal xref">Since Draft 04</a></p>
+                <p id="section-toc.1-1.19.2.3.1"><a href="#appendix-B.3" class="auto internal xref"></a><a href="#name-since-draft-06" class="internal xref">Since Draft 06</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.4">
+                <p id="section-toc.1-1.19.2.4.1"><a href="#appendix-B.4" class="auto internal xref"></a><a href="#name-since-draft-05" class="internal xref">Since Draft 05</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.5">
+                <p id="section-toc.1-1.19.2.5.1"><a href="#appendix-B.5" class="auto internal xref"></a><a href="#name-since-draft-04" class="internal xref">Since Draft 04</a></p>
 </li>
             </ul>
 </li>
@@ -1521,7 +1527,24 @@ they appear in all capitals, as shown here.<a href="#section-3-1" class="pilcrow
       <h2 id="name-benefits-of-txn-tokens">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-benefits-of-txn-tokens" class="section-name selfRef">Benefits of Txn-Tokens</a>
       </h2>
-<p id="section-8-1">Txn-Tokens prevent unauthorized or unintended invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">Txn-Tokens prevent unauthorized invocations by allowing a workload to independently verify the identity of the user or workload that initiated an external call, as well as any contextual information relevant to processing that call. This results in the following benefits:<a href="#section-8-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8-2.1">
+          <p id="section-8-2.1.1">Short-lived, Txn-Tokens, bound to a single transaction, reduce replay risk.<a href="#section-8-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.2">
+          <p id="section-8-2.2.1">Narrowly scoped Txn-Tokens limit lateral movement and blast radius.<a href="#section-8-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.3">
+          <p id="section-8-2.3.1">Signed Txn-Tokens protect the original call context and identity from modification along the call chain.<a href="#section-8-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.4">
+          <p id="section-8-2.4.1">Independent verification at each workload helps prevent unauthorized invocation.<a href="#section-8-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-2.5">
+          <p id="section-8-2.5.1">Restricting which workloads can obtain Txn-Tokens limits exposure from compromised or untrusted services, including some SBOM-related attack paths.<a href="#section-8-2.5.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 </section>
 </div>
 <div id="txn-token-issuance-and-usage-flows">
@@ -2204,6 +2227,7 @@ Cache-Control: no-store
 <a href="#section-14.4" class="section-number selfRef">14.4. </a><a href="#name-access-tokens" class="section-name selfRef">Access Tokens</a>
         </h3>
 <p id="section-14.4-1">When creating Txn-Tokens, the Txn-Token MUST NOT contain the access token presented to the external endpoint. If an access token is included in a Txn-Token, an attacker may extract the access token from the Txn-Token, and replay it to any Resource Server that can accept that access token. Txn-Token expiry does not protect against this attack since the access token may remain valid even after the Txn-Token has expired.<a href="#section-14.4-1" class="pilcrow">¶</a></p>
+<p id="section-14.4-2">Access tokens are typically short-lived but they can be invalidated before their expiration due to security or policy changes. In addition to standard access token validation, a TTS MAY, based on the risk profile of the deployment or transaction, verify whether the presented access token was invalidated. Where appropriate, implementations can use OAuth 2.0 Token Introspection <span>[<a href="#RFC7662" class="cite xref">RFC7662</a>]</span> or similar mechanisms to obtain up-to-date token status from the authorization server.<a href="#section-14.4-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-sub-token-types">
@@ -2554,6 +2578,10 @@ Cache-Control: no-store
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">C. Mortimore</span>, <span class="refTitle">"JSON Web Token (JWT) Profile for OAuth 2.0 Client Authentication and Authorization Grants"</span>, <span class="seriesInfo">RFC 7523</span>, <span class="seriesInfo">DOI 10.17487/RFC7523</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7523">https://www.rfc-editor.org/rfc/rfc7523</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7662">[RFC7662]</dt>
+        <dd>
+<span class="refAuthor">Richer, J., Ed.</span>, <span class="refTitle">"OAuth 2.0 Token Introspection"</span>, <span class="seriesInfo">RFC 7662</span>, <span class="seriesInfo">DOI 10.17487/RFC7662</span>, <time datetime="2015-10" class="refDate">October 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7662">https://www.rfc-editor.org/rfc/rfc7662</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
@@ -2617,7 +2645,7 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-arch">[I-D.ietf-wimse-arch]</dt>
         <dd>
-<span class="refAuthor">Salowey, J. A.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Workload Identity in a Multi System Environment (WIMSE) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-arch-06</span>, <time datetime="2025-09-30" class="refDate">30 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-06">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Salowey, J. A.</span>, <span class="refAuthor">Rosomakho, Y.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Workload Identity in a Multi System Environment (WIMSE) Architecture"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-arch-07</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-07">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-arch-07</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-mutual-tls">[I-D.ietf-wimse-mutual-tls]</dt>
         <dd>
@@ -2625,11 +2653,11 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-http-signature">[I-D.ietf-wimse-http-signature]</dt>
         <dd>
-<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication with HTTP Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-http-signature-01</span>, <time datetime="2026-01-08" class="refDate">8 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-01">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication with HTTP Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-http-signature-03</span>, <time datetime="2026-04-07" class="refDate">7 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-03">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-wpt">[I-D.ietf-wimse-wpt]</dt>
       <dd>
-<span class="refAuthor">Campbell, B.</span> and <span class="refAuthor">A. Schwenkschuster</span>, <span class="refTitle">"WIMSE Workload Proof Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-wpt-00</span>, <time datetime="2025-11-03" class="refDate">3 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-wpt-00">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-wpt-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Campbell, B.</span> and <span class="refAuthor">A. Schwenkschuster</span>, <span class="refTitle">"WIMSE Workload Proof Token"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-wpt-01</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-wpt-01">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-wpt-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2649,147 +2677,192 @@ Cache-Control: no-store
       <h2 id="name-document-history">
 <a href="#name-document-history" class="section-name selfRef">Document History</a>
       </h2>
-<p id="appendix-B-1">[[ To be removed from final specification ]]
-* Remove contradiction in "request_details" description and simplify normative langugage <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/228">Clarify claim usage</a>.
-* Editorial review fixing spelling, grammer and other non-normative wording changes
-* Resolve micoservice vs workload issue (https://github.com/oauth-wg/oauth-transaction-tokens/issues/309)<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<div id="since-draft-06">
+<p id="appendix-B-1">[[ To be removed from final specification ]]<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<div id="since-draft-08">
 <section id="appendix-B.1">
+        <h3 id="name-since-draft-08">
+<a href="#name-since-draft-08" class="section-name selfRef">Since Draft 08</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.1-1.1">
+            <p id="appendix-B.1-1.1.1">Added document history for changes from 07 to 08<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.2">
+            <p id="appendix-B.1-1.2.1">Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="since-draft-07">
+<section id="appendix-B.2">
+        <h3 id="name-since-draft-07">
+<a href="#name-since-draft-07" class="section-name selfRef">Since Draft 07</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.2-1.1">
+            <p id="appendix-B.2-1.1.1">Fixed author affiliation (https://github.com/oauth-wg/oauth-transaction-tokens/pull/318)<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.2">
+            <p id="appendix-B.2-1.2.1">Added details to the benefits section (https://github.com/oauth-wg/oauth-transaction-tokens/pull/316)<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.3">
+            <p id="appendix-B.2-1.3.1">Updated the definition of the <code>req_wl</code> claim (https://github.com/oauth-wg/oauth-transaction-tokens/pull/315)<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.4">
+            <p id="appendix-B.2-1.4.1">Editorial changes for grammar and clarity (https://github.com/oauth-wg/oauth-transaction-tokens/pull/307, https://github.com/oauth-wg/oauth-transaction-tokens/pull/308)<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.5">
+            <p id="appendix-B.2-1.5.1">Standardized terminology throughout the document (https://github.com/oauth-wg/oauth-transaction-tokens/pull/304)<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.6">
+            <p id="appendix-B.2-1.6.1">Revised handling of personal information in Privacy section (hhttps://github.com/oauth-wg/oauth-transaction-tokens/pull/306/)<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.7">
+            <p id="appendix-B.2-1.7.1">Clarified token replay risks (https://github.com/oauth-wg/oauth-transaction-tokens/pull/305)<a href="#appendix-B.2-1.7.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="since-draft-06">
+<section id="appendix-B.3">
         <h3 id="name-since-draft-06">
 <a href="#name-since-draft-06" class="section-name selfRef">Since Draft 06</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.1-1.1">
-            <p id="appendix-B.1-1.1.1">Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.3-1.1">
+            <p id="appendix-B.3-1.1.1">Remove contradiction in "request_details" description and simplify normative langugage <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/228">Clarify claim usage</a>.<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Replace StringOrURI with string <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/195">Replace StringOrURI with String</a><a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.2">
+            <p id="appendix-B.3-1.2.1">Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Include token theft as a threat to be mitigated <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/207">Consider information disclosure as a benefit</a><a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.3">
+            <p id="appendix-B.3-1.3.1">Replace StringOrURI with string <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/195">Replace StringOrURI with String</a><a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Remove definition of Authorization Context <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/192">Be more specific on Authorization Context</a><a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.4">
+            <p id="appendix-B.3-1.4.1">Include token theft as a threat to be mitigated <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/207">Consider information disclosure as a benefit</a><a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.5">
+            <p id="appendix-B.3-1.5.1">Remove definition of Authorization Context <a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/192">Be more specific on Authorization Context</a><a href="#appendix-B.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.6">
+            <p id="appendix-B.3-1.6.1">Clarify text on use of empty parameter: https://github.com/oauth-wg/oauth-transaction-tokens/issues/235<a href="#appendix-B.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.7">
-            <p id="appendix-B.1-1.7.1">Clarify need to validate signature on subject_token if it is signed.<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.7">
+            <p id="appendix-B.3-1.7.1">Clarify that workloads should ensure it is communicating with a legitimate instance of a transaction token service (https://github.com/oauth-wg/oauth-transaction-tokens/issues/233)<a href="#appendix-B.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.8">
-            <p id="appendix-B.1-1.8.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.8">
+            <p id="appendix-B.3-1.8.1">Clarify need to validate signature on subject_token if it is signed.<a href="#appendix-B.3-1.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.9">
-            <p id="appendix-B.1-1.9.1">Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.9">
+            <p id="appendix-B.3-1.9.1">Clarify role of transaction tokens in call chain (https://github.com/oauth-wg/oauth-transaction-tokens/issues/203)<a href="#appendix-B.3-1.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.10">
-            <p id="appendix-B.1-1.10.1">Remove exp field from unsigned token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.1-1.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.10">
+            <p id="appendix-B.3-1.10.1">Revise normative langugage for enforcement of token expiry (https://github.com/oauth-wg/oauth-transaction-tokens/issues/210)<a href="#appendix-B.3-1.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.11">
-            <p id="appendix-B.1-1.11.1">Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)<a href="#appendix-B.1-1.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.11">
+            <p id="appendix-B.3-1.11.1">Remove exp field from unsigned token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/201)<a href="#appendix-B.3-1.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.12">
-            <p id="appendix-B.1-1.12.1">Clarify that <code>txn</code>should remain unchanged when included in a replacement transaction token.<a href="#appendix-B.1-1.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.12">
+            <p id="appendix-B.3-1.12.1">Change document category from informational to standards track (https://github.com/oauth-wg/oauth-transaction-tokens/issues/169)<a href="#appendix-B.3-1.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.13">
-            <p id="appendix-B.1-1.13.1">Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)<a href="#appendix-B.1-1.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.13">
+            <p id="appendix-B.3-1.13.1">Clarify that <code>txn</code>should remain unchanged when included in a replacement transaction token.<a href="#appendix-B.3-1.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.14">
-            <p id="appendix-B.1-1.14.1">Removed the requirement to encode parameters in based64url format<a href="#appendix-B.1-1.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.14">
+            <p id="appendix-B.3-1.14.1">Editorial updates (https://github.com/oauth-wg/oauth-transaction-tokens/issues/204)<a href="#appendix-B.3-1.14.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.15">
-            <p id="appendix-B.1-1.15.1">Rename the <code>purpose</code> claim to <code>scope</code><a href="#appendix-B.1-1.15.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.15">
+            <p id="appendix-B.3-1.15.1">Removed the requirement to encode parameters in based64url format<a href="#appendix-B.3-1.15.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.16">
-            <p id="appendix-B.1-1.16.1">Enhanced the description of the <code>sub</code> claim addressing issue #225<a href="#appendix-B.1-1.16.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.16">
+            <p id="appendix-B.3-1.16.1">Rename the <code>purpose</code> claim to <code>scope</code><a href="#appendix-B.3-1.16.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.17">
-            <p id="appendix-B.1-1.17.1">Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.<a href="#appendix-B.1-1.17.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.17">
+            <p id="appendix-B.3-1.17.1">Enhanced the description of the <code>sub</code> claim addressing issue #225<a href="#appendix-B.3-1.17.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.18">
-            <p id="appendix-B.1-1.18.1">Editorial updates identified by Dan Moore (https://github.com/oauth-wg/oauth-transaction-tokens/issues/236)<a href="#appendix-B.1-1.18.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.18">
+            <p id="appendix-B.3-1.18.1">Removed references to replacing transaction tokens, and added a note in the Security Considerations to clarify replacement concerns.<a href="#appendix-B.3-1.18.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.19">
-            <p id="appendix-B.1-1.19.1">Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)<a href="#appendix-B.1-1.19.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.19">
+            <p id="appendix-B.3-1.19.1">Editorial updates identified by Dan Moore (https://github.com/oauth-wg/oauth-transaction-tokens/issues/236)<a href="#appendix-B.3-1.19.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.20">
-            <p id="appendix-B.1-1.20.1">Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)<a href="#appendix-B.1-1.20.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.20">
+            <p id="appendix-B.3-1.20.1">Editorial comments from Joe Saloway (https://github.com/oauth-wg/oauth-transaction-tokens/issues/219)<a href="#appendix-B.3-1.20.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.21">
-            <p id="appendix-B.1-1.21.1">Add normative language for processing Txn-Tokens (https://github.com/oauth-wg/oauth-transaction-tokens/issues/270)<a href="#appendix-B.1-1.21.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.21">
+            <p id="appendix-B.3-1.21.1">Clarify request_details (https://github.com/oauth-wg/oauth-transaction-tokens/issues/197)<a href="#appendix-B.3-1.21.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.22">
-            <p id="appendix-B.1-1.22.1">Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)<a href="#appendix-B.1-1.22.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.22">
+            <p id="appendix-B.3-1.22.1">Add normative language for processing Txn-Tokens (https://github.com/oauth-wg/oauth-transaction-tokens/issues/270)<a href="#appendix-B.3-1.22.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.23">
-            <p id="appendix-B.1-1.23.1">Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)<a href="#appendix-B.1-1.23.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.23">
+            <p id="appendix-B.3-1.23.1">Strengthen normative language for Txn-Token Requests (https://github.com/oauth-wg/oauth-transaction-tokens/issues/209)<a href="#appendix-B.3-1.23.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.24">
-            <p id="appendix-B.1-1.24.1">Updated Acknowledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)<a href="#appendix-B.1-1.24.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.24">
+            <p id="appendix-B.3-1.24.1">Aligned with WIMSE terminology (https://github.com/oauth-wg/oauth-transaction-tokens/issues/213)<a href="#appendix-B.3-1.24.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.25">
-            <p id="appendix-B.1-1.25.1">Rewrote the 'Handling of Personal Information' section of Privacy Considerations (https://github.com/oauth-wg/oauth-transaction-tokens/issues/290)<a href="#appendix-B.1-1.25.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.25">
+            <p id="appendix-B.3-1.25.1">Updated Acknowledgement section (https://github.com/oauth-wg/oauth-transaction-tokens/issues/260)<a href="#appendix-B.3-1.25.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.26">
-            <p id="appendix-B.1-1.26.1">Removed text related to replacement transaction tokens<a href="#appendix-B.1-1.26.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.26">
+            <p id="appendix-B.3-1.26.1">Rewrote the 'Handling of Personal Information' section of Privacy Considerations (https://github.com/oauth-wg/oauth-transaction-tokens/issues/290)<a href="#appendix-B.3-1.26.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.27">
-            <p id="appendix-B.1-1.27.1">Updated references to call chain to be capitalized and fixed some definitions (https://github.com/oauth-wg/oauth-transaction-tokens/issues/284)<a href="#appendix-B.1-1.27.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.27">
+            <p id="appendix-B.3-1.27.1">Removed text related to replacement transaction tokens<a href="#appendix-B.3-1.27.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.28">
-            <p id="appendix-B.1-1.28.1">Update definition of <code>req_wl</code> claim (https://github.com/oauth-wg/oauth-transaction-tokens/issues/311)<a href="#appendix-B.1-1.28.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.28">
+            <p id="appendix-B.3-1.28.1">Updated references to call chain to be capitalized and fixed some definitions (https://github.com/oauth-wg/oauth-transaction-tokens/issues/284)<a href="#appendix-B.3-1.28.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.3-1.29">
+            <p id="appendix-B.3-1.29.1">Update definition of <code>req_wl</code> claim (https://github.com/oauth-wg/oauth-transaction-tokens/issues/311)<a href="#appendix-B.3-1.29.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="since-draft-05">
-<section id="appendix-B.2">
+<section id="appendix-B.4">
         <h3 id="name-since-draft-05">
 <a href="#name-since-draft-05" class="section-name selfRef">Since Draft 05</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.2-1.1">
-            <p id="appendix-B.2-1.1.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/173">Strengthened prohibition on expanding TraT scope</a><a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.4-1.1">
+            <p id="appendix-B.4-1.1.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/173">Strengthened prohibition on expanding TraT scope</a><a href="#appendix-B.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.2">
-            <p id="appendix-B.2-1.2.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/170">Clarified that TraTs can exceed request token lifetime, but cannot use expired tokens in request</a><a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.2">
+            <p id="appendix-B.4-1.2.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/170">Clarified that TraTs can exceed request token lifetime, but cannot use expired tokens in request</a><a href="#appendix-B.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.3">
-            <p id="appendix-B.2-1.3.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/160">Improved abstract for clarity</a><a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.3">
+            <p id="appendix-B.4-1.3.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/160">Improved abstract for clarity</a><a href="#appendix-B.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.4">
-            <p id="appendix-B.2-1.4.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/176">Clarified that the HTTP header Txn-Token is unstructured</a><a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.4">
+            <p id="appendix-B.4-1.4.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/176">Clarified that the HTTP header Txn-Token is unstructured</a><a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="since-draft-04">
-<section id="appendix-B.3">
+<section id="appendix-B.5">
         <h3 id="name-since-draft-04">
 <a href="#name-since-draft-04" class="section-name selfRef">Since Draft 04</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.3-1.1">
-            <p id="appendix-B.3-1.1.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/153">Clarified Transaction Token Service discovery</a><a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.5-1.1">
+            <p id="appendix-B.5-1.1.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/153">Clarified Transaction Token Service discovery</a><a href="#appendix-B.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.2">
-            <p id="appendix-B.3-1.2.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/148">Language improvements</a><a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.2">
+            <p id="appendix-B.5-1.2.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/148">Language improvements</a><a href="#appendix-B.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.3">
-            <p id="appendix-B.3-1.3.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/150">Renamed azd claim to tctx claim</a><a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.3">
+            <p id="appendix-B.5-1.3.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/150">Renamed azd claim to tctx claim</a><a href="#appendix-B.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.4">
-            <p id="appendix-B.3-1.4.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/151">Fixed terminology captialization</a><a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.4">
+            <p id="appendix-B.5-1.4.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/151">Fixed terminology captialization</a><a href="#appendix-B.5-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.5">
-            <p id="appendix-B.3-1.5.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/156">Added key rotation guidance</a><a href="#appendix-B.3-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.5">
+            <p id="appendix-B.5-1.5.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/156">Added key rotation guidance</a><a href="#appendix-B.5-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.6">
-            <p id="appendix-B.3-1.6.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/157">Clarified text around external vs internal invocation</a><a href="#appendix-B.3-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.6">
+            <p id="appendix-B.5-1.6.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/157">Clarified text around external vs internal invocation</a><a href="#appendix-B.5-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2803,10 +2876,10 @@ Cache-Control: no-store
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Atul Tulshibagwale</span></div>
-<div dir="auto" class="left"><span class="org">SGNL</span></div>
+<div dir="auto" class="left"><span class="org">CrowdStrike</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:atul@sgnl.ai" class="email">atul@sgnl.ai</a>
+<a href="mailto:atul.tulshibagwale@crowdstrike.com" class="email">atul.tulshibagwale@crowdstrike.com</a>
 </div>
 </address>
 <address class="vcard">

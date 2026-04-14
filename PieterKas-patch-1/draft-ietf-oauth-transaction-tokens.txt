@@ -3,12 +3,12 @@
 
 
 oauth                                                   A. Tulshibagwale
-Internet-Draft                                                      SGNL
+Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 31 August 2026                           Practical Identity LLC
+Expires: 16 October 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                        27 February 2026
+                                                           14 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2026.
+   This Internet-Draft will expire on 16 October 2026.
 
 Copyright Notice
 
@@ -128,6 +128,8 @@ Table of Contents
      17.2.  Informative References
    Acknowledgements
    Document History
+     Since Draft 08
+     Since Draft 07
      Since Draft 06
      Since Draft 05
      Since Draft 04
@@ -303,10 +305,27 @@ Table of Contents
 
 8.  Benefits of Txn-Tokens
 
-   Txn-Tokens prevent unauthorized or unintended invocations by allowing
-   a workload to independently verify the identity of the user or
-   workload that initiated an external call, as well as any contextual
-   information relevant to processing that call.
+   Txn-Tokens prevent unauthorized invocations by allowing a workload to
+   independently verify the identity of the user or workload that
+   initiated an external call, as well as any contextual information
+   relevant to processing that call.  This results in the following
+   benefits:
+
+   *  Short-lived, Txn-Tokens, bound to a single transaction, reduce
+      replay risk.
+
+   *  Narrowly scoped Txn-Tokens limit lateral movement and blast
+      radius.
+
+   *  Signed Txn-Tokens protect the original call context and identity
+      from modification along the call chain.
+
+   *  Independent verification at each workload helps prevent
+      unauthorized invocation.
+
+   *  Restricting which workloads can obtain Txn-Tokens limits exposure
+      from compromised or untrusted services, including some SBOM-
+      related attack paths.
 
 9.  Txn-Token Issuance and Usage Flows
 
@@ -972,6 +991,15 @@ Table of Contents
    this attack since the access token may remain valid even after the
    Txn-Token has expired.
 
+   Access tokens are typically short-lived but they can be invalidated
+   before their expiration due to security or policy changes.  In
+   addition to standard access token validation, a TTS MAY, based on the
+   risk profile of the deployment or transaction, verify whether the
+   presented access token was invalidated.  Where appropriate,
+   implementations can use OAuth 2.0 Token Introspection [RFC7662] or
+   similar mechanisms to obtain up-to-date token status from the
+   authorization server.
+
 14.5.  Subject Token Types
 
    Identifies the token type of the subject_token which is generally a
@@ -1276,6 +1304,10 @@ Table of Contents
               Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
               2015, <https://www.rfc-editor.org/rfc/rfc7523>.
 
+   [RFC7662]  Richer, J., Ed., "OAuth 2.0 Token Introspection",
+              RFC 7662, DOI 10.17487/RFC7662, October 2015,
+              <https://www.rfc-editor.org/rfc/rfc7662>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -1342,9 +1374,9 @@ Table of Contents
               Salowey, J. A., Rosomakho, Y., and H. Tschofenig,
               "Workload Identity in a Multi System Environment (WIMSE)
               Architecture", Work in Progress, Internet-Draft, draft-
-              ietf-wimse-arch-06, 30 September 2025,
+              ietf-wimse-arch-07, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              arch-06>.
+              arch-07>.
 
    [I-D.ietf-wimse-mutual-tls]
               Salowey, J. A. and Y. Rosomakho, "Workload Authentication
@@ -1356,16 +1388,16 @@ Table of Contents
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
               Authentication with HTTP Signatures", Work in Progress,
-              Internet-Draft, draft-ietf-wimse-http-signature-01, 8
-              January 2026, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-wimse-http-signature-01>.
+              Internet-Draft, draft-ietf-wimse-http-signature-03, 7
+              April 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-wimse-http-signature-03>.
 
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof
               Token", Work in Progress, Internet-Draft, draft-ietf-
-              wimse-wpt-00, 3 November 2025,
+              wimse-wpt-01, 2 March 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              wpt-00>.
+              wpt-01>.
 
 Acknowledgements
 
@@ -1380,15 +1412,44 @@ Acknowledgements
 
 Document History
 
-   [[ To be removed from final specification ]] * Remove contradiction
-   in "request_details" description and simplify normative langugage
-   Clarify claim usage (https://github.com/oauth-wg/oauth-transaction-
-   tokens/issues/228). * Editorial review fixing spelling, grammer and
-   other non-normative wording changes * Resolve micoservice vs workload
-   issue (https://github.com/oauth-wg/oauth-transaction-tokens/
-   issues/309)
+   [[ To be removed from final specification ]]
+
+Since Draft 08
+
+   *  Added document history for changes from 07 to 08
+
+   *  Added security consideration for invalidated tokens (see issue
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
+
+Since Draft 07
+
+   *  Fixed author affiliation (https://github.com/oauth-wg/oauth-
+      transaction-tokens/pull/318)
+
+   *  Added details to the benefits section (https://github.com/oauth-
+      wg/oauth-transaction-tokens/pull/316)
+
+   *  Updated the definition of the req_wl claim (https://github.com/
+      oauth-wg/oauth-transaction-tokens/pull/315)
+
+   *  Editorial changes for grammar and clarity (https://github.com/
+      oauth-wg/oauth-transaction-tokens/pull/307, https://github.com/
+      oauth-wg/oauth-transaction-tokens/pull/308)
+
+   *  Standardized terminology throughout the document
+      (https://github.com/oauth-wg/oauth-transaction-tokens/pull/304)
+
+   *  Revised handling of personal information in Privacy section
+      (hhttps://github.com/oauth-wg/oauth-transaction-tokens/pull/306/)
+
+   *  Clarified token replay risks (https://github.com/oauth-wg/oauth-
+      transaction-tokens/pull/305)
 
 Since Draft 06
+
+   *  Remove contradiction in "request_details" description and simplify
+      normative langugage Clarify claim usage (https://github.com/oauth-
+      wg/oauth-transaction-tokens/issues/228).
 
    *  Consistency in terms of expectations of input token
       (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
@@ -1514,8 +1575,8 @@ Since Draft 04
 Authors' Addresses
 
    Atul Tulshibagwale
-   SGNL
-   Email: atul@sgnl.ai
+   CrowdStrike
+   Email: atul.tulshibagwale@crowdstrike.com
 
 
    George Fletcher
