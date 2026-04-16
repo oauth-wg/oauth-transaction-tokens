@@ -485,7 +485,7 @@ The unsigned JSON object MAY contain other fields, and the TTS MAY consider them
 ## Txn-Token Request Processing
 When the TTS receives a Txn-Token Request it:
 
-* MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested value(s). The authorization policy for determining such issuance is out of scope for this specification.
+* MUST validate the requesting workload client authentication and determine if that workload is authorized to obtain the Txn-Tokens with the requested value(s) (see {{tts-issuance-policies}}). The authorization policy for determining such issuance is out of scope for this specification.
 * The TTS MUST validate the `subject_token`, including verifying the signature, if it is signed.
 * The TTS determines the value to specify as the `sub` of the Txn-Token and MUST ensure the `sub` value is unique within the Trust Domain defined by the `aud` claim.
 * The TTS MUST set the `iat` claim to the time of issuance of the Txn-Token.
@@ -585,6 +585,9 @@ A deployment may include multiple instances of a TTS to improve resiliency, redu
 
 ## TTS Authentication
 A workload may accidently send a transaction token request to a service that is not a TTS, or an attacker may attempt to impersonate a TTS in order to gain access to transaction token requests which includes sensitive information like access tokens. To minimise the risk of leaking sensitive information like access tokens that are included in the transaction token request, the workload MUST ensure that it authenticates the TTS and only contacts instances of the TTS that is authorized to issue transaction tokens.
+
+## TTS Issuance Policies {#tts-issuance-policies}
+TTS token issuance decisions, including whether to issue a Txn-Token and the claims it contains, are determined by deployment-specific issuance policies and business logic. Not every workload that can make a valid request is expected to receive a Txn-Tokens, as doing so may unnecessarily expand the security boundary. For example, a frontend service handling a user-initiated request may be authorized to obtain a Txn-Token carrying specific request context (e.g., a transaction amount), while another service, though authenticated, may not be authorized to request a Txn-Token with that same context. Such policies may vary based on system architecture, workload identity, transaction context, or risk, and may result in different Txn-Token contents or denial of issuance. The definition and management of these policies are deployment-specific and out of scope for this specification.
 
 ## TTS Key Rotation
 The TTS may need to rotate signing keys. When doing so, it MAY adopt the key rotation practices in Section 10.1.1 of {{OpenIdConnect}}.
@@ -692,6 +695,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 ## Since Draft 08
 {:numbered="false"}
 * Added document history for changes from 07 to 08
+* Added TTS Issuance Guidance policies (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 
 ## Since Draft 07
 {:numbered="false"}
