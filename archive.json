@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-14T00:35:34.966346+00:00",
+  "timestamp": "2026-04-16T00:36:16.141814+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -21110,6 +21110,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 335,
+      "id": "PR_kwDOJt_WwM7SQpQR",
+      "title": "Add security consideration for invalidated tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/335",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added security consideration for invalidated tokens to address potential risks associated with access tokens.",
+      "createdAt": "2026-04-14T09:37:36Z",
+      "updatedAt": "2026-04-14T09:38:40Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "08ec5da85c9da860386e05d320a0437867db9be7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "15953bc09db276984c76109216b7f1f521f56965",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
