@@ -52,6 +52,7 @@ normative:
   RFC9110: # HTTP
   RFC9111: # HTTP Caching
   RFC9651: # Structured HTTP Header fields
+  I-D.ietf-oauth-identity-chaining: # OAuth Identity and Authorization Chaining
 
   IANA.HTTP.FieldNames:
     title: HTTP Authentication Schemes
@@ -604,6 +605,9 @@ A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any
 * MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.
 * SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
 * MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.
+
+# Preserving transaction context across Trust Domains
+Txn-Tokens are only valid within the Trust Domain identified by the `aud` claim as defined in {{txn-token-claims}}. When a workload needs to access a resource in a different Trust Domain to complete a transaction, and the identity and authorization context from the Txn-Token needs to be preserved, it SHOULD use OAuth Identity and Authorization Chaining Across Domains {{I-D.ietf-oauth-identity-chaining}}.
 
 # Privacy Considerations {#Privacy}
 
