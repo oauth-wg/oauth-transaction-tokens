@@ -44,6 +44,7 @@ normative:
   RFC7519: #JWT
   RFC7515: #JWS
   RFC7523: # JWT Assertion Flow
+  RFC7662: # Token Introspection
   RFC8174: # Ambiguity in Keywords
   RFC8693: # OAuth 2.0 Token Exchange
   RFC8417: # Secure Event Token (SET)
@@ -569,6 +570,8 @@ OAuth refresh tokens are used to obtain access tokens as defined in {{RFC6749}} 
 ## Access Tokens
 When creating Txn-Tokens, the Txn-Token MUST NOT contain the access token presented to the external endpoint. If an access token is included in a Txn-Token, an attacker may extract the access token from the Txn-Token, and replay it to any Resource Server that can accept that access token. Txn-Token expiry does not protect against this attack since the access token may remain valid even after the Txn-Token has expired.
 
+Access tokens are typically short-lived but they can be invalidated before their expiration due to security or policy changes. In addition to standard access token validation, a TTS MAY, based on the risk profile of the deployment or transaction, verify whether the presented access token was invalidated. Where appropriate, implementations can use OAuth 2.0 Token Introspection {{RFC7662}} or similar mechanisms to obtain up-to-date token status from the authorization server.
+
 ## Subject Token Types {#sec-sub-token-types}
 Identifies the token type of the `subject_token` which is generally a token the requesting workload received (e.g. an OAuth token or a SAML assertion). In the absence of an appropriate incoming token, the requesting service MAY use a self-signed JWT, an unsigned JSON object or any other format to represent the details of the requester and the transaction to the TTS.
 
@@ -692,6 +695,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 ## Since Draft 08
 {:numbered="false"}
 * Added document history for changes from 07 to 08
+* Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 
 ## Since Draft 07
 {:numbered="false"}
