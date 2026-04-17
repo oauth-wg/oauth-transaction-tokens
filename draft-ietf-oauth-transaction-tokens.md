@@ -696,6 +696,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 ## Since Draft 08
 {:numbered="false"}
 * Added document history for changes from 07 to 08
+* Provide guidance on cross-domain access (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/326) 
 
 ## Since Draft 07
 {:numbered="false"}
