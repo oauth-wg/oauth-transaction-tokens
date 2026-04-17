@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 10 October 2026                          Practical Identity LLC
+Expires: 19 October 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            8 April 2026
+                                                           17 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 October 2026.
+   This Internet-Draft will expire on 19 October 2026.
 
 Copyright Notice
 
@@ -991,6 +991,15 @@ Table of Contents
    this attack since the access token may remain valid even after the
    Txn-Token has expired.
 
+   Access tokens are typically short-lived but they can be invalidated
+   before their expiration due to security or policy changes.  In
+   addition to standard access token validation, a TTS MAY, based on the
+   risk profile of the deployment or transaction, verify whether the
+   presented access token was invalidated.  Where appropriate,
+   implementations can use OAuth 2.0 Token Introspection [RFC7662] or
+   similar mechanisms to obtain up-to-date token status from the
+   authorization server.
+
 14.5.  Subject Token Types
 
    Identifies the token type of the subject_token which is generally a
@@ -1295,6 +1304,10 @@ Table of Contents
               Authorization Grants", RFC 7523, DOI 10.17487/RFC7523, May
               2015, <https://www.rfc-editor.org/rfc/rfc7523>.
 
+   [RFC7662]  Richer, J., Ed., "OAuth 2.0 Token Introspection",
+              RFC 7662, DOI 10.17487/RFC7662, October 2015,
+              <https://www.rfc-editor.org/rfc/rfc7662>.
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
@@ -1404,6 +1417,9 @@ Document History
 Since Draft 08
 
    *  Added document history for changes from 07 to 08
+
+   *  Added security consideration for invalidated tokens (see issue
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 
 Since Draft 07
 
