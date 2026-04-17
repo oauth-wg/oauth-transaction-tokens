@@ -539,8 +539,8 @@ Examples of public-key based authentication include those defined in OAuth 2.0 M
 # Using Txn-Tokens
 Txn-Tokens need to be communicated between workloads that depend upon them to authorize the request. Such workloads will often present HTTP {{RFC9110}} interfaces for being invoked by other workloads. This section specifies the HTTP header the invoking workload MUST use to communicate the Txn-Token to the invoked workload, when the invoked workload presents an HTTP interface. Note that the standard HTTP `Authorization` header MUST NOT be used because that may be used by the workloads for other purposes.
 
-## `Txn-Token` HTTP Header {#txn-token-http-header}
-A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header `Txn-Token` to communicate the Txn-Token in the HTTP Request. The value of this header MUST be exactly one Txn-Token.
+## "Txn-Token" HTTP Header {#txn-token-http-header}
+A workload that invokes another workload using HTTP and needs to present a Txn-Token to the invoked workload MUST use the HTTP Header "Txn-Token" to communicate the Txn-Token in the HTTP Request. The value of this header MUST be exactly one Txn-Token.
 
 ## Txn-Token Validation
 A workload that receives a Txn-Token MUST evaluate the token for validity before authorizing it for activities supported by the workload. To validate the Txn-Token, the workload MUST:
@@ -701,6 +701,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Added document history for changes from 07 to 08
 * Provide guidance on cross-domain access (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/326)
 * Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
+* Added doublequotes around the "Txn-Token" header name to distinguish it from the usage of Txn-Token as a name for Transaction Tokens.
 
 ## Since Draft 07
 {:numbered="false"}
