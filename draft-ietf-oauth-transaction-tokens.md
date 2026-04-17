@@ -161,11 +161,13 @@ Txn-Tokens are typically created when a workload is invoked using an endpoint th
 If the transaction token request is made via HTTP to a remote server, it MUST use {{RFC8693}} as described in this specification. To do this, it invokes a special Token Service (the Transaction Token Service (TTS)) and provides context that is sufficient for the TTS to generate a Txn-Token.
 
 The context information provided to the TTS MUST include:
+
 * The identification of the trust domain in which the issued Txn-Token is valid.
 * A token which identifies the subject of the Txn-Token (e.g. an OAuth access token, a self-issued JWT, etc).
 * The desired authorization scope for the issued Txn-Token.
 
 Additional contextual information MAY be provided such as:
+
 * Parameters that are required to be integrity protected for the duration of this call.
 * Additional context, such as the incoming IP address, User Agent information, or other context that can help the TTS to issue the Txn-Token.
 
@@ -698,12 +700,14 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 
 ## Since Draft 08
 {:numbered="false"}
+
 * Added document history for changes from 07 to 08
 * Provide guidance on cross-domain access (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/326)
 * Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 
 ## Since Draft 07
 {:numbered="false"}
+
 * Fixed author affiliation (https://github.com/oauth-wg/oauth-transaction-tokens/pull/318)
 * Added details to the benefits section (https://github.com/oauth-wg/oauth-transaction-tokens/pull/316)
 * Updated the definition of the `req_wl` claim (https://github.com/oauth-wg/oauth-transaction-tokens/pull/315)
@@ -714,6 +718,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 
 ## Since Draft 06
 {:numbered="false"}
+
 * Remove contradiction in "request_details" description and simplify normative langugage [Clarify claim usage](https://github.com/oauth-wg/oauth-transaction-tokens/issues/228).
 * Consistency in terms of expectations of input token (https://github.com/oauth-wg/oauth-transaction-tokens/issues/224)
 * Replace StringOrURI with string [Replace StringOrURI with String](https://github.com/oauth-wg/oauth-transaction-tokens/issues/195)
@@ -746,6 +751,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 
 ## Since Draft 05
 {:numbered="false"}
+
 * [Strengthened prohibition on expanding TraT scope](https://github.com/oauth-wg/oauth-transaction-tokens/pull/173)
 * [Clarified that TraTs can exceed request token lifetime, but cannot use expired tokens in request](https://github.com/oauth-wg/oauth-transaction-tokens/pull/170)
 * [Improved abstract for clarity](https://github.com/oauth-wg/oauth-transaction-tokens/pull/160)
@@ -753,6 +759,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 
 ## Since Draft 04
 {: numbered="false"}
+
 * [Clarified Transaction Token Service discovery](https://github.com/oauth-wg/oauth-transaction-tokens/pull/153)
 * [Language improvements](https://github.com/oauth-wg/oauth-transaction-tokens/pull/148)
 * [Renamed azd claim to tctx claim](https://github.com/oauth-wg/oauth-transaction-tokens/pull/150)
