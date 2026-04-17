@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 18 October 2026</td>
+<td class="center">Expires 19 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-16" class="published">16 April 2026</time>
+<time datetime="2026-04-17" class="published">17 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-18">18 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-19">19 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1125,7 +1125,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2278,7 +2278,7 @@ Cache-Control: no-store
         <h3 id="name-tts-issuance-policies">
 <a href="#section-14.10" class="section-number selfRef">14.10. </a><a href="#name-tts-issuance-policies" class="section-name selfRef">TTS Issuance Policies</a>
         </h3>
-<p id="section-14.10-1">TTS token issuance decisions, including whether to issue a Txn-Token and the claims it contains, are determined by deployment-specific issuance policies and business logic. Not every workload that can make a valid request is expected to receive a Txn-Tokens, as doing so may unnecessarily expand the security boundary. For example, a frontend service handling a user-initiated request may be authorized to obtain a Txn-Token carrying specific request context (e.g., a transaction amount), while another service, though authenticated, may not be authorized to request a Txn-Token with that same context. Such policies may vary based on system architecture, workload identity, transaction context, or risk, and may result in different Txn-Token contents or denial of issuance. The definition and management of these policies are deployment-specific and out of scope for this specification.<a href="#section-14.10-1" class="pilcrow">¶</a></p>
+<p id="section-14.10-1">A TTS should be selective in which workloads can successfully request a Txn-Token. A TTS does not need to issue a Txn-Token to every workload that requests one. TTS token issuance decisions, including whether to issue a Txn-Token and the claims it contains, are typically subject to deployment-specific issuance policies and business logic. For example, a frontend service handling a user-initiated request might be permitted to obtain a Txn-Token carrying request context such as a transaction amount, while a downstream service in the same Call Chain might not. Such policies may vary based on system architecture, workload identity, transaction context, or risk, and may result in different Txn-Token contents or denial of issuance. The definition and management of these policies are deployment-specific and out of scope for this specification.<a href="#section-14.10-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tts-key-rotation">
