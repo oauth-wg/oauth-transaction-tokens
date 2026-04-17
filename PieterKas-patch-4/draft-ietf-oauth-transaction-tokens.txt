@@ -1424,6 +1424,9 @@ Since Draft 08
 
    *  Added document history for changes from 07 to 08
 
+   *  Provide guidance on cross-domain access (see https://github.com/
+      oauth-wg/oauth-transaction-tokens/issues/326)
+
 Since Draft 07
 
    *  Fixed author affiliation (https://github.com/oauth-wg/oauth-
