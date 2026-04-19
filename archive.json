@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-16T00:36:16.141814+00:00",
+  "timestamp": "2026-04-19T00:34:15.780597+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3690,15 +3690,15 @@
       "id": "I_kwDOJt_WwM7GWEBe",
       "title": "Proposal for Tx token initiation in agentic world",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/186",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "ashayraut",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "### Problem Statement\n\nAuthorization systems based on zero trust principles must rethink their approach when dealing with AI agents, as the characteristics that differentiate AI agents from traditional web services have major security implications. Unlike static web services, AI agents can act autonomously, adapt their behavior, and access or integrate with new data sources dynamically\u2014sometimes making decisions outside of their originally intended scope. This means that existing zero trust models, which tightly define permissions, verification processes, and access scopes for regular web services, may fall short when applied to adaptive, context-aware AI agents. For true zero trust security, authorization systems should treat each AI agent interaction as potentially unique, inspect agent requests with greater granularity, and continuously evaluate both intent and context\u2014not just identity. Dynamic policy enforcement, ongoing behavioral analysis, and robust audit mechanisms become critical to ensure that AI agents do not inadvertently gain unauthorized access or act outside governance boundaries, despite using the same foundational security model as for traditional web services.\n\nTransaction Tokens are a solution to propagate security context across the call graph in the form of cryptographically signed tokens. These tokens start at the front of the call chain and are propagated through all services in the call chain. Services can leverage the security context for access control and auditing. \n\nTo support AI agent applications in the service graph, Transaction Tokens need to address several challenges: where and how tokens will be generated, how context inputs are captured from agents, scoping/limiting the contexts for agents, ensuring token propagation, and updating the auditing process to capture agent identity along with original actor details.\nAgents by default must be given zero permissions and must be able to get permissions only when delegated by human user. Unsupervised with no human in loop agents could get permissions based on the task but sensitive operations should have human in loop to approve. \n\nAgents could be in different environments including developer\u2019s machine (unsafe environment) or hosted in CloudAuth with protected access.\n\n\n### Assumptions\n \nBefore jumping into solution, an assumption is being made here that OAuth will be used for agentic interactions. Agents will have no permissions of their own but will request permissions from Authorization Server (AS) with human in the loop consenting it. Agents will basically have access token that calls the human user as subject and agent as \u2018actor; representing that agent is acting on behalf of the user.\n\nFor multi-agent, another assumption is that each agent will do OAuth Token Exchange RFC 8693 for getting access token which indicates that the agent is acting on behalf of the previous agent. These access tokens will contain delegation chain information about all agent identities.\n\n### Why not initiate Transaction tokens at the agents ?  \n\nThe obvious solution to ensure Transaction token coverage across entire call chain starting from agent is to initiate Transaction token at beginning of call chain, in this case, it will be the Agentic application. The agentic application will have OAuth access token to access a resource server, but before calling resource server (or workload), it will request Transaction token using the access token. Transaction Token Issuer (TTI) will issue Tx token by validating the input access token. The input access token will have information about agent and human identity. It will also prove that agent is acting on behalf of human. \n\nChallenges with initiating token at agents : \nThere are multiple challenges in this approach. The agent to agent or agent to MCP server interaction can be long running and Transaction tokens will expire. So we have to figure out mechanism to keep Tx token refrehsed. Token propagation is another challenge over MCP/A2A and other protocols. The agents could be running in browser or relatively low secure environments such as a human user\u2019s laptop which increases the risk of exposing our bearer Transaction token.\n\n\n### Proposal: Initiate transaction tokens once agentic interaction is over. \n\nThe core idea of shifting token generation away from potentially unsafe environments and onto a trusted server is compelling. Core design principle - The proposal simplifies agent logic by shifting complexity to the trusted, centralized infrastructure\u2014the Authorization Server and the Transaction Token Issuer. \n\nLet's take this flow as an example - \n\n```\nHuman -> Agent A \u2192 MCP Server \u2192 Resource server \u2192 Internal Service (Resource Server)\n```\n\n- Human will invoke Agent. \n- Agent will take action by calling MCP Server. \n- MCP Server throws OAuth challenge 401 unauthorized. \n- Agent which is already registered with OAuth Authorization Server (AS) will request access token. \n- AS will invoke authorization code flow and ask human for consent. \n- Human approves it and then standard auth code flow starts. At the end, agent has access token that says agent is allowed to take action on behalf of subject (human). \n- MCP Server gets the access token. \n- MCP server has to call internal service now. MCP Server gets access token from agent, and then invoke OAuth Token Exchange RFC 8693 with AS and gets another access token. \n- AS verifies permissions of MCP server, access tokens and then issues access token to MCP Server. \n- This access token contains delegation chain including (human, agent, MCP Server). \n- \n- MCP Server now has access token with all delegation chain and about to call internal service. \n- This is where it should initiate Tx token by calling  Transaction Token Issuer (TTI) and passing the access token. \n- TTI will have all the necessary information to add in the Tx token using the access token as the access token has call chain information. \n- TTI must validate the access token before trusting it for generating Transaction token.\n- The generated Transaction token will have the human identity as the Subject, the first agent identity as 'act' claim. It also aligns with https://github.com/modelcontextprotocol/modelcontextprotocol/issues/214 \n\n\nAs supervised agents act on behalf of humans, its important to include their identity in the Transaction tokens. Whenever human triggers an agent, sub MUST contain human identity and there should be a new claim in the token to include identity of the agent that acts on behalf of the human user.\n\n\n```\nact: : OPTIONAL The \"act\" (actor) claim, within the context of OAuth 2.0 token exchange and JSON Web Tokens (JWTs), is defined in RFC 8693: OAuth 2.0 Token Exchange. The value will be the agent that is acting on behalf of the human user. In case the access token contains delegation chain, then it will be the first actor in 'act' field where this on behalf of flow started.\n```\n\n### Detailed explanation of the proposal\nThe core idea is that Transaction Tokens will leverage the OAuth Authorization Server-issued access tokens as proof to issue a Transaction Token. These access tokens will be issued to AI agent applications and MCP servers in the call chain. For agent-to-agent or agent-to-MCP server interactions, access tokens from agents all the way to the last MCP server/agent will carry delegation chain information. This means all identities involved up to that point will be present in these access tokens. This differs from the current service access token model where an access token from Service A to Service B is different from an access token issued by Service B to call Service C. \n\nThe advantage of this approach is that now Tx tokens aren\u2019t exposed to unsafe environments in which agents are running. If agents do have long running interactions, they will still maintain access tokens because most of the agents are supposed to be OAuth compliant. This gives Tx token RFC to be popular and get widely adopted but still not blocked on agents support Tx token. \n).\n\nFor mid-call chain use cases, \n```\nWorkload A(w/ Tx token) \u2192 MCP Server A \u2192 MCP Server B \u2192 Workload-2\n```\nwhere Transaction Token propagation through the service graph starts but agent-to-agent interaction begins, the first MCP server or agent  (MCP Server A in above example) will perform an OAuth token exchange to get onBehalfOf permissions, and the Transaction Token context could be preserved in the access token as a claim. So between MCP Server A \u2192 MCP Server B, access token is flowing but this access token was requested by MCP Server A as part of OAuth token exchange. In OAuth token exchange, MCP Server should send access token and Tx token as well to ensure access token captures the Tx token contents as claim. Before calling Workload-2, the access token can be used to get a Transaction Token at MCP Server B. TTI this time, instead of generating a token with new contexts, the preserved contexts from access token claim will be used. \n\nIn summary, access tokens will be leveraged to procure Transaction Tokens. The OAuth token exchanged access tokens contain a delegation chain of identities, and when agent interaction starts in the middle of the call chain, access tokens will preserve Transaction Token contexts to get Transaction Tokens back when service interaction begins.\n\nThis approach for Transaction Tokens depends on OAuth Authorization Server support for OAuth token exchange, registering AI applications in the OAuth Authorization Server for identities, and delegation and permission models. The approach simplifies overall Transaction Token integration in this AI agent-based service graph as Transaction Tokens don't need to implement propagation over various protocols, or worry about issuing bearer tokens in unsafe environments such as developers' machines or browsers.\n\nThe agent-side space is rapidly evolving, and by moving Transaction Token generation to the server side, integration stays simple while the OAuth Authorization Server handles the complexity. This approach assumes that all relevant protocols are or will be supporting OAuth, including agent applications. This means that agent application frameworks that support OAuth should be sufficient for AI agent apps to start development and launch, instead of integrating Transaction Tokens explicitly in their agent code and further complicating it.\n\n### Security and additional considerations\n\n- I acknowledge that while the risk of exposing a Transaction Token is removed, the risk of a compromised OAuth Access Token remains. Advocate for mTLS as a non-negotiable security measure for all inter-service communication to protect against this.\n\n- We should consider may be new, standardized claim to the oauth-transaction-tokens working group for transporting Transaction Token context within an access token. This ensures interoperability and prevents proprietary implementations.\n\n- We must mandate that all audit trails for AI agent interactions include the full delegation chain (human, agent), along with all dynamic business context used to make a decision.\n\n- \n\n",
       "createdAt": "2025-08-16T21:34:46Z",
-      "updatedAt": "2026-01-02T22:44:10Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-18T23:03:25Z",
+      "closedAt": "2026-04-18T23:03:25Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -3717,9 +3717,9 @@
         {
           "author": "ashayraut",
           "authorAssociation": "COLLABORATOR",
-          "body": "https://datatracker.ietf.org/doc/html/draft-oauth-transaction-tokens-for-agents ",
-          "createdAt": "2026-01-02T22:44:10Z",
-          "updatedAt": "2026-01-02T22:44:10Z"
+          "body": "We can close this one https://www.ietf.org/archive/id/draft-araut-oauth-transaction-tokens-for-agents-00.html",
+          "createdAt": "2026-04-18T23:03:25Z",
+          "updatedAt": "2026-04-18T23:03:25Z"
         }
       ]
     },
@@ -6328,7 +6328,7 @@
       "id": "I_kwDOJt_WwM77-VCa",
       "title": "Security considerations: subject_token validation",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/321",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [
@@ -6339,8 +6339,8 @@
       ],
       "body": "In the case of `subject_token` being an external access token, we could recommend preforming a revocation check, in addition to the mandatory signature and expiration checks. From the discussion with @PieterKas :\n\n> In terms of revoked tokens, it is up to the transaction token service if it checks for that, or how it obtains that information (there is an ever increasing number of ways to find out about revoked tokens, including SSF/CAEP, token status list and token introspection).\n\nMight be worth adding the above to the Security Considerations section.",
       "createdAt": "2026-04-08T20:26:09Z",
-      "updatedAt": "2026-04-13T18:04:53Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-17T11:55:21Z",
+      "closedAt": "2026-04-17T11:55:21Z",
       "comments": []
     },
     {
@@ -6504,7 +6504,7 @@
       "id": "I_kwDOJt_WwM77_fJU",
       "title": "Cross-domain Transaction Tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/326",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [
@@ -6513,8 +6513,8 @@
       "labels": [],
       "body": "Imagine two trust domains (A and B), each having its own TTS, with an existing trust relationship. It is assumed that some workloads from the domain A have direct connectivity to their counterparts from domain B (potentially including respective TTSs).\n\nCan we provide a guidance on how to implement the cross-domain setup?\n\nExample: a workload from A, having obtained TraT-A, might decide to call TTS-A with `audience` set to B, and ask for a replacement TraT-B. In this case, TTS-A will need to propagate that call to TTS-B under the hood.\nAlternatively, if workload A has connectivity to TTS-B, it could request a replacement TraT-B directly.\n\nThis has some conceptual overlap with Identity Chaining, but I think it could be implemented in a simpler way (not requiring an intermediate credential like ID-JAG and an extra leg).\n\n(Credits: @tnorimat @ Keycloak)",
       "createdAt": "2026-04-08T21:19:44Z",
-      "updatedAt": "2026-04-13T18:11:23Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-17T22:05:28Z",
+      "closedAt": "2026-04-17T22:05:28Z",
       "comments": [
         {
           "author": "ashayraut",
@@ -6543,6 +6543,20 @@
           "body": "Strongly agree with most of @gffletch's comments above. A Txn-Token as the \"a token it has in its possession\" of step b) here https://www.ietf.org/archive/id/draft-ietf-oauth-identity-chaining-08.html#section-2.1-4.2.1 seems like a very natural fit. ",
           "createdAt": "2026-04-10T19:14:03Z",
           "updatedAt": "2026-04-10T19:14:03Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "+1 on using identity chaining. When transaction tokens and identity chaining were originally conceived, the idea was always that:\n\n- Transaction Tokens are for preserving authorisation context within a domain\n- OAuth Identity and Authorization Chaining Across Domains (https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-chaining/)\n\nThe AI Agent Authentication and Authorization draft (https://datatracker.ietf.org/doc/draft-klrc-aiagent-auth/01/) also hints at this pattern.\n\nThere are a lot of considerations the moment you start working with cross-domains that should not be taken lightly. Inventing a new cross-domain mechanism is out of scope for this specification. \n\nI will create a PR to make this the recommended pattern.",
+          "createdAt": "2026-04-17T10:16:30Z",
+          "updatedAt": "2026-04-17T10:16:30Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in #337 ",
+          "createdAt": "2026-04-17T22:05:28Z",
+          "updatedAt": "2026-04-17T22:05:28Z"
         }
       ]
     },
@@ -6792,6 +6806,30 @@
           "body": "Enclosing things in backticks (\\`) in the markdown results in the text being enclosed in `<tt>` in the xml. In the html outputs of xml2rfc, that text enclosed in `<tt>` is output in a fixed-width font. Which is nice. However, in the txt output and subsequently the htmlized version, there is nothing distinguishing such text (xml2rfc did previously surround with quotation marks but is no longer doing so as of a couple years ago). \n",
           "createdAt": "2026-04-10T22:03:31Z",
           "updatedAt": "2026-04-10T22:04:02Z"
+        }
+      ]
+    },
+    {
+      "number": 338,
+      "id": "I_kwDOJt_WwM7_S1DP",
+      "title": "Consisten capitalisation of Call Chain and Trust Domain",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/338",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Do a editorial pass to consistently use capitalisations for those terms.",
+      "createdAt": "2026-04-17T13:56:13Z",
+      "updatedAt": "2026-04-17T15:01:15Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I thought we did this for Call Chain already... did we miss some?",
+          "createdAt": "2026-04-17T15:01:15Z",
+          "updatedAt": "2026-04-17T15:01:15Z"
         }
       ]
     }
@@ -21116,20 +21154,295 @@
       "id": "PR_kwDOJt_WwM7SQpQR",
       "title": "Add security consideration for invalidated tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/335",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Added security consideration for invalidated tokens to address potential risks associated with access tokens.",
+      "body": "Added security consideration for invalidated tokens to address potential risks associated with access tokens (see issue #321)",
       "createdAt": "2026-04-14T09:37:36Z",
-      "updatedAt": "2026-04-14T09:38:40Z",
+      "updatedAt": "2026-04-17T11:54:42Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "08ec5da85c9da860386e05d320a0437867db9be7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "15953bc09db276984c76109216b7f1f521f56965",
+      "closedAt": "2026-04-17T11:54:40Z",
+      "mergedAt": "2026-04-17T11:54:40Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "572d96ebea6062cb55aad4a1c29085d4ae3f76e7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM72B_1s",
+          "commit": {
+            "abbreviatedOid": "15953bc"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-17T09:47:28Z",
+          "updatedAt": "2026-04-17T09:47:28Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 336,
+      "id": "PR_kwDOJt_WwM7S-tJM",
+      "title": "Add TTS Issuance Policies section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/336",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added TTS Issuance Policies section detailing issuance decisions and policies for Txn-Tokens. See issue #321",
+      "createdAt": "2026-04-16T13:28:53Z",
+      "updatedAt": "2026-04-17T20:12:00Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "572d96ebea6062cb55aad4a1c29085d4ae3f76e7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-3",
+      "headRefOid": "1ee79aeb661337ec46669f7ce6ff04efd6ba1b95",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7126By",
+          "commit": {
+            "abbreviatedOid": "1186ad1"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-16T22:27:40Z",
+          "updatedAt": "2026-04-16T22:27:40Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "The way this is worded \"...receive a Txn-Tokens\" feels a bit confusing to me, because almost every workload will \"receive\" a Txn-Token as a part of request processing. I think your intent is to state that \"deployments should be highly selective in which workloads can successfully request a Txn-Token.\" or something like that, right? Can we just say that? ",
+              "createdAt": "2026-04-16T22:27:40Z",
+              "updatedAt": "2026-04-16T22:27:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM72D0ZA",
+          "commit": {
+            "abbreviatedOid": "1186ad1"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-17T11:00:12Z",
+          "updatedAt": "2026-04-17T11:00:12Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Thanks Atul - I updated the text, but kept the example as I think it will be helpful.",
+              "createdAt": "2026-04-17T11:00:12Z",
+              "updatedAt": "2026-04-17T11:00:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM72RiwQ",
+          "commit": {
+            "abbreviatedOid": "1ee79ae"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-17T20:07:29Z",
+          "updatedAt": "2026-04-17T20:07:29Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "The example could say \"API gateway\" instead of \"frontend service\" as a stronger example, because gateways don't iterate rapidly unlike services, which do.",
+              "createdAt": "2026-04-17T20:07:29Z",
+              "updatedAt": "2026-04-17T20:07:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM72RoHB",
+          "commit": {
+            "abbreviatedOid": "1ee79ae"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-17T20:12:00Z",
+          "updatedAt": "2026-04-17T20:12:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 337,
+      "id": "PR_kwDOJt_WwM7TTQvX",
+      "title": "Update transaction tokens document with identity chaining",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/337",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added reference to OAuth Identity and Authorization Chaining and clarified transaction context across Trust Domains. See issue #326",
+      "createdAt": "2026-04-17T11:54:12Z",
+      "updatedAt": "2026-04-17T20:13:14Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "572d96ebea6062cb55aad4a1c29085d4ae3f76e7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "efefe8f72a517f96d50da9924d55ce15a1a42d10",
+      "closedAt": "2026-04-17T20:13:12Z",
+      "mergedAt": "2026-04-17T20:13:12Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "5bf36b51f6866c8ebca0b91684198d62a85159d7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM72KMn0",
+          "commit": {
+            "abbreviatedOid": "7b44c2b"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-17T15:00:38Z",
+          "updatedAt": "2026-04-17T15:00:38Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM72Rp2K",
+          "commit": {
+            "abbreviatedOid": "efefe8f"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-17T20:13:06Z",
+          "updatedAt": "2026-04-17T20:13:06Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 339,
+      "id": "PR_kwDOJt_WwM7TcOdL",
+      "title": "Fix txn token formatting",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/339",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #334 ",
+      "createdAt": "2026-04-17T20:26:50Z",
+      "updatedAt": "2026-04-17T20:26:50Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-txn-token-formatting",
+      "headRefOid": "72eb4b6798b0a8b617159adff866618baaa0b088",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 340,
+      "id": "PR_kwDOJt_WwM7TcTmP",
+      "title": "removed 'must be ommitted' line",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/340",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #333 ",
+      "createdAt": "2026-04-17T20:31:32Z",
+      "updatedAt": "2026-04-17T20:31:32Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-iss",
+      "headRefOid": "e836d5d35a6981a74b1646df51d6381318b50930",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 341,
+      "id": "PR_kwDOJt_WwM7TcbKY",
+      "title": "fixed bullet list formatting in Creation section",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/341",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #328 ",
+      "createdAt": "2026-04-17T20:40:25Z",
+      "updatedAt": "2026-04-17T20:40:25Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-formatting",
+      "headRefOid": "9d7ac8704664d8986cabdf8915d1505d18f839c2",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 342,
+      "id": "PR_kwDOJt_WwM7TckRz",
+      "title": "fixed json in example",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/342",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-04-17T20:50:27Z",
+      "updatedAt": "2026-04-17T20:50:57Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-example",
+      "headRefOid": "3a454caaceb7e9cee594b36fed33932708db37f2",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
