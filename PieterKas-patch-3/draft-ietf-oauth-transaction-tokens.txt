@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 19 October 2026                          Practical Identity LLC
+Expires: 22 October 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           17 April 2026
+                                                           20 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 October 2026.
+   This Internet-Draft will expire on 22 October 2026.
 
 Copyright Notice
 
@@ -116,17 +116,18 @@ Table of Contents
      14.11. TTS Key Rotation
      14.12. Transaction Tokens Are Not Authentication Credentials
        14.12.1.  Txn-Token as a subject_token
-   15. Privacy Considerations
-     15.1.  Handling of Personal Information
-     15.2.  Logging
-   16. IANA Considerations
-     16.1.  OAuth URI Subregistry Contents
-     16.2.  JWT Claims Registry Contents
-     16.3.  IANA Media Type Registration Contents
-     16.4.  HTTP Header
-   17. References
-     17.1.  Normative References
-     17.2.  Informative References
+   15. Preserving transaction context across Trust Domains
+   16. Privacy Considerations
+     16.1.  Handling of Personal Information
+     16.2.  Logging
+   17. IANA Considerations
+     17.1.  OAuth URI Subregistry Contents
+     17.2.  JWT Claims Registry Contents
+     17.3.  IANA Media Type Registration Contents
+     17.4.  HTTP Header
+   18. References
+     18.1.  Normative References
+     18.2.  Informative References
    Acknowledgements
    Document History
      Since Draft 08
@@ -1126,9 +1127,19 @@ Table of Contents
       replacement to the req_wl claim using the character , as the
       separator between individual workload identifiers.
 
-15.  Privacy Considerations
+15.  Preserving transaction context across Trust Domains
 
-15.1.  Handling of Personal Information
+   Txn-Tokens are only valid within the Trust Domain identified by the
+   aud claim as defined in Section 10.2.  When a workload needs to
+   access a resource in a different Trust Domain to complete a
+   transaction, and the identity and authorization context from the Txn-
+   Token needs to be preserved, it SHOULD use OAuth Identity and
+   Authorization Chaining Across Domains
+   [I-D.ietf-oauth-identity-chaining].
+
+16.  Privacy Considerations
+
+16.1.  Handling of Personal Information
 
    Claims contained within transaction tokens may be considered personal
    information (PI) or personally identifying information (PII) in some
@@ -1137,7 +1148,7 @@ Table of Contents
    personal information and therefore must be handled according to
    jurisdictional requirements.
 
-15.2.  Logging
+16.2.  Logging
 
    Complete Txn-Tokens MUST NOT be logged verbatim.  This is in order to
    prevent replay of tokens or leakage of PII or other sensitive
@@ -1148,7 +1159,7 @@ Table of Contents
    contains PII, then care should be taken in logging the content of the
    Txn-Token so that the PII does not get logged.
 
-16.  IANA Considerations
+17.  IANA Considerations
 
    This specification registers the following token type identifiers to
    the "OAuth URI" subregistry of the "OAuth Parameters"
@@ -1158,7 +1169,7 @@ Table of Contents
    Type [IANA.MediaTypes] "txntoken+jwt" as defined in the section
    Section 10.1.
 
-16.1.  OAuth URI Subregistry Contents
+17.1.  OAuth URI Subregistry Contents
 
    *  URN: urn:ietf:params:oauth:token-type:txn_token
 
@@ -1187,7 +1198,7 @@ Table of Contents
       -  Specification Document: Section Section 12.2.2 of this
          specification
 
-16.2.  JWT Claims Registry Contents
+17.2.  JWT Claims Registry Contents
 
    *  Claim Name: tctx
 
@@ -1207,7 +1218,7 @@ Table of Contents
       -  Specification Document: Section Section 10.2 of this
          specification
 
-16.3.  IANA Media Type Registration Contents
+17.3.  IANA Media Type Registration Contents
 
    The following entry will be proposed using the IANA Media Type
    registration [IANA.MediaTypes] form.
@@ -1263,7 +1274,7 @@ Table of Contents
 
    *  Contact Person: Atul Tulshibagwale
 
-16.4.  HTTP Header
+17.4.  HTTP Header
 
    The header name Txn-Token is proposed to be added to the HTTP Field
    Name Registry [IANA.HTTP.FieldNames] as an unstructured Header Field.
@@ -1287,9 +1298,9 @@ Table of Contents
       user identity and details of fine-grained authorization that are
       included in the Txn-token.
 
-17.  References
+18.  References
 
-17.1.  Normative References
+18.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1364,6 +1375,14 @@ Table of Contents
               HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
               <https://www.rfc-editor.org/rfc/rfc9651>.
 
+   [I-D.ietf-oauth-identity-chaining]
+              Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
+              M. J., and B. Campbell, "OAuth Identity and Authorization
+              Chaining Across Domains", Work in Progress, Internet-
+              Draft, draft-ietf-oauth-identity-chaining-08, 9 February
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              oauth-identity-chaining-08>.
+
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
               <https://www.iana.org/assignments/http-fields/>.
@@ -1382,7 +1401,7 @@ Table of Contents
               errata set 2", November 2014,
               <https://openid.net/specs/openid-connect-core-1_0.html>.
 
-17.2.  Informative References
+18.2.  Informative References
 
    [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
@@ -1438,6 +1457,9 @@ Since Draft 08
 
    *  Added TTS Issuance Guidance policies (see issue
       https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
+
+   *  Provide guidance on cross-domain access (see https://github.com/
+      oauth-wg/oauth-transaction-tokens/issues/326)
 
    *  Added security consideration for invalidated tokens (see issue
       https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)

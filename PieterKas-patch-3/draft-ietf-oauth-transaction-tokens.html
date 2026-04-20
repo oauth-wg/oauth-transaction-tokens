@@ -11,21 +11,21 @@
 <meta content="
        Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests (e.g. such as API calls) or requests initiated internally within the trust domain. Txn-Tokens ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures. 
     " name="description">
-<meta content="xml2rfc 3.32.0" name="generator">
+<meta content="xml2rfc 3.33.0" name="generator">
 <meta content="Workloads" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.32.0
-    Python 3.12.12
+  xml2rfc 3.33.0
+    Python 3.12.13
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.9.4
+    platformdirs 4.9.6
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.32.5
@@ -1054,7 +1054,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 19 October 2026</td>
+<td class="center">Expires 22 October 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-17" class="published">17 April 2026</time>
+<time datetime="2026-04-20" class="published">20 April 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-10-19">19 October 2026</time></dd>
+<dd class="expires"><time datetime="2026-10-22">22 October 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1125,7 +1125,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 October 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1313,69 +1313,72 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
-            <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.1">
-                <p id="section-toc.1-1.15.2.1.1"><a href="#section-15.1" class="auto internal xref">15.1</a>.  <a href="#name-handling-of-personal-inform" class="internal xref">Handling of Personal Information</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15.2.2">
-                <p id="section-toc.1-1.15.2.2.1"><a href="#section-15.2" class="auto internal xref">15.2</a>.  <a href="#name-logging" class="internal xref">Logging</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.15.1"><a href="#section-15" class="auto internal xref">15</a>. <a href="#name-preserving-transaction-cont" class="internal xref">Preserving transaction context across Trust Domains</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16">
-            <p id="section-toc.1-1.16.1"><a href="#section-16" class="auto internal xref">16</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.16.1"><a href="#section-16" class="auto internal xref">16</a>. <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.1">
-                <p id="section-toc.1-1.16.2.1.1"><a href="#section-16.1" class="auto internal xref">16.1</a>.  <a href="#name-oauth-uri-subregistry-conte" class="internal xref">OAuth URI Subregistry Contents</a></p>
+                <p id="section-toc.1-1.16.2.1.1"><a href="#section-16.1" class="auto internal xref">16.1</a>.  <a href="#name-handling-of-personal-inform" class="internal xref">Handling of Personal Information</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.2">
-                <p id="section-toc.1-1.16.2.2.1"><a href="#section-16.2" class="auto internal xref">16.2</a>.  <a href="#name-jwt-claims-registry-content" class="internal xref">JWT Claims Registry Contents</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.3">
-                <p id="section-toc.1-1.16.2.3.1"><a href="#section-16.3" class="auto internal xref">16.3</a>.  <a href="#name-iana-media-type-registratio" class="internal xref">IANA Media Type Registration Contents</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.16.2.4">
-                <p id="section-toc.1-1.16.2.4.1"><a href="#section-16.4" class="auto internal xref">16.4</a>.  <a href="#name-http-header" class="internal xref">HTTP Header</a></p>
+                <p id="section-toc.1-1.16.2.2.1"><a href="#section-16.2" class="auto internal xref">16.2</a>.  <a href="#name-logging" class="internal xref">Logging</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17">
-            <p id="section-toc.1-1.17.1"><a href="#section-17" class="auto internal xref">17</a>. <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.17.1"><a href="#section-17" class="auto internal xref">17</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17.2.1">
-                <p id="section-toc.1-1.17.2.1.1"><a href="#section-17.1" class="auto internal xref">17.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+                <p id="section-toc.1-1.17.2.1.1"><a href="#section-17.1" class="auto internal xref">17.1</a>.  <a href="#name-oauth-uri-subregistry-conte" class="internal xref">OAuth URI Subregistry Contents</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17.2.2">
-                <p id="section-toc.1-1.17.2.2.1"><a href="#section-17.2" class="auto internal xref">17.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                <p id="section-toc.1-1.17.2.2.1"><a href="#section-17.2" class="auto internal xref">17.2</a>.  <a href="#name-jwt-claims-registry-content" class="internal xref">JWT Claims Registry Contents</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17.2.3">
+                <p id="section-toc.1-1.17.2.3.1"><a href="#section-17.3" class="auto internal xref">17.3</a>.  <a href="#name-iana-media-type-registratio" class="internal xref">IANA Media Type Registration Contents</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.17.2.4">
+                <p id="section-toc.1-1.17.2.4.1"><a href="#section-17.4" class="auto internal xref">17.4</a>.  <a href="#name-http-header" class="internal xref">HTTP Header</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18">
-            <p id="section-toc.1-1.18.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19">
-            <p id="section-toc.1-1.19.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-document-history" class="internal xref">Document History</a></p>
+            <p id="section-toc.1-1.18.1"><a href="#section-18" class="auto internal xref">18</a>. <a href="#name-references" class="internal xref">References</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.1">
-                <p id="section-toc.1-1.19.2.1.1"><a href="#appendix-B.1" class="auto internal xref"></a><a href="#name-since-draft-08" class="internal xref">Since Draft 08</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.1">
+                <p id="section-toc.1-1.18.2.1.1"><a href="#section-18.1" class="auto internal xref">18.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.2">
-                <p id="section-toc.1-1.19.2.2.1"><a href="#appendix-B.2" class="auto internal xref"></a><a href="#name-since-draft-07" class="internal xref">Since Draft 07</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.3">
-                <p id="section-toc.1-1.19.2.3.1"><a href="#appendix-B.3" class="auto internal xref"></a><a href="#name-since-draft-06" class="internal xref">Since Draft 06</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.4">
-                <p id="section-toc.1-1.19.2.4.1"><a href="#appendix-B.4" class="auto internal xref"></a><a href="#name-since-draft-05" class="internal xref">Since Draft 05</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19.2.5">
-                <p id="section-toc.1-1.19.2.5.1"><a href="#appendix-B.5" class="auto internal xref"></a><a href="#name-since-draft-04" class="internal xref">Since Draft 04</a></p>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.18.2.2">
+                <p id="section-toc.1-1.18.2.2.1"><a href="#section-18.2" class="auto internal xref">18.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.19">
+            <p id="section-toc.1-1.19.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20">
-            <p id="section-toc.1-1.20.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.20.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-document-history" class="internal xref">Document History</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.1">
+                <p id="section-toc.1-1.20.2.1.1"><a href="#appendix-B.1" class="auto internal xref"></a><a href="#name-since-draft-08" class="internal xref">Since Draft 08</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.2">
+                <p id="section-toc.1-1.20.2.2.1"><a href="#appendix-B.2" class="auto internal xref"></a><a href="#name-since-draft-07" class="internal xref">Since Draft 07</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.3">
+                <p id="section-toc.1-1.20.2.3.1"><a href="#appendix-B.3" class="auto internal xref"></a><a href="#name-since-draft-06" class="internal xref">Since Draft 06</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.4">
+                <p id="section-toc.1-1.20.2.4.1"><a href="#appendix-B.4" class="auto internal xref"></a><a href="#name-since-draft-05" class="internal xref">Since Draft 05</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20.2.5">
+                <p id="section-toc.1-1.20.2.5.1"><a href="#appendix-B.5" class="auto internal xref"></a><a href="#name-since-draft-04" class="internal xref">Since Draft 04</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21">
+            <p id="section-toc.1-1.21.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -2337,80 +2340,88 @@ Cache-Control: no-store
 </div>
 </section>
 </div>
-<div id="Privacy">
+<div id="preserving-transaction-context-across-trust-domains">
 <section id="section-15">
+      <h2 id="name-preserving-transaction-cont">
+<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-preserving-transaction-cont" class="section-name selfRef">Preserving transaction context across Trust Domains</a>
+      </h2>
+<p id="section-15-1">Txn-Tokens are only valid within the Trust Domain identified by the <code>aud</code> claim as defined in <a href="#txn-token-claims" class="auto internal xref">Section 10.2</a>. When a workload needs to access a resource in a different Trust Domain to complete a transaction, and the identity and authorization context from the Txn-Token needs to be preserved, it SHOULD use OAuth Identity and Authorization Chaining Across Domains <span>[<a href="#I-D.ietf-oauth-identity-chaining" class="cite xref">I-D.ietf-oauth-identity-chaining</a>]</span>.<a href="#section-15-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="Privacy">
+<section id="section-16">
       <h2 id="name-privacy-considerations">
-<a href="#section-15" class="section-number selfRef">15. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
+<a href="#section-16" class="section-number selfRef">16. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
 <div id="handling-of-personal-information">
-<section id="section-15.1">
+<section id="section-16.1">
         <h3 id="name-handling-of-personal-inform">
-<a href="#section-15.1" class="section-number selfRef">15.1. </a><a href="#name-handling-of-personal-inform" class="section-name selfRef">Handling of Personal Information</a>
+<a href="#section-16.1" class="section-number selfRef">16.1. </a><a href="#name-handling-of-personal-inform" class="section-name selfRef">Handling of Personal Information</a>
         </h3>
-<p id="section-15.1-1">Claims contained within transaction tokens may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values should be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and therefore must be handled according to jurisdictional requirements.<a href="#section-15.1-1" class="pilcrow">¶</a></p>
+<p id="section-16.1-1">Claims contained within transaction tokens may be considered personal information (PI) or personally identifying information (PII) in some jurisdictions and if so their values should be protected accordingly. For example, requester IP address (req_ip) is often considered personal information and therefore must be handled according to jurisdictional requirements.<a href="#section-16.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="logging">
-<section id="section-15.2">
+<section id="section-16.2">
         <h3 id="name-logging">
-<a href="#section-15.2" class="section-number selfRef">15.2. </a><a href="#name-logging" class="section-name selfRef">Logging</a>
+<a href="#section-16.2" class="section-number selfRef">16.2. </a><a href="#name-logging" class="section-name selfRef">Logging</a>
         </h3>
-<p id="section-15.2-1">Complete Txn-Tokens MUST NOT be logged verbatim. This is in order to prevent replay of tokens or leakage of PII or other sensitive information via log files. A hash of the Txn-Token may be logged to allow for correlation with the log files of the TTS that records issued tokens. Alternatively the JWS payload of a Txn-Token may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.<a href="#section-15.2-1" class="pilcrow">¶</a></p>
+<p id="section-16.2-1">Complete Txn-Tokens MUST NOT be logged verbatim. This is in order to prevent replay of tokens or leakage of PII or other sensitive information via log files. A hash of the Txn-Token may be logged to allow for correlation with the log files of the TTS that records issued tokens. Alternatively the JWS payload of a Txn-Token may be logged after the signature has been removed. If the Txn-Token contains PII, then care should be taken in logging the content of the Txn-Token so that the PII does not get logged.<a href="#section-16.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="IANA">
-<section id="section-16">
+<section id="section-17">
       <h2 id="name-iana-considerations">
-<a href="#section-16" class="section-number selfRef">16. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-17" class="section-number selfRef">17. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-16-1">This specification registers the following token type identifiers to the "OAuth URI" subregistry of the "OAuth Parameters" <span>[<a href="#IANA.OAuth.Parameters" class="cite xref">IANA.OAuth.Parameters</a>]</span> registry. It also registers the following claims defined in Section <a href="#txn-token-claims" class="auto internal xref">Section 10.2</a> in the IANA JSON Web Token Claims Registry defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>. It also registers the Media Type <span>[<a href="#IANA.MediaTypes" class="cite xref">IANA.MediaTypes</a>]</span> "txntoken+jwt" as defined in the section <a href="#txn-token-header" class="auto internal xref">Section 10.1</a>.<a href="#section-16-1" class="pilcrow">¶</a></p>
+<p id="section-17-1">This specification registers the following token type identifiers to the "OAuth URI" subregistry of the "OAuth Parameters" <span>[<a href="#IANA.OAuth.Parameters" class="cite xref">IANA.OAuth.Parameters</a>]</span> registry. It also registers the following claims defined in Section <a href="#txn-token-claims" class="auto internal xref">Section 10.2</a> in the IANA JSON Web Token Claims Registry defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>. It also registers the Media Type <span>[<a href="#IANA.MediaTypes" class="cite xref">IANA.MediaTypes</a>]</span> "txntoken+jwt" as defined in the section <a href="#txn-token-header" class="auto internal xref">Section 10.1</a>.<a href="#section-17-1" class="pilcrow">¶</a></p>
 <div id="oauth-uri-subregistry-contents">
-<section id="section-16.1">
+<section id="section-17.1">
         <h3 id="name-oauth-uri-subregistry-conte">
-<a href="#section-16.1" class="section-number selfRef">16.1. </a><a href="#name-oauth-uri-subregistry-conte" class="section-name selfRef">OAuth URI Subregistry Contents</a>
+<a href="#section-17.1" class="section-number selfRef">17.1. </a><a href="#name-oauth-uri-subregistry-conte" class="section-name selfRef">OAuth URI Subregistry Contents</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="section-16.1-1.1">
-            <p id="section-16.1-1.1.1">URN: urn:ietf:params:oauth:token-type:txn_token<a href="#section-16.1-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.1-1.1">
+            <p id="section-17.1-1.1.1">URN: urn:ietf:params:oauth:token-type:txn_token<a href="#section-17.1-1.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.1-1.1.2.1">
-                <p id="section-16.1-1.1.2.1.1">Common Name: Transaction Token<a href="#section-16.1-1.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.1-1.1.2.1">
+                <p id="section-17.1-1.1.2.1.1">Common Name: Transaction Token<a href="#section-17.1-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.1-1.1.2.2">
-                <p id="section-16.1-1.1.2.2.1">Change Controller: IETF<a href="#section-16.1-1.1.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.1-1.1.2.2">
+                <p id="section-17.1-1.1.2.2.1">Change Controller: IETF<a href="#section-17.1-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.1-1.1.2.3">
-                <p id="section-16.1-1.1.2.3.1">Specification Document Section <a href="#txn-token-request" class="auto internal xref">Section 12.1</a> of this specification<a href="#section-16.1-1.1.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.1-1.1.2.3">
+                <p id="section-17.1-1.1.2.3.1">Specification Document Section <a href="#txn-token-request" class="auto internal xref">Section 12.1</a> of this specification<a href="#section-17.1-1.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-16.1-1.2">
-            <p id="section-16.1-1.2.1">URN: urn:ietf:params:oauth:token-type:self_signed<a href="#section-16.1-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.1-1.2">
+            <p id="section-17.1-1.2.1">URN: urn:ietf:params:oauth:token-type:self_signed<a href="#section-17.1-1.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.1-1.2.2.1">
-                <p id="section-16.1-1.2.2.1.1">Common Name: Token type for Self-signed JWT<a href="#section-16.1-1.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.1-1.2.2.1">
+                <p id="section-17.1-1.2.2.1.1">Common Name: Token type for Self-signed JWT<a href="#section-17.1-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.1-1.2.2.2">
-                <p id="section-16.1-1.2.2.2.1">Change Controller: IETF<a href="#section-16.1-1.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.1-1.2.2.2">
+                <p id="section-17.1-1.2.2.2.1">Change Controller: IETF<a href="#section-17.1-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.1-1.2.2.3">
-                <p id="section-16.1-1.2.2.3.1">Specification Document: Section <a href="#self-signed-subject-token-type" class="auto internal xref">Section 12.2.1</a> of this specification<a href="#section-16.1-1.2.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.1-1.2.2.3">
+                <p id="section-17.1-1.2.2.3.1">Specification Document: Section <a href="#self-signed-subject-token-type" class="auto internal xref">Section 12.2.1</a> of this specification<a href="#section-17.1-1.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-16.1-1.3">
-            <p id="section-16.1-1.3.1">URN: urn:ietf:params:oauth:token-type:unsigned_json<a href="#section-16.1-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.1-1.3">
+            <p id="section-17.1-1.3.1">URN: urn:ietf:params:oauth:token-type:unsigned_json<a href="#section-17.1-1.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.1-1.3.2.1">
-                <p id="section-16.1-1.3.2.1.1">Common Name: Token type for Unsigned JSON Object<a href="#section-16.1-1.3.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.1-1.3.2.1">
+                <p id="section-17.1-1.3.2.1.1">Common Name: Token type for Unsigned JSON Object<a href="#section-17.1-1.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.1-1.3.2.2">
-                <p id="section-16.1-1.3.2.2.1">Change Controller: IETF<a href="#section-16.1-1.3.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.1-1.3.2.2">
+                <p id="section-17.1-1.3.2.2.1">Change Controller: IETF<a href="#section-17.1-1.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.1-1.3.2.3">
-                <p id="section-16.1-1.3.2.3.1">Specification Document: Section <a href="#unsigned-json-subject-token-type" class="auto internal xref">Section 12.2.2</a> of this specification<a href="#section-16.1-1.3.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.1-1.3.2.3">
+                <p id="section-17.1-1.3.2.3.1">Specification Document: Section <a href="#unsigned-json-subject-token-type" class="auto internal xref">Section 12.2.2</a> of this specification<a href="#section-17.1-1.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -2418,36 +2429,36 @@ Cache-Control: no-store
 </section>
 </div>
 <div id="jwt-claims-registry-contents">
-<section id="section-16.2">
+<section id="section-17.2">
         <h3 id="name-jwt-claims-registry-content">
-<a href="#section-16.2" class="section-number selfRef">16.2. </a><a href="#name-jwt-claims-registry-content" class="section-name selfRef">JWT Claims Registry Contents</a>
+<a href="#section-17.2" class="section-number selfRef">17.2. </a><a href="#name-jwt-claims-registry-content" class="section-name selfRef">JWT Claims Registry Contents</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="section-16.2-1.1">
-            <p id="section-16.2-1.1.1">Claim Name: <code>tctx</code><a href="#section-16.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.2-1.1">
+            <p id="section-17.2-1.1.1">Claim Name: <code>tctx</code><a href="#section-17.2-1.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.2-1.1.2.1">
-                <p id="section-16.2-1.1.2.1.1">Claim Description: The transaction authorization details<a href="#section-16.2-1.1.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.2-1.1.2.1">
+                <p id="section-17.2-1.1.2.1.1">Claim Description: The transaction authorization details<a href="#section-17.2-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.2-1.1.2.2">
-                <p id="section-16.2-1.1.2.2.1">Change Controller: IETF<a href="#section-16.2-1.1.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.2-1.1.2.2">
+                <p id="section-17.2-1.1.2.2.1">Change Controller: IETF<a href="#section-17.2-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.2-1.1.2.3">
-                <p id="section-16.2-1.1.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 10.2</a> of this specification<a href="#section-16.2-1.1.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.2-1.1.2.3">
+                <p id="section-17.2-1.1.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 10.2</a> of this specification<a href="#section-17.2-1.1.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="section-16.2-1.2">
-            <p id="section-16.2-1.2.1">Claim Name: <code>rctx</code><a href="#section-16.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.2-1.2">
+            <p id="section-17.2-1.2.1">Claim Name: <code>rctx</code><a href="#section-17.2-1.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.2-1.2.2.1">
-                <p id="section-16.2-1.2.2.1.1">Claim Description: The requester context<a href="#section-16.2-1.2.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.2-1.2.2.1">
+                <p id="section-17.2-1.2.2.1.1">Claim Description: The requester context<a href="#section-17.2-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.2-1.2.2.2">
-                <p id="section-16.2-1.2.2.2.1">Change Controller: IETF<a href="#section-16.2-1.2.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.2-1.2.2.2">
+                <p id="section-17.2-1.2.2.2.1">Change Controller: IETF<a href="#section-17.2-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-16.2-1.2.2.3">
-                <p id="section-16.2-1.2.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 10.2</a> of this specification<a href="#section-16.2-1.2.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-17.2-1.2.2.3">
+                <p id="section-17.2-1.2.2.3.1">Specification Document: Section <a href="#txn-token-claims" class="auto internal xref">Section 10.2</a> of this specification<a href="#section-17.2-1.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
@@ -2455,95 +2466,95 @@ Cache-Control: no-store
 </section>
 </div>
 <div id="iana-media-type-registration-contents">
-<section id="section-16.3">
+<section id="section-17.3">
         <h3 id="name-iana-media-type-registratio">
-<a href="#section-16.3" class="section-number selfRef">16.3. </a><a href="#name-iana-media-type-registratio" class="section-name selfRef">IANA Media Type Registration Contents</a>
+<a href="#section-17.3" class="section-number selfRef">17.3. </a><a href="#name-iana-media-type-registratio" class="section-name selfRef">IANA Media Type Registration Contents</a>
         </h3>
-<p id="section-16.3-1">The following entry will be proposed using the IANA Media Type registration <span>[<a href="#IANA.MediaTypes" class="cite xref">IANA.MediaTypes</a>]</span> form.<a href="#section-16.3-1" class="pilcrow">¶</a></p>
+<p id="section-17.3-1">The following entry will be proposed using the IANA Media Type registration <span>[<a href="#IANA.MediaTypes" class="cite xref">IANA.MediaTypes</a>]</span> form.<a href="#section-17.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.3-2.1">
-            <p id="section-16.3-2.1.1">Type Name: application<a href="#section-16.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.3-2.1">
+            <p id="section-17.3-2.1.1">Type Name: application<a href="#section-17.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.2">
-            <p id="section-16.3-2.2.1">Subtype Name: txntoken+jwt<a href="#section-16.3-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.2">
+            <p id="section-17.3-2.2.1">Subtype Name: txntoken+jwt<a href="#section-17.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.3">
-            <p id="section-16.3-2.3.1">Change Controller: IETF<a href="#section-16.3-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.3">
+            <p id="section-17.3-2.3.1">Change Controller: IETF<a href="#section-17.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.4">
-            <p id="section-16.3-2.4.1">Required Parameters: N/A.<a href="#section-16.3-2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.4">
+            <p id="section-17.3-2.4.1">Required Parameters: N/A.<a href="#section-17.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.5">
-            <p id="section-16.3-2.5.1">Optional Parameters: N/A.<a href="#section-16.3-2.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.5">
+            <p id="section-17.3-2.5.1">Optional Parameters: N/A.<a href="#section-17.3-2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.6">
-            <p id="section-16.3-2.6.1">Encoding Considerations: 7-bit text<a href="#section-16.3-2.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.6">
+            <p id="section-17.3-2.6.1">Encoding Considerations: 7-bit text<a href="#section-17.3-2.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.7">
-            <p id="section-16.3-2.7.1">Security Considerations:<a href="#section-16.3-2.7.1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-16.3-2.7.2">
-<li id="section-16.3-2.7.2.1">
-                <p id="section-16.3-2.7.2.1.1">The media type is used to identify JWTs that may be used as Transaction Tokens. It is a piece of data, and may not contain executable content.<a href="#section-16.3-2.7.2.1.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.7">
+            <p id="section-17.3-2.7.1">Security Considerations:<a href="#section-17.3-2.7.1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-17.3-2.7.2">
+<li id="section-17.3-2.7.2.1">
+                <p id="section-17.3-2.7.2.1.1">The media type is used to identify JWTs that may be used as Transaction Tokens. It is a piece of data, and may not contain executable content.<a href="#section-17.3-2.7.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-16.3-2.7.2.2">
-                <p id="section-16.3-2.7.2.2.1">Transaction Tokens are short-lived tokens used within a trusted environment, so there are no privacy considerations. Transaction Tokens are unmodifiable tokens, which need integrity protection.<a href="#section-16.3-2.7.2.2.1" class="pilcrow">¶</a></p>
+              <li id="section-17.3-2.7.2.2">
+                <p id="section-17.3-2.7.2.2.1">Transaction Tokens are short-lived tokens used within a trusted environment, so there are no privacy considerations. Transaction Tokens are unmodifiable tokens, which need integrity protection.<a href="#section-17.3-2.7.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-16.3-2.7.2.3">
-                <p id="section-16.3-2.7.2.3.1">The JWTs representing Transaction Tokens are signed, and therefore are integrity protected. A recipient of a Transaction Token must verify the signature on the Transaction Token before using it.<a href="#section-16.3-2.7.2.3.1" class="pilcrow">¶</a></p>
+              <li id="section-17.3-2.7.2.3">
+                <p id="section-17.3-2.7.2.3.1">The JWTs representing Transaction Tokens are signed, and therefore are integrity protected. A recipient of a Transaction Token must verify the signature on the Transaction Token before using it.<a href="#section-17.3-2.7.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-16.3-2.7.2.4">
-                <p id="section-16.3-2.7.2.4.1">There are no additional security considerations specific to the use of JWTs as Transaction Tokens.<a href="#section-16.3-2.7.2.4.1" class="pilcrow">¶</a></p>
+              <li id="section-17.3-2.7.2.4">
+                <p id="section-17.3-2.7.2.4.1">There are no additional security considerations specific to the use of JWTs as Transaction Tokens.<a href="#section-17.3-2.7.2.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-16.3-2.7.2.5">
-                <p id="section-16.3-2.7.2.5.1">The Transaction Tokens format does not require the use of links within the token. If links are used by specific instances of Transaction Tokens, then their interpretation is usage specific.<a href="#section-16.3-2.7.2.5.1" class="pilcrow">¶</a></p>
+              <li id="section-17.3-2.7.2.5">
+                <p id="section-17.3-2.7.2.5.1">The Transaction Tokens format does not require the use of links within the token. If links are used by specific instances of Transaction Tokens, then their interpretation is usage specific.<a href="#section-17.3-2.7.2.5.1" class="pilcrow">¶</a></p>
 </li>
             </ol>
 </li>
-          <li class="normal" id="section-16.3-2.8">
-            <p id="section-16.3-2.8.1">Interoperability Considerations: Transaction Tokens inherit all interoperability properties of JWTs.<a href="#section-16.3-2.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.8">
+            <p id="section-17.3-2.8.1">Interoperability Considerations: Transaction Tokens inherit all interoperability properties of JWTs.<a href="#section-17.3-2.8.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.9">
-            <p id="section-16.3-2.9.1">Published Specification: this document (when published).<a href="#section-16.3-2.9.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.9">
+            <p id="section-17.3-2.9.1">Published Specification: this document (when published).<a href="#section-17.3-2.9.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.10">
-            <p id="section-16.3-2.10.1">Application Usage: Any application supporting the use of JWTs.<a href="#section-16.3-2.10.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.10">
+            <p id="section-17.3-2.10.1">Application Usage: Any application supporting the use of JWTs.<a href="#section-17.3-2.10.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.11">
-            <p id="section-16.3-2.11.1">Fragment Identifier Consideration: N/A.<a href="#section-16.3-2.11.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.11">
+            <p id="section-17.3-2.11.1">Fragment Identifier Consideration: N/A.<a href="#section-17.3-2.11.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.12">
-            <p id="section-16.3-2.12.1">Restrictions on Usage: Any application supporting the use of JWTs.<a href="#section-16.3-2.12.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.12">
+            <p id="section-17.3-2.12.1">Restrictions on Usage: Any application supporting the use of JWTs.<a href="#section-17.3-2.12.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.13">
-            <p id="section-16.3-2.13.1">Intended Usage: Common<a href="#section-16.3-2.13.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.13">
+            <p id="section-17.3-2.13.1">Intended Usage: Common<a href="#section-17.3-2.13.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.3-2.14">
-            <p id="section-16.3-2.14.1">Contact Person: Atul Tulshibagwale<a href="#section-16.3-2.14.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.3-2.14">
+            <p id="section-17.3-2.14.1">Contact Person: Atul Tulshibagwale<a href="#section-17.3-2.14.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="http-header">
-<section id="section-16.4">
+<section id="section-17.4">
         <h3 id="name-http-header">
-<a href="#section-16.4" class="section-number selfRef">16.4. </a><a href="#name-http-header" class="section-name selfRef">HTTP Header</a>
+<a href="#section-17.4" class="section-number selfRef">17.4. </a><a href="#name-http-header" class="section-name selfRef">HTTP Header</a>
         </h3>
-<p id="section-16.4-1">The header name <code>Txn-Token</code> is proposed to be added to the HTTP Field Name Registry <span>[<a href="#IANA.HTTP.FieldNames" class="cite xref">IANA.HTTP.FieldNames</a>]</span> as an unstructured Header Field. This header is defined in the section <a href="#txn-token-http-header" class="auto internal xref">Section 13.1</a>. The following entry will be proposed in the HTTP Field Name Registry. Note that this is an unstructured field, therefore the value of the Type field is left empty as shown below:<a href="#section-16.4-1" class="pilcrow">¶</a></p>
+<p id="section-17.4-1">The header name <code>Txn-Token</code> is proposed to be added to the HTTP Field Name Registry <span>[<a href="#IANA.HTTP.FieldNames" class="cite xref">IANA.HTTP.FieldNames</a>]</span> as an unstructured Header Field. This header is defined in the section <a href="#txn-token-http-header" class="auto internal xref">Section 13.1</a>. The following entry will be proposed in the HTTP Field Name Registry. Note that this is an unstructured field, therefore the value of the Type field is left empty as shown below:<a href="#section-17.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-16.4-2.1">
-            <p id="section-16.4-2.1.1">Field Name: Txn-Token<a href="#section-16.4-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-17.4-2.1">
+            <p id="section-17.4-2.1.1">Field Name: Txn-Token<a href="#section-17.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.4-2.2">
-            <p id="section-16.4-2.2.1">Type:<a href="#section-16.4-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.4-2.2">
+            <p id="section-17.4-2.2.1">Type:<a href="#section-17.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.4-2.3">
-            <p id="section-16.4-2.3.1">Status: permanent<a href="#section-16.4-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.4-2.3">
+            <p id="section-17.4-2.3.1">Status: permanent<a href="#section-17.4-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.4-2.4">
-            <p id="section-16.4-2.4.1">Specification Document: Section <a href="#txn-token-http-header" class="auto internal xref">Section 13.1</a> of this document<a href="#section-16.4-2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.4-2.4">
+            <p id="section-17.4-2.4.1">Specification Document: Section <a href="#txn-token-http-header" class="auto internal xref">Section 13.1</a> of this document<a href="#section-17.4-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-16.4-2.5">
-            <p id="section-16.4-2.5.1">Comment: The <code>Authorization</code> header cannot be used for Txn-tokens because that header may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.<a href="#section-16.4-2.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-17.4-2.5">
+            <p id="section-17.4-2.5.1">Comment: The <code>Authorization</code> header cannot be used for Txn-tokens because that header may be used for service-to-service authorization, and the services may simultaneously require the use of Txn-tokens to convey detailed immutable information such as user identity and details of fine-grained authorization that are included in the Txn-token.<a href="#section-17.4-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2551,14 +2562,14 @@ Cache-Control: no-store
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-17">
+<section id="section-18">
       <h2 id="name-references">
-<a href="#section-17" class="section-number selfRef">17. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-18" class="section-number selfRef">18. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-17.1">
+<section id="section-18.1">
         <h3 id="name-normative-references">
-<a href="#section-17.1" class="section-number selfRef">17.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-18.1" class="section-number selfRef">18.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="RFC2119">[RFC2119]</dt>
@@ -2625,6 +2636,10 @@ Cache-Control: no-store
         <dd>
 <span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 9651</span>, <span class="seriesInfo">DOI 10.17487/RFC9651</span>, <time datetime="2024-09" class="refDate">September 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9651">https://www.rfc-editor.org/rfc/rfc9651</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ietf-oauth-identity-chaining">[I-D.ietf-oauth-identity-chaining]</dt>
+        <dd>
+<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M. J.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-08</span>, <time datetime="2026-02-09" class="refDate">9 February 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-08">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-08</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="IANA.HTTP.FieldNames">[IANA.HTTP.FieldNames]</dt>
         <dd>
 <span class="refTitle">"HTTP Authentication Schemes"</span>, <span>n.d.</span>, <span>&lt;<a href="https://www.iana.org/assignments/http-fields/">https://www.iana.org/assignments/http-fields/</a>&gt;</span>. </dd>
@@ -2645,9 +2660,9 @@ Cache-Control: no-store
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-17.2">
+<section id="section-18.2">
         <h3 id="name-informative-references">
-<a href="#section-17.2" class="section-number selfRef">17.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-18.2" class="section-number selfRef">18.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="SPIFFE">[SPIFFE]</dt>
@@ -2702,7 +2717,10 @@ Cache-Control: no-store
             <p id="appendix-B.1-1.2.1">Added TTS Issuance Guidance policies (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Provide guidance on cross-domain access (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/326)<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.4">
+            <p id="appendix-B.1-1.4.1">Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
