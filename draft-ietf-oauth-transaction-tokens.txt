@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 19 October 2026                          Practical Identity LLC
+Expires: 22 October 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           17 April 2026
+                                                           20 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 October 2026.
+   This Internet-Draft will expire on 22 October 2026.
 
 Copyright Notice
 
@@ -100,7 +100,7 @@ Table of Contents
      12.4.  Txn-Token Response
      12.5.  Mutual Authentication of the Txn-Token Request
    13. Using Txn-Tokens
-     13.1.  Txn-Token HTTP Header
+     13.1.  "Txn-Token" HTTP Header
      13.2.  Txn-Token Validation
    14. Security Considerations
      14.1.  Txn-Token Replay Risks
@@ -916,11 +916,11 @@ Table of Contents
    Authorization header MUST NOT be used because that may be used by the
    workloads for other purposes.
 
-13.1.  Txn-Token HTTP Header
+13.1.  "Txn-Token" HTTP Header
 
    A workload that invokes another workload using HTTP and needs to
    present a Txn-Token to the invoked workload MUST use the HTTP Header
-   Txn-Token to communicate the Txn-Token in the HTTP Request.  The
+   "Txn-Token" to communicate the Txn-Token in the HTTP Request.  The
    value of this header MUST be exactly one Txn-Token.
 
 13.2.  Txn-Token Validation
@@ -1442,6 +1442,10 @@ Since Draft 08
 
    *  Added security consideration for invalidated tokens (see issue
       https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
+
+   *  Added doublequotes around the "Txn-Token" header name to
+      distinguish it from the usage of Txn-Token as a name for
+      Transaction Tokens.
 
 Since Draft 07
 
