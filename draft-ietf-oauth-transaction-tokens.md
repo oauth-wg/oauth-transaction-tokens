@@ -494,7 +494,7 @@ When the TTS receives a Txn-Token Request it:
 * The TTS MUST set the `aud` claim to an identifier representing the Trust Domain of the TTS. If the TTS supports multiple Trust Domains, then it MUST determine the correct `aud` value for this request.
 * The TTS MUST set the `exp` claim to the expiry time of the Txn-Token. The TTS MAY consider any `exp` value present in the `subject_token` parameter of the Txn-Token Request in determining the `exp` value of the resulting Txn-Token.
 * The TTS MUST set the `txn` claim to a unique ID specific to this transaction.
-* The TTS MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token. This claim MUST be omitted if not set.
+* The TTS MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token.
 * The TTS MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token.
 * If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.
 * If a `request_details` parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the TTS authorization policy for the requesting client.
