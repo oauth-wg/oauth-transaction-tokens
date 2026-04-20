@@ -827,8 +827,7 @@ Table of Contents
       transaction.
 
    *  The TTS MAY set the iss claim of the Txn-Token to a value defining
-      the entity that signed the Txn-Token.  This claim MUST be omitted
-      if not set.
+      the entity that signed the Txn-Token.
 
    *  The TTS MUST evaluate the value specified in the scope parameter
       of the request to determine the scope claim of the issued Txn-
