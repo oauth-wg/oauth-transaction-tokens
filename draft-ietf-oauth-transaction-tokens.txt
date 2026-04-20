@@ -263,17 +263,24 @@ Table of Contents
    Service (TTS)) and provides context that is sufficient for the TTS to
    generate a Txn-Token.
 
-   The context information provided to the TTS MUST include: * The
-   identification of the trust domain in which the issued Txn-Token is
-   valid. * A token which identifies the subject of the Txn-Token (e.g.
-   an OAuth access token, a self-issued JWT, etc). * The desired
-   authorization scope for the issued Txn-Token.
+   The context information provided to the TTS MUST include:
 
-   Additional contextual information MAY be provided such as: *
-   Parameters that are required to be integrity protected for the
-   duration of this call. * Additional context, such as the incoming IP
-   address, User Agent information, or other context that can help the
-   TTS to issue the Txn-Token.
+   *  The identification of the trust domain in which the issued Txn-
+      Token is valid.
+
+   *  A token which identifies the subject of the Txn-Token (e.g. an
+      OAuth access token, a self-issued JWT, etc).
+
+   *  The desired authorization scope for the issued Txn-Token.
+
+   Additional contextual information MAY be provided such as:
+
+   *  Parameters that are required to be integrity protected for the
+      duration of this call.
+
+   *  Additional context, such as the incoming IP address, User Agent
+      information, or other context that can help the TTS to issue the
+      Txn-Token.
 
    The TTS responds to a successful invocation by generating a Txn-
    Token.  The calling workload then uses the Txn-Token to authorize its
