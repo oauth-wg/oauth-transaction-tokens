@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-19T00:34:15.780597+00:00",
+  "timestamp": "2026-04-21T00:35:09.968173+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6585,7 +6585,7 @@
       "id": "I_kwDOJt_WwM78aBcR",
       "title": "Assuming lists were wanted?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/328",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bc-pi",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -6596,8 +6596,8 @@
       ],
       "body": "The formatting in https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-6.1 needs help. Which *might* be as simple as a leading line break before the list in the markdown. Maybe Or was this what was intended? Can't help but wonder...  \n\n<img width=\"793\" height=\"250\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/49ca6d01-67f2-44ca-a699-529fcf23d5e7\" />",
       "createdAt": "2026-04-09T20:15:25Z",
-      "updatedAt": "2026-04-13T17:34:31Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T16:39:56Z",
+      "closedAt": "2026-04-20T16:39:56Z",
       "comments": [
         {
           "author": "tulshi",
@@ -6744,7 +6744,7 @@
       "id": "I_kwDOJt_WwM78tkA9",
       "title": "\"This claim MUST be omitted if not set.\"",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/333",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bc-pi",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -6755,8 +6755,8 @@
       ],
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-12.3-2.8.1\n\nreally?\n\nnot the first time this has been questioned either https://mailarchive.ietf.org/arch/msg/oauth/rGqrvjNps203khsaUHXd_00dGX4/ ",
       "createdAt": "2026-04-10T14:29:17Z",
-      "updatedAt": "2026-04-13T17:13:52Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T16:39:34Z",
+      "closedAt": "2026-04-20T16:39:34Z",
       "comments": [
         {
           "author": "gffletch",
@@ -6786,7 +6786,7 @@
       "id": "I_kwDOJt_WwM78zUbH",
       "title": "Txn-Token vs Txn-Token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/334",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bc-pi",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -6797,8 +6797,8 @@
       ],
       "body": "\nin the text and htmlized versions the Txn-Token header name is hard to distinguish from the name name of the thing. Some quotations or other formatting or something might be good in this case. \n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-txn-token-http-header\n<img width=\"768\" height=\"171\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/fddf4883-7457-46c0-98fd-f59dae0a62b8\" />\n\nThe html version is a bit better but still\nhttps://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#name-txn-token-http-header\n<img width=\"749\" height=\"130\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/2ca1103c-827d-4edb-ab8f-79ee825b3248\" />\n",
       "createdAt": "2026-04-10T19:28:27Z",
-      "updatedAt": "2026-04-13T17:03:18Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-20T16:38:33Z",
+      "closedAt": "2026-04-20T16:38:33Z",
       "comments": [
         {
           "author": "bc-pi",
@@ -21203,13 +21203,13 @@
       "labels": [],
       "body": "Added TTS Issuance Policies section detailing issuance decisions and policies for Txn-Tokens. See issue #321",
       "createdAt": "2026-04-16T13:28:53Z",
-      "updatedAt": "2026-04-17T20:12:00Z",
+      "updatedAt": "2026-04-20T15:28:14Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "572d96ebea6062cb55aad4a1c29085d4ae3f76e7",
+      "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
-      "headRefOid": "1ee79aeb661337ec46669f7ce6ff04efd6ba1b95",
+      "headRefOid": "61ae34b72e050e7bea0d90778f025585dbc14286",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -21351,78 +21351,160 @@
       "id": "PR_kwDOJt_WwM7TcOdL",
       "title": "Fix txn token formatting",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/339",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #334 ",
       "createdAt": "2026-04-17T20:26:50Z",
-      "updatedAt": "2026-04-17T20:26:50Z",
+      "updatedAt": "2026-04-20T16:38:34Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-txn-token-formatting",
       "headRefOid": "72eb4b6798b0a8b617159adff866618baaa0b088",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "closedAt": "2026-04-20T16:38:32Z",
+      "mergedAt": "2026-04-20T16:38:32Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "51e821c3e0b0d0e45a8c03b684861514a8ccdea9"
+      },
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> @tulshi Should we be using a different header name than Txn-Token? the double quotes may not be enough to avoid confusion.\r\n\r\nI would not take things that far. Just a little visual differentiator is good enough. ",
+          "createdAt": "2026-04-20T15:33:54Z",
+          "updatedAt": "2026-04-20T15:33:54Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM721567",
+          "commit": {
+            "abbreviatedOid": "72eb4b6"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "@tulshi Should we be using a different header name than Txn-Token? the double quotes may not be enough to avoid confusion. ",
+          "createdAt": "2026-04-20T15:30:55Z",
+          "updatedAt": "2026-04-20T15:31:10Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM722SpL",
+          "commit": {
+            "abbreviatedOid": "72eb4b6"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-20T15:44:32Z",
+          "updatedAt": "2026-04-20T15:44:32Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 340,
       "id": "PR_kwDOJt_WwM7TcTmP",
       "title": "removed 'must be ommitted' line",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/340",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #333 ",
       "createdAt": "2026-04-17T20:31:32Z",
-      "updatedAt": "2026-04-17T20:31:32Z",
+      "updatedAt": "2026-04-20T16:39:35Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-iss",
       "headRefOid": "e836d5d35a6981a74b1646df51d6381318b50930",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-04-20T16:39:33Z",
+      "mergedAt": "2026-04-20T16:39:33Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "733953ecd2294be6c058f439e314b54180e4f780"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM723dpR",
+          "commit": {
+            "abbreviatedOid": "e836d5d"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-20T16:26:07Z",
+          "updatedAt": "2026-04-20T16:26:07Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM723tgx",
+          "commit": {
+            "abbreviatedOid": "e836d5d"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-20T16:35:00Z",
+          "updatedAt": "2026-04-20T16:35:00Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 341,
       "id": "PR_kwDOJt_WwM7TcbKY",
       "title": "fixed bullet list formatting in Creation section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/341",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #328 ",
       "createdAt": "2026-04-17T20:40:25Z",
-      "updatedAt": "2026-04-17T20:40:25Z",
+      "updatedAt": "2026-04-20T16:39:56Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-formatting",
       "headRefOid": "9d7ac8704664d8986cabdf8915d1505d18f839c2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-04-20T16:39:55Z",
+      "mergedAt": "2026-04-20T16:39:54Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "3ff42716ee74b6f7a03803cb9a19def3990e8850"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM723e2R",
+          "commit": {
+            "abbreviatedOid": "9d7ac87"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-20T16:26:42Z",
+          "updatedAt": "2026-04-20T16:26:42Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 342,
