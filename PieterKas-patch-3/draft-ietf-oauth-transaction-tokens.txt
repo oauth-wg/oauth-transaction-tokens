@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 22 October 2026                          Practical Identity LLC
+Expires: 24 October 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           20 April 2026
+                                                           22 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 October 2026.
+   This Internet-Draft will expire on 24 October 2026.
 
 Copyright Notice
 
@@ -1069,7 +1069,7 @@ Table of Contents
    workload that requests one.  TTS token issuance decisions, including
    whether to issue a Txn-Token and the claims it contains, are
    typically subject to deployment-specific issuance policies and
-   business logic.  For example, a frontend service handling a user-
+   business logic.  For example, an API gateway handling a user-
    initiated request might be permitted to obtain a Txn-Token carrying
    request context such as a transaction amount, while a downstream
    service in the same Call Chain might not.  Such policies may vary
