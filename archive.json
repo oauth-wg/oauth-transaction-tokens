@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-21T00:35:09.968173+00:00",
+  "timestamp": "2026-04-23T00:37:05.760490+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6452,15 +6452,15 @@
       "id": "I_kwDOJt_WwM77_QjZ",
       "title": "\"Downscoping\" transaction tokens to particular target workloads",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/325",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In Transaction Tokens, the `aud` claim represents the entire trust domain, which is opposite to OAuth, where it reflects individual resource servers. There is no claim defined that would represent particular workloads as the receivers for the transaction token.\n\nIn the absence of the `aud` equivalent having workload-level granularity, how do we implement the \"strict audience check\" concept from OAuth?\n\nExample: a workload obtains a TraT with audience set to the entire trust domain. Under some circumstances, it might decide to \"downscope\" the TraT (via replacement request), limiting its \"audience\" to only selected workloads inside the trust domain, and thus enforcing only a specific request propagation path.\n\n(Credits: Isabella Dix @ Keycloak Dev Day 2026)",
       "createdAt": "2026-04-08T21:07:53Z",
-      "updatedAt": "2026-04-13T18:16:59Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-21T22:29:19Z",
+      "closedAt": "2026-04-21T22:29:19Z",
       "comments": [
         {
           "author": "ashayraut",
@@ -6496,6 +6496,13 @@
           "body": "Based on discussion between myself, @gffletch and @tulshi, transaction tokens are not opinionated about \"aud\" to restrict se or presentation to specific workloads (doing so would make them into a type of access token as opposed to a mechanism to preserve transaction context). ",
           "createdAt": "2026-04-13T18:16:59Z",
           "updatedAt": "2026-04-13T18:16:59Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this, based on the last comment by @PieterKas. Please reopen if this still needs attention.",
+          "createdAt": "2026-04-21T22:29:19Z",
+          "updatedAt": "2026-04-21T22:29:19Z"
         }
       ]
     },
@@ -6818,10 +6825,12 @@
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "Do a editorial pass to consistently use capitalisations for those terms.",
       "createdAt": "2026-04-17T13:56:13Z",
-      "updatedAt": "2026-04-17T15:01:15Z",
+      "updatedAt": "2026-04-22T11:42:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -6830,8 +6839,38 @@
           "body": "I thought we did this for Call Chain already... did we miss some?",
           "createdAt": "2026-04-17T15:01:15Z",
           "updatedAt": "2026-04-17T15:01:15Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I only see the uncapitalized words in the abstract. Should we fix that too? I'm OK with the abstract being uncapitalized, since we do not expect the reader of the abstract to need to read the rest of the spec.",
+          "createdAt": "2026-04-21T22:27:07Z",
+          "updatedAt": "2026-04-21T22:27:07Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My suggestion would be to just be consistent throughout. Even capitalising in the abstract helps the reader and signals it as something that has explicit meaning in this draft.",
+          "createdAt": "2026-04-22T11:42:26Z",
+          "updatedAt": "2026-04-22T11:42:26Z"
         }
       ]
+    },
+    {
+      "number": 343,
+      "id": "I_kwDOJt_WwM8AAAABALRvWw",
+      "title": "action_subject: The specific entity this transaction acts on",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/343",
+      "state": "OPEN",
+      "author": "saisrungaram-ai",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Problem Statement\nA token says what action to perform but not on which specific entity \u2014 leaving every service to figure that out independently.\n\nSimple scenario\nA loan approval token says action: approveLoan. But there are 50 pending loans. Which one? The loan service has to look up whose loan this is, cross-reference the agent's session, and guess.\nMore importantly: for shared resources (a document multiple agents can access, a shared account), saying resource: approveloan doesnt justify. The token must say this specific loan, for this specific applicant.\n\nProposed claim name: action_subject\n\"tctx\": {\n\"action\": \"approveLoan\",\n\"action_subject\": {\n\"entity_type\": \"loan_application\",\n\"entity_id\": \"loan-8821\",\n\"entity_ref\": \"[alex.turner@acme.com](mailto:alex.turner@acme.com)\"\n}\n}\n\nA2A examples:\n\"entity_ref\": \"agent:financial-analyst-workload\"\n\"entity_ref\": \"workload:fraud-detection-service-v2\"\n\"entity_ref\": \"urn:dataset:fraud-training-v3\"\n\"entity_ref\": \"urn:device:sensor-prod-042\"\n\nTaxonomy:\nentity_type \u2014 what class of thing.\nentity_id \u2014 unique ID within that class.\nentity_ref \u2014 how to address or resolve it in the target system.",
+      "createdAt": "2026-04-22T05:00:25Z",
+      "updatedAt": "2026-04-22T05:00:25Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -21203,18 +21242,26 @@
       "labels": [],
       "body": "Added TTS Issuance Policies section detailing issuance decisions and policies for Txn-Tokens. See issue #321",
       "createdAt": "2026-04-16T13:28:53Z",
-      "updatedAt": "2026-04-20T15:28:14Z",
+      "updatedAt": "2026-04-22T10:22:08Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
-      "headRefOid": "61ae34b72e050e7bea0d90778f025585dbc14286",
+      "headRefOid": "f8fa6c28b57dd4bf7e60827e67a70977e636e231",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tulshi - had to resolve conflicts (doc history) so need another approval....",
+          "createdAt": "2026-04-21T14:27:07Z",
+          "updatedAt": "2026-04-21T14:27:07Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM7126By",
@@ -21288,6 +21335,26 @@
           "createdAt": "2026-04-17T20:12:00Z",
           "updatedAt": "2026-04-17T20:12:00Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM73lx4i",
+          "commit": {
+            "abbreviatedOid": "1ee79ae"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-04-22T10:22:08Z",
+          "updatedAt": "2026-04-22T10:22:08Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "Agreed that is more illustrative. Update made.",
+              "createdAt": "2026-04-22T10:22:08Z",
+              "updatedAt": "2026-04-22T10:22:08Z"
+            }
+          ]
         }
       ]
     },
