@@ -98,25 +98,16 @@ Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user iden
 
 # Introduction
 
-Modern computing architectures often use multiple independently running components called workloads. In many cases, external invocations through interfaces such as APIs result in a number of internal workloads being invoked in order to process the external invocation. These workloads often run in virtually or physically isolated networks. These networks and the workloads running within their perimeter may be compromised by attackers through software supply chain, privileged user compromise or other attacks. Workloads compromised through external attacks, malicious insiders or software errors can cause any or all of the following unauthorized actions:
+Modern computing architectures often consist of multiple independently running components, referred to in this document as workloads. In many deployments, an external invocation through an interface such as an API results in the invocation of multiple internal workloads in order to process the request. These workloads often execute in virtually or physically isolated networks. Such networks, and the workloads operating within them, can be compromised through software supply chain attacks, privileged user compromise, malicious insiders, software defects, or other attacks. Such compromise can enable unauthorized actions, including
 
-* Invocation of workloads in the network without any explicit transaction invocation being present.
-* Arbitrary user impersonation.
+* Invocation of workloads in the absence of a valid transaction.
+* Arbitrary user or workload impersonation.
 * Parameter modification or augmentation.
-* Theft of tokens, such as OAuth access tokens, used to call external interfaces and passed to internal workloads to convey authorization context.
+* Theft of tokens used to convey authorization context (e.g. OAuth access tokens).
 
-The result of these actions are unauthorized access to resources.
+Transaction Tokens (Txn-Tokens) are intended to reduce these risks by carrying user or workload identity, along with authorization and request context, in short-lived, signed JWTs that are bound to specific transactions and propagated throughout the Call Chain within a Trust Domain. The authorization and request context include parameters of the original call, environmental attributes such as the IP address of the original caller, user and workload identity information and other information that is expected to remain consistent across subsequent workload invocations, including information added within the Trust Domain after the initial request. Downstream workloads use Txn-tokens to apply authorization decisions based on this context within a specific transaction. Txn-Tokens are cryptographically protected, enabling downstream workloads to detect unauthorized modification of this information. Txn-Tokens reduce risk by making it harder for an attacker to invoke workloads outside an authorized transaction, impersonate users or workloads within a transaction, modify request context for a transaction, or rely on stolen access tokens alone. 
 
-# Overview
-Transaction Tokens (Txn-Tokens) reduce the risks from such attacks or spurious invocations. A valid Txn-Token indicates a valid transaction invocation. Note that while many transactions are initiated via an external event (e.g. internet-facing API invocation) other transactions are initiated from within the trusted domain. Txn-Tokens apply to both externally triggered and internally invoked transactions and ensure that the user or workload identity that made the request is preserved throughout subsequent workload invocations.
-
-They preserve any context such as:
-
-* Parameters of the original call
-* Environmental factors, such as IP address of the original caller
-* Any context that needs to be preserved in the Call Chain. This includes information that was not in the original request to the external endpoint.
-
-Cryptographically protected Txn-Tokens ensure that downstream workloads cannot make unauthorized modifications to such information and cannot make spurious calls.
+Txn-Tokens apply both to transactions initiated by an external event, such as an Internet-facing API invocation, and to transactions initiated from within the Trust Domain.
 
 # Notational Conventions
 
@@ -696,6 +687,10 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 {:numbered="false"}
 * Added document history for changes from 07 to 08
 * Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
+
+* Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)
+
+
 
 ## Since Draft 07
 {:numbered="false"}
