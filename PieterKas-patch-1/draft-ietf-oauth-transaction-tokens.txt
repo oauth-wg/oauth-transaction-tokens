@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 30 October 2026                          Practical Identity LLC
+Expires: 31 October 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           28 April 2026
+                                                           29 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 October 2026.
+   This Internet-Draft will expire on 31 October 2026.
 
 Copyright Notice
 
@@ -154,7 +154,7 @@ Table of Contents
    *  Parameter modification or augmentation.
 
    *  Theft of tokens used to convey authorization context (e.g. OAuth
-      access tokens).
+      2.0 access tokens).
 
    Transaction Tokens (Txn-Tokens) are intended to reduce these risks by
    carrying user or workload identity, along with authorization and
