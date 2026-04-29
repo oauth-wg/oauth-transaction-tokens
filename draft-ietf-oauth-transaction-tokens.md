@@ -96,14 +96,14 @@ informative:
 Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests (e.g. such as API calls) or requests initiated internally within the trust domain. Txn-Tokens ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures.
 --- middle
 
-# Introduction
+# Introduction {#introduction}
 
 Modern computing architectures often consist of multiple independently running components, referred to in this document as workloads. In many deployments, an external invocation through an interface such as an API results in the invocation of multiple internal workloads in order to process the request. These workloads often execute in virtually or physically isolated networks. Such networks, and the workloads operating within them, can be compromised through software supply chain attacks, privileged user compromise, malicious insiders, software defects, or other attacks. Such compromise can enable unauthorized actions, including
 
 * Invocation of workloads in the absence of a valid transaction.
 * Arbitrary user or workload impersonation.
 * Parameter modification or augmentation.
-* Theft of tokens used to convey authorization context (e.g. OAuth access tokens).
+* Theft of tokens used to convey authorization context (e.g. OAuth 2.0 access tokens).
 
 Transaction Tokens (Txn-Tokens) are intended to reduce these risks by carrying user or workload identity, along with authorization and request context, in short-lived, signed JWTs that are bound to specific transactions and propagated throughout the Call Chain within a Trust Domain. The authorization and request context include parameters of the original call, environmental attributes such as the IP address of the original caller, user and workload identity information and other information that is expected to remain consistent across subsequent workload invocations, including information added within the Trust Domain after the initial request. Downstream workloads use Txn-tokens to apply authorization decisions based on this context within a specific transaction. Txn-Tokens are cryptographically protected, enabling downstream workloads to detect unauthorized modification of this information. Txn-Tokens reduce risk by making it harder for an attacker to invoke workloads outside an authorized transaction, impersonate users or workloads within a transaction, modify request context for a transaction, or rely on stolen access tokens alone.
 
