@@ -1478,6 +1478,8 @@ Since Draft 08
       distinguish it from the usage of Txn-Token as a name for
       Transaction Tokens.
 
+   *  Clarify transaction tokens vs OAuth 2.0 access tokens
+
 Since Draft 07
 
    *  Fixed author affiliation (https://github.com/oauth-wg/oauth-
