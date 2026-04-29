@@ -713,6 +713,9 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 * Added doublequotes around the "Txn-Token" header name to distinguish it from the usage of Txn-Token as a name for Transaction Tokens.
 
+
+* Clarify transaction tokens vs OAuth 2.0 access tokens
+
 ## Since Draft 07
 {:numbered="false"}
 
