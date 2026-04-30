@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-23T00:37:05.760490+00:00",
+  "timestamp": "2026-04-30T00:40:26.227408+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6348,7 +6348,7 @@
       "id": "I_kwDOJt_WwM77-wDD",
       "title": "request_context handling",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/322",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [
@@ -6359,8 +6359,8 @@
       ],
       "body": "The `request_context` parameter is used to pass security-sensitive information to the TTS. That means, the `request_context` parameter (or its individual fields?) should only be accepted from the requestors with an elevated level of trust.\n\nFor example, the only way to communicate the end-user's IP address to the TTS is via `request_context`. The only workload that could be trusted for that, is the Edge / API Gateway; other workloads do not possess this information, but could forge it, should the `request_context` parameter be accepted from them.\n\nShould we add a paragraph on the special handling of `request_context`? Some other thoughts:\n* should we ignore `request_context` in the case of `subject_token` being self-signed or unsigned (or, generally, being other than external access token)?\n* as a consequence, should we ignore `request_context` in the case of TraT replacement request?",
       "createdAt": "2026-04-08T20:43:23Z",
-      "updatedAt": "2026-04-13T18:01:21Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-28T15:17:27Z",
+      "closedAt": "2026-04-28T15:17:27Z",
       "comments": [
         {
           "author": "tulshi",
@@ -6375,6 +6375,13 @@
           "body": "Given that client authentication is required for the requestor of the transaction token, the TTS can make the determination on whether the requestor is authoritative for any value specified in the `request_context` object. It would probably be good to highlight this in the Security Considerations that the TTS needs to manage this.",
           "createdAt": "2026-04-10T14:00:08Z",
           "updatedAt": "2026-04-10T14:00:08Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Adressed in PR #336 ",
+          "createdAt": "2026-04-28T15:17:27Z",
+          "updatedAt": "2026-04-28T15:17:27Z"
         }
       ]
     },
@@ -6452,15 +6459,15 @@
       "id": "I_kwDOJt_WwM77_QjZ",
       "title": "\"Downscoping\" transaction tokens to particular target workloads",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/325",
-      "state": "CLOSED",
+      "state": "OPEN",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "In Transaction Tokens, the `aud` claim represents the entire trust domain, which is opposite to OAuth, where it reflects individual resource servers. There is no claim defined that would represent particular workloads as the receivers for the transaction token.\n\nIn the absence of the `aud` equivalent having workload-level granularity, how do we implement the \"strict audience check\" concept from OAuth?\n\nExample: a workload obtains a TraT with audience set to the entire trust domain. Under some circumstances, it might decide to \"downscope\" the TraT (via replacement request), limiting its \"audience\" to only selected workloads inside the trust domain, and thus enforcing only a specific request propagation path.\n\n(Credits: Isabella Dix @ Keycloak Dev Day 2026)",
       "createdAt": "2026-04-08T21:07:53Z",
-      "updatedAt": "2026-04-21T22:29:19Z",
-      "closedAt": "2026-04-21T22:29:19Z",
+      "updatedAt": "2026-04-29T10:47:58Z",
+      "closedAt": null,
       "comments": [
         {
           "author": "ashayraut",
@@ -6503,6 +6510,27 @@
           "body": "Closing this, based on the last comment by @PieterKas. Please reopen if this still needs attention.",
           "createdAt": "2026-04-21T22:29:19Z",
           "updatedAt": "2026-04-21T22:29:19Z"
+        },
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "@PieterKas good point on access tokens vs. preserving transaction context. On a related note, almost every time I presented about Transaction Tokens, there was a question from the audience \"why new HTTP header? why a transaction token is not a bearer/access token?\" It's good we have [14.11. ](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#section-14.11)[Transaction Tokens Are Not Authentication Credentials](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#name-transaction-tokens-are-not-), maybe we could expand on that? Do we recognize the simultaneous use of the `Txn-Token` and `Authorization` headers as a valid case? If so, we could probably provide an example.",
+          "createdAt": "2026-04-29T01:20:49Z",
+          "updatedAt": "2026-04-29T01:20:49Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dteleguin I can relate to what you are saying. I have heard the confusion too. \n\nHow about adding something like this?\n\n```\nThe separation of the Transaction Token (Txn-Token) from the OAuth 2.0 Access Token (AT) is a deliberate design choice to \nensure semantic clarity and security at depth. While an AT represents a delegated grant of authority, a Txn-Token represents \nthe immutable context of a specific execution flow.\n\nUsing a dedicated HTTP header, prevents collisions with the Authorization: Bearer header, allowing services to simultaneously \nvalidate the caller\u2019s identity via an AT and the request's transaction context via a Txn-Token. This separation mitigates \"fat \ntoken\" anti-patterns, where excessive metadata bloats the AT, impacting cacheability and latency.\n\nFurthermore, this distinction enforces the Principle of Least Privilege. Because Txn-Tokens are narrowly scoped to a single \ntransaction and have short lifetimes, they are inherently less susceptible to broad replay attacks than the longer-lived ATs. By \nmaintaining a distinct token type, the protocol ensures that context propagation does not inadvertently grant administrative or \nlateral access if a token is intercepted within the trust domain.\n````",
+          "createdAt": "2026-04-29T05:40:17Z",
+          "updatedAt": "2026-04-29T05:40:17Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Adding an additional security consideration along the lines of \"Transaction Tokens are not OAuth Access Tokens\" makes sense.",
+          "createdAt": "2026-04-29T10:47:58Z",
+          "updatedAt": "2026-04-29T10:47:58Z"
         }
       ]
     },
@@ -6520,7 +6548,7 @@
       "labels": [],
       "body": "Imagine two trust domains (A and B), each having its own TTS, with an existing trust relationship. It is assumed that some workloads from the domain A have direct connectivity to their counterparts from domain B (potentially including respective TTSs).\n\nCan we provide a guidance on how to implement the cross-domain setup?\n\nExample: a workload from A, having obtained TraT-A, might decide to call TTS-A with `audience` set to B, and ask for a replacement TraT-B. In this case, TTS-A will need to propagate that call to TTS-B under the hood.\nAlternatively, if workload A has connectivity to TTS-B, it could request a replacement TraT-B directly.\n\nThis has some conceptual overlap with Identity Chaining, but I think it could be implemented in a simpler way (not requiring an intermediate credential like ID-JAG and an extra leg).\n\n(Credits: @tnorimat @ Keycloak)",
       "createdAt": "2026-04-08T21:19:44Z",
-      "updatedAt": "2026-04-17T22:05:28Z",
+      "updatedAt": "2026-04-29T10:44:52Z",
       "closedAt": "2026-04-17T22:05:28Z",
       "comments": [
         {
@@ -6564,6 +6592,20 @@
           "body": "Fixed in #337 ",
           "createdAt": "2026-04-17T22:05:28Z",
           "updatedAt": "2026-04-17T22:05:28Z"
+        },
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "Just to double check - are we _literally_ recommending using Identity Chaining here? i.e. performing token exchange in domain A - obtaining ID-JAG equivalent for TT - performing assertion grant in domain B? does that mean TTS-B will need to support assertion grants as per RFC 7523?\n\nOr, are we recommending it in a _conceptual_ way? like, using similar approach but tailored to the TT case, not necessarily following the Identity Chaining document?",
+          "createdAt": "2026-04-29T01:29:07Z",
+          "updatedAt": "2026-04-29T01:29:07Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The standards based approach to use is Identity Chaining. \n\nA workload in domain A should never talk to the TTS in Domain B. Access to Domain B is governed through the Authorization Server in Domain B. With identity chaining the flow is:\n\n1. The workload has a transaction token and presents it to the authorisation server in domain A to obtain an assertion grant.\n2. The authorisation server accepts the transaction token, transcribes the claims based on its policies, and issues an assertion grant.\n3. The workload presents the assertion grant to the authorisation server in domain B. Domain B transcribes any additional claims and issues an access token to the workload in domain A.\n4. The workload in domain A presents the access token to the resource in domain B that it needs to access. \n5. The resource server in domain B calls the TTS, in domain B to obtain a transaction token. \n6. The TTS in domain B then transcribes whatever claims it needs to transcribe into the new transaction token and issues that to the resource server in domain B.\n7. The resource server now uses the transaction token in domain B. \n\nI'm sure there are non-standards-based ways to do this, but from a trust model perspective you're crossing a trust boundary which is protected by an authroization server, not a transaction token service.",
+          "createdAt": "2026-04-29T10:44:52Z",
+          "updatedAt": "2026-04-29T10:44:52Z"
         }
       ]
     },
@@ -21585,7 +21627,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-04-17T20:50:27Z",
-      "updatedAt": "2026-04-17T20:50:57Z",
+      "updatedAt": "2026-04-28T15:14:44Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
@@ -21597,7 +21639,87 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM75v1J_",
+          "commit": {
+            "abbreviatedOid": "3a454ca"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me.",
+          "createdAt": "2026-04-28T15:14:44Z",
+          "updatedAt": "2026-04-28T15:14:44Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 344,
+      "id": "PR_kwDOJt_WwM7WZAdc",
+      "title": "Merge Overview into Introduction and refine language",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/344",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Merged the Overview and Introduction sections for clarity and coherence. Updated language for improved precision regarding transaction tokens and their security implications.",
+      "createdAt": "2026-04-28T15:22:21Z",
+      "updatedAt": "2026-04-29T11:04:00Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "3ff42716ee74b6f7a03803cb9a19def3990e8850",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "d73c00594d174d13815ad9fa4a9081264d45b5e6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
+    },
+    {
+      "number": 345,
+      "id": "PR_kwDOJt_WwM7WsdDE",
+      "title": "Clarify transaction tokens vs OAuth 2.0 access tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/345",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarify the distinction between transaction tokens and OAuth 2.0 access tokens, emphasizing their different purposes and security implications. See issue #325",
+      "createdAt": "2026-04-29T11:35:56Z",
+      "updatedAt": "2026-04-29T21:46:51Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "3ff42716ee74b6f7a03803cb9a19def3990e8850",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-4",
+      "headRefOid": "171c028359484155d8595ef91a44cef9dc735dda",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM76ZYLu",
+          "commit": {
+            "abbreviatedOid": "171c028"
+          },
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-29T21:46:51Z",
+          "updatedAt": "2026-04-29T21:46:51Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
