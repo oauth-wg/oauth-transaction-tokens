@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 22 October 2026                          Practical Identity LLC
+Expires: 1 November 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           20 April 2026
+                                                           30 April 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 October 2026.
+   This Internet-Draft will expire on 1 November 2026.
 
 Copyright Notice
 
@@ -736,10 +736,7 @@ Table of Contents
    &scope=finance.watchlist.add
    &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
-   %2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
-   %3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
-   %20%20%20%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
+   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn%3Aietf%3Arfc%3A6749%22%0A%7D
 
                     Figure 5: Example: Txn-Token Request
 
@@ -1365,11 +1362,11 @@ Table of Contents
 
    [I-D.ietf-oauth-identity-chaining]
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
-              M. J., and B. Campbell, "OAuth Identity and Authorization
-              Chaining Across Domains", Work in Progress, Internet-
-              Draft, draft-ietf-oauth-identity-chaining-08, 9 February
-              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              oauth-identity-chaining-08>.
+              M. J., Campbell, B., and A. Parecki, "OAuth Identity and
+              Authorization Chaining Across Domains", Work in Progress,
+              Internet-Draft, draft-ietf-oauth-identity-chaining-10, 24
+              April 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-identity-chaining-10>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
