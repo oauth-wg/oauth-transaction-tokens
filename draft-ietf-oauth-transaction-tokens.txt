@@ -111,9 +111,10 @@ Table of Contents
      13.7.  TTS Discovery
      13.8.  Workload Configuration Protection
      13.9.  TTS Authentication
-     13.10. TTS Key Rotation
-     13.11. Transaction Tokens Are Not Authentication Credentials
-       13.11.1.  Txn-Token as a subject_token
+     13.10. TTS Issuance Policies
+     13.11. TTS Key Rotation
+     13.12. Transaction Tokens Are Not Authentication Credentials
+       13.12.1.  Txn-Token as a subject_token
    14. Preserving transaction context across Trust Domains
    15. Privacy Considerations
      15.1.  Handling of Personal Information
@@ -797,8 +798,9 @@ Table of Contents
 
    *  MUST validate the requesting workload client authentication and
       determine if that workload is authorized to obtain the Txn-Tokens
-      with the requested value(s).  The authorization policy for
-      determining such issuance is out of scope for this specification.
+      with the requested value(s) (see Section 13.10).  The
+      authorization policy for determining such issuance is out of scope
+      for this specification.
 
    *  The TTS MUST validate the subject_token, including verifying the
       signature, if it is signed.
@@ -1056,12 +1058,28 @@ Table of Contents
    that it authenticates the TTS and only contacts instances of the TTS
    that is authorized to issue transaction tokens.
 
-13.10.  TTS Key Rotation
+13.10.  TTS Issuance Policies
+
+   A TTS should be selective in which workloads can successfully request
+   a Txn-Token.  A TTS does not need to issue a Txn-Token to every
+   workload that requests one.  TTS token issuance decisions, including
+   whether to issue a Txn-Token and the claims it contains, are
+   typically subject to deployment-specific issuance policies and
+   business logic.  For example, an API gateway handling a user-
+   initiated request might be permitted to obtain a Txn-Token carrying
+   request context such as a transaction amount, while a downstream
+   service in the same Call Chain might not.  Such policies may vary
+   based on system architecture, workload identity, transaction context,
+   or risk, and may result in different Txn-Token contents or denial of
+   issuance.  The definition and management of these policies are
+   deployment-specific and out of scope for this specification.
+
+13.11.  TTS Key Rotation
 
    The TTS may need to rotate signing keys.  When doing so, it MAY adopt
    the key rotation practices in Section 10.1.1 of [OpenIdConnect].
 
-13.11.  Transaction Tokens Are Not Authentication Credentials
+13.12.  Transaction Tokens Are Not Authentication Credentials
 
    A workload MUST NOT use a transaction token to authenticate itself to
    another workload, service or the TTS.  Transaction tokens represents
@@ -1069,7 +1087,7 @@ Table of Contents
    identity credentials.  Authentication between the workload and the
    TTS is described in Section 11.5.
 
-13.11.1.  Txn-Token as a subject_token
+13.12.1.  Txn-Token as a subject_token
 
    A TTS MUST exercise caution when receiving a Txn-token as a
    subject_token.  Any Txn-Token issued in response to such a request is
@@ -1431,6 +1449,9 @@ Document History
 Since Draft 08
 
    *  Added document history for changes from 07 to 08
+
+   *  Added TTS Issuance Guidance policies (see issue
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 
    *  Provide guidance on cross-domain access (see https://github.com/
       oauth-wg/oauth-transaction-tokens/issues/326)
