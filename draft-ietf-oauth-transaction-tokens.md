@@ -590,7 +590,7 @@ The TTS may need to rotate signing keys. When doing so, it MAY adopt the key rot
 A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in {{Mutual-Authentication}}.
 
 ## Transaction Tokens Are Not OAuth 2.0 Access Tokens
-A workload MUST NOT use a transaction token and an OAuth 2.0 Access Token. An OAuth 2.0 Access Token represents a grant of authority to a client, a transaction token represents the context of a specific transaction. The separation of the transaction token from the OAuth 2.0 Access Token is a deliberate design choice as described in {{introduction}}.
+A workload MUST NOT use a transaction token as an OAuth 2.0 Access Token. An OAuth 2.0 Access Token represents a grant of authority to a client, a transaction token represents the context of a specific transaction. The separation of the transaction token from the OAuth 2.0 Access Token is a deliberate design choice as described in {{introduction}}.
 
 Transaction tokens support the principle of least privilege since they are narrowly scoped to a single transaction and have short lifetimes. This makes them less susceptible to broad replay attacks than the longer-lived access tokens. By maintaining a distinct token type, the protocol ensures that context propagation while minimizing the risk of lateral access if a transaction token is intercepted within the trust domain. This separation also reduces the need for including transaction context in the access token, reducing token size.
 
