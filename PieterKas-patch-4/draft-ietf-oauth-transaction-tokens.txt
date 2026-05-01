@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 1 November 2026                          Practical Identity LLC
+Expires: 2 November 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           30 April 2026
+                                                              1 May 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 November 2026.
+   This Internet-Draft will expire on 2 November 2026.
 
 Copyright Notice
 
@@ -1090,7 +1090,7 @@ Table of Contents
 
 13.13.  Transaction Tokens Are Not OAuth 2.0 Access Tokens
 
-   A workload MUST NOT use a transaction token and an OAuth 2.0 Access
+   A workload MUST NOT use a transaction token as an OAuth 2.0 Access
    Token.  An OAuth 2.0 Access Token represents a grant of authority to
    a client, a transaction token represents the context of a specific
    transaction.  The separation of the transaction token from the OAuth
