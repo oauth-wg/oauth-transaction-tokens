@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-04-30T00:40:26.227408+00:00",
+  "timestamp": "2026-05-03T00:40:49.937877+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6439,7 +6439,7 @@
       "id": "I_kwDOJt_WwM77-8tq",
       "title": "Minor bugs in the example",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/324",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [
@@ -6450,8 +6450,8 @@
       ],
       "body": "https://github.com/oauth-wg/oauth-transaction-tokens/blob/08ec5da85c9da860386e05d320a0437867db9be7/draft-ietf-oauth-transaction-tokens.md?plain=1#L447\n\n`txn-token` \u2192 `txn_token`\n\nhttps://github.com/oauth-wg/oauth-transaction-tokens/blob/08ec5da85c9da860386e05d320a0437867db9be7/draft-ietf-oauth-transaction-tokens.md?plain=1#L452\n\nThe example value provided for `request_context` decodes to some bogus JSON:\n\n```json\n{\n      \"req_ip\": \"69.151.72.123\", // env context of external call\n      \"authn\": \"urn:ietf:rfc:6749\", // env context of external call\n      \"workload3.trust-domain.example\" ]\n    }\n```",
       "createdAt": "2026-04-08T20:53:27Z",
-      "updatedAt": "2026-04-13T17:39:12Z",
-      "closedAt": null,
+      "updatedAt": "2026-04-30T00:41:55Z",
+      "closedAt": "2026-04-30T00:41:55Z",
       "comments": []
     },
     {
@@ -6463,10 +6463,12 @@
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "WGLC Feedback"
+      ],
       "body": "In Transaction Tokens, the `aud` claim represents the entire trust domain, which is opposite to OAuth, where it reflects individual resource servers. There is no claim defined that would represent particular workloads as the receivers for the transaction token.\n\nIn the absence of the `aud` equivalent having workload-level granularity, how do we implement the \"strict audience check\" concept from OAuth?\n\nExample: a workload obtains a TraT with audience set to the entire trust domain. Under some circumstances, it might decide to \"downscope\" the TraT (via replacement request), limiting its \"audience\" to only selected workloads inside the trust domain, and thus enforcing only a specific request propagation path.\n\n(Credits: Isabella Dix @ Keycloak Dev Day 2026)",
       "createdAt": "2026-04-08T21:07:53Z",
-      "updatedAt": "2026-04-29T10:47:58Z",
+      "updatedAt": "2026-04-30T00:47:10Z",
       "closedAt": null,
       "comments": [
         {
@@ -6614,7 +6616,7 @@
       "id": "I_kwDOJt_WwM78Zk4L",
       "title": "merge Introduction and Overview",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/327",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bc-pi",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -6625,9 +6627,17 @@
       ],
       "body": "The [Introduction](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-introduction) isn't really an introduction.  It just describes some risks/problems. I'd suggest that combining the Introduction and [Overview](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-overview) would make for a more natural flow. ",
       "createdAt": "2026-04-09T19:49:31Z",
-      "updatedAt": "2026-04-13T17:38:47Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-04-30T00:46:00Z",
+      "closedAt": "2026-04-30T00:46:00Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in PR #344 ",
+          "createdAt": "2026-04-30T00:46:00Z",
+          "updatedAt": "2026-04-30T00:46:00Z"
+        }
+      ]
     },
     {
       "number": 328,
@@ -21277,24 +21287,26 @@
       "id": "PR_kwDOJt_WwM7S-tJM",
       "title": "Add TTS Issuance Policies section",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/336",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Added TTS Issuance Policies section detailing issuance decisions and policies for Txn-Tokens. See issue #321",
       "createdAt": "2026-04-16T13:28:53Z",
-      "updatedAt": "2026-04-22T10:22:08Z",
+      "updatedAt": "2026-04-30T00:43:22Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
       "headRefOid": "f8fa6c28b57dd4bf7e60827e67a70977e636e231",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-04-30T00:43:20Z",
+      "mergedAt": "2026-04-30T00:43:20Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "7139479b0793570a36ec7537e53c6476a5560022"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -21397,6 +21409,19 @@
               "updatedAt": "2026-04-22T10:22:08Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM76cQFE",
+          "commit": {
+            "abbreviatedOid": "f8fa6c2"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-30T00:43:14Z",
+          "updatedAt": "2026-04-30T00:43:14Z",
+          "comments": []
         }
       ]
     },
@@ -21620,24 +21645,26 @@
       "id": "PR_kwDOJt_WwM7TckRz",
       "title": "fixed json in example",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/342",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-04-17T20:50:27Z",
-      "updatedAt": "2026-04-28T15:14:44Z",
+      "updatedAt": "2026-04-30T00:41:56Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "5bf36b51f6866c8ebca0b91684198d62a85159d7",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-example",
       "headRefOid": "3a454caaceb7e9cee594b36fed33932708db37f2",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-04-30T00:41:54Z",
+      "mergedAt": "2026-04-30T00:41:54Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "32de973408e8e089b66146195c940f7ce91f2cf0"
+      },
       "comments": [],
       "reviews": [
         {
@@ -21660,26 +21687,42 @@
       "id": "PR_kwDOJt_WwM7WZAdc",
       "title": "Merge Overview into Introduction and refine language",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/344",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Merged the Overview and Introduction sections for clarity and coherence. Updated language for improved precision regarding transaction tokens and their security implications.",
       "createdAt": "2026-04-28T15:22:21Z",
-      "updatedAt": "2026-04-29T11:04:00Z",
+      "updatedAt": "2026-04-30T00:42:48Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "3ff42716ee74b6f7a03803cb9a19def3990e8850",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "d73c00594d174d13815ad9fa4a9081264d45b5e6",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-04-30T00:42:46Z",
+      "mergedAt": "2026-04-30T00:42:46Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "7a1a22e8600142b23eed349eb4deed3737926d14"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM76cPoP",
+          "commit": {
+            "abbreviatedOid": "d73c005"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-04-30T00:42:40Z",
+          "updatedAt": "2026-04-30T00:42:40Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 345,
@@ -21693,13 +21736,13 @@
       "labels": [],
       "body": "Clarify the distinction between transaction tokens and OAuth 2.0 access tokens, emphasizing their different purposes and security implications. See issue #325",
       "createdAt": "2026-04-29T11:35:56Z",
-      "updatedAt": "2026-04-29T21:46:51Z",
+      "updatedAt": "2026-05-01T20:50:05Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "3ff42716ee74b6f7a03803cb9a19def3990e8850",
+      "baseRefOid": "7139479b0793570a36ec7537e53c6476a5560022",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-4",
-      "headRefOid": "171c028359484155d8595ef91a44cef9dc735dda",
+      "headRefOid": "46a2151f7f82d36709966700ef110eb89a0ceef0",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -21718,6 +21761,106 @@
           "createdAt": "2026-04-29T21:46:51Z",
           "updatedAt": "2026-04-29T21:46:51Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM76zsy0",
+          "commit": {
+            "abbreviatedOid": "8afc6d4"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Minor typo",
+          "createdAt": "2026-04-30T19:07:22Z",
+          "updatedAt": "2026-04-30T19:09:11Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I think you meant... \"as an\" instead of \"and an\".",
+              "createdAt": "2026-04-30T19:07:22Z",
+              "updatedAt": "2026-04-30T19:09:11Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM76_Liz",
+          "commit": {
+            "abbreviatedOid": "8afc6d4"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-01T10:41:16Z",
+          "updatedAt": "2026-05-01T10:41:16Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\nA workload MUST NOT use a transaction token as an OAuth 2.0 Access Token. An OAuth 2.0 Access Token represents a grant of authority to a client, a transaction token represents the context of a specific transaction. The separation of the transaction token from the OAuth 2.0 Access Token is a deliberate design choice as described in {{introduction}}.\n```",
+              "createdAt": "2026-05-01T10:41:16Z",
+              "updatedAt": "2026-05-01T10:41:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM76_Lzm",
+          "commit": {
+            "abbreviatedOid": "8afc6d4"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-01T10:41:48Z",
+          "updatedAt": "2026-05-01T10:41:48Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Yup -thanks for catching that. Fixed.",
+              "createdAt": "2026-05-01T10:41:48Z",
+              "updatedAt": "2026-05-01T10:41:48Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM77InRR",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-01T20:44:15Z",
+          "updatedAt": "2026-05-01T20:44:15Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm actually rethinking this. I think it makes sense to have OAuth JWT format TraTs that include context (i.e. all the fields that we define in this spec). We need to figure out if we can send such TraTs through the Authorization header or keep it in the Txn-Token header, but adding a sentence to explicitly disallow that sounds a bit extreme to me.",
+              "createdAt": "2026-05-01T20:44:15Z",
+              "updatedAt": "2026-05-01T20:44:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM77ItZj",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-01T20:50:05Z",
+          "updatedAt": "2026-05-01T20:50:05Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "From systems maintenance, observability, separation of concerns and combined with the fact that you may not need Txn token at all on some request chains/paths, it made sense to me always to keep it separate.",
+              "createdAt": "2026-05-01T20:50:05Z",
+              "updatedAt": "2026-05-01T20:50:05Z"
+            }
+          ]
         }
       ]
     }
