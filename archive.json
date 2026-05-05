@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-03T00:40:49.937877+00:00",
+  "timestamp": "2026-05-05T00:38:11.861259+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -21736,7 +21736,7 @@
       "labels": [],
       "body": "Clarify the distinction between transaction tokens and OAuth 2.0 access tokens, emphasizing their different purposes and security implications. See issue #325",
       "createdAt": "2026-04-29T11:35:56Z",
-      "updatedAt": "2026-05-01T20:50:05Z",
+      "updatedAt": "2026-05-04T13:52:28Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7139479b0793570a36ec7537e53c6476a5560022",
@@ -21859,6 +21859,26 @@
               "body": "From systems maintenance, observability, separation of concerns and combined with the fact that you may not need Txn token at all on some request chains/paths, it made sense to me always to keep it separate.",
               "createdAt": "2026-05-01T20:50:05Z",
               "updatedAt": "2026-05-01T20:50:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM77kYvH",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-04T13:52:28Z",
+          "updatedAt": "2026-05-04T13:52:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "What use case do you have in mind @tulshi ?\r\n\r\nAn OAuth token can contain transaction token claims (a given for the cross-domain use cases), but an OAuth access token is not a transaction token. One is about authorization context (transaction token), the other about broad user access delegation (OAuth).\r\n",
+              "createdAt": "2026-05-04T13:52:28Z",
+              "updatedAt": "2026-05-04T13:52:28Z"
             }
           ]
         }
