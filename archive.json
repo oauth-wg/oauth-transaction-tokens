@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-05T00:38:11.861259+00:00",
+  "timestamp": "2026-05-07T00:40:01.354394+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6920,9 +6920,17 @@
       "labels": [],
       "body": "Problem Statement\nA token says what action to perform but not on which specific entity \u2014 leaving every service to figure that out independently.\n\nSimple scenario\nA loan approval token says action: approveLoan. But there are 50 pending loans. Which one? The loan service has to look up whose loan this is, cross-reference the agent's session, and guess.\nMore importantly: for shared resources (a document multiple agents can access, a shared account), saying resource: approveloan doesnt justify. The token must say this specific loan, for this specific applicant.\n\nProposed claim name: action_subject\n\"tctx\": {\n\"action\": \"approveLoan\",\n\"action_subject\": {\n\"entity_type\": \"loan_application\",\n\"entity_id\": \"loan-8821\",\n\"entity_ref\": \"[alex.turner@acme.com](mailto:alex.turner@acme.com)\"\n}\n}\n\nA2A examples:\n\"entity_ref\": \"agent:financial-analyst-workload\"\n\"entity_ref\": \"workload:fraud-detection-service-v2\"\n\"entity_ref\": \"urn:dataset:fraud-training-v3\"\n\"entity_ref\": \"urn:device:sensor-prod-042\"\n\nTaxonomy:\nentity_type \u2014 what class of thing.\nentity_id \u2014 unique ID within that class.\nentity_ref \u2014 how to address or resolve it in the target system.",
       "createdAt": "2026-04-22T05:00:25Z",
-      "updatedAt": "2026-04-22T05:00:25Z",
+      "updatedAt": "2026-05-06T15:31:03Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "saisrungaram-ai",
+          "authorAssociation": "NONE",
+          "body": "@ashayraut  Please check on this. as we are capturing Intent in token. Its a good idea to introduce action_subject",
+          "createdAt": "2026-05-06T15:31:03Z",
+          "updatedAt": "2026-05-06T15:31:03Z"
+        }
+      ]
     }
   ],
   "pulls": [
