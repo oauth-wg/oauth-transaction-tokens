@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-07T00:40:01.354394+00:00",
+  "timestamp": "2026-05-10T00:42:31.374759+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -21744,7 +21744,7 @@
       "labels": [],
       "body": "Clarify the distinction between transaction tokens and OAuth 2.0 access tokens, emphasizing their different purposes and security implications. See issue #325",
       "createdAt": "2026-04-29T11:35:56Z",
-      "updatedAt": "2026-05-04T13:52:28Z",
+      "updatedAt": "2026-05-09T23:47:14Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7139479b0793570a36ec7537e53c6476a5560022",
@@ -21887,6 +21887,26 @@
               "body": "What use case do you have in mind @tulshi ?\r\n\r\nAn OAuth token can contain transaction token claims (a given for the cross-domain use cases), but an OAuth access token is not a transaction token. One is about authorization context (transaction token), the other about broad user access delegation (OAuth).\r\n",
               "createdAt": "2026-05-04T13:52:28Z",
               "updatedAt": "2026-05-04T13:52:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM791ZSh",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-09T23:47:13Z",
+          "updatedAt": "2026-05-09T23:47:14Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I think in some cases the Authorization header might contain a token that authorizes the client to make the request an not actually be an access token. More of an authentication token but sent in the Authorization header. Like the token returned from a client credentials flow.\n\nI agree that we want transaction tokens in their own header but I think we should be silent on whether an additional token is needed.",
+              "createdAt": "2026-05-09T23:47:14Z",
+              "updatedAt": "2026-05-09T23:47:14Z"
             }
           ]
         }
