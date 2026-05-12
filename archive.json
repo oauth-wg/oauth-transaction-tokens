@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-10T00:42:31.374759+00:00",
+  "timestamp": "2026-05-12T00:39:12.185266+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -21744,7 +21744,7 @@
       "labels": [],
       "body": "Clarify the distinction between transaction tokens and OAuth 2.0 access tokens, emphasizing their different purposes and security implications. See issue #325",
       "createdAt": "2026-04-29T11:35:56Z",
-      "updatedAt": "2026-05-09T23:47:14Z",
+      "updatedAt": "2026-05-11T18:30:13Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7139479b0793570a36ec7537e53c6476a5560022",
@@ -21907,6 +21907,86 @@
               "body": "I think in some cases the Authorization header might contain a token that authorizes the client to make the request an not actually be an access token. More of an authentication token but sent in the Authorization header. Like the token returned from a client credentials flow.\n\nI agree that we want transaction tokens in their own header but I think we should be silent on whether an additional token is needed.",
               "createdAt": "2026-05-09T23:47:14Z",
               "updatedAt": "2026-05-09T23:47:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7-SHUz",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-11T18:04:53Z",
+          "updatedAt": "2026-05-11T18:04:53Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Should we drop this particular change?",
+              "createdAt": "2026-05-11T18:04:53Z",
+              "updatedAt": "2026-05-11T18:04:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7-Sb8c",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-11T18:19:28Z",
+          "updatedAt": "2026-05-11T18:19:29Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "No, I think it is important to be clear that a transaction token is not an OAuth 2.0 Access Token (the question has come up enough times that it is worth being explicit, just as we are about transaction tokens not being used for authentication).\n\nGeorge makes a different point and that is that a Authorisation header might contain a transaction token and that it might be used for authorization (but not as an OAuth 2.0 Access token). \n\nThis text does not say that a transaction token cannot be in the authorisation header as well, just that it should be in its own header and that it is not an OAuth 2.0 JWT Access Token.",
+              "createdAt": "2026-05-11T18:19:28Z",
+              "updatedAt": "2026-05-11T18:19:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7-Sfpo",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-11T18:21:39Z",
+          "updatedAt": "2026-05-11T18:21:40Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Does https://www.ietf.org/archive/id/draft-oauth-transactiontokens-bcp-01.html sound like right place to add clarity around such things? ",
+              "createdAt": "2026-05-11T18:21:40Z",
+              "updatedAt": "2026-05-11T18:21:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7-Stnb",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-11T18:30:12Z",
+          "updatedAt": "2026-05-11T18:30:13Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "To answer your question @PieterKas , I am now thinking we can include TraTs-like context in access tokens for ensuring AI call chains within an organization do not exceed the bounds of the original task",
+              "createdAt": "2026-05-11T18:30:12Z",
+              "updatedAt": "2026-05-11T18:30:13Z"
             }
           ]
         }
