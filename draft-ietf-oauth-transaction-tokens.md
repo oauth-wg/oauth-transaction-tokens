@@ -424,10 +424,10 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
   The type of the `subject_token` field is identified by `subject_token_type`.
 * `subject_token_type` REQUIRED. The value MUST indicate the type of the token or value present in the `subject_token` parameter.
 
-The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:
+The following additional parameters are defined for the Txn-Token Request:
 
-* `request_context` OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.
-* `request_details` OPTIONAL. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the TTS. The TTS uses this data along with other information at its disposal to construct the `txct` JSON object (if required).
+* `request_context` RECOMMENDED. This parameter contains a JSON object which represents the context of this transaction.
+* `request_details` RECOMMENDED. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the TTS. The TTS uses this data along with other information at its disposal to construct the `txct` JSON object (if required).
 
 All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of {{RFC6749}}.
 
@@ -708,6 +708,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 
 * Clarify transaction tokens vs OAuth 2.0 access tokens
 * Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)
+* Changed additionally defined request parameters from OPTIONAL to RECOMMENDED see https://github.com/oauth-wg/oauth-transaction-tokens/issues/332)
 
 
 
