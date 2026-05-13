@@ -28,8 +28,8 @@
     platformdirs 4.9.6
     pycountry 24.6.1
     PyYAML 6.0.3
-    requests 2.32.5
-    wcwidth 0.6.0
+    requests 2.33.1
+    wcwidth 0.7.0
 -->
 <link href="draft-ietf-oauth-transaction-tokens.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1050,11 +1050,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">April 2026</td>
+<td class="right">May 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 1 November 2026</td>
+<td class="center">Expires 14 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-04-30" class="published">30 April 2026</time>
+<time datetime="2026-05-13" class="published">13 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-11-01">1 November 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-14">14 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1125,7 +1125,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 1 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 14 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1301,9 +1301,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.12">
                 <p id="section-toc.1-1.13.2.12.1"><a href="#section-13.12" class="auto internal xref">13.12</a>. <a href="#name-transaction-tokens-are-not-" class="internal xref">Transaction Tokens Are Not Authentication Credentials</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.13">
+                <p id="section-toc.1-1.13.2.13.1"><a href="#section-13.13" class="auto internal xref">13.13</a>. <a href="#name-transaction-tokens-are-not-o" class="internal xref">Transaction Tokens Are Not OAuth 2.0 Access Tokens</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.12.2.1">
-                    <p id="section-toc.1-1.13.2.12.2.1.1"><a href="#section-13.12.1" class="auto internal xref">13.12.1</a>.  <a href="#name-txn-token-as-a-subject_toke" class="internal xref">Txn-Token as a <code>subject_token</code></a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.13.2.1">
+                    <p id="section-toc.1-1.13.2.13.2.1.1"><a href="#section-13.13.1" class="auto internal xref">13.13.1</a>.  <a href="#name-txn-token-as-a-subject_toke" class="internal xref">Txn-Token as a <code>subject_token</code></a></p>
 </li>
                 </ul>
 </li>
@@ -2287,39 +2290,49 @@ Cache-Control: no-store
 <a href="#section-13.12" class="section-number selfRef">13.12. </a><a href="#name-transaction-tokens-are-not-" class="section-name selfRef">Transaction Tokens Are Not Authentication Credentials</a>
         </h3>
 <p id="section-13.12-1">A workload MUST NOT use a transaction token to authenticate itself to another workload, service or the TTS. Transaction tokens represents information relevant to authorization decisions and are not workload identity credentials. Authentication between the workload and the TTS is described in <a href="#Mutual-Authentication" class="auto internal xref">Section 11.5</a>.<a href="#section-13.12-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="transaction-tokens-are-not-oauth-20-access-tokens">
+<section id="section-13.13">
+        <h3 id="name-transaction-tokens-are-not-o">
+<a href="#section-13.13" class="section-number selfRef">13.13. </a><a href="#name-transaction-tokens-are-not-o" class="section-name selfRef">Transaction Tokens Are Not OAuth 2.0 Access Tokens</a>
+        </h3>
+<p id="section-13.13-1">A workload MUST NOT use a transaction token as an OAuth 2.0 Access Token. An OAuth 2.0 Access Token represents a grant of authority to a client, a transaction token represents the context of a specific transaction. The separation of the transaction token from the OAuth 2.0 Access Token is a deliberate design choice as described in <a href="#introduction" class="auto internal xref">Section 1</a>.<a href="#section-13.13-1" class="pilcrow">¶</a></p>
+<p id="section-13.13-2">Transaction tokens support the principle of least privilege since they are narrowly scoped to a single transaction and have short lifetimes. This makes them less susceptible to broad replay attacks than the longer-lived access tokens. By maintaining a distinct token type, the protocol ensures that context propagation while minimizing the risk of lateral access if a transaction token is intercepted within the trust domain. This separation also reduces the need for including transaction context in the access token, reducing token size.<a href="#section-13.13-2" class="pilcrow">¶</a></p>
+<p id="section-13.13-3">Using a dedicated HTTP header from the <code>Authorization: Bearer</code> header for transaction tokens allows services to distinguish between an access token, which carries authorization delegation information, and the transaction token, which carries transaction context.<a href="#section-13.13-3" class="pilcrow">¶</a></p>
 <div id="txn-token-as-a-subjecttoken">
-<section id="section-13.12.1">
+<section id="section-13.13.1">
           <h4 id="name-txn-token-as-a-subject_toke">
-<a href="#section-13.12.1" class="section-number selfRef">13.12.1. </a><a href="#name-txn-token-as-a-subject_toke" class="section-name selfRef">Txn-Token as a <code>subject_token</code></a>
+<a href="#section-13.13.1" class="section-number selfRef">13.13.1. </a><a href="#name-txn-token-as-a-subject_toke" class="section-name selfRef">Txn-Token as a <code>subject_token</code></a>
           </h4>
-<p id="section-13.12.1-1">A TTS MUST exercise caution when receiving a Txn-token as a <code>subject_token</code>. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:<a href="#section-13.12.1-1" class="pilcrow">¶</a></p>
+<p id="section-13.13.1-1">A TTS MUST exercise caution when receiving a Txn-token as a <code>subject_token</code>. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:<a href="#section-13.13.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.12.1-2.1">
-              <p id="section-13.12.1-2.1.1">MAY enable modifications to asserted values that reduce the scope of permitted actions.<a href="#section-13.12.1-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.13.1-2.1">
+              <p id="section-13.13.1-2.1.1">MAY enable modifications to asserted values that reduce the scope of permitted actions.<a href="#section-13.13.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.2">
-              <p id="section-13.12.1-2.2.1">MAY enable additional asserted values.<a href="#section-13.12.1-2.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.2">
+              <p id="section-13.13.1-2.2.1">MAY enable additional asserted values.<a href="#section-13.13.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.3">
-              <p id="section-13.12.1-2.3.1">MUST NOT enable modification to asserted values that expand the scope of permitted actions.<a href="#section-13.12.1-2.3.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.3">
+              <p id="section-13.13.1-2.3.1">MUST NOT enable modification to asserted values that expand the scope of permitted actions.<a href="#section-13.13.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.4">
-              <p id="section-13.12.1-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request.<a href="#section-13.12.1-2.4.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.4">
+              <p id="section-13.13.1-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request.<a href="#section-13.13.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.5">
-              <p id="section-13.12.1-2.5.1">MUST NOT remove any of the existing requesting workload identifiers from the <code>req_wl</code> claim.<a href="#section-13.12.1-2.5.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.5">
+              <p id="section-13.13.1-2.5.1">MUST NOT remove any of the existing requesting workload identifiers from the <code>req_wl</code> claim.<a href="#section-13.13.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.6">
-              <p id="section-13.12.1-2.6.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-13.12.1-2.6.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.6">
+              <p id="section-13.13.1-2.6.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-13.13.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.7">
-              <p id="section-13.12.1-2.7.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-13.12.1-2.7.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.7">
+              <p id="section-13.13.1-2.7.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-13.13.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.8">
-              <p id="section-13.12.1-2.8.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-13.12.1-2.8.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.8">
+              <p id="section-13.13.1-2.8.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-13.13.1-2.8.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-13.12.1-2.9">
-              <p id="section-13.12.1-2.9.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-13.12.1-2.9.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-13.13.1-2.9">
+              <p id="section-13.13.1-2.9.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-13.13.1-2.9.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -2626,7 +2639,7 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-oauth-identity-chaining">[I-D.ietf-oauth-identity-chaining]</dt>
         <dd>
-<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M. J.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-10</span>, <time datetime="2026-04-24" class="refDate">24 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-10">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-10</a>&gt;</span>. </dd>
+<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M. J.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-12</span>, <time datetime="2026-05-11" class="refDate">11 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-12">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-12</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.HTTP.FieldNames">[IANA.HTTP.FieldNames]</dt>
         <dd>
@@ -2663,7 +2676,7 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-mutual-tls">[I-D.ietf-wimse-mutual-tls]</dt>
         <dd>
-<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Rosomakho</span>, <span class="refTitle">"Workload Authentication Using Mutual TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-mutual-tls-00</span>, <time datetime="2025-11-02" class="refDate">2 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-00">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Rosomakho</span>, <span class="refTitle">"Workload Authentication Using Mutual TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-mutual-tls-01</span>, <time datetime="2026-05-05" class="refDate">5 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-01">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-http-signature">[I-D.ietf-wimse-http-signature]</dt>
         <dd>
@@ -2714,7 +2727,10 @@ Cache-Control: no-store
             <p id="appendix-B.1-1.5.1">Added doublequotes around the "Txn-Token" header name to distinguish it from the usage of Txn-Token as a name for Transaction Tokens.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.6.1">Clarify transaction tokens vs OAuth 2.0 access tokens<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.7">
+            <p id="appendix-B.1-1.7.1">Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

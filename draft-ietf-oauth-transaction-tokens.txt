@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 1 November 2026                          Practical Identity LLC
+Expires: 14 November 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           30 April 2026
+                                                             13 May 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 November 2026.
+   This Internet-Draft will expire on 14 November 2026.
 
 Copyright Notice
 
@@ -114,7 +114,8 @@ Table of Contents
      13.10. TTS Issuance Policies
      13.11. TTS Key Rotation
      13.12. Transaction Tokens Are Not Authentication Credentials
-       13.12.1.  Txn-Token as a subject_token
+     13.13. Transaction Tokens Are Not OAuth 2.0 Access Tokens
+       13.13.1.  Txn-Token as a subject_token
    14. Preserving transaction context across Trust Domains
    15. Privacy Considerations
      15.1.  Handling of Personal Information
@@ -1087,7 +1088,31 @@ Table of Contents
    identity credentials.  Authentication between the workload and the
    TTS is described in Section 11.5.
 
-13.12.1.  Txn-Token as a subject_token
+13.13.  Transaction Tokens Are Not OAuth 2.0 Access Tokens
+
+   A workload MUST NOT use a transaction token as an OAuth 2.0 Access
+   Token.  An OAuth 2.0 Access Token represents a grant of authority to
+   a client, a transaction token represents the context of a specific
+   transaction.  The separation of the transaction token from the OAuth
+   2.0 Access Token is a deliberate design choice as described in
+   Section 1.
+
+   Transaction tokens support the principle of least privilege since
+   they are narrowly scoped to a single transaction and have short
+   lifetimes.  This makes them less susceptible to broad replay attacks
+   than the longer-lived access tokens.  By maintaining a distinct token
+   type, the protocol ensures that context propagation while minimizing
+   the risk of lateral access if a transaction token is intercepted
+   within the trust domain.  This separation also reduces the need for
+   including transaction context in the access token, reducing token
+   size.
+
+   Using a dedicated HTTP header from the Authorization: Bearer header
+   for transaction tokens allows services to distinguish between an
+   access token, which carries authorization delegation information, and
+   the transaction token, which carries transaction context.
+
+13.13.1.  Txn-Token as a subject_token
 
    A TTS MUST exercise caution when receiving a Txn-token as a
    subject_token.  Any Txn-Token issued in response to such a request is
@@ -1374,9 +1399,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-10, 24
-              April 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-10>.
+              Internet-Draft, draft-ietf-oauth-identity-chaining-12, 11
+              May 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-identity-chaining-12>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
@@ -1413,9 +1438,9 @@ Table of Contents
    [I-D.ietf-wimse-mutual-tls]
               Salowey, J. A. and Y. Rosomakho, "Workload Authentication
               Using Mutual TLS", Work in Progress, Internet-Draft,
-              draft-ietf-wimse-mutual-tls-00, 2 November 2025,
+              draft-ietf-wimse-mutual-tls-01, 5 May 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              mutual-tls-00>.
+              mutual-tls-01>.
 
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
@@ -1462,6 +1487,8 @@ Since Draft 08
    *  Added doublequotes around the "Txn-Token" header name to
       distinguish it from the usage of Txn-Token as a name for
       Transaction Tokens.
+
+   *  Clarify transaction tokens vs OAuth 2.0 access tokens
 
    *  Merged Overview and Introduction sections (see https://github.com/
       oauth-wg/oauth-transaction-tokens/issues/327)
