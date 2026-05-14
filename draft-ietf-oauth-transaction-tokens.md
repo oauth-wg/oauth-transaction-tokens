@@ -427,7 +427,7 @@ To request a Txn-Token the workload invokes the OAuth 2.0 {{RFC6749}} token endp
 The following additional parameters are defined for the Txn-Token Request:
 
 * `request_context` RECOMMENDED. This parameter contains a JSON object which represents the context of this transaction.
-* `request_details` RECOMMENDED. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the TTS. The TTS uses this data along with other information at its disposal to construct the `txct` JSON object (if required).
+* `request_details` RECOMMENDED. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the TTS. The TTS uses this data along with other information at its disposal to construct the `tctx` JSON object (if required).
 
 All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of {{RFC6749}}.
 
