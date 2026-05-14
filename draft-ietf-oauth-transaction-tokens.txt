@@ -20,7 +20,7 @@ Abstract
    propagate user identity, workload identity and authorization context
    throughout the Call Chain within a trusted domain during the
    processing of external requests (e.g. such as API calls) or requests
-   initiated internally within the trust domain.  Txn-Tokens ensure that
+   initiated internally within the Trust Domain.  Txn-Tokens ensure that
    this context is preserved throughout the Call Chain thereby enhancing
    security and consistency in complex, multi-service architectures.
 
@@ -260,7 +260,7 @@ Table of Contents
 
    The context information provided to the TTS MUST include:
 
-   *  The identification of the trust domain in which the issued Txn-
+   *  The identification of the Trust Domain in which the issued Txn-
       Token is valid.
 
    *  A token which identifies the subject of the Txn-Token (e.g. an
@@ -321,7 +321,7 @@ Table of Contents
       radius.
 
    *  Signed Txn-Tokens protect the original call context and identity
-      from modification along the call chain.
+      from modification along the Call Chain.
 
    *  Independent verification at each workload helps prevent
       unauthorized invocation.
@@ -933,7 +933,7 @@ Table of Contents
 
    *  Validate the Txn-Token JWS signature.
 
-   *  Verify the aud claim identifies the trust domain of the workload.
+   *  Verify the aud claim identifies the Trust Domain of the workload.
 
    *  Verify the Txn-Token is not expired.
 
@@ -1106,7 +1106,7 @@ Table of Contents
    than the longer-lived access tokens.  By maintaining a distinct token
    type, the protocol ensures that context propagation while minimizing
    the risk of lateral access if a transaction token is intercepted
-   within the trust domain.  This separation also reduces the need for
+   within the Trust Domain.  This separation also reduces the need for
    including transaction context in the access token, reducing token
    size.
 
@@ -1495,6 +1495,9 @@ Since Draft 08
 
    *  Merged Overview and Introduction sections (see https://github.com/
       oauth-wg/oauth-transaction-tokens/issues/327)
+
+   *  Consistent cappitalisation of trust domain and call chain (see
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues)
 
    *  Updated JWT body claims from OPTIONAL to RECOMMENDED (see
       https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)
