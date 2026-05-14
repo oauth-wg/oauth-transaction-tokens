@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 31 October 2026                          Practical Identity LLC
+Expires: 15 November 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                           29 April 2026
+                                                             14 May 2026
 
 
                            Transaction Tokens
@@ -20,7 +20,7 @@ Abstract
    propagate user identity, workload identity and authorization context
    throughout the Call Chain within a trusted domain during the
    processing of external requests (e.g. such as API calls) or requests
-   initiated internally within the trust domain.  Txn-Tokens ensure that
+   initiated internally within the Trust Domain.  Txn-Tokens ensure that
    this context is preserved throughout the Call Chain thereby enhancing
    security and consistency in complex, multi-service architectures.
 
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 October 2026.
+   This Internet-Draft will expire on 15 November 2026.
 
 Copyright Notice
 
@@ -99,7 +99,7 @@ Table of Contents
      11.4.  Txn-Token Response
      11.5.  Mutual Authentication of the Txn-Token Request
    12. Using Txn-Tokens
-     12.1.  Txn-Token HTTP Header
+     12.1.  "Txn-Token" HTTP Header
      12.2.  Txn-Token Validation
    13. Security Considerations
      13.1.  Txn-Token Replay Risks
@@ -111,20 +111,23 @@ Table of Contents
      13.7.  TTS Discovery
      13.8.  Workload Configuration Protection
      13.9.  TTS Authentication
-     13.10. TTS Key Rotation
-     13.11. Transaction Tokens Are Not Authentication Credentials
-       13.11.1.  Txn-Token as a subject_token
-   14. Privacy Considerations
-     14.1.  Handling of Personal Information
-     14.2.  Logging
-   15. IANA Considerations
-     15.1.  OAuth URI Subregistry Contents
-     15.2.  JWT Claims Registry Contents
-     15.3.  IANA Media Type Registration Contents
-     15.4.  HTTP Header
-   16. References
-     16.1.  Normative References
-     16.2.  Informative References
+     13.10. TTS Issuance Policies
+     13.11. TTS Key Rotation
+     13.12. Transaction Tokens Are Not Authentication Credentials
+     13.13. Transaction Tokens Are Not OAuth 2.0 Access Tokens
+       13.13.1.  Txn-Token as a subject_token
+   14. Preserving transaction context across Trust Domains
+   15. Privacy Considerations
+     15.1.  Handling of Personal Information
+     15.2.  Logging
+   16. IANA Considerations
+     16.1.  OAuth URI Subregistry Contents
+     16.2.  JWT Claims Registry Contents
+     16.3.  IANA Media Type Registration Contents
+     16.4.  HTTP Header
+   17. References
+     17.1.  Normative References
+     17.2.  Informative References
    Acknowledgements
    Document History
      Since Draft 08
@@ -255,17 +258,24 @@ Table of Contents
    Service (TTS)) and provides context that is sufficient for the TTS to
    generate a Txn-Token.
 
-   The context information provided to the TTS MUST include: * The
-   identification of the trust domain in which the issued Txn-Token is
-   valid. * A token which identifies the subject of the Txn-Token (e.g.
-   an OAuth access token, a self-issued JWT, etc). * The desired
-   authorization scope for the issued Txn-Token.
+   The context information provided to the TTS MUST include:
 
-   Additional contextual information MAY be provided such as: *
-   Parameters that are required to be integrity protected for the
-   duration of this call. * Additional context, such as the incoming IP
-   address, User Agent information, or other context that can help the
-   TTS to issue the Txn-Token.
+   *  The identification of the Trust Domain in which the issued Txn-
+      Token is valid.
+
+   *  A token which identifies the subject of the Txn-Token (e.g. an
+      OAuth access token, a self-issued JWT, etc).
+
+   *  The desired authorization scope for the issued Txn-Token.
+
+   Additional contextual information MAY be provided such as:
+
+   *  Parameters that are required to be integrity protected for the
+      duration of this call.
+
+   *  Additional context, such as the incoming IP address, User Agent
+      information, or other context that can help the TTS to issue the
+      Txn-Token.
 
    The TTS responds to a successful invocation by generating a Txn-
    Token.  The calling workload then uses the Txn-Token to authorize its
@@ -311,7 +321,7 @@ Table of Contents
       radius.
 
    *  Signed Txn-Tokens protect the original call context and identity
-      from modification along the call chain.
+      from modification along the Call Chain.
 
    *  Independent verification at each workload helps prevent
       unauthorized invocation.
@@ -721,10 +731,7 @@ Table of Contents
    &scope=finance.watchlist.add
    &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%2F
-   %2F%20env%20context%20of%20external%20call%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn
-   %3Aietf%3Arfc%3A6749%22%2C%20%2F%2F%20env%20context%20of%20external%20call%0A%20%20%20
-   %20%20%20%22workload3.trust-domain.example%22%20%5D%0A%20%20%20%20%7D
+   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn%3Aietf%3Arfc%3A6749%22%0A%7D
 
                     Figure 5: Example: Txn-Token Request
 
@@ -792,8 +799,9 @@ Table of Contents
 
    *  MUST validate the requesting workload client authentication and
       determine if that workload is authorized to obtain the Txn-Tokens
-      with the requested value(s).  The authorization policy for
-      determining such issuance is out of scope for this specification.
+      with the requested value(s) (see Section 13.10).  The
+      authorization policy for determining such issuance is out of scope
+      for this specification.
 
    *  The TTS MUST validate the subject_token, including verifying the
       signature, if it is signed.
@@ -819,8 +827,7 @@ Table of Contents
       transaction.
 
    *  The TTS MAY set the iss claim of the Txn-Token to a value defining
-      the entity that signed the Txn-Token.  This claim MUST be omitted
-      if not set.
+      the entity that signed the Txn-Token.
 
    *  The TTS MUST evaluate the value specified in the scope parameter
       of the request to determine the scope claim of the issued Txn-
@@ -908,11 +915,11 @@ Table of Contents
    Authorization header MUST NOT be used because that may be used by the
    workloads for other purposes.
 
-12.1.  Txn-Token HTTP Header
+12.1.  "Txn-Token" HTTP Header
 
    A workload that invokes another workload using HTTP and needs to
    present a Txn-Token to the invoked workload MUST use the HTTP Header
-   Txn-Token to communicate the Txn-Token in the HTTP Request.  The
+   "Txn-Token" to communicate the Txn-Token in the HTTP Request.  The
    value of this header MUST be exactly one Txn-Token.
 
 12.2.  Txn-Token Validation
@@ -923,7 +930,7 @@ Table of Contents
 
    *  Validate the Txn-Token JWS signature.
 
-   *  Verify the aud claim identifies the trust domain of the workload.
+   *  Verify the aud claim identifies the Trust Domain of the workload.
 
    *  Verify the Txn-Token is not expired.
 
@@ -1052,12 +1059,28 @@ Table of Contents
    that it authenticates the TTS and only contacts instances of the TTS
    that is authorized to issue transaction tokens.
 
-13.10.  TTS Key Rotation
+13.10.  TTS Issuance Policies
+
+   A TTS should be selective in which workloads can successfully request
+   a Txn-Token.  A TTS does not need to issue a Txn-Token to every
+   workload that requests one.  TTS token issuance decisions, including
+   whether to issue a Txn-Token and the claims it contains, are
+   typically subject to deployment-specific issuance policies and
+   business logic.  For example, an API gateway handling a user-
+   initiated request might be permitted to obtain a Txn-Token carrying
+   request context such as a transaction amount, while a downstream
+   service in the same Call Chain might not.  Such policies may vary
+   based on system architecture, workload identity, transaction context,
+   or risk, and may result in different Txn-Token contents or denial of
+   issuance.  The definition and management of these policies are
+   deployment-specific and out of scope for this specification.
+
+13.11.  TTS Key Rotation
 
    The TTS may need to rotate signing keys.  When doing so, it MAY adopt
    the key rotation practices in Section 10.1.1 of [OpenIdConnect].
 
-13.11.  Transaction Tokens Are Not Authentication Credentials
+13.12.  Transaction Tokens Are Not Authentication Credentials
 
    A workload MUST NOT use a transaction token to authenticate itself to
    another workload, service or the TTS.  Transaction tokens represents
@@ -1065,7 +1088,31 @@ Table of Contents
    identity credentials.  Authentication between the workload and the
    TTS is described in Section 11.5.
 
-13.11.1.  Txn-Token as a subject_token
+13.13.  Transaction Tokens Are Not OAuth 2.0 Access Tokens
+
+   A workload MUST NOT use a transaction token as an OAuth 2.0 Access
+   Token.  An OAuth 2.0 Access Token represents a grant of authority to
+   a client, a transaction token represents the context of a specific
+   transaction.  The separation of the transaction token from the OAuth
+   2.0 Access Token is a deliberate design choice as described in
+   Section 1.
+
+   Transaction tokens support the principle of least privilege since
+   they are narrowly scoped to a single transaction and have short
+   lifetimes.  This makes them less susceptible to broad replay attacks
+   than the longer-lived access tokens.  By maintaining a distinct token
+   type, the protocol ensures that context propagation while minimizing
+   the risk of lateral access if a transaction token is intercepted
+   within the Trust Domain.  This separation also reduces the need for
+   including transaction context in the access token, reducing token
+   size.
+
+   Using a dedicated HTTP header from the Authorization: Bearer header
+   for transaction tokens allows services to distinguish between an
+   access token, which carries authorization delegation information, and
+   the transaction token, which carries transaction context.
+
+13.13.1.  Txn-Token as a subject_token
 
    A TTS MUST exercise caution when receiving a Txn-token as a
    subject_token.  Any Txn-Token issued in response to such a request is
@@ -1101,9 +1148,18 @@ Table of Contents
       replacement to the req_wl claim using the character , as the
       separator between individual workload identifiers.
 
-14.  Privacy Considerations
+14.  Preserving transaction context across Trust Domains
 
-14.1.  Handling of Personal Information
+   Txn-Tokens are only valid within the Trust Domain identified by the
+   aud claim as defined in Section 9.2.  When a workload needs to access
+   a resource in a different Trust Domain to complete a transaction, and
+   the identity and authorization context from the Txn-Token needs to be
+   preserved, it SHOULD use OAuth Identity and Authorization Chaining
+   Across Domains [I-D.ietf-oauth-identity-chaining].
+
+15.  Privacy Considerations
+
+15.1.  Handling of Personal Information
 
    Claims contained within transaction tokens may be considered personal
    information (PI) or personally identifying information (PII) in some
@@ -1112,7 +1168,7 @@ Table of Contents
    personal information and therefore must be handled according to
    jurisdictional requirements.
 
-14.2.  Logging
+15.2.  Logging
 
    Complete Txn-Tokens MUST NOT be logged verbatim.  This is in order to
    prevent replay of tokens or leakage of PII or other sensitive
@@ -1123,7 +1179,7 @@ Table of Contents
    contains PII, then care should be taken in logging the content of the
    Txn-Token so that the PII does not get logged.
 
-15.  IANA Considerations
+16.  IANA Considerations
 
    This specification registers the following token type identifiers to
    the "OAuth URI" subregistry of the "OAuth Parameters"
@@ -1133,7 +1189,7 @@ Table of Contents
    Type [IANA.MediaTypes] "txntoken+jwt" as defined in the section
    Section 9.1.
 
-15.1.  OAuth URI Subregistry Contents
+16.1.  OAuth URI Subregistry Contents
 
    *  URN: urn:ietf:params:oauth:token-type:txn_token
 
@@ -1162,7 +1218,7 @@ Table of Contents
       -  Specification Document: Section Section 11.2.2 of this
          specification
 
-15.2.  JWT Claims Registry Contents
+16.2.  JWT Claims Registry Contents
 
    *  Claim Name: tctx
 
@@ -1182,7 +1238,7 @@ Table of Contents
       -  Specification Document: Section Section 9.2 of this
          specification
 
-15.3.  IANA Media Type Registration Contents
+16.3.  IANA Media Type Registration Contents
 
    The following entry will be proposed using the IANA Media Type
    registration [IANA.MediaTypes] form.
@@ -1238,7 +1294,7 @@ Table of Contents
 
    *  Contact Person: Atul Tulshibagwale
 
-15.4.  HTTP Header
+16.4.  HTTP Header
 
    The header name Txn-Token is proposed to be added to the HTTP Field
    Name Registry [IANA.HTTP.FieldNames] as an unstructured Header Field.
@@ -1262,9 +1318,9 @@ Table of Contents
       user identity and details of fine-grained authorization that are
       included in the Txn-token.
 
-16.  References
+17.  References
 
-16.1.  Normative References
+17.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1339,6 +1395,14 @@ Table of Contents
               HTTP", RFC 9651, DOI 10.17487/RFC9651, September 2024,
               <https://www.rfc-editor.org/rfc/rfc9651>.
 
+   [I-D.ietf-oauth-identity-chaining]
+              Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
+              M. J., Campbell, B., and A. Parecki, "OAuth Identity and
+              Authorization Chaining Across Domains", Work in Progress,
+              Internet-Draft, draft-ietf-oauth-identity-chaining-12, 11
+              May 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-identity-chaining-12>.
+
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
               <https://www.iana.org/assignments/http-fields/>.
@@ -1357,7 +1421,7 @@ Table of Contents
               errata set 2", November 2014,
               <https://openid.net/specs/openid-connect-core-1_0.html>.
 
-16.2.  Informative References
+17.2.  Informative References
 
    [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
@@ -1374,9 +1438,9 @@ Table of Contents
    [I-D.ietf-wimse-mutual-tls]
               Salowey, J. A. and Y. Rosomakho, "Workload Authentication
               Using Mutual TLS", Work in Progress, Internet-Draft,
-              draft-ietf-wimse-mutual-tls-00, 2 November 2025,
+              draft-ietf-wimse-mutual-tls-01, 5 May 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              mutual-tls-00>.
+              mutual-tls-01>.
 
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
@@ -1411,11 +1475,26 @@ Since Draft 08
 
    *  Added document history for changes from 07 to 08
 
+   *  Added TTS Issuance Guidance policies (see issue
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
+
+   *  Provide guidance on cross-domain access (see https://github.com/
+      oauth-wg/oauth-transaction-tokens/issues/326)
+
    *  Added security consideration for invalidated tokens (see issue
       https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 
+   *  Added doublequotes around the "Txn-Token" header name to
+      distinguish it from the usage of Txn-Token as a name for
+      Transaction Tokens.
+
+   *  Clarify transaction tokens vs OAuth 2.0 access tokens
+
    *  Merged Overview and Introduction sections (see https://github.com/
       oauth-wg/oauth-transaction-tokens/issues/327)
+
+   *  Consistent cappitalisation of trust domain and call chain (see
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues)
 
 Since Draft 07
 
