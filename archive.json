@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-12T00:39:12.185266+00:00",
+  "timestamp": "2026-05-14T00:45:02.608358+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6450,9 +6450,17 @@
       ],
       "body": "https://github.com/oauth-wg/oauth-transaction-tokens/blob/08ec5da85c9da860386e05d320a0437867db9be7/draft-ietf-oauth-transaction-tokens.md?plain=1#L447\n\n`txn-token` \u2192 `txn_token`\n\nhttps://github.com/oauth-wg/oauth-transaction-tokens/blob/08ec5da85c9da860386e05d320a0437867db9be7/draft-ietf-oauth-transaction-tokens.md?plain=1#L452\n\nThe example value provided for `request_context` decodes to some bogus JSON:\n\n```json\n{\n      \"req_ip\": \"69.151.72.123\", // env context of external call\n      \"authn\": \"urn:ietf:rfc:6749\", // env context of external call\n      \"workload3.trust-domain.example\" ]\n    }\n```",
       "createdAt": "2026-04-08T20:53:27Z",
-      "updatedAt": "2026-04-30T00:41:55Z",
+      "updatedAt": "2026-05-13T02:14:09Z",
       "closedAt": "2026-04-30T00:41:55Z",
-      "comments": []
+      "comments": [
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "Just in case, the first issue is still [not fixed](https://github.com/oauth-wg/oauth-transaction-tokens/blob/7139479b0793570a36ec7537e53c6476a5560022/draft-ietf-oauth-transaction-tokens.md?plain=1#L442) (hyphen instead of underscore).",
+          "createdAt": "2026-05-13T02:14:09Z",
+          "updatedAt": "2026-05-13T02:14:09Z"
+        }
+      ]
     },
     {
       "number": 325,
@@ -6876,13 +6884,15 @@
       "state": "OPEN",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "Do a editorial pass to consistently use capitalisations for those terms.",
       "createdAt": "2026-04-17T13:56:13Z",
-      "updatedAt": "2026-04-22T11:42:26Z",
+      "updatedAt": "2026-05-13T19:12:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -21737,24 +21747,26 @@
       "id": "PR_kwDOJt_WwM7WsdDE",
       "title": "Clarify transaction tokens vs OAuth 2.0 access tokens",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/345",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Clarify the distinction between transaction tokens and OAuth 2.0 access tokens, emphasizing their different purposes and security implications. See issue #325",
       "createdAt": "2026-04-29T11:35:56Z",
-      "updatedAt": "2026-05-11T18:30:13Z",
+      "updatedAt": "2026-05-13T15:59:14Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7139479b0793570a36ec7537e53c6476a5560022",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-4",
       "headRefOid": "46a2151f7f82d36709966700ef110eb89a0ceef0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-13T15:59:11Z",
+      "mergedAt": "2026-05-13T15:59:11Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f"
+      },
       "comments": [],
       "reviews": [
         {
@@ -21989,8 +22001,153 @@
               "updatedAt": "2026-05-11T18:30:13Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7-pTq_",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-12T12:29:50Z",
+          "updatedAt": "2026-05-12T12:29:50Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I think that is fine to include Trats claims in OAuth Access tokens (may even be needed for cross domain use cases when claims have to be transcribed). If it is fine grained authorisation your after, perhaps RAR is the better bet (or perhaps you use RAR and embed Trats defined claims in them),. However, using an Trat claim in an Oauth token does not make a Trat and OAuth Access token. An Oauth Access Token is issued by an AS and conveys delegation semantics. It is used to access the \"front door\" of the service. Transaction tokens were designed as something else. By merging them, I think you debase the reason for having transaction. tokens in the first place.",
+              "createdAt": "2026-05-12T12:29:50Z",
+              "updatedAt": "2026-05-12T12:29:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7-9Rvy",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-13T01:24:14Z",
+          "updatedAt": "2026-05-13T01:24:14Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "It isn't an OAuth token in that it hasn't been issued using an OAuth flow, but should we rule out using a TraT as an access token?",
+              "createdAt": "2026-05-13T01:24:14Z",
+              "updatedAt": "2026-05-13T01:24:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7_JjOd",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-13T10:38:22Z",
+          "updatedAt": "2026-05-13T10:38:22Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "We should rule out using a Transaction Token as a OAuth 2.0 Access Token to avoid confusion and dilute the value of both OAuth 2.0 Access Tokens and Transaction Tokens. \r\n\r\nIf you have a Transaction Token, and you want an OAuth 2.0 Access Token, use on of the OAuth Authorisation Grant flows (preferably Token Exchange). The draft is clear that a Transaction Token carries transaction specific authorization context to be used as part of an authorization decision. This does not make it an OAuth 2.0 Access Token. It was not issued under the same policies as other OAuth 2.0 Access tokens. Different use cases, threat models and deployment choices apply.\r\n\r\nFor finer grained OAuth Access tokens, use RAR (perhaps with Transaction token claims). For carrying transaction context, tied to a trasnaction with downscoped authorization details within a domain use a transaction token.",
+              "createdAt": "2026-05-13T10:38:22Z",
+              "updatedAt": "2026-05-13T10:38:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7_ThxR",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-13T15:58:50Z",
+          "updatedAt": "2026-05-13T15:58:50Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm not convinced we need this language to avoid confusion, but I'm not too passionate about this, so let's just go ahead with it.",
+              "createdAt": "2026-05-13T15:58:50Z",
+              "updatedAt": "2026-05-13T15:58:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM7_TiK7",
+          "commit": {
+            "abbreviatedOid": "46a2151"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-13T15:59:03Z",
+          "updatedAt": "2026-05-13T15:59:03Z",
+          "comments": []
         }
       ]
+    },
+    {
+      "number": 346,
+      "id": "PR_kwDOJt_WwM7bQju-",
+      "title": "Change Txn-Token Request parameters to RECOMMENDED",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/346",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated the Txn-Token Request parameters from OPTIONAL to RECOMMENDED to enhance clarity and guidance. Also changed the introduction sentence which previously also included the term RECOMMENDED.\r\n\r\nNOTE: Brian also made the recommendation to move from RECOMMENDED to something less like a SHOULD as we don't define concretely what goes in these objects. Additionally, I didn't change body claims as I believe the OPTIONAL make sense for a JWT body claim but less so for an API request parameter. Happy to update accordingly.",
+      "createdAt": "2026-05-13T19:37:59Z",
+      "updatedAt": "2026-05-13T19:38:00Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_332",
+      "headRefOid": "c56affad66d159b188b8729dedd0b15b582ca30d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 347,
+      "id": "PR_kwDOJt_WwM7bQumj",
+      "title": "Change JWT body claims from OPTIONAL to RECOMMENDED",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/347",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated the claims in the JWT body from OPTIONAL to RECOMMENDED for better clarity and guidance. Also added forward references for scope/rctx/tctx to the sections that add additional context.",
+      "createdAt": "2026-05-13T19:46:32Z",
+      "updatedAt": "2026-05-13T19:51:58Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_330",
+      "headRefOid": "f939e5888dd6cba7c2f1a3130c1e6861ba162856",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
