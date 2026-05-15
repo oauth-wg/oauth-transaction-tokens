@@ -94,7 +94,7 @@ informative:
     - org: Cloud Native Computing Foundation
 
 --- abstract
-Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests (e.g. such as API calls) or requests initiated internally within the trust domain. Txn-Tokens ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures.
+Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests (e.g. such as API calls) or requests initiated internally within the Trust Domain. Txn-Tokens ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures.
 --- middle
 
 # Introduction {#introduction}
@@ -153,7 +153,7 @@ If the transaction token request is made via HTTP to a remote server, it MUST us
 
 The context information provided to the TTS MUST include:
 
-* The identification of the trust domain in which the issued Txn-Token is valid.
+* The identification of the Trust Domain in which the issued Txn-Token is valid.
 * A token which identifies the subject of the Txn-Token (e.g. an OAuth access token, a self-issued JWT, etc).
 * The desired authorization scope for the issued Txn-Token.
 
@@ -174,7 +174,7 @@ Txn-Tokens prevent unauthorized invocations by allowing a workload to independen
 
 * Short-lived, Txn-Tokens, bound to a single transaction, reduce replay risk.
 * Narrowly scoped Txn-Tokens limit lateral movement and blast radius.
-* Signed Txn-Tokens protect the original call context and identity from modification along the call chain.
+* Signed Txn-Tokens protect the original call context and identity from modification along the Call Chain.
 * Independent verification at each workload helps prevent unauthorized invocation.
 * Restricting which workloads can obtain Txn-Tokens limits exposure from compromised or untrusted services, including some SBOM-related attack paths.
 
@@ -314,13 +314,13 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED This claim represents the principal of the transaction as defined by Section 4.1.2 of {{RFC7519}}. The value MUST be unique within the context of the `aud` Trust Domain. Note: Unlike OpenID Connect, the `sub` claim is NOT associated with the `iss` claim.
 
 `scope`:
-: REQUIRED The scope claim is defined in {{Section 4.2 of RFC8693}}. Note that the value of this claim is determined by the TTS and is not required to match the requested scope nor the scope in any supplied external token.
+: REQUIRED The scope claim is defined in {{Section 4.2 of RFC8693}}. Note that the value of this claim is determined by the TTS and is not required to match the requested scope nor the scope in any supplied external token. For additional context please refer to {{scope-claim}}
 
 `tctx`:
-: OPTIONAL A JSON object that contains values that remain immutable throughout the Call Chain.
+: RECOMMENDED A JSON object that contains values that remain immutable throughout the Call Chain. For additional context please refer to {{requester-context}}
 
 `rctx`:
-: OPTIONAL A JSON object that describes the environmental context of the requested transaction.
+: RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
 
 `req_wl`:
 : REQUIRED. A string value that identifies the workload that requested the Txn-Token. The value SHOULD contain a single workload identifier. In some circumstances, the value MAY contain multiple workload identifiers with each identifier separated by a comma (,).
@@ -536,7 +536,7 @@ A workload that invokes another workload using HTTP and needs to present a Txn-T
 A workload that receives a Txn-Token MUST evaluate the token for validity before authorizing it for activities supported by the workload. To validate the Txn-Token, the workload MUST:
 
 * Validate the Txn-Token JWS signature.
-* Verify the `aud` claim identifies the trust domain of the workload.
+* Verify the `aud` claim identifies the Trust Domain of the workload.
 * Verify the Txn-Token is not expired.
 
 In addition, any outbound calls made by this workload MUST include the Txn-Token as it was received so that it is passed unmodified to any downstream workloads.
@@ -592,7 +592,7 @@ A workload MUST NOT use a transaction token to authenticate itself to another wo
 ## Transaction Tokens Are Not OAuth 2.0 Access Tokens
 A workload MUST NOT use a transaction token as an OAuth 2.0 Access Token. An OAuth 2.0 Access Token represents a grant of authority to a client, a transaction token represents the context of a specific transaction. The separation of the transaction token from the OAuth 2.0 Access Token is a deliberate design choice as described in {{introduction}}.
 
-Transaction tokens support the principle of least privilege since they are narrowly scoped to a single transaction and have short lifetimes. This makes them less susceptible to broad replay attacks than the longer-lived access tokens. By maintaining a distinct token type, the protocol ensures that context propagation while minimizing the risk of lateral access if a transaction token is intercepted within the trust domain. This separation also reduces the need for including transaction context in the access token, reducing token size.
+Transaction tokens support the principle of least privilege since they are narrowly scoped to a single transaction and have short lifetimes. This makes them less susceptible to broad replay attacks than the longer-lived access tokens. By maintaining a distinct token type, the protocol ensures that context propagation while minimizing the risk of lateral access if a transaction token is intercepted within the Trust Domain. This separation also reduces the need for including transaction context in the access token, reducing token size.
 
 Using a dedicated HTTP header from the `Authorization: Bearer` header for transaction tokens allows services to distinguish between an access token, which carries authorization delegation information, and the transaction token, which carries transaction context.
 
@@ -709,6 +709,9 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Clarify transaction tokens vs OAuth 2.0 access tokens
 * Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)
 * Changed additionally defined request parameters from OPTIONAL to RECOMMENDED see https://github.com/oauth-wg/oauth-transaction-tokens/issues/332)
+* Consistent cappitalisation of trust domain and call chain (see https://github.com/oauth-wg/oauth-transaction-tokens/issues)
+
+* Updated JWT body claims from OPTIONAL to RECOMMENDED (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)
 
 
 
