@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-14T00:45:02.608358+00:00",
+  "timestamp": "2026-05-17T00:43:56.617385+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6941,6 +6941,69 @@
           "updatedAt": "2026-05-06T15:31:03Z"
         }
       ]
+    },
+    {
+      "number": 349,
+      "id": "I_kwDOJt_WwM8AAAABCSX5Wg",
+      "title": "More rctx/tctx fun",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/349",
+      "state": "OPEN",
+      "author": "dteleguin",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "From [12.3. Txn-Token Request Processing](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#section-12.3):\n> If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.\n\nDoes the \"added\" here mean \"added as is\" (copied)? Or is TTS allowed to perform some sort of mapping? The examples in 10.2.4 / 12.1 suggest the former. Would be nice to clarify this.\n\n> If a `request_details` parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the TTS authorization policy for the requesting client.\n\nThe wording is different here (\"propagated\" vs. \"added\"), so I'd say some sort of mapping is assumed. To further intricate things, there is no `request_details` in the TraT request example in 12.1, making this a pure guesswork. Would be nice to clarify this as well, and also add `request_details` to the example.\n\nFinally, the examples for `rctx` / `tctx` in 10.2.2 / 10.2.3 are inconsistent:\n\n```json\n{\n    \"rctx\": {\n      \"req_ip\": \"69.151.72.123\", // env context of external call\n      \"authn\": \"urn:ietf:rfc:6749\" // env context of external call\n    }\n}\n```\n\n```json\n\"tctx\": {\n  \"action\": \"BUY\", // parameter of external call\n  \"ticker\": \"MSFT\", // parameter of external call\n  \"quantity\": \"100\", // parameter of external call\n  \"customer_type\": { // computed value not present in external call\n    \"geo\": \"US\",\n    \"level\": \"VIP\"\n  }\n}\n```\n\n`rctx` is enclosed in curly braces, whilst `tctx` is not. And ultimately, `quantity` should be a JSON number and not a string (`100` instead of `\"100\"`). ",
+      "createdAt": "2026-05-14T18:51:11Z",
+      "updatedAt": "2026-05-15T15:18:27Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> If a request_context parameter is present in the Txn-Token Request, the data SHOULD be added to the rctx object of the Txn-Token.\n\nSo the intent is that the TTS has full authority to NOT transfer all claims from the incoming request to the `rctx/tctx` claim. Is the following wording more clear?\n\nIf a `request_context` parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the `request_context` parameter and propagate appropriate claims to the `rctx` claim of the issued Txn-Token. The TTS is authoritative for the set of claims made available in the `rctx` claim.\n\nThis keeps the wording more consistent with that for `request_details`.",
+          "createdAt": "2026-05-14T19:47:09Z",
+          "updatedAt": "2026-05-14T19:47:09Z"
+        },
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "Thanks George, this is definitely more clear.\n\nSo the idea is the following: TTS should either copy individual claims from `request_context` to `rctx` (as is) or not copy them; it should neither transform those claims nor add any claims on its own; the same applies for `request_details` to `tctx`. Is this correct?",
+          "createdAt": "2026-05-15T12:00:51Z",
+          "updatedAt": "2026-05-15T15:18:27Z"
+        }
+      ]
+    },
+    {
+      "number": 350,
+      "id": "I_kwDOJt_WwM8AAAABCXcX_A",
+      "title": "\u200b\u200bsubject_token\u200b and deferred transactions",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/350",
+      "state": "OPEN",
+      "author": "dteleguin",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Imagine a scenario where the user makes a call to the service and requests a transaction, but the actual transaction execution should be deferred or scheduled for later. By that time, the access token will have expired. If the service requests a TraT right away, it will expire as well.\n\nOne of the solutions is to use impersonation; when it is time to execute the actual transaction, the service would request a service account token via client credentials grant, then exchange it to the user's access token, which in turn will be used to request a TraT (together with stored request context / details). This adds overhead, and also depends on impersonation support and concrete implementation (e.g. Keycloak provides \"[direct naked impersonation](https://www.keycloak.org/securing-apps/token-exchange#_direct_naked_impersonation)\").\n\nCan we provide some guidance / recommendations for the above scenario? Is it an option to use a longer-lived credential (e.g. ID token) as `subject_token` in the TraT request?\n\n(Using ID tokens might seem \"less secure\" compared to access tokens, but according to [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) [standards](https://openid.net/specs/fapi-2_0-attacker-model.html#section-2.2), the security requirements for ID tokens are similar to those for access tokens. Additionally, ID token could be even sender-constrained; DPoP doesn't explicitly mention ID tokens, but doesn't prohibit DPoP-binding them.)",
+      "createdAt": "2026-05-15T12:08:02Z",
+      "updatedAt": "2026-05-15T12:08:02Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 351,
+      "id": "I_kwDOJt_WwM8AAAABCZT1HA",
+      "title": "Using RFC 9396's authorization_details as a claim and for request_context",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/351",
+      "state": "OPEN",
+      "author": "sdatspun2",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
+      "createdAt": "2026-05-15T17:23:33Z",
+      "updatedAt": "2026-05-15T17:23:33Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -21754,7 +21817,7 @@
       "labels": [],
       "body": "Clarify the distinction between transaction tokens and OAuth 2.0 access tokens, emphasizing their different purposes and security implications. See issue #325",
       "createdAt": "2026-04-29T11:35:56Z",
-      "updatedAt": "2026-05-13T15:59:14Z",
+      "updatedAt": "2026-05-14T18:36:28Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "7139479b0793570a36ec7537e53c6476a5560022",
@@ -21767,7 +21830,15 @@
       "mergeCommit": {
         "oid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f"
       },
-      "comments": [],
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I support adoption ",
+          "createdAt": "2026-05-14T18:36:27Z",
+          "updatedAt": "2026-05-14T18:36:27Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM76ZYLu",
@@ -22109,45 +22180,130 @@
       "labels": [],
       "body": "Updated the Txn-Token Request parameters from OPTIONAL to RECOMMENDED to enhance clarity and guidance. Also changed the introduction sentence which previously also included the term RECOMMENDED.\r\n\r\nNOTE: Brian also made the recommendation to move from RECOMMENDED to something less like a SHOULD as we don't define concretely what goes in these objects. Additionally, I didn't change body claims as I believe the OPTIONAL make sense for a JWT body claim but less so for an API request parameter. Happy to update accordingly.",
       "createdAt": "2026-05-13T19:37:59Z",
-      "updatedAt": "2026-05-13T19:38:00Z",
+      "updatedAt": "2026-05-15T10:34:18Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f",
+      "baseRefOid": "d956b0789ba73a8355b369dbc7f06e4944a2f201",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_332",
-      "headRefOid": "c56affad66d159b188b8729dedd0b15b582ca30d",
+      "headRefOid": "877dd8b50e05a2829c18fed82a9a54729a900057",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7_xTgx",
+          "commit": {
+            "abbreviatedOid": "c56affa"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "This looks good. I think keeping it to RECOMMENDED as opposed to a SHOULD is fine.",
+          "createdAt": "2026-05-14T15:19:09Z",
+          "updatedAt": "2026-05-14T15:19:09Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABACUYKA",
+          "commit": {
+            "abbreviatedOid": "877dd8b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-05-15T10:34:18Z",
+          "updatedAt": "2026-05-15T10:34:18Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 347,
       "id": "PR_kwDOJt_WwM7bQumj",
       "title": "Change JWT body claims from OPTIONAL to RECOMMENDED",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/347",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Updated the claims in the JWT body from OPTIONAL to RECOMMENDED for better clarity and guidance. Also added forward references for scope/rctx/tctx to the sections that add additional context.",
       "createdAt": "2026-05-13T19:46:32Z",
-      "updatedAt": "2026-05-13T19:51:58Z",
+      "updatedAt": "2026-05-14T20:45:45Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_330",
       "headRefOid": "f939e5888dd6cba7c2f1a3130c1e6861ba162856",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-05-14T20:45:45Z",
+      "mergedAt": "2026-05-14T20:45:45Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "21484954d2fefd85d7545a506a6832c7a1379f62"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7_xWSj",
+          "commit": {
+            "abbreviatedOid": "f939e58"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good, thanks @gffletch ",
+          "createdAt": "2026-05-14T15:20:35Z",
+          "updatedAt": "2026-05-14T15:20:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 348,
+      "id": "PR_kwDOJt_WwM7bfvOV",
+      "title": "Standardize terminology and clarify token distinctions",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/348",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Consistent capitalization of 'Trust Domain' and 'Call Chain' throughout the document. Clarified the distinction between transaction tokens and OAuth 2.0 access tokens. Merged Overview and Introduction sections. See issue #338 ",
+      "createdAt": "2026-05-14T11:24:51Z",
+      "updatedAt": "2026-05-14T20:47:15Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "4d8b68857e1f6795401e70679d178cab77c2ab2c",
+      "closedAt": "2026-05-14T20:47:13Z",
+      "mergedAt": "2026-05-14T20:47:13Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "d956b0789ba73a8355b369dbc7f06e4944a2f201"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM7_5ryP",
+          "commit": {
+            "abbreviatedOid": "4d8b688"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good. Thanks for this!",
+          "createdAt": "2026-05-14T20:47:02Z",
+          "updatedAt": "2026-05-14T20:47:02Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
