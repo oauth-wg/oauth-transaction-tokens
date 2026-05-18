@@ -596,7 +596,7 @@ Transaction tokens support the principle of least privilege since they are narro
 
 Using a dedicated HTTP header from the `Authorization: Bearer` header for transaction tokens allows services to distinguish between an access token, which carries authorization delegation information, and the transaction token, which carries transaction context.
 
-### Txn-Token as a `subject_token`
+## Txn-Token as a `subject_token`
 A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions.
@@ -712,8 +712,6 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 
 * Updated JWT body claims from OPTIONAL to RECOMMENDED (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)
 
-
-
 ## Since Draft 07
 {:numbered="false"}
 
@@ -724,6 +722,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Standardized terminology throughout the document (https://github.com/oauth-wg/oauth-transaction-tokens/pull/304)
 * Revised handling of personal information in Privacy section (hhttps://github.com/oauth-wg/oauth-transaction-tokens/pull/306/)
 * Clarified token replay risks (https://github.com/oauth-wg/oauth-transaction-tokens/pull/305)
+* Fixed section numbering issue (https://github.com/oauth-wg/oauth-transaction-tokens/issues/352)
 
 ## Since Draft 06
 {:numbered="false"}
