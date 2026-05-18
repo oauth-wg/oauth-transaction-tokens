@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 15 November 2026                         Practical Identity LLC
+Expires: 19 November 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                             14 May 2026
+                                                             18 May 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 November 2026.
+   This Internet-Draft will expire on 19 November 2026.
 
 Copyright Notice
 
@@ -115,7 +115,7 @@ Table of Contents
      13.11. TTS Key Rotation
      13.12. Transaction Tokens Are Not Authentication Credentials
      13.13. Transaction Tokens Are Not OAuth 2.0 Access Tokens
-       13.13.1.  Txn-Token as a subject_token
+     13.14. Txn-Token as a subject_token
    14. Preserving transaction context across Trust Domains
    15. Privacy Considerations
      15.1.  Handling of Personal Information
@@ -508,13 +508,16 @@ Table of Contents
    scope:  REQUIRED The scope claim is defined in Section 4.2 of
       [RFC8693].  Note that the value of this claim is determined by the
       TTS and is not required to match the requested scope nor the scope
-      in any supplied external token.
+      in any supplied external token.  For additional context please
+      refer to Section 9.2.1
 
-   tctx:  OPTIONAL A JSON object that contains values that remain
-      immutable throughout the Call Chain.
+   tctx:  RECOMMENDED A JSON object that contains values that remain
+      immutable throughout the Call Chain.  For additional context
+      please refer to Section 9.2.2
 
-   rctx:  OPTIONAL A JSON object that describes the environmental
-      context of the requested transaction.
+   rctx:  RECOMMENDED A JSON object that describes the environmental
+      context of the requested transaction.  For additional context
+      please refer to Section 9.2.3
 
    req_wl:  REQUIRED.  A string value that identifies the workload that
       requested the Txn-Token.  The value SHOULD contain a single
@@ -1112,7 +1115,7 @@ Table of Contents
    access token, which carries authorization delegation information, and
    the transaction token, which carries transaction context.
 
-13.13.1.  Txn-Token as a subject_token
+13.14.  Txn-Token as a subject_token
 
    A TTS MUST exercise caution when receiving a Txn-token as a
    subject_token.  Any Txn-Token issued in response to such a request is
@@ -1496,6 +1499,9 @@ Since Draft 08
    *  Consistent cappitalisation of trust domain and call chain (see
       https://github.com/oauth-wg/oauth-transaction-tokens/issues)
 
+   *  Updated JWT body claims from OPTIONAL to RECOMMENDED (see
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)
+
 Since Draft 07
 
    *  Fixed author affiliation (https://github.com/oauth-wg/oauth-
@@ -1519,6 +1525,9 @@ Since Draft 07
 
    *  Clarified token replay risks (https://github.com/oauth-wg/oauth-
       transaction-tokens/pull/305)
+
+   *  Fixed section numbering issue (https://github.com/oauth-wg/oauth-
+      transaction-tokens/issues/352)
 
 Since Draft 06
 
