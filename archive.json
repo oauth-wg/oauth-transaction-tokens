@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-17T00:43:56.617385+00:00",
+  "timestamp": "2026-05-19T00:46:26.761301+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6985,9 +6985,17 @@
       "labels": [],
       "body": "Imagine a scenario where the user makes a call to the service and requests a transaction, but the actual transaction execution should be deferred or scheduled for later. By that time, the access token will have expired. If the service requests a TraT right away, it will expire as well.\n\nOne of the solutions is to use impersonation; when it is time to execute the actual transaction, the service would request a service account token via client credentials grant, then exchange it to the user's access token, which in turn will be used to request a TraT (together with stored request context / details). This adds overhead, and also depends on impersonation support and concrete implementation (e.g. Keycloak provides \"[direct naked impersonation](https://www.keycloak.org/securing-apps/token-exchange#_direct_naked_impersonation)\").\n\nCan we provide some guidance / recommendations for the above scenario? Is it an option to use a longer-lived credential (e.g. ID token) as `subject_token` in the TraT request?\n\n(Using ID tokens might seem \"less secure\" compared to access tokens, but according to [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) [standards](https://openid.net/specs/fapi-2_0-attacker-model.html#section-2.2), the security requirements for ID tokens are similar to those for access tokens. Additionally, ID token could be even sender-constrained; DPoP doesn't explicitly mention ID tokens, but doesn't prohibit DPoP-binding them.)",
       "createdAt": "2026-05-15T12:08:02Z",
-      "updatedAt": "2026-05-15T12:08:02Z",
+      "updatedAt": "2026-05-18T12:39:07Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Impersonation is an anti-pattern we should not encourage. \n\nThis also feels like it it is a problem that exists independant of trasnaction tokens, and not a scenario trasnaction tokens are meant to solve. Obtaining a fresh access token once the old one expired feels like it should be solvved outside of the transaction token spec (e.g. refresh tokens).\n\nIf you do want to use a transaction token to solvve for this scenario, perhaps Section 14.11.1 Txn-Token as a subject_token (https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#name-txn-token-as-a-subject_toke) can help., It describes how to use the transaction token as a subject-token. In this case the workload requests a transaction token, and then, before it expires, requests another one (this time using the transaction token as a subject_token). It keeps doing this until the transaction is performed, or some policy limit is hit (number of refreshes, elpased time etc). This feels more like a deployment issues than something the specification needs to address.",
+          "createdAt": "2026-05-18T12:39:07Z",
+          "updatedAt": "2026-05-18T12:39:07Z"
+        }
+      ]
     },
     {
       "number": 351,
@@ -7001,7 +7009,31 @@
       "labels": [],
       "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
       "createdAt": "2026-05-15T17:23:33Z",
-      "updatedAt": "2026-05-15T17:23:33Z",
+      "updatedAt": "2026-05-18T09:44:39Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Some historic context on RAR and transaction tokens: https://github.com/oauth-wg/oauth-transaction-tokens/issues/118 (added for reference)",
+          "createdAt": "2026-05-18T09:44:39Z",
+          "updatedAt": "2026-05-18T09:44:39Z"
+        }
+      ]
+    },
+    {
+      "number": 352,
+      "id": "I_kwDOJt_WwM8AAAABCmIPSg",
+      "title": "Fix numbering in security considerations",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/352",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-05-18T12:39:31Z",
+      "updatedAt": "2026-05-18T12:39:31Z",
       "closedAt": null,
       "comments": []
     }
@@ -22304,6 +22336,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 353,
+      "id": "PR_kwDOJt_WwM7cpu5i",
+      "title": "Fix Txn-Token section heading and numbering",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/353",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixed section heading formatting and corrected section numbering issue. see issue #352",
+      "createdAt": "2026-05-18T12:41:44Z",
+      "updatedAt": "2026-05-18T12:42:33Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d956b0789ba73a8355b369dbc7f06e4944a2f201",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "c80d737046a3c73bded3248e6d5a5828fa51167c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
