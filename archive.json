@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-19T00:46:26.761301+00:00",
+  "timestamp": "2026-05-21T00:47:49.770515+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6978,15 +6978,15 @@
       "id": "I_kwDOJt_WwM8AAAABCXcX_A",
       "title": "\u200b\u200bsubject_token\u200b and deferred transactions",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/350",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Imagine a scenario where the user makes a call to the service and requests a transaction, but the actual transaction execution should be deferred or scheduled for later. By that time, the access token will have expired. If the service requests a TraT right away, it will expire as well.\n\nOne of the solutions is to use impersonation; when it is time to execute the actual transaction, the service would request a service account token via client credentials grant, then exchange it to the user's access token, which in turn will be used to request a TraT (together with stored request context / details). This adds overhead, and also depends on impersonation support and concrete implementation (e.g. Keycloak provides \"[direct naked impersonation](https://www.keycloak.org/securing-apps/token-exchange#_direct_naked_impersonation)\").\n\nCan we provide some guidance / recommendations for the above scenario? Is it an option to use a longer-lived credential (e.g. ID token) as `subject_token` in the TraT request?\n\n(Using ID tokens might seem \"less secure\" compared to access tokens, but according to [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html#IDToken) [standards](https://openid.net/specs/fapi-2_0-attacker-model.html#section-2.2), the security requirements for ID tokens are similar to those for access tokens. Additionally, ID token could be even sender-constrained; DPoP doesn't explicitly mention ID tokens, but doesn't prohibit DPoP-binding them.)",
       "createdAt": "2026-05-15T12:08:02Z",
-      "updatedAt": "2026-05-18T12:39:07Z",
-      "closedAt": null,
+      "updatedAt": "2026-05-19T09:53:58Z",
+      "closedAt": "2026-05-19T09:53:58Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -6994,6 +6994,20 @@
           "body": "Impersonation is an anti-pattern we should not encourage. \n\nThis also feels like it it is a problem that exists independant of trasnaction tokens, and not a scenario trasnaction tokens are meant to solve. Obtaining a fresh access token once the old one expired feels like it should be solvved outside of the transaction token spec (e.g. refresh tokens).\n\nIf you do want to use a transaction token to solvve for this scenario, perhaps Section 14.11.1 Txn-Token as a subject_token (https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#name-txn-token-as-a-subject_toke) can help., It describes how to use the transaction token as a subject-token. In this case the workload requests a transaction token, and then, before it expires, requests another one (this time using the transaction token as a subject_token). It keeps doing this until the transaction is performed, or some policy limit is hit (number of refreshes, elpased time etc). This feels more like a deployment issues than something the specification needs to address.",
           "createdAt": "2026-05-18T12:39:07Z",
           "updatedAt": "2026-05-18T12:39:07Z"
+        },
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "Thanks for the explanation @PieterKas, the TraT replacement chain makes sense in this case. It just came to my mind that in the case of scheduled transactions, if the exact transaction time is known beforehand, then the TTS could issue a TraT with `nbf`/`exp` in the future. It will still be short-lived, so this approach does not come in contradiction with [7. ](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#section-7)[Txn-Token Lifetime](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#name-txn-token-lifetime).",
+          "createdAt": "2026-05-19T09:27:12Z",
+          "updatedAt": "2026-05-19T09:27:12Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed - I think the draft provides all the tools needed already.",
+          "createdAt": "2026-05-19T09:52:36Z",
+          "updatedAt": "2026-05-19T09:52:36Z"
         }
       ]
     },
