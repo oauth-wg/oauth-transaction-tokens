@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-21T00:47:49.770515+00:00",
+  "timestamp": "2026-05-28T00:43:13.664833+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7023,7 +7023,7 @@
       "labels": [],
       "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
       "createdAt": "2026-05-15T17:23:33Z",
-      "updatedAt": "2026-05-18T09:44:39Z",
+      "updatedAt": "2026-05-26T13:51:00Z",
       "closedAt": null,
       "comments": [
         {
@@ -7032,6 +7032,20 @@
           "body": "Some historic context on RAR and transaction tokens: https://github.com/oauth-wg/oauth-transaction-tokens/issues/118 (added for reference)",
           "createdAt": "2026-05-18T09:44:39Z",
           "updatedAt": "2026-05-18T09:44:39Z"
+        },
+        {
+          "author": "embesozzi",
+          "authorAssociation": "NONE",
+          "body": "Just checking if there\u2019s a formal definition for mapping the authorization_details claim within tts?\nSo far, I\u2019m mapping this claim at the top level of the JWT.\n\nFor certain rar types, I parse and place them in the actx claim (agent context) for specific use cases, but that\u2019s specific to my implementation and outside the scope of these specs.",
+          "createdAt": "2026-05-26T13:35:45Z",
+          "updatedAt": "2026-05-26T13:35:45Z"
+        },
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@embesozzi you mentioned actx, so I'm curious as I have https://www.ietf.org/archive/id/draft-araut-oauth-transaction-tokens-for-agents-02.html which is attempt to standardize agentic context.\n\nIn my draft's 01 version, I had RAR included in it but got feedback that its not necessarily agentic context so removed it. Here's v01 https://www.ietf.org/archive/id/draft-araut-oauth-transaction-tokens-for-agents-01.html.\n\nIn general, regarding Txn Tokens, I believe the format is open if you really want to add authorization details in it but I also think that details in RAR are usually for Authorization Server and for one hop in service graph. Passing RAR details across the entire call chain of workloads could mean that it will start to get used in manner that was not intended and now the details that were meant to be shared between two services (workloads) is now suddenly available to many. This changes 'governance' aspect around what does in RAR.. but I ack that some details from RAR could be added in Txn token by Txn Token issuer if need be.",
+          "createdAt": "2026-05-26T13:51:00Z",
+          "updatedAt": "2026-05-26T13:51:00Z"
         }
       ]
     },
