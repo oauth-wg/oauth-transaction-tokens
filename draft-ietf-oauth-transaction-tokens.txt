@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 15 November 2026                         Practical Identity LLC
+Expires: 4 December 2026                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                             14 May 2026
+                                                             2 June 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 November 2026.
+   This Internet-Draft will expire on 4 December 2026.
 
 Copyright Notice
 
@@ -115,7 +115,7 @@ Table of Contents
      13.11. TTS Key Rotation
      13.12. Transaction Tokens Are Not Authentication Credentials
      13.13. Transaction Tokens Are Not OAuth 2.0 Access Tokens
-       13.13.1.  Txn-Token as a subject_token
+     13.14. Txn-Token as a subject_token
    14. Preserving transaction context across Trust Domains
    15. Privacy Considerations
      15.1.  Handling of Personal Information
@@ -1115,7 +1115,7 @@ Table of Contents
    access token, which carries authorization delegation information, and
    the transaction token, which carries transaction context.
 
-13.13.1.  Txn-Token as a subject_token
+13.14.  Txn-Token as a subject_token
 
    A TTS MUST exercise caution when receiving a Txn-token as a
    subject_token.  Any Txn-Token issued in response to such a request is
@@ -1402,9 +1402,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-12, 11
-              May 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-12>.
+              Internet-Draft, draft-ietf-oauth-identity-chaining-13, 1
+              June 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-identity-chaining-13>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
@@ -1525,6 +1525,9 @@ Since Draft 07
 
    *  Clarified token replay risks (https://github.com/oauth-wg/oauth-
       transaction-tokens/pull/305)
+
+   *  Fixed section numbering issue (https://github.com/oauth-wg/oauth-
+      transaction-tokens/issues/352)
 
 Since Draft 06
 
