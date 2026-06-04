@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-28T00:43:13.664833+00:00",
+  "timestamp": "2026-06-04T00:57:28.392342+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7023,7 +7023,7 @@
       "labels": [],
       "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
       "createdAt": "2026-05-15T17:23:33Z",
-      "updatedAt": "2026-05-26T13:51:00Z",
+      "updatedAt": "2026-06-03T15:29:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -7046,6 +7046,20 @@
           "body": "@embesozzi you mentioned actx, so I'm curious as I have https://www.ietf.org/archive/id/draft-araut-oauth-transaction-tokens-for-agents-02.html which is attempt to standardize agentic context.\n\nIn my draft's 01 version, I had RAR included in it but got feedback that its not necessarily agentic context so removed it. Here's v01 https://www.ietf.org/archive/id/draft-araut-oauth-transaction-tokens-for-agents-01.html.\n\nIn general, regarding Txn Tokens, I believe the format is open if you really want to add authorization details in it but I also think that details in RAR are usually for Authorization Server and for one hop in service graph. Passing RAR details across the entire call chain of workloads could mean that it will start to get used in manner that was not intended and now the details that were meant to be shared between two services (workloads) is now suddenly available to many. This changes 'governance' aspect around what does in RAR.. but I ack that some details from RAR could be added in Txn token by Txn Token issuer if need be.",
           "createdAt": "2026-05-26T13:51:00Z",
           "updatedAt": "2026-05-26T13:51:00Z"
+        },
+        {
+          "author": "embesozzi",
+          "authorAssociation": "NONE",
+          "body": "Hi @ashayraut, thanks for comments.\n\nIn relation to your draft, i think it's difficult at this stage to be able to defined a standardized agentic context, because there are too many use cases and we don not have yet the proper taxonomy. My recommendation would be to start as simply as possible.\n\nI'm using RAR to convey more fine-grained information, since scopes was not intended for that level of details. In my case,I added actx to pass only the information needed. However, I'm still going back and forth based on different implementation experiences and findings, since I want to include only the required information and avoid overloading the JWT without a clear need.\n",
+          "createdAt": "2026-06-03T14:46:51Z",
+          "updatedAt": "2026-06-03T14:46:51Z"
+        },
+        {
+          "author": "sdatspun2",
+          "authorAssociation": "NONE",
+          "body": ">So far, I\u2019m mapping this claim at the top level of the JWT.\n\n@embesozzi Can you share an example token here?",
+          "createdAt": "2026-06-03T15:29:40Z",
+          "updatedAt": "2026-06-03T15:29:40Z"
         }
       ]
     },
@@ -22240,7 +22254,7 @@
       "labels": [],
       "body": "Updated the Txn-Token Request parameters from OPTIONAL to RECOMMENDED to enhance clarity and guidance. Also changed the introduction sentence which previously also included the term RECOMMENDED.\r\n\r\nNOTE: Brian also made the recommendation to move from RECOMMENDED to something less like a SHOULD as we don't define concretely what goes in these objects. Additionally, I didn't change body claims as I believe the OPTIONAL make sense for a JWT body claim but less so for an API request parameter. Happy to update accordingly.",
       "createdAt": "2026-05-13T19:37:59Z",
-      "updatedAt": "2026-05-15T10:34:18Z",
+      "updatedAt": "2026-06-03T16:19:56Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d956b0789ba73a8355b369dbc7f06e4944a2f201",
@@ -22277,6 +22291,19 @@
           "body": "",
           "createdAt": "2026-05-15T10:34:18Z",
           "updatedAt": "2026-05-15T10:34:18Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABB1rkSg",
+          "commit": {
+            "abbreviatedOid": "877dd8b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-06-03T12:15:11Z",
+          "updatedAt": "2026-06-03T12:15:11Z",
           "comments": []
         }
       ]
@@ -22370,26 +22397,42 @@
       "id": "PR_kwDOJt_WwM7cpu5i",
       "title": "Fix Txn-Token section heading and numbering",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/353",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fixed section heading formatting and corrected section numbering issue. see issue #352",
       "createdAt": "2026-05-18T12:41:44Z",
-      "updatedAt": "2026-05-18T12:42:33Z",
+      "updatedAt": "2026-06-02T17:22:11Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d956b0789ba73a8355b369dbc7f06e4944a2f201",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "c80d737046a3c73bded3248e6d5a5828fa51167c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-06-02T17:22:09Z",
+      "mergedAt": "2026-06-02T17:22:08Z",
+      "mergedBy": "PieterKas",
+      "mergeCommit": {
+        "oid": "b0cb857cb047704dbad42b1b086060632569c2e8"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABBsSjnA",
+          "commit": {
+            "abbreviatedOid": "c80d737"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2026-06-02T09:47:00Z",
+          "updatedAt": "2026-06-02T09:47:00Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
