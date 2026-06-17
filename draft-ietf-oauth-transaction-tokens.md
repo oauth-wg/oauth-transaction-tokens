@@ -296,7 +296,7 @@ The transaction token body follows the JWT format and includes existing
 JWT claims as well as defines new claims. These claims are described below:
 
 `iss`:
-: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known. The `iss` claim MUST be used in cases where the signing keys are not predetermined.
+: OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known.
 
 `iat`:
 : REQUIRED The issued at time of the Txn-Token as defined in {{RFC7519}}.
@@ -609,6 +609,9 @@ A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any
 * SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
 * MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.
 
+## Determining signing keys
+The `iss` claim may be used to identify the signer of the Txn-Token in cases where the signing keys are not predetermined.
+
 # Preserving transaction context across Trust Domains
 Txn-Tokens are only valid within the Trust Domain identified by the `aud` claim as defined in {{txn-token-claims}}. When a workload needs to access a resource in a different Trust Domain to complete a transaction, and the identity and authorization context from the Txn-Token needs to be preserved, it SHOULD use OAuth Identity and Authorization Chaining Across Domains {{I-D.ietf-oauth-identity-chaining}}.
 
@@ -724,6 +727,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Revised handling of personal information in Privacy section (hhttps://github.com/oauth-wg/oauth-transaction-tokens/pull/306/)
 * Clarified token replay risks (https://github.com/oauth-wg/oauth-transaction-tokens/pull/305)
 * Fixed section numbering issue (https://github.com/oauth-wg/oauth-transaction-tokens/issues/352)
+* Made `iss` optional in all circumstances, and added Seurity Consideration that provides guideance on using it when signing keys are not predetmined.
 
 ## Since Draft 06
 {:numbered="false"}
