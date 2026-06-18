@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-04T00:57:28.392342+00:00",
+  "timestamp": "2026-06-18T00:54:10.946319+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -22247,24 +22247,26 @@
       "id": "PR_kwDOJt_WwM7bQju-",
       "title": "Change Txn-Token Request parameters to RECOMMENDED",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/346",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gffletch",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Updated the Txn-Token Request parameters from OPTIONAL to RECOMMENDED to enhance clarity and guidance. Also changed the introduction sentence which previously also included the term RECOMMENDED.\r\n\r\nNOTE: Brian also made the recommendation to move from RECOMMENDED to something less like a SHOULD as we don't define concretely what goes in these objects. Additionally, I didn't change body claims as I believe the OPTIONAL make sense for a JWT body claim but less so for an API request parameter. Happy to update accordingly.",
       "createdAt": "2026-05-13T19:37:59Z",
-      "updatedAt": "2026-06-03T16:19:56Z",
+      "updatedAt": "2026-06-16T22:33:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "d956b0789ba73a8355b369dbc7f06e4944a2f201",
       "headRepository": "gffletch/transaction-tokens",
       "headRefName": "issue_332",
       "headRefOid": "877dd8b50e05a2829c18fed82a9a54729a900057",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-06-16T22:33:54Z",
+      "mergedAt": "2026-06-16T22:33:54Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "e1783bef93c6740eda89561e191fa17f6fd785c0"
+      },
       "comments": [],
       "reviews": [
         {
@@ -22304,6 +22306,19 @@
           "body": "",
           "createdAt": "2026-06-03T12:15:11Z",
           "updatedAt": "2026-06-03T12:15:11Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABDN1Uyw",
+          "commit": {
+            "abbreviatedOid": "877dd8b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-06-16T22:33:46Z",
+          "updatedAt": "2026-06-16T22:33:46Z",
           "comments": []
         }
       ]
@@ -22433,6 +22448,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 354,
+      "id": "PR_kwDOJt_WwM7ntry5",
+      "title": "moved key determination to security considerations",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/354",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #329 ",
+      "createdAt": "2026-06-17T23:55:44Z",
+      "updatedAt": "2026-06-17T23:56:29Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e1783bef93c6740eda89561e191fa17f6fd785c0",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "iss-issue",
+      "headRefOid": "4eea81c3a745d8d650803325c37e5dd34329ea66",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
