@@ -1496,6 +1496,8 @@ Since Draft 08
       distinguish it from the usage of Txn-Token as a name for
       Transaction Tokens.
 
+   *  Added Brian Campbell as a contributor.
+
    *  Clarify transaction tokens vs OAuth 2.0 access tokens
 
    *  Merged Overview and Introduction sections (see https://github.com/
