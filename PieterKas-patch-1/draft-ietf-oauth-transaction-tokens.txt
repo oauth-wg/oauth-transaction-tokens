@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 19 November 2026                         Practical Identity LLC
+Expires: 21 December 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                             18 May 2026
+                                                            19 June 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 November 2026.
+   This Internet-Draft will expire on 21 December 2026.
 
 Copyright Notice
 
@@ -116,6 +116,7 @@ Table of Contents
      13.12. Transaction Tokens Are Not Authentication Credentials
      13.13. Transaction Tokens Are Not OAuth 2.0 Access Tokens
      13.14. Txn-Token as a subject_token
+     13.15. Determining signing keys
    14. Preserving transaction context across Trust Domains
    15. Privacy Considerations
      15.1.  Handling of Personal Information
@@ -135,6 +136,7 @@ Table of Contents
      Since Draft 06
      Since Draft 05
      Since Draft 04
+   Contributors
    Authors' Addresses
 
 1.  Introduction
@@ -482,9 +484,7 @@ Table of Contents
 
    iss:  OPTIONAL The iss claim as defined in [RFC7519] is not required
       as Txn-Tokens are bound to a single Trust Domain as defined by the
-      aud claim and often the signing keys are known.  The iss claim
-      MUST be used in cases where the signing keys are not
-      predetermined.
+      aud claim and often the signing keys are known.
 
    iat:  REQUIRED The issued at time of the Txn-Token as defined in
       [RFC7519].
@@ -705,18 +705,18 @@ Table of Contents
    *  subject_token_type REQUIRED.  The value MUST indicate the type of
       the token or value present in the subject_token parameter.
 
-   The following additional parameters are RECOMMENDED to be present in
-   a Txn-Token Request:
+   The following additional parameters are defined for the Txn-Token
+   Request:
 
-   *  request_context OPTIONAL.  This parameter contains a JSON object
-      which represents the context of this transaction.
+   *  request_context RECOMMENDED.  This parameter contains a JSON
+      object which represents the context of this transaction.
 
-   *  request_details OPTIONAL.  This parameter contains a JSON object
-      which contains additional details about the request.  This could
-      include API parameters, authorization criteria or other details
-      the requester would like to pass to the TTS.  The TTS uses this
-      data along with other information at its disposal to construct the
-      txct JSON object (if required).
+   *  request_details RECOMMENDED.  This parameter contains a JSON
+      object which contains additional details about the request.  This
+      could include API parameters, authorization criteria or other
+      details the requester would like to pass to the TTS.  The TTS uses
+      this data along with other information at its disposal to
+      construct the tctx JSON object (if required).
 
    All parameters are encoded using the "application/x-www-form-
    urlencoded" format per Appendix B of [RFC6749].
@@ -1151,6 +1151,11 @@ Table of Contents
       replacement to the req_wl claim using the character , as the
       separator between individual workload identifiers.
 
+13.15.  Determining signing keys
+
+   The iss claim may be used to identify the signer of the Txn-Token in
+   cases where the signing keys are not predetermined.
+
 14.  Preserving transaction context across Trust Domains
 
    Txn-Tokens are only valid within the Trust Domain identified by the
@@ -1402,9 +1407,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-12, 11
-              May 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-12>.
+              Internet-Draft, draft-ietf-oauth-identity-chaining-14, 2
+              June 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-identity-chaining-14>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
@@ -1496,6 +1501,10 @@ Since Draft 08
    *  Merged Overview and Introduction sections (see https://github.com/
       oauth-wg/oauth-transaction-tokens/issues/327)
 
+   *  Changed additionally defined request parameters from OPTIONAL to
+      RECOMMENDED see https://github.com/oauth-wg/oauth-transaction-
+      tokens/issues/332)
+
    *  Consistent cappitalisation of trust domain and call chain (see
       https://github.com/oauth-wg/oauth-transaction-tokens/issues)
 
@@ -1528,6 +1537,10 @@ Since Draft 07
 
    *  Fixed section numbering issue (https://github.com/oauth-wg/oauth-
       transaction-tokens/issues/352)
+
+   *  Made iss optional in all circumstances, and added Seurity
+      Consideration that provides guideance on using it when signing
+      keys are not predetmined.
 
 Since Draft 06
 
@@ -1655,6 +1668,13 @@ Since Draft 04
 
    *  Clarified text around external vs internal invocation
       (https://github.com/oauth-wg/oauth-transaction-tokens/pull/157)
+
+Contributors
+
+   Brian Campbell
+   Ping Identity
+   Email: bcampbell@pingidentity.com
+
 
 Authors' Addresses
 

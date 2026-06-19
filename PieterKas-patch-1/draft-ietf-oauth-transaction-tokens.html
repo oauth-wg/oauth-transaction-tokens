@@ -11,25 +11,26 @@
 <meta content="
        Transaction Tokens (Txn-Tokens) are designed to maintain and propagate user identity, workload identity and authorization context throughout the Call Chain within a trusted domain during the processing of external requests (e.g. such as API calls) or requests initiated internally within the Trust Domain. Txn-Tokens ensure that this context is preserved throughout the Call Chain thereby enhancing security and consistency in complex, multi-service architectures. 
     " name="description">
-<meta content="xml2rfc 3.33.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="Workloads" name="keyword">
 <meta content="OAuth" name="keyword">
 <meta content="JWT" name="keyword">
 <meta content="token exchange" name="keyword">
 <meta content="draft-ietf-oauth-transaction-tokens-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.33.0
-    Python 3.12.13
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 6.0.2
-    platformdirs 4.9.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.7.0
+    wcwidth 0.8.1
 -->
 <link href="draft-ietf-oauth-transaction-tokens.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -296,16 +297,19 @@ h1, h2, h3, h4, h5, h6 {
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-h1#title {
-  font-size: 32px;
-  line-height: 40px;
-  clear: both;
-}
-h1#title, h1#rfcnum {
-  margin: 1.5em 0 0.2em;
-}
-h1#rfcnum + h1#title {
-  margin: 0.2em 0;
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
 }
 
 h1, h2, h3 {
@@ -325,10 +329,10 @@ h4, h5, h6 {
 #abstract+p {
   font-size: 18px;
   line-height: 24px;
-}
-#abstract+p code, #abstract+p samp, #abstract+p tt {
-  font-size: 16px;
-  line-height: 0;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
 }
 
 p {
@@ -339,59 +343,59 @@ p {
 div {
   margin: 0;
 }
-.alignRight.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignRight.art-text pre {
-  padding: 0;
-  width: auto;
-}
 .alignRight {
   margin: 1em 0;
-}
-.alignRight > *:first-child {
-  border: none;
-  margin: 0;
-  float: right;
-  clear: both;
-}
-.alignRight > *:nth-child(2) {
-  clear: both;
-  display: block;
-  border: none;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
 }
 svg {
   display: block;
-}
-/* font-family isn't space-separated, but =~ will have to do */
-svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
-  font-family: var(--font-mono);
-}
-.alignCenter.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignCenter.art-text pre {
-  padding: 0;
-  width: auto;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
 }
 .alignCenter {
   margin: 1em 0;
-}
-.alignCenter > *:first-child {
-  border: none;
-  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
-     support flexbox yet.
-  */
-  display: table;
-  margin: 0 auto;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
 }
 
 /* lists */
@@ -429,26 +433,25 @@ dl {
     --indent: 5ch;
     & > dt {
       min-width: calc(var(--indent) - 2ch);
+      float: none;
     }
-  }
-  &.olPercent > dt {
-    float: none;
   }
 
   dl > dd > & {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
-}
-dl:not(.dlNewline) > dt {
-  float: left;
-  margin-right: 2ch;
-  min-width: 8ch;
-}
-dl > dd {
-  margin-bottom: .8em;
-  margin-left: var(--indent) !important; /* stupid element overrides */
-  min-height: 2ex;
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
 }
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
@@ -464,20 +467,22 @@ dl > dd {
 }
 
 /* links */
-a, a[href].selfRef:hover {
+a {
   text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
 }
-a[href] {
-  color: var(--link-color);
-}
-a[href].selfRef, .iref + a[href].internal {
+.iref + a[href].internal {
   color: var(--text-color);
-}
-a[href]:hover {
-  text-decoration: underline;
-}
-a[href].selfRef:hover {
-  background-color: var(--highlight-color);
 }
 a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
   white-space: nowrap;
@@ -513,9 +518,9 @@ img {
 figure {
   margin: 0.5em 0;
   padding: 0;
-}
-figure blockquote {
-  margin: 0.8em 0.4em 0.4em;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
 }
 figcaption, caption {
   font-style: italic;
@@ -525,17 +530,19 @@ figcaption, caption {
 }
 @media screen {
   /* Auto-collapse boilerplate. */
-  :is(#status-of-memo, #copyright) p {
-    margin: -2px 0;
-    max-height: 0;
-    transition: max-height 2s ease, margin 0.5s ease 0.5s;
-    overflow: hidden;
-  }
-  :is(#status-of-memo, #copyright):hover p,
-  :is(#status-of-memo, #copyright) h2:target ~ p {
-    margin: 0.5em 0;
-    max-height: 500px;
-    overflow: auto;
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
   }
   pre, svg {
     display: inline-block;
@@ -585,25 +592,17 @@ table {
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
-}
-table.right {
-  margin-left: auto;
-}
-table.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-table.left {
-  margin-right: auto;
-}
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
 }
 
 thead, tbody {
@@ -623,13 +622,6 @@ th {
 :is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
 }
-table caption {
-  margin: 0;
-  padding: 3px 0 3px 1em;
-}
-table p {
-  margin: 0;
-}
 
 /* pilcrow */
 a.pilcrow {
@@ -640,18 +632,16 @@ a.pilcrow {
     color: var(--pilcrow-weak);
     &:hover { text-decoration: none; }
   }
-}
-@media not print {
-  :hover > a.pilcrow, a.pilcrow:focus {
-    opacity: 1;
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
   }
-  a.pilcrow[href]:hover {
-    color: var(--pilcrow-strong);
-    background-color: transparent;
-  }
-}
-@media print {
-  a.pilcrow {
+  @media print {
     display: none;
   }
 }
@@ -710,9 +700,9 @@ sub, sup {
   font-size: 0.9em;
   font-style: italic;
   margin-top: 2em;
-}
-.docInfo .prepared {
-  float: right;
+  & .prepared {
+    float: right;
+  }
 }
 
 /* table of contents */
@@ -802,23 +792,27 @@ hr.addr {
   max-width: calc(100% - 16px);
 }
 @media (min-width: 500px) {
-  #authors-addresses > section {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  #authors-addresses > section > h2 {
-    column-span: all;
-  }
-  /* hack for break-inside: avoid-column */
-  #authors-addresses address {
-    display: inline-block;
-    break-inside: avoid-column;
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
   }
 }
 
 /* Comments */
-.rfcEditorRemove p:first-of-type {
-  font-style: italic;
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
 }
 .cref {
   background-color: rgba(249, 232, 105, 0.3);
@@ -829,19 +823,21 @@ hr.addr {
 }
 
 @media screen {
-  #toc nav {
-    font-family: var(--font-title);
-    font-weight: 360;
-    & > ul { margin-bottom: 2em; }
-    & ul {
-      margin: 0 0 0 4px;
-      & :is(p, li) {
-        margin: 2px 0;
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
       }
     }
-  }
-  #toc a.toplink {
-    float: right;
+    & a.toplink {
+      float: right;
+    }
   }
 }
 @media not screen {
@@ -862,54 +858,54 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 2px 0 2px 6px;
-    padding-right: 1em;
-    font-size: 18px;
-    line-height: 24px;
-    min-width: 190px;
-    text-align: right;
-    background-color: #444;
-    color: white;
-    cursor: pointer;
-    &::before { /* css hamburger */
-      float: right;
-      position: relative;
-      width: 1em;
-      height: 1px;
-      left: -164px;
-      margin: 8px 0 0 0;
-      background: white none repeat scroll 0 0;
-      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-      content: "";
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
     }
-  }
-  #toc nav {
-    display: none;
-    background-color: var(--background-color);
-    padding: 0.5em 1em 1em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    height: calc(100vh - 48px);
-    border-left: 1px solid #ddd;
-  }
-  #toc.active {
-    opacity: 1;
-    & nav { display: block; }
-  }
-  /* Make the collapsed ToC header render white on gray also when it's a link */
-  #toc h2 a,
-  #toc h2 a:is(:link, :focus, :hover),
-  #toc a.toplink,
-  #toc a.toplink:hover {
-    color: white;
-    background-color: #444;
-    text-decoration: none;
-  }
-  #toc a.toplink {
-    margin: 2px 0.5em 0;
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
   }
 }
 
@@ -928,26 +924,26 @@ hr.addr {
     margin: 0;
     padding: 0;
     z-index: 1;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 0.25em 1em 1em 0;
-  }
-  #toc nav {
-    display: block;
-    height: calc(90vh - 84px);
-    bottom: 0;
-    padding: 0.5em 0 2em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
   }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
-  }
-  #toc a.toplink {
-    margin: 8px 0.5em 0;
   }
 }
 
@@ -963,12 +959,13 @@ hr.addr {
   #n-copyright-notice {
     border-bottom: none;
   }
-  #toc, #n-introduction {
-    page-break-before: always;
-  }
   #toc {
+    page-break-before: always;
     border-top: none;
     padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
   }
   figure, pre, .vcard {
     page-break-inside: avoid;
@@ -1030,17 +1027,19 @@ hr.addr {
 }
 
 /* SVG Trick: a prefix match works because only black and white are allowed */
-svg :is([stroke="black"], [stroke^="#000"]) {
-  stroke: var(--text-color);
-}
-svg :is([stroke="white"], [stroke^="#fff"]) {
-  stroke: var(--background-color);
-}
-svg :is([fill="black"], [fill^="#000"], :not([fill])) {
-  fill: var(--text-color);
-}
-svg :is([fill="white"], [fill^="#fff"]) {
-  fill: var(--background-color);
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
 }
 </style>
 
@@ -1050,11 +1049,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Txn-Tokens</td>
-<td class="right">May 2026</td>
+<td class="right">June 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 19 November 2026</td>
+<td class="center">Expires 21 December 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-05-18" class="published">18 May 2026</time>
+<time datetime="2026-06-19" class="published">19 June 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-11-19">19 November 2026</time></dd>
+<dd class="expires"><time datetime="2026-12-21">21 December 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1125,7 +1124,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1308,6 +1307,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.14">
                 <p id="section-toc.1-1.13.2.14.1"><a href="#section-13.14" class="auto internal xref">13.14</a>. <a href="#name-txn-token-as-a-subject_toke" class="internal xref">Txn-Token as a <code>subject_token</code></a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.15">
+                <p id="section-toc.1-1.13.2.15.1"><a href="#section-13.15" class="auto internal xref">13.15</a>. <a href="#name-determining-signing-keys" class="internal xref">Determining signing keys</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
@@ -1376,7 +1378,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.20">
-            <p id="section-toc.1-1.20.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.20.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.21">
+            <p id="section-toc.1-1.21.1"><a href="#appendix-D" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1733,7 +1738,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
           <dt id="section-9.2-2.1">
 <code>iss</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-9.2-2.2">
-            <p id="section-9.2-2.2.1">OPTIONAL The <code>iss</code> claim as defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> is not required as Txn-Tokens are bound to a single Trust Domain as defined by the <code>aud</code> claim and often the signing keys are known. The <code>iss</code> claim MUST be used in cases where the signing keys are not predetermined.<a href="#section-9.2-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-9.2-2.2.1">OPTIONAL The <code>iss</code> claim as defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> is not required as Txn-Tokens are bound to a single Trust Domain as defined by the <code>aud</code> claim and often the signing keys are known.<a href="#section-9.2-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 <dt id="section-9.2-2.3">
@@ -1954,13 +1959,13 @@ The type of the <code>subject_token</code> field is identified by <code>subject_
             <p id="section-11.1-3.6.1"><code>subject_token_type</code> REQUIRED. The value MUST indicate the type of the token or value present in the <code>subject_token</code> parameter.<a href="#section-11.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-11.1-4">The following additional parameters are RECOMMENDED to be present in a Txn-Token Request:<a href="#section-11.1-4" class="pilcrow">¶</a></p>
+<p id="section-11.1-4">The following additional parameters are defined for the Txn-Token Request:<a href="#section-11.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-11.1-5.1">
-            <p id="section-11.1-5.1.1"><code>request_context</code> OPTIONAL. This parameter contains a JSON object which represents the context of this transaction.<a href="#section-11.1-5.1.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-5.1.1"><code>request_context</code> RECOMMENDED. This parameter contains a JSON object which represents the context of this transaction.<a href="#section-11.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.1-5.2">
-            <p id="section-11.1-5.2.1"><code>request_details</code> OPTIONAL. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the TTS. The TTS uses this data along with other information at its disposal to construct the <code>txct</code> JSON object (if required).<a href="#section-11.1-5.2.1" class="pilcrow">¶</a></p>
+            <p id="section-11.1-5.2.1"><code>request_details</code> RECOMMENDED. This parameter contains a JSON object which contains additional details about the request. This could include API parameters, authorization criteria or other details the requester would like to pass to the TTS. The TTS uses this data along with other information at its disposal to construct the <code>tctx</code> JSON object (if required).<a href="#section-11.1-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-11.1-6">All parameters are encoded using the "application/x-www-form-urlencoded" format per Appendix B of <span>[<a href="#RFC6749" class="cite xref">RFC6749</a>]</span>.<a href="#section-11.1-6" class="pilcrow">¶</a></p>
@@ -2337,6 +2342,14 @@ Cache-Control: no-store
         </ul>
 </section>
 </div>
+<div id="determining-signing-keys">
+<section id="section-13.15">
+        <h3 id="name-determining-signing-keys">
+<a href="#section-13.15" class="section-number selfRef">13.15. </a><a href="#name-determining-signing-keys" class="section-name selfRef">Determining signing keys</a>
+        </h3>
+<p id="section-13.15-1">The <code>iss</code> claim may be used to identify the signer of the Txn-Token in cases where the signing keys are not predetermined.<a href="#section-13.15-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="preserving-transaction-context-across-trust-domains">
@@ -2637,7 +2650,7 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-oauth-identity-chaining">[I-D.ietf-oauth-identity-chaining]</dt>
         <dd>
-<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M. J.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-12</span>, <time datetime="2026-05-11" class="refDate">11 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-12">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-12</a>&gt;</span>. </dd>
+<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M. J.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-14</span>, <time datetime="2026-06-02" class="refDate">2 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-14">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-14</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.HTTP.FieldNames">[IANA.HTTP.FieldNames]</dt>
         <dd>
@@ -2731,10 +2744,13 @@ Cache-Control: no-store
             <p id="appendix-B.1-1.7.1">Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.8">
-            <p id="appendix-B.1-1.8.1">Consistent cappitalisation of trust domain and call chain (see https://github.com/oauth-wg/oauth-transaction-tokens/issues)<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.8.1">Changed additionally defined request parameters from OPTIONAL to RECOMMENDED see https://github.com/oauth-wg/oauth-transaction-tokens/issues/332)<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.9">
-            <p id="appendix-B.1-1.9.1">Updated JWT body claims from OPTIONAL to RECOMMENDED (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.9.1">Consistent cappitalisation of trust domain and call chain (see https://github.com/oauth-wg/oauth-transaction-tokens/issues)<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.10">
+            <p id="appendix-B.1-1.10.1">Updated JWT body claims from OPTIONAL to RECOMMENDED (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)<a href="#appendix-B.1-1.10.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2768,6 +2784,9 @@ Cache-Control: no-store
 </li>
           <li class="normal" id="appendix-B.2-1.8">
             <p id="appendix-B.2-1.8.1">Fixed section numbering issue (https://github.com/oauth-wg/oauth-transaction-tokens/issues/352)<a href="#appendix-B.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.9">
+            <p id="appendix-B.2-1.9.1">Made <code>iss</code> optional in all circumstances, and added Seurity Consideration that provides guideance on using it when signing keys are not predetmined.<a href="#appendix-B.2-1.9.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2918,8 +2937,23 @@ Cache-Control: no-store
 </div>
 </section>
 </div>
-<div id="authors-addresses">
+<div id="contributors">
 <section id="appendix-C">
+      <h2 id="name-contributors">
+<a href="#name-contributors" class="section-name selfRef">Contributors</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Brian Campbell</span></div>
+<div dir="auto" class="left"><span class="org">Ping Identity</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:bcampbell@pingidentity.com" class="email">bcampbell@pingidentity.com</a>
+</div>
+</address>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-D">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
