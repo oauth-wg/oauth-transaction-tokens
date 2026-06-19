@@ -36,6 +36,12 @@ author:
   org: Defakto Security
   email: pieter@defakto.security
 
+contributor:
+- ins: B. Campbell
+  name: Brian Campbell
+  org: Ping Identity
+  email: bcampbell@pingidentity.com
+
 normative:
   RFC2119: # Keywords
   RFC3986: # URI
