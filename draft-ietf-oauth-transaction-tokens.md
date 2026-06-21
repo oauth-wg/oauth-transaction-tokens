@@ -36,6 +36,12 @@ author:
   org: Defakto Security
   email: pieter@defakto.security
 
+contributor:
+- ins: B. Campbell
+  name: Brian Campbell
+  org: Ping Identity
+  email: bcampbell@pingidentity.com
+
 normative:
   RFC2119: # Keywords
   RFC3986: # URI
@@ -707,6 +713,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Provide guidance on cross-domain access (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/326)
 * Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 * Added doublequotes around the "Txn-Token" header name to distinguish it from the usage of Txn-Token as a name for Transaction Tokens.
+* Added Brian Campbell as a contributor.
 
 
 * Clarify transaction tokens vs OAuth 2.0 access tokens
