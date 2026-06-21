@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 21 December 2026                         Practical Identity LLC
+Expires: 23 December 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            19 June 2026
+                                                            21 June 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 December 2026.
+   This Internet-Draft will expire on 23 December 2026.
 
 Copyright Notice
 
@@ -136,6 +136,7 @@ Table of Contents
      Since Draft 06
      Since Draft 05
      Since Draft 04
+   Contributors
    Authors' Addresses
 
 1.  Introduction
@@ -1406,9 +1407,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-14, 2
+              Internet-Draft, draft-ietf-oauth-identity-chaining-15, 19
               June 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-14>.
+              ietf-oauth-identity-chaining-15>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
@@ -1494,6 +1495,8 @@ Since Draft 08
    *  Added doublequotes around the "Txn-Token" header name to
       distinguish it from the usage of Txn-Token as a name for
       Transaction Tokens.
+
+   *  Added Brian Campbell as a contributor.
 
    *  Clarify transaction tokens vs OAuth 2.0 access tokens
 
@@ -1667,6 +1670,13 @@ Since Draft 04
 
    *  Clarified text around external vs internal invocation
       (https://github.com/oauth-wg/oauth-transaction-tokens/pull/157)
+
+Contributors
+
+   Brian Campbell
+   Ping Identity
+   Email: bcampbell@pingidentity.com
+
 
 Authors' Addresses
 
