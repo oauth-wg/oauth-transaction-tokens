@@ -323,7 +323,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : REQUIRED The scope claim is defined in {{Section 4.2 of RFC8693}}. Note that the value of this claim is determined by the TTS and is not required to match the requested scope nor the scope in any supplied external token. For additional context please refer to {{scope-claim}}
 
 `tctx`:
-: RECOMMENDED A JSON object that contains values that remain immutable throughout the Call Chain. For additional context please refer to {{requester-context}}
+: RECOMMENDED A JSON object that contains values that remain immutable throughout the Call Chain. For additional context please refer to {{request-context}}
 
 `rctx`:
 : RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
@@ -334,21 +334,17 @@ JWT claims as well as defines new claims. These claims are described below:
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the TTS as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
 
-### Requester Context {#requester-context}
-The Txn-Token SHOULD contain an `rctx` claim. This MAY include the IP address information of the originating requestor, as well as information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.
-
-The JSON value of the `rctx` claim MAY include any values the TTS determines are relevant to downstream services that rely on the Txn-Token. The following claims are defined so that if they are included, they have the following meaning:
-
-* `req_ip` The IP address of the requester. This MAY be for the end-user or a process that initiated the Transaction.
-* `authn` The authentication method used to identify the requester. Its value is a string that uniquely identifies the method used.
+### Request Context {#request-context}
+The Txn-Token SHOULD contain an `rctx` claim. The JSON value of the `rctx` claim MAY include any values the TTS determines are relevant to downstream services that rely on the Txn-Token. For example, this may include the IP address information of the originating request, information about the computational entity that requested the Txn-Token and contextual attributes of the originating request itself.
 
 The following is a non-normative example of an `rctx` claim initiated by an external call:
 
 ~~~ json
 {
     "rctx": {
-      "req_ip": "69.151.72.123", // env context of external call
-      "authn": "urn:ietf:rfc:6749" // env context of external call
+      "req_ip": "69.151.72.123", // IP address of the originating request
+      "authn": "face" // from RFC 8176
+      "transport": "https" // transport method used for the originating request
     }
 }
 ~~~
