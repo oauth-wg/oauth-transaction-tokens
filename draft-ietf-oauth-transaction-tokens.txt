@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 23 December 2026                         Practical Identity LLC
+Expires: 25 December 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            21 June 2026
+                                                            23 June 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 December 2026.
+   This Internet-Draft will expire on 25 December 2026.
 
 Copyright Notice
 
@@ -86,7 +86,7 @@ Table of Contents
      9.1.  JWT Header
      9.2.  JWT Body Claims
        9.2.1.  Scope claim
-       9.2.2.  Requester Context
+       9.2.2.  Request Context
        9.2.3.  Transaction Context
        9.2.4.  Example
    10. Txn-Token Service (TTS)
@@ -536,31 +536,23 @@ Table of Contents
    represents the authorization model within the Trust Domain is at its
    discretion and not prescribed by this specification.
 
-9.2.2.  Requester Context
+9.2.2.  Request Context
 
-   The Txn-Token SHOULD contain an rctx claim.  This MAY include the IP
-   address information of the originating requestor, as well as
+   The Txn-Token SHOULD contain an rctx claim.  The JSON value of the
+   rctx claim MAY include any values the TTS determines are relevant to
+   downstream services that rely on the Txn-Token.  For example, this
+   may include the IP address information of the originating request,
    information about the computational entity that requested the Txn-
    Token and contextual attributes of the originating request itself.
-
-   The JSON value of the rctx claim MAY include any values the TTS
-   determines are relevant to downstream services that rely on the Txn-
-   Token.  The following claims are defined so that if they are
-   included, they have the following meaning:
-
-   *  req_ip The IP address of the requester.  This MAY be for the end-
-      user or a process that initiated the Transaction.
-
-   *  authn The authentication method used to identify the requester.
-      Its value is a string that uniquely identifies the method used.
 
    The following is a non-normative example of an rctx claim initiated
    by an external call:
 
    {
        "rctx": {
-         "req_ip": "69.151.72.123", // env context of external call
-         "authn": "urn:ietf:rfc:6749" // env context of external call
+         "req_ip": "69.151.72.123", // IP address of the originating request
+         "authn": "face" // from RFC 8176
+         "transport": "https" // transport method used for the originating request
        }
    }
 
