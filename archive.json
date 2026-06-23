@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-21T00:54:46.166192+00:00",
+  "timestamp": "2026-06-23T00:47:45.038159+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6401,7 +6401,7 @@
       ],
       "body": "For the `authn` request parameter, only the example value of `urn:ietf:rfc:6749` is provided. Could we elaborate on the format / recognized values? For example, we mention SAML in 14.5 Subject Token Types. However, it is unclear what the value of `authn` should be in this case.",
       "createdAt": "2026-04-08T20:48:00Z",
-      "updatedAt": "2026-04-13T17:53:33Z",
+      "updatedAt": "2026-06-22T20:54:08Z",
       "closedAt": null,
       "comments": [
         {
@@ -6431,6 +6431,13 @@
           "body": "Maybe also rename section 10.2.2 as Requesting Context (instead of Requestor Context)",
           "createdAt": "2026-04-13T17:53:23Z",
           "updatedAt": "2026-04-13T17:53:23Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "My current thinking:\n\n1. Remove `authn` as a defined claim. Clean up examples.\n2. Rename section 10.2.2 as Requesting Context\n\nI agree that some aspect of the authentication context of the identified principal (`sub`) but I'm not sure we have enough deployment experience to define this well. It should be simple to define a profile that adds claims in the future. Not sure we want to go the route of a registry.\n\nOne question: Should we add text that deployments should ensure added claim names protect against name collision? I'm sure there is text we can borrow from another spec.",
+          "createdAt": "2026-06-22T20:54:08Z",
+          "updatedAt": "2026-06-22T20:54:08Z"
         }
       ]
     },
@@ -7093,7 +7100,7 @@
       "labels": [],
       "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
       "createdAt": "2026-05-15T17:23:33Z",
-      "updatedAt": "2026-06-18T22:33:41Z",
+      "updatedAt": "2026-06-21T14:49:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -7137,6 +7144,13 @@
           "body": "Generally, I would put it as part of the `tctx` object, but that isn\u2019t required. I suspect there can be a few different profiles of the transaction token specification that add specific requirements and behavior for specific verticals. In regards to this thread, there may be value in defining something specifically for AI agents. At this point I\u2019m not sure we have enough implementation to be prescriptive about where `authorization_details` belongs. I\u2019ll leave this issue open for a few days and then close it if there are no additional comments.",
           "createdAt": "2026-06-18T22:33:41Z",
           "updatedAt": "2026-06-18T22:33:41Z"
+        },
+        {
+          "author": "sdatspun2",
+          "authorAssociation": "NONE",
+          "body": "I am looking for a reference to RAR and an example in this I-D similar to [ID-JAG](https://datatracker.ietf.org/doc/draft-ietf-oauth-identity-assertion-authz-grant/). If there is a strong reason(s) to not add it, provide that as well (in the draft), that works too. But, not referring a relevant state of the art does not make sense to me.",
+          "createdAt": "2026-06-21T14:49:35Z",
+          "updatedAt": "2026-06-21T14:49:35Z"
         }
       ]
     },
@@ -22601,20 +22615,62 @@
       "id": "PR_kwDOJt_WwM7oLl64",
       "title": "Add Brian Campbell as a contributor",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/355",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-06-19T00:57:05Z",
-      "updatedAt": "2026-06-19T00:58:53Z",
+      "updatedAt": "2026-06-21T04:35:49Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "dba8e081115195baf3e9c1b6a27003a860373345",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
       "headRefOid": "403246237930bcecdfa12559aeda648ecc23a0ae",
+      "closedAt": "2026-06-21T04:35:47Z",
+      "mergedAt": "2026-06-21T04:35:47Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "c73470ccb9f752ae0ad60f4aaca5798def7911e7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABDo67Pg",
+          "commit": {
+            "abbreviatedOid": "4032462"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-06-21T04:35:29Z",
+          "updatedAt": "2026-06-21T04:35:29Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 356,
+      "id": "PR_kwDOJt_WwM7pam8T",
+      "title": "Refactor context terminology in transaction tokens",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/356",
+      "state": "OPEN",
+      "author": "gffletch",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated terminology from 'requester-context' to 'request-context' and clarified the contents of the 'rctx' claim.\r\n\r\nAddresses issue #323 ",
+      "createdAt": "2026-06-22T23:43:39Z",
+      "updatedAt": "2026-06-22T23:43:39Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "c73470ccb9f752ae0ad60f4aaca5798def7911e7",
+      "headRepository": "gffletch/transaction-tokens",
+      "headRefName": "issue_323",
+      "headRefOid": "66cb49bd17a8f21f4223d3c0a8dcbdf474a33164",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
