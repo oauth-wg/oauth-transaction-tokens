@@ -329,7 +329,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
 
 `req_wl`:
-: REQUIRED. A string value that identifies the workload that requested the Txn-Token. The value SHOULD contain a single workload identifier. In some circumstances, the value MAY contain multiple workload identifiers with each identifier separated by a comma (,).
+: REQUIRED. A string value that identifies the workload that requested the Txn-Token. In the general case, the `req_wl` value is an array of case-sensitive strings. In the common special case when there is one requesting workload, the `req_wl` value MAY be a single case-sensitive string.
 
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the TTS as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
@@ -710,7 +710,8 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Added security consideration for invalidated tokens (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/321)
 * Added doublequotes around the "Txn-Token" header name to distinguish it from the usage of Txn-Token as a name for Transaction Tokens.
 * Added Brian Campbell as a contributor.
-
+* Renamed Requester-Context section to Request Context and removed specification of `rctx` specific claims (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/323)
+* Clarified how multiple workloads are represented in the `req_wl` claim (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/331)
 
 * Clarify transaction tokens vs OAuth 2.0 access tokens
 * Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)
