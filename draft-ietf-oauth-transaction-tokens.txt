@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 25 December 2026                         Practical Identity LLC
+Expires: 26 December 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            23 June 2026
+                                                            24 June 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 December 2026.
+   This Internet-Draft will expire on 26 December 2026.
 
 Copyright Notice
 
@@ -520,10 +520,10 @@ Table of Contents
       please refer to Section 9.2.3
 
    req_wl:  REQUIRED.  A string value that identifies the workload that
-      requested the Txn-Token.  The value SHOULD contain a single
-      workload identifier.  In some circumstances, the value MAY contain
-      multiple workload identifiers with each identifier separated by a
-      comma (,).
+      requested the Txn-Token.  In the general case, the req_wl value is
+      an array of case-sensitive strings.  In the common special case
+      when there is one requesting workload, the req_wl value MAY be a
+      single case-sensitive string.
 
 9.2.1.  Scope claim
 
@@ -1489,6 +1489,14 @@ Since Draft 08
       Transaction Tokens.
 
    *  Added Brian Campbell as a contributor.
+
+   *  Renamed Requester-Context section to Request Context and removed
+      specification of rctx specific claims (see issue
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/323)
+
+   *  Clarified how multiple workloads are represented in the req_wl
+      claim (see issue https://github.com/oauth-wg/oauth-transaction-
+      tokens/issues/331)
 
    *  Clarify transaction tokens vs OAuth 2.0 access tokens
 
