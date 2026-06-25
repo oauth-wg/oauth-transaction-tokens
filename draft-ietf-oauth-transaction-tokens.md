@@ -329,7 +329,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
 
 `req_wl`:
-: REQUIRED. A string or array value that identifies the workload that requested the Txn-Token. In the common special case when there is one requesting workload, the `req_wl` value MAY be a single case-sensitive string. In the general case, when a Txn-Token is replaced by another Txn-Token, the `req_wl` value is an array of case-sensitive strings, identifying subsequent workloads that have requested the Txn-Token. See Section {{replacement}} for more information.
+: REQUIRED. A string or array value that identifies the workload that requested the Txn-Token. In the common special case when there is one requesting workload, the `req_wl` value MAY be a single case-sensitive string. In the general case, when a new Txn-Token is requested using an existing Txn-Token as a `subject_token`, the `req_wl` value is an array of case-sensitive strings, identifying subsequent workloads that have requested the Txn-Token. See Section {{replacement}} for more information.
 
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the TTS as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
