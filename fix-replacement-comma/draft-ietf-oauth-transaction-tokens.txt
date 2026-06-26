@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 27 December 2026                         Practical Identity LLC
+Expires: 28 December 2026                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            25 June 2026
+                                                            26 June 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 December 2026.
+   This Internet-Draft will expire on 28 December 2026.
 
 Copyright Notice
 
@@ -519,14 +519,14 @@ Table of Contents
       context of the requested transaction.  For additional context
       please refer to Section 9.2.3
 
-   req_wl:  REQUIRED.  A string or array value that identifies the
-      workload that requested the Txn-Token.  In the common special case
-      when there is one requesting workload, the req_wl value MAY be a
-      single case-sensitive string.  In the general case, when a new
-      Txn-Token is requested using an existing Txn-Token as a
-      subject_token, the req_wl value is an array of case-sensitive
-      strings, identifying subsequent workloads that have requested the
-      Txn-Token.  See Section Section 13.14 for more information.
+   req_wl:  REQUIRED.  An array value that identifies the workload(s)
+      that requested the Txn-Token.  In the common case when there is
+      one requesting workload, the req_wl value MAY be a single case-
+      sensitive string.  In the general case, when a new Txn-Token is
+      requested using an existing Txn-Token as a subject_token, the
+      req_wl value is an array of case-sensitive strings, identifying
+      subsequent workloads that have requested the Txn-Token.  See
+      Section Section 13.14 for more information.
 
 9.2.1.  Scope claim
 
@@ -1403,9 +1403,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-15, 19
+              Internet-Draft, draft-ietf-oauth-identity-chaining-16, 26
               June 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-15>.
+              ietf-oauth-identity-chaining-16>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
