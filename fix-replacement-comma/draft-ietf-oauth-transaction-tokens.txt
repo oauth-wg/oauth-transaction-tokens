@@ -520,12 +520,7 @@ Table of Contents
       please refer to Section 9.2.3
 
    req_wl:  REQUIRED.  A string value that identifies the workload that
-      requested the Txn-Token.  If a subsequent transaction token is
-      created from a call to the TTS where the subject token is itself a
-      transaction token, the TTS should maintain the call chain of
-      requesting workloads in the subsequently issued transaction token.
-      The mechanisms for managing this delegation chain is out of scope
-      for this specification.
+      requested the Txn-Token.
 
 9.2.1.  Scope claim
 
@@ -1141,11 +1136,10 @@ Table of Contents
       allows extending the lifetime beyond that of the input Txn-Token
       to reduce replay risks.
 
-   *  When the subsequent transaction token is created, the TTS should
-      maintain the call chain of requesting workloads in the
-      subsequently issued transaction token.  The mechanisms for
-      managing this delegation chain is out of scope for this
-      specification.
+   *  When the subsequent Txn-Token is created, the TTS should maintain
+      the call chain of requesting workloads in the subsequently issued
+      transaction token.  The mechanisms for managing this delegation
+      chain is out of scope for this specification.
 
 13.15.  Determining signing keys
 
