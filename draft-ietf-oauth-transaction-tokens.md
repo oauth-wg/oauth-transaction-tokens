@@ -329,7 +329,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
 
 `req_wl`:
-: REQUIRED. An array value that identifies the workload(s) that requested the Txn-Token. In the common case when there is one requesting workload, the `req_wl` value MAY be a single case-sensitive string. In the general case, when a new Txn-Token is requested using an existing Txn-Token as a `subject_token`, the `req_wl` value is an array of case-sensitive strings, identifying subsequent workloads that have requested the Txn-Token. See Section {{replacement}} for more information.
+: REQUIRED. An string value that identifies the workload that requested the Txn-Token. If a subsequent transaction token is created from a call to the TTS where the subject token is itself a transaction token, the TTS should maintain the call chain of requesting workloads in the subsequently issued transaction token. The mechanisms for managing this delegation chain is out of scope for this specification.
 
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the TTS as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
@@ -598,7 +598,7 @@ Transaction tokens support the principle of least privilege since they are narro
 
 Using a dedicated HTTP header from the `Authorization: Bearer` header for transaction tokens allows services to distinguish between an access token, which carries authorization delegation information, and the transaction token, which carries transaction context.
 
-## Txn-Token as a `subject_token` {#replacement}
+## Txn-Token as a `subject_token`
 A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:
 
 * MAY enable modifications to asserted values that reduce the scope of permitted actions.
@@ -609,7 +609,8 @@ A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any
 * MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.
 * MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.
 * SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
-* MUST ensure that the `req_wl` value is an array. If the existing value is a string, then the TTS MUST insert that value as the first item in the array, and always append the new requesting workloads identifier as the last item in the array.
+* When the subsequent transaction token is created, the TTS should maintain the call chain of requesting workloads in the subsequently issued transaction token. The mechanisms for managing this delegation chain is out of scope for this specification.
+
 
 ## Determining signing keys
 The `iss` claim may be used to identify the signer of the Txn-Token in cases where the signing keys are not predetermined.
