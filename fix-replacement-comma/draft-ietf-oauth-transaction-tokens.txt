@@ -519,7 +519,7 @@ Table of Contents
       context of the requested transaction.  For additional context
       please refer to Section 9.2.3
 
-   req_wl:  REQUIRED.  An string value that identifies the workload that
+   req_wl:  REQUIRED.  A string value that identifies the workload that
       requested the Txn-Token.  If a subsequent transaction token is
       created from a call to the TTS where the subject token is itself a
       transaction token, the TTS should maintain the call chain of
