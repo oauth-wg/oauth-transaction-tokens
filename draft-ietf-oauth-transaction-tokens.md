@@ -329,7 +329,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
 
 `req_wl`:
-: REQUIRED. A string value that identifies the workload that requested the Txn-Token. If a subsequent transaction token is created from a call to the TTS where the subject token is itself a transaction token, the TTS should maintain the call chain of requesting workloads in the subsequently issued transaction token. The mechanisms for managing this delegation chain is out of scope for this specification.
+: REQUIRED. A string value that identifies the workload that requested the Txn-Token.
 
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the TTS as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
@@ -609,7 +609,7 @@ A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any
 * MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.
 * MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.
 * SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
-* When the subsequent transaction token is created, the TTS should maintain the call chain of requesting workloads in the subsequently issued transaction token. The mechanisms for managing this delegation chain is out of scope for this specification.
+* When the subsequent Txn-Token is created, the TTS should maintain the call chain of requesting workloads in the subsequently issued transaction token. The mechanisms for managing this delegation chain is out of scope for this specification.
 
 
 ## Determining signing keys
