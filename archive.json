@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-25T00:48:21.202109+00:00",
+  "timestamp": "2026-06-28T00:49:06.108457+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6820,17 +6820,17 @@
       "id": "I_kwDOJt_WwM78r42R",
       "title": "... req_wl ... ",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/331",
-      "state": "CLOSED",
+      "state": "OPEN",
       "author": "bc-pi",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-10.2-2.20.1 \n\n> req_wl:\n> \n> REQUIRED. A string value that identifies the workload that requested the Txn-Token. The value SHOULD contain a single workload identifier. In some circumstances, the value MAY contain multiple workload identifiers with each identifier separated by a comma (,).\n\nWhat are some circumstances? [14.11.1.](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-14.11.1) has two bullets (that should probably be together) about req_wl that are maybe these \"some circumstances\" but that's a lot left to the reader. Also not great justification for a under-defied structured format for use inside a different data format that has ways to structure data.\n\nWhat if some of workload identifiers contain commas? Workload identifiers aren't defined in here, are they?\n\nDo we really want to define a sometimes comma separated values list as a the value of a claim?\n\nIf the [Requester Context](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-requester-context) claim can contain \"information about the computational entity that requested the Txn-Token\", then how/why is that different than \"the workload that requested the Txn-Token\"? \n\nCould the [\"act\" (Actor) Claim](https://www.rfc-editor.org/rfc/rfc8693.html#name-act-actor-claim) be of any relevance here? I am painfully aware that representing delegation is a bit of a mess. But does introducing another construct help the situation? I've not yet read @mcguinness's https://notes.karlmcguinness.com/notes/standardize-act-across-assertion-grants-and-jwt-access-tokens/ and don't know if I agree with proposal(s) but highly suspect it describes some of that \"bit of a mess\". Is a new sometimes-csv valued claim at the top-level going to improve the situation or enworseify it?\n\n\n",
       "createdAt": "2026-04-10T13:10:10Z",
-      "updatedAt": "2026-06-24T23:00:49Z",
-      "closedAt": "2026-06-24T23:00:49Z",
+      "updatedAt": "2026-06-25T17:36:43Z",
+      "closedAt": null,
       "comments": [
         {
           "author": "gffletch",
@@ -6862,7 +6862,7 @@
         },
         {
           "author": "bc-pi",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "body": "Q1: yes, that fixes the comma problem. but if you need a list, i think you have to actually define it  \nQ2: i don't know tbh but it's fine \nQ3: i don't know that either  ",
           "createdAt": "2026-06-23T18:47:41Z",
           "updatedAt": "2026-06-23T18:47:41Z"
@@ -6873,6 +6873,41 @@
           "body": "+1 to keep req_wl as required. It's needed because often when User A is coming via req_wl W1, might have different authorization needs over User A coming via req_wl W2. It's also super relevant for cases where there is NO user at all. Then attributes and properties are associated with req_wl, and it helps in ABAC. e.g. if `req_wl` is not security cerified to handle HIPAA data and its request land on service vending health info, then the service can reject the request. \n\nSharing my $0.02, I do see `act` as different field than `req_wl` as mentioned in [TxnToken For Agents](https://www.ietf.org/archive/id/draft-araut-oauth-transaction-tokens-for-agents-02.html). Although, I ack that adding here will be confusing. It should in different draft/profile.\n\nAbout the need of `act` - Consider a scenario where\n\n```\nUser A -> using ChatGPT -> connects to XYZ organization's MCP server M1 -> fans out to internal workloads -> Internal AI Agent B1 -> MCP servers M2 -> more workloads\n```\n\nWhen M1 requests Txn token using tokens received from callers (which will say \"ChatGPT on behalf of A\"), then `req_wl` is M1, and `act` is ChatGPT, and `sub` is A. \n```\n\"act\": {\n    \"sub\": \"ChatGPT\"\n    \"iss\" : <XYZ AS>,\n      \"act\": {\n         \"sub\": \"agent-identity-1\"\n      },\n  },\n```\n\nAs @mcguinness called out in his draft, if `iss` must also covered with `act` so that if we ever want to distinguish between internal and external agents then `iss` can help figure that out.\n\nI also have a complex case (but practical use case) where same Txn token then passes via Internal Agents too later in call chain. As AI agents always act on behalf of someone, I need another place to update their agent chain too. That's why  I introduced `agentic_context`. But that's not super relevant here. \n\nPoint being `act` will be useful in world of AI but I didn't request to add here because it will be confusing and I introduced that in my draft and now Karl also has that. My draft also has agentic_context additional.\n",
           "createdAt": "2026-06-24T16:39:53Z",
           "updatedAt": "2026-06-24T16:44:23Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Apologies for any lack of clarity on my end but when I wrote, \"... but if you need a list, i think you have to actually define it\" there was an implication that the proposed text did not adequately define it. Try to read this with the perspective of a new reader:\n\n>  req_wl:\n>     REQUIRED. A string value that identifies the workload that requested the Txn-Token. In the general case, the req_wl value is an array of case-sensitive strings. In the common special case when there is one requesting workload, the req_wl value MAY be a single case-sensitive string.\n\nand consider what it actually says or doesn't say. ",
+          "createdAt": "2026-06-25T15:56:03Z",
+          "updatedAt": "2026-06-25T15:56:03Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "several sections later an astute reader might see this near the end of the txn-token as subject \n\n> MUST append the workload identifier of the workload requesting the replacement to the req_wl claim using the character , as the separator between individual workload identifiers.\n\nand maybe begin to formulate an idea of what was intended for \"the general case\" but also be confused by the residual `,` as the separator",
+          "createdAt": "2026-06-25T16:01:12Z",
+          "updatedAt": "2026-06-25T16:01:12Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "<img width=\"901\" height=\"230\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/2aac0358-9133-46b0-9392-999983531800\" />",
+          "createdAt": "2026-06-25T16:05:50Z",
+          "updatedAt": "2026-06-25T16:05:50Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "what I'm trying to convey is that I don't see sufficient justification for this thing being a list (how about just `req_wl` in `act` for those cases?) and then that something that I don't think is needed is not defined well and then later defined wrong ",
+          "createdAt": "2026-06-25T16:11:50Z",
+          "updatedAt": "2026-06-25T16:11:50Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@bc-pi please take a look at PR: #360 for this.",
+          "createdAt": "2026-06-25T17:36:43Z",
+          "updatedAt": "2026-06-25T17:36:43Z"
         }
       ]
     },
@@ -7071,11 +7106,11 @@
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [
-        "WGLC Discuss"
+        "WGLC Feedback"
       ],
       "body": "From [12.3. Txn-Token Request Processing](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#section-12.3):\n> If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.\n\nDoes the \"added\" here mean \"added as is\" (copied)? Or is TTS allowed to perform some sort of mapping? The examples in 10.2.4 / 12.1 suggest the former. Would be nice to clarify this.\n\n> If a `request_details` parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the TTS authorization policy for the requesting client.\n\nThe wording is different here (\"propagated\" vs. \"added\"), so I'd say some sort of mapping is assumed. To further intricate things, there is no `request_details` in the TraT request example in 12.1, making this a pure guesswork. Would be nice to clarify this as well, and also add `request_details` to the example.\n\nFinally, the examples for `rctx` / `tctx` in 10.2.2 / 10.2.3 are inconsistent:\n\n```json\n{\n    \"rctx\": {\n      \"req_ip\": \"69.151.72.123\", // env context of external call\n      \"authn\": \"urn:ietf:rfc:6749\" // env context of external call\n    }\n}\n```\n\n```json\n\"tctx\": {\n  \"action\": \"BUY\", // parameter of external call\n  \"ticker\": \"MSFT\", // parameter of external call\n  \"quantity\": \"100\", // parameter of external call\n  \"customer_type\": { // computed value not present in external call\n    \"geo\": \"US\",\n    \"level\": \"VIP\"\n  }\n}\n```\n\n`rctx` is enclosed in curly braces, whilst `tctx` is not. And ultimately, `quantity` should be a JSON number and not a string (`100` instead of `\"100\"`). ",
       "createdAt": "2026-05-14T18:51:11Z",
-      "updatedAt": "2026-06-24T23:03:06Z",
+      "updatedAt": "2026-06-25T17:43:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -7112,6 +7147,13 @@
           "body": "Ok, I'll see if I can clear up that language as well.",
           "createdAt": "2026-06-19T01:13:05Z",
           "updatedAt": "2026-06-19T01:13:05Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "How about this for wording to address some of the concerns raised:\n\nIf a request_context parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the request_context parameter and MAY include claims to the rctx claim of the issued Txn-Token based on the request_context parameter. The claims included in the rctx claim of the issued Txn-Token may be an exact match of those on the request_context, or may be derived from the request_context. The TTS is authoritative for the set of claims made available in the rctx claim and MAY include additional claims unrelated to the request_context.",
+          "createdAt": "2026-06-25T11:07:55Z",
+          "updatedAt": "2026-06-25T11:07:55Z"
         }
       ]
     },
@@ -7285,6 +7327,37 @@
           "body": "Thanks Atul \u2014 appreciate the pointer to the editor's copy.\n\nI read through it: \u00a711.1 makes the `scope` *parameter on the Txn-Token Request* REQUIRED, which is great. My issue was about the other scope in the flow though \u2014 the `scope` claim on the `subject_token` itself. \u00a713.6 still says the TTS MUST ensure the requested scope is \"equal or less than the scope(s) identified in the subject_token\", and neither \u00a711.2.1 (self-signed JWT) nor \u00a711.2.2 (unsigned JSON object) lists `scope` as a required claim/field on the subject_token. So a TTS receiving a subject_token with no `scope` still has to interpret \"\u2264 absent\" \u2014 which is what my implementation got literally (absent \u21d2 no check \u21d2 permissive).\n\nTwo ways this could close cleanly, either would work:\n(a) Add `scope` to \u00a711.2.1 / \u00a711.2.2's required claims for the subject_token, or\n(b) Add a sentence to \u00a713.6: \"If the subject_token does not carry a `scope` claim, the TTS MUST treat the available scope as the empty set for the purpose of this comparison.\"\n\nHappy to send a PR with whichever direction you prefer. Or if I'm misreading the editor's copy on this, point me at the section that resolves it and I'll close the issue.",
           "createdAt": "2026-06-25T00:21:53Z",
           "updatedAt": "2026-06-25T00:21:53Z"
+        }
+      ]
+    },
+    {
+      "number": 359,
+      "id": "I_kwDOJt_WwM8AAAABGt4dCg",
+      "title": "sometimes I feel bad about expressing frustration but also ...",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/359",
+      "state": "CLOSED",
+      "author": "bc-pi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "> what I'm trying to convey is that I don't see sufficient justification for this thing being a list (how about just `req_wl` in `act` for those cases?) and then that something that I don't think is needed is not defined well and then later defined wrong  \n\n _Originally posted by @bc-pi in [#331](https://github.com/oauth-wg/oauth-transaction-tokens/issues/331#issuecomment-4801677359)_",
+      "createdAt": "2026-06-25T16:41:03Z",
+      "updatedAt": "2026-06-25T18:10:07Z",
+      "closedAt": "2026-06-25T17:42:15Z",
+      "comments": [
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@bc-pi I added you as a \"writer\" to this repository. I hope you will be able to reopen issues now.",
+          "createdAt": "2026-06-25T17:42:15Z",
+          "updatedAt": "2026-06-25T17:42:15Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "that was but a tiny part of the frustration ",
+          "createdAt": "2026-06-25T18:10:06Z",
+          "updatedAt": "2026-06-25T18:10:06Z"
         }
       ]
     }
@@ -22842,6 +22915,272 @@
           "body": "",
           "createdAt": "2026-06-24T22:58:46Z",
           "updatedAt": "2026-06-24T22:58:46Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 360,
+      "id": "PR_kwDOJt_WwM7qrIUe",
+      "title": "Clarified req_wl value",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/360",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-06-25T17:36:03Z",
+      "updatedAt": "2026-06-26T19:59:05Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-replacement-comma",
+      "headRefOid": "23bd4de838676e77ea4d912cfdbf6f8c81fbf708",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABEJ_Odg",
+          "commit": {
+            "abbreviatedOid": "a9a3b7c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-25T18:29:06Z",
+          "updatedAt": "2026-06-25T18:29:07Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n: REQUIRED. A string or array value that identifies the workload that requested the Txn-Token. In the common special case when there is one requesting workload, the `req_wl` value MAY be a single case-sensitive string. In the general case, when a new Txn-Token is requested using an existing Txn-Token as a `subject_token`, the `req_wl` value is an array of case-sensitive strings, identifying subsequent workloads that have requested the Txn-Token. See Section {{replacement}} for more information.\r\n```",
+              "createdAt": "2026-06-25T18:29:06Z",
+              "updatedAt": "2026-06-25T19:03:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABEJ_8cQ",
+          "commit": {
+            "abbreviatedOid": "a9a3b7c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "One suggested change so we don't start talking about replacement, but rather about the case where a Txn-Token is used as a subject token when requesting a new Txn-token",
+          "createdAt": "2026-06-25T18:30:23Z",
+          "updatedAt": "2026-06-25T18:30:23Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABEKFxSg",
+          "commit": {
+            "abbreviatedOid": "a9a3b7c"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-25T18:41:09Z",
+          "updatedAt": "2026-06-25T18:41:09Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Do we need to change this text at all?",
+              "createdAt": "2026-06-25T18:41:09Z",
+              "updatedAt": "2026-06-25T18:41:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABELTa_Q",
+          "commit": {
+            "abbreviatedOid": "afa687d"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-25T21:49:28Z",
+          "updatedAt": "2026-06-25T21:49:28Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n: REQUIRED. An array value that identifies the workload(s) that requested the Txn-Token. In the common case when there is one requesting workload, the `req_wl` value MAY be a single case-sensitive string. In the general case, when a new Txn-Token is requested using an existing Txn-Token as a `subject_token`, the `req_wl` value is an array of case-sensitive strings, identifying subsequent workloads that have requested the Txn-Token. See Section {{replacement}} for more information.\n```",
+              "createdAt": "2026-06-25T21:49:28Z",
+              "updatedAt": "2026-06-25T21:49:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABEO-yfw",
+          "commit": {
+            "abbreviatedOid": "afa687d"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-26T11:32:36Z",
+          "updatedAt": "2026-06-26T11:32:36Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Thanks George.",
+              "createdAt": "2026-06-26T11:32:36Z",
+              "updatedAt": "2026-06-26T11:32:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABERZeyQ",
+          "commit": {
+            "abbreviatedOid": "6f3cbd3"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-26T17:59:58Z",
+          "updatedAt": "2026-06-26T17:59:59Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n: REQUIRED. A string value that identifies the workload that requested the Txn-Token. If a subsequent transaction token is created from a call to the TTS where the subject token is itself a transaction token, the TTS should maintain the call chain of requesting workloads in the subsequently issued transaction token. The mechanisms for managing this delegation chain is out of scope for this specification.\n```",
+              "createdAt": "2026-06-26T17:59:59Z",
+              "updatedAt": "2026-06-26T17:59:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABERdC6w",
+          "commit": {
+            "abbreviatedOid": "6f3cbd3"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-26T18:08:25Z",
+          "updatedAt": "2026-06-26T18:08:26Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I wonder if this can be separated from whether a transaction token is used as subject_token. There are other tokens that may have chained identity information as well (as described in Karl's drafts). How about the following:\n\n\n```suggestion\n: REQUIRED. A string value that identifies the workload requesting the Txn-Token. When the subject token contains information about the call chain, including identifiers for other participants in that chain, the TTS should include this information in the issued Txn-Token. The mechanism for representing and managing the delegation chain is outside the scope of this specification.\n```",
+              "createdAt": "2026-06-26T18:08:25Z",
+              "updatedAt": "2026-06-26T18:08:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABEReXyw",
+          "commit": {
+            "abbreviatedOid": "6f3cbd3"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-26T18:11:24Z",
+          "updatedAt": "2026-06-26T18:11:25Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Given wher this is landing and the source of the concerns, why not just simplify to this:\n\n```suggestion\n: REQUIRED. A string value that identifies the workload that requested the Txn-Token. \n```\n\nWe can keep the text in the \"transaction token as subject token\" section, but we break the link here. Feels cleaner and also addresses Brian's other concerns about encouraging the use of replacement transaction tokens.",
+              "createdAt": "2026-06-26T18:11:24Z",
+              "updatedAt": "2026-06-26T18:11:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABERgz1Q",
+          "commit": {
+            "abbreviatedOid": "6f3cbd3"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-26T18:17:01Z",
+          "updatedAt": "2026-06-26T18:17:01Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I'm good with that. I think the explanation should go in the transaction token as subject token section. ",
+              "createdAt": "2026-06-26T18:17:01Z",
+              "updatedAt": "2026-06-26T18:17:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABERtOOA",
+          "commit": {
+            "abbreviatedOid": "283e31c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-26T18:54:11Z",
+          "updatedAt": "2026-06-26T18:54:12Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n: REQUIRED. A string value that identifies the workload requesting the Txn-Token. When the subject token contains information about the Call Chain, including identifiers for other participants in that Call Chain, the information is preserved in the issued Txn-Token. The mechanism for representing and managing the delegation chain is outside the scope of this specification.\n```",
+              "createdAt": "2026-06-26T18:54:11Z",
+              "updatedAt": "2026-06-26T18:55:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABERtxLw",
+          "commit": {
+            "abbreviatedOid": "283e31c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2026-06-26T18:55:48Z",
+          "updatedAt": "2026-06-26T18:55:48Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABERzYWQ",
+          "commit": {
+            "abbreviatedOid": "283e31c"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-06-26T19:10:39Z",
+          "updatedAt": "2026-06-26T19:10:39Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\n* The TTS should include the Call Chain of requesting workloads in the subsequently issued transaction token. The representation of this Call Chain chain is out of scope for this specification.\n```",
+              "createdAt": "2026-06-26T19:10:39Z",
+              "updatedAt": "2026-06-26T19:10:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABESGJJw",
+          "commit": {
+            "abbreviatedOid": "23bd4de"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-06-26T19:59:05Z",
+          "updatedAt": "2026-06-26T19:59:05Z",
           "comments": []
         }
       ]
