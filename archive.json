@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-28T00:49:06.108457+00:00",
+  "timestamp": "2026-06-30T00:48:08.876170+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -22931,7 +22931,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-06-25T17:36:03Z",
-      "updatedAt": "2026-06-26T19:59:05Z",
+      "updatedAt": "2026-06-29T09:46:43Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
@@ -23181,6 +23181,19 @@
           "body": "",
           "createdAt": "2026-06-26T19:59:05Z",
           "updatedAt": "2026-06-26T19:59:05Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABEaBoGA",
+          "commit": {
+            "abbreviatedOid": "23bd4de"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-06-29T09:46:43Z",
+          "updatedAt": "2026-06-29T09:46:43Z",
           "comments": []
         }
       ]
