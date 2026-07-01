@@ -713,13 +713,12 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Added Brian Campbell as a contributor.
 * Renamed Requester-Context section to Request Context and removed specification of `rctx` specific claims (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/323)
 * Clarified how multiple workloads are represented in the `req_wl` claim (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/331)
-
 * Clarify transaction tokens vs OAuth 2.0 access tokens
 * Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)
 * Changed additionally defined request parameters from OPTIONAL to RECOMMENDED see https://github.com/oauth-wg/oauth-transaction-tokens/issues/332)
 * Consistent cappitalisation of trust domain and call chain (see https://github.com/oauth-wg/oauth-transaction-tokens/issues)
-
 * Updated JWT body claims from OPTIONAL to RECOMMENDED (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)
+* Clarified TTS behaviour wrt txtx and rctx, fixed examples (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/349)
 
 ## Since Draft 07
 {:numbered="false"}
