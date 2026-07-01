@@ -1524,6 +1524,9 @@ Since Draft 08
    *  Updated JWT body claims from OPTIONAL to RECOMMENDED (see
       https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)
 
+   *  Clarified TTS behaviour wrt txtx and rctx, fixed examples (see
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/349)
+
 Since Draft 07
 
    *  Fixed author affiliation (https://github.com/oauth-wg/oauth-
