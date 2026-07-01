@@ -605,12 +605,10 @@ A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any
 * MAY enable additional asserted values.
 * MUST NOT enable modification to asserted values that expand the scope of permitted actions.
 * MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request.
-* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim.
 * MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.
 * MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.
 * SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
-* When the subsequent Txn-Token is created, the TTS should maintain the call chain of requesting workloads in the subsequently issued transaction token. The mechanisms for managing this delegation chain is out of scope for this specification.
-
+* MUST maintain the Call Chain of workloads that requested the Txn-Token being replaced, and MUST NOT remove or obscure any of those workload identities in the subsequently issued Txn-Token. The mechanism for maintaining this Call Chain is out of scope for this specification.
 
 ## Determining signing keys
 The `iss` claim may be used to identify the signer of the Txn-Token in cases where the signing keys are not predetermined.
