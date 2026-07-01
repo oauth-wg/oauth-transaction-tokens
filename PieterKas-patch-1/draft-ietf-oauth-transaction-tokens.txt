@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 21 December 2026                         Practical Identity LLC
+Expires: 2 January 2027                           Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            19 June 2026
+                                                             1 July 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 December 2026.
+   This Internet-Draft will expire on 2 January 2027.
 
 Copyright Notice
 
@@ -86,7 +86,7 @@ Table of Contents
      9.1.  JWT Header
      9.2.  JWT Body Claims
        9.2.1.  Scope claim
-       9.2.2.  Requester Context
+       9.2.2.  Request Context
        9.2.3.  Transaction Context
        9.2.4.  Example
    10. Txn-Token Service (TTS)
@@ -520,10 +520,10 @@ Table of Contents
       please refer to Section 9.2.3
 
    req_wl:  REQUIRED.  A string value that identifies the workload that
-      requested the Txn-Token.  The value SHOULD contain a single
-      workload identifier.  In some circumstances, the value MAY contain
-      multiple workload identifiers with each identifier separated by a
-      comma (,).
+      requested the Txn-Token.  In the general case, the req_wl value is
+      an array of case-sensitive strings.  In the common special case
+      when there is one requesting workload, the req_wl value MAY be a
+      single case-sensitive string.
 
 9.2.1.  Scope claim
 
@@ -536,31 +536,23 @@ Table of Contents
    represents the authorization model within the Trust Domain is at its
    discretion and not prescribed by this specification.
 
-9.2.2.  Requester Context
+9.2.2.  Request Context
 
-   The Txn-Token SHOULD contain an rctx claim.  This MAY include the IP
-   address information of the originating requestor, as well as
+   The Txn-Token SHOULD contain an rctx claim.  The JSON value of the
+   rctx claim MAY include any values the TTS determines are relevant to
+   downstream services that rely on the Txn-Token.  For example, this
+   may include the IP address information of the originating request,
    information about the computational entity that requested the Txn-
    Token and contextual attributes of the originating request itself.
-
-   The JSON value of the rctx claim MAY include any values the TTS
-   determines are relevant to downstream services that rely on the Txn-
-   Token.  The following claims are defined so that if they are
-   included, they have the following meaning:
-
-   *  req_ip The IP address of the requester.  This MAY be for the end-
-      user or a process that initiated the Transaction.
-
-   *  authn The authentication method used to identify the requester.
-      Its value is a string that uniquely identifies the method used.
 
    The following is a non-normative example of an rctx claim initiated
    by an external call:
 
    {
        "rctx": {
-         "req_ip": "69.151.72.123", // env context of external call
-         "authn": "urn:ietf:rfc:6749" // env context of external call
+         "req_ip": "69.151.72.123", // IP address of the originating request
+         "authn": "face" // from RFC 8176
+         "transport": "https" // transport method used for the originating request
        }
    }
 
@@ -586,14 +578,15 @@ Table of Contents
    The following is a non-normative example of an tctx claim initiated
    by an external call:
 
-   "tctx": {
-     "action": "BUY", // parameter of external call
-     "ticker": "MSFT", // parameter of external call
-     "quantity": "100", // parameter of external call
-     "customer_type": { // computed value not present in external call
-       "geo": "US",
-       "level": "VIP"
-     }
+   {
+       "tctx": {
+         "action": "BUY", // parameter of external call
+         "ticker": "MSFT", // parameter of external call
+         "quantity": "100", // parameter of external call
+         "customer_type": { // computed value not present in external call
+           "geo": "US",
+           "level": "VIP"
+       }
    }
 
 9.2.4.  Example
@@ -837,14 +830,24 @@ Table of Contents
       Token.
 
    *  If a request_context parameter is present in the Txn-Token
-      Request, the data SHOULD be added to the rctx object of the Txn-
-      Token.
+      Request, the TTS SHOULD evaluate the content of the
+      request_context parameter and may include claims in the rctx claim
+      of the issued Txn-Token based on the request_context parameter.
+      The claims included in the rctx claim of the issued Txn-Token may
+      be an exact match of those on the request_context, or may be
+      derived from the request_context.  The TTS is authoritative for
+      the set of claims made available in the rctx claim and MAY include
+      additional claims unrelated to the request_context.
 
    *  If a request_details parameter is present in the Txn-Token
-      Request, then the TTS SHOULD propagate the data from the
-      request_details object into the claims in the tctx object as
-      authorized by the TTS authorization policy for the requesting
-      client.
+      Request, the TTS SHOULD evaluate the content of the
+      request_details parameter and may include claims in the tctx claim
+      of the issued Txn-token based on the request_details parameter.
+      The claims included in the tctx claim of the issued Txn-Token may
+      be an exact match of those on the request_details, or may be
+      derived from the request_details.  The TTS is authoritative for
+      the set of claims made available in the tctx claim and MAY include
+      additional claims unrelated to the request_details.
 
    The TTS MAY provide additional processing and verification that is
    outside the scope of this specification.
@@ -1407,9 +1410,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-14, 2
+              Internet-Draft, draft-ietf-oauth-identity-chaining-16, 26
               June 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-14>.
+              ietf-oauth-identity-chaining-16>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
@@ -1497,6 +1500,14 @@ Since Draft 08
       Transaction Tokens.
 
    *  Added Brian Campbell as a contributor.
+
+   *  Renamed Requester-Context section to Request Context and removed
+      specification of rctx specific claims (see issue
+      https://github.com/oauth-wg/oauth-transaction-tokens/issues/323)
+
+   *  Clarified how multiple workloads are represented in the req_wl
+      claim (see issue https://github.com/oauth-wg/oauth-transaction-
+      tokens/issues/331)
 
    *  Clarify transaction tokens vs OAuth 2.0 access tokens
 
