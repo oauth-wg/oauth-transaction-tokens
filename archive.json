@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-30T00:48:08.876170+00:00",
+  "timestamp": "2026-07-02T00:47:25.768353+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7104,13 +7104,15 @@
       "state": "OPEN",
       "author": "dteleguin",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "PieterKas"
+      ],
       "labels": [
         "WGLC Feedback"
       ],
       "body": "From [12.3. Txn-Token Request Processing](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#section-12.3):\n> If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.\n\nDoes the \"added\" here mean \"added as is\" (copied)? Or is TTS allowed to perform some sort of mapping? The examples in 10.2.4 / 12.1 suggest the former. Would be nice to clarify this.\n\n> If a `request_details` parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the TTS authorization policy for the requesting client.\n\nThe wording is different here (\"propagated\" vs. \"added\"), so I'd say some sort of mapping is assumed. To further intricate things, there is no `request_details` in the TraT request example in 12.1, making this a pure guesswork. Would be nice to clarify this as well, and also add `request_details` to the example.\n\nFinally, the examples for `rctx` / `tctx` in 10.2.2 / 10.2.3 are inconsistent:\n\n```json\n{\n    \"rctx\": {\n      \"req_ip\": \"69.151.72.123\", // env context of external call\n      \"authn\": \"urn:ietf:rfc:6749\" // env context of external call\n    }\n}\n```\n\n```json\n\"tctx\": {\n  \"action\": \"BUY\", // parameter of external call\n  \"ticker\": \"MSFT\", // parameter of external call\n  \"quantity\": \"100\", // parameter of external call\n  \"customer_type\": { // computed value not present in external call\n    \"geo\": \"US\",\n    \"level\": \"VIP\"\n  }\n}\n```\n\n`rctx` is enclosed in curly braces, whilst `tctx` is not. And ultimately, `quantity` should be a JSON number and not a string (`100` instead of `\"100\"`). ",
       "createdAt": "2026-05-14T18:51:11Z",
-      "updatedAt": "2026-06-25T17:43:11Z",
+      "updatedAt": "2026-07-01T10:26:11Z",
       "closedAt": null,
       "comments": [
         {
@@ -7207,7 +7209,7 @@
       "labels": [],
       "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
       "createdAt": "2026-05-15T17:23:33Z",
-      "updatedAt": "2026-06-24T23:30:04Z",
+      "updatedAt": "2026-06-30T23:19:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -7272,6 +7274,13 @@
           "body": "Yes, I also support not having RAR in spec. \nAlso note that most implementations of RAR were designed for hop to hop and not necessarily for entire call chain internal workloads. If you put it in the spec, then folks will start to do it and my worry is that generally most of those `authorization_details` are designed and decided with only one consumer in mind. There are always implications of making more and more information available to all services in call chain. Context to be added in Txn token must be carefully chosen. Once added in Txn token, its hard to modify semantic meaning of those contexts easily till you go and verify with all consumers on how they are using this context across your call chains. \n",
           "createdAt": "2026-06-24T23:29:21Z",
           "updatedAt": "2026-06-24T23:30:04Z"
+        },
+        {
+          "author": "sdatspun2",
+          "authorAssociation": "NONE",
+          "body": "> If for a given deployment, the TTS wants to include authorization_details in, say, the tctx object that is totally fine. I'm not sure what adding an explicit reference to RAR in this specification adds, when it is in no way disallowed by not making any statement at all.\n\n>I don't believe any reference is needed as the deployment can determine what the TTS should add to the transaction token.\n\n@gffletch  I believe RAR, if used, belongs to the context that is carried to the workload that can eventually use it. I am asking to include an example with RAR to show how to carry it in the request rather than leaving it to every deployment to decide where to place it (in as HTTP header?, JWT body, in `tctx`, etc.). If the authors think that RAR would not be needed to be used if TxnToken is used, that will also be a useful information for the users. ",
+          "createdAt": "2026-06-30T23:19:52Z",
+          "updatedAt": "2026-06-30T23:19:52Z"
         }
       ]
     },
@@ -22931,18 +22940,26 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-06-25T17:36:03Z",
-      "updatedAt": "2026-06-29T09:46:43Z",
+      "updatedAt": "2026-07-01T12:20:18Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-replacement-comma",
-      "headRefOid": "23bd4de838676e77ea4d912cfdbf6f8c81fbf708",
+      "headRefOid": "4bcfab87b9cd0fe4841a74995d76c3e6fc4b18e7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Made one more change to have consistency in terminology and remove ambiguity about removing workload identities from the transaction token.",
+          "createdAt": "2026-07-01T12:20:17Z",
+          "updatedAt": "2026-07-01T12:20:17Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJt_WwM8AAAABEJ_Odg",
@@ -23197,6 +23214,84 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 361,
+      "id": "PR_kwDOJt_WwM7sopXM",
+      "title": "Refine tctx and rctx claim handling in Txn-Token",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/361",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See issue #349",
+      "createdAt": "2026-07-01T10:54:12Z",
+      "updatedAt": "2026-07-01T10:55:36Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "16b5b8b7fe0b28d231a7ea6d5a678d5a096980df",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 362,
+      "id": "PR_kwDOJt_WwM7sqhMj",
+      "title": "Clean-up examples for consistency with the spec",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/362",
+      "state": "OPEN",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-07-01T12:14:15Z",
+      "updatedAt": "2026-07-01T12:14:23Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-3",
+      "headRefOid": "68c1cf5351f5b6891b096b8468044b538c3518a7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 363,
+      "id": "PR_kwDOJt_WwM7s0xN_",
+      "title": "added .claude to gitignore",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/363",
+      "state": "OPEN",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-07-01T19:07:56Z",
+      "updatedAt": "2026-07-01T19:08:13Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "gitignore-claude",
+      "headRefOid": "5ee44be53a591729e2b3c0437cedd1887c9b4a05",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
