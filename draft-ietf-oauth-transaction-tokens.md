@@ -330,7 +330,7 @@ JWT claims as well as defines new claims. These claims are described below:
 : RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
 
 `req_wl`:
-: REQUIRED. A string value that identifies the workload that requested the Txn-Token. In the general case, the `req_wl` value is an array of case-sensitive strings. In the common special case when there is one requesting workload, the `req_wl` value MAY be a single case-sensitive string.
+: REQUIRED. A string value that identifies the workload that requested the Txn-Token.
 
 ### Scope claim {#scope-claim}
 The `scope` claim captures, as narrowly as possible, the purpose of this particular transaction. The values used for this claim are defined by the TTS as representative of the authorization model defined by the Trust Domain. The value may be literately and semantically different from, and represent an intent narrower, than a scope value issued to an external client. How a given deployment represents the authorization model within the Trust Domain is at its discretion and not prescribed by this specification.
@@ -608,11 +608,10 @@ A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any
 * MAY enable additional asserted values.
 * MUST NOT enable modification to asserted values that expand the scope of permitted actions.
 * MUST NOT modify `txn`, `sub`, and `aud` values of the Txn-Token in the request.
-* MUST NOT remove any of the existing requesting workload identifiers from the `req_wl` claim.
 * MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.
 * MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.
 * SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.
-* MUST append the workload identifier of the workload requesting the replacement to the `req_wl` claim using the character `,` as the separator between individual workload identifiers.
+* MUST maintain the Call Chain of workloads that requested the Txn-Token being replaced in the subsequently issued Txn-Token. The mechanism for maintaining this Call Chain is out of scope for this specification.
 
 ## Determining signing keys
 The `iss` claim may be used to identify the signer of the Txn-Token in cases where the signing keys are not predetermined.
