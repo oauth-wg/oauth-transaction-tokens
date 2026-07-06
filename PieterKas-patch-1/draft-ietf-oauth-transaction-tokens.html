@@ -1305,10 +1305,13 @@ svg {
                 <p id="section-toc.1-1.13.2.13.1"><a href="#section-13.13" class="auto internal xref">13.13</a>. <a href="#name-transaction-tokens-are-not-o" class="internal xref">Transaction Tokens Are Not OAuth 2.0 Access Tokens</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.14">
-                <p id="section-toc.1-1.13.2.14.1"><a href="#section-13.14" class="auto internal xref">13.14</a>. <a href="#name-txn-token-as-a-subject_toke" class="internal xref">Txn-Token as a <code>subject_token</code></a></p>
+                <p id="section-toc.1-1.13.2.14.1"><a href="#section-13.14" class="auto internal xref">13.14</a>. <a href="#name-unknown-subject_token-scope" class="internal xref">Unknown <code>subject_token</code> scope</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.15">
-                <p id="section-toc.1-1.13.2.15.1"><a href="#section-13.15" class="auto internal xref">13.15</a>. <a href="#name-determining-signing-keys" class="internal xref">Determining signing keys</a></p>
+                <p id="section-toc.1-1.13.2.15.1"><a href="#section-13.15" class="auto internal xref">13.15</a>. <a href="#name-txn-token-as-a-subject_toke" class="internal xref">Txn-Token as a <code>subject_token</code></a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.16">
+                <p id="section-toc.1-1.13.2.16.1"><a href="#section-13.16" class="auto internal xref">13.16</a>. <a href="#name-determining-signing-keys" class="internal xref">Determining signing keys</a></p>
 </li>
             </ul>
 </li>
@@ -2299,46 +2302,54 @@ Cache-Control: no-store
 <p id="section-13.13-3">Using a dedicated HTTP header from the <code>Authorization: Bearer</code> header for transaction tokens allows services to distinguish between an access token, which carries authorization delegation information, and the transaction token, which carries transaction context.<a href="#section-13.13-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="txn-token-as-a-subjecttoken">
+<div id="unknown-subjecttoken-scope">
 <section id="section-13.14">
-        <h3 id="name-txn-token-as-a-subject_toke">
-<a href="#section-13.14" class="section-number selfRef">13.14. </a><a href="#name-txn-token-as-a-subject_toke" class="section-name selfRef">Txn-Token as a <code>subject_token</code></a>
+        <h3 id="name-unknown-subject_token-scope">
+<a href="#section-13.14" class="section-number selfRef">13.14. </a><a href="#name-unknown-subject_token-scope" class="section-name selfRef">Unknown <code>subject_token</code> scope</a>
         </h3>
-<p id="section-13.14-1">A TTS MUST exercise caution when receiving a Txn-token as a <code>subject_token</code>. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:<a href="#section-13.14-1" class="pilcrow">¶</a></p>
+<p id="section-13.14-1">If the scope associated with a <code>subject_token</code> cannot be determined from the token or another trusted source, the TTS cannot ensure that the requested scope does not expand the authorization represented by that token. The TTS MUST reject the Txn-Token Request and MUST NOT treat an unknown scope as unconstrained.<a href="#section-13.14-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="txn-token-as-a-subjecttoken">
+<section id="section-13.15">
+        <h3 id="name-txn-token-as-a-subject_toke">
+<a href="#section-13.15" class="section-number selfRef">13.15. </a><a href="#name-txn-token-as-a-subject_toke" class="section-name selfRef">Txn-Token as a <code>subject_token</code></a>
+        </h3>
+<p id="section-13.15-1">A TTS MUST exercise caution when receiving a Txn-token as a <code>subject_token</code>. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:<a href="#section-13.15-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-13.14-2.1">
-            <p id="section-13.14-2.1.1">MAY enable modifications to asserted values that reduce the scope of permitted actions.<a href="#section-13.14-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-13.15-2.1">
+            <p id="section-13.15-2.1.1">MAY enable modifications to asserted values that reduce the scope of permitted actions.<a href="#section-13.15-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.14-2.2">
-            <p id="section-13.14-2.2.1">MAY enable additional asserted values.<a href="#section-13.14-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.15-2.2">
+            <p id="section-13.15-2.2.1">MAY enable additional asserted values.<a href="#section-13.15-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.14-2.3">
-            <p id="section-13.14-2.3.1">MUST NOT enable modification to asserted values that expand the scope of permitted actions.<a href="#section-13.14-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.15-2.3">
+            <p id="section-13.15-2.3.1">MUST NOT enable modification to asserted values that expand the scope of permitted actions.<a href="#section-13.15-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.14-2.4">
-            <p id="section-13.14-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request.<a href="#section-13.14-2.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.15-2.4">
+            <p id="section-13.15-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request.<a href="#section-13.15-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.14-2.5">
-            <p id="section-13.14-2.5.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-13.14-2.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.15-2.5">
+            <p id="section-13.15-2.5.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-13.15-2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.14-2.6">
-            <p id="section-13.14-2.6.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-13.14-2.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.15-2.6">
+            <p id="section-13.15-2.6.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-13.15-2.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.14-2.7">
-            <p id="section-13.14-2.7.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-13.14-2.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.15-2.7">
+            <p id="section-13.15-2.7.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-13.15-2.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-13.14-2.8">
-            <p id="section-13.14-2.8.1">MUST maintain the Call Chain of workloads that requested the Txn-Token being replaced in the subsequently issued Txn-Token. The mechanism for maintaining this Call Chain is out of scope for this specification.<a href="#section-13.14-2.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-13.15-2.8">
+            <p id="section-13.15-2.8.1">MUST maintain the Call Chain of workloads that requested the Txn-Token being replaced in the subsequently issued Txn-Token. The mechanism for maintaining this Call Chain is out of scope for this specification.<a href="#section-13.15-2.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="determining-signing-keys">
-<section id="section-13.15">
+<section id="section-13.16">
         <h3 id="name-determining-signing-keys">
-<a href="#section-13.15" class="section-number selfRef">13.15. </a><a href="#name-determining-signing-keys" class="section-name selfRef">Determining signing keys</a>
+<a href="#section-13.16" class="section-number selfRef">13.16. </a><a href="#name-determining-signing-keys" class="section-name selfRef">Determining signing keys</a>
         </h3>
-<p id="section-13.15-1">The <code>iss</code> claim may be used to identify the signer of the Txn-Token in cases where the signing keys are not predetermined.<a href="#section-13.15-1" class="pilcrow">¶</a></p>
+<p id="section-13.16-1">The <code>iss</code> claim may be used to identify the signer of the Txn-Token in cases where the signing keys are not predetermined.<a href="#section-13.16-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

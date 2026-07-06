@@ -115,8 +115,9 @@ Table of Contents
      13.11. TTS Key Rotation
      13.12. Transaction Tokens Are Not Authentication Credentials
      13.13. Transaction Tokens Are Not OAuth 2.0 Access Tokens
-     13.14. Txn-Token as a subject_token
-     13.15. Determining signing keys
+     13.14. Unknown subject_token scope
+     13.15. Txn-Token as a subject_token
+     13.16. Determining signing keys
    14. Preserving transaction context across Trust Domains
    15. Privacy Considerations
      15.1.  Handling of Personal Information
@@ -1116,7 +1117,15 @@ Table of Contents
    access token, which carries authorization delegation information, and
    the transaction token, which carries transaction context.
 
-13.14.  Txn-Token as a subject_token
+13.14.  Unknown subject_token scope
+
+   If the scope associated with a subject_token cannot be determined
+   from the token or another trusted source, the TTS cannot ensure that
+   the requested scope does not expand the authorization represented by
+   that token.  The TTS MUST reject the Txn-Token Request and MUST NOT
+   treat an unknown scope as unconstrained.
+
+13.15.  Txn-Token as a subject_token
 
    A TTS MUST exercise caution when receiving a Txn-token as a
    subject_token.  Any Txn-Token issued in response to such a request is
@@ -1150,7 +1159,7 @@ Table of Contents
       mechanism for maintaining this Call Chain is out of scope for this
       specification.
 
-13.15.  Determining signing keys
+13.16.  Determining signing keys
 
    The iss claim may be used to identify the signer of the Txn-Token in
    cases where the signing keys are not predetermined.
