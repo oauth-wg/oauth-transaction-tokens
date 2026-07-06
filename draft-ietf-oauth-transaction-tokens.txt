@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 26 December 2026                         Practical Identity LLC
+Expires: 7 January 2027                           Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            24 June 2026
+                                                             6 July 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 December 2026.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -551,7 +551,7 @@ Table of Contents
    {
        "rctx": {
          "req_ip": "69.151.72.123", // IP address of the originating request
-         "authn": "face" // from RFC 8176
+         "authn": "face", // from RFC 8176
          "transport": "https" // transport method used for the originating request
        }
    }
@@ -602,7 +602,7 @@ Table of Contents
      "req_wl": "apigateway.trust-domain.example", // the internal entity that requested the Txn-Token
      "rctx": {
        "req_ip": "69.151.72.123", // env context of external call
-       "authn": "urn:ietf:rfc:6749", // env context of the external call
+       "authn": "face" // from RFC 8176
      },
      "scope" : "trade.stocks",
      "tctx": {
@@ -716,17 +716,18 @@ Table of Contents
    The figure below Figure 5 shows a non-normative example of a Txn-
    Token Request.  Line breaks added for readability.
 
-   POST /txn-token-service/token_endpoint HTTP 1.1
+   POST /txn-token-service/token_endpoint HTTP/1.1
    Host: txn-token-service.trust-domain.example
    Content-Type: application/x-www-form-urlencoded
 
    grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
-   &requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn-token
-   &audience=http%3A%2F%2Ftrust-domain.example
-   &scope=finance.watchlist.add
+   &requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
+   &audience=trust-domain.example
+   &scope=trade.stocks
    &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn%3Aietf%3Arfc%3A6749%22%0A%7D
+   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22face%22%0A%7D
+   &request_details=%7B%0A%20%20%20%20%20%20%22action%22%3A%20%22BUY%22%2C%0A%20%20%20%20%20%20%22ticker%22%3A%20%22MSFT%22%2C%0A%20%20%20%20%20%20%22quantity%22%3A%20%22100%22%0A%7D
 
                     Figure 5: Example: Txn-Token Request
 
@@ -1399,9 +1400,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-15, 19
+              Internet-Draft, draft-ietf-oauth-identity-chaining-16, 26
               June 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-15>.
+              ietf-oauth-identity-chaining-16>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
@@ -1423,6 +1424,10 @@ Table of Contents
 
 17.2.  Informative References
 
+   [RFC8176]  Jones, M., Hunt, P., and A. Nadalin, "Authentication
+              Method Reference Values", RFC 8176, DOI 10.17487/RFC8176,
+              June 2017, <https://www.rfc-editor.org/rfc/rfc8176>.
+
    [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
@@ -1438,16 +1443,16 @@ Table of Contents
    [I-D.ietf-wimse-mutual-tls]
               Salowey, J. A. and Y. Rosomakho, "Workload Authentication
               Using Mutual TLS", Work in Progress, Internet-Draft,
-              draft-ietf-wimse-mutual-tls-01, 5 May 2026,
+              draft-ietf-wimse-mutual-tls-02, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              mutual-tls-01>.
+              mutual-tls-02>.
 
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
               Authentication with HTTP Signatures", Work in Progress,
-              Internet-Draft, draft-ietf-wimse-http-signature-03, 7
-              April 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-wimse-http-signature-03>.
+              Internet-Draft, draft-ietf-wimse-http-signature-04, 6 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              wimse-http-signature-04>.
 
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof
