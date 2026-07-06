@@ -93,6 +93,7 @@ normative:
     date: 2014-11
 
 informative:
+  RFC8176: # Authentication Method Reference Values
   SPIFFE:
     title: Secure Production Identity Framework for Everyone
     target: https://spiffe.io/docs/latest/spiffe-about/overview/
@@ -343,7 +344,7 @@ The following is a non-normative example of an `rctx` claim initiated by an exte
 {
     "rctx": {
       "req_ip": "69.151.72.123", // IP address of the originating request
-      "authn": "face" // from RFC 8176
+      "authn": "face", // from RFC 8176
       "transport": "https" // transport method used for the originating request
     }
 }
@@ -383,7 +384,7 @@ The figure below {{figleaftxtokenbody}} shows a non-normative example of the JWT
   "req_wl": "apigateway.trust-domain.example", // the internal entity that requested the Txn-Token
   "rctx": {
     "req_ip": "69.151.72.123", // env context of external call
-    "authn": "urn:ietf:rfc:6749", // env context of the external call
+    "authn": "face" // from RFC 8176
   },
   "scope" : "trade.stocks",
   "tctx": {
@@ -436,17 +437,18 @@ All parameters are encoded using the "application/x-www-form-urlencoded" format 
 The figure below {{figtxtokenrequest}} shows a non-normative example of a Txn-Token Request. Line breaks added for readability.
 
 ~~~ http
-POST /txn-token-service/token_endpoint HTTP 1.1
+POST /txn-token-service/token_endpoint HTTP/1.1
 Host: txn-token-service.trust-domain.example
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
-&requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn-token
-&audience=http%3A%2F%2Ftrust-domain.example
-&scope=finance.watchlist.add
+&requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
+&audience=trust-domain.example
+&scope=trade.stocks
 &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-&request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn%3Aietf%3Arfc%3A6749%22%0A%7D
+&request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22face%22%0A%7D
+&request_details=%7B%0A%20%20%20%20%20%20%22action%22%3A%20%22BUY%22%2C%0A%20%20%20%20%20%20%22ticker%22%3A%20%22MSFT%22%2C%0A%20%20%20%20%20%20%22quantity%22%3A%20%22100%22%0A%7D
 ~~~
 {: #figtxtokenrequest title="Example: Txn-Token Request"}
 
