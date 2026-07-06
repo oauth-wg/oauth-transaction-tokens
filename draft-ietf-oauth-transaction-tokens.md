@@ -360,14 +360,15 @@ Whereas the `rctx` field contains environmental values related to the request, t
 The following is a non-normative example of an `tctx` claim initiated by an external call:
 
 ~~~ json
-"tctx": {
-  "action": "BUY", // parameter of external call
-  "ticker": "MSFT", // parameter of external call
-  "quantity": "100", // parameter of external call
-  "customer_type": { // computed value not present in external call
-    "geo": "US",
-    "level": "VIP"
-  }
+{
+    "tctx": {
+      "action": "BUY", // parameter of external call
+      "ticker": "MSFT", // parameter of external call
+      "quantity": "100", // parameter of external call
+      "customer_type": { // computed value not present in external call
+        "geo": "US",
+        "level": "VIP"
+    }
 }
 ~~~
 
@@ -490,8 +491,8 @@ When the TTS receives a Txn-Token Request it:
 * The TTS MUST set the `txn` claim to a unique ID specific to this transaction.
 * The TTS MAY set the `iss` claim of the Txn-Token to a value defining the entity that signed the Txn-Token.
 * The TTS MUST evaluate the value specified in the `scope` parameter of the request to determine the `scope` claim of the issued Txn-Token.
-* If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.
-* If a `request_details` parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the TTS authorization policy for the requesting client.
+* If a `request_context` parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the `request_context` parameter and may include claims in the `rctx` claim of the issued Txn-Token based on the `request_context` parameter. The TTS is authoritative for the set of claims made available in the `rctx` claim. The claims included in the `rctx` claim of the issued Txn-Token may be an exact match of those on the `request_context`, may be derived from the `request_context`, or independently asserted by the TTS.
+* If a `request_details` parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the `request_details` parameter and may include claims in the `tctx` claim of the issued Txn-token based on the `request_details` parameter. The claims included in the `tctx` claim of the issued Txn-Token may be an exact match of those on the `request_details`, or may be derived from the `request_details`. The TTS is authoritative for the set of claims made available in the `tctx` claim and MAY include additional claims unrelated to the `request_details`.
 
 The TTS MAY provide additional processing and verification that is outside the scope of this specification.
 
@@ -713,13 +714,12 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 * Added Brian Campbell as a contributor.
 * Renamed Requester-Context section to Request Context and removed specification of `rctx` specific claims (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/323)
 * Clarified how multiple workloads are represented in the `req_wl` claim (see issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/331)
-
 * Clarify transaction tokens vs OAuth 2.0 access tokens
 * Merged Overview and Introduction sections (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/327)
 * Changed additionally defined request parameters from OPTIONAL to RECOMMENDED see https://github.com/oauth-wg/oauth-transaction-tokens/issues/332)
 * Consistent cappitalisation of trust domain and call chain (see https://github.com/oauth-wg/oauth-transaction-tokens/issues)
-
 * Updated JWT body claims from OPTIONAL to RECOMMENDED (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)
+* Clarified TTS behaviour wrt txtx and rctx, fixed examples (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/349)
 
 ## Since Draft 07
 {:numbered="false"}
