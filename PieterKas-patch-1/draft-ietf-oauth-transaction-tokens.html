@@ -1792,7 +1792,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <dt id="section-9.2-2.19">
 <code>req_wl</code>:</dt>
           <dd style="margin-left: 1.5em" id="section-9.2-2.20">
-            <p id="section-9.2-2.20.1">REQUIRED. A string value that identifies the workload that requested the Txn-Token. In the general case, the <code>req_wl</code> value is an array of case-sensitive strings. In the common special case when there is one requesting workload, the <code>req_wl</code> value MAY be a single case-sensitive string.<a href="#section-9.2-2.20.1" class="pilcrow">¶</a></p>
+            <p id="section-9.2-2.20.1">REQUIRED. A string value that identifies the workload that requested the Txn-Token.<a href="#section-9.2-2.20.1" class="pilcrow">¶</a></p>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1816,7 +1816,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 {
     "rctx": {
       "req_ip": "69.151.72.123", // IP address of the originating request
-      "authn": "face" // from RFC 8176
+      "authn": "face", // from RFC 8176
       "transport": "https" // transport method used for the originating request
     }
 }
@@ -1868,7 +1868,7 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
   "req_wl": "apigateway.trust-domain.example", // the internal entity that requested the Txn-Token
   "rctx": {
     "req_ip": "69.151.72.123", // env context of external call
-    "authn": "urn:ietf:rfc:6749", // env context of the external call
+    "authn": "face" // from RFC 8176
   },
   "scope" : "trade.stocks",
   "tctx": {
@@ -1967,17 +1967,18 @@ The type of the <code>subject_token</code> field is identified by <code>subject_
 <figure id="figure-5">
           <div class="lang-http sourcecode" id="section-11.1-8.1">
 <pre>
-POST /txn-token-service/token_endpoint HTTP 1.1
+POST /txn-token-service/token_endpoint HTTP/1.1
 Host: txn-token-service.trust-domain.example
 Content-Type: application/x-www-form-urlencoded
 
 grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
-&amp;requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn-token
-&amp;audience=http%3A%2F%2Ftrust-domain.example
-&amp;scope=finance.watchlist.add
+&amp;requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
+&amp;audience=trust-domain.example
+&amp;scope=trade.stocks
 &amp;subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
 &amp;subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-&amp;request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn%3Aietf%3Arfc%3A6749%22%0A%7D
+&amp;request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22face%22%0A%7D
+&amp;request_details=%7B%0A%20%20%20%20%20%20%22action%22%3A%20%22BUY%22%2C%0A%20%20%20%20%20%20%22ticker%22%3A%20%22MSFT%22%2C%0A%20%20%20%20%20%20%22quantity%22%3A%20%22100%22%0A%7D
 </pre>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
@@ -2236,7 +2237,7 @@ Cache-Control: no-store
         <h3 id="name-scope-processing">
 <a href="#section-13.6" class="section-number selfRef">13.6. </a><a href="#name-scope-processing" class="section-name selfRef">Scope Processing</a>
         </h3>
-<p id="section-13.6-1">The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the TTS. The TTS MUST ensure that the requested <code>scope</code> of the Txn-Token is equal or less than the scope(s) identified in the <code>subject_token</code>.<a href="#section-13.6-1" class="pilcrow">¶</a></p>
+<p id="section-13.6-1">The authorization model within a Trust Domain boundary may be quite different from the authorization model (e.g. OAuth scopes) used with clients external to the Trust Domain. This makes managing unintentional scope increase a critical aspect of the TTS. The TTS MUST ensure that the requested <code>scope</code> of the Txn-Token is equal or less than the scope(s) associated with the original <code>subject_token</code>.<a href="#section-13.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="tts-discovery">
@@ -2318,19 +2319,16 @@ Cache-Control: no-store
             <p id="section-13.14-2.4.1">MUST NOT modify <code>txn</code>, <code>sub</code>, and <code>aud</code> values of the Txn-Token in the request.<a href="#section-13.14-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.14-2.5">
-            <p id="section-13.14-2.5.1">MUST NOT remove any of the existing requesting workload identifiers from the <code>req_wl</code> claim.<a href="#section-13.14-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-13.14-2.5.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-13.14-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.14-2.6">
-            <p id="section-13.14-2.6.1">MUST NOT issue a new Txn-Token when the Txn-Token being replaced has expired.<a href="#section-13.14-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-13.14-2.6.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-13.14-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.14-2.7">
-            <p id="section-13.14-2.7.1">MAY issue a replacement Txn-Token with a lifetime exceeding the lifetime of the input Txn-Token, subject to the policy of the TTS.<a href="#section-13.14-2.7.1" class="pilcrow">¶</a></p>
+            <p id="section-13.14-2.7.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-13.14-2.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-13.14-2.8">
-            <p id="section-13.14-2.8.1">SHOULD limit the number of times a Txn-Token is replaced if it allows extending the lifetime beyond that of the input Txn-Token to reduce replay risks.<a href="#section-13.14-2.8.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-13.14-2.9">
-            <p id="section-13.14-2.9.1">MUST append the workload identifier of the workload requesting the replacement to the <code>req_wl</code> claim using the character <code>,</code> as the separator between individual workload identifiers.<a href="#section-13.14-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-13.14-2.8.1">MUST maintain the Call Chain of workloads that requested the Txn-Token being replaced in the subsequently issued Txn-Token. The mechanism for maintaining this Call Chain is out of scope for this specification.<a href="#section-13.14-2.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2670,6 +2668,10 @@ Cache-Control: no-store
 <a href="#section-17.2" class="section-number selfRef">17.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="RFC8176">[RFC8176]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Hunt, P.</span>, and <span class="refAuthor">A. Nadalin</span>, <span class="refTitle">"Authentication Method Reference Values"</span>, <span class="seriesInfo">RFC 8176</span>, <span class="seriesInfo">DOI 10.17487/RFC8176</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8176">https://www.rfc-editor.org/rfc/rfc8176</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="SPIFFE">[SPIFFE]</dt>
         <dd>
 <span class="refAuthor">Cloud Native Computing Foundation</span>, <span class="refTitle">"Secure Production Identity Framework for Everyone"</span>, <span>n.d.</span>, <span>&lt;<a href="https://spiffe.io/docs/latest/spiffe-about/overview/">https://spiffe.io/docs/latest/spiffe-about/overview/</a>&gt;</span>. </dd>
@@ -2909,6 +2911,9 @@ Cache-Control: no-store
 </li>
           <li class="normal" id="appendix-B.4-1.4">
             <p id="appendix-B.4-1.4.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/pull/176">Clarified that the HTTP header Txn-Token is unstructured</a><a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.4-1.5">
+            <p id="appendix-B.4-1.5.1"><a href="https://github.com/oauth-wg/oauth-transaction-tokens/issues/357">Scope Processing: behavior undefined when subject_token has no scope claim</a><a href="#appendix-B.4-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

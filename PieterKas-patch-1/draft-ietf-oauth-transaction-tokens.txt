@@ -520,10 +520,7 @@ Table of Contents
       please refer to Section 9.2.3
 
    req_wl:  REQUIRED.  A string value that identifies the workload that
-      requested the Txn-Token.  In the general case, the req_wl value is
-      an array of case-sensitive strings.  In the common special case
-      when there is one requesting workload, the req_wl value MAY be a
-      single case-sensitive string.
+      requested the Txn-Token.
 
 9.2.1.  Scope claim
 
@@ -551,7 +548,7 @@ Table of Contents
    {
        "rctx": {
          "req_ip": "69.151.72.123", // IP address of the originating request
-         "authn": "face" // from RFC 8176
+         "authn": "face", // from RFC 8176
          "transport": "https" // transport method used for the originating request
        }
    }
@@ -603,7 +600,7 @@ Table of Contents
      "req_wl": "apigateway.trust-domain.example", // the internal entity that requested the Txn-Token
      "rctx": {
        "req_ip": "69.151.72.123", // env context of external call
-       "authn": "urn:ietf:rfc:6749", // env context of the external call
+       "authn": "face" // from RFC 8176
      },
      "scope" : "trade.stocks",
      "tctx": {
@@ -717,17 +714,18 @@ Table of Contents
    The figure below Figure 5 shows a non-normative example of a Txn-
    Token Request.  Line breaks added for readability.
 
-   POST /txn-token-service/token_endpoint HTTP 1.1
+   POST /txn-token-service/token_endpoint HTTP/1.1
    Host: txn-token-service.trust-domain.example
    Content-Type: application/x-www-form-urlencoded
 
    grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
-   &requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn-token
-   &audience=http%3A%2F%2Ftrust-domain.example
-   &scope=finance.watchlist.add
+   &requested_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Atxn_token
+   &audience=trust-domain.example
+   &scope=trade.stocks
    &subject_token=eyJhbGciOiJFUzI1NiIsImtpZC...kdXjwhw
    &subject_token_type=urn%3Aietf%3Aparams%3Aoauth%3Atoken-type%3Aaccess_token
-   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22urn%3Aietf%3Arfc%3A6749%22%0A%7D
+   &request_context=%7B%0A%20%20%20%20%20%20%22req_ip%22%3A%20%2269.151.72.123%22%2C%20%0A%20%20%20%20%20%20%22authn%22%3A%20%22face%22%0A%7D
+   &request_details=%7B%0A%20%20%20%20%20%20%22action%22%3A%20%22BUY%22%2C%0A%20%20%20%20%20%20%22ticker%22%3A%20%22MSFT%22%2C%0A%20%20%20%20%20%20%22quantity%22%3A%20%22100%22%0A%7D
 
                     Figure 5: Example: Txn-Token Request
 
@@ -1022,7 +1020,7 @@ Table of Contents
    clients external to the Trust Domain.  This makes managing
    unintentional scope increase a critical aspect of the TTS.  The TTS
    MUST ensure that the requested scope of the Txn-Token is equal or
-   less than the scope(s) identified in the subject_token.
+   less than the scope(s) associated with the original subject_token.
 
 13.7.  TTS Discovery
 
@@ -1137,9 +1135,6 @@ Table of Contents
    *  MUST NOT modify txn, sub, and aud values of the Txn-Token in the
       request.
 
-   *  MUST NOT remove any of the existing requesting workload
-      identifiers from the req_wl claim.
-
    *  MUST NOT issue a new Txn-Token when the Txn-Token being replaced
       has expired.
 
@@ -1150,9 +1145,10 @@ Table of Contents
       allows extending the lifetime beyond that of the input Txn-Token
       to reduce replay risks.
 
-   *  MUST append the workload identifier of the workload requesting the
-      replacement to the req_wl claim using the character , as the
-      separator between individual workload identifiers.
+   *  MUST maintain the Call Chain of workloads that requested the Txn-
+      Token being replaced in the subsequently issued Txn-Token.  The
+      mechanism for maintaining this Call Chain is out of scope for this
+      specification.
 
 13.15.  Determining signing keys
 
@@ -1434,6 +1430,10 @@ Table of Contents
 
 17.2.  Informative References
 
+   [RFC8176]  Jones, M., Hunt, P., and A. Nadalin, "Authentication
+              Method Reference Values", RFC 8176, DOI 10.17487/RFC8176,
+              June 2017, <https://www.rfc-editor.org/rfc/rfc8176>.
+
    [SPIFFE]   Cloud Native Computing Foundation, "Secure Production
               Identity Framework for Everyone", n.d.,
               <https://spiffe.io/docs/latest/spiffe-about/overview/>.
@@ -1664,6 +1664,10 @@ Since Draft 05
 
    *  Clarified that the HTTP header Txn-Token is unstructured
       (https://github.com/oauth-wg/oauth-transaction-tokens/pull/176)
+
+   *  Scope Processing: behavior undefined when subject_token has no
+      scope claim (https://github.com/oauth-wg/oauth-transaction-tokens/
+      issues/357)
 
 Since Draft 04
 
