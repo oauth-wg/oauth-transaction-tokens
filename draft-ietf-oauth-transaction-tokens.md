@@ -601,6 +601,9 @@ Transaction tokens support the principle of least privilege since they are narro
 
 Using a dedicated HTTP header from the `Authorization: Bearer` header for transaction tokens allows services to distinguish between an access token, which carries authorization delegation information, and the transaction token, which carries transaction context.
 
+## Unknown `subject_token` scope
+If the scope associated with a `subject_token` cannot be determined from the token or another trusted source, the TTS cannot ensure that the requested scope does not expand the authorization represented by that token. The TTS MUST reject the Txn-Token Request and MUST NOT treat an unknown scope as unconstrained.
+
 ## Txn-Token as a `subject_token`
 A TTS MUST exercise caution when receiving a Txn-token as a `subject_token`. Any Txn-Token issued in response to such a request is effectively a replacement Txn-Token. Replacing Txn-Tokens potentially negates the primary purpose of having Txn-Tokens. When issuing replacement Txn-Tokens, a TTS:
 
