@@ -368,6 +368,7 @@ The following is a non-normative example of an `tctx` claim initiated by an exte
       "customer_type": { // computed value not present in external call
         "geo": "US",
         "level": "VIP"
+      }
     }
 }
 ~~~
