@@ -1146,8 +1146,7 @@ Table of Contents
       to reduce replay risks.
 
    *  MUST maintain the Call Chain of workloads that requested the Txn-
-      Token being replaced, and MUST NOT remove or obscure any of those
-      workload identities in the subsequently issued Txn-Token.  The
+      Token being replaced in the subsequently issued Txn-Token.  The
       mechanism for maintaining this Call Chain is out of scope for this
       specification.
 
