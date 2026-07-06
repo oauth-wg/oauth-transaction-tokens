@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 2 January 2027                           Practical Identity LLC
+Expires: 7 January 2027                           Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                             1 July 2026
+                                                             6 July 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2027.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -833,11 +833,11 @@ Table of Contents
       Request, the TTS SHOULD evaluate the content of the
       request_context parameter and may include claims in the rctx claim
       of the issued Txn-Token based on the request_context parameter.
-      The claims included in the rctx claim of the issued Txn-Token may
-      be an exact match of those on the request_context, or may be
-      derived from the request_context.  The TTS is authoritative for
-      the set of claims made available in the rctx claim and MAY include
-      additional claims unrelated to the request_context.
+      The TTS is authoritative for the set of claims made available in
+      the rctx claim.  The claims included in the rctx claim of the
+      issued Txn-Token may be an exact match of those on the
+      request_context, may be derived from the request_context, or
+      independently asserted by the TTS.
 
    *  If a request_details parameter is present in the Txn-Token
       Request, the TTS SHOULD evaluate the content of the
@@ -1449,16 +1449,16 @@ Table of Contents
    [I-D.ietf-wimse-mutual-tls]
               Salowey, J. A. and Y. Rosomakho, "Workload Authentication
               Using Mutual TLS", Work in Progress, Internet-Draft,
-              draft-ietf-wimse-mutual-tls-01, 5 May 2026,
+              draft-ietf-wimse-mutual-tls-02, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              mutual-tls-01>.
+              mutual-tls-02>.
 
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
               Authentication with HTTP Signatures", Work in Progress,
-              Internet-Draft, draft-ietf-wimse-http-signature-03, 7
-              April 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-wimse-http-signature-03>.
+              Internet-Draft, draft-ietf-wimse-http-signature-04, 6 July
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              wimse-http-signature-04>.
 
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof

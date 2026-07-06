@@ -30,7 +30,7 @@
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.1
+    wcwidth 0.8.2
 -->
 <link href="draft-ietf-oauth-transaction-tokens.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1053,7 +1053,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 2 January 2027</td>
+<td class="center">Expires 7 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-01" class="published">1 July 2026</time>
+<time datetime="2026-07-06" class="published">6 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-02">2 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1124,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2083,7 +2083,7 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
             <p id="section-11.3-2.9.1">The TTS MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token.<a href="#section-11.3-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-2.10">
-            <p id="section-11.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the <code>request_context</code> parameter and may include claims in the <code>rctx</code> claim of the issued Txn-Token based on the <code>request_context</code> parameter. The claims included in the <code>rctx</code> claim of the issued Txn-Token may be an exact match of those on the <code>request_context</code>, or may be derived from the <code>request_context</code>. The TTS is authoritative for the set of claims made available in the <code>rctx</code> claim and MAY include additional claims unrelated to the <code>request_context</code>.<a href="#section-11.3-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-11.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the <code>request_context</code> parameter and may include claims in the <code>rctx</code> claim of the issued Txn-Token based on the <code>request_context</code> parameter. The TTS is authoritative for the set of claims made available in the <code>rctx</code> claim. The claims included in the <code>rctx</code> claim of the issued Txn-Token may be an exact match of those on the <code>request_context</code>, may be derived from the <code>request_context</code>, or independently asserted by the TTS.<a href="#section-11.3-2.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-2.11">
             <p id="section-11.3-2.11.1">If a <code>request_details</code> parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the <code>request_details</code> parameter and may include claims in the <code>tctx</code> claim of the issued Txn-token based on the <code>request_details</code> parameter. The claims included in the <code>tctx</code> claim of the issued Txn-Token may be an exact match of those on the <code>request_details</code>, or may be derived from the <code>request_details</code>. The TTS is authoritative for the set of claims made available in the <code>tctx</code> claim and MAY include additional claims unrelated to the <code>request_details</code>.<a href="#section-11.3-2.11.1" class="pilcrow">¶</a></p>
@@ -2680,11 +2680,11 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-mutual-tls">[I-D.ietf-wimse-mutual-tls]</dt>
         <dd>
-<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Rosomakho</span>, <span class="refTitle">"Workload Authentication Using Mutual TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-mutual-tls-01</span>, <time datetime="2026-05-05" class="refDate">5 May 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-01">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Rosomakho</span>, <span class="refTitle">"Workload Authentication Using Mutual TLS"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-mutual-tls-02</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-02">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-mutual-tls-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-http-signature">[I-D.ietf-wimse-http-signature]</dt>
         <dd>
-<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication with HTTP Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-http-signature-03</span>, <time datetime="2026-04-07" class="refDate">7 April 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-03">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-03</a>&gt;</span>. </dd>
+<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication with HTTP Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-http-signature-04</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-04">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-wpt">[I-D.ietf-wimse-wpt]</dt>
       <dd>
