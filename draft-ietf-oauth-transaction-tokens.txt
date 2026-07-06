@@ -584,6 +584,7 @@ Table of Contents
          "customer_type": { // computed value not present in external call
            "geo": "US",
            "level": "VIP"
+         }
        }
    }
 
@@ -1451,9 +1452,9 @@ Table of Contents
               Salowey, J. A., Rosomakho, Y., and H. Tschofenig,
               "Workload Identity in a Multi System Environment (WIMSE)
               Architecture", Work in Progress, Internet-Draft, draft-
-              ietf-wimse-arch-07, 2 March 2026,
+              ietf-wimse-arch-08, 6 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-wimse-
-              arch-07>.
+              arch-08>.
 
    [I-D.ietf-wimse-mutual-tls]
               Salowey, J. A. and Y. Rosomakho, "Workload Authentication
