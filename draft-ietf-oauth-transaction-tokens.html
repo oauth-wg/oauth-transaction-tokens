@@ -1835,14 +1835,15 @@ JWT claims as well as defines new claims. These claims are described below:<a hr
 <p id="section-9.2.3-4">The following is a non-normative example of an <code>tctx</code> claim initiated by an external call:<a href="#section-9.2.3-4" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-9.2.3-5">
 <pre>
-"tctx": {
-  "action": "BUY", // parameter of external call
-  "ticker": "MSFT", // parameter of external call
-  "quantity": "100", // parameter of external call
-  "customer_type": { // computed value not present in external call
-    "geo": "US",
-    "level": "VIP"
-  }
+{
+    "tctx": {
+      "action": "BUY", // parameter of external call
+      "ticker": "MSFT", // parameter of external call
+      "quantity": "100", // parameter of external call
+      "customer_type": { // computed value not present in external call
+        "geo": "US",
+        "level": "VIP"
+    }
 }
 </pre><a href="#section-9.2.3-5" class="pilcrow">¶</a>
 </div>
@@ -2083,10 +2084,10 @@ grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange
             <p id="section-11.3-2.9.1">The TTS MUST evaluate the value specified in the <code>scope</code> parameter of the request to determine the <code>scope</code> claim of the issued Txn-Token.<a href="#section-11.3-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-2.10">
-            <p id="section-11.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the data SHOULD be added to the <code>rctx</code> object of the Txn-Token.<a href="#section-11.3-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-11.3-2.10.1">If a <code>request_context</code> parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the <code>request_context</code> parameter and may include claims in the <code>rctx</code> claim of the issued Txn-Token based on the <code>request_context</code> parameter. The TTS is authoritative for the set of claims made available in the <code>rctx</code> claim. The claims included in the <code>rctx</code> claim of the issued Txn-Token may be an exact match of those on the <code>request_context</code>, may be derived from the <code>request_context</code>, or independently asserted by the TTS.<a href="#section-11.3-2.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-11.3-2.11">
-            <p id="section-11.3-2.11.1">If a <code>request_details</code> parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the <code>request_details</code> object into the claims in the <code>tctx</code> object as authorized by the TTS authorization policy for the requesting client.<a href="#section-11.3-2.11.1" class="pilcrow">¶</a></p>
+            <p id="section-11.3-2.11.1">If a <code>request_details</code> parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the <code>request_details</code> parameter and may include claims in the <code>tctx</code> claim of the issued Txn-token based on the <code>request_details</code> parameter. The claims included in the <code>tctx</code> claim of the issued Txn-Token may be an exact match of those on the <code>request_details</code>, or may be derived from the <code>request_details</code>. The TTS is authoritative for the set of claims made available in the <code>tctx</code> claim and MAY include additional claims unrelated to the <code>request_details</code>.<a href="#section-11.3-2.11.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-11.3-3">The TTS MAY provide additional processing and verification that is outside the scope of this specification.<a href="#section-11.3-3" class="pilcrow">¶</a></p>
@@ -2757,6 +2758,9 @@ Cache-Control: no-store
 </li>
           <li class="normal" id="appendix-B.1-1.13">
             <p id="appendix-B.1-1.13.1">Updated JWT body claims from OPTIONAL to RECOMMENDED (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/330)<a href="#appendix-B.1-1.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.14">
+            <p id="appendix-B.1-1.14.1">Clarified TTS behaviour wrt txtx and rctx, fixed examples (see https://github.com/oauth-wg/oauth-transaction-tokens/issues/349)<a href="#appendix-B.1-1.14.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
