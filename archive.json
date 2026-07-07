@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-02T00:47:25.768353+00:00",
+  "timestamp": "2026-07-07T00:40:45.109502+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -6820,7 +6820,7 @@
       "id": "I_kwDOJt_WwM78r42R",
       "title": "... req_wl ... ",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/331",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bc-pi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -6829,8 +6829,8 @@
       ],
       "body": "https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-10.2-2.20.1 \n\n> req_wl:\n> \n> REQUIRED. A string value that identifies the workload that requested the Txn-Token. The value SHOULD contain a single workload identifier. In some circumstances, the value MAY contain multiple workload identifiers with each identifier separated by a comma (,).\n\nWhat are some circumstances? [14.11.1.](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#section-14.11.1) has two bullets (that should probably be together) about req_wl that are maybe these \"some circumstances\" but that's a lot left to the reader. Also not great justification for a under-defied structured format for use inside a different data format that has ways to structure data.\n\nWhat if some of workload identifiers contain commas? Workload identifiers aren't defined in here, are they?\n\nDo we really want to define a sometimes comma separated values list as a the value of a claim?\n\nIf the [Requester Context](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-08#name-requester-context) claim can contain \"information about the computational entity that requested the Txn-Token\", then how/why is that different than \"the workload that requested the Txn-Token\"? \n\nCould the [\"act\" (Actor) Claim](https://www.rfc-editor.org/rfc/rfc8693.html#name-act-actor-claim) be of any relevance here? I am painfully aware that representing delegation is a bit of a mess. But does introducing another construct help the situation? I've not yet read @mcguinness's https://notes.karlmcguinness.com/notes/standardize-act-across-assertion-grants-and-jwt-access-tokens/ and don't know if I agree with proposal(s) but highly suspect it describes some of that \"bit of a mess\". Is a new sometimes-csv valued claim at the top-level going to improve the situation or enworseify it?\n\n\n",
       "createdAt": "2026-04-10T13:10:10Z",
-      "updatedAt": "2026-06-25T17:36:43Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-06T17:15:53Z",
+      "closedAt": "2026-07-06T17:15:53Z",
       "comments": [
         {
           "author": "gffletch",
@@ -7320,7 +7320,7 @@
       "labels": [],
       "body": "**Section:** 14.6 (Scope Processing); related: \u00a712.3.\n\n**Issue.** \u00a714.6 says:\n\n> \"The TTS MUST ensure that the requested scope of the Txn-Token is equal\n> or less than the scope(s) identified in the subject_token.\"\n\nThe text doesn't define behavior when the `subject_token` carries **no\n`scope` claim at all**. Two readings are each defensible and they diverge\nin exactly the privilege-escalation case the section exists to prevent:\n\n1. **Absent parent scope == empty set.** Any non-empty requested scope is\n   strictly greater, so the request is refused. (Conservative.)\n2. **Absent parent scope == unconstrained.** The MUST has nothing to\n   compare against, so any requested scope passes. (Permissive.)\n\n\u00a712.3 (\"the TTS MUST evaluate the value specified in the scope parameter\")\ndoesn't resolve it either \u2014 it constrains the requested scope, not the\nabsent-parent case.\n\n**Implementation experience.** In an open-source implementation (authgent),\na literal reading of the \u00a714.6 MUST produced reading (2): the subset check\nonly fires when the parent scope is non-empty, so a `subject_token` with no\n`scope` claim currently lets *any* requested scope through unrestricted.\nThat is arguably the unintentional-scope-increase case \u00a714.6 exists to\nprevent \u2014 which is precisely why I think the absent-`scope` case needs\nexplicit text. A conscientious implementer reading \u00a714.6 as written can\nland on the permissive behavior without realizing it.\n\n**Suggested clarification** (one sentence in \u00a714.6):\n\n> \"If the subject_token carries no `scope` claim, the TTS MUST treat the\n> available scope as the empty set for the purpose of this comparison\n> (i.e. it MUST NOT issue a Txn-Token with a non-empty scope).\"\n\nHappy to turn this into a PR if the editors agree with the direction.",
       "createdAt": "2026-06-23T20:42:45Z",
-      "updatedAt": "2026-06-25T00:21:53Z",
+      "updatedAt": "2026-07-06T18:52:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -7336,6 +7336,27 @@
           "body": "Thanks Atul \u2014 appreciate the pointer to the editor's copy.\n\nI read through it: \u00a711.1 makes the `scope` *parameter on the Txn-Token Request* REQUIRED, which is great. My issue was about the other scope in the flow though \u2014 the `scope` claim on the `subject_token` itself. \u00a713.6 still says the TTS MUST ensure the requested scope is \"equal or less than the scope(s) identified in the subject_token\", and neither \u00a711.2.1 (self-signed JWT) nor \u00a711.2.2 (unsigned JSON object) lists `scope` as a required claim/field on the subject_token. So a TTS receiving a subject_token with no `scope` still has to interpret \"\u2264 absent\" \u2014 which is what my implementation got literally (absent \u21d2 no check \u21d2 permissive).\n\nTwo ways this could close cleanly, either would work:\n(a) Add `scope` to \u00a711.2.1 / \u00a711.2.2's required claims for the subject_token, or\n(b) Add a sentence to \u00a713.6: \"If the subject_token does not carry a `scope` claim, the TTS MUST treat the available scope as the empty set for the purpose of this comparison.\"\n\nHappy to send a PR with whichever direction you prefer. Or if I'm misreading the editor's copy on this, point me at the section that resolves it and I'll close the issue.",
           "createdAt": "2026-06-25T00:21:53Z",
           "updatedAt": "2026-06-25T00:21:53Z"
+        },
+        {
+          "author": "Dhruvagnihotri",
+          "authorAssociation": "NONE",
+          "body": "Hey @tulshi , gentle ping, did you get a chance to review this comment above? ",
+          "createdAt": "2026-07-05T07:49:28Z",
+          "updatedAt": "2026-07-05T07:49:28Z"
+        },
+        {
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I thought we discussed it earlier, but I don't remember the decision (or if there was one). ",
+          "createdAt": "2026-07-05T18:20:56Z",
+          "updatedAt": "2026-07-05T18:20:56Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The important thing is that the scope assigned in the Txn-token does not exceed the scope associated with the subject of the subject_token, regardless of how it is represented (implicit or explicitly encoded as a scope claim).",
+          "createdAt": "2026-07-06T18:52:37Z",
+          "updatedAt": "2026-07-06T18:52:37Z"
         }
       ]
     },
@@ -22933,24 +22954,26 @@
       "id": "PR_kwDOJt_WwM7qrIUe",
       "title": "Clarified req_wl value",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/360",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-06-25T17:36:03Z",
-      "updatedAt": "2026-07-01T12:20:18Z",
+      "updatedAt": "2026-07-06T17:15:54Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
-      "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
+      "baseRefOid": "fb3e2c16b11e40e46a9c32255ffbfcfc7f070741",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "fix-replacement-comma",
-      "headRefOid": "4bcfab87b9cd0fe4841a74995d76c3e6fc4b18e7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "adefdfb4e4164bff5bb83154e6f2b11c8bd31b81",
+      "closedAt": "2026-07-06T17:15:52Z",
+      "mergedAt": "2026-07-06T17:15:52Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "d80e3d62f90fd491e01980b5568866a510c4bd12"
+      },
       "comments": [
         {
           "author": "PieterKas",
@@ -23212,6 +23235,39 @@
           "createdAt": "2026-06-29T09:46:43Z",
           "updatedAt": "2026-06-29T09:46:43Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFHSgBQ",
+          "commit": {
+            "abbreviatedOid": "a09af24"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-06T17:13:19Z",
+          "updatedAt": "2026-07-06T17:13:20Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "I would propose dropping \"obscure\" and just say that is should be maintained (I can imagine some anonymisation may be applied etc, so lets not preclude that and also not introduce a debate about what \"obscure\" means.\n\n```suggestion\n* MUST maintain the Call Chain of workloads that requested the Txn-Token being replaced in the subsequently issued Txn-Token. The mechanism for maintaining this Call Chain is out of scope for this specification.\n```",
+              "createdAt": "2026-07-06T17:13:20Z",
+              "updatedAt": "2026-07-06T17:13:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFHTd2Q",
+          "commit": {
+            "abbreviatedOid": "adefdfb"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-06T17:15:44Z",
+          "updatedAt": "2026-07-06T17:15:44Z",
+          "comments": []
         }
       ]
     },
@@ -23220,78 +23276,283 @@
       "id": "PR_kwDOJt_WwM7sopXM",
       "title": "Refine tctx and rctx claim handling in Txn-Token",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/361",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "See issue #349",
       "createdAt": "2026-07-01T10:54:12Z",
-      "updatedAt": "2026-07-01T10:55:36Z",
+      "updatedAt": "2026-07-06T17:10:18Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-1",
-      "headRefOid": "16b5b8b7fe0b28d231a7ea6d5a678d5a096980df",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "845bb24ddc73469e5a52aa0d2020913f1918968f",
+      "closedAt": "2026-07-06T17:10:16Z",
+      "mergedAt": "2026-07-06T17:10:16Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "fb3e2c16b11e40e46a9c32255ffbfcfc7f070741"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABEtz45A",
+          "commit": {
+            "abbreviatedOid": "16b5b8b"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-01T17:16:29Z",
+          "updatedAt": "2026-07-06T16:27:49Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "\"exact match or derived from request_context\" may not be sufficient. The TTS might decide to add values of its own in the rctx\". Perhaps we can say \"exact match, derived from the request_context or independently asserted by the TTS\"",
+              "createdAt": "2026-07-01T17:16:29Z",
+              "updatedAt": "2026-07-06T16:27:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFHMzSA",
+          "commit": {
+            "abbreviatedOid": "16b5b8b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-06T16:59:51Z",
+          "updatedAt": "2026-07-06T16:59:51Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "I think that is what this sentence tries to do:\r\n\r\n\"The TTS is authoritative for the set of claims made available in the `rctx` claim and MAY include additional claims unrelated to the `request_context`.\"\r\n\r\nBut I like your suggestion as it is more concose and all in the same sentence.",
+              "createdAt": "2026-07-06T16:59:51Z",
+              "updatedAt": "2026-07-06T16:59:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFHO0tw",
+          "commit": {
+            "abbreviatedOid": "16b5b8b"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-07-06T17:04:50Z",
+          "updatedAt": "2026-07-06T17:04:50Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\n* If a `request_context` parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the `request_context` parameter and may include claims in the `rctx` claim of the issued Txn-Token based on the `request_context` parameter. The TTS is authoritative for the set of claims made available in the `rctx` claim. The claims included in the `rctx` claim of the issued Txn-Token may be an exact match of those on the `request_context`, may be derived from the `request_context`, or independently asserted by the TTS.\n```",
+              "createdAt": "2026-07-06T17:04:50Z",
+              "updatedAt": "2026-07-06T17:04:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFHRMJQ",
+          "commit": {
+            "abbreviatedOid": "845bb24"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-06T17:10:10Z",
+          "updatedAt": "2026-07-06T17:10:10Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 362,
       "id": "PR_kwDOJt_WwM7sqhMj",
       "title": "Clean-up examples for consistency with the spec",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/362",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "PieterKas",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-07-01T12:14:15Z",
-      "updatedAt": "2026-07-01T12:14:23Z",
+      "updatedAt": "2026-07-06T16:29:19Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "PieterKas-patch-3",
       "headRefOid": "68c1cf5351f5b6891b096b8468044b538c3518a7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-07-06T16:29:17Z",
+      "mergedAt": "2026-07-06T16:29:17Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "a20a17b6a37b9558be0f2f2db421a011e536299b"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFG99yg",
+          "commit": {
+            "abbreviatedOid": "68c1cf5"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-06T16:29:10Z",
+          "updatedAt": "2026-07-06T16:29:10Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 363,
       "id": "PR_kwDOJt_WwM7s0xN_",
       "title": "added .claude to gitignore",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/363",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tulshi",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-07-01T19:07:56Z",
-      "updatedAt": "2026-07-01T19:08:13Z",
+      "updatedAt": "2026-07-06T19:47:45Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "8994bd1b223022b9eeb78e0367c513afcf989039",
       "headRepository": "oauth-wg/oauth-transaction-tokens",
       "headRefName": "gitignore-claude",
       "headRefOid": "5ee44be53a591729e2b3c0437cedd1887c9b4a05",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-07-06T19:47:43Z",
+      "mergedAt": "2026-07-06T19:47:43Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "da662f34855245119ca827b6f1d4cf7ba5f48beb"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFH4y4Q",
+          "commit": {
+            "abbreviatedOid": "5ee44be"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-06T18:40:45Z",
+          "updatedAt": "2026-07-06T18:40:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 364,
+      "id": "PR_kwDOJt_WwM7ugBrO",
+      "title": "Clarify scope processing in subject token handling",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/364",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "See #357",
+      "createdAt": "2026-07-06T18:56:23Z",
+      "updatedAt": "2026-07-06T20:37:12Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "d80e3d62f90fd491e01980b5568866a510c4bd12",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "2a534b4c7327c378e0dd35cfed7bb06c8e888368",
+      "closedAt": "2026-07-06T20:37:10Z",
+      "mergedAt": "2026-07-06T20:37:10Z",
+      "mergedBy": "tulshi",
+      "mergeCommit": {
+        "oid": "e27a39abc391e86c800f7bb9462808834a036e29"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFIUrcg",
+          "commit": {
+            "abbreviatedOid": "2a534b4"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-06T19:49:13Z",
+          "updatedAt": "2026-07-06T19:49:13Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFIpkEg",
+          "commit": {
+            "abbreviatedOid": "2a534b4"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-06T20:37:03Z",
+          "updatedAt": "2026-07-06T20:37:03Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 365,
+      "id": "PR_kwDOJt_WwM7uilA4",
+      "title": "fixed JSON in tctx example",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/365",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-07-06T20:46:04Z",
+      "updatedAt": "2026-07-06T23:57:25Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "e27a39abc391e86c800f7bb9462808834a036e29",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-tctx-example",
+      "headRefOid": "cc58ce08720482e4187f8293dec01eaac4a5dc76",
+      "closedAt": "2026-07-06T23:57:23Z",
+      "mergedAt": "2026-07-06T23:57:23Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "dbdf43eb0feb9d6ea27c0052819517ece67e0e50"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABFJmpXA",
+          "commit": {
+            "abbreviatedOid": "cc58ce0"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-06T23:56:57Z",
+          "updatedAt": "2026-07-06T23:56:57Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
