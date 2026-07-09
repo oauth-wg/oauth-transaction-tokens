@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-07T00:40:45.109502+00:00",
+  "timestamp": "2026-07-09T00:37:57.275516+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7101,7 +7101,7 @@
       "id": "I_kwDOJt_WwM8AAAABCSX5Wg",
       "title": "More rctx/tctx fun",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/349",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "dteleguin",
       "authorAssociation": "NONE",
       "assignees": [
@@ -7112,8 +7112,8 @@
       ],
       "body": "From [12.3. Txn-Token Request Processing](https://www.ietf.org/archive/id/draft-ietf-oauth-transaction-tokens-08.html#section-12.3):\n> If a `request_context` parameter is present in the Txn-Token Request, the data SHOULD be added to the `rctx` object of the Txn-Token.\n\nDoes the \"added\" here mean \"added as is\" (copied)? Or is TTS allowed to perform some sort of mapping? The examples in 10.2.4 / 12.1 suggest the former. Would be nice to clarify this.\n\n> If a `request_details` parameter is present in the Txn-Token Request, then the TTS SHOULD propagate the data from the `request_details` object into the claims in the `tctx` object as authorized by the TTS authorization policy for the requesting client.\n\nThe wording is different here (\"propagated\" vs. \"added\"), so I'd say some sort of mapping is assumed. To further intricate things, there is no `request_details` in the TraT request example in 12.1, making this a pure guesswork. Would be nice to clarify this as well, and also add `request_details` to the example.\n\nFinally, the examples for `rctx` / `tctx` in 10.2.2 / 10.2.3 are inconsistent:\n\n```json\n{\n    \"rctx\": {\n      \"req_ip\": \"69.151.72.123\", // env context of external call\n      \"authn\": \"urn:ietf:rfc:6749\" // env context of external call\n    }\n}\n```\n\n```json\n\"tctx\": {\n  \"action\": \"BUY\", // parameter of external call\n  \"ticker\": \"MSFT\", // parameter of external call\n  \"quantity\": \"100\", // parameter of external call\n  \"customer_type\": { // computed value not present in external call\n    \"geo\": \"US\",\n    \"level\": \"VIP\"\n  }\n}\n```\n\n`rctx` is enclosed in curly braces, whilst `tctx` is not. And ultimately, `quantity` should be a JSON number and not a string (`100` instead of `\"100\"`). ",
       "createdAt": "2026-05-14T18:51:11Z",
-      "updatedAt": "2026-07-01T10:26:11Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-07T11:54:54Z",
+      "closedAt": "2026-07-07T11:42:33Z",
       "comments": [
         {
           "author": "gffletch",
@@ -7156,6 +7156,13 @@
           "body": "How about this for wording to address some of the concerns raised:\n\nIf a request_context parameter is present in the Txn-Token Request, the TTS SHOULD evaluate the content of the request_context parameter and MAY include claims to the rctx claim of the issued Txn-Token based on the request_context parameter. The claims included in the rctx claim of the issued Txn-Token may be an exact match of those on the request_context, or may be derived from the request_context. The TTS is authoritative for the set of claims made available in the rctx claim and MAY include additional claims unrelated to the request_context.",
           "createdAt": "2026-06-25T11:07:55Z",
           "updatedAt": "2026-06-25T11:07:55Z"
+        },
+        {
+          "author": "dteleguin",
+          "authorAssociation": "NONE",
+          "body": "Thanks everyone, looks much clearer now \ud83d\udc4f my only remaining nitpick is about `quantity` in the examples being a string and not a number. Fields like that will most likely be subject to policy evaluation involving arithmetic.",
+          "createdAt": "2026-07-07T11:53:20Z",
+          "updatedAt": "2026-07-07T11:54:54Z"
         }
       ]
     },
@@ -7209,7 +7216,7 @@
       "labels": [],
       "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
       "createdAt": "2026-05-15T17:23:33Z",
-      "updatedAt": "2026-06-30T23:19:52Z",
+      "updatedAt": "2026-07-07T11:45:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -7281,6 +7288,13 @@
           "body": "> If for a given deployment, the TTS wants to include authorization_details in, say, the tctx object that is totally fine. I'm not sure what adding an explicit reference to RAR in this specification adds, when it is in no way disallowed by not making any statement at all.\n\n>I don't believe any reference is needed as the deployment can determine what the TTS should add to the transaction token.\n\n@gffletch  I believe RAR, if used, belongs to the context that is carried to the workload that can eventually use it. I am asking to include an example with RAR to show how to carry it in the request rather than leaving it to every deployment to decide where to place it (in as HTTP header?, JWT body, in `tctx`, etc.). If the authors think that RAR would not be needed to be used if TxnToken is used, that will also be a useful information for the users. ",
           "createdAt": "2026-06-30T23:19:52Z",
           "updatedAt": "2026-06-30T23:19:52Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The current drafts allows for the use of RAR, or any other structures to include additional information in the transaction token. If there is interest in using RAR, I think it is a sufficiently complex topic that it deserves its own draft.",
+          "createdAt": "2026-07-07T11:45:41Z",
+          "updatedAt": "2026-07-07T11:45:41Z"
         }
       ]
     },
@@ -7313,15 +7327,15 @@
       "id": "I_kwDOJt_WwM8AAAABGeT0lg",
       "title": "\u00a714.6 Scope Processing: behavior undefined when subject_token has no `scope` claim",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/357",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Dhruvagnihotri",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "**Section:** 14.6 (Scope Processing); related: \u00a712.3.\n\n**Issue.** \u00a714.6 says:\n\n> \"The TTS MUST ensure that the requested scope of the Txn-Token is equal\n> or less than the scope(s) identified in the subject_token.\"\n\nThe text doesn't define behavior when the `subject_token` carries **no\n`scope` claim at all**. Two readings are each defensible and they diverge\nin exactly the privilege-escalation case the section exists to prevent:\n\n1. **Absent parent scope == empty set.** Any non-empty requested scope is\n   strictly greater, so the request is refused. (Conservative.)\n2. **Absent parent scope == unconstrained.** The MUST has nothing to\n   compare against, so any requested scope passes. (Permissive.)\n\n\u00a712.3 (\"the TTS MUST evaluate the value specified in the scope parameter\")\ndoesn't resolve it either \u2014 it constrains the requested scope, not the\nabsent-parent case.\n\n**Implementation experience.** In an open-source implementation (authgent),\na literal reading of the \u00a714.6 MUST produced reading (2): the subset check\nonly fires when the parent scope is non-empty, so a `subject_token` with no\n`scope` claim currently lets *any* requested scope through unrestricted.\nThat is arguably the unintentional-scope-increase case \u00a714.6 exists to\nprevent \u2014 which is precisely why I think the absent-`scope` case needs\nexplicit text. A conscientious implementer reading \u00a714.6 as written can\nland on the permissive behavior without realizing it.\n\n**Suggested clarification** (one sentence in \u00a714.6):\n\n> \"If the subject_token carries no `scope` claim, the TTS MUST treat the\n> available scope as the empty set for the purpose of this comparison\n> (i.e. it MUST NOT issue a Txn-Token with a non-empty scope).\"\n\nHappy to turn this into a PR if the editors agree with the direction.",
       "createdAt": "2026-06-23T20:42:45Z",
-      "updatedAt": "2026-07-06T18:52:37Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-07T11:42:19Z",
+      "closedAt": "2026-07-07T11:42:19Z",
       "comments": [
         {
           "author": "tulshi",
