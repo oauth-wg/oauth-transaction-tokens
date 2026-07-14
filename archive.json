@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-09T00:37:57.275516+00:00",
+  "timestamp": "2026-07-14T00:30:42.090922+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7334,7 +7334,7 @@
       "labels": [],
       "body": "**Section:** 14.6 (Scope Processing); related: \u00a712.3.\n\n**Issue.** \u00a714.6 says:\n\n> \"The TTS MUST ensure that the requested scope of the Txn-Token is equal\n> or less than the scope(s) identified in the subject_token.\"\n\nThe text doesn't define behavior when the `subject_token` carries **no\n`scope` claim at all**. Two readings are each defensible and they diverge\nin exactly the privilege-escalation case the section exists to prevent:\n\n1. **Absent parent scope == empty set.** Any non-empty requested scope is\n   strictly greater, so the request is refused. (Conservative.)\n2. **Absent parent scope == unconstrained.** The MUST has nothing to\n   compare against, so any requested scope passes. (Permissive.)\n\n\u00a712.3 (\"the TTS MUST evaluate the value specified in the scope parameter\")\ndoesn't resolve it either \u2014 it constrains the requested scope, not the\nabsent-parent case.\n\n**Implementation experience.** In an open-source implementation (authgent),\na literal reading of the \u00a714.6 MUST produced reading (2): the subset check\nonly fires when the parent scope is non-empty, so a `subject_token` with no\n`scope` claim currently lets *any* requested scope through unrestricted.\nThat is arguably the unintentional-scope-increase case \u00a714.6 exists to\nprevent \u2014 which is precisely why I think the absent-`scope` case needs\nexplicit text. A conscientious implementer reading \u00a714.6 as written can\nland on the permissive behavior without realizing it.\n\n**Suggested clarification** (one sentence in \u00a714.6):\n\n> \"If the subject_token carries no `scope` claim, the TTS MUST treat the\n> available scope as the empty set for the purpose of this comparison\n> (i.e. it MUST NOT issue a Txn-Token with a non-empty scope).\"\n\nHappy to turn this into a PR if the editors agree with the direction.",
       "createdAt": "2026-06-23T20:42:45Z",
-      "updatedAt": "2026-07-07T11:42:19Z",
+      "updatedAt": "2026-07-12T09:36:11Z",
       "closedAt": "2026-07-07T11:42:19Z",
       "comments": [
         {
@@ -7371,6 +7371,13 @@
           "body": "The important thing is that the scope assigned in the Txn-token does not exceed the scope associated with the subject of the subject_token, regardless of how it is represented (implicit or explicitly encoded as a scope claim).",
           "createdAt": "2026-07-06T18:52:37Z",
           "updatedAt": "2026-07-06T18:52:37Z"
+        },
+        {
+          "author": "Dhruvagnihotri",
+          "authorAssociation": "NONE",
+          "body": "Thanks @PieterKas @kosmika,  the new \u00a713.14 (reject when scope can't be determined) closes this cleanly; same practical effect as what I'd proposed, just framed as rejection rather than empty-set substitution. I'll update [authgent's](https://github.com/authgent/authgent) implementation to match \u00a713.14 exactly and note the change in STANDARDS.md. Appreciate the WG working through this.",
+          "createdAt": "2026-07-12T09:35:43Z",
+          "updatedAt": "2026-07-12T09:36:11Z"
         }
       ]
     },
