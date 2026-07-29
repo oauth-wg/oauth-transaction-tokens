@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 7 January 2027                           Practical Identity LLC
+Expires: 30 January 2027                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                             6 July 2026
+                                                            29 July 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 January 2027.
+   This Internet-Draft will expire on 30 January 2027.
 
 Copyright Notice
 
@@ -479,9 +479,11 @@ Table of Contents
 
 9.2.  JWT Body Claims
 
-   The transaction token body follows the JWT format and includes
-   existing JWT claims as well as defines new claims.  These claims are
-   described below:
+   The body of a Txn-Token is a JWT [RFC7519].  It contains a
+   combination of existing JWT claims and new claims defined in this
+   specification as described below.  A Txn-Token MAY contain additional
+   claims not defined in this specification.  Recipients of a Txn-Token
+   MUST ignore any claims they do not understand.
 
    iss:  OPTIONAL The iss claim as defined in [RFC7519] is not required
       as Txn-Tokens are bound to a single Trust Domain as defined by the
@@ -1416,9 +1418,9 @@ Table of Contents
               Schwenkschuster, A., Kasselman, P., Burgin, K., Jenkins,
               M. J., Campbell, B., and A. Parecki, "OAuth Identity and
               Authorization Chaining Across Domains", Work in Progress,
-              Internet-Draft, draft-ietf-oauth-identity-chaining-16, 26
-              June 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-oauth-identity-chaining-16>.
+              Internet-Draft, draft-ietf-oauth-identity-chaining-17, 19
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-identity-chaining-17>.
 
    [IANA.HTTP.FieldNames]
               "HTTP Authentication Schemes", n.d.,
@@ -1466,9 +1468,9 @@ Table of Contents
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
               Authentication with HTTP Signatures", Work in Progress,
-              Internet-Draft, draft-ietf-wimse-http-signature-04, 6 July
-              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              wimse-http-signature-04>.
+              Internet-Draft, draft-ietf-wimse-http-signature-05, 20
+              July 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-wimse-http-signature-05>.
 
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof

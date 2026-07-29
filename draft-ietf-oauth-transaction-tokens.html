@@ -26,7 +26,7 @@
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.0
+    platformdirs 4.10.1
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
@@ -66,7 +66,6 @@
   src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: italic;
@@ -115,7 +114,6 @@
   src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: normal;
@@ -180,7 +178,6 @@
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 }
 
 @font-face {
@@ -1053,7 +1050,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tulshibagwale, et al.</td>
-<td class="center">Expires 7 January 2027</td>
+<td class="center">Expires 30 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1063,12 @@ svg {
 <dd class="internet-draft">draft-ietf-oauth-transaction-tokens-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-06" class="published">6 July 2026</time>
+<time datetime="2026-07-29" class="published">29 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-07">7 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-01-30">30 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1124,7 +1121,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 7 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1735,8 +1732,7 @@ they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow
         <h3 id="name-jwt-body-claims">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-jwt-body-claims" class="section-name selfRef">JWT Body Claims</a>
         </h3>
-<p id="section-9.2-1">The transaction token body follows the JWT format and includes existing
-JWT claims as well as defines new claims. These claims are described below:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">The body of a Txn-Token is a JWT <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>. It contains a combination of existing JWT claims and new claims defined in this specification as described below. A Txn-Token MAY contain additional claims not defined in this specification. Recipients of a Txn-Token MUST ignore any claims they do not understand.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-9.2-2">
           <dt id="section-9.2-2.1">
 <code>iss</code>:</dt>
@@ -2653,7 +2649,7 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-oauth-identity-chaining">[I-D.ietf-oauth-identity-chaining]</dt>
         <dd>
-<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M. J.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-16</span>, <time datetime="2026-06-26" class="refDate">26 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-16">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-16</a>&gt;</span>. </dd>
+<span class="refAuthor">Schwenkschuster, A.</span>, <span class="refAuthor">Kasselman, P.</span>, <span class="refAuthor">Burgin, K.</span>, <span class="refAuthor">Jenkins, M. J.</span>, <span class="refAuthor">Campbell, B.</span>, and <span class="refAuthor">A. Parecki</span>, <span class="refTitle">"OAuth Identity and Authorization Chaining Across Domains"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-identity-chaining-17</span>, <time datetime="2026-07-19" class="refDate">19 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-17">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-identity-chaining-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.HTTP.FieldNames">[IANA.HTTP.FieldNames]</dt>
         <dd>
@@ -2698,7 +2694,7 @@ Cache-Control: no-store
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-http-signature">[I-D.ietf-wimse-http-signature]</dt>
         <dd>
-<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication with HTTP Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-http-signature-04</span>, <time datetime="2026-07-06" class="refDate">6 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-04">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-04</a>&gt;</span>. </dd>
+<span class="refAuthor">Salowey, J. A.</span> and <span class="refAuthor">Y. Sheffer</span>, <span class="refTitle">"WIMSE Workload-to-Workload Authentication with HTTP Signatures"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-wimse-http-signature-05</span>, <time datetime="2026-07-20" class="refDate">20 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-05">https://datatracker.ietf.org/doc/html/draft-ietf-wimse-http-signature-05</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-wimse-wpt">[I-D.ietf-wimse-wpt]</dt>
       <dd>
