@@ -133,6 +133,7 @@ Table of Contents
    Acknowledgements
    Document History
      Since Draft 08
+     Since Draft 08
      Since Draft 07
      Since Draft 06
      Since Draft 05
@@ -1493,6 +1494,10 @@ Acknowledgements
 Document History
 
    [[ To be removed from final specification ]]
+
+Since Draft 08
+
+   *  Editorial text describing claims
 
 Since Draft 08
 
