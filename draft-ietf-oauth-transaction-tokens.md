@@ -299,8 +299,7 @@ In the JWT Header:
 
 ## JWT Body Claims {#txn-token-claims}
 
-The transaction token body follows the JWT format and includes existing
-JWT claims as well as defines new claims. These claims are described below:
+The body of a Txn-Token is a JWT {{RFC7519}}. It contains a combination of existing JWT claims and new claims defined in this specification as described below. A Txn-Token MAY contain additional claims not defined in this specification. Recipients of a Txn-Token MUST ignore any claims they do not understand.
 
 `iss`:
 : OPTIONAL The `iss` claim as defined in {{RFC7519}} is not required as Txn-Tokens are bound to a single Trust Domain as defined by the `aud` claim and often the signing keys are known.
