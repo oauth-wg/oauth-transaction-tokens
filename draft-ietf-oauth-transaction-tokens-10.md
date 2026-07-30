@@ -6,7 +6,7 @@ submissiontype: IETF
 area: sec
 wg: oauth
 
-docname: draft-ietf-oauth-transaction-tokens-latest
+docname: draft-ietf-oauth-transaction-tokens-10
 venue:
   github: "oauth-wg/oauth-transaction-tokens"
   latest: "https://drafts.oauth.net/oauth-transaction-tokens/draft-ietf-oauth-transaction-tokens.html"
@@ -706,11 +706,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 {: numbered="false"}
 [[ To be removed from final specification ]]
 
-## Since Draft 10
-{:numbered="false"}
-* Fixed typo in document history
-
-## Since Draft 09
+## Since Draft 08
 {:numbered="false"}
 
 * Editorial text describing claims
