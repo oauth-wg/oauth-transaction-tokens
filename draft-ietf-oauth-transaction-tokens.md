@@ -706,7 +706,11 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 {: numbered="false"}
 [[ To be removed from final specification ]]
 
-## Since Draft 08
+## Since Draft 10
+{:numbered="false"}
+* Fixed typo in document history
+
+## Since Draft 09
 {:numbered="false"}
 
 * Editorial text describing claims
