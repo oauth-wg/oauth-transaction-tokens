@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-14T00:30:42.090922+00:00",
+  "timestamp": "2026-07-30T00:31:38.094171+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3649,7 +3649,7 @@
       "labels": [],
       "body": "What are thoughts around issuing new Token id everytime there is a replacement token issued? I believe that way its easier to track those tokens separately. Also its not really the same token anymore after replacement so the spec I think should call out clearly that during replacement, token id should NOT be reused.",
       "createdAt": "2025-07-28T22:20:06Z",
-      "updatedAt": "2026-06-24T23:42:14Z",
+      "updatedAt": "2026-07-29T18:29:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -3693,6 +3693,13 @@
           "body": "One use case I see is you start with a payment amount of X$ but then as call progresses and passes via Tax services (workloads), they want to update the context to reflect new amount including tax so Txn context needs update. We can ask them to model `tax` as new field and not touch original payment value so that there is clear audit. Immutable context makes things easier to explain so I ack that helps. \n\nOne of the reasons I was thinking to replace Txn token Id when issuing new token is - firstly it comes Txn token side of things simple - new token means new id. it can log old and new one on its end. \n```\nA -> B -> C -> D\n                     -> E\n```\nWhen C receives T1 token and if it calls Txn token issuer to get T2, then it can pass T2 to E and T1 to D depending on use case. If T1 and T2 tokens have unqiue Txn-token-id , its easier to debug because T2's Txn-token-id has a starting point of C and Txn-token issuer log will be say T1 was considered while minting T2. \n\nThoughts?",
           "createdAt": "2026-06-24T23:42:14Z",
           "updatedAt": "2026-06-24T23:42:14Z"
+        },
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "txn is a transaction identifier, not a transaction token identifier. The transaction remains the same and so should not change. You could always have a transaction token identifier as a seperate claim, but I think this is what jti does. I don't beleive there is changes to the spec warrented here and an implementor is free to use jti to uniquely identify the transaction token.\n\n@gffletch and @tulshi - do we need text here to say you could use jti and other claims (I don't think we prohibit inclusion of other claims)",
+          "createdAt": "2026-07-29T18:29:31Z",
+          "updatedAt": "2026-07-29T18:29:31Z"
         }
       ]
     },
@@ -7209,15 +7216,15 @@
       "id": "I_kwDOJt_WwM8AAAABCZT1HA",
       "title": "Using RFC 9396's authorization_details as a claim and for request_context",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/351",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "sdatspun2",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Thanks for writing up ID on Transaction Tokens. \n\n1. I was hoping to find a reference to [RFC 9396](https://datatracker.ietf.org/doc/html/rfc9396) Rich Authorization Requests somewhere, especially while discussing Authorization Context. \n\n2. Also since RFC 9396's `authorization_details` is already registered in OAuth [Parameters registry](https://www.iana.org/assignments/oauth-parameters/oauth-parameters.xhtml) perhaps it could be used here as well to provide value for `request_context?` It is already approved for token request and token response.\n\n3. Can `authorization_details` be used here as a [claim](https://datatracker.ietf.org/doc/html/rfc9396#name-oauth-parameters-registrati) instead of tctx, inside tctx or in addition to tact?  \n\nFor #2 and #3, I would not know if reuse is prohibited, it was ignored or it was discussed and a decision was taken not to reuse.\n\nSorry in advance if these issues are already discussed and resolved. \n\nthanks,\nsanjay",
       "createdAt": "2026-05-15T17:23:33Z",
-      "updatedAt": "2026-07-07T11:45:41Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-29T18:44:41Z",
+      "closedAt": "2026-07-29T18:44:41Z",
       "comments": [
         {
           "author": "PieterKas",
@@ -23571,6 +23578,98 @@
           "body": "",
           "createdAt": "2026-07-06T23:56:57Z",
           "updatedAt": "2026-07-06T23:56:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 366,
+      "id": "PR_kwDOJt_WwM74Jp9Z",
+      "title": "Refine description of Txn-Token JWT body claims",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/366",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarified the description of Txn-Token body claims and their handling.",
+      "createdAt": "2026-07-29T18:40:41Z",
+      "updatedAt": "2026-07-29T18:55:19Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "dbdf43eb0feb9d6ea27c0052819517ece67e0e50",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "cd5497655342fc357c2124c63b7c049a7a69744d",
+      "closedAt": "2026-07-29T18:55:18Z",
+      "mergedAt": "2026-07-29T18:55:18Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "67af9459cabcc261d01e290a27d59747fcf04c27"
+      },
+      "comments": [
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I approve. This is good clarification text. For some reason I can't approve it (at least not from the iOS GitHub app).",
+          "createdAt": "2026-07-29T18:53:52Z",
+          "updatedAt": "2026-07-29T18:53:52Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABHs-cyA",
+          "commit": {
+            "abbreviatedOid": "cd54976"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-29T18:54:19Z",
+          "updatedAt": "2026-07-29T18:54:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 367,
+      "id": "PR_kwDOJt_WwM74KHc8",
+      "title": "Update draft with editorial text and changes from 07 to 08",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/367",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Added editorial text to describe claims and updated document history with changes from draft 07 to 08, including TTS Issuance Guidance policies and security considerations.",
+      "createdAt": "2026-07-29T18:58:29Z",
+      "updatedAt": "2026-07-29T19:00:56Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "67af9459cabcc261d01e290a27d59747fcf04c27",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "084cae7e12c9e6f2bf766a815c4586e9879cd23f",
+      "closedAt": "2026-07-29T19:00:54Z",
+      "mergedAt": "2026-07-29T19:00:53Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "0fe6d78eff8f713d8de8e323947d26926db0e3db"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABHtBmNQ",
+          "commit": {
+            "abbreviatedOid": "084cae7"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-29T19:00:34Z",
+          "updatedAt": "2026-07-29T19:00:34Z",
           "comments": []
         }
       ]
