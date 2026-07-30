@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 30 January 2027                          Practical Identity LLC
+Expires: 31 January 2027                          Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            29 July 2026
+                                                            30 July 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 January 2027.
+   This Internet-Draft will expire on 31 January 2027.
 
 Copyright Notice
 
@@ -132,7 +132,8 @@ Table of Contents
      17.2.  Informative References
    Acknowledgements
    Document History
-     Since Draft 08
+     Since Draft 10
+     Since Draft 09
      Since Draft 08
      Since Draft 07
      Since Draft 06
@@ -1495,7 +1496,11 @@ Document History
 
    [[ To be removed from final specification ]]
 
-Since Draft 08
+Since Draft 10
+
+   *  Fixed typo in document history
+
+Since Draft 09
 
    *  Editorial text describing claims
 
