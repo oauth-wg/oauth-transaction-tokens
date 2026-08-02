@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-30T00:31:38.094171+00:00",
+  "timestamp": "2026-08-02T00:36:17.119282+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -23670,6 +23670,48 @@
           "body": "",
           "createdAt": "2026-07-29T19:00:34Z",
           "updatedAt": "2026-07-29T19:00:34Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 368,
+      "id": "PR_kwDOJt_WwM74oprZ",
+      "title": "fixed doc history typo",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/368",
+      "state": "MERGED",
+      "author": "tulshi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-07-30T17:00:33Z",
+      "updatedAt": "2026-07-30T17:11:39Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "0fe6d78eff8f713d8de8e323947d26926db0e3db",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "fix-doc-history",
+      "headRefOid": "05e587ce50a4acdb8812b4ebaadd2c0f864d26a2",
+      "closedAt": "2026-07-30T17:11:37Z",
+      "mergedAt": "2026-07-30T17:11:37Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "146e47d47e9f0ee276033917aa2823298e05cc5f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABH2C5dQ",
+          "commit": {
+            "abbreviatedOid": "05e587c"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-30T17:11:23Z",
+          "updatedAt": "2026-07-30T17:11:23Z",
           "comments": []
         }
       ]
