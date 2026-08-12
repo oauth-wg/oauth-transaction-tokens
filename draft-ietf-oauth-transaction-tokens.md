@@ -709,7 +709,7 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 ## Since Draft 11
 {:numbered="false"}
 * Fixes mixed up forward references: (issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/369)
-* Simplified text to avoid confusion about transaction token content: (issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/370
+* Simplified text to avoid confusion about transaction token content: (issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/370)
 
 ## Since Draft 10
 {:numbered="false"}
