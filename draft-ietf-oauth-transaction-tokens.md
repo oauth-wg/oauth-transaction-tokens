@@ -323,10 +323,10 @@ The body of a Txn-Token is a JWT {{RFC7519}}. It contains a combination of exist
 : REQUIRED The scope claim is defined in {{Section 4.2 of RFC8693}}. Note that the value of this claim is determined by the TTS and is not required to match the requested scope nor the scope in any supplied external token. For additional context please refer to {{scope-claim}}
 
 `tctx`:
-: RECOMMENDED A JSON object that contains values that remain immutable throughout the Call Chain. For additional context please refer to {{request-context}}
+: RECOMMENDED A JSON object that contains values that remain immutable throughout the Call Chain. For additional context please refer to {{transaction-context}}
 
 `rctx`:
-: RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{transaction-context}}
+: RECOMMENDED A JSON object that describes the environmental context of the requested transaction. For additional context please refer to {{request-context}}
 
 `req_wl`:
 : REQUIRED. A string value that identifies the workload that requested the Txn-Token.
@@ -599,7 +599,7 @@ A workload MUST NOT use a transaction token as an OAuth 2.0 Access Token. An OAu
 
 Transaction tokens support the principle of least privilege since they are narrowly scoped to a single transaction and have short lifetimes. This makes them less susceptible to broad replay attacks than the longer-lived access tokens. By maintaining a distinct token type, the protocol ensures that context propagation while minimizing the risk of lateral access if a transaction token is intercepted within the Trust Domain. This separation also reduces the need for including transaction context in the access token, reducing token size.
 
-Using a dedicated HTTP header from the `Authorization: Bearer` header for transaction tokens allows services to distinguish between an access token, which carries authorization delegation information, and the transaction token, which carries transaction context.
+Using a dedicated HTTP header from the `Authorization: Bearer` header for transaction tokens allows services to distinguish between an access token.
 
 ## Unknown `subject_token` scope
 If the scope associated with a `subject_token` cannot be determined from the token or another trusted source, the TTS cannot ensure that the requested scope does not expand the authorization represented by that token. The TTS MUST reject the Txn-Token Request and MUST NOT treat an unknown scope as unconstrained.
@@ -705,6 +705,11 @@ The authors would like to thank John Bradley, Kelley Burgin, Brian Campbell, Nav
 # Document History
 {: numbered="false"}
 [[ To be removed from final specification ]]
+
+## Since Draft 11
+{:numbered="false"}
+* Fixes mixed up forward references: (issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/369)
+* Simplified text to avoid confusion about transaction token content: (issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/370
 
 ## Since Draft 10
 {:numbered="false"}
