@@ -599,7 +599,7 @@ A workload MUST NOT use a transaction token as an OAuth 2.0 Access Token. An OAu
 
 Transaction tokens support the principle of least privilege since they are narrowly scoped to a single transaction and have short lifetimes. This makes them less susceptible to broad replay attacks than the longer-lived access tokens. By maintaining a distinct token type, the protocol ensures that context propagation while minimizing the risk of lateral access if a transaction token is intercepted within the Trust Domain. This separation also reduces the need for including transaction context in the access token, reducing token size.
 
-Using a dedicated HTTP header from the `Authorization: Bearer` header for transaction tokens allows services to distinguish between an access token.
+Using a dedicated HTTP header distinct from the `Authorization` header allows services to distinguish between transaction tokens and other HTTP authentication schemes, such as access tokens.
 
 ## Unknown `subject_token` scope
 If the scope associated with a `subject_token` cannot be determined from the token or another trusted source, the TTS cannot ensure that the requested scope does not expand the authorization represented by that token. The TTS MUST reject the Txn-Token Request and MUST NOT treat an unknown scope as unconstrained.
