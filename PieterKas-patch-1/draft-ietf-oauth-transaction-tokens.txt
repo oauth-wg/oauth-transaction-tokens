@@ -1118,9 +1118,9 @@ Table of Contents
    including transaction context in the access token, reducing token
    size.
 
-   Using a dedicated HTTP header from the Authorization: Bearer header
-   for transaction tokens allows services to distinguish between an
-   access token.
+   Using a dedicated HTTP header distinct from the Authorization header
+   allows services to distinguish between transaction tokens and other
+   HTTP authentication schemes, such as access tokens.
 
 13.14.  Unknown subject_token scope
 

@@ -2305,7 +2305,7 @@ Cache-Control: no-store
         </h3>
 <p id="section-13.13-1">A workload MUST NOT use a transaction token as an OAuth 2.0 Access Token. An OAuth 2.0 Access Token represents a grant of authority to a client, a transaction token represents the context of a specific transaction. The separation of the transaction token from the OAuth 2.0 Access Token is a deliberate design choice as described in <a href="#introduction" class="auto internal xref">Section 1</a>.<a href="#section-13.13-1" class="pilcrow">¶</a></p>
 <p id="section-13.13-2">Transaction tokens support the principle of least privilege since they are narrowly scoped to a single transaction and have short lifetimes. This makes them less susceptible to broad replay attacks than the longer-lived access tokens. By maintaining a distinct token type, the protocol ensures that context propagation while minimizing the risk of lateral access if a transaction token is intercepted within the Trust Domain. This separation also reduces the need for including transaction context in the access token, reducing token size.<a href="#section-13.13-2" class="pilcrow">¶</a></p>
-<p id="section-13.13-3">Using a dedicated HTTP header from the <code>Authorization: Bearer</code> header for transaction tokens allows services to distinguish between an access token.<a href="#section-13.13-3" class="pilcrow">¶</a></p>
+<p id="section-13.13-3">Using a dedicated HTTP header distinct from the <code>Authorization</code> header allows services to distinguish between transaction tokens and other HTTP authentication schemes, such as access tokens.<a href="#section-13.13-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="unknown-subjecttoken-scope">
