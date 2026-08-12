@@ -5,10 +5,10 @@
 oauth                                                   A. Tulshibagwale
 Internet-Draft                                               CrowdStrike
 Intended status: Standards Track                             G. Fletcher
-Expires: 30 January 2027                          Practical Identity LLC
+Expires: 13 February 2027                         Practical Identity LLC
                                                             P. Kasselman
                                                         Defakto Security
-                                                            29 July 2026
+                                                          12 August 2026
 
 
                            Transaction Tokens
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 January 2027.
+   This Internet-Draft will expire on 13 February 2027.
 
 Copyright Notice
 
@@ -132,7 +132,9 @@ Table of Contents
      17.2.  Informative References
    Acknowledgements
    Document History
-     Since Draft 08
+     Since Draft 11
+     Since Draft 10
+     Since Draft 09
      Since Draft 08
      Since Draft 07
      Since Draft 06
@@ -517,11 +519,11 @@ Table of Contents
 
    tctx:  RECOMMENDED A JSON object that contains values that remain
       immutable throughout the Call Chain.  For additional context
-      please refer to Section 9.2.2
+      please refer to Section 9.2.3
 
    rctx:  RECOMMENDED A JSON object that describes the environmental
       context of the requested transaction.  For additional context
-      please refer to Section 9.2.3
+      please refer to Section 9.2.2
 
    req_wl:  REQUIRED.  A string value that identifies the workload that
       requested the Txn-Token.
@@ -1118,8 +1120,7 @@ Table of Contents
 
    Using a dedicated HTTP header from the Authorization: Bearer header
    for transaction tokens allows services to distinguish between an
-   access token, which carries authorization delegation information, and
-   the transaction token, which carries transaction context.
+   access token.
 
 13.14.  Unknown subject_token scope
 
@@ -1469,9 +1470,9 @@ Table of Contents
    [I-D.ietf-wimse-http-signature]
               Salowey, J. A. and Y. Sheffer, "WIMSE Workload-to-Workload
               Authentication with HTTP Signatures", Work in Progress,
-              Internet-Draft, draft-ietf-wimse-http-signature-05, 20
-              July 2026, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-wimse-http-signature-05>.
+              Internet-Draft, draft-ietf-wimse-http-signature-06, 4
+              August 2026, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-wimse-http-signature-06>.
 
    [I-D.ietf-wimse-wpt]
               Campbell, B. and A. Schwenkschuster, "WIMSE Workload Proof
@@ -1495,7 +1496,20 @@ Document History
 
    [[ To be removed from final specification ]]
 
-Since Draft 08
+Since Draft 11
+
+   *  Fixes mixed up forward references: (issue https://github.com/
+      oauth-wg/oauth-transaction-tokens/issues/369)
+
+   *  Simplified text to avoid confusion about transaction token
+      content: (issue https://github.com/oauth-wg/oauth-transaction-
+      tokens/issues/370
+
+Since Draft 10
+
+   *  Fixed typo in document history
+
+Since Draft 09
 
    *  Editorial text describing claims
 
