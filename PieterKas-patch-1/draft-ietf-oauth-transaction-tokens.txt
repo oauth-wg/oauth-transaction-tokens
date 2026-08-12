@@ -1503,7 +1503,7 @@ Since Draft 11
 
    *  Simplified text to avoid confusion about transaction token
       content: (issue https://github.com/oauth-wg/oauth-transaction-
-      tokens/issues/370
+      tokens/issues/370)
 
 Since Draft 10
 
