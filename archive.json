@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-02T00:36:17.119282+00:00",
+  "timestamp": "2026-08-13T00:23:11.600276+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -3649,7 +3649,7 @@
       "labels": [],
       "body": "What are thoughts around issuing new Token id everytime there is a replacement token issued? I believe that way its easier to track those tokens separately. Also its not really the same token anymore after replacement so the spec I think should call out clearly that during replacement, token id should NOT be reused.",
       "createdAt": "2025-07-28T22:20:06Z",
-      "updatedAt": "2026-07-29T18:29:32Z",
+      "updatedAt": "2026-08-12T20:41:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -3700,6 +3700,13 @@
           "body": "txn is a transaction identifier, not a transaction token identifier. The transaction remains the same and so should not change. You could always have a transaction token identifier as a seperate claim, but I think this is what jti does. I don't beleive there is changes to the spec warrented here and an implementor is free to use jti to uniquely identify the transaction token.\n\n@gffletch and @tulshi - do we need text here to say you could use jti and other claims (I don't think we prohibit inclusion of other claims)",
           "createdAt": "2026-07-29T18:29:31Z",
           "updatedAt": "2026-07-29T18:29:31Z"
+        },
+        {
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree, I don't think we need more text.\n\n@ashayraut wouldn't Pieter's suggestion work? The txn claim stays the same but the jti value changes. The TTS can log the jti on token issuance so correlation from a debug perspective should be pretty straight forward.",
+          "createdAt": "2026-08-12T20:41:14Z",
+          "updatedAt": "2026-08-12T20:41:14Z"
         }
       ]
     },
@@ -7416,6 +7423,75 @@
           "body": "that was but a tiny part of the frustration ",
           "createdAt": "2026-06-25T18:10:06Z",
           "updatedAt": "2026-06-25T18:10:06Z"
+        }
+      ]
+    },
+    {
+      "number": 369,
+      "id": "I_kwDOJt_WwM8AAAABMWdsSA",
+      "title": "additional context switched for transaction and request[er] context",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/369",
+      "state": "CLOSED",
+      "author": "bc-pi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I thought someone had noted that the \"For additional context...\" bits were mixed up but maybe that never really happened or got missed.\r\n\r\n_Originally posted by @bc-pi in https://github.com/oauth-wg/oauth-transaction-tokens/pull/347#discussion_r3761054924_\r\n            ",
+      "createdAt": "2026-08-11T19:28:33Z",
+      "updatedAt": "2026-08-12T21:09:49Z",
+      "closedAt": "2026-08-12T21:09:49Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, I believe those should be swapped.",
+          "createdAt": "2026-08-12T09:42:33Z",
+          "updatedAt": "2026-08-12T09:42:33Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "#371 ",
+          "createdAt": "2026-08-12T21:09:49Z",
+          "updatedAt": "2026-08-12T21:09:49Z"
+        }
+      ]
+    },
+    {
+      "number": 370,
+      "id": "I_kwDOJt_WwM8AAAABMWlnsw",
+      "title": "transaction tokens can carry delegation and authorization information, right? Right?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/370",
+      "state": "CLOSED",
+      "author": "bc-pi",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Small excerpt below from a recent conversation that suggests the text at https://datatracker.ietf.org/doc/html/draft-ietf-oauth-transaction-tokens-11#section-13.13-3 could use some improvements and/or clarifications. \n\n<img width=\"714\" height=\"115\" alt=\"Image\" src=\"https://github.com/user-attachments/assets/06ed3d77-1fcd-46b4-828d-2756c141fef8\" />\n\n \n> This could be read to say transaction tokens should not carry delegation and authorization information. Is that the intent?\n\n\n",
+      "createdAt": "2026-08-11T19:44:45Z",
+      "updatedAt": "2026-08-12T20:18:23Z",
+      "closedAt": "2026-08-12T20:18:23Z",
+      "comments": [
+        {
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Right.\n\nI don't believe this text is meant to prohibit the kind of information that is carried in a transaction token. The intent is to distinguish it from an access token. I think this is one of those cases where saying less is going to be more. How about:\n\n\"Using a dedicated HTTP header from the Authorization: Bearer header for transaction tokens allows services to distinguish between an access token.\"\n",
+          "createdAt": "2026-08-12T09:39:07Z",
+          "updatedAt": "2026-08-12T09:53:55Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I also think this might be one of those cases where saying less is going to be more. I was also thinking that the the screenshot of the text would show how awkward \"Authorization: Bearer header\" reads in textual only renderings. ",
+          "createdAt": "2026-08-12T17:37:34Z",
+          "updatedAt": "2026-08-12T17:37:34Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I have endeavored to make a suggestion in #371 and also one small request. ",
+          "createdAt": "2026-08-12T17:54:23Z",
+          "updatedAt": "2026-08-12T17:54:23Z"
         }
       ]
     }
@@ -22675,7 +22751,7 @@
       "labels": [],
       "body": "Updated the claims in the JWT body from OPTIONAL to RECOMMENDED for better clarity and guidance. Also added forward references for scope/rctx/tctx to the sections that add additional context.",
       "createdAt": "2026-05-13T19:46:32Z",
-      "updatedAt": "2026-05-14T20:45:45Z",
+      "updatedAt": "2026-08-12T09:42:14Z",
       "baseRepository": "oauth-wg/oauth-transaction-tokens",
       "baseRefName": "main",
       "baseRefOid": "0b82e34f6e324b97c380e65e28bf24a79f7bed2f",
@@ -22702,6 +22778,46 @@
           "createdAt": "2026-05-14T15:20:35Z",
           "updatedAt": "2026-05-14T15:20:35Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJKhDEw",
+          "commit": {
+            "abbreviatedOid": "f939e58"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-11T19:26:37Z",
+          "updatedAt": "2026-08-11T19:26:42Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "I thought someone had noted that the \"For additional context...\" bits were mixed up but maybe that never really happened or got missed. ",
+              "createdAt": "2026-08-11T19:26:37Z",
+              "updatedAt": "2026-08-11T19:26:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJPZ7TA",
+          "commit": {
+            "abbreviatedOid": "f939e58"
+          },
+          "author": "PieterKas",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-12T09:42:14Z",
+          "updatedAt": "2026-08-12T09:42:14Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "Yes those should be swapped. ",
+              "createdAt": "2026-08-12T09:42:14Z",
+              "updatedAt": "2026-08-12T09:42:15Z"
+            }
+          ]
         }
       ]
     },
@@ -23712,6 +23828,176 @@
           "body": "",
           "createdAt": "2026-07-30T17:11:23Z",
           "updatedAt": "2026-07-30T17:11:23Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 371,
+      "id": "PR_kwDOJt_WwM79_CC8",
+      "title": "WGLC Feedback",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/371",
+      "state": "MERGED",
+      "author": "PieterKas",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Updated terminology for `tctx` and `rctx` to clarify their definitions. Adjusted text to improve clarity regarding transaction tokens and their usage.\r\n\r\nSee issues #370 and #369 ",
+      "createdAt": "2026-08-12T09:56:36Z",
+      "updatedAt": "2026-08-12T20:18:24Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "146e47d47e9f0ee276033917aa2823298e05cc5f",
+      "headRepository": "oauth-wg/oauth-transaction-tokens",
+      "headRefName": "PieterKas-patch-1",
+      "headRefOid": "4bab1807c8c2095b8250cec9b84ea63328d36198",
+      "closedAt": "2026-08-12T20:18:21Z",
+      "mergedAt": "2026-08-12T20:18:21Z",
+      "mergedBy": "gffletch",
+      "mergeCommit": {
+        "oid": "6969bbec1ad6b8df576f3eaab5f0ccf5f7248d0c"
+      },
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Would you mind adding Patrick Harding (my boss) to the Acknowledgements? A conversation with him was the impetus for the feedback.  ",
+          "createdAt": "2026-08-12T17:49:07Z",
+          "updatedAt": "2026-08-12T17:49:07Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Would you mind adding Patrick Harding (my boss) to the Acknowledgements? A conversation with him was the impetus for the feedback.\r\n\r\nNevermind me, sorry. I realized I have write access. So did it myself with [6b48b9e](https://github.com/oauth-wg/oauth-transaction-tokens/pull/371/commits/6b48b9e3b37a04779b5eff3fe3d1eb22352fe152)",
+          "createdAt": "2026-08-12T18:15:28Z",
+          "updatedAt": "2026-08-12T18:15:28Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "body": "did some other stuff too with [81a06c6](https://github.com/oauth-wg/oauth-transaction-tokens/pull/371/commits/81a06c639bbf58fafc50543ae6e52d7504169c2e) and [4bab180](https://github.com/oauth-wg/oauth-transaction-tokens/pull/371/commits/4bab1807c8c2095b8250cec9b84ea63328d36198) so y'alls might want to check my work but it's good to go from my perspective now ",
+          "createdAt": "2026-08-12T20:00:54Z",
+          "updatedAt": "2026-08-12T20:00:54Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJTCnow",
+          "commit": {
+            "abbreviatedOid": "af7df47"
+          },
+          "author": "tulshi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-08-12T16:40:00Z",
+          "updatedAt": "2026-08-12T16:40:00Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJThrKA",
+          "commit": {
+            "abbreviatedOid": "af7df47"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-12T17:42:46Z",
+          "updatedAt": "2026-08-12T17:42:46Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "```suggestion\r\nUsing a dedicated HTTP header distinct from the `Authorization` header allows services to distinguish between transaction tokens and other HTTP authentication schemes, such as access tokens.\r\n```",
+              "createdAt": "2026-08-12T17:42:46Z",
+              "updatedAt": "2026-08-12T17:54:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJTjH_A",
+          "commit": {
+            "abbreviatedOid": "af7df47"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-12T17:45:05Z",
+          "updatedAt": "2026-08-12T17:45:05Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "I don't know if that's good but I believe it's better.",
+              "createdAt": "2026-08-12T17:45:05Z",
+              "updatedAt": "2026-08-12T17:45:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJUqJRA",
+          "commit": {
+            "abbreviatedOid": "6b48b9e"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-12T19:56:27Z",
+          "updatedAt": "2026-08-12T19:56:27Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "```suggestion\n* Simplified text to avoid confusion about transaction token content: (issue https://github.com/oauth-wg/oauth-transaction-tokens/issues/370)\n```",
+              "createdAt": "2026-08-12T19:56:27Z",
+              "updatedAt": "2026-08-12T19:56:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJUrRmA",
+          "commit": {
+            "abbreviatedOid": "af7df47"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-08-12T19:58:55Z",
+          "updatedAt": "2026-08-12T19:58:55Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "don't let good be the enemy of better... ",
+              "createdAt": "2026-08-12T19:58:55Z",
+              "updatedAt": "2026-08-12T19:58:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJUsbXg",
+          "commit": {
+            "abbreviatedOid": "4bab180"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-08-12T20:01:20Z",
+          "updatedAt": "2026-08-12T20:01:20Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJt_WwM8AAAABJUz9Sw",
+          "commit": {
+            "abbreviatedOid": "4bab180"
+          },
+          "author": "gffletch",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "This looks good",
+          "createdAt": "2026-08-12T20:18:03Z",
+          "updatedAt": "2026-08-12T20:18:03Z",
           "comments": []
         }
       ]
