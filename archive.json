@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-13T00:23:11.600276+00:00",
+  "timestamp": "2026-09-06T00:31:16.777427+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7494,6 +7494,22 @@
           "updatedAt": "2026-08-12T17:54:23Z"
         }
       ]
+    },
+    {
+      "number": 372,
+      "id": "I_kwDOJt_WwM8AAAABPcJvxg",
+      "title": "Deferred execution: is each replacement intended as a re-evaluation against current authority?",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/372",
+      "state": "OPEN",
+      "author": "rcbart",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I have been working this draft into practitioner guidance, and I have\nread the prior art on long-running work (#62, #111, #217, #350) and the\nissuance-policies outcome of #321. I am not re-asking any of it.\nSection 6 and the replacement mechanics in 13.15 answer the mechanics\nwell, and my guidance follows them: short-lived tokens per invocation,\npre-expiry replacement chains with limits, a future nbf for scheduled\nwork, and a durable record with fresh issuance across a real gap.\n\nThe question I cannot settle from the text is about authority, not\nmechanics. In a deferred or long-running flow, the conditions that\njustified the original token can change between links of a chain or\nbetween submission and execution: the subject is offboarded, an\napproval is withdrawn, policy moves. Section 11.3 puts issuance\nauthorization policy out of scope, 13.10 makes issuance policy\ndeployment-specific, and the security considerations make checking\nwhether a presented token was invalidated a MAY, based on risk profile.\nEach of those is reasonable on its own. Read together, an implementer\nof deferred work can conclude that a replacement request is a validity\ncheck on the presented token rather than a decision about the\nrequester's current authority, and build a chain that faithfully\ncarries authority which no longer exists.\n\nTwo questions:\n\n1. Is each replacement issuance under 13.15 intended to be an issuance\n   in the 13.10 sense, a policy decision against current state, rather\n   than a signature-and-expiry check on the subject_token? If so, one\n   sentence in 13.15 saying so would close the misreading.\n\n2. Where the TTS cannot evaluate current authority at re-issuance time,\n   because the signals are unavailable, is failing closed the intended\n   posture? For regulated deployments, where the gap between submitted\n   authority and executed authority is the thing an auditor asks about,\n   a sentence acknowledging the boundary either way would tell\n   implementers what the draft is and is not promising.",
+      "createdAt": "2026-09-03T01:35:02Z",
+      "updatedAt": "2026-09-03T01:35:02Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
