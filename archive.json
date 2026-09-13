@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-08T00:28:22.935322+00:00",
+  "timestamp": "2026-09-13T00:31:15.354658+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7507,7 +7507,7 @@
       "labels": [],
       "body": "I have been working this draft into practitioner guidance, and I have\nread the prior art on long-running work (#62, #111, #217, #350) and the\nissuance-policies outcome of #321. I am not re-asking any of it.\nSection 6 and the replacement mechanics in 13.15 answer the mechanics\nwell, and my guidance follows them: short-lived tokens per invocation,\npre-expiry replacement chains with limits, a future nbf for scheduled\nwork, and a durable record with fresh issuance across a real gap.\n\nThe question I cannot settle from the text is about authority, not\nmechanics. In a deferred or long-running flow, the conditions that\njustified the original token can change between links of a chain or\nbetween submission and execution: the subject is offboarded, an\napproval is withdrawn, policy moves. Section 11.3 puts issuance\nauthorization policy out of scope, 13.10 makes issuance policy\ndeployment-specific, and the security considerations make checking\nwhether a presented token was invalidated a MAY, based on risk profile.\nEach of those is reasonable on its own. Read together, an implementer\nof deferred work can conclude that a replacement request is a validity\ncheck on the presented token rather than a decision about the\nrequester's current authority, and build a chain that faithfully\ncarries authority which no longer exists.\n\nTwo questions:\n\n1. Is each replacement issuance under 13.15 intended to be an issuance\n   in the 13.10 sense, a policy decision against current state, rather\n   than a signature-and-expiry check on the subject_token? If so, one\n   sentence in 13.15 saying so would close the misreading.\n\n2. Where the TTS cannot evaluate current authority at re-issuance time,\n   because the signals are unavailable, is failing closed the intended\n   posture? For regulated deployments, where the gap between submitted\n   authority and executed authority is the thing an auditor asks about,\n   a sentence acknowledging the boundary either way would tell\n   implementers what the draft is and is not promising.",
       "createdAt": "2026-09-03T01:35:02Z",
-      "updatedAt": "2026-09-07T18:37:54Z",
+      "updatedAt": "2026-09-12T16:13:34Z",
       "closedAt": null,
       "comments": [
         {
@@ -7516,6 +7516,13 @@
           "body": "@rcbart \n\nRegarding question 1: Section 13.15 does not replace or override section 13.10 so my assumption is that section 13.10 applies in the context of 13.15 as well. Given that so much of the policy here is deployment specific, my recommendation when it comes to guidance is that the deployments draft a specific document that describes how policy and rules for transaction tokens work within their environment.\n\nThe same principle applies to question 2. A deployment could most definitely \"fail closed\". I don't believe there is an \"intended posture\" as again, what matters is what's required for the deployment use cases. I would expect that a deployment in a regulated domain may have a different set of policy and rules than a deployment in say a publishing domain.",
           "createdAt": "2026-09-07T18:37:54Z",
           "updatedAt": "2026-09-07T18:37:54Z"
+        },
+        {
+          "author": "rcbart",
+          "authorAssociation": "NONE",
+          "body": "Thanks, \nThat settles both.\n\nTaking question 1 as answered: a replacement issuance is an issuance decision under 13.10, not a validity check on the presented token. That is the reading I wanted confirmed. The other one lets an implementer build a chain that faithfully carries authority which no longer exists, and nothing in the text stops them.\n\nOn question 2, understood. What I was really asking is whether a deployment that \"fails closed\" is doing something this document would consider wrong, and the answer is no. That is enough to write guidance against.\n\nYour recommendation is the part I will act on. The deployment policy document becomes its own artifact in my guidance rather than a footnote: what the TTS will and will not issue, what it evaluates at replacement time, and what happens when the signals it needs are unavailable.\n\nOne editorial suggestion, and it is non-normative. Section 13.10 carries no RFC 2119 keywords and closes by putting its subject out of scope, so an implementer who arrives at 13.15 has nothing normative to carry back from it. A single sentence in 13.15, saying that replacement issuance remains subject to the issuance policy considerations of Section 13.10, would have answered this from the text alone.\n\nI am glad to open that as a PR against this issue. I am equally content to drop it if the working group would rather not reopen text at write-up stage.",
+          "createdAt": "2026-09-12T16:13:33Z",
+          "updatedAt": "2026-09-12T16:13:33Z"
         }
       ]
     }
