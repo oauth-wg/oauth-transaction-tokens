@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-13T00:31:15.354658+00:00",
+  "timestamp": "2026-10-04T01:08:23.927858+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7500,15 +7500,15 @@
       "id": "I_kwDOJt_WwM8AAAABPcJvxg",
       "title": "Deferred execution: is each replacement intended as a re-evaluation against current authority?",
       "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/372",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rcbart",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "I have been working this draft into practitioner guidance, and I have\nread the prior art on long-running work (#62, #111, #217, #350) and the\nissuance-policies outcome of #321. I am not re-asking any of it.\nSection 6 and the replacement mechanics in 13.15 answer the mechanics\nwell, and my guidance follows them: short-lived tokens per invocation,\npre-expiry replacement chains with limits, a future nbf for scheduled\nwork, and a durable record with fresh issuance across a real gap.\n\nThe question I cannot settle from the text is about authority, not\nmechanics. In a deferred or long-running flow, the conditions that\njustified the original token can change between links of a chain or\nbetween submission and execution: the subject is offboarded, an\napproval is withdrawn, policy moves. Section 11.3 puts issuance\nauthorization policy out of scope, 13.10 makes issuance policy\ndeployment-specific, and the security considerations make checking\nwhether a presented token was invalidated a MAY, based on risk profile.\nEach of those is reasonable on its own. Read together, an implementer\nof deferred work can conclude that a replacement request is a validity\ncheck on the presented token rather than a decision about the\nrequester's current authority, and build a chain that faithfully\ncarries authority which no longer exists.\n\nTwo questions:\n\n1. Is each replacement issuance under 13.15 intended to be an issuance\n   in the 13.10 sense, a policy decision against current state, rather\n   than a signature-and-expiry check on the subject_token? If so, one\n   sentence in 13.15 saying so would close the misreading.\n\n2. Where the TTS cannot evaluate current authority at re-issuance time,\n   because the signals are unavailable, is failing closed the intended\n   posture? For regulated deployments, where the gap between submitted\n   authority and executed authority is the thing an auditor asks about,\n   a sentence acknowledging the boundary either way would tell\n   implementers what the draft is and is not promising.",
       "createdAt": "2026-09-03T01:35:02Z",
-      "updatedAt": "2026-09-12T16:13:34Z",
-      "closedAt": null,
+      "updatedAt": "2026-10-03T20:22:00Z",
+      "closedAt": "2026-10-03T20:22:00Z",
       "comments": [
         {
           "author": "gffletch",
@@ -7523,6 +7523,13 @@
           "body": "Thanks, \nThat settles both.\n\nTaking question 1 as answered: a replacement issuance is an issuance decision under 13.10, not a validity check on the presented token. That is the reading I wanted confirmed. The other one lets an implementer build a chain that faithfully carries authority which no longer exists, and nothing in the text stops them.\n\nOn question 2, understood. What I was really asking is whether a deployment that \"fails closed\" is doing something this document would consider wrong, and the answer is no. That is enough to write guidance against.\n\nYour recommendation is the part I will act on. The deployment policy document becomes its own artifact in my guidance rather than a footnote: what the TTS will and will not issue, what it evaluates at replacement time, and what happens when the signals it needs are unavailable.\n\nOne editorial suggestion, and it is non-normative. Section 13.10 carries no RFC 2119 keywords and closes by putting its subject out of scope, so an implementer who arrives at 13.15 has nothing normative to carry back from it. A single sentence in 13.15, saying that replacement issuance remains subject to the issuance policy considerations of Section 13.10, would have answered this from the text alone.\n\nI am glad to open that as a PR against this issue. I am equally content to drop it if the working group would rather not reopen text at write-up stage.",
           "createdAt": "2026-09-12T16:13:33Z",
           "updatedAt": "2026-09-12T16:13:33Z"
+        },
+        {
+          "author": "rcbart",
+          "authorAssociation": "NONE",
+          "body": "Thanks, George. \nClosing. Both questions were answered: a replacement\nissuance under 13.15 is an issuance decision under 13.10, not a\nvalidity check on the presented token, and a deployment that fails\nclosed when it cannot evaluate current authority is not doing anything\nthis document considers wrong. The deployment policy document is now\nits own artifact in my guidance. The editorial sentence stays on offer\nif the editors want it before write-up; otherwise nothing further from\nme.",
+          "createdAt": "2026-10-03T20:22:00Z",
+          "updatedAt": "2026-10-03T20:22:00Z"
         }
       ]
     }
