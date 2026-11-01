@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-04T01:08:23.927858+00:00",
+  "timestamp": "2026-11-01T00:20:45.472125+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -7530,6 +7530,30 @@
           "body": "Thanks, George. \nClosing. Both questions were answered: a replacement\nissuance under 13.15 is an issuance decision under 13.10, not a\nvalidity check on the presented token, and a deployment that fails\nclosed when it cannot evaluate current authority is not doing anything\nthis document considers wrong. The deployment policy document is now\nits own artifact in my guidance. The editorial sentence stays on offer\nif the editors want it before write-up; otherwise nothing further from\nme.",
           "createdAt": "2026-10-03T20:22:00Z",
           "updatedAt": "2026-10-03T20:22:00Z"
+        }
+      ]
+    },
+    {
+      "number": 373,
+      "id": "I_kwDOJt_WwM8AAAABbX47KQ",
+      "title": "Implementation report: an existing act-as lane vs the Transaction-Token shape \u2014 opaque-credential vs signed-JWT, and an actor claim that already survives refresh",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/issues/373",
+      "state": "OPEN",
+      "author": "ilja-radusch",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "\nImplementation report from a deployed OAuth 2.1 + OIDC server that ships a\ndelegated-agent lane and an RFC 8693 token-exchange act-as lane. We profiled our\nexisting short-lived, narrowly-scoped tokens against `draft-ietf-oauth-transaction-tokens`\nbefore building anything, and the mapping surfaced a few data points that may be\nuseful to the draft.\n\nContext up front: we are **single-AS, single-hop today** \u2014 no intra-domain call\nchain yet \u2014 so we are **not** implementing a Txn-Token endpoint. This is a\nprofiling/mapping exercise, not a running-code claim of a Txn-Token issuer.\n\n### 1. \"Short-lived narrowly-scoped token\" is two different artifacts at the wire\n\nOur AS has two artifacts that both get called \"short-lived scoped tokens\", and\nthey are **opposite shapes** \u2014 which we think the draft could make explicit:\n\n- An **act-as credential**: a *raw opaque upstream bearer token* minted by a\n  backend resource server on behalf of a target user. It does **not** verify\n  against our JWKS; it is presented to that backend directly. Narrow scope + short\n  TTL, but it is **not a JWT** and carries no AS-signed claim set.\n- A **cross-domain assertion** (our ID-JAG mint, a profile on token-exchange that\n  returns `typ: oauth-id-jag+jwt` signed against our JWKS): a signed JWT with a\n  defined claim set and a short TTL.\n\nThe Transaction-Token shape (signed JWT, defined claim set `txn`/`sub`/`purp`/\n`azd`/`rctx`, issuer-verifiable) matches the **second** artifact's envelope, not\nthe first. An operator who reasons \"we already mint short-lived scoped tokens, so\nwe already do Txn-Tokens\" would be wrong for the opaque-credential half. A one-line\nnote in the draft \u2014 *a Transaction Token is always an issuer-signed JWT; an opaque\nbearer proxied from a downstream RS is out of scope* \u2014 would prevent that\nconflation.\n\n### 2. Claim-set mapping (what we would reuse, what has no home)\n\n| Txn-Token claim | Our nearest existing value | Note |\n|---|---|---|\n| `iss` | AS issuer | same signer as access/ID tokens |\n| `sub` | end-user subject | identical to our access-token `sub` |\n| `aud` | target service | we already persist RFC 8707 resource audience at mint |\n| `purp` | \u2014 | no current analog; would be new intake |\n| `azd` (authorization details) | RFC 9396 RAR (optional carrier we already reference) | partial |\n| `rctx` (requester context) | \u2014 | no analog single-hop |\n| `act` (actor, via the agents extension) | **central `act` stamp (below)** | already present, already survives refresh |\n\nThe two claims with **no home today** (`purp`, `rctx`) are exactly the ones that\nonly become meaningful **inside a call chain**. That is the signal we used to defer:\nthe Txn-Token value is in the multi-hop context (`purp`/`rctx` propagation), and we\nhave no multi-hop yet \u2014 so building the envelope now would ship empty-context\ntokens. Suggestion: the draft could say plainly that `purp`/`rctx` are the\nload-bearing claims and a single-hop deployment gains little \u2014 it would help\nimplementers resist premature adoption.\n\n### 3. The actor claim already survives refresh rotation (agents extension)\n\nThe agents extension (`draft-araut-oauth-transaction-tokens-for-agents`) carries\nagent context in `act`. We already stamp an RFC 8693 `act: { sub, client_id }`\ndelegation marker **centrally**, keyed on agent-scope presence, at the single token\nissuance point \u2014 so it survives **both** initial issuance **and** refresh-token\nrotation. We previously stamped per-grant-handler and the marker dropped on the\nrefresh path: a concrete privilege hole (a delegated token rotated into a\nnon-delegated one). A cross-domain hop re-derives the same marker.\n\nImplication for the agents extension: when `act` rides inside a Transaction Token,\nthe same rule applies \u2014 **the actor claim MUST persist across every re-issuance of\nthe chain's tokens, not only the first mint.** If a Txn-Token is minted fresh per\nhop from a re-issued upstream token, the actor claim must be re-derived from the\nauthenticated actor identity, never carried implicitly. Happy to contribute text.\n\n### 4. `act` must key on authenticated identity, not self-assertion\n\nWe bind `act.sub` to the **authenticated** agent `client_id` (confidential-client\ncredential at the token endpoint), never a self-asserted scope or a redirect-URI\nregex (both attacker-influenceable), and we run a server-side `client_id`-keyed\nallowlist that one-way-locks known agents into the delegation lane. For the agents\nextension this matters doubly: a Transaction Token propagates `act` across service\nboundaries, so a self-asserted actor value would be laundered into trusted\ndownstream context. A short anti-spoofing sentence \u2014 *the actor identity in a\nTransaction Token MUST derive from the authenticated client, not from a\nclient-supplied parameter* \u2014 would close that loop.\n\n### 5. Endpoint vs grant shape\n\nThe draft defines a dedicated Transaction-Token request. We already expose\ntoken-exchange (RFC 8693) and mint narrow tokens through it; adding a second\nendpoint for the same mechanism before a real call chain exists would be duplicate\nsurface. We recorded the decision to keep the token-exchange grant shape and add a\nTxn-Token endpoint only on real multi-service demand. If other implementers are in\nthe same single-AS position, a note that the Txn-Token request **MAY** be realized\nas a token-exchange profile (rather than a distinct endpoint) would be pragmatic.\n\nContext: single-AS, single-hop today (no nested call chains yet). Glad to share\nmore detail on any point, and to write an implementation subsection on the\nrefresh-survival rule for the agents extension.\n",
+      "createdAt": "2026-10-31T06:25:59Z",
+      "updatedAt": "2026-10-31T23:06:57Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "ashayraut",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thank you for raising the issues. I will take a look and get back. Note that v3 of draft went live today so these were not included but I will include changes we finalize here in next revision.",
+          "createdAt": "2026-10-31T23:06:57Z",
+          "updatedAt": "2026-10-31T23:06:57Z"
         }
       ]
     }
