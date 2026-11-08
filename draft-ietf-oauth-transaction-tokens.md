@@ -663,6 +663,11 @@ This specification registers the following token type identifiers to the "OAuth 
   * Change Controller: IETF
   * Specification Document: Section {{txn-token-claims}} of this specification
 
+* Claim Name: `req_wl`
+  * Claim Description: The workload that requested the Txn-Token
+  * Change Controller: IETF
+  * Specification Document: Section {{txn-token-claims}} of this specification
+
 ## IANA Media Type Registration Contents
 The following entry will be proposed using the IANA Media Type registration {{IANA.MediaTypes}} form.
 
