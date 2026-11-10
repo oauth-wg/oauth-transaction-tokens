@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-01T00:20:45.472125+00:00",
+  "timestamp": "2026-11-10T00:15:47.103696+00:00",
   "repo": "oauth-wg/oauth-transaction-tokens",
   "labels": [
     {
@@ -24063,6 +24063,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 374,
+      "id": "PR_kwDOJt_WwM8AAAABNp6-ng",
+      "title": "Register the req_wl claim in the JWT Claims registry",
+      "url": "https://github.com/oauth-wg/oauth-transaction-tokens/pull/374",
+      "state": "OPEN",
+      "author": "shlee1223",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi! I noticed this while reading through the IANA section.\n\n`req_wl` is a REQUIRED claim, but it's missing from the JWT Claims Registry Contents (only `tctx` and `rctx` are there). This adds it.\n\nThanks for all the work on this draft!",
+      "createdAt": "2026-11-08T12:34:29Z",
+      "updatedAt": "2026-11-08T12:34:29Z",
+      "baseRepository": "oauth-wg/oauth-transaction-tokens",
+      "baseRefName": "main",
+      "baseRefOid": "6969bbec1ad6b8df576f3eaab5f0ccf5f7248d0c",
+      "headRepository": "shlee1223/oauth-transaction-tokens",
+      "headRefName": "register-req-wl-claim",
+      "headRefOid": "044cc424d270d3dd74a7266a73755ad9897d1291",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
